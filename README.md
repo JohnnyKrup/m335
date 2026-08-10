@@ -35,8 +35,3 @@ Bei einem **neuen** Dokument zusätzlich eine Zeile in `index.html` und eine in
 
 Die Leistungsbeurteilung, die Generalprobe und das Starter-Projekt. Diese
 Instrumente verlieren ihren Zweck, wenn man sie vorher gesehen hat.
-
-## Schreibweise
-
-Deutsche Texte ohne scharfes s, ohne Gedankenstrich und ohne Semikolon. Echte
-Umlaute. Die Schüler werden geduzt.
