@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>01C Loesung, Buttons und Events</title>
+<style>
+  :root{
+    --bg:#f9f9f7; --surface:#fcfcfb; --fg:#0b0b0b; --ink2:#52514e; --muted:#898781;
+    --line:#e1e0d9; --rule:#c3c2b7;
+    --acc:#2a78d6; --acc-bg:#e8f0f8;
+    --good:#0ca30c; --ok-bg:#e6f2ed;
+    --amber:#b1701c; --amber-bg:#fbf0df;
+    --crit:#d03b3b; --crit-bg:#fbeae7;
+    --vio:#4a3aa7; --vio-bg:#eceaf7;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font:16px/1.62 system-ui,-apple-system,"Segoe UI",sans-serif}
+  .wrap{max-width:920px;margin:0 auto;padding:40px 24px 90px}
+  h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+  .sub{color:var(--ink2);margin:0 0 26px;font-size:15px}
+  h2{font-size:20px;margin:46px 0 12px;padding-top:15px;border-top:2px solid var(--rule);letter-spacing:-.01em}
+  h3{font-size:16.5px;margin:28px 0 8px}
+  p{margin:0 0 12px}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;
+       background:#f0eee9;padding:1px 5px;border-radius:4px}
+  pre{background:#26241f;color:#eae7df;padding:14px 16px;border-radius:10px;overflow-x:auto;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.6px;line-height:1.6;margin:0 0 16px}
+  pre .k{color:#d8a0d0} pre .t{color:#8fc4e8} pre .s{color:#b7d69a} pre .c{color:#8f8a7d}
+  .tip{border-left:3px solid var(--good);background:var(--ok-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .tip b{color:#006300}
+  .note{border-left:3px solid var(--crit);background:var(--crit-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .note b{color:var(--crit)}
+  .info{border-left:3px solid var(--acc);background:var(--acc-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .info b{color:var(--acc)}
+  table{border-collapse:collapse;width:100%;font-size:14.2px;margin:0 0 16px;background:var(--surface)}
+  th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-weight:600;background:#f3f1ec}
+  ul,ol{margin:0 0 14px;padding-left:22px} li{margin:0 0 7px}
+  .ue{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 17px;margin:0 0 14px}
+  .ue .t{font-weight:600;margin-bottom:5px}
+  .foot{margin-top:50px;padding-top:16px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>01C Loesung, Buttons und Events</h1>
+<p class="sub">Lösungsmaterial zum Auftrag 01C. Modul 335 Block 01.</p>
+<p class="sub"><b>Zum Durchlesen brauchst du etwa 15 Minuten.</b> Das ist ein Richtwert. Du musst nicht alles lesen, such dir die Stelle, die du brauchst.</p>
+
+<div class="info">
+<p><b>Wie du das hier benutzt.</b> Nicht abtippen. Vergleichen. Zu jeder Lösung steht eine kurze Begründung. Die Begründung ist der eigentliche Inhalt, der Code ist nur der Beleg dazu.</p>
+<p>Es gibt kein Projekt als ZIP. Der vollständige Code steht hier als Text, und die Vergleichsliste unten sagt dir, worauf es ankommt.</p>
+</div>
+
+
+<h2>Vergleichsliste, dein eigener Code</h2>
+<p>Geh diese acht Punkte an <b>deiner eigenen</b> Datei durch, bevor du den fertigen Code liest. Dein Screenshot zeigt nur, dass die App läuft. Diese Liste zeigt, ob der Code darunter sauber ist.</p>
+
+<table>
+<tr><th>Nr</th><th>Das prüfst du</th><th>Warum es zählt</th></tr>
+<tr><td>1</td><td>Heissen deine ids <code>etName</code>, <code>tvOutput</code>, <code>btnGreet</code>, <code>btnCount</code>, <code>btnClear</code>?</td><td>Das Präfix zeigt den Control-Typ. Dieselbe Konvention gilt in der Leistungsbeurteilung</td></tr>
+<tr><td>2</td><td>Heisst jede Java-Variable gleich wie ihre id?</td><td>Sonst musst du beim Lesen zwischen zwei Namen übersetzen</td></tr>
+<tr><td>3</td><td>Steht <code>TAG</code> als Klassenattribut, nicht in <code>onCreate</code>?</td><td>Ein Tag gilt für die ganze Klasse, nicht für eine Methode</td></tr>
+<tr><td>4</td><td>Sind <code>etName</code> und <code>tvOutput</code> Klassenattribute, und steht in <code>onCreate</code> <b>keine</b> Typangabe davor?</td><td>Mit Typangabe entsteht eine neue lokale Variable, das Attribut bleibt leer, die App stürzt beim ersten Klick ab</td></tr>
+<tr><td>5</td><td>Ist jeder Button in <code>onCreate</code> angemeldet <b>und</b> hat er in <code>onClick</code> einen Zweig?</td><td>Fehlt der Zweig, passiert nichts. Kein Fehler, keine Warnung</td></tr>
+<tr><td>6</td><td>Steht dort <code>if</code> und <code>else if</code>, kein <code>switch</code>?</td><td><code>switch</code> bricht in Library-Modulen. Google empfiehlt seit Jahren <code>if</code></td></tr>
+<tr><td>7</td><td>Endet jeder Toast mit <code>.show()</code>?</td><td><code>makeText</code> baut ihn nur. Ohne <code>.show()</code> siehst du nichts und bekommst keinen Fehler</td></tr>
+<tr><td>8</td><td>Heisst dein Paket <code>ch.wiss.m335.buttons</code> und nicht <code>com.example</code>?</td><td><code>com.example</code> lehnt der Play Store ab. Wir gewöhnen es uns gar nicht erst an</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Punkt 4 ist der wichtigste.</b> Er ist der einzige in der Liste, bei dem deine App trotzdem startet und erst beim ersten Klick abstürzt. Wenn du nur einen Punkt prüfst, dann diesen.</p>
+</div>
+
+
+<h2>Variante 2, die fertige MainActivity.java</h2>
+<p>Der Stand am Ende von Teil 4. Das ist der Stand, den du abgeben würdest, wenn nach dem fertigen Code gefragt wäre.</p>
+<pre><span class="k">package</span> ch.wiss.m335.buttons;
+
+<span class="k">import</span> android.os.Bundle;
+<span class="k">import</span> android.util.Log;
+<span class="k">import</span> android.view.View;
+<span class="k">import</span> android.widget.Button;
+<span class="k">import</span> android.widget.EditText;
+<span class="k">import</span> android.widget.TextView;
+<span class="k">import</span> android.widget.Toast;
+<span class="k">import</span> androidx.activity.EdgeToEdge;
+<span class="k">import</span> androidx.appcompat.app.AppCompatActivity;
+<span class="k">import</span> androidx.core.graphics.Insets;
+<span class="k">import</span> androidx.core.view.ViewCompat;
+<span class="k">import</span> androidx.core.view.WindowInsetsCompat;
+
+<span class="k">public class</span> <span class="t">MainActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span>
+        <span class="k">implements</span> <span class="t">View</span>.<span class="t">OnClickListener</span> {
+
+    <span class="k">private static final</span> <span class="t">String</span> TAG = <span class="s">"M335"</span>;
+
+    <span class="k">private</span> <span class="t">EditText</span> etName;
+    <span class="k">private</span> <span class="t">TextView</span> tvOutput;
+
+    <span class="k">@Override</span>
+    <span class="k">protected void</span> onCreate(<span class="t">Bundle</span> savedInstanceState) {
+        <span class="k">super</span>.onCreate(savedInstanceState);
+        EdgeToEdge.enable(<span class="k">this</span>);
+        setContentView(R.layout.activity_main);
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -&gt; {
+            <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            <span class="k">return</span> insets;
+        });
+
+        <span class="c">// keine Typangabe. Sonst entstehen neue lokale Variablen.</span>
+        etName = findViewById(R.id.etName);
+        tvOutput = findViewById(R.id.tvOutput);
+
+        findViewById(R.id.btnGreet).setOnClickListener(<span class="k">this</span>);
+        findViewById(R.id.btnCount).setOnClickListener(<span class="k">this</span>);
+        findViewById(R.id.btnClear).setOnClickListener(<span class="k">this</span>);
+    }
+
+    <span class="k">@Override</span>
+    <span class="k">public void</span> onClick(<span class="t">View</span> v) {
+        <span class="k">int</span> id = v.getId();
+        <span class="t">String</span> name = etName.getText().toString();
+
+        <span class="k">if</span> (id == R.id.btnGreet) {
+            Log.d(TAG, <span class="s">"Greet clicked. Name: "</span> + name);
+            tvOutput.setText(<span class="s">"Hallo "</span> + name + <span class="s">"!"</span>);
+            Toast.makeText(<span class="k">this</span>, <span class="s">"Hallo "</span> + name + <span class="s">"!"</span>, Toast.LENGTH_LONG).show();
+
+        } <span class="k">else if</span> (id == R.id.btnCount) {
+            Log.d(TAG, <span class="s">"Count clicked."</span>);
+            tvOutput.setText(<span class="s">"Dein Name hat "</span> + name.length() + <span class="s">" Zeichen."</span>);
+
+        } <span class="k">else if</span> (id == R.id.btnClear) {
+            Log.d(TAG, <span class="s">"Clear clicked."</span>);
+            etName.setText(<span class="s">""</span>);
+            tvOutput.setText(<span class="s">""</span>);
+        }
+    }
+}</pre>
+
+<div class="note">
+<p><b>Die häufigste Fehlerquelle steht in einer einzigen Zeile.</b> In <code>onCreate</code> heisst es <code>etName = findViewById(...)</code> und nicht <code>EditText etName = findViewById(...)</code>. Mit der Typangabe entsteht eine neue lokale Variable, das Klassenattribut bleibt <code>null</code>, und die App stürzt beim ersten Klick ab. Beim Start läuft sie noch, das macht den Fehler tückisch.</p>
+</div>
+
+
+<h2>Antworten zu den Denkfragen</h2>
+<p>Diese drei Fragen kommen im <b>01C Check</b> als Quizfragen wieder. Hier steht die längere Begründung dazu.</p>
+
+<div class="ue">
+<p class="t">Frage 1, woher weiss ein Button, dass er angeklickt wurde?</p>
+<p>Er weiss es nicht. Das System merkt die Berührung und ruft den Zuhörer auf, der beim Button angemeldet wurde. Der Button wird benachrichtigt, er prüft nichts.</p>
+<p><b>Warum das zählt:</b> Wer denkt, der Button frage dauernd nach, denkt noch in Schleifen. Eine App wartet nicht in einer Schleife, sie meldet sich an und gibt die Kontrolle ab. Dasselbe Muster ist der Block mit dem Pfeil aus 01B.</p>
+</div>
+
+<div class="ue">
+<p class="t">Frage 2, drei Zuhörer oder einer?</p>
+<p>Beides geht. Drei eigene wie in Teil 2 und 3, oder ein einziger für alle wie in Teil 4.</p>
+<p><b>Warum das zählt:</b> Genau das ist die Frage, die dieser Block beantwortet. Es gibt keine richtige Antwort, nur eine begründete.</p>
+</div>
+
+<div class="ue">
+<p class="t">Frage 3, warum steht der Code nicht einfach in onCreate?</p>
+<p>Weil er zu diesem Zeitpunkt noch nicht laufen soll. In <code>onCreate</code> wird er nur angemeldet. Ausgeführt wird er später, vielleicht oft, vielleicht nie.</p>
+<p><b>Warum das zählt:</b> Der Unterschied zwischen Anmelden und Ausführen ist der Kern der ganzen Ereignisverarbeitung. Ohne ihn wirkt es wie Zauberei, dass Code später von selbst läuft.</p>
+</div>
+
+
+<h2>Teil 4, die Entdeckung aus 4.2</h2>
+<p><b>Warum werden <code>etName</code> und <code>tvOutput</code> rot?</b></p>
+<p>Weil sie in <code>onCreate</code> als lokale Variablen deklariert waren. Eine lokale Variable lebt nur in ihrer eigenen Methode. Die Methode <code>onClick</code> steht ausserhalb von <code>onCreate</code> und sieht sie nicht.</p>
+<p>Damit beide Methoden dieselbe Referenz sehen, muss sie der ganzen Klasse gehören. Also ein Klassenattribut.</p>
+
+<div class="tip">
+<p><b>Wenn deine Vermutung anders lautete.</b> Häufige und nachvollziehbare Fehlvermutungen sind "der Import fehlt" oder "die id stimmt nicht". Beide wären bei anderen roten Stellen richtig. Der Unterschied: hier ist nicht der Typ unbekannt, sondern der Name. Android Studio sagt "cannot resolve symbol", nicht "cannot resolve class". Diese zwei Meldungen auseinanderzuhalten lohnt sich für den Rest des Moduls.</p>
+</div>
+
+
+<h2>Teil 5, der Vergleich</h2>
+<table>
+<tr><th>Frage</th><th>Antwort</th></tr>
+<tr>
+<td>Bei welcher Variante siehst du schneller, was ein Button tut?</td>
+<td>Bei Variante 1. Der Code steht direkt bei der Anmeldung des Buttons</td>
+</tr>
+<tr>
+<td>Welche Variante bei zwanzig Buttons?</td>
+<td>Beide Antworten sind vertretbar, solange sie begründet sind. Variante 1 macht <code>onCreate</code> sehr lang. Variante 2 hält <code>onCreate</code> kurz, macht aber aus <code>onClick</code> eine lange if-Kette. Beide stossen an Grenzen. In echten Projekten trennt man die Logik deshalb in eigene Methoden aus</td>
+</tr>
+<tr>
+<td>Was passiert, wenn du in Variante 2 einen Button anmeldest, ihn aber in <code>onClick</code> vergisst?</td>
+<td>Nichts. Kein Fehler, keine Warnung, kein Absturz. Der Button reagiert einfach nicht. Genau das macht Variante 2 fehleranfällig</td>
+</tr>
+<tr>
+<td>Welchen Nachteil hat es, dass der Code weit weg vom Button steht?</td>
+<td>Man muss zwischen zwei Stellen hin und her springen, um zu verstehen, was ein Button tut. Bei Variante 1 steht alles beisammen</td>
+</tr>
+</table>
+
+<div class="tip">
+<p><b>Beim Korrigieren.</b> Es gibt hier keine richtige Wahl. Wertvoll ist die Begründung. Wer "Variante 2, weil kürzer" schreibt, hat den Nachteil nicht gesehen. Wer "Variante 2, weil onCreate übersichtlich bleibt, dafür muss ich in onClick suchen" schreibt, hat beides.</p>
+</div>
+
+
+<h2>Lösungen der Übungen</h2>
+
+<div class="ue">
+<p class="t">Übung 1, eine Zeile mehr im Log</p>
+<p>Im Zweig für <code>btnGreet</code> eine Zeile ergänzen:</p>
+<pre>Log.d(TAG, <span class="s">"Name length: "</span> + name.length());</pre>
+<p><b>Begründung:</b> Der Bildschirm bleibt unverändert, weil <code>Log.d</code> nur ins Logcat schreibt. Das ist der ganze Punkt der Übung: Log und Anzeige sind zwei verschiedene Kanäle. Debug-Informationen gehören in den Log, niemals in einen Toast.</p>
+</div>
+
+<div class="ue">
+<p class="t">Übung 2, der Toast wird kürzer</p>
+<pre>Toast.makeText(<span class="k">this</span>, <span class="s">"Hallo "</span> + name + <span class="s">"!"</span>, Toast.LENGTH_SHORT).show();</pre>
+<p><b>Begründung:</b> Es gibt nur zwei Werte, <code>LENGTH_SHORT</code> und <code>LENGTH_LONG</code>. Eine freie Zeitangabe ist nicht vorgesehen. Wer versucht, eine Zahl in Millisekunden einzusetzen, bekommt keinen Fehler, aber auch nicht die erwartete Dauer. Das ist ein gutes Beispiel dafür, dass eine API manchmal absichtlich weniger erlaubt, als man möchte.</p>
+</div>
+
+<div class="ue">
+<p class="t">Übung 3, erklären</p>
+<p><b>Eine mögliche Erklärung:</b> In Variante 1 steht der Code, der <code>etName</code> benutzt, innerhalb derselben Methode <code>onCreate</code>. Eine lokale Variable reicht, weil sie genau dort lebt, wo sie gebraucht wird.</p>
+<p>In Variante 2 steht der Code in einer anderen Methode, nämlich <code>onClick</code>. Eine lokale Variable aus <code>onCreate</code> existiert dort nicht mehr. Damit beide Methoden dieselbe Referenz sehen, muss sie der ganzen Klasse gehören.</p>
+<p><b>Begründung:</b> Das ist der Gültigkeitsbereich von Variablen. Er kommt im ganzen Modul wieder, besonders am Tag 3 bei den mehreren Bildschirmen und am Tag 4 bei Room.</p>
+</div>
+
+<div class="ue">
+<p class="t">Übung 4, der vierte Button. Gehört zur Hausaufgabe 1</p>
+<p>Im XML einen vierten Button nach <code>btnClear</code> einfügen:</p>
+<pre>&lt;<span class="t">Button</span>
+    android:id=<span class="s">"@+id/btnReverse"</span>
+    android:layout_width=<span class="s">"match_parent"</span>
+    android:layout_height=<span class="s">"wrap_content"</span>
+    android:text=<span class="s">"Umdrehen"</span> /&gt;</pre>
+<p>In <code>onCreate</code> anmelden, in <code>onClick</code> einen Zweig ergänzen:</p>
+<pre>findViewById(R.id.btnReverse).setOnClickListener(<span class="k">this</span>);</pre>
+<pre>} <span class="k">else if</span> (id == R.id.btnReverse) {
+    Log.d(TAG, <span class="s">"Reverse clicked."</span>);
+    tvOutput.setText(<span class="k">new</span> <span class="t">StringBuilder</span>(name).reverse().toString());
+}</pre>
+<p><b>Begründung:</b> Wer <code>StringBuilder</code> nicht kennt, darf auch eine Schleife bauen. Beides ist richtig. Der Punkt der Übung ist nicht das Umdrehen, sondern dass ein neuer Button an <b>zwei</b> Stellen ergänzt werden muss: Anmelden und Zweig. Wer nur eine der beiden macht, erlebt genau den Fehler aus Teil 5.</p>
+</div>
+
+
+<h2>Zur Zusatzaufgabe</h2>
+<p>Dazu gibt es hier bewusst keine Lösung. Die Frage bleibt offen, das ist ihr Zweck. Sie ist der Einstieg in die Eingabevalidierung, die in Quiz-Stufe 5 richtig unterrichtet wird.</p>
+
+
+<h2>Hinweise für die Lehrperson</h2>
+<ul>
+<li><b>Der wichtigste Moment ist Schritt 4.2.</b> Dort werden <code>etName</code> und <code>tvOutput</code> rot. Lass die Klasse selbst darauf kommen, warum. Das ist der Gültigkeitsbereich von Variablen, und den brauchen sie im ganzen Modul. Die Vermutung steht auf dem Arbeitsblatt und muss vor dem Weiterlesen geschrieben sein.</li>
+<li><b>Häufigster Fehler in Teil 4:</b> Die Typangabe bleibt in <code>onCreate</code> stehen. Das Klassenattribut bleibt <code>null</code>, die App stürzt beim ersten Klick ab, nicht beim Start. Sehr lehrreich. Lass sie die Drei-Schritte-Regel aus 01B anwenden, statt die Stelle zu zeigen.</li>
+<li><b>Der Filter im Logcat auf den Tag M335 ist Gold wert.</b> Ohne ihn ersaufen sie in Systemmeldungen. Zeig es einmal vorne.</li>
+<li><b>Fünf Imports, nicht vier.</b> <code>EditText</code>, <code>TextView</code>, <code>Button</code>, <code>Log</code> und <code>Toast</code>. Das wird regelmässig falsch gezählt.</li>
+<li><b>Die Reihenfolge ist bewusst umgedreht</b> gegenüber dem Original-Notizbuch. Dort wurde zuerst die Interface-Variante gebaut. Weil das Template bereits ein Lambda enthält und jede KI sofort eines liefert, erleben die Studierenden den Nachteil jetzt selbst, statt ihn zu erraten.</li>
+<li><b>Das Layout aus Teil 1 fehlt im Original-Notizbuch vollständig.</b> Der alte Auftrag verweist auf ein Unterrichtsmittel, das es dort nicht gibt. Ohne dieses Layout ist er nicht durchführbar.</li>
+<li><b>Beim Zippen:</b> einmal nach Teil 3 als Zwischenstand und Notlösung für Nachzügler, einmal am Schluss als Lösungsdatei.</li>
+</ul>
+
+
+<p class="foot">Modul 335 Block 01, Lösungsmaterial zu 01C. Fassung 1 vom 08.08.2026. Gehört als Material neben die Aufgabe 01C Arbeitsblatt - Buttons und Events.</p>
+
+</div>
+</body>
+</html>

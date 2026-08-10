@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>02A Loesung Die drei Unterlagen</title>
+<style>
+  :root{
+    --bg:#f9f9f7; --surface:#fcfcfb; --fg:#0b0b0b; --ink2:#52514e; --muted:#898781;
+    --line:#e1e0d9; --rule:#c3c2b7;
+    --acc:#2a78d6; --acc-bg:#e8f0f8;
+    --good:#0ca30c; --ok-bg:#e6f2ed;
+    --amber:#b1701c; --amber-bg:#fbf0df;
+    --crit:#d03b3b; --crit-bg:#fbeae7;
+    --vio:#4a3aa7; --vio-bg:#eceaf7;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font:16px/1.62 system-ui,-apple-system,"Segoe UI",sans-serif}
+  .wrap{max-width:920px;margin:0 auto;padding:40px 24px 90px}
+  h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+  .sub{color:var(--ink2);margin:0 0 26px;font-size:15px}
+  h2{font-size:20px;margin:46px 0 12px;padding-top:15px;border-top:2px solid var(--rule);letter-spacing:-.01em}
+  h3{font-size:16.5px;margin:28px 0 8px}
+  p{margin:0 0 12px}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;
+       background:#f0eee9;padding:1px 5px;border-radius:4px}
+  pre{background:#26241f;color:#eae7df;padding:14px 16px;border-radius:10px;overflow-x:auto;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.6px;line-height:1.6;margin:0 0 16px}
+  pre .k{color:#d8a0d0} pre .t{color:#8fc4e8} pre .s{color:#b7d69a} pre .c{color:#8f8a7d} pre .a{color:#d8bd7a}
+  .tip{border-left:3px solid var(--good);background:var(--ok-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .tip b{color:#006300}
+  .note{border-left:3px solid var(--crit);background:var(--crit-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .note b{color:var(--crit)}
+  .warn{border-left:3px solid var(--amber);background:var(--amber-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .warn b{color:var(--amber)}
+  .info{border-left:3px solid var(--acc);background:var(--acc-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .info b{color:var(--acc)}
+  table{border-collapse:collapse;width:100%;font-size:14.2px;margin:0 0 16px;background:var(--surface)}
+  th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-weight:600;background:#f3f1ec}
+  td.pre,th.pre{font-family:ui-monospace,Menlo,monospace;font-weight:600;color:#3a2d86;white-space:nowrap}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  ul,ol{margin:0 0 14px;padding-left:22px} li{margin:0 0 7px}
+  .ue{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--amber);
+      border-radius:0 10px 10px 0;padding:15px 19px;margin:0 0 15px}
+  .ue .t{font-weight:600;margin-bottom:6px}
+  .foot{margin-top:50px;padding-top:16px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>02A Loesung: Die drei Unterlagen</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Block 02. Fassung 1 vom 10.08.2026.</p>
+<p class="sub">Zum Durchlesen brauchst du etwa <b>15 Minuten</b>.</p>
+
+<div class="info">
+<p><b>Lies das erst, wenn du es selbst versucht hast.</b> Bei Feld 1, 2 und 3 auf dem Arbeitsblatt gibt es keine einzig richtige Antwort. Deine App ist eine andere als die hier. Vergleiche darum nicht Wort für Wort, sondern frag dich: habe ich dieselbe Art von Antwort gegeben?</p>
+</div>
+
+
+<h2>01 Antworten zu den vier Denkfragen</h2>
+
+<h3>Frage 1: Warum sehen WhatsApp, YouTube und Instagram fast gleich aus?</h3>
+<p>Weil sie dasselbe Problem lösen. Der Benutzer hält das Gerät in einer Hand, der Daumen erreicht bequem nur die untere Hälfte. Also gehört alles, was man oft antippt, nach unten. Und alles, was man nur liest, nach oben.</p>
+<p>Dazu kommt Gewohnheit. Wer bei einer App gelernt hat, dass unten die Bereiche stehen und oben der Titel, sucht das bei jeder App an derselben Stelle. Eine App, die es anders macht, fühlt sich falsch an, auch wenn sie technisch besser wäre.</p>
+<p><b>Der Satz zum Merken:</b> Nicht die Fantasie bestimmt den Aufbau, sondern die Hand und die Gewohnheit.</p>
+
+<h3>Frage 2: 500 Produkte untereinander, reicht ein Scrollbereich?</h3>
+<p>Technisch ja, praktisch nein. Ein <code>ScrollView</code> baut beim Öffnen <b>alle 500</b> Einträge auf einmal auf. Das dauert und frisst Speicher. Die Liste ruckelt oder die App stürzt ab.</p>
+<p>Die richtige Antwort ist <code>RecyclerView</code>. Der baut nur die Einträge, die gerade sichtbar sind, plus ein paar als Reserve. Scrollt der Benutzer weiter, werden dieselben Zeilen wiederverwendet und neu befüllt. Daher der Name.</p>
+<p>Wir bauen den RecyclerView am Tag 3. Heute reicht, dass du weisst, wann er nötig ist: <b>bei Listen, deren Länge du nicht kennst.</b></p>
+
+<h3>Frage 3: Ein Element hat nur einen Anker nach oben. Wo landet es?</h3>
+<p>Waagrecht an Position null, also ganz links. Senkrecht dort, wo der Anker es hinzieht.</p>
+<p>Der senkrechte Anker wirkt, der waagrechte fehlt. Ohne waagrechten Anker weiss das ConstraintLayout nicht, wo links und rechts sein soll, und nimmt null.</p>
+<p><b>Und der gemeine Teil:</b> im Design-Editor sieht es trotzdem richtig aus. Der Editor merkt sich, wohin du das Element geschoben hast. Das Gerät nicht.</p>
+
+<h3>Frage 4: Warum zuerst die Buttonreihe verankern?</h3>
+<p>Weil ein Anker nur auf etwas zeigen kann, dessen Position schon feststeht. Solange die Buttonreihe selbst in der Luft schwebt, hängt der Trennstreifen an etwas, das noch keine Position hat.</p>
+<p>Daraus folgt die Arbeitsreihenfolge: <b>von aussen nach innen</b>. Zuerst alles, was an <code>parent</code> hängt. Dann das, was daran hängt. Und so weiter.</p>
+
+
+<h2>02 Wie Apps aufgebaut sind, die fünf Übungen</h2>
+
+<div class="ue">
+<div class="t">Übung 1, deine Lieblings-App zerlegen</div>
+<p><b>Keine Musterlösung.</b> Jeder hat eine andere App. Deine Lösung ist gut, wenn du sechs Bausteine mit Android-Namen benennen kannst und mindestens einer davon in der Unterlage nicht vorkam.</p>
+<p>Typische neue Bausteine, die Lernende finden: <code>SearchView</code>, <code>Chip</code>, <code>BadgeDrawable</code> für die kleine Zahl auf einem Symbol, <code>SwipeRefreshLayout</code>, <code>BottomSheet</code>, <code>SeekBar</code> bei Musik-Apps.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 2, die eine Zeile</div>
+<p><b>Keine Musterlösung.</b> Ein Beispiel steht weiter unten in Abschnitt 04.</p>
+<p>Deine Lösung ist gut, wenn du höchstens drei Ebenen brauchst und bei jedem Kästchen sagen kannst, warum es waagrecht oder senkrecht ist.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 3, Baustein wählen</div>
+<table>
+<tr><th style="width:50%">Situation</th><th>Baustein und Begründung</th></tr>
+<tr><td>Aus zwölf Ländern eines wählen</td><td><code>Spinner</code> oder <code>AutoCompleteTextView</code>. Zwölf ist zu viel für RadioButtons, die brauchen alle gleichzeitig Platz</td></tr>
+<tr><td>Bestätigen, dass die Bedingungen gelesen wurden</td><td><code>CheckBox</code>. Ein Schalter wäre falsch, denn hier wird nichts sofort ein- oder ausgeschaltet, sondern etwas bestätigt</td></tr>
+<tr><td>Melden, dass eine Nachricht gelöscht wurde, plus Rückgängig</td><td><code>Snackbar</code>. Ein Toast kann kein Rückgängig anbieten, er ist nicht antippbar</td></tr>
+<tr><td>Ein Geburtsdatum eingeben</td><td><code>MaterialDatePicker</code>. Von Hand getippte Datumsangaben sind fehleranfällig, und jeder tippt ein anderes Format</td></tr>
+<tr><td>500 Produkte untereinander anzeigen</td><td><code>RecyclerView</code>. Ein ScrollView baut alle 500 auf einmal auf und ruckelt</td></tr>
+</table>
+</div>
+
+<div class="ue">
+<div class="t">Übung 4, Fehlersuche im Entwurf</div>
+<ol>
+<li><b>Sieben Ziele in der unteren Navigation sind zu viele.</b> Drei bis fünf, sonst wird jedes Symbol so schmal, dass der Daumen danebentrifft. Ab sechs nimmt man ein Seitenmenü.</li>
+<li><b>Löschen oben links ist doppelt schlecht.</b> Oben links sitzt normalerweise der Zurück-Pfeil. Und eine gefährliche Aktion gehört nicht dorthin, wo man versehentlich hinfasst.</li>
+<li><b>Drei gleich auffällige gefüllte Buttons zwingen zum Nachdenken.</b> Eine Aktion ist die wichtigste. Die anderen werden umrandet oder flach dargestellt.</li>
+</ol>
+<p>Wer nur zwei findet, hat meistens den dritten übersehen. Das dritte Problem ist kein technisches, sondern eines der Führung: der Entwurf sagt dem Benutzer nicht, was er tun soll.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 5, erklären</div>
+<p><b>Keine Musterlösung.</b> Zwei Sätze reichen. Sinngemäss: sie lösen dasselbe Problem mit derselben Hand, und sie halten sich an dieselbe Gewohnheit, damit niemand neu lernen muss.</p>
+</div>
+
+
+<h2>03 Constraints verstehen, die sechs Übungen</h2>
+<p>Diese sechs machst du am Ende von Block 4, an deinem Projekt <code>M335 Formular</code> aus dem Auftrag 02B.</p>
+
+<div class="ue">
+<div class="t">Übung 1, der fünfte Button</div>
+<p>Ein fünfter Button, gebaut wie die anderen vier:</p>
+<pre>&lt;<span class="t">Button</span>
+    <span class="a">android:id</span>=<span class="s">"@+id/btnShare"</span>
+    <span class="a">android:layout_width</span>=<span class="s">"0dp"</span>
+    <span class="a">android:layout_height</span>=<span class="s">"wrap_content"</span>
+    <span class="a">android:layout_weight</span>=<span class="s">"1"</span>
+    <span class="a">android:maxLines</span>=<span class="s">"1"</span>
+    <span class="a">android:textSize</span>=<span class="s">"11sp"</span>
+    <span class="a">android:text</span>=<span class="s">"Teilen"</span> /&gt;</pre>
+<p><b>Und jetzt die Rechnung, um die es eigentlich geht.</b></p>
+<table>
+<tr><th>Buttons in der Reihe</th><th class="num">Breite pro Button</th><th class="num">Bleibt für den Text</th><th>Passt "Abbrechen" bei 11sp, also rund 50 dp?</th></tr>
+<tr><td>vier</td><td class="num">rund 100 dp</td><td class="num">rund 50 dp</td><td>ja, knapp</td></tr>
+<tr><td>fünf</td><td class="num">rund 80 dp</td><td class="num">rund 30 dp</td><td><b>nein</b></td></tr>
+</table>
+<p>Bei fünf Buttons bricht "Abbrechen" um oder wird abgeschnitten. Die Reihe sieht danach unruhig aus, weil einige Beschriftungen einzeilig und andere zweizeilig sind.</p>
+<p><b>Die Antwort ist keine Regel, sondern eine Rechnung.</b> Nicht "höchstens vier Buttons", sondern "der Platz pro Button muss zum längsten Wort passen". Wer fünf Aktionen braucht, nimmt Symbole statt Wörter, oder kürzere Wörter, oder stapelt Symbol und Wort übereinander.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 2, Streifen nach unten</div>
+<pre><span class="c">Beim Streifen: nicht mehr über den Buttons, sondern ganz unten</span>
+<span class="a">app:layout_constraintBottom_toBottomOf</span>=<span class="s">"parent"</span>
+
+<span class="c">Bei der Buttonreihe: statt an parent nun an den Streifen</span>
+<span class="a">app:layout_constraintBottom_toTopOf</span>=<span class="s">"@id/vwDivider"</span></pre>
+<p>Die Kette dreht sich um. Vorher war die Buttonreihe das Element am Rand und der Streifen hing an ihr. Jetzt ist es umgekehrt. Gedacht wird immer noch von aussen nach innen, nur ist "aussen" jetzt der Streifen.</p>
+<p><b>Achtung auf die Reihenfolge im XML.</b> Steht der Streifen weiter oben im Dokument als <code>llButtons</code>, brauchst du beim Verweis <code>@+id/</code> mit Plus.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 3, Formular in die Mitte</div>
+<pre><span class="c">Beim Formular, zusätzlich zum bestehenden Top-Anker</span>
+<span class="a">app:layout_constraintBottom_toTopOf</span>=<span class="s">"@id/vwDivider"</span></pre>
+<p>Mehr braucht es nicht. <b>Zwei gegenüberliegende Anker bedeuten automatisch mittig.</b> Zentrieren ist kein eigenes Attribut.</p>
+<p>Die Höhe bleibt auf <code>wrap_content</code>. Mit <code>0dp</code> würde sich das Formular auseinanderziehen statt sich zu zentrieren. Genau das ist Übung 4.</p>
+<p>Willst du es nicht genau mittig, sondern etwas höher, nimm <code>app:layout_constraintVertical_bias="0.3"</code>.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 4, Formular füllt den Platz</div>
+<pre><span class="a">android:layout_height</span>=<span class="s">"0dp"</span>
+<span class="a">android:background</span>=<span class="s">"#EEEEEE"</span>
+<span class="a">app:layout_constraintTop_toTopOf</span>=<span class="s">"parent"</span>
+<span class="a">app:layout_constraintBottom_toTopOf</span>=<span class="s">"@id/vwDivider"</span></pre>
+<p><b>Der einzige Unterschied zu Übung 3 ist <code>0dp</code> statt <code>wrap_content</code>.</b> Dieselben zwei Anker, andere Grösse, völlig anderes Ergebnis.</p>
+<table>
+<tr><th style="width:30%">Höhe</th><th>Zwei gegenüberliegende Anker bedeuten dann</th></tr>
+<tr><td class="pre">wrap_content</td><td>stell mich mittig zwischen die beiden</td></tr>
+<tr><td class="pre">0dp</td><td>spann mich zwischen die beiden</td></tr>
+</table>
+<p>Darum ist <code>0dp</code> die wichtigste Angabe im ganzen ConstraintLayout. Die Textfelder bleiben übrigens oben, weil das LinearLayout darin seine Kinder von oben nach unten stapelt und nicht mitwächst.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 5, von null auf</div>
+<pre>&lt;<span class="t">Button</span>
+    <span class="a">android:id</span>=<span class="s">"@+id/btnNext"</span>
+    <span class="a">android:layout_width</span>=<span class="s">"wrap_content"</span>
+    <span class="a">android:layout_height</span>=<span class="s">"wrap_content"</span>
+    <span class="a">android:layout_marginEnd</span>=<span class="s">"16dp"</span>
+    <span class="a">android:layout_marginBottom</span>=<span class="s">"16dp"</span>
+    <span class="a">android:text</span>=<span class="s">"Weiter"</span>
+    <span class="a">app:layout_constraintEnd_toEndOf</span>=<span class="s">"parent"</span>
+    <span class="a">app:layout_constraintBottom_toBottomOf</span>=<span class="s">"parent"</span> /&gt;</pre>
+<p>Ein waagrechter Anker, ein senkrechter Anker, fertig. Wenn du das ohne Vorlage hinbekommst, sitzt die Regel.</p>
+<p><code>marginEnd</code> statt <code>marginRight</code>, damit es auch in Sprachen mit anderer Leserichtung stimmt. Android Studio warnt dich sonst.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 6, erklären</div>
+<p><b>Keine Musterlösung.</b> Sinngemäss in zwei Sätzen: Ein Anker zeigt auf eine Kante, und eine Kante hat erst dann eine Position, wenn das Element selbst verankert ist. Solange die Buttonreihe schwebt, schwebt der Streifen mit.</p>
+</div>
+
+
+<h2>04 Ein durchgerechnetes Beispiel für das Arbeitsblatt</h2>
+<p>Damit du siehst, wie viel Tiefe erwartet wird. Die App hier ist bewusst eine, die niemand nimmt.</p>
+
+<h3>Feld 1, SBB Mobile, Startseite</h3>
+<table>
+<tr><th style="width:11%">Status</th><th style="width:32%">Was ich sehe</th><th style="width:14%">Zone</th><th>Android-Baustein</th></tr>
+<tr><td>EIGEN</td><td>Titel "Fahrplan" oben</td><td>Kopf</td><td><code>Toolbar</code> mit <code>TextView</code></td></tr>
+<tr><td>EIGEN</td><td>Feld "Von"</td><td>Inhalt</td><td><code>EditText</code>, genauer <code>AutoCompleteTextView</code></td></tr>
+<tr><td>EIGEN</td><td>Feld "Nach"</td><td>Inhalt</td><td>dasselbe</td></tr>
+<tr><td>KI</td><td>Pfeil zum Tauschen zwischen den zwei Feldern</td><td>Inhalt</td><td><code>ImageButton</code></td></tr>
+<tr><td>EIGEN</td><td>Datum und Uhrzeit zum Antippen</td><td>Inhalt</td><td><code>Button</code>, öffnet einen <code>MaterialDatePicker</code></td></tr>
+<tr><td>EIGEN</td><td>Grosser Knopf "Suchen"</td><td>Inhalt</td><td><code>Button</code></td></tr>
+<tr><td>EIGEN</td><td>Vier Bereiche unten</td><td>Fuss</td><td><code>BottomNavigationView</code></td></tr>
+<tr><td>KI</td><td>Kleine rote Zahl auf einem Symbol unten</td><td>Fuss</td><td><code>BadgeDrawable</code></td></tr>
+</table>
+<p><b>Der neue Baustein:</b> <code>BadgeDrawable</code>. In der Unterlage kam er nicht vor. Die App braucht ihn, um ungelesene Meldungen anzuzeigen, ohne dass man den Bereich öffnen muss.</p>
+<p><b>Warum die Navigation unten ist:</b> weil man sie mit dem Daumen erreichen muss, während man die andere Hand für etwas anderes braucht. Am Bahnhof hält man oft ein Gepäckstück.</p>
+
+<h3>Feld 2, eine Zeile aus der Verbindungsliste</h3>
+<p>Eine Zeile zeigt links die Abfahrtszeit, in der Mitte Gleis und Dauer untereinander, rechts die Ankunftszeit.</p>
+<table>
+<tr><th style="width:8%">Nr</th><th style="width:34%">Welcher Behälter</th><th>Was liegt darin</th></tr>
+<tr><td>1</td><td><code>LinearLayout</code> waagrecht</td><td>die drei Blöcke nebeneinander</td></tr>
+<tr><td>2</td><td><code>LinearLayout</code> senkrecht</td><td>im mittleren Block: Gleis oben, Dauer darunter</td></tr>
+<tr><td>3</td><td><code>FrameLayout</code></td><td>über der Abfahrtszeit liegt bei Verspätung eine rote Zahl</td></tr>
+</table>
+<p>Drei Ebenen, nicht mehr. Um jede einzelne <code>TextView</code> gehört <b>kein</b> Kästchen.</p>
+
+<h3>Feld 3, der Ankerplan für diese Zeile</h3>
+<p>Das äusserste Kästchen als ConstraintLayout gedacht.</p>
+<table>
+<tr><th style="width:8%">Nr</th><th style="width:17%">Element</th><th style="width:22%">Waagrecht</th><th style="width:22%">Senkrecht</th><th>Breite</th><th>Höhe</th></tr>
+<tr><td>1</td><td><code>tvDeparture</code></td><td>links an parent</td><td>oben an parent</td><td><code>wrap_content</code></td><td><code>wrap_content</code></td></tr>
+<tr><td>2</td><td><code>tvArrival</code></td><td>rechts an parent</td><td>oben an parent</td><td><code>wrap_content</code></td><td><code>wrap_content</code></td></tr>
+<tr><td>3</td><td><code>llMiddle</code></td><td>links an tvDeparture, rechts an tvArrival</td><td>oben an parent</td><td><code>0dp</code></td><td><code>wrap_content</code></td></tr>
+</table>
+<p><b>Warum in dieser Reihenfolge:</b> Die zwei Zeiten hängen an <code>parent</code>, also stehen sie fest. Erst danach kann der mittlere Block dazwischen gespannt werden.</p>
+<p><b>Wo <code>0dp</code> steht:</b> nur bei <code>llMiddle</code>, und dort hat es waagrecht zwei Anker, links und rechts. Genau das ist die Bedingung.</p>
+
+<div class="warn">
+<p><b>Häufigster Fehler in Feld 3.</b> Jemand schreibt bei <code>llMiddle</code> die Breite <code>match_parent</code>. Dann ignoriert das Element seine beiden Anker und schiebt sich über die Zeiten. <code>match_parent</code> und Anker vertragen sich nicht.</p>
+</div>
+
+
+<h2>05 Vergleichsliste zum Abhaken</h2>
+<p>Geh deine drei Felder damit durch, bevor du abgibst.</p>
+<table>
+<tr><th style="width:16%">Feld</th><th>Das muss stimmen</th></tr>
+<tr><td>1</td><td>App kommt in der Unterlage nicht vor</td></tr>
+<tr><td>1</td><td>Mindestens sechs Zeilen mit Android-Namen, nicht mit Umschreibungen</td></tr>
+<tr><td>1</td><td>Mindestens ein Baustein ist neu</td></tr>
+<tr><td>1</td><td>Jede Zeile hat eine Zone</td></tr>
+<tr><td>1</td><td>Statusspalte überall gefüllt</td></tr>
+<tr><td>2</td><td>Die Skizze zeigt eine Zeile, nicht die ganze Liste</td></tr>
+<tr><td>2</td><td>Kästchen um Gruppen, nicht um einzelne Bausteine</td></tr>
+<tr><td>2</td><td>Höchstens drei Ebenen</td></tr>
+<tr><td>2</td><td>Jedes Kästchen hat einen Behälternamen</td></tr>
+<tr><td>3</td><td>Keine leere Zelle bei waagrecht oder senkrecht</td></tr>
+<tr><td>3</td><td>Namen nach der Präfixregel aus 01C</td></tr>
+<tr><td>3</td><td>Wo <code>0dp</code> steht, hat das Element auf dieser Achse zwei Anker</td></tr>
+<tr><td>3</td><td>Nirgends <code>match_parent</code> als direktes Kind des ConstraintLayout</td></tr>
+<tr><td>3</td><td>Die Reihenfolge beginnt bei einem Element, das an <code>parent</code> hängt</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Wenn deine Lösung anders aussieht als das Beispiel, ist das kein Fehler.</b> Bei Layouts gibt es fast immer mehrere richtige Wege. Falsch wird es erst dort, wo eine Regel verletzt ist: ein fehlender Anker, <code>0dp</code> ohne zweiten Anker, oder <code>match_parent</code> als direktes Kind eines ConstraintLayout.</p>
+</div>
+
+<p class="foot">Modul 335 Block 02, Loesung 02A. Fassung 1 vom 10.08.2026. Gehört zum Auftrag 02A Die drei Unterlagen und zum Arbeitsblatt 02A.</p>
+
+</div>
+</body>
+</html>

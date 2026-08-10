@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>01C Buttons und Events</title>
+<style>
+  :root{
+    --bg:#f9f9f7; --surface:#fcfcfb; --fg:#0b0b0b; --ink2:#52514e; --muted:#898781;
+    --line:#e1e0d9; --rule:#c3c2b7;
+    --acc:#2a78d6; --acc-bg:#e8f0f8;
+    --good:#0ca30c; --ok-bg:#e6f2ed;
+    --amber:#b1701c; --amber-bg:#fbf0df;
+    --crit:#d03b3b; --crit-bg:#fbeae7;
+    --vio:#4a3aa7; --vio-bg:#eceaf7;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font:16px/1.62 system-ui,-apple-system,"Segoe UI",sans-serif}
+  .wrap{max-width:920px;margin:0 auto;padding:40px 24px 90px}
+  h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+  .sub{color:var(--ink2);margin:0 0 26px;font-size:15px}
+  h2{font-size:20px;margin:46px 0 12px;padding-top:15px;border-top:2px solid var(--rule);letter-spacing:-.01em}
+  h3{font-size:16.5px;margin:28px 0 8px}
+  h4{font-size:14.5px;margin:20px 0 6px;color:var(--ink2)}
+  p{margin:0 0 12px}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;
+       background:#f0eee9;padding:1px 5px;border-radius:4px}
+  pre{background:#26241f;color:#eae7df;padding:14px 16px;border-radius:10px;overflow-x:auto;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.6px;line-height:1.6;margin:0 0 16px}
+  pre .k{color:#d8a0d0} pre .t{color:#8fc4e8} pre .s{color:#b7d69a} pre .c{color:#8f8a7d}
+  .tip{border-left:3px solid var(--good);background:var(--ok-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .tip b{color:#006300}
+  .note{border-left:3px solid var(--crit);background:var(--crit-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .note b{color:var(--crit)}
+  .warn{border-left:3px solid var(--amber);background:var(--amber-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .warn b{color:var(--amber)}
+  .info{border-left:3px solid var(--acc);background:var(--acc-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .info b{color:var(--acc)}
+  .chk{border-left:3px solid var(--vio);background:var(--vio-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .chk b{color:var(--vio)}
+  table{border-collapse:collapse;width:100%;font-size:14.2px;margin:0 0 16px;background:var(--surface)}
+  th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-weight:600;background:#f3f1ec}
+  td.pre,th.pre{font-family:ui-monospace,Menlo,monospace;font-weight:600;color:#3a2d86;white-space:nowrap}
+  ul,ol{margin:0 0 14px;padding-left:22px} li{margin:0 0 7px}
+  .step{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:0 0 16px}
+  .step .n{display:inline-block;background:#26241f;color:#fff;font:600 12px/1 system-ui,sans-serif;
+           padding:5px 9px;border-radius:6px;margin-right:8px}
+  .ue{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 17px;margin:0 0 14px}
+  .ue .t{font-weight:600;margin-bottom:5px}
+  .time{display:inline-block;font:600 11px/1.5 system-ui,sans-serif;padding:2px 8px;border-radius:20px;
+        background:#e4e2f5;color:#3a2d86;border:1px solid #bdb5e0;white-space:nowrap;margin-left:8px}
+  .foot{margin-top:50px;padding-top:16px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>01C Buttons und Events</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Block 01. Zeitbudget 65 Minuten, dazu 13 Minuten Einführung durch die Lehrperson.</p>
+<p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
+
+
+<h2>01 Einführung</h2>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>3.1</td><td>Kennt die Bedienung und den Einsatz einer passenden Entwicklungs-, Simulations- und Testumgebung</td></tr>
+<tr><td>3.2</td><td>Kennt ein gängiges Framework und dessen APIs</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du reagierst im Code auf einen Klick.</li>
+<li>Du kennst zwei Bauformen für Event-Handler und begründest, wann welche passt.</li>
+<li>Du schreibst Meldungen ins Log und findest sie im Logcat wieder.</li>
+<li>Du zeigst dem Benutzer eine kurze Rückmeldung als Toast.</li>
+<li>Du erklärst, warum eine Variable manchmal ein Klassenattribut sein muss und manchmal nicht.</li>
+</ul>
+
+<h3>Das brauchst du vorher</h3>
+<ul>
+<li>Block 01B abgeschlossen. Du kennst <code>findViewById</code> und den Weg vom Layout zum Code.</li>
+<li>Android Studio läuft, der Emulator ist gestartet.</li>
+<li>Java aus den früheren Modulen, vor allem der Unterschied zwischen lokaler Variable und Attribut.</li>
+</ul>
+
+<h3>Das gibst du ab</h3>
+<ul>
+<li>Dein ausgefülltes <b>Arbeitsblatt</b>. Das ist die Aufgabe <b>01C Arbeitsblatt - Buttons und Events</b> in Google Classroom.</li>
+<li>Einen Screenshot deiner laufenden App mit deinem eigenen Namen, als Anhang zur selben Aufgabe.</li>
+<li>Den ausgefüllten <b>01C Check - Wissenscheck Buttons und Events</b>.</li>
+</ul>
+
+<div class="info">
+<p><b>Warum du dieselbe App zweimal baust.</b> Das ist keine Schikane. Beide Bauformen begegnen dir später wieder, in fremdem Code, in Anleitungen im Netz und in KI-Antworten. Wer nur eine kennt, versteht die andere nicht und baut sie im Zweifel falsch nach. Wer beide gebaut hat, entscheidet selbst und kann die Entscheidung begründen. Genau das wird in der Leistungsbeurteilung verlangt.</p>
+</div>
+
+<h3>Einführung durch die Lehrperson <span class="time">13 Minuten, vor dem Auftrag</span></h3>
+<ul>
+<li>Rückblick: In eurer <code>MainActivity</code> steht bereits ein Listener mit Pfeil. Den schauen wir uns jetzt genauer an.</li>
+<li>Was ist ein Event? Warum wartet das Programm nicht einfach?</li>
+<li>Die R-Klasse: automatisch erzeugt, niemals von Hand ändern.</li>
+<li><code>Log.d</code> und <code>Toast</code> kurz zeigen, dazu den Filter im Logcat.</li>
+</ul>
+
+
+<h2>02 Auftrag</h2>
+
+<h3>Ausgangslage</h3>
+<p>Bisher lief deine App einmal durch und blieb dann stehen. Eine echte App wartet. Sie wartet darauf, dass jemand tippt, wischt oder klickt.</p>
+<p>In diesem Block baust du deine erste App, die auf den Benutzer reagiert. Und du baust sie zweimal, auf zwei verschiedene Arten. Am Schluss entscheidest du selbst, welche dir besser gefällt.</p>
+
+<h3>Werkzeugkasten</h3>
+<p>Das sind alle Bausteine, die du für diesen Auftrag brauchst. Mehr nicht. Alles andere kommt später.</p>
+<table>
+<tr><th>Baustein</th><th>Wofür</th><th>So sieht er aus</th></tr>
+<tr><td class="pre">findViewById</td><td>Holt dir ein Element aus dem Layout in den Code</td><td class="pre">Button btn = findViewById(R.id.btnGreet);</td></tr>
+<tr><td class="pre">setOnClickListener</td><td>Sagt einem Button, wen er benachrichtigen soll</td><td class="pre">btn.setOnClickListener(v -&gt; { ... });</td></tr>
+<tr><td class="pre">getText().toString()</td><td>Liest den Inhalt eines Eingabefelds als Text</td><td class="pre">String s = etName.getText().toString();</td></tr>
+<tr><td class="pre">setText</td><td>Schreibt Text in eine TextView oder ein EditText</td><td class="pre">tvOutput.setText("Hallo");</td></tr>
+<tr><td class="pre">Log.d</td><td>Schreibt eine Meldung ins Logcat, nur für dich</td><td class="pre">Log.d(TAG, "Greet clicked.");</td></tr>
+<tr><td class="pre">Toast.makeText</td><td>Zeigt dem Benutzer kurz eine Meldung an</td><td class="pre">Toast.makeText(this, "Hallo", Toast.LENGTH_LONG).show();</td></tr>
+<tr><td class="pre">length()</td><td>Gibt die Anzahl Zeichen eines Strings zurück</td><td class="pre">name.length()</td></tr>
+</table>
+
+<p>Welche Angaben Pflicht sind:</p>
+<table>
+<tr><th>Angabe</th><th>Pflicht bei</th><th>Bemerkung</th></tr>
+<tr><td class="pre">android:id</td><td>jedem Element, das du im Code ansprichst</td><td>Ohne id findet <code>findViewById</code> nichts</td></tr>
+<tr><td class="pre">.show()</td><td>jedem Toast</td><td><code>makeText</code> baut ihn nur, erst <code>.show()</code> zeigt ihn an</td></tr>
+<tr><td class="pre">TAG</td><td>jedem <code>Log.d</code></td><td>Im ganzen Modul <code>"M335"</code>, als Konstante in der Klasse</td></tr>
+<tr><td>Reihenfolge im Code</td><td>immer</td><td><code>setContentView</code> zuerst, danach erst <code>findViewById</code>. Siehe 01B</td></tr>
+</table>
+
+<h3>Namen der Controls</h3>
+<p>Im Modul 335 gilt eine feste Regel. Der Klassenname des Controls bestimmt das Präfix.</p>
+<ul>
+<li>Zusammengesetzter Name, also mehrere Wörter: erster Buchstabe jedes Wortes. <code>TextView</code> wird <code>tv</code>, <code>EditText</code> wird <code>et</code>, <code>ImageView</code> wird <code>iv</code>.</li>
+<li>Ein Wort: die übliche Dreibuchstaben-Abkürzung. <code>Button</code> wird <code>btn</code>.</li>
+<li>Dahinter der Zweck in Grossschreibung. Also <code>etName</code>, <code>tvOutput</code>, <code>btnGreet</code>.</li>
+<li>Die Java-Variable heisst gleich wie die id.</li>
+</ul>
+<p>Bezeichner und Log-Meldungen sind englisch, sichtbare Texte deutsch. Also <code>btnGreet</code> mit der Beschriftung "Begrüssen".</p>
+
+<h3>Denkfragen <span class="time">2 Minuten</span></h3>
+<p>Denk kurz darüber nach, bevor du anfängst. Abgeben musst du hier nichts. Die Fragen kommen im Wissenscheck wieder, dort bekommst du sofort eine Rückmeldung.</p>
+<ol>
+<li>Woher weiss ein Button, dass er angeklickt wurde? Wer sagt es ihm?</li>
+<li>Wenn du drei Buttons hast, brauchst du dann drei Zuhörer oder reicht einer?</li>
+<li>Warum steht der Code, der auf den Klick reagiert, nicht einfach untereinander in <code>onCreate</code>?</li>
+</ol>
+
+
+<h3>Teil 1, Layout vorbereiten <span class="time">5 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">1.1</span><b>Neues Projekt anlegen.</b></p>
+<table>
+<tr><td>Vorlage</td><td><b>Empty Views Activity</b></td></tr>
+<tr><td>Name</td><td><code>M335 Buttons</code></td></tr>
+<tr><td>Paket</td><td><code>ch.wiss.m335.buttons</code></td></tr>
+<tr><td>Sprache</td><td>Java</td></tr>
+<tr><td>Minimum SDK</td><td>API 26</td></tr>
+<tr><td>Build configuration language</td><td>Kotlin DSL (build.gradle.kts)</td></tr>
+</table>
+<p>Warte, bis unten in der Statusleiste kein Fortschrittsbalken mehr läuft. Fang nicht vorher an zu tippen.</p>
+</div>
+
+<div class="step">
+<p><span class="n">1.2</span><b>Das Layout einsetzen.</b></p>
+<p>Öffne <code>app / res / layout / activity_main.xml</code> und wechsle oben rechts auf die Ansicht <code>Code</code>. Ersetze den <b>gesamten</b> Inhalt der Datei durch den Code unten.</p>
+<pre>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;<span class="t">androidx.constraintlayout.widget.ConstraintLayout</span>
+    xmlns:android=<span class="s">"http://schemas.android.com/apk/res/android"</span>
+    xmlns:app=<span class="s">"http://schemas.android.com/apk/res-auto"</span>
+    xmlns:tools=<span class="s">"http://schemas.android.com/tools"</span>
+    android:id=<span class="s">"@+id/main"</span>
+    android:layout_width=<span class="s">"match_parent"</span>
+    android:layout_height=<span class="s">"match_parent"</span>
+    tools:context=<span class="s">".MainActivity"</span>&gt;
+
+    &lt;<span class="t">LinearLayout</span>
+        android:layout_width=<span class="s">"0dp"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:orientation=<span class="s">"vertical"</span>
+        android:padding=<span class="s">"16dp"</span>
+        app:layout_constraintTop_toTopOf=<span class="s">"parent"</span>
+        app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
+        app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span>&gt;
+
+        &lt;<span class="t">EditText</span>
+            android:id=<span class="s">"@+id/etName"</span>
+            android:layout_width=<span class="s">"match_parent"</span>
+            android:layout_height=<span class="s">"wrap_content"</span>
+            android:hint=<span class="s">"Dein Name"</span>
+            android:inputType=<span class="s">"textPersonName"</span> /&gt;
+
+        &lt;<span class="t">Button</span>
+            android:id=<span class="s">"@+id/btnGreet"</span>
+            android:layout_width=<span class="s">"match_parent"</span>
+            android:layout_height=<span class="s">"wrap_content"</span>
+            android:text=<span class="s">"Begrüssen"</span> /&gt;
+
+        &lt;<span class="t">Button</span>
+            android:id=<span class="s">"@+id/btnCount"</span>
+            android:layout_width=<span class="s">"match_parent"</span>
+            android:layout_height=<span class="s">"wrap_content"</span>
+            android:text=<span class="s">"Zeichen zählen"</span> /&gt;
+
+        &lt;<span class="t">Button</span>
+            android:id=<span class="s">"@+id/btnClear"</span>
+            android:layout_width=<span class="s">"match_parent"</span>
+            android:layout_height=<span class="s">"wrap_content"</span>
+            android:text=<span class="s">"Löschen"</span> /&gt;
+
+        &lt;<span class="t">TextView</span>
+            android:id=<span class="s">"@+id/tvOutput"</span>
+            android:layout_width=<span class="s">"match_parent"</span>
+            android:layout_height=<span class="s">"wrap_content"</span>
+            android:layout_marginTop=<span class="s">"24dp"</span>
+            android:textSize=<span class="s">"18sp"</span> /&gt;
+
+    &lt;/<span class="t">LinearLayout</span>&gt;
+&lt;/<span class="t">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</pre>
+<p>Starte die App einmal. Es passiert noch nichts, aber alle fünf Elemente müssen sichtbar sein.</p>
+</div>
+
+<div class="warn">
+<p><b>Android Studio zeigt gelbe Warnungen an. Das ist richtig so.</b> Die Texte stehen direkt im Layout, und dem Eingabefeld fehlt ein Autofill-Hinweis. Gelb bedeutet Hinweis, rot bedeutet Fehler. Nur rot musst du beheben.</p>
+</div>
+
+<div class="info">
+<p><b>Das Layout verstehst du heute noch nicht, und das ist in Ordnung.</b> Warum es so aufgebaut ist und was <code>ConstraintLayout</code>, <code>0dp</code> und die <code>app:layout_constraint</code>-Zeilen bedeuten, lernst du heute Nachmittag in Block 02. Heute geht es nur darum, dass die Buttons etwas tun.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil 1.</b></p>
+<ul>
+<li>Auf dem Emulator siehst du von oben nach unten: ein leeres Eingabefeld mit dem grauen Text "Dein Name", drei Buttons mit den Beschriftungen Begrüssen, Zeichen zählen und Löschen, darunter nichts.</li>
+<li>Kein Klick tut etwas.</li>
+<li>Im Editor ist nichts rot unterkringelt.</li>
+</ul>
+</div>
+
+
+<h3>Teil 2, Der erste Button <span class="time">20 Minuten</span></h3>
+<p>Öffne <code>MainActivity.java</code>. <b>Lösch nichts von dem, was schon da steht.</b></p>
+
+<div class="step">
+<p><span class="n">2.1</span><b>Ein Tag für deine Log-Meldungen.</b></p>
+<p>Ergänze über der Methode <code>onCreate</code> ein Klassenattribut:</p>
+<pre><span class="k">private static final</span> <span class="t">String</span> TAG = <span class="s">"M335"</span>;</pre>
+<p>Der Tag ist ein frei wählbarer Text. Er kennzeichnet deine eigenen Meldungen, damit du sie später im Logcat wiederfindest. Im ganzen Modul benutzen wir <code>M335</code>.</p>
+</div>
+
+<div class="step">
+<p><span class="n">2.2</span><b>Der Button bekommt einen Zuhörer.</b></p>
+<p>Ergänze am <b>Ende</b> der Methode <code>onCreate</code>, also nach dem bestehenden Block mit dem Pfeil:</p>
+<pre><span class="t">EditText</span> etName = findViewById(R.id.etName);
+<span class="t">TextView</span> tvOutput = findViewById(R.id.tvOutput);
+<span class="t">Button</span> btnGreet = findViewById(R.id.btnGreet);
+
+btnGreet.setOnClickListener(v -&gt; {
+    <span class="t">String</span> name = etName.getText().toString();
+    Log.d(TAG, <span class="s">"Greet clicked. Name: "</span> + name);
+    tvOutput.setText(<span class="s">"Hallo "</span> + name + <span class="s">"!"</span>);
+    Toast.makeText(<span class="k">this</span>, <span class="s">"Hallo "</span> + name + <span class="s">"!"</span>, Toast.LENGTH_LONG).show();
+});</pre>
+</div>
+
+<div class="warn">
+<p><b>Mehrere Stellen sind rot unterkringelt. Das ist richtig so.</b> Die Imports fehlen. Klick in das rote Wort und drück <b>Alt und Enter</b>, dann <code>Import class</code>. Das machst du <b>fünfmal</b>: für <code>EditText</code>, <code>TextView</code>, <code>Button</code>, <code>Log</code> und <code>Toast</code>.</p>
+</div>
+
+<div class="step">
+<p><span class="n">2.3</span><b>Starten.</b></p>
+<p>Drück Run. Gib deinen Namen ein und drück Begrüssen. Mach einen Screenshot.</p>
+</div>
+
+<div class="step">
+<p><span class="n">2.4</span><b>Deine Meldung im Logcat finden.</b></p>
+<p>Öffne unten den Reiter <code>Logcat</code>. Tipp oben in das Suchfeld <code>M335</code>. Jetzt siehst du nur noch deine eigenen Meldungen. Klick mehrmals auf Begrüssen und schau zu, wie die Zeilen erscheinen.</p>
+<p>Schreib eine dieser Zeilen auf dein Arbeitsblatt ab.</p>
+</div>
+
+<div class="tip">
+<p><b>Der Filter auf den Tag ist Gold wert.</b> Ohne ihn ersaufen deine Meldungen in tausenden Systemmeldungen. Du brauchst ihn in jedem weiteren Block.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil 2.</b></p>
+<ul>
+<li>Du tippst deinen Namen ein und drückst Begrüssen. Unter den Buttons erscheint "Hallo DEIN NAME!".</li>
+<li>Gleichzeitig blendet sich unten am Bildschirmrand kurz derselbe Text ein.</li>
+<li>Im Logcat steht bei jedem Klick eine neue Zeile mit deinem Namen.</li>
+<li>Auf deinem Arbeitsblatt steht eine Logcat-Zeile mit deinem eigenen Namen.</li>
+</ul>
+</div>
+
+
+<h3>Teil 3, Zwei weitere Buttons <span class="time">8 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">3.1</span><b>Ergänzen, immer noch am Ende von <code>onCreate</code>.</b></p>
+<pre><span class="t">Button</span> btnCount = findViewById(R.id.btnCount);
+btnCount.setOnClickListener(v -&gt; {
+    <span class="t">String</span> name = etName.getText().toString();
+    Log.d(TAG, <span class="s">"Count clicked."</span>);
+    tvOutput.setText(<span class="s">"Dein Name hat "</span> + name.length() + <span class="s">" Zeichen."</span>);
+});
+
+<span class="t">Button</span> btnClear = findViewById(R.id.btnClear);
+btnClear.setOnClickListener(v -&gt; {
+    Log.d(TAG, <span class="s">"Clear clicked."</span>);
+    etName.setText(<span class="s">""</span>);
+    tvOutput.setText(<span class="s">""</span>);
+});</pre>
+<p>Starte und probier alle drei Buttons aus.</p>
+</div>
+
+<div class="info">
+<p><b>Schau dir jetzt deine <code>onCreate</code>-Methode an.</b> Sie ist lang geworden. Drei Blöcke, die fast gleich aussehen. Stell dir dasselbe mit zwanzig Buttons vor. Genau da setzt Teil 4 an.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil 3.</b></p>
+<ul>
+<li>Zeichen zählen sagt dir die richtige Anzahl Buchstaben deines Namens.</li>
+<li>Löschen leert beide Felder.</li>
+<li>Im Logcat erscheint bei jedem Klick die passende Zeile.</li>
+</ul>
+</div>
+
+
+<h3>Teil 4, Ein Handler für alle <span class="time">18 Minuten</span></h3>
+<p>Es geht auch anders. Statt für jeden Button einen eigenen Block zu schreiben, kann die Activity selbst der Zuhörer sein.</p>
+
+<div class="step">
+<p><span class="n">4.1</span><b>Die Klasse wird zum Zuhörer.</b></p>
+<pre><span class="k">public class</span> <span class="t">MainActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span>
+        <span class="k">implements</span> <span class="t">View</span>.<span class="t">OnClickListener</span> {</pre>
+<p>Android Studio meckert sofort, weil eine Methode fehlt. Drück <b>Alt und Enter</b> und wähle <code>Implement methods</code>. Es entsteht eine leere Methode <code>onClick</code>.</p>
+<p>Beim Import fragt Android Studio nach, weil es zwei Interfaces mit dem Namen <code>OnClickListener</code> gibt. Wähle <code>android.view.View.OnClickListener</code>.</p>
+</div>
+
+<div class="step">
+<p><span class="n">4.2</span><b>Die drei Listener-Blöcke ersetzen.</b></p>
+<p>Lösch deine drei Listener-Blöcke aus <code>onCreate</code>. Ersetz sie durch:</p>
+<pre>etName = findViewById(R.id.etName);
+tvOutput = findViewById(R.id.tvOutput);
+
+findViewById(R.id.btnGreet).setOnClickListener(<span class="k">this</span>);
+findViewById(R.id.btnCount).setOnClickListener(<span class="k">this</span>);
+findViewById(R.id.btnClear).setOnClickListener(<span class="k">this</span>);</pre>
+</div>
+
+<div class="note">
+<p><b>Jetzt hast du ein Problem.</b> <code>etName</code> und <code>tvOutput</code> sind rot. <b>Finde selbst heraus warum, bevor du weiterliest.</b> Tipp: Wo stehen die beiden jetzt, und wo werden sie gleich gebraucht?</p>
+<p>Schreib deine Antwort auf das Arbeitsblatt, bevor du Schritt 4.3 liest. Auch dann, wenn du nicht sicher bist.</p>
+</div>
+
+<div class="step">
+<p><span class="n">4.3</span><b>Die Erklärung.</b></p>
+<p>Die Methode <code>onClick</code> steht <b>ausserhalb</b> von <code>onCreate</code>. Lokale Variablen aus <code>onCreate</code> kennt sie nicht. Eine lokale Variable lebt nur in ihrer eigenen Methode.</p>
+<p>Die beiden müssen also <b>Klassenattribute</b> werden. Ergänze oben in der Klasse, dort wo auch <code>TAG</code> steht:</p>
+<pre><span class="k">private</span> <span class="t">EditText</span> etName;
+<span class="k">private</span> <span class="t">TextView</span> tvOutput;</pre>
+</div>
+
+<div class="note">
+<p><b>Achte genau darauf.</b> In <code>onCreate</code> steht jetzt <b>keine Typangabe</b> mehr vor den zwei Zuweisungen. Also <code>etName = findViewById(...)</code> und nicht <code>EditText etName = findViewById(...)</code>. Sonst entstehen dort neue lokale Variablen, die Klassenattribute bleiben leer, und die App stürzt beim ersten Klick ab.</p>
+</div>
+
+<div class="step">
+<p><span class="n">4.4</span><b>Die onClick-Methode füllen.</b></p>
+<pre><span class="k">int</span> id = v.getId();
+<span class="t">String</span> name = etName.getText().toString();
+
+<span class="k">if</span> (id == R.id.btnGreet) {
+    Log.d(TAG, <span class="s">"Greet clicked. Name: "</span> + name);
+    tvOutput.setText(<span class="s">"Hallo "</span> + name + <span class="s">"!"</span>);
+    Toast.makeText(<span class="k">this</span>, <span class="s">"Hallo "</span> + name + <span class="s">"!"</span>, Toast.LENGTH_LONG).show();
+
+} <span class="k">else if</span> (id == R.id.btnCount) {
+    Log.d(TAG, <span class="s">"Count clicked."</span>);
+    tvOutput.setText(<span class="s">"Dein Name hat "</span> + name.length() + <span class="s">" Zeichen."</span>);
+
+} <span class="k">else if</span> (id == R.id.btnClear) {
+    Log.d(TAG, <span class="s">"Clear clicked."</span>);
+    etName.setText(<span class="s">""</span>);
+    tvOutput.setText(<span class="s">""</span>);
+}</pre>
+</div>
+
+<div class="step">
+<p><span class="n">4.5</span><b>Starten.</b></p>
+<p>Die App muss sich jetzt genau gleich verhalten wie vorher. Von aussen sieht man keinen Unterschied.</p>
+</div>
+
+<div class="warn">
+<p><b>Hinweis zu Fundstücken aus dem Internet.</b> Viele Anleitungen und auch KI-Antworten benutzen an dieser Stelle ein <code>switch</code> statt <code>if</code> und <code>else</code>. Das funktioniert in einem App-Modul noch, bricht aber, sobald der Code in ein Library-Modul wandert, weil die Ressourcen-IDs dort keine Konstanten mehr sind. Google empfiehlt deshalb seit Jahren <code>if</code> und <code>else</code>. Wenn dir jemand <code>switch</code> vorschlägt, weisst du jetzt, warum wir es anders machen.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil 4.</b></p>
+<ul>
+<li>Alle drei Buttons tun dasselbe wie in Teil 3.</li>
+<li>In <code>onCreate</code> stehen nur noch fünf Zeilen für die Buttons.</li>
+<li>Die ganze Logik steht in <code>onClick</code>.</li>
+<li>Auf deinem Arbeitsblatt steht deine eigene Antwort aus 4.2, geschrieben bevor du 4.3 gelesen hast.</li>
+</ul>
+</div>
+
+
+<h3>Teil 5, Vergleich <span class="time">5 Minuten</span></h3>
+<p>Du hast dieselbe App zweimal gebaut. Jetzt entscheidest du.</p>
+
+<div class="step">
+<p><span class="n">5.1</span><b>Ein Versuch.</b></p>
+<p>Meld in <code>onCreate</code> einen vierten Button an, den es gar nicht gibt, oder lass in <code>onClick</code> einen Zweig weg. Probier aus, was passiert. Notier es in einem Satz.</p>
+</div>
+
+<div class="step">
+<p><span class="n">5.2</span><b>Die Tabelle auf dem Arbeitsblatt ausfüllen.</b></p>
+<p>Trag für beide Varianten je einen Vorteil und einen Nachteil ein. In deinen eigenen Worten, nicht abgeschrieben.</p>
+<p>Und beantworte die eine Frage darunter: Welche Variante würdest du bei zwanzig Buttons wählen? Begründe in zwei Sätzen.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil 5.</b></p>
+<ul>
+<li>Auf deinem Arbeitsblatt steht zu beiden Varianten je ein Vorteil und ein Nachteil.</li>
+<li>Deine Entscheidung für zwanzig Buttons ist begründet, nicht nur genannt.</li>
+<li>Du hast in einem Satz notiert, was bei deinem Versuch aus 5.1 passiert ist.</li>
+</ul>
+</div>
+
+<div class="info">
+<p><b>Zum Vergleichen.</b> Das fertige Projekt, beide Codevarianten, die Antworten zu den Denkfragen und die Lösungen der Übungen findest du im Classroom-Material <b>01C Loesung - Buttons und Events</b>. Schau erst hinein, wenn du selbst fertig bist oder wirklich nicht weiterkommst.</p>
+</div>
+
+
+<h3>Übungen ohne Vorlage <span class="time">7 Minuten</span></h3>
+<p>Diese drei löst du mit dem, was du eben gelernt hast. Kein neuer Stoff.</p>
+
+<div class="ue">
+<p class="t">Übung 1, eine Zeile mehr im Log</p>
+<p>Beim Klick auf Begrüssen soll zusätzlich im Logcat stehen, wie viele Zeichen der Name hat. Ohne dass sich die Anzeige auf dem Bildschirm ändert.</p>
+<p><b>So prüfst du:</b> Im Logcat steht eine Zeile mehr als vorher, auf dem Bildschirm sieht alles gleich aus.</p>
+</div>
+
+<div class="ue">
+<p class="t">Übung 2, der Toast wird kürzer</p>
+<p>Ändere den Toast so, dass er nur halb so lange sichtbar ist.</p>
+<p><b>So prüfst du:</b> Der Toast verschwindet sichtbar schneller. Und du kannst sagen, wie viele Werte es dafür überhaupt gibt.</p>
+</div>
+
+<div class="ue">
+<p class="t">Übung 3, erklären</p>
+<p>Erkläre einem Lerngspänli in eigenen Worten, warum <code>etName</code> in Variante 2 ein Klassenattribut sein muss, in Variante 1 aber nicht.</p>
+<p><b>So prüfst du:</b> Dein Gegenüber kann danach selbst sagen, wo eine lokale Variable lebt und wo nicht.</p>
+</div>
+
+<div class="tip">
+<p><b>Eine vierte Übung gehört zur Hausaufgabe 1.</b> Füge einen vierten Button "Umdrehen" hinzu, der den eingegebenen Namen rückwärts anzeigt. So prüfst du: aus "Anna" wird "annA". Im Block reicht die Zeit dafür nicht.</p>
+</div>
+
+
+<h3>Zusatzaufgabe für Schnelle</h3>
+<p>Zuerst die Pflichtaufgabe fertig und lauffähig. Dann erst hier weiter.</p>
+<p><b>Auftrag:</b> Probier aus, was passiert, wenn das Eingabefeld leer ist. Drück Begrüssen und dann Zeichen zählen. Beschreib, was du siehst. Überleg dir danach, wie sich die App verhalten müsste, damit es sich richtig anfühlt, und bau eine Lösung dafür.</p>
+<p><b>Und die Frage, die dazugehört:</b> Woher weiss das Programm überhaupt, dass das Feld leer ist? Was genau prüfst du, und was liefert dir das Feld in diesem Fall zurück?</p>
+<p>Keine Musterlösung. Auch nicht im Lösungsmaterial. KI darfst du benutzen, aber du musst deine Lösung erklären können.</p>
+
+
+<h3>Wenn etwas nicht funktioniert</h3>
+<table>
+<tr><th>Das siehst du</th><th>Ursache</th><th>Das machst du</th></tr>
+<tr><td>Die App stürzt beim Start ab, im Logcat steht <code>NullPointerException</code> bei <code>setOnClickListener</code></td><td>Eine id im Code stimmt nicht mit dem XML überein. <code>findViewById</code> hat nichts gefunden und <code>null</code> geliefert</td><td>Drei-Schritte-Regel aus 01B anwenden. Dann die id im XML mit der im Code vergleichen, Buchstabe für Buchstabe</td></tr>
+<tr><td>Die App stürzt beim <b>ersten Klick</b> ab, nicht beim Start</td><td>Teil 4: Du hast die Typangabe in <code>onCreate</code> stehen lassen. Das Klassenattribut ist leer geblieben</td><td>In <code>onCreate</code> die Typangabe vor <code>etName</code> und <code>tvOutput</code> entfernen</td></tr>
+<tr><td><code>R.id.etName</code> bleibt rot, obwohl die id im XML steht</td><td>Die R-Klasse wurde noch nicht neu erzeugt</td><td>Menü Build, dann Rebuild Project. Danach warten, bis die Statusleiste leer ist</td></tr>
+<tr><td>Alt und Enter bietet keinen Import an</td><td>Der Cursor steht nicht im roten Wort</td><td>Klick mitten in das rote Wort, dann Alt und Enter</td></tr>
+<tr><td>Beim Import von <code>OnClickListener</code> erscheint eine Auswahl</td><td>Es gibt zwei Interfaces mit diesem Namen</td><td><code>android.view.View.OnClickListener</code> wählen</td></tr>
+<tr><td>Ein Button reagiert gar nicht, ohne Fehler und ohne Absturz</td><td>Teil 4: Der Button ist angemeldet, kommt aber in <code>onClick</code> nicht vor</td><td>In <code>onClick</code> den fehlenden Zweig ergänzen. Genau das ist der Versuch aus 5.1</td></tr>
+<tr><td>Im Logcat siehst du deine Meldungen nicht</td><td>Der Filter fehlt oder der Tag ist falsch geschrieben</td><td>Im Suchfeld des Logcat <code>M335</code> eintippen. Prüfen, ob <code>TAG</code> im Code wirklich <code>"M335"</code> ist</td></tr>
+<tr><td>Der Toast erscheint nicht</td><td><code>.show()</code> am Ende vergessen</td><td><code>Toast.makeText(...)</code> baut den Toast nur. Erst <code>.show()</code> zeigt ihn an</td></tr>
+<tr><td>Nach dem Umbau in Teil 4 fehlt die Methode <code>onClick</code></td><td><code>Implement methods</code> wurde nicht ausgeführt</td><td>Cursor in den Klassennamen, Alt und Enter, dann Implement methods</td></tr>
+<tr><td>Der Text im Ausgabefeld ändert sich nicht mehr</td><td>Der Zweig in <code>onClick</code> trifft nicht zu, weil die id nicht stimmt</td><td>Mit <code>Log.d</code> am Anfang von <code>onClick</code> prüfen, ob die Methode überhaupt aufgerufen wird</td></tr>
+</table>
+
+
+<h3>Abgabe</h3>
+<p>Alles läuft über die Aufgabe <b>01C Arbeitsblatt - Buttons und Events</b> in Google Classroom.</p>
+<ol>
+<li>Dein ausgefülltes Arbeitsblatt. Die Kopie liegt schon in deinem Drive, am Schluss auf Abgeben klicken.</li>
+<li>Screenshot deiner laufenden App mit deinem eigenen Namen im Ausgabefeld.</li>
+<li>Danach den <b>01C Check</b> ausfüllen.</li>
+</ol>
+
+
+<h2>03 Guide</h2>
+<table>
+<tr><th>Zeitbudget</th><td>65 Minuten. Denkfragen 2, Teil 1 5, Teil 2 20, Teil 3 8, Teil 4 18, Teil 5 5, Übungen 7. Dazu 13 Minuten Einführung durch die Lehrperson davor</td></tr>
+<tr><th>Sozialform</th><td>Einzel- oder Partnerarbeit. Übung 3 zu zweit</td></tr>
+<tr><th>Aufgabenart</th><td>Praktische Umsetzung mit einer Entdeckungsstelle (4.2 gegen 4.3)</td></tr>
+<tr><th>Voraussetzung</th><td>Block 01B abgeschlossen</td></tr>
+<tr><th>KI</th><td>In Teil 1 bis 5 <b>nicht</b> erlaubt. Bei den Übungen und der Zusatzaufgabe erlaubt</td></tr>
+<tr><th>Abgabe</th><td>Ein Arbeitsblatt plus ein Screenshot, dazu der Wissenscheck</td></tr>
+</table>
+
+<h3>Die vier Beiträge in Google Classroom</h3>
+<table>
+<tr><th>Name</th><th>Typ</th><th>Einstellung</th></tr>
+<tr><td>01C Auftrag - Buttons und Events</td><td>Material</td><td>Schüler können Datei ansehen. Das ist dieses Dokument</td></tr>
+<tr><td>01C Arbeitsblatt - Buttons und Events</td><td>Aufgabe</td><td><b>Für jeden Schüler eine Kopie erstellen.</b> Das ist die Abgabe</td></tr>
+<tr><td>01C Check - Wissenscheck Buttons und Events</td><td>Aufgabe mit Quiz</td><td>Unbenotet, beliebig oft wiederholbar. Sieben Fragen</td></tr>
+<tr><td>01C Loesung - Buttons und Events</td><td>Material</td><td>Schüler können Datei ansehen. Enthält den vollständigen Code als Text und die Vergleichsliste</td></tr>
+</table>
+
+
+<h2>04 Unterrichtsmittel</h2>
+<table>
+<tr><th>Art</th><th>Was</th></tr>
+<tr><td>Hardware</td><td>Eigenes Notebook, laufender Emulator Medium Phone API 36.1</td></tr>
+<tr><td>Software und Tools</td><td>Android Studio Quail 2 Patch 1, Google Classroom</td></tr>
+<tr><td>Dokumente</td><td>Arbeitsblatt 01C, als Kopie pro Schüler in Classroom</td></tr>
+<tr><td>Buch</td><td>Android-Apps entwickeln für Einsteiger (Rheinwerk), Kapitel 4.4 Buttons</td></tr>
+</table>
+
+
+<h2>05 Evaluation</h2>
+
+<h3>Antworten zu den Denkfragen, für die Lehrperson</h3>
+<ol>
+<li>Das System merkt den Klick und ruft den Zuhörer auf, der beim Button angemeldet wurde. Der Button selbst weiss nichts, er wird benachrichtigt. Wer hier "der Button prüft dauernd, ob jemand drückt" antwortet, denkt noch in Schleifen statt in Ereignissen.</li>
+<li>Beides geht. Drei eigene Zuhörer wie in Teil 2 und 3, oder ein einziger für alle wie in Teil 4. Genau das ist die Frage, die dieser Block beantwortet.</li>
+<li>Weil der Code zum Zeitpunkt von <code>onCreate</code> noch nicht laufen soll. Er wird dort nur angemeldet. Ausgeführt wird er später, vielleicht oft, vielleicht nie. Das ist derselbe Gedanke wie beim Block mit dem Pfeil aus 01B.</li>
+</ol>
+
+<h3>Worauf du beim Rundgang achtest</h3>
+<table>
+<tr><th>Zeitpunkt</th><th>Worauf</th></tr>
+<tr><td>Minute 7</td><td>Läuft bei allen das Layout? Wer hier noch rote Zeilen hat, hat beim Ersetzen etwas stehen lassen</td></tr>
+<tr><td>Minute 20</td><td>Die fünf Imports sind die erste Hürde. Sag einmal laut für alle: fünfmal Alt und Enter, nicht viermal</td></tr>
+<tr><td>Minute 27</td><td>Zeig den Logcat-Filter einmal vorne. Ohne ihn ersaufen sie in Systemmeldungen</td></tr>
+<tr><td>Minute 45</td><td><b>4.2 ist der wichtigste Moment des Auftrags.</b> Dort werden <code>etName</code> und <code>tvOutput</code> rot. Lass die Klasse selbst darauf kommen, warum. Wer hier nur weiterliest, hat den Gültigkeitsbereich nicht</td></tr>
+<tr><td>Minute 55</td><td>Wer beim ersten Klick abstürzt, hat die Typangabe stehen lassen. Lass ihn die Drei-Schritte-Regel aus 01B anwenden, statt die Stelle zu zeigen</td></tr>
+</table>
+
+<h3>Was diese Aufgabe wirklich prüft</h3>
+<p>Nicht das Tippen. Der Code steht vollständig da. Geprüft wird die Antwort aus 4.2, geschrieben bevor die Erklärung gelesen wurde, und die begründete Entscheidung aus Teil 5. Beides steht auf dem Arbeitsblatt und ist bei jedem anders.</p>
+
+<h3>Häufigster Fehler</h3>
+<p>In Teil 4.3 bleibt die Typangabe in <code>onCreate</code> stehen. Damit entsteht eine neue lokale Variable, das Klassenattribut bleibt <code>null</code>, und die App stürzt beim ersten Klick ab. Das ist ein sehr lehrreicher Absturz, weil er nicht beim Start kommt, sondern erst beim Klick.</p>
+
+<h3>Warum die Reihenfolge umgedreht ist</h3>
+<p>Im Original-Notizbuch wurde zuerst die Interface-Variante gebaut. Weil das Template bereits ein Lambda enthält und jede KI sofort eines liefert, erleben die Studierenden den Nachteil jetzt selbst, statt ihn zu erraten.</p>
+
+<h3>Bewertung</h3>
+<p>Formativ. Die Zusatzaufgabe ist der Einstieg in die Eingabevalidierung, die in der Leistungsbeurteilung vier Punkte wert ist und in Quiz-Stufe 5 richtig unterrichtet wird.</p>
+
+
+<p class="foot">Modul 335 Block 01, Auftrag 01C. Fassung 4 vom 08.08.2026. Lösungen im Material 01C Loesung - Buttons und Events.</p>
+
+</div>
+</body>
+</html>

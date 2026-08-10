@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>02B Formular bauen</title>
+<style>
+  :root{
+    --bg:#f9f9f7; --surface:#fcfcfb; --fg:#0b0b0b; --ink2:#52514e; --muted:#898781;
+    --line:#e1e0d9; --rule:#c3c2b7;
+    --acc:#2a78d6; --acc-bg:#e8f0f8;
+    --good:#0ca30c; --ok-bg:#e6f2ed;
+    --amber:#b1701c; --amber-bg:#fbf0df;
+    --crit:#d03b3b; --crit-bg:#fbeae7;
+    --vio:#4a3aa7; --vio-bg:#eceaf7;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font:16px/1.62 system-ui,-apple-system,"Segoe UI",sans-serif}
+  .wrap{max-width:920px;margin:0 auto;padding:40px 24px 90px}
+  h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+  .sub{color:var(--ink2);margin:0 0 26px;font-size:15px}
+  h2{font-size:20px;margin:46px 0 12px;padding-top:15px;border-top:2px solid var(--rule);letter-spacing:-.01em}
+  h3{font-size:16.5px;margin:28px 0 8px}
+  h4{font-size:14.5px;margin:20px 0 6px;color:var(--ink2)}
+  p{margin:0 0 12px}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;
+       background:#f0eee9;padding:1px 5px;border-radius:4px}
+  pre{background:#26241f;color:#eae7df;padding:14px 16px;border-radius:10px;overflow-x:auto;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.6px;line-height:1.6;margin:0 0 16px}
+  pre .k{color:#d8a0d0} pre .t{color:#8fc4e8} pre .s{color:#b7d69a} pre .c{color:#8f8a7d}
+  .tip{border-left:3px solid var(--good);background:var(--ok-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .tip b{color:#006300}
+  .note{border-left:3px solid var(--crit);background:var(--crit-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .note b{color:var(--crit)}
+  .warn{border-left:3px solid var(--amber);background:var(--amber-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .warn b{color:var(--amber)}
+  .info{border-left:3px solid var(--acc);background:var(--acc-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .info b{color:var(--acc)}
+  .chk{border-left:3px solid var(--vio);background:var(--vio-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .chk b{color:var(--vio)}
+  table{border-collapse:collapse;width:100%;font-size:14.2px;margin:0 0 16px;background:var(--surface)}
+  th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-weight:600;background:#f3f1ec}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  td.pre,th.pre{font-family:ui-monospace,Menlo,monospace;font-weight:600;color:#3a2d86;white-space:nowrap}
+  ul,ol{margin:0 0 14px;padding-left:22px} li{margin:0 0 7px}
+  .step{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:0 0 16px}
+  .step .n{display:inline-block;background:#26241f;color:#fff;font:600 12px/1 system-ui,sans-serif;
+           padding:5px 9px;border-radius:6px;margin-right:8px}
+  .ue{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 17px;margin:0 0 14px}
+  .ue .t{font-weight:600;margin-bottom:5px}
+  .time{display:inline-block;font:600 11px/1.5 system-ui,sans-serif;padding:2px 8px;border-radius:20px;
+        background:#e4e2f5;color:#3a2d86;border:1px solid #bdb5e0;white-space:nowrap;margin-left:8px}
+  .foot{margin-top:50px;padding-top:16px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>02B Formular bauen</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Block 02. Zeitbudget 65 Minuten. Fassung 2 vom 08.08.2026.</p>
+<p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
+
+
+<h2>01 Einführung</h2>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>1.1</td><td>Ergonomische Standards und Prinzipien der Interaktion kennen und anwenden</td></tr>
+<tr><td>1.2</td><td>Design- und Benutzerführungs-Guidelines der Plattform anwenden</td></tr>
+<tr><td>3.2</td><td>Framework und APIs der Plattform einsetzen</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du baust einen Formularbildschirm aus einem ConstraintLayout und zwei LinearLayouts.</li>
+<li>Du erklärst, warum <code>0dp</code> im ConstraintLayout etwas anderes bedeutet als im LinearLayout.</li>
+<li>Du verteilst mehrere Buttons gleichmässig über die Breite.</li>
+<li>Du setzt einen Rand um den ganzen Bildschirm und weisst, warum er im XML allein nicht wirkt.</li>
+<li>Du prüfst deinen Bildschirm im Querformat und benennst, was dort bricht.</li>
+</ul>
+
+<h3>Das brauchst du vorher</h3>
+<ul>
+<li>Android Studio läuft, der Emulator ist gestartet. Aus dem Vorbereitungsauftrag.</li>
+<li>Du hast 01C gemacht und kennst <code>findViewById</code> und Klickbehandlung.</li>
+<li>Du hast in 02A die drei Unterlagen durchgearbeitet: Wie Apps aufgebaut sind, Layouts verstehen, Constraints verstehen.</li>
+</ul>
+
+<h3>Das gibst du ab</h3>
+<ul>
+<li>Screenshot deines Bildschirms im Hochformat, mit deinem eigenen Vornamen im Feld Vorname.</li>
+<li>Screenshot desselben Bildschirms im Querformat.</li>
+<li>Den ausgefüllten <b>02B Check - Wissenscheck Formular bauen</b>.</li>
+</ul>
+<p>Mehr nicht. Kein Arbeitsblatt und <b>kein Projekt als ZIP</b>. Dein Produkt ist der laufende Bildschirm. Ob dein XML dahinter sauber ist, prüfst du selbst mit der Vergleichsliste im Lösungsmaterial.</p>
+
+<div class="info">
+<p><b>Warum dieser Bildschirm.</b> Er ist kein Beispiel, das du nachher wegwirfst. Genau diese Form, also Eingabefelder oben und eine Buttonreihe unten, baust du am Tag 4 wieder, dann für eine Quizfrage. Und in der Leistungsbeurteilung baust du sie ein drittes Mal. Wer diese Form einmal von Hand gebaut hat, baut sie beim zweiten Mal in zehn Minuten.</p>
+</div>
+
+
+<h2>02 Auftrag</h2>
+
+<h3>Ausgangslage</h3>
+<p>Du baust einen Bildschirm zur Erfassung einer Person. Oben stehen drei Eingabefelder mit Beschriftung. Unten kleben vier Buttons am unteren Rand, alle gleich breit. Dazwischen liegt ein Trennstreifen.</p>
+<p>Der Bildschirm macht noch nichts. Kein Klick tut etwas. Das ist Absicht. Heute geht es nur um das Layout.</p>
+
+<h3>Werkzeugkasten</h3>
+<p>Das sind alle Bausteine, die du für diesen Auftrag brauchst. Mehr nicht.</p>
+<table>
+<tr><th>Baustein</th><th>Wofür</th></tr>
+<tr><td class="pre">ConstraintLayout</td><td>Der Wurzelcontainer. Kinder werden mit Constraints an Kanten geheftet</td></tr>
+<tr><td class="pre">LinearLayout</td><td>Container, der seine Kinder stur untereinander oder nebeneinander stellt</td></tr>
+<tr><td class="pre">TextView</td><td>Beschriftung</td></tr>
+<tr><td class="pre">EditText</td><td>Eingabefeld</td></tr>
+<tr><td class="pre">View</td><td>Ein Rechteck ohne Inhalt. Hier der Trennstreifen</td></tr>
+<tr><td class="pre">Button</td><td>Schaltfläche</td></tr>
+</table>
+
+<p>Welche Angaben Pflicht sind:</p>
+<table>
+<tr><th>Angabe</th><th>Pflicht bei</th><th>Bemerkung</th></tr>
+<tr><td class="pre">android:id</td><td>jedem Element, das du im Code brauchst oder das als Anker dient</td><td>Namenskonvention siehe unten</td></tr>
+<tr><td class="pre">android:layout_width</td><td>jedem Element</td><td>immer</td></tr>
+<tr><td class="pre">android:layout_height</td><td>jedem Element</td><td>immer</td></tr>
+<tr><td class="pre">app:layout_constraint...</td><td>jedem direkten Kind des ConstraintLayout</td><td>mindestens eine waagrechte und eine senkrechte</td></tr>
+<tr><td class="pre">android:orientation</td><td>jedem LinearLayout</td><td>ohne Angabe nimmt Android waagrecht an</td></tr>
+<tr><td class="pre">android:inputType</td><td>jedem EditText</td><td>bestimmt die Tastatur</td></tr>
+</table>
+
+<h3>Namen der Controls</h3>
+<p>Im Modul 335 gilt eine feste Regel. Der Klassenname des Controls bestimmt das Präfix.</p>
+<ul>
+<li>Zusammengesetzter Name, also mehrere Wörter: erster Buchstabe jedes Wortes. <code>TextView</code> wird <code>tv</code>, <code>EditText</code> wird <code>et</code>, <code>LinearLayout</code> wird <code>ll</code>.</li>
+<li>Ein Wort: die übliche Dreibuchstaben-Abkürzung. <code>Button</code> wird <code>btn</code>, <code>View</code> wird <code>vw</code>.</li>
+</ul>
+<p>Bezeichner sind englisch, sichtbare Texte deutsch. Also <code>btnCancel</code> mit der Beschriftung "Abbrechen".</p>
+
+<h3>Denkfragen</h3>
+<p>Denk kurz darüber nach, bevor du anfängst. Abgeben musst du hier nichts. Es geht nicht um richtig oder falsch, sondern darum, dass du eine Erwartung hast, bevor du loslegst.</p>
+<ol>
+<li>Ein Element soll genau so breit sein wie der Bildschirm. Im LinearLayout schreibst du <code>match_parent</code>. Im ConstraintLayout schreibst du <code>0dp</code>. Warum kann <code>match_parent</code> im ConstraintLayout nicht dasselbe leisten?</li>
+<li>Der Trennstreifen ist eine <code>View</code> ohne jeden Inhalt. Warum braucht er trotzdem eine Höhe?</li>
+<li>Vier Buttons sollen gleich breit sein, egal wie lang ihre Beschriftung ist. Welche zwei Angaben brauchst du dafür zusammen?</li>
+<li>Du setzt im XML einen Rand um den ganzen Bildschirm und siehst nach dem Start keinen Unterschied. Wo suchst du zuerst?</li>
+</ol>
+
+<div class="tip">
+<p><b>Diese vier Fragen kommen im Wissenscheck wieder.</b> Dort bekommst du zu jeder Antwort sofort eine Rückmeldung. Dasselbe gilt für das, was du in B2 und C4 beobachtest. Wer hier kurz nachdenkt und dort genau hinschaut, hat den Wissenscheck in fünf Minuten durch.</p>
+</div>
+
+
+<h3>Teil A, Projekt und Formularbereich <span class="time">25 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">A1</span><b>Neues Projekt anlegen.</b></p>
+<table>
+<tr><td>Vorlage</td><td class="pre">Empty Views Activity</td></tr>
+<tr><td>Name</td><td class="pre">M335 Formular</td></tr>
+<tr><td>Paket</td><td class="pre">ch.wiss.m335.formular</td></tr>
+<tr><td>Sprache</td><td class="pre">Java</td></tr>
+<tr><td>Minimum SDK</td><td class="pre">API 26</td></tr>
+<tr><td>Build configuration language</td><td class="pre">Kotlin DSL (build.gradle.kts)</td></tr>
+</table>
+<p><b>Achtung bei der Vorlage.</b> <code>Empty Activity</code> und <code>Empty Views Activity</code> stehen direkt nebeneinander. Du brauchst die mit <b>Views</b>. Die andere ist Compose und hat kein XML-Layout.</p>
+<p>Warte, bis der Gradle Sync unten fertig ist. Das dauert ein bis drei Minuten. Fang nicht vorher an zu tippen.</p>
+</div>
+
+<div class="step">
+<p><span class="n">A2</span><b>Die Hello-World-TextView entfernen.</b></p>
+<p>Öffne <code>app/src/main/res/layout/activity_main.xml</code> und wechsle oben rechts auf <b>Code</b>. Lösche die ganze <code>&lt;TextView ... /&gt;</code>. Der Wurzelknoten bleibt stehen. Er heisst <code>androidx.constraintlayout.widget.ConstraintLayout</code> und hat die id <code>main</code>.</p>
+<p>Diese id <code>main</code> brauchst du später noch. Merke sie dir.</p>
+</div>
+
+<div class="step">
+<p><span class="n">A3</span><b>Den Formularbereich anlegen.</b></p>
+<p>Setze in das ConstraintLayout ein LinearLayout. Es hält die drei Feldpaare untereinander.</p>
+<pre>&lt;<span class="t">LinearLayout</span>
+    android:id=<span class="s">"@+id/llForm"</span>
+    android:layout_width=<span class="s">"0dp"</span>
+    android:layout_height=<span class="s">"wrap_content"</span>
+    android:orientation=<span class="s">"vertical"</span>
+    app:layout_constraintTop_toTopOf=<span class="s">"parent"</span>
+    app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
+    app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span> &gt;
+
+    <span class="c">&lt;!-- hier kommen die Feldpaare hinein --&gt;</span>
+
+&lt;/<span class="t">LinearLayout</span>&gt;</pre>
+<p><b>Lies die Breite genau.</b> <code>0dp</code> heisst hier nicht "null breit". Im ConstraintLayout heisst <code>0dp</code>: spann dich zwischen deine beiden waagrechten Constraints. Die sind Start an Start und Ende an Ende des Elters. Also über die ganze Breite.</p>
+</div>
+
+<div class="step">
+<p><span class="n">A4</span><b>Das erste Feldpaar. Diesen Block bekommst du vorgegeben.</b></p>
+<pre>&lt;<span class="t">TextView</span>
+    android:id=<span class="s">"@+id/tvFirstName"</span>
+    android:layout_width=<span class="s">"match_parent"</span>
+    android:layout_height=<span class="s">"wrap_content"</span>
+    android:text=<span class="s">"Vorname"</span> /&gt;
+
+&lt;<span class="t">EditText</span>
+    android:id=<span class="s">"@+id/etFirstName"</span>
+    android:layout_width=<span class="s">"match_parent"</span>
+    android:layout_height=<span class="s">"wrap_content"</span>
+    android:inputType=<span class="s">"textPersonName"</span>
+    android:hint=<span class="s">"Vorname"</span> /&gt;</pre>
+<p>Hier steht <code>match_parent</code>, und das ist richtig. Du bist jetzt <b>im LinearLayout</b>, nicht mehr direkt im ConstraintLayout. Im LinearLayout gibt es keine Constraints, dort heisst "so breit wie der Container" eben <code>match_parent</code>.</p>
+<p>Das gelbe Warndreieck bei <code>android:text="Vorname"</code> ist normal. Android Studio hätte gern eine String-Ressource. Das ist heute kein Thema.</p>
+</div>
+
+<div class="step">
+<p><span class="n">A5</span><b>Die zwei weiteren Feldpaare. Ab hier selbst.</b></p>
+<table>
+<tr><th>Beschriftung</th><th>id TextView</th><th>id EditText</th><th class="pre">inputType</th><th class="pre">hint</th></tr>
+<tr><td>Nachname</td><td class="pre">tvLastName</td><td class="pre">etLastName</td><td class="pre">textPersonName</td><td>Nachname</td></tr>
+<tr><td>Geburtsdatum</td><td class="pre">tvBirthDate</td><td class="pre">etBirthDate</td><td class="pre">date</td><td>dd.mm.yyyy</td></tr>
+</table>
+<p>Bau sie nach dem Muster von A4. Die Reihenfolge ist Beschriftung, dann Feld, dann Beschriftung, dann Feld.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil A.</b></p>
+<ul>
+<li>Die App startet. Oben stehen drei Beschriftungen mit je einem Feld darunter.</li>
+<li>Die Felder gehen über die ganze Breite, links und rechts klebt alles am Bildschirmrand. Das sieht noch hässlich aus. Das ist im Moment richtig so, den Rand baust du in Teil C.</li>
+<li>Du tippst ins Feld Vorname. Die Tastatur zeigt Buchstaben.</li>
+<li>Du tippst ins Feld Geburtsdatum. Die Tastatur zeigt <b>Zahlen</b>. Wenn dort Buchstaben kommen, stimmt dein <code>inputType</code> nicht.</li>
+<li>Du tippst deinen eigenen Vornamen ins erste Feld.</li>
+</ul>
+</div>
+
+
+<h3>Teil B, Trennstreifen und Buttonreihe <span class="time">18 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">B1</span><b>Die Buttonreihe unten anheften.</b></p>
+<p>Ein zweites LinearLayout, diesmal waagrecht, geklebt an den unteren Rand.</p>
+<pre>&lt;<span class="t">LinearLayout</span>
+    android:id=<span class="s">"@+id/llButtons"</span>
+    android:layout_width=<span class="s">"0dp"</span>
+    android:layout_height=<span class="s">"wrap_content"</span>
+    android:orientation=<span class="s">"horizontal"</span>
+    app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
+    app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span>
+    app:layout_constraintBottom_toBottomOf=<span class="s">"parent"</span>&gt;
+
+&lt;/<span class="t">LinearLayout</span>&gt;</pre>
+<p>Beachte: keine Constraint nach oben. Das Element hängt nur unten. Genau darum bleibt es unten kleben, egal wie lang das Formular oben wird.</p>
+</div>
+
+<div class="step">
+<p><span class="n">B2</span><b>Vier Buttons hinein. Zuerst absichtlich falsch.</b></p>
+<p>Schreib alle vier Buttons mit <code>wrap_content</code>. Ja, wirklich. Du machst das gleich wieder rückgängig, aber du sollst zuerst sehen, was passiert.</p>
+<pre>&lt;<span class="t">Button</span>
+    android:id=<span class="s">"@+id/btnCancel"</span>
+    android:layout_width=<span class="s">"wrap_content"</span>
+    android:layout_height=<span class="s">"wrap_content"</span>
+    android:layout_weight=<span class="s">"1"</span>
+    android:maxLines=<span class="s">"1"</span>
+    android:textSize=<span class="s">"11sp"</span>
+    android:text=<span class="s">"Abbrechen"</span> /&gt;</pre>
+<table>
+<tr><th>id</th><th>Beschriftung</th></tr>
+<tr><td class="pre">btnCancel</td><td>Abbrechen</td></tr>
+<tr><td class="pre">btnExtend</td><td>Erweitern</td></tr>
+<tr><td class="pre">btnCreate</td><td>Erstellen</td></tr>
+<tr><td class="pre">btnDelete</td><td>Löschen</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Zwei Zeilen, die du hier zum ersten Mal siehst.</b> <code>android:maxLines="1"</code> verbietet dem Button, seine Beschriftung auf zwei Zeilen zu brechen. <code>android:textSize="11sp"</code> macht die Schrift kleiner. Beides brauchst du, sobald Buttons nebeneinander stehen. Warum, steht im Kasten unter B3.</p>
+</div>
+<p>Starte die App und schau dir die Reihe an. <b>Sag in einem Satz, was du siehst.</b> Genau danach fragt der Wissenscheck. Wer hier nur schnell weiterklickt, rät dort.</p>
+</div>
+
+<div class="step">
+<p><span class="n">B3</span><b>Jetzt richtig.</b></p>
+<p>Ändere bei allen vier Buttons <code>android:layout_width</code> von <code>wrap_content</code> auf <code>0dp</code>. Sonst nichts.</p>
+<p>Starte erneut. Vergleiche mit deinem Satz aus B2.</p>
+<div class="tip">
+<p><b>Was hier passiert.</b> <code>layout_weight</code> verteilt den <b>übrigen</b> Platz. Mit <code>wrap_content</code> nimmt sich jeder Button zuerst so viel, wie sein Text braucht, und erst der Rest wird verteilt. "Abbrechen" ist lang, "Löschen" ist kurz, also werden die Buttons unterschiedlich breit. Mit <code>0dp</code> fordert kein Button vorab Platz an. Dann wird die ganze Breite nach dem Gewicht verteilt, und alle vier werden exakt gleich breit.</p>
+</div>
+
+<div class="warn">
+<p><b>Warum die Schrift hier auf 11sp steht.</b> Rechne kurz mit. Ein Medium Phone ist rund 400 dp breit. Ein Button reserviert innen links und rechts Polster für sich selbst, zusammen etwa 50 dp.</p>
+<table>
+<tr><th>Buttons in der Reihe</th><th>Breite pro Button</th><th>Bleibt für den Text</th></tr>
+<tr><td>drei</td><td>rund 133 dp</td><td>rund 83 dp</td></tr>
+<tr><td>vier</td><td>rund 100 dp</td><td>rund 50 dp</td></tr>
+<tr><td>fünf</td><td>rund 80 dp</td><td>rund 30 dp</td></tr>
+</table>
+<p>"Abbrechen" ist mit neun Buchstaben das längste Wort in deiner Reihe. Es braucht bei 14sp rund 63 dp, bei 13sp rund 58, bei 11sp knapp 50. Bei vier Buttons stehen 50 dp zur Verfügung.</p>
+<p>Darum bricht es bei der Vorgabe 14sp um und Android trennt mitten im Wort. Aus <b>Abbrechen</b> wird <b>Abbrech</b> und darunter <b>en</b>. Mit 11sp passt es.</p>
+</div>
+
+<div class="note">
+<p><b>Es passt knapp auf Kante, und das ist eine Schwäche.</b> Die Einheit <code>sp</code> bedeutet "scale-independent pixel". Sie skaliert mit der Schriftgrösse, die der Benutzer in den Systemeinstellungen gewählt hat. Wer dort auf die grösste Schrift stellt, bekommt aus deinen 11sp effektiv das Doppelte. Dann bricht deine Reihe wieder um, obwohl du nichts geändert hast.</p>
+<p>Probier es aus, es dauert eine Minute. Im Emulator unter <code>Settings</code>, dann <code>Display</code>, dann <code>Display size and text</code>. Zieh den Regler für die Schriftgrösse nach rechts und schau dir deine App nochmals an.</p>
+<p>Deine Beschriftungen sind das Problem, nicht die Anzahl der Buttons.</p>
+</div>
+
+<div class="tip">
+<p><b>Wie andere Apps vier und mehr unterbringen.</b> YouTube hat unten fünf Elemente: Home, Shorts, das Plus, Abos und Du. Bei fünf bleiben rund 30 dp pro Element für den Inhalt, und trotzdem passt es.</p>
+<table>
+<tr><th>Was drin steht</th><th>Braucht etwa</th><th>Passt in 30 bis 50 dp</th></tr>
+<tr><td>Nur ein Icon</td><td>24 dp</td><td>ja, mit Luft</td></tr>
+<tr><td>Ein kurzes Wort wie Neu, Abo oder Du</td><td>20 bis 30 dp</td><td>ja</td></tr>
+<tr><td>Ein Icon <b>über</b> einem kurzen Wort</td><td>rund 30 dp Breite, dafür mehr Höhe</td><td>ja, weil beide untereinander stehen</td></tr>
+<tr><td>Ein Icon <b>neben</b> einem kurzen Wort</td><td>24 plus 30 plus Abstand</td><td>nein</td></tr>
+<tr><td>Ein langes Wort wie Abbrechen</td><td>50 bis 63 dp</td><td>nur ganz knapp, und nur bei kleiner Schrift</td></tr>
+</table>
+<p>Also: die Anzahl ist nicht die Grenze. Der Platz pro Element ist die Grenze, und der Inhalt muss hineinpassen. Wer vier oder fünf Aktionen braucht, nimmt Icons, kürzere Wörter, oder stapelt Icon und Wort übereinander. Wären es bei YouTube fünfmal "Abbrechen", bräche es genauso wie bei dir mit 14sp.</p>
+<p>Wir bleiben heute bei Text ohne Icons, weil es in diesem Auftrag um Constraints und Gewichte geht. Icons kommen später.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">B4</span><b>Der Trennstreifen.</b></p>
+<p>Ein Rechteck ohne Inhalt, direkt über der Buttonreihe.</p>
+<pre>&lt;<span class="t">View</span>
+    android:id=<span class="s">"@+id/vwDivider"</span>
+    android:layout_width=<span class="s">"0dp"</span>
+    android:layout_height=<span class="s">"5dp"</span>
+    android:layout_marginBottom=<span class="s">"8dp"</span>
+    android:background=<span class="s">"#79747E"</span>
+    app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
+    app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span>
+    app:layout_constraintBottom_toTopOf=<span class="s">"@id/llButtons"</span> /&gt;</pre>
+<p>Zwei Dinge sind neu.</p>
+<ul>
+<li>Die Höhe ist <b>fix</b> auf <code>5dp</code>. <code>wrap_content</code> ginge nicht, denn es gibt keinen Inhalt, um den herum gewickelt werden könnte. Der Streifen wäre unsichtbar.</li>
+<li>Der untere Anker zeigt nicht auf <code>parent</code>, sondern auf ein <b>Geschwisterelement</b>: <code>@id/llButtons</code>. Beachte, hier steht <code>@id</code> ohne Plus. Das Plus setzt eine id neu, ohne Plus wird auf eine bestehende verwiesen.</li>
+</ul>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil B.</b></p>
+<ul>
+<li>Vier Buttons kleben am unteren Bildschirmrand.</li>
+<li>Alle vier sind <b>gleich breit</b>. Halte ein Lineal oder einen Zettel an den Bildschirm, wenn du unsicher bist.</li>
+<li>Über den Buttons liegt ein grauer Streifen mit etwas Abstand darunter.</li>
+<li>Der Streifen geht über die ganze Breite.</li>
+<li>Keine Beschriftung steht auf zwei Zeilen. Aus Abbrechen wird nicht Abbrech und darunter en.</li>
+<li>Du kannst in einem Satz sagen, was in B2 anders aussah als in B3.</li>
+</ul>
+</div>
+
+
+<h3>Teil C, Rand und Querformat <span class="time">12 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">C1</span><b>Rand setzen, so wie man es erwarten würde.</b></p>
+<p>Gib dem Wurzelknoten <code>ConstraintLayout</code> die Zeile:</p>
+<pre>android:padding=<span class="s">"5dp"</span></pre>
+<p>Starte die App. <b>Schau genau hin.</b> Ändert sich etwas?</p>
+</div>
+
+<div class="step">
+<p><span class="n">C2</span><b>Die Ursache finden.</b></p>
+<p>Es ändert sich nichts. Dein XML ist nicht falsch. Es wird überschrieben.</p>
+<p>Öffne <code>MainActivity.java</code>. Dort steht ein Block, den die Vorlage erzeugt hat:</p>
+<pre><span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -&gt; {
+    <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.Type.systemBars());
+    v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+    <span class="k">return</span> insets;
+});</pre>
+<p>Lies die Zeile mit <code>setPadding</code>. Sie setzt das Padding auf genau die Werte der Systemleisten. Sie <b>addiert nichts</b>, sie <b>ersetzt</b>. Und sie läuft, nachdem das XML geladen ist. Damit ist dein <code>5dp</code> weg.</p>
+<div class="info">
+<p><b>Warum es diesen Block überhaupt gibt.</b> Seit Android 15 zeichnet das System bis unter die Statusleiste oben und die Navigationsleiste unten. Ohne diesen Block läge deine oberste Beschriftung teilweise unter der Uhr. Der Block ist also nicht im Weg, er löst ein echtes Problem. Er hat nur eine Nebenwirkung.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">C3</span><b>Den Rand dort setzen, wo er wirkt.</b></p>
+<p>Nimm die Zeile <code>android:padding="5dp"</code> aus dem XML wieder heraus. Sie ist wirkungslos und damit irreführend.</p>
+<p>Erweitere stattdessen den Java-Block so, dass zu jeder Seite dein eigener Rand dazukommt.</p>
+<pre><span class="k">final</span> <span class="k">int</span> extraPadding = <span class="t">Math</span>.round(<span class="s">5</span> * getResources().getDisplayMetrics().density);</pre>
+<p>Diese Zeile setzt du <b>vor</b> den Listener. Danach benutzt du <code>extraPadding</code> in <code>setPadding</code> und addierst ihn zu jedem der vier Werte. Den genauen Aufruf schreibst du selbst.</p>
+<div class="warn">
+<p><b>Warum die Rechnung mit <code>density</code> nötig ist.</b> Im XML schreibst du <code>dp</code>, und Android rechnet für dich um. In Java nimmt <code>setPadding</code> aber <b>Pixel</b>. Würdest du dort einfach <code>5</code> schreiben, wären das 5 echte Pixel. Auf einem heutigen Telefon mit hoher Auflösung ist das ein Rand, den man nicht sieht. <code>density</code> ist der Umrechnungsfaktor des Geräts. Auf einem Medium Phone liegt er bei 2.75, aus 5 dp werden also rund 14 Pixel.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">C4</span><b>Querformat prüfen.</b></p>
+<p>Dreh den Emulator. Der Knopf dafür ist in der Leiste rechts neben dem Emulator, oder mit der Tastenkombination <code>Strg</code> und <code>F11</code>.</p>
+<p>Falls sich nichts dreht: in den Emulator-Einstellungen unter <b>Settings</b> muss <b>Auto-rotate screen</b> eingeschaltet sein.</p>
+<p><b>Schau genau hin.</b> Passt noch alles auf den Bildschirm? Überlappt etwas? Ist noch alles erreichbar? Auch danach fragt der Wissenscheck.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil C.</b></p>
+<ul>
+<li>Die Zeile <code>android:padding</code> steht nicht mehr im XML.</li>
+<li>Im Hochformat ist links und rechts ein schmaler Rand sichtbar. Die Felder kleben nicht mehr am Bildschirmrand.</li>
+<li>Oben liegt nichts unter der Uhr, unten nichts unter der Navigationsleiste.</li>
+<li>Du kannst in einem Satz sagen, was im Querformat bricht.</li>
+</ul>
+</div>
+
+
+<h3>Übungen <span class="time">10 Minuten</span></h3>
+<p>Ohne Vorlage. Die Lösungen findest du im Classroom-Material <b>02B Loesung - Formular bauen</b>. Schau erst hinein, wenn du es selbst versucht hast.</p>
+
+<div class="ue">
+<div class="t">Übung 1, ein viertes Feld</div>
+<p>Ergänze unter dem Geburtsdatum ein Feldpaar für den Wohnort. Die Tastatur soll für eine Adresse passen.</p>
+<p><b>So prüfst du:</b> Die vierte Beschriftung steht unter dem Geburtsdatum, das Feld ist gleich breit wie die anderen drei.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 2, der Streifen wird dünn</div>
+<p>Ändere den Trennstreifen auf 1 dp Höhe und gib ihm zusätzlich 8 dp Abstand nach oben.</p>
+<p><b>So prüfst du:</b> Der Streifen ist ein feiner Strich. Zwischen Streifen und Buttons ist Luft, und darüber auch.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 3, das Geburtsdatum begrenzen</div>
+<p>Im Feld Geburtsdatum sollen höchstens zehn Zeichen eingetippt werden können. Finde die passende Angabe selbst.</p>
+<p><b>So prüfst du:</b> Du tippst 15 Ziffern. Nach der zehnten nimmt das Feld nichts mehr an.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 4, erklären</div>
+<p>Erkläre einem Lerngspänli in eigenen Worten, warum <code>android:layout_width="0dp"</code> im ConstraintLayout etwas völlig anderes bedeutet als im LinearLayout. Nimm dein eigenes Layout als Beispiel und zeig auf beide Stellen.</p>
+<p><b>So prüfst du:</b> Dein Gegenüber kann die Frage danach selbst beantworten, ohne nachzuschauen.</p>
+</div>
+
+
+<h3>Zusatzaufgabe für Schnelle</h3>
+<div class="tip">
+<p>Zuerst die Pflichtaufgabe fertig und lauffähig. Dann erst hier weiter.</p>
+<p><b>Auftrag:</b> Sorg dafür, dass dein Formular auch im Querformat vollständig bedienbar bleibt. Alle Felder müssen erreichbar sein, die Buttons dürfen die Felder nicht verdecken.</p>
+<p><b>Und die Frage, die dazugehört:</b> Nach deiner Lösung, bleibt die Buttonreihe im Querformat immer noch unten kleben, oder scrollt sie mit weg? Begründe, warum es so ist, und ob das für einen Benutzer besser oder schlechter ist.</p>
+<p>Keine Musterlösung. Es gibt mehrere richtige Wege. KI darfst du benutzen, aber du musst deine Lösung erklären können.</p>
+</div>
+
+
+<h3>Wenn etwas nicht funktioniert</h3>
+<table>
+<tr><th>Das siehst du</th><th>Ursache</th><th>Das machst du</th></tr>
+<tr><td>Alles liegt oben links übereinander</td><td>Einem Kind des ConstraintLayout fehlt eine Constraint</td><td>Jedes direkte Kind braucht mindestens eine waagrechte und eine senkrechte Constraint</td></tr>
+<tr><td>Rot: <code>cannot resolve symbol '@id/llButtons'</code></td><td>Der Verweis steht im XML vor der Stelle, an der die id vergeben wird, oder die id ist anders geschrieben</td><td>Schreibweise vergleichen. Beim Vergeben steht <code>@+id/</code>, beim Verweisen <code>@id/</code></td></tr>
+<tr><td>Die Buttons sind unterschiedlich breit</td><td><code>layout_width</code> steht auf <code>wrap_content</code></td><td>Auf <code>0dp</code> ändern. Siehe B3</td></tr>
+<tr><td>Eine Beschriftung steht auf zwei Zeilen, mitten im Wort getrennt</td><td>Der Text ist breiter als der Platz, der dem Button bleibt</td><td><code>android:maxLines="1"</code> und <code>android:textSize="11sp"</code> setzen. Reicht das nicht, ist ein Button zu viel in der Reihe. Siehe der Kasten unter B3</td></tr>
+<tr><td>Die Beschriftung ist am Ende abgeschnitten</td><td><code>maxLines</code> wirkt, aber der Platz reicht trotzdem nicht</td><td>Kürzere Beschriftung wählen oder einen Button weniger. Abschneiden ist keine Lösung, der Benutzer liest dann Unsinn</td></tr>
+<tr><td>Der Trennstreifen ist nicht zu sehen</td><td>Höhe steht auf <code>wrap_content</code> oder es fehlt <code>android:background</code></td><td>Feste Höhe setzen und eine Farbe geben</td></tr>
+<tr><td>Die Buttonreihe steht mitten im Bild</td><td>Es gibt eine Constraint nach oben</td><td>Die obere Constraint entfernen. Nur unten anheften</td></tr>
+<tr><td>Das Padding im XML wirkt nicht</td><td>Der Insets-Listener überschreibt es</td><td>Siehe C2 und C3</td></tr>
+<tr><td>Die oberste Beschriftung liegt unter der Uhr</td><td>Der Insets-Block wurde gelöscht</td><td>Wieder einsetzen. Er ist kein Beiwerk</td></tr>
+<tr><td>Die Zahlen-Tastatur kommt beim falschen Feld</td><td><code>inputType</code> vertauscht</td><td>Nur <code>etBirthDate</code> hat <code>date</code></td></tr>
+<tr><td>Beim Start: <code>Unable to start activity</code> mit <code>InflateException</code></td><td>Das XML ist kaputt, meist ein fehlender schliessender Tag</td><td>Stacktrace lesen, drei Schritte aus 01B. Die Zeilennummer steht in der Meldung</td></tr>
+</table>
+
+<h3>Abgabe</h3>
+<p>Alles läuft über die Aufgabe <b>02B Auftrag - Formular bauen</b> in Google Classroom.</p>
+<ol>
+<li>Screenshot im Hochformat, mit deinem eigenen Vornamen im Feld Vorname.</li>
+<li>Screenshot im Querformat.</li>
+<li>Danach den <b>02B Check</b> ausfüllen.</li>
+</ol>
+
+
+<h2>03 Guide</h2>
+<table>
+<tr><td>Zeitbudget</td><td>65 Minuten. Teil A 25, Teil B 18, Teil C 12, Übungen 10</td></tr>
+<tr><td>Sozialform</td><td>Einzelarbeit. Bei den Denkfragen und Übung 4 zu zweit</td></tr>
+<tr><td>Aufgabenart</td><td>Geführter Aufbau mit zwei Entdeckungsstellen (B2 gegen B3, C1 gegen C2)</td></tr>
+<tr><td>Voraussetzung</td><td>Vorbereitungsauftrag, 01B, 01C, 02A mit den drei Unterlagen</td></tr>
+<tr><td>KI</td><td>In Teil A bis C <b>nicht</b> erlaubt. Bei den Übungen und der Zusatzaufgabe erlaubt</td></tr>
+<tr><td>Abgabe</td><td>Zwei Screenshots, dazu der Wissenscheck. <b>Kein Arbeitsblatt und kein ZIP</b></td></tr>
+</table>
+
+<h3>Die drei Beiträge in Google Classroom</h3>
+<table>
+<tr><th>Name</th><th>Typ</th><th>Einstellung</th></tr>
+<tr><td>02B Auftrag - Formular bauen</td><td>Aufgabe</td><td>Ohne angehängte Datei zum Kopieren. Dieses Dokument liegt als Anhang bei, nur zum Ansehen. Abgegeben werden zwei Screenshots</td></tr>
+<tr><td>02B Check - Wissenscheck Formular bauen</td><td>Aufgabe mit Quiz</td><td>Unbenotet, beliebig oft wiederholbar. Sieben Fragen</td></tr>
+<tr><td>02B Loesung - Formular bauen</td><td>Material</td><td>Schüler können Datei ansehen. Enthält den vollständigen Code als Text und die Vergleichsliste</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Warum es hier kein Arbeitsblatt gibt.</b> Das Produkt dieses Auftrags ist ein laufender Bildschirm, kein Papier. Was die Lernenden schriftlich zeigen müssen, also die vier Denkfragen und die zwei Beobachtungen aus B2 und C4, steckt vollständig im Wissenscheck. Damit gibt es sofortige Rückmeldung und für dich null Korrekturaufwand. Ein Arbeitsblatt gibt es nur dort, wo das Produkt selbst auf Papier entsteht, also bei User Stories, Mockups, Datenmodell und Testfall.</p>
+</div>
+
+
+<h2>04 Unterrichtsmittel</h2>
+<table>
+<tr><th>Art</th><th>Was</th></tr>
+<tr><td>Hardware</td><td>Eigenes Notebook, laufender Emulator Medium Phone API 36.1</td></tr>
+<tr><td>Software und Tools</td><td>Android Studio Quail 2, Patch 1</td></tr>
+<tr><td>Dokumente</td><td>Wie Apps aufgebaut sind, Layouts verstehen, Constraints verstehen. Alle im Classroom-Thema 90 Nachschlagen</td></tr>
+<tr><td>Buch</td><td>Android-Apps entwickeln für Einsteiger, Kapitel 4.4 Buttons</td></tr>
+</table>
+
+
+<h2>05 Evaluation</h2>
+
+<h3>Was diese Aufgabe wirklich prüft</h3>
+<p>Nicht das Tippen. Das Layout steht grösstenteils vorgegeben da. Geprüft wird, ob jemand B2 gegen B3 und C1 gegen C2 wirklich angeschaut hat. Beides fragt der Wissenscheck ab, mit den häufigsten Fehlbeobachtungen als falsche Antworten. Wer die zwei Stellen überspringt, rät dort und merkt es selbst.</p>
+
+<h3>Worauf du beim Rundgang achtest</h3>
+<ul>
+<li><b>Minute 10.</b> Läuft bei allen der Gradle Sync durch? Wer bei Minute 10 noch kein leeres Projekt hat, setzt sich zu jemandem dazu.</li>
+<li><b>Minute 25.</b> Steht bei allen der Formularbereich? Häufigster Fehler hier: <code>match_parent</code> statt <code>0dp</code> beim <code>llForm</code>.</li>
+<li><b>Minute 45.</b> B2 gegen B3 ist die wichtigste Stelle des Auftrags. Frag zwei Lernende, was sie gesehen haben. Wer B2 übersprungen hat, hat den Punkt nicht.</li>
+<li><b>Minute 55.</b> C2 ist die zweite. Wer hier nur die Lösung abtippt, ohne den Grund zu sehen, wird am Tag 4 dasselbe Problem wieder haben.</li>
+</ul>
+
+<h3>Bewertung</h3>
+<p>Formativ. Es geht um die Abgabe, nicht um Punkte. Der eigentliche Nachweis sind die zwei Wissenscheck-Fragen zu B2 und C4, nicht der Screenshot.</p>
+
+<p class="foot">Modul 335 Block 02, Auftrag 02B. Fassung 2 vom 08.08.2026. Lösungen im Material 02B Loesung - Formular bauen. Antworten zu den Denkfragen ebenfalls dort.</p>
+
+</div>
+</body>
+</html>

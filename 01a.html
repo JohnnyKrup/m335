@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>01A Mobile Applikationen</title>
+<style>
+  :root{
+    --bg:#f9f9f7; --surface:#fcfcfb; --fg:#0b0b0b; --ink2:#52514e; --muted:#898781;
+    --line:#e1e0d9; --rule:#c3c2b7;
+    --acc:#2a78d6; --acc-bg:#e8f0f8;
+    --good:#0ca30c; --ok-bg:#e6f2ed;
+    --amber:#b1701c; --amber-bg:#fbf0df;
+    --crit:#d03b3b; --crit-bg:#fbeae7;
+    --vio:#4a3aa7; --vio-bg:#eceaf7;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font:16px/1.62 system-ui,-apple-system,"Segoe UI",sans-serif}
+  .wrap{max-width:920px;margin:0 auto;padding:40px 24px 90px}
+  h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+  .sub{color:var(--ink2);margin:0 0 26px;font-size:15px}
+  h2{font-size:20px;margin:46px 0 12px;padding-top:15px;border-top:2px solid var(--rule);letter-spacing:-.01em}
+  h3{font-size:16.5px;margin:28px 0 8px}
+  h4{font-size:14.5px;margin:20px 0 6px;color:var(--ink2)}
+  p{margin:0 0 12px}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;
+       background:#f0eee9;padding:1px 5px;border-radius:4px}
+  pre{background:#26241f;color:#eae7df;padding:14px 16px;border-radius:10px;overflow-x:auto;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.6px;line-height:1.6;margin:0 0 16px}
+  pre .k{color:#d8a0d0} pre .t{color:#8fc4e8} pre .s{color:#b7d69a} pre .c{color:#8f8a7d}
+  .tip{border-left:3px solid var(--good);background:var(--ok-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .tip b{color:#006300}
+  .note{border-left:3px solid var(--crit);background:var(--crit-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .note b{color:var(--crit)}
+  .warn{border-left:3px solid var(--amber);background:var(--amber-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .warn b{color:var(--amber)}
+  .info{border-left:3px solid var(--acc);background:var(--acc-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .info b{color:var(--acc)}
+  .chk{border-left:3px solid var(--vio);background:var(--vio-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .chk b{color:var(--vio)}
+  table{border-collapse:collapse;width:100%;font-size:14.2px;margin:0 0 16px;background:var(--surface)}
+  th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-weight:600;background:#f3f1ec}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  td.pre,th.pre{font-family:ui-monospace,Menlo,monospace;font-weight:600;color:#3a2d86;white-space:nowrap}
+  ul,ol{margin:0 0 14px;padding-left:22px} li{margin:0 0 7px}
+  .step{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:0 0 16px}
+  .step .n{display:inline-block;background:#26241f;color:#fff;font:600 12px/1 system-ui,sans-serif;
+           padding:5px 9px;border-radius:6px;margin-right:8px}
+  .ue{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 17px;margin:0 0 14px}
+  .ue .t{font-weight:600;margin-bottom:5px}
+  .time{display:inline-block;font:600 11px/1.5 system-ui,sans-serif;padding:2px 8px;border-radius:20px;
+        background:#e4e2f5;color:#3a2d86;border:1px solid #bdb5e0;white-space:nowrap;margin-left:8px}
+  .foot{margin-top:50px;padding-top:16px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>01A Mobile Applikationen</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Block 01. Zeitbudget 45 Minuten.</p>
+<p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
+
+
+<h2>01 Einführung</h2>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>1.3</td><td>Kennt die Eigenschaften unterschiedlicher mobiler Geräte bezüglich Displaygrösse und Ausrichtung und der Eingabeoptionen</td></tr>
+<tr><td>2.3</td><td>Kennt die Besonderheiten der App-Architekturen bezüglich Funktionalitäten, Möglichkeiten und Grenzen der mobilen Devices</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du erklärst, wie sich Mobile Apps in der Programmierung von klassischen Desktop-Anwendungen unterscheiden.</li>
+<li>Du prüfst eine Behauptung an einer echten App, statt sie nur abzuschreiben.</li>
+<li>Du unterscheidest einen guten Beleg von einem schlechten Beleg und begründest den Unterschied.</li>
+<li>Du benennst zu jedem Unterschied die Folge für deinen Code.</li>
+</ul>
+
+<h3>Das brauchst du vorher</h3>
+<ul>
+<li>Dein eigenes Smartphone, mit mindestens drei Apps, die du täglich benutzt.</li>
+<li>Zugang zu einer KI deiner Wahl.</li>
+<li>Zugang zu Google Classroom.</li>
+<li>Android Studio brauchst du hier noch nicht. Es geht heute noch nicht um Code.</li>
+</ul>
+
+<h3>Das gibst du ab</h3>
+<ul>
+<li>Dein ausgefülltes <b>Arbeitsblatt</b>. Das ist die Aufgabe <b>01A Arbeitsblatt - Mobile Applikationen</b> in Google Classroom. Du bekommst dort automatisch deine eigene Kopie.</li>
+<li>Deine Screenshots, nummeriert, als Anhang zur selben Aufgabe.</li>
+<li>Den ausgefüllten <b>01A Check - Wissenscheck Mobile Applikationen</b>.</li>
+</ul>
+<p>Mehr nicht. Dieses Dokument hier gibst du nicht ab. Es ist deine Anleitung und bleibt in Classroom stehen, damit du jederzeit nachschauen kannst.</p>
+
+<div class="info">
+<p><b>Warum dieser Auftrag ganz am Anfang steht.</b> Java kennst du schon. Der Unterschied zwischen einer Desktop-Anwendung und einer App liegt nicht in der Sprache. Er liegt im Gerät. Kleiner Bildschirm, Finger statt Maus, Drehung, Akku, jederzeit eine Unterbrechung. Jede Entscheidung, die du in den nächsten fünf Tagen im Code triffst, hat einen dieser Punkte als Grund. Wer sie heute einmal selbst gesehen hat, versteht später, warum Android so gebaut ist, wie es gebaut ist.</p>
+</div>
+
+
+<h2>02 Auftrag</h2>
+
+<h3>Ausgangslage</h3>
+<p>Eine App zu programmieren ist ähnlich wie eine Desktop-Anwendung zu programmieren. Die Sprache Java kennst du bereits aus anderen Modulen.</p>
+<p>Es gibt aber Unterschiede, die alles verändern. Der Bildschirm ist klein. Bedient wird mit dem Finger, nicht mit der Maus. Das Gerät dreht sich. Der Akku ist begrenzt. Jederzeit kann ein Anruf deine App unterbrechen.</p>
+<p>Wer das nicht berücksichtigt, baut Apps, die nach drei Tagen wieder deinstalliert werden. Ein schönes Design allein reicht nicht.</p>
+
+<div class="warn">
+<p><b>Der Satz, um den es heute geht.</b> Eine Liste dieser Unterschiede bekommst du heute in zwei Minuten von einer KI. Das ist keine Leistung mehr. Die Leistung besteht darin, zu prüfen, ob die Liste stimmt.</p>
+</div>
+
+<h3>Werkzeugkasten</h3>
+<p>Das sind alle Werkzeuge, die du für diesen Auftrag brauchst. Mehr nicht.</p>
+<table>
+<tr><th>Werkzeug</th><th>Wofür</th></tr>
+<tr><td>KI-Chat nach Wahl</td><td>Erzeugt dir in Teil A die Rohliste. Nur dort erlaubt</td></tr>
+<tr><td>Dein eigenes Smartphone</td><td>Liefert die Belege. Der Emulator taugt dafür nicht</td></tr>
+<tr><td>Das Arbeitsblatt</td><td>Dein Formular. Eine Zeile pro Unterschied. Liegt als eigene Aufgabe in Classroom</td></tr>
+<tr><td>Screenshot-Funktion deines Geräts</td><td>Beweist, dass du wirklich hingeschaut hast</td></tr>
+<tr><td>Google Classroom</td><td>Abgabe und Auswertung</td></tr>
+</table>
+
+<p>Welche Angaben auf dem Arbeitsblatt Pflicht sind:</p>
+<table>
+<tr><th>Spalte</th><th>Pflicht</th><th>Bemerkung</th></tr>
+<tr><td>Status</td><td>in jeder Zeile</td><td>KI, WEG oder EIGEN. Die Legende steht auf dem Arbeitsblatt</td></tr>
+<tr><td>Faktor</td><td>in jeder Zeile</td><td>Ein Wort oder zwei, zum Beispiel Bildschirmgrösse</td></tr>
+<tr><td>PC oder Notebook</td><td>in jeder Zeile</td><td>Konkret, mit Zahl wenn möglich</td></tr>
+<tr><td>Smartphone</td><td>in jeder Zeile</td><td>Konkret, mit Zahl wenn möglich</td></tr>
+<tr><td>Einfluss auf die Programmierung</td><td>in jeder Zeile</td><td>Was der Programmierer deswegen anders macht. Nicht was der Benutzer merkt</td></tr>
+<tr><td>Beleg</td><td>in mindestens fünf Zeilen</td><td>App-Name und was dort konkret passiert</td></tr>
+<tr><td>Screenshot Nr.</td><td>in jeder Zeile mit Beleg</td><td>Fortlaufende Nummer, passend zu deinen Bilddateien</td></tr>
+</table>
+
+<h3>Denkfragen <span class="time">3 Minuten</span></h3>
+<p>Denk kurz darüber nach, bevor du anfängst. Abgeben musst du hier nichts. Es geht nicht um richtig oder falsch, sondern darum, dass du eine Erwartung hast, bevor du loslegst.</p>
+<ol>
+<li>Woher weiss eine KI, welche Unterschiede es zwischen PC und Smartphone gibt? Was ist ihre Quelle?</li>
+<li>Du hast eine Liste mit acht Zeilen vor dir. Woran erkennst du, dass eine Zeile davon falsch ist?</li>
+<li>Der Satz "Smartphones haben kleine Bildschirme" ist wahr. Warum ist er trotzdem als Beleg wertlos?</li>
+<li>Nenne einen Unterschied, den du erwartest, den eine KI aber wahrscheinlich nicht nennt. Merk dir deine Vermutung, bevor du fragst.</li>
+</ol>
+
+<div class="tip">
+<p><b>Diese vier Fragen kommen im Wissenscheck wieder.</b> Dort bekommst du zu jeder Antwort sofort eine Rückmeldung. Wer hier kurz nachdenkt, hat den Wissenscheck in drei Minuten durch.</p>
+</div>
+
+
+<h3>Teil A, Liste erzeugen <span class="time">8 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">A1</span><b>Die KI fragen.</b></p>
+<p>Lass dir von einer KI deiner Wahl eine Tabelle erzeugen. Frage nach den Unterschieden zwischen PC und Smartphone und deren Einfluss auf die Programmierung. Verlange mindestens acht Zeilen.</p>
+</div>
+
+<div class="step">
+<p><span class="n">A2</span><b>Übertragen.</b></p>
+<p>Übertrage das Ergebnis in deine Tabelle. Die Spalte Beleg lässt du vorerst leer. Die Spalte Screenshot Nr. ebenfalls.</p>
+<p>Übernimm die Zeilen so, wie die KI sie geliefert hat. Streiche noch nichts. Auch das, was dir seltsam vorkommt, bleibt vorerst stehen.</p>
+</div>
+
+<div class="tip">
+<p><b>KI ist in Teil A ausdrücklich erlaubt und erwünscht.</b> Das ist der einzige Teil, in dem du sie benutzen darfst.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil A.</b></p>
+<ul>
+<li>Deine Tabelle hat mindestens acht Zeilen.</li>
+<li>Jede Zeile hat einen Faktor, einen Wert für PC und einen Wert für Smartphone.</li>
+<li>In jeder Zeile steht etwas in der Spalte Einfluss auf die Programmierung.</li>
+<li>Die Spalten Beleg und Screenshot Nr. sind noch leer.</li>
+</ul>
+</div>
+
+
+<h3>Teil B, Liste überprüfen <span class="time">24 Minuten</span></h3>
+<p>Jetzt kommt die eigentliche Arbeit. Nimm dein Smartphone. Öffne drei Apps, die du täglich benutzt.</p>
+
+<div class="step">
+<p><span class="n">B1</span><b>Belege suchen.</b></p>
+<p>Suche für mindestens fünf Zeilen deiner Tabelle eine echte Stelle in einer echten App, die genau das zeigt. Trage in die Spalte Beleg ein, welche App es ist und was dort konkret passiert. Mach einen Screenshot davon und nummeriere ihn.</p>
+<p>Die Zeilen, die du belegen konntest, bekommen den Status <b>KI</b>.</p>
+</div>
+
+<table>
+<tr><th>Art</th><th>Beispiel</th><th>Warum</th></tr>
+<tr><td>Guter Beleg</td><td>WhatsApp, Eingabefeld. Sobald ich tippe, verdeckt die Tastatur die untere Hälfte des Chats. Die Liste scrollt automatisch nach oben</td><td>Nennt App, Ort und Verhalten. Man könnte es nachstellen</td></tr>
+<tr><td>Schlechter Beleg</td><td>Smartphones haben kleine Bildschirme</td><td>Das ist keine Beobachtung. Das ist die Behauptung noch einmal</td></tr>
+</table>
+
+<div class="step">
+<p><span class="n">B2</span><b>Streichen.</b></p>
+<p>Jede Zeile, die du nicht belegen kannst, bekommt den Status <b>WEG</b>. Auch dann, wenn sie plausibel klingt. Lösch sie nicht. Am Ende soll man sehen, was die KI behauptet hat und was davon übrig blieb.</p>
+</div>
+
+<div class="step">
+<p><span class="n">B3</span><b>Drei Stellen, die du selbst anschaust.</b></p>
+<p>Das sind drei Dinge, die eine KI-Liste fast immer zu flach beschreibt. Schau sie dir auf deinem Telefon an. Jede der drei gibt dir eine neue Zeile für dein Arbeitsblatt.</p>
+<table>
+<tr><th>Was du machst</th><th>Woran du merkst, dass du es hast</th></tr>
+<tr>
+<td><b>Die Drehung.</b> Öffne eine App und dreh dein Telefon um 90 Grad</td>
+<td>Du nennst zwei Dinge, die sich sichtbar ändern, und eine Folge davon für den Code</td>
+</tr>
+<tr>
+<td><b>Die Unterbrechung.</b> Tipp etwas in eine App ein, ohne abzuschicken. Wechsle für eine Minute zu einer anderen App. Geh zurück</td>
+<td>Du kannst sagen, ob deine Eingabe noch da ist. Du hast es bei einer zweiten App wiederholt und den Unterschied notiert</td>
+</tr>
+<tr>
+<td><b>Der Fehlgriff.</b> Finde eine Stelle, an der du dich mit dem Finger vertippst. Zwei Knöpfe zu nah beieinander, oder ein Ziel, das zu klein ist</td>
+<td>Du hast einen Screenshot mit der markierten Stelle. Du kannst sagen, warum es mit der Maus kein Problem wäre</td>
+</tr>
+</table>
+<p>Trag jede der drei als eigene Zeile ein, mit dem Status <b>EIGEN</b>. Ergänze auch alles andere, was dir unterwegs aufgefallen ist und in der KI-Liste fehlt. Diese Zeilen sind die wertvollsten deiner ganzen Abgabe.</p>
+</div>
+
+<div class="note">
+<p><b>In Teil B ist keine KI erlaubt.</b> Hier zählen nur deine eigenen Beobachtungen. Eine KI kann dein Telefon nicht anschauen.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil B.</b></p>
+<ul>
+<li>Mindestens fünf Zeilen haben einen Beleg mit App-Name und konkretem Verhalten.</li>
+<li>Zu jedem Beleg gibt es einen nummerierten Screenshot.</li>
+<li>Kein Beleg wiederholt nur die Behauptung.</li>
+<li>Mindestens eine Zeile hat den Status WEG.</li>
+<li>Mindestens drei Zeilen haben den Status EIGEN, aus den drei Stellen in B3.</li>
+<li>In der Spalte Einfluss steht überall etwas, das ein Programmierer tut. Nicht etwas, das ein Benutzer merkt.</li>
+</ul>
+</div>
+
+
+<h3>Teil C, Auswertung <span class="time">10 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">C1</span><b>Im Kurs.</b></p>
+<p>Wir sammeln gemeinsam:</p>
+<ul>
+<li>Welche Behauptung der KI konnte niemand belegen?</li>
+<li>Welche Zeile hat jemand selbst gefunden, die keine KI genannt hat?</li>
+<li>Bei welchem Punkt war die KI schlicht falsch?</li>
+</ul>
+</div>
+
+<div class="step">
+<p><span class="n">C2</span><b>Wenn du allein arbeitest.</b></p>
+<p>Beantworte dieselben drei Fragen in der Classroom-Frage <b>01A Frage - Was die KI nicht wusste</b>. Dort siehst du die Antworten der anderen. Lies mindestens drei davon und schau, ob jemand eine Zeile hat, die dir gefehlt hat.</p>
+</div>
+
+<div class="step">
+<p><span class="n">C3</span><b>Erklären.</b></p>
+<p>Erkläre einem Lerngspänli in eigenen Worten, warum "der Bildschirm ist kleiner" keine brauchbare Antwort auf die Frage nach dem Unterschied ist. Nimm eine Zeile aus deinem eigenen Arbeitsblatt als Beispiel.</p>
+<p>Wenn du allein arbeitest, schreib die Erklärung in drei Sätzen unter deine Tabelle.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil C.</b></p>
+<ul>
+<li>Du kannst eine Behauptung nennen, die sich nicht belegen liess.</li>
+<li>Du kannst eine eigene Beobachtung nennen, die in keiner KI-Liste stand.</li>
+<li>Deine Antwort steht im Plenum oder in der Classroom-Frage.</li>
+<li>Dein Gegenüber kann nach deiner Erklärung selbst sagen, was einen guten Beleg ausmacht, ohne nachzuschauen.</li>
+</ul>
+</div>
+
+<div class="info">
+<p><b>Zum Vergleichen.</b> Eine Beispieltabelle mit dem richtigen Detailgrad, die Antworten zu den Denkfragen und die Musterantworten zu den drei Stellen aus B3 findest du im Classroom-Material <b>01A Loesung - Mobile Applikationen</b>. Schau erst hinein, wenn du selbst fertig bist.</p>
+</div>
+
+
+<h3>Zusatzaufgabe für Schnelle</h3>
+<p>Zuerst die Pflichtaufgabe fertig. Dann erst hier weiter.</p>
+<p><b>Auftrag:</b> Frag dieselbe KI ein zweites Mal, aber stell die Frage anders. Zum Beispiel aus der Sicht eines Benutzers statt aus der Sicht eines Entwicklers. Vergleiche die zwei Antworten.</p>
+<p><b>Und die Frage, die dazugehört:</b> Wenn dieselbe KI auf zwei Fragen zwei verschiedene Listen liefert, was sagt das über die Liste aus? Und was folgt daraus für die Art, wie du eine KI fragst?</p>
+<p>Keine Musterlösung. Auch nicht im Lösungsmaterial. Es gibt mehrere richtige Antworten.</p>
+
+
+<h3>Wenn etwas nicht funktioniert</h3>
+<table>
+<tr><th>Das siehst du</th><th>Ursache</th><th>Das machst du</th></tr>
+<tr><td>Die KI liefert nur drei oder vier Zeilen</td><td>Die Frage war zu allgemein</td><td>Verlange die Anzahl ausdrücklich. Frag nach einer Tabelle mit mindestens acht Zeilen</td></tr>
+<tr><td>Alle Zeilen der KI klingen gleich</td><td>Die KI hat einen Punkt in vier Varianten geliefert</td><td>Fasse sie zu einer Zeile zusammen und frag nach vier weiteren, anderen</td></tr>
+<tr><td>Du findest zu einer Zeile keinen Beleg</td><td>Das ist der Normalfall und der Zweck der Übung</td><td>Zeile als gestrichen markieren. Nicht löschen. Sie ist Teil deiner Abgabe</td></tr>
+<tr><td>Dein Beleg klingt wie die Behauptung</td><td>Es fehlt der Ort und das Verhalten</td><td>Nenne App, Bildschirm und was genau passiert. Siehe die Beispieltabelle in Teil B</td></tr>
+<tr><td>Du hast kein Smartphone dabei</td><td>Der Emulator hat keine echten Apps, keine Sensoren und keine Anrufe</td><td>Arbeite zu zweit. Siehe der Hinweis am Schluss</td></tr>
+<tr><td>Der Screenshot zeigt nichts Erkennbares</td><td>Der Ausschnitt ist zu gross oder zu klein</td><td>Ganzer Bildschirm, und die Stelle mit einem Pfeil oder einem Kreis markieren</td></tr>
+<tr><td>Du weisst nicht, was in die Spalte Einfluss gehört</td><td>Da steht oft nur, was der Benutzer merkt</td><td>Frag dich: Was muss ich deswegen im Code anders machen als am PC?</td></tr>
+</table>
+
+
+<h3>Abgabe</h3>
+<p>Alles läuft über die Aufgabe <b>01A Arbeitsblatt - Mobile Applikationen</b> in Google Classroom.</p>
+<ol>
+<li>Dein ausgefülltes Arbeitsblatt. Die Kopie liegt schon in deinem Drive, du musst nichts hochladen. Am Schluss auf Abgeben klicken.</li>
+<li>Deine Screenshots, nummeriert, als Anhang zur selben Aufgabe.</li>
+<li>Danach den <b>01A Check - Wissenscheck Mobile Applikationen</b> ausfüllen.</li>
+</ol>
+<p>Bevor du abgibst, geh die sechs Punkte in der Liste am Ende des Arbeitsblatts durch.</p>
+
+
+<h2>03 Guide</h2>
+<table>
+<tr><th>Zeitbudget</th><td>45 Minuten. Denkfragen 3, Teil A 8, Teil B 24, Teil C 10</td></tr>
+<tr><th>Sozialform</th><td>Einzelarbeit. Auswertung im Plenum, C3 zu zweit</td></tr>
+<tr><th>Aufgabenart</th><td>Recherche und Überprüfung</td></tr>
+<tr><th>Voraussetzung</th><td>Keine fachliche. Eigenes Smartphone nötig</td></tr>
+<tr><th>KI</th><td>In Teil A erlaubt und erwünscht. In Teil B und C <b>nicht</b> erlaubt. Bei der Zusatzaufgabe erlaubt</td></tr>
+<tr><th>Abgabe</th><td>Ein Arbeitsblatt plus Screenshots, dazu der Wissenscheck. Sonst nichts</td></tr>
+</table>
+
+<h3>Die vier Beiträge in Google Classroom</h3>
+<table>
+<tr><th>Name</th><th>Typ</th><th>Einstellung</th></tr>
+<tr><td>01A Auftrag - Mobile Applikationen</td><td>Material</td><td>Schüler können Datei ansehen. Das ist dieses Dokument</td></tr>
+<tr><td>01A Arbeitsblatt - Mobile Applikationen</td><td>Aufgabe</td><td><b>Für jeden Schüler eine Kopie erstellen.</b> Das ist die Abgabe</td></tr>
+<tr><td>01A Check - Wissenscheck Mobile Applikationen</td><td>Aufgabe mit Quiz</td><td>Unbenotet, beliebig oft wiederholbar</td></tr>
+<tr><td>01A Loesung - Mobile Applikationen</td><td>Material</td><td>Schüler können Datei ansehen</td></tr>
+</table>
+<p>Dazu die Frage <b>01A Frage - Was die KI nicht wusste</b> als Frage mit sichtbaren Antworten, für alle, die den Block allein durcharbeiten.</p>
+
+<div class="info">
+<p><b>Einführung durch die Lehrperson.</b> Keine eigene. Block 1 beginnt mit 15 Minuten Start und Setup. Darin steckt die Begrüssung, die Kontrolle des Vorbereitungsauftrags und der Ablauf der fünf Tage. Danach startet 01A direkt.</p>
+</div>
+
+
+<h2>04 Unterrichtsmittel</h2>
+<table>
+<tr><th>Art</th><th>Was</th></tr>
+<tr><td>Hardware</td><td>Eigenes Notebook, eigenes Smartphone mit mindestens drei täglich genutzten Apps</td></tr>
+<tr><td>Software und Tools</td><td>KI-Chat nach Wahl, Google Classroom</td></tr>
+<tr><td>Dokumente</td><td>Arbeitsblatt 01A, als Kopie pro Schüler in Classroom</td></tr>
+<tr><td>Buch</td><td>Keines. Das Buch beginnt erst bei 01B</td></tr>
+</table>
+
+<div class="warn">
+<p><b>Kein Smartphone dabei?</b> Arbeite mit einer Kollegin oder einem Kollegen zusammen. Der Emulator taugt hier nicht. Er hat keine echten Sensoren, keine Anrufe und keine installierten Apps.</p>
+</div>
+
+
+<h2>05 Evaluation</h2>
+
+<h3>Was diese Aufgabe wirklich prüft</h3>
+<p>Nicht die Liste. Die Liste ist in zwei Minuten da. Geprüft wird, ob jemand eine plausible Behauptung stehen lässt oder sie anfasst. Der eigentliche Nachweis sind zwei Dinge: die gestrichene Zeile und die selbst gefundene Zeile. Wer beides hat, hat den Punkt.</p>
+
+<h3>Worauf du beim Rundgang achtest</h3>
+<table>
+<tr><th>Zeitpunkt</th><th>Worauf</th></tr>
+<tr><td>Minute 11</td><td>Hat jeder acht Zeilen auf dem Arbeitsblatt? Wer nach Teil A noch bei drei Zeilen steht, hat zu allgemein gefragt. Ein Satz genügt als Hilfe</td></tr>
+<tr><td>Minute 20</td><td>Sind die Belege konkret? Häufigster Fehler: der Beleg wiederholt die Behauptung. Zwei Beispiele vorlesen lassen reicht meist</td></tr>
+<tr><td>Minute 28</td><td>Steht bei jemandem schon WEG in der ersten Spalte? Wer noch keine Zeile gestrichen hat, hat entweder Glück gehabt oder nicht wirklich geprüft. Nachfragen</td></tr>
+<tr><td>Minute 35</td><td>B3 ist die Stelle, an der die eigenen Zeilen entstehen. Wer B3 übersprungen hat, gibt eine reine KI-Liste ab und hat den Punkt nicht</td></tr>
+<tr><td>Minute 40</td><td>Teil C ist die wichtigste Stelle. Frag ausdrücklich nach dem Punkt, bei dem die KI falsch lag. Das ist der Moment, auf den der ganze Auftrag zielt</td></tr>
+</table>
+
+<h3>Bewertung</h3>
+<p>Formativ. Es geht um die Abgabe, nicht um Punkte. Die gestrichene Zeile und die eigene Zeile sind der Nachweis, nicht die Länge der Tabelle.</p>
+
+
+<p class="foot">Modul 335 Block 01, Auftrag 01A. Fassung 1 vom 08.08.2026. Lösungen im Material 01A Loesung - Mobile Applikationen.</p>
+
+</div>
+</body>
+</html>

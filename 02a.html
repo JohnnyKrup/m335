@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>02A Die drei Unterlagen</title>
+<style>
+  :root{
+    --bg:#f9f9f7; --surface:#fcfcfb; --fg:#0b0b0b; --ink2:#52514e; --muted:#898781;
+    --line:#e1e0d9; --rule:#c3c2b7;
+    --acc:#2a78d6; --acc-bg:#e8f0f8;
+    --good:#0ca30c; --ok-bg:#e6f2ed;
+    --amber:#b1701c; --amber-bg:#fbf0df;
+    --crit:#d03b3b; --crit-bg:#fbeae7;
+    --vio:#4a3aa7; --vio-bg:#eceaf7;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font:16px/1.62 system-ui,-apple-system,"Segoe UI",sans-serif}
+  .wrap{max-width:920px;margin:0 auto;padding:40px 24px 90px}
+  h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+  .sub{color:var(--ink2);margin:0 0 26px;font-size:15px}
+  h2{font-size:20px;margin:46px 0 12px;padding-top:15px;border-top:2px solid var(--rule);letter-spacing:-.01em}
+  h3{font-size:16.5px;margin:28px 0 8px}
+  h4{font-size:14.5px;margin:20px 0 6px;color:var(--ink2)}
+  p{margin:0 0 12px}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;
+       background:#f0eee9;padding:1px 5px;border-radius:4px}
+  pre{background:#26241f;color:#eae7df;padding:14px 16px;border-radius:10px;overflow-x:auto;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.6px;line-height:1.6;margin:0 0 16px}
+  pre .k{color:#d8a0d0} pre .t{color:#8fc4e8} pre .s{color:#b7d69a} pre .c{color:#8f8a7d}
+  .tip{border-left:3px solid var(--good);background:var(--ok-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .tip b{color:#006300}
+  .note{border-left:3px solid var(--crit);background:var(--crit-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .note b{color:var(--crit)}
+  .warn{border-left:3px solid var(--amber);background:var(--amber-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .warn b{color:var(--amber)}
+  .info{border-left:3px solid var(--acc);background:var(--acc-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .info b{color:var(--acc)}
+  .chk{border-left:3px solid var(--vio);background:var(--vio-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .chk b{color:var(--vio)}
+  table{border-collapse:collapse;width:100%;font-size:14.2px;margin:0 0 16px;background:var(--surface)}
+  th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-weight:600;background:#f3f1ec}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  td.pre,th.pre{font-family:ui-monospace,Menlo,monospace;font-weight:600;color:#3a2d86;white-space:nowrap}
+  ul,ol{margin:0 0 14px;padding-left:22px} li{margin:0 0 7px}
+  .step{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:0 0 16px}
+  .step .n{display:inline-block;background:#26241f;color:#fff;font:600 12px/1 system-ui,sans-serif;
+           padding:5px 9px;border-radius:6px;margin-right:8px}
+  .ue{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 17px;margin:0 0 14px}
+  .ue .t{font-weight:600;margin-bottom:5px}
+  .time{display:inline-block;font:600 11px/1.5 system-ui,sans-serif;padding:2px 8px;border-radius:20px;
+        background:#e4e2f5;color:#3a2d86;border:1px solid #bdb5e0;white-space:nowrap;margin-left:8px}
+  .foot{margin-top:50px;padding-top:16px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>02A Die drei Unterlagen</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Block 02. Zeitbudget 115 Minuten. Fassung 1 vom 10.08.2026.</p>
+<p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
+
+
+<h2>01 Einführung</h2>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>1.1</td><td>Ergonomische Standards und Prinzipien der Interaktion kennen und anwenden</td></tr>
+<tr><td>1.2</td><td>Design- und Benutzerführungs-Guidelines der Plattform anwenden</td></tr>
+<tr><td>1.3</td><td>Geräteeigenschaften und Eingabeoptionen kennen und passend einsetzen</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du zerlegst einen fremden App-Bildschirm in Kopf, Inhalt und Fuss.</li>
+<li>Du benennst zu dem, was du siehst, den passenden Android-Baustein.</li>
+<li>Du entscheidest für jede Gruppe auf dem Bildschirm, ob sie ein LinearLayout, ein FrameLayout oder ein ConstraintLayout braucht.</li>
+<li>Du schreibst für jedes Element auf, woran es waagrecht und woran es senkrecht hängt.</li>
+<li>Du erkennst an einem Bildschirm, dass ein Anker fehlt, bevor du die App überhaupt startest.</li>
+</ul>
+
+<h3>Das brauchst du vorher</h3>
+<ul>
+<li>Ein Handy oder Tablet mit ein paar Apps darauf. Dein eigenes.</li>
+<li>Papier und Stift, oder das Arbeitsblatt ausgedruckt. Gezeichnet wird von Hand.</li>
+<li>Die drei Unterlagen aus dem Classroom-Thema <b>90 Nachschlagen</b>.</li>
+<li>Android Studio brauchst du in Teil 1 bis 3 <b>nicht</b>. Erst bei den Übungen am Ende von Block 4.</li>
+</ul>
+
+<h3>Das gibst du ab</h3>
+<ul>
+<li>Das ausgefüllte <b>02A Arbeitsblatt - Die drei Unterlagen</b>, alle drei Felder.</li>
+<li>Den Screenshot der App, die du in Feld 1 zerlegt hast, als Anhang.</li>
+<li>Den ausgefüllten <b>02A Check - Die drei Unterlagen</b>.</li>
+</ul>
+
+<div class="info">
+<p><b>Warum dieser Auftrag vor dem Programmieren kommt.</b> In 01B und 01C hast du Code getippt, den dir jemand vorgegeben hat. Ab jetzt sollst du selbst entscheiden, wie ein Bildschirm gebaut wird. Diese Entscheidung fällt <b>bevor</b> du Android Studio öffnest, nämlich auf Papier. Wer ohne Skizze anfängt, baut zweimal.</p>
+<p>Die drei Unterlagen bleiben danach in Classroom liegen. Du schlägst dort nach, wenn du in 02B oder später nicht weiterkommst. Du musst sie nicht auswendig können.</p>
+</div>
+
+
+<h2>02 Auftrag</h2>
+
+<h3>Ausgangslage</h3>
+<p>Du liest heute Nachmittag drei Unterlagen und wendest jede sofort auf <b>deine eigene Lieblings-App</b> an. Am Ende hast du für einen einzigen Bildschirm den ganzen Weg gemacht: was ich sehe, welche Gruppen es sind, woran jedes Element hängt.</p>
+<p>Du programmierst heute nichts. Das ist Absicht. Der Bauplan kommt vor dem Bauen.</p>
+
+<h3>Werkzeugkasten</h3>
+<p>Das sind die drei Unterlagen. Mehr brauchst du nicht.</p>
+<table>
+<tr><th style="width:32%">Unterlage</th><th>Was drinsteht</th><th class="num">Lesezeit</th></tr>
+<tr><td class="pre">Wie Apps aufgebaut sind</td><td>Kopf, Inhalt und Fuss. Die Daumenzone. Vier bekannte Apps zerlegt. Der ganze Baukasten der Bausteine nach Zweck sortiert</td><td class="num">11 Min</td></tr>
+<tr><td class="pre">Layouts verstehen</td><td>Wie du ConstraintLayout, LinearLayout und FrameLayout ineinander steckst. Ein Bauplan mit Baumdiagramm</td><td class="num">6 Min</td></tr>
+<tr><td class="pre">Constraints verstehen</td><td>Welche Angaben Pflicht sind. Wie ein Anker aufgebaut ist. Die Ankerkette von aussen nach innen</td><td class="num">11 Min</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Die Lesezeit ist nicht die Arbeitszeit.</b> Zusammen sind das 28 Minuten Lesen. Du hast 90. Der Rest geht in deine eigene Skizze, und die ist der eigentliche Punkt.</p>
+</div>
+
+<h3>Die drei Begriffe, die du auseinanderhalten musst</h3>
+<table>
+<tr><th style="width:22%">Wort</th><th>Bedeutung</th><th>Beispiel</th></tr>
+<tr><td><b>Baustein</b></td><td>Ein einzelnes Ding, das etwas anzeigt oder etwas kann</td><td>TextView, Button, EditText</td></tr>
+<tr><td><b>Behälter</b></td><td>Ein Baustein, dessen Aufgabe es ist, andere Bausteine anzuordnen</td><td>LinearLayout, FrameLayout, ConstraintLayout</td></tr>
+<tr><td><b>Bildschirm</b></td><td>Alles zusammen, was gleichzeitig zu sehen ist. In Android eine Activity mit ihrer XML-Datei</td><td>activity_main.xml</td></tr>
+</table>
+
+<h3>Denkfragen</h3>
+<p>Denk kurz darüber nach, bevor du anfängst. Abgeben musst du hier nichts. Es geht nicht um richtig oder falsch, sondern darum, dass du eine Erwartung hast, bevor du loslegst.</p>
+<ol>
+<li>WhatsApp, YouTube und Instagram haben völlig verschiedene Zwecke. Trotzdem sehen ihre Startbildschirme fast gleich aus. Warum wohl?</li>
+<li>Du willst 500 Produkte untereinander anzeigen. Reicht dafür ein Bereich, den man scrollen kann? Was könnte dagegen sprechen?</li>
+<li>Ein Element hat nur einen einzigen Anker, nämlich nach oben. Wo landet es beim Start der App?</li>
+<li>Du willst einen Trennstreifen direkt über eine Buttonreihe hängen. Warum musst du zuerst die Buttonreihe selbst verankern?</li>
+</ol>
+
+<div class="tip">
+<p><b>Diese vier Fragen kommen im Wissenscheck wieder.</b> Dort bekommst du zu jeder Antwort sofort eine Rückmeldung. Wer hier kurz nachdenkt, hat den Wissenscheck in fünf Minuten durch.</p>
+</div>
+
+
+<h3>Teil 1, Bausteine erkennen <span class="time">30 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">1.1</span><b>Lies "Wie Apps aufgebaut sind".</b></p>
+<p>Ganz durch, Abschnitt 1 bis 8. Die Übungen am Schluss machst du nicht alle, sondern nur die, die hier stehen.</p>
+<p>Lies zügig. Du sollst dich erinnern, wo etwas steht, nicht es auswendig können.</p>
+</div>
+
+<div class="step">
+<p><span class="n">1.2</span><b>Arbeitsblatt Feld 1: deine eigene App zerlegen.</b></p>
+<p>Nimm eine App auf deinem Handy, die in der Unterlage <b>nicht</b> vorkommt. Also nicht WhatsApp, nicht YouTube, nicht Instagram, nicht der Play Store.</p>
+<ol>
+<li>Mach einen Screenshot der Startseite.</li>
+<li>Zeichne auf dem Arbeitsblatt die drei Zonen Kopf, Inhalt und Fuss ein.</li>
+<li>Füll die Tabelle mit <b>mindestens sechs Bausteinen</b>. Zu jedem: was du siehst, in welcher Zone er liegt, und wie der Android-Baustein heisst.</li>
+</ol>
+<p>Die Spalte <b>Status</b> ganz links füllst du selbst aus. <code>EIGEN</code> heisst, du bist von allein daraufgekommen. <code>KI</code> heisst, du hast eine KI gefragt. Beides ist erlaubt. Aber schreib hin, was stimmt.</p>
+<div class="warn">
+<p><b>Mindestens ein Baustein muss neu sein.</b> Also einer, den es in den vier Beispielen der Unterlage nicht gab. Wenn deine App nur Dinge enthält, die schon im Dokument stehen, nimm eine andere App. Genau dieser eine neue Baustein ist der Grund für die Übung.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">1.3</span><b>Zwei Übungen im Kopf, ohne Abgabe.</b></p>
+<p>In der Unterlage stehen unter Abschnitt 9 die Übungen 3 und 4. Mach beide im Kopf, ohne etwas aufzuschreiben.</p>
+<ul>
+<li><b>Übung 3, Baustein wählen.</b> Fünf Situationen, du nennst den passenden Baustein.</li>
+<li><b>Übung 4, Fehlersuche im Entwurf.</b> Drei Probleme in einem schlechten Entwurf finden.</li>
+</ul>
+<p>Beide kommen im Wissenscheck als Frage wieder. Die Lösungen stehen im Material <b>02A Loesung</b>. Schau erst hinein, wenn du es selbst versucht hast.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil 1.</b></p>
+<ul>
+<li>Auf deinem Arbeitsblatt stehen mindestens sechs Bausteine mit Android-Namen.</li>
+<li>Mindestens einer davon kam in der Unterlage nicht vor.</li>
+<li>Jede Zeile hat eine Zone: Kopf, Inhalt oder Fuss.</li>
+<li>Du kannst in einem Satz sagen, warum die Navigation deiner App unten ist und nicht oben.</li>
+<li>In der Statusspalte steht bei jeder Zeile etwas.</li>
+</ul>
+</div>
+
+
+<h3>Teil 2, Gruppen und Layouts <span class="time">30 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">2.1</span><b>Lies "Layouts verstehen".</b></p>
+<p>Abschnitt 1 bis 5. Die Fallen in Abschnitt 6 überfliegst du, die brauchst du erst, wenn etwas schiefgeht.</p>
+</div>
+
+<div class="step">
+<p><span class="n">2.2</span><b>Den Bauplan mitlesen.</b></p>
+<p>In Abschnitt 3 steht der Bauplan des Quiz-Spielbildschirms. Links die Skizze, rechts der Baum. Lies beides nebeneinander.</p>
+<p><b>Zähl nach:</b> Wie viele direkte Kinder hat das ConstraintLayout? Zähl nur die oberste Ebene, nicht das, was in den Kindern drinsteckt. Merk dir die Zahl. Genau danach fragt der Wissenscheck.</p>
+<div class="tip">
+<p><b>Das ist nicht die Lösung deines nächsten Auftrags.</b> Der Quiz-Bildschirm ist ein anderes Beispiel als das, was du in 02B baust. Du lernst hier das Denkmuster, nicht die Antwort.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">2.3</span><b>Arbeitsblatt Feld 2: deine eine Zeile.</b></p>
+<p>Nimm aus deiner App aus Feld 1 eine Liste. Fast jede App hat eine. Eine Chatliste, eine Produktliste, eine Songliste.</p>
+<ol>
+<li>Zeichne <b>eine einzige Zeile</b> gross in das Feld auf dem Arbeitsblatt. Nur eine. Gross.</li>
+<li>Zeichne Kästchen um jede Gruppe. Nicht um jeden Baustein, sondern um jede <b>Gruppe</b>.</li>
+<li>Schreib bei jedem Kästchen dazu, welcher Behälter das wäre: LinearLayout waagrecht, LinearLayout senkrecht, FrameLayout oder ConstraintLayout.</li>
+<li>Nummeriere die Kästchen von aussen nach innen mit 1, 2, 3.</li>
+</ol>
+<div class="warn">
+<p><b>Höchstens drei Verschachtelungsebenen.</b> Wird deine Skizze tiefer, geht es fast immer einfacher. Zeichne sie dann nochmal. Tiefe Verschachtelung ist in Android nicht nur unübersichtlich, sie macht die App auch langsam, weil jede Ebene beim Zeichnen einzeln gerechnet wird.</p>
+</div>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil 2.</b></p>
+<ul>
+<li>Deine Skizze zeigt <b>eine</b> Zeile, nicht die ganze Liste.</li>
+<li>Jedes Kästchen hat einen Behälternamen daneben.</li>
+<li>Die Kästchen sind nummeriert, das äusserste hat die 1.</li>
+<li>Du hast höchstens drei Ebenen.</li>
+<li>Du kannst sagen, warum du an einer Stelle waagrecht und an einer anderen senkrecht gewählt hast.</li>
+</ul>
+</div>
+
+
+<h3>Teil 3, Anker setzen <span class="time">30 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">3.1</span><b>Lies "Constraints verstehen", Abschnitt 1 bis 8.</b></p>
+<p>Das ist die dichteste der drei Unterlagen. Zwei Abschnitte sind die wichtigsten:</p>
+<ul>
+<li><b>Abschnitt 5, die Ankerkette.</b> Ein Anker kann nur auf etwas zeigen, dessen eigene Position schon feststeht. Daraus folgt eine Reihenfolge.</li>
+<li><b>Abschnitt 6, die fünf Fragen.</b> Diese fünf Fragen benutzt du gleich in 3.3.</li>
+</ul>
+</div>
+
+<div class="step">
+<p><span class="n">3.2</span><b>Abschnitt 9 und 10 nur überfliegen.</b></p>
+<p>Abschnitt 9 ist eine Fehlertabelle. Du liest sie nicht durch, du merkst dir nur, dass es sie gibt. Wenn in 02B etwas nicht stimmt, schaust du dort nach.</p>
+<p>Abschnitt 10 sagt dir, dass du im <b>Split-Modus</b> arbeitest. Das ist eine Minute Lesen und spart dir am Tag 1 eine Viertelstunde Gefummel.</p>
+</div>
+
+<div class="step">
+<p><span class="n">3.3</span><b>Arbeitsblatt Feld 3: der Ankerplan für deine Zeile.</b></p>
+<p>Jetzt kommt alles zusammen. Nimm deine Skizze aus Feld 2 und stell dir vor, das äusserste Kästchen wäre ein ConstraintLayout.</p>
+<p>Füll die Tabelle auf dem Arbeitsblatt. Eine Zeile pro Element, das direkt im äussersten Kästchen liegt.</p>
+<table>
+<tr><th>Spalte</th><th>Was hinein gehört</th></tr>
+<tr><td>Element</td><td>Der Name, den du vergibst. Nach der Regel aus 01C, also <code>tvTitle</code>, <code>ivCover</code>, <code>btnPlay</code></td></tr>
+<tr><td>Waagrecht hängt an</td><td><code>parent</code> oder der Name eines Geschwisters, plus welche Kante</td></tr>
+<tr><td>Senkrecht hängt an</td><td>dasselbe für oben oder unten</td></tr>
+<tr><td>Breite</td><td><code>wrap_content</code>, <code>0dp</code> oder ein fester Wert in dp</td></tr>
+<tr><td>Höhe</td><td>dasselbe</td></tr>
+<tr><td>Reihenfolge</td><td>In welcher Reihenfolge du sie verankern würdest, von aussen nach innen. 1, 2, 3</td></tr>
+</table>
+<p>Du schreibst hier <b>kein XML</b>. Es reicht "unten an parent" oder "oben an tvTitle". Der Punkt ist die Entscheidung, nicht die Schreibweise.</p>
+<div class="note">
+<p><b>Prüfe jede Zeile mit der Frage 4 aus Abschnitt 6:</b> Habe ich beide Achsen bedient? Jede Zeile deiner Tabelle braucht einen Eintrag bei waagrecht <b>und</b> einen bei senkrecht. Bleibt eine Zelle leer, würde dieses Element beim Start in der linken oberen Ecke landen. Genau das ist der häufigste Fehler im ganzen Modul.</p>
+</div>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil 3.</b></p>
+<ul>
+<li>Jede Zeile deiner Tabelle hat einen waagrechten <b>und</b> einen senkrechten Anker. Keine leere Zelle.</li>
+<li>Jeder Name folgt der Präfixregel aus 01C.</li>
+<li>Wo du <code>0dp</code> geschrieben hast, hat das Element auf dieser Achse <b>zwei</b> Anker.</li>
+<li>Die Reihenfolge beginnt bei einem Element, das an <code>parent</code> hängt. Nicht bei einem, das an einem Geschwister hängt.</li>
+<li>Du kannst deinen Plan einem Lerngspänli in zwei Minuten erklären.</li>
+</ul>
+</div>
+
+
+<h3>Übungen <span class="time">25 Minuten</span></h3>
+<div class="info">
+<p><b>Achtung, die Übungen kommen später.</b> Du machst sie <b>nicht</b> jetzt, sondern am Ende von Block 4, nachdem du den Auftrag 02B gebaut hast. Sie verändern alle etwas an deinem Projekt <code>M335 Formular</code>. Vorher gibt es dieses Projekt noch nicht.</p>
+</div>
+<p>Es sind die sechs Übungen aus Abschnitt 11 von <b>Constraints verstehen</b>. Die Lösungen findest du im Classroom-Material <b>02A Loesung - Die drei Unterlagen</b>. Schau erst hinein, wenn du es selbst versucht hast.</p>
+
+<div class="ue">
+<div class="t">Übung 1, der fünfte Button</div>
+<p>Ein fünfter Button in deiner Reihe, dann nachrechnen, wie viel Platz pro Beschriftung übrig bleibt.</p>
+</div>
+<div class="ue">
+<div class="t">Übung 2, Streifen nach unten</div>
+<p>Den Trennstreifen unter die Buttons setzen, nur durch Ändern von Ankern.</p>
+</div>
+<div class="ue">
+<div class="t">Übung 3, Formular in die Mitte</div>
+<p>Zentrieren durch zwei gegenüberliegende Anker.</p>
+</div>
+<div class="ue">
+<div class="t">Übung 4, Formular füllt den Platz</div>
+<p>Dieselben zwei Anker, aber <code>0dp</code> statt <code>wrap_content</code>. Völlig anderes Ergebnis.</p>
+</div>
+<div class="ue">
+<div class="t">Übung 5, von null auf</div>
+<p>Ein Button unten rechts, aus dem Kopf, ohne nachzuschauen.</p>
+</div>
+<div class="ue">
+<div class="t">Übung 6, erklären</div>
+<p>In zwei Sätzen sagen, warum die Buttonreihe vor dem Trennstreifen verankert werden musste.</p>
+</div>
+
+
+<h3>Zusatzaufgabe für Schnelle</h3>
+<div class="tip">
+<p>Zuerst alle drei Felder auf dem Arbeitsblatt fertig. Dann erst hier weiter.</p>
+<p><b>Auftrag:</b> Nimm dieselbe App und denselben Listeneintrag, aber jetzt im <b>Querformat</b>. Mach einen zweiten Screenshot. Was hat sich an der Zeile geändert? Was ist gleich geblieben? Und die eigentliche Frage: hat die App dafür ein zweites Layout gebaut, oder reichen dieselben Anker?</p>
+<p>Schreib deine Vermutung mit einer Begründung auf die Rückseite. Keine Musterlösung. Wir kommen am Tag 3 darauf zurück.</p>
+</div>
+
+
+<h3>Wenn etwas nicht funktioniert</h3>
+<table>
+<tr><th>Das Problem</th><th>Ursache</th><th>Das machst du</th></tr>
+<tr><td>Ich finde bei meiner App keine sechs Bausteine</td><td>Du schaust auf zu grosse Einheiten</td><td>Zähl kleiner. Jeder Text, jedes Bild, jedes Symbol ist ein eigener Baustein</td></tr>
+<tr><td>Ich weiss nicht, wie mein Baustein auf Android heisst</td><td>Er steht nicht im Baukasten der Unterlage</td><td>Beschreib ihn in Worten und setz ein Fragezeichen. Frag beim Rundgang nach. Das ist keine Lücke, sondern der Sinn der Übung</td></tr>
+<tr><td>Meine Skizze hat fünf Ebenen</td><td>Du hast um jeden einzelnen Baustein ein Kästchen gezeichnet</td><td>Kästchen gehören um <b>Gruppen</b>. Ein einzelner Text braucht kein eigenes Kästchen</td></tr>
+<tr><td>Ich weiss nicht, ob etwas ein LinearLayout oder ein ConstraintLayout ist</td><td>Beides ginge oft</td><td>Nimm die einfachere Antwort. Stehen die Dinge stur hintereinander, ist es ein LinearLayout. Nur wenn etwas an einem Rand kleben muss, brauchst du das ConstraintLayout</td></tr>
+<tr><td>Bei einem Element weiss ich den senkrechten Anker nicht</td><td>Das Element schwebt in deinem Plan</td><td>Frag: über was liegt es, unter was liegt es? Eines von beidem gibt es immer. Notfalls <code>parent</code></td></tr>
+<tr><td>Ich habe zwei Elemente, die aneinander hängen</td><td>Ringschluss</td><td>Eines der beiden muss an <code>parent</code>. Sonst kann Android nicht rechnen. Siehe Falle 4 in Layouts verstehen</td></tr>
+</table>
+
+<h3>Abgabe</h3>
+<p>Alles läuft über die Aufgabe <b>02A Arbeitsblatt - Die drei Unterlagen</b> in Google Classroom.</p>
+<ol>
+<li>Arbeitsblatt mit allen drei Feldern ausgefüllt.</li>
+<li>Screenshot deiner App als Anhang. Bei der Zusatzaufgabe der zweite Screenshot dazu.</li>
+<li>Danach den <b>02A Check</b> ausfüllen.</li>
+</ol>
+
+
+<h2>03 Guide</h2>
+<table>
+<tr><td>Zeitbudget</td><td>115 Minuten. Teil 1 30, Teil 2 30, Teil 3 30 in Block 3. Übungen 25 am Ende von Block 4</td></tr>
+<tr><td>Sozialform</td><td>Einzelarbeit. Bei den Denkfragen und beim Selbstcheck von Teil 3 zu zweit</td></tr>
+<tr><td>Aufgabenart</td><td>Lesen und sofort auf ein eigenes Beispiel anwenden. Kein Code</td></tr>
+<tr><td>Voraussetzung</td><td>Vorbereitungsauftrag, 01A, 01B, 01C. Eigenes Handy mit Apps</td></tr>
+<tr><td>KI</td><td>Erlaubt, aber die Statusspalte muss stimmen. Wer <code>KI</code> hinschreibt, verliert nichts</td></tr>
+<tr><td>Abgabe</td><td>Arbeitsblatt plus Screenshot, dazu der Wissenscheck. <b>Kein Code, kein ZIP</b></td></tr>
+</table>
+
+<h3>Die vier Beiträge in Google Classroom</h3>
+<table>
+<tr><th>Name</th><th>Typ</th><th>Einstellung</th></tr>
+<tr><td>02A Auftrag - Die drei Unterlagen</td><td>Material</td><td>Schüler können Datei ansehen. Dieses Dokument</td></tr>
+<tr><td>02A Arbeitsblatt - Die drei Unterlagen</td><td>Aufgabe</td><td><b>Für jeden Schüler eine Kopie erstellen.</b> Hier wird abgegeben</td></tr>
+<tr><td>02A Check - Die drei Unterlagen</td><td>Aufgabe mit Quiz</td><td>Unbenotet, beliebig oft wiederholbar, kein Fälligkeitsdatum. Sieben Fragen</td></tr>
+<tr><td>02A Loesung - Die drei Unterlagen</td><td>Material</td><td>Schüler können Datei ansehen. Alle elf Übungslösungen und die Antworten zu den Denkfragen</td></tr>
+</table>
+<p>Die drei Unterlagen selbst liegen unverändert im Thema <b>90 Nachschlagen</b>. Sie sind kein Beitrag dieses Auftrags, sondern bleiben das ganze Modul über liegen.</p>
+
+<div class="tip">
+<p><b>Warum es hier ein Arbeitsblatt gibt und bei 02B nicht.</b> Es entscheidet die Art des Produkts. Hier entsteht eine Skizze und ein Ankerplan, also etwas auf Papier. Das Blatt <b>ist</b> die Aufgabe. Bei 02B entsteht ein laufender Bildschirm, dort reicht der Screenshot.</p>
+<p>Auf dem Blatt steht nur, was bei jedem anders aussieht: die eigene App, die eigene Zeile, der eigene Ankerplan. Alles, was bei allen gleich wäre, steckt im Wissenscheck.</p>
+</div>
+
+
+<h2>04 Unterrichtsmittel</h2>
+<table>
+<tr><th>Art</th><th>Was</th></tr>
+<tr><td>Hardware</td><td>Eigenes Handy oder Tablet. Kein Notebook nötig in Teil 1 bis 3</td></tr>
+<tr><td>Material</td><td>Arbeitsblatt ausgedruckt oder als Google Doc, Stift. Bei den Übungen Android Studio Quail 2</td></tr>
+<tr><td>Dokumente</td><td>Wie Apps aufgebaut sind, Layouts verstehen, Constraints verstehen. Alle im Classroom-Thema 90 Nachschlagen</td></tr>
+<tr><td>Buch</td><td>Android-Apps entwickeln für Einsteiger, Kapitel 4.1 bis 4.3 Layouts</td></tr>
+</table>
+
+
+<h2>05 Evaluation</h2>
+
+<h3>Was diese Aufgabe wirklich prüft</h3>
+<p>Nicht ob jemand die drei Unterlagen gelesen hat. Das kann man nicht messen. Geprüft wird, ob jemand das Gelesene auf ein <b>eigenes</b> Beispiel anwenden kann. Darum ist auf dem Arbeitsblatt nichts vorgegeben ausser den Spaltenüberschriften.</p>
+<p>Der schärfste Punkt ist Feld 3. Wer dort eine leere Zelle hat, hat die Regel mit den zwei Achsen nicht verstanden. Das kostet in 02B und in jedem weiteren Layout Zeit.</p>
+
+<h3>Worauf du beim Rundgang achtest</h3>
+<ul>
+<li><b>Minute 15.</b> Hat jeder eine App gewählt, die nicht in der Unterlage steht? Wer WhatsApp nimmt, schreibt nur ab.</li>
+<li><b>Minute 45.</b> Zeichnet jemand die ganze Liste statt einer Zeile? Das ist der häufigste Fehler in Teil 2. Sofort ansprechen, sonst ist die Zeit weg.</li>
+<li><b>Minute 75.</b> Feld 3 anschauen. Leere Zellen bei waagrecht oder senkrecht sind der Punkt, an dem du eingreifst.</li>
+<li><b>Statusspalte.</b> Wer überall <code>EIGEN</code> stehen hat und trotzdem sechs perfekte Android-Namen kennt, hat wahrscheinlich eine KI benutzt. Nicht schlimm, aber ansprechen. Ehrlichkeit ist hier die Übung.</li>
+</ul>
+
+<h3>Bewertung</h3>
+<p>Formativ. Das Arbeitsblatt wird eingesammelt und durchgesehen, nicht benotet. Der eigentliche Nachweis sind die drei ausgefüllten Felder und der Wissenscheck.</p>
+
+<p class="foot">Modul 335 Block 02, Auftrag 02A. Fassung 1 vom 10.08.2026. Lösungen im Material 02A Loesung - Die drei Unterlagen. Antworten zu den Denkfragen ebenfalls dort.</p>
+
+</div>
+</body>
+</html>

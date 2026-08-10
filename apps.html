@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M335 Wie Apps aufgebaut sind</title>
+<style>
+  :root{
+    --bg:#faf9f7; --fg:#1c1b1a; --muted:#6b6862; --line:#dedbd4; --card:#fff;
+    --acc:#2f6fb0; --acc-bg:#e8f0f8;
+    --ok:#3d8168; --ok-bg:#e6f2ed;
+    --warn:#a63d2f; --warn-bg:#fbeae7;
+    --amber:#b1701c; --amber-bg:#fbf0df;
+    --head:#8c5aa8; --head-bg:#f1e9f6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font:16px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:960px;margin:0 auto;padding:40px 24px 90px}
+  h1{font-size:31px;line-height:1.22;margin:0 0 6px;letter-spacing:-.02em}
+  .sub{color:var(--muted);margin:0 0 34px;font-size:15px}
+  h2{font-size:21px;margin:48px 0 12px;letter-spacing:-.01em;padding-top:14px;border-top:1px solid var(--line)}
+  h2 .num{color:var(--muted);font-weight:400;margin-right:8px}
+  h3{font-size:16.5px;margin:26px 0 8px}
+  p{margin:0 0 12px}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;
+       background:#f0eee9;padding:1px 5px;border-radius:4px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:0 0 16px}
+  .note{border-left:3px solid var(--warn);background:var(--warn-bg);padding:14px 18px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .note b{color:var(--warn)}
+  .tip{border-left:3px solid var(--ok);background:var(--ok-bg);padding:14px 18px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .tip b{color:var(--ok)}
+  table{border-collapse:collapse;width:100%;font-size:14.3px;margin:0 0 16px}
+  th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-weight:600;background:#f3f1ec}
+  ul,ol{margin:0 0 14px;padding-left:22px} li{margin:0 0 7px}
+
+  /* ---- Grundgeruest ---- */
+  .skeleton{display:flex;gap:24px;flex-wrap:wrap;align-items:center;margin:0 0 18px}
+  .skel{width:210px;flex:0 0 210px;border:3px solid #3a3833;border-radius:22px;padding:7px;background:#fff}
+  .zone{border-radius:7px;padding:9px 8px;text-align:center;font-size:11.5px;font-weight:600;margin-bottom:5px}
+  .z1{background:var(--head-bg);color:var(--head);border:1.5px solid var(--head)}
+  .z2{background:var(--acc-bg);color:var(--acc);border:1.5px solid var(--acc);height:190px;
+      display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px}
+  .z3{background:var(--ok-bg);color:var(--ok);border:1.5px solid var(--ok);margin-bottom:0}
+  .skeltext{flex:1;min-width:280px}
+
+  /* ---- Daumenzone ---- */
+  .thumb{width:190px;flex:0 0 190px;border:3px solid #3a3833;border-radius:22px;height:330px;
+         position:relative;overflow:hidden;background:#fff}
+  .band{position:absolute;left:0;right:0;font-size:10.5px;font-weight:600;
+        display:flex;align-items:center;justify-content:center;text-align:center;padding:0 8px;line-height:1.3}
+  .b-hard{top:0;height:33%;background:#fbeae7;color:#a63d2f;border-bottom:1px dashed #d9b3aa}
+  .b-mid{top:33%;height:30%;background:#fbf0df;color:#8a5714;border-bottom:1px dashed #ddc79c}
+  .b-easy{top:63%;height:37%;background:#e6f2ed;color:#2f6b54}
+
+  /* ---- App-Wireframes ---- */
+  .app{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;margin:0 0 10px}
+  .ph{width:216px;flex:0 0 216px;border:3px solid #3a3833;border-radius:22px;background:#fff;
+      padding:6px;position:relative}
+  .apptbl{flex:1;min-width:300px}
+  .apptbl table{font-size:13.6px;margin:0}
+  .apptbl td:first-child{width:30px;padding-left:0}
+  .n{display:inline-block;width:19px;height:19px;border-radius:50%;background:var(--acc);color:#fff;
+     font:600 11px/19px ui-monospace,Menlo,monospace;text-align:center}
+  .bar{background:#efece7;border-radius:5px;padding:6px 7px;display:flex;align-items:center;gap:5px;
+       font-size:9.5px;color:#4a4740;margin-bottom:4px;position:relative}
+  .ic{width:13px;height:13px;border-radius:3px;background:#a8a39a;flex:0 0 13px}
+  .ic.r{border-radius:50%}
+  .grow{flex:1}
+  .row{display:flex;align-items:center;gap:6px;padding:5px 4px;font-size:9px;color:#57534c;
+       border-bottom:1px solid #f0eee9}
+  .av{width:22px;height:22px;border-radius:50%;background:#c9c5bd;flex:0 0 22px}
+  .lines{flex:1;display:flex;flex-direction:column;gap:3px}
+  .ln{height:4px;background:#d6d2ca;border-radius:2px}
+  .ln.s{width:55%} .ln.m{width:78%}
+  .thumbimg{background:#c9c5bd;border-radius:4px;height:52px;margin:5px 0 3px;
+            display:flex;align-items:center;justify-content:center;font-size:8.5px;color:#5c5852}
+  .navbar{background:#efece7;border-radius:5px;padding:5px 4px;display:flex;justify-content:space-around;
+          margin-top:4px;position:relative}
+  .navit{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:7px;color:#6b6862}
+  .fab{position:absolute;right:14px;width:26px;height:26px;border-radius:50%;background:var(--ok);
+       color:#fff;font-size:14px;line-height:26px;text-align:center;font-weight:600}
+  .badge{position:absolute;top:-6px;right:-6px;background:var(--warn);color:#fff;border-radius:9px;
+         font:600 8px/13px inherit;padding:0 5px;height:13px}
+  .cbadge{position:absolute;background:var(--acc);color:#fff;width:16px;height:16px;border-radius:50%;
+          font:600 9.5px/16px ui-monospace,Menlo,monospace;text-align:center;z-index:5;
+          box-shadow:0 0 0 2px #fff}
+  .stories{display:flex;gap:5px;padding:5px 3px;border-bottom:1px solid #f0eee9;position:relative}
+  .st{width:22px;height:22px;border-radius:50%;background:#e8e5e0;border:2px solid var(--amber);flex:0 0 22px}
+  .chips{display:flex;gap:4px;padding:5px 3px;position:relative}
+  .chip{border:1px solid #c9c5bd;border-radius:10px;padding:2px 7px;font-size:7.5px;color:#57534c}
+  .cards{display:flex;gap:5px;padding:4px 3px;position:relative}
+  .cd{flex:1;border:1px solid #e2dfd8;border-radius:5px;padding:4px;text-align:center;font-size:7px;color:#6b6862}
+  .cdi{width:100%;height:22px;background:#d6d2ca;border-radius:4px;margin-bottom:3px}
+  .actions{display:flex;gap:7px;padding:4px;border-bottom:1px solid #f0eee9;position:relative}
+
+  /* ---- Muster-Karten ---- */
+  .pats{display:flex;gap:14px;flex-wrap:wrap;margin:0 0 16px}
+  .pat{flex:1;min-width:210px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .pat b{display:block;font-size:14.5px;margin-bottom:4px}
+  .pat span{font-size:13.3px;color:var(--muted);line-height:1.5}
+
+  /* ---- Uebungen ---- */
+  .ex{background:#fff;border:1px solid var(--line);border-left:3px solid var(--amber);
+      border-radius:0 10px 10px 0;padding:16px 20px;margin:0 0 14px}
+  .ex h3{margin:0 0 6px;font-size:15.5px}
+  .ex .goal{font-size:13.6px;color:var(--muted);margin:0 0 10px}
+  details{margin-top:10px;border-top:1px dashed var(--line);padding-top:10px}
+  summary{cursor:pointer;font-size:13.5px;font-weight:600;color:var(--acc);list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:"\25B8 "} details[open] summary::before{content:"\25BE "}
+  .foot{margin-top:52px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Wie Apps aufgebaut sind</h1>
+<p class="sub">M335 Mobile Applikationen &middot; Nachschlagewerk zu Block 02, Fassung 2 vom 10.08.2026 &middot; Welche Bausteine es gibt und wie erfolgreiche Apps sie einsetzen</p>
+
+<div class="card">
+<p style="margin:0"><b>Worum es hier geht.</b> Bevor du ein Layout baust, solltest du wissen, welche Bausteine es überhaupt gibt und wie erfahrene Firmen sie anordnen. Du benutzt jeden Tag Apps, die von hunderten Leuten durchdacht wurden. Diese Apps sind dein bestes Lehrmittel. Auf dieser Seite zerlegst du vier davon in ihre Einzelteile und lernst dabei den ganzen Baukasten kennen. Wie du die Teile dann genau positionierst, steht im Dokument "Constraints verstehen".</p>
+</div>
+
+<h2><span class="num">1</span>Fast jede App hat dasselbe Grundgerüst</h2>
+<p>Öffne irgendeine App auf deinem Handy. Sie ist mit sehr hoher Wahrscheinlichkeit in drei Zonen aufgeteilt.</p>
+
+<div class="skeleton">
+  <div class="skel">
+    <div class="zone z1">KOPF<br><span style="font-weight:400">Wo bin ich?</span></div>
+    <div class="zone z2">INHALT<div style="font-weight:400">Worum geht es?</div><div style="font-weight:400;font-size:10px">scrollbar</div></div>
+    <div class="zone z3">FUSS<br><span style="font-weight:400">Wohin kann ich?</span></div>
+  </div>
+  <div class="skeltext">
+    <p><b>Kopf.</b> Sagt dir, wo du gerade bist. Titel der Seite, dazu ein bis drei Aktionen wie Suche oder Menü. In Android heisst dieser Balken <code>MaterialToolbar</code>, meist in einem <code>AppBarLayout</code>.</p>
+    <p><b>Inhalt.</b> Der eigentliche Zweck der App. Fast immer scrollbar, weil der Bildschirm klein ist. Meistens eine Liste, ein Formular oder ein Bild.</p>
+    <p><b>Fuss.</b> Die Hauptnavigation. Drei bis fünf Ziele, zwischen denen du hin und her springst. In Android die <code>BottomNavigationView</code>.</p>
+    <p style="margin:0">Diese Dreiteilung ist kein Zufall und keine Mode. Sie hat einen körperlichen Grund, und der steht im nächsten Abschnitt.</p>
+  </div>
+</div>
+
+<h2><span class="num">2</span>Warum die Navigation unten ist</h2>
+<div class="skeleton">
+  <div class="thumb">
+    <div class="band b-hard">schwer erreichbar<br>Umgreifen nötig</div>
+    <div class="band b-mid">geht so</div>
+    <div class="band b-easy">bequem<br>Daumen kommt hin</div>
+  </div>
+  <div class="skeltext">
+    <p>Ein Handy wird mit einer Hand gehalten und mit dem Daumen bedient. Der Daumen erreicht das untere Drittel mühelos. Für das obere Drittel musst du das Gerät umgreifen. Bildschirme sind über die Jahre grösser geworden, Daumen nicht.</p>
+    <p>Daraus folgt eine einfache Regel für alles, was du baust:</p>
+    <div class="tip"><p style="margin:0"><b>Was der Benutzer oft antippt, gehört nach unten. Was er nur liest, darf nach oben.</b> Darum sitzt die Navigation unten und der Titel oben. Darum verlangt der Auftrag 02B, dass die Buttons am unteren Rand kleben.</p></div>
+    <p style="margin:0;font-size:14px;color:var(--muted)">Das ist auch der Kern der Norm EN ISO 9241, die im Modul unter Ergonomie auftaucht. Ein System soll sich der Person anpassen, nicht umgekehrt.</p>
+  </div>
+</div>
+
+<h2><span class="num">3</span>Vier Apps, zerlegt</h2>
+<p>Jetzt schauen wir vier Apps an, die du kennst. Die Skizzen sind absichtlich grob. Es geht nicht um Farben und Schrift, sondern um die Bausteine. Die Nummern zeigen auf die Tabelle daneben.</p>
+
+<h3>WhatsApp, Übersicht der Chats</h3>
+<div class="app">
+  <div class="ph">
+    <div class="bar"><span class="cbadge" style="left:-9px;top:2px">1</span><b style="font-size:10px">WhatsApp</b><span class="grow"></span><span class="ic"></span><span class="ic"></span></div>
+    <div style="position:relative"><span class="cbadge" style="left:-9px;top:14px">2</span>
+      <div class="row"><span class="av" style="position:relative"><span class="cbadge" style="left:-14px;top:2px">3</span></span><span class="lines"><span class="ln m"></span><span class="ln s"></span></span><span style="position:relative">14:02<span class="badge">3</span></span></div>
+      <div class="row"><span class="av"></span><span class="lines"><span class="ln"></span><span class="ln s"></span></span><span>12:40</span></div>
+      <div class="row"><span class="av"></span><span class="lines"><span class="ln m"></span><span class="ln s"></span></span><span>gestern</span></div>
+      <div class="row"><span class="av"></span><span class="lines"><span class="ln"></span><span class="ln s"></span></span><span>gestern</span></div>
+      <div class="row"><span class="av"></span><span class="lines"><span class="ln m"></span><span class="ln s"></span></span><span>Mo</span></div>
+      <div class="row" style="border:none"><span class="av"></span><span class="lines"><span class="ln s"></span><span class="ln s"></span></span><span>Mo</span></div>
+    </div>
+    <div style="position:relative;height:34px">
+      <div class="fab" style="bottom:4px">+<span class="cbadge" style="left:-13px;top:-4px">4</span></div>
+    </div>
+    <div class="navbar"><span class="cbadge" style="left:-9px;top:8px">5</span>
+      <span class="navit"><span class="ic"></span>Chats</span>
+      <span class="navit"><span class="ic"></span>Updates</span>
+      <span class="navit"><span class="ic"></span>Gruppen</span>
+      <span class="navit"><span class="ic"></span>Anrufe</span>
+    </div>
+  </div>
+  <div class="apptbl">
+    <table>
+      <tr><th></th><th>Was du siehst</th><th>Baustein in Android</th></tr>
+      <tr><td><span class="n">1</span></td><td>Kopfzeile mit Titel, Suche und Menü</td><td><code>MaterialToolbar</code></td></tr>
+      <tr><td><span class="n">2</span></td><td>Lange Liste von Chats, scrollbar</td><td><code>RecyclerView</code></td></tr>
+      <tr><td><span class="n">3</span></td><td>Eine einzelne Zeile: rundes Bild, zwei Textzeilen, Zeit, Zähler</td><td>ein kleines Layout mit <code>ShapeableImageView</code> und <code>TextView</code></td></tr>
+      <tr><td><span class="n">4</span></td><td>Der runde Knopf für neuen Chat</td><td><code>FloatingActionButton</code></td></tr>
+      <tr><td><span class="n">5</span></td><td>Vier Ziele am unteren Rand</td><td><code>BottomNavigationView</code></td></tr>
+    </table>
+  </div>
+</div>
+<p style="font-size:14px;color:var(--muted)"><b>Das Wichtigste hier:</b> Die Liste hat vielleicht 300 Einträge, aber du baust nur <b>eine</b> Zeile. Der RecyclerView vervielfältigt sie und füllt sie mit Daten. Diese eine Zeile ist ein ganz normales Layout, genau wie du es gleich in 02B baust.</p>
+
+<h3>YouTube, Startseite</h3>
+<div class="app">
+  <div class="ph">
+    <div class="bar"><span class="cbadge" style="left:-9px;top:2px">1</span><b style="font-size:10px">YouTube</b><span class="grow"></span><span class="ic"></span><span class="ic"></span><span class="ic r"></span></div>
+    <div style="position:relative">
+      <span class="cbadge" style="left:-9px;top:26px">2</span>
+      <div class="thumbimg">Vorschaubild 16:9</div>
+      <div class="row" style="border:none"><span class="av" style="position:relative"></span><span class="lines"><span class="ln m"></span><span class="ln s"></span></span><span class="ic"></span></div>
+      <div class="thumbimg">Vorschaubild 16:9</div>
+      <div class="row" style="border:none"><span class="av"></span><span class="lines"><span class="ln"></span><span class="ln s"></span></span><span class="ic"></span></div>
+    </div>
+    <div class="navbar" style="margin-top:8px"><span class="cbadge" style="left:-9px;top:8px">3</span>
+      <span class="navit"><span class="ic"></span>Start</span>
+      <span class="navit"><span class="ic"></span>Shorts</span>
+      <span class="navit"><span class="ic"></span>Abos</span>
+      <span class="navit"><span class="ic r"></span>Du</span>
+    </div>
+  </div>
+  <div class="apptbl">
+    <table>
+      <tr><th></th><th>Was du siehst</th><th>Baustein in Android</th></tr>
+      <tr><td><span class="n">1</span></td><td>Kopfzeile mit Logo und drei Symbolknöpfen</td><td><code>MaterialToolbar</code> mit <code>ImageButton</code></td></tr>
+      <tr><td><span class="n">2</span></td><td>Feed. Pro Eintrag ein grosses Bild, darunter Avatar, Titel, Angaben</td><td><code>RecyclerView</code>, Zeile mit <code>ImageView</code> und <code>TextView</code></td></tr>
+      <tr><td><span class="n">3</span></td><td>Vier Ziele unten, eines davon mit rundem Profilbild</td><td><code>BottomNavigationView</code></td></tr>
+    </table>
+    <p style="font-size:13.6px;color:var(--muted);margin:8px 0 0">Auffällig: dieselbe Grundstruktur wie WhatsApp. Nur die Zeile sieht anders aus. Kopf, scrollbare Liste, Navigation unten.</p>
+  </div>
+</div>
+
+<h3>Instagram, Feed</h3>
+<div class="app">
+  <div class="ph">
+    <div class="bar"><b style="font-size:10px">Instagram</b><span class="grow"></span><span class="ic"></span><span class="ic"></span></div>
+    <div class="stories"><span class="cbadge" style="left:-9px;top:4px">1</span>
+      <span class="st"></span><span class="st"></span><span class="st"></span><span class="st"></span><span class="st"></span><span class="st" style="opacity:.5"></span>
+    </div>
+    <div style="position:relative"><span class="cbadge" style="left:-9px;top:20px">2</span>
+      <div class="row" style="border:none;padding-bottom:2px"><span class="av" style="width:18px;height:18px;flex:0 0 18px"></span><span class="lines"><span class="ln s"></span></span><span class="ic"></span></div>
+      <div class="thumbimg" style="height:76px">Beitragsbild</div>
+      <div class="actions"><span class="cbadge" style="left:-9px;top:1px">3</span>
+        <span class="ic"></span><span class="ic"></span><span class="ic"></span><span class="grow"></span><span class="ic"></span>
+      </div>
+      <div style="padding:4px"><span class="ln m" style="display:block;margin-bottom:3px"></span><span class="ln s" style="display:block"></span></div>
+    </div>
+    <div class="navbar">
+      <span class="navit"><span class="ic"></span></span><span class="navit"><span class="ic"></span></span>
+      <span class="navit"><span class="ic"></span></span><span class="navit"><span class="ic"></span></span>
+      <span class="navit"><span class="ic r"></span></span>
+    </div>
+  </div>
+  <div class="apptbl">
+    <table>
+      <tr><th></th><th>Was du siehst</th><th>Baustein in Android</th></tr>
+      <tr><td><span class="n">1</span></td><td>Reihe runder Bilder, die man seitwärts wischt</td><td><code>RecyclerView</code>, aber <b>waagrecht</b></td></tr>
+      <tr><td><span class="n">2</span></td><td>Ein Beitrag: Kopfzeile, grosses Bild, Symbolreihe, Text</td><td>ein eigenes Layout, oft in einer <code>MaterialCardView</code></td></tr>
+      <tr><td><span class="n">3</span></td><td>Herz, Kommentar, Teilen, Speichern</td><td><code>ImageButton</code> in einem <code>LinearLayout</code></td></tr>
+    </table>
+    <p style="font-size:13.6px;color:var(--muted);margin:8px 0 0">Neu gegenüber den ersten beiden: eine Liste muss nicht senkrecht sein. Derselbe RecyclerView kann auch waagrecht laufen. Und beachte die Symbolreihe. Das ist genau ein waagrechtes LinearLayout, so wie die Button-Reihe, die du in 02B bauen wirst.</p>
+  </div>
+</div>
+
+<h3>Play Store, Startseite</h3>
+<div class="app">
+  <div class="ph">
+    <div class="bar" style="border-radius:14px"><span class="cbadge" style="left:-9px;top:2px">1</span><span class="ic r"></span><span style="font-size:8.5px">Apps und Spiele suchen</span><span class="grow"></span><span class="ic r"></span></div>
+    <div class="chips"><span class="cbadge" style="left:-9px;top:3px">2</span>
+      <span class="chip">Für dich</span><span class="chip">Top</span><span class="chip">Kinder</span>
+    </div>
+    <div style="padding:3px;font-size:8.5px;font-weight:600;color:#4a4740">Empfohlen für dich</div>
+    <div class="cards"><span class="cbadge" style="left:-9px;top:12px">3</span>
+      <span class="cd"><span class="cdi"></span>App A<br>4.5</span>
+      <span class="cd"><span class="cdi"></span>App B<br>4.2</span>
+      <span class="cd"><span class="cdi"></span>App C<br>4.8</span>
+    </div>
+    <div style="padding:3px;font-size:8.5px;font-weight:600;color:#4a4740">Neu und angesagt</div>
+    <div class="cards">
+      <span class="cd"><span class="cdi"></span>App D<br>4.1</span>
+      <span class="cd"><span class="cdi"></span>App E<br>4.6</span>
+      <span class="cd"><span class="cdi"></span>App F<br>3.9</span>
+    </div>
+    <div class="navbar" style="margin-top:6px">
+      <span class="navit"><span class="ic"></span>Spiele</span>
+      <span class="navit"><span class="ic"></span>Apps</span>
+      <span class="navit"><span class="ic"></span>Suche</span>
+      <span class="navit"><span class="ic"></span>Bücher</span>
+    </div>
+  </div>
+  <div class="apptbl">
+    <table>
+      <tr><th></th><th>Was du siehst</th><th>Baustein in Android</th></tr>
+      <tr><td><span class="n">1</span></td><td>Suchfeld als abgerundete Leiste statt klassischer Titel</td><td><code>SearchBar</code> aus Material</td></tr>
+      <tr><td><span class="n">2</span></td><td>Kleine anklickbare Etiketten zum Filtern</td><td><code>Chip</code> in einer <code>ChipGroup</code></td></tr>
+      <tr><td><span class="n">3</span></td><td>Kärtchen mit Bild, Name und Bewertung, seitwärts wischbar</td><td><code>MaterialCardView</code> in einem waagrechten <code>RecyclerView</code></td></tr>
+    </table>
+    <p style="font-size:13.6px;color:var(--muted);margin:8px 0 0">Hier ist die ganze Seite eine senkrechte Liste, in der wieder waagrechte Listen stecken. Verschachtelung, genau wie bei deinen Layouts, nur eine Ebene höher.</p>
+  </div>
+</div>
+
+<h2><span class="num">4</span>Was sich überall wiederholt</h2>
+<p>Vier verschiedene Firmen, vier verschiedene Zwecke, und trotzdem dieselben Muster. Das ist die eigentliche Erkenntnis.</p>
+
+<div class="pats">
+  <div class="pat"><b>Die Liste ist der Kern</b><span>In allen vier Apps ist der Inhalt eine Liste. Wer Listen kann, kann Apps bauen.</span></div>
+  <div class="pat"><b>Drei bis fünf Ziele unten</b><span>Nie mehr. Bei mehr Zielen nimmt man ein Seitenmenü. Mehr als fünf Symbole nebeneinander trifft der Daumen nicht mehr.</span></div>
+  <div class="pat"><b>Eine Hauptaktion</b><span>WhatsApp hat einen runden Knopf für neuen Chat. Genau einen. Die wichtigste Aktion bekommt den auffälligsten Platz, unten rechts.</span></div>
+  <div class="pat"><b>Zeilen sind wiederverwendbar</b><span>Man baut ein Layout für eine Zeile und benutzt es hundertfach. Nie hundert Zeilen von Hand.</span></div>
+  <div class="pat"><b>Bilder sind rund oder eckig, nie zufällig</b><span>Rund heisst Person. Eckig heisst Sache oder Inhalt. Das ist überall gleich und hilft beim Erkennen.</span></div>
+  <div class="pat"><b>Suche gehört nach oben</b><span>Suchen tut man selten, aber gezielt. Es darf oben sein, weil man dafür kurz umgreift.</span></div>
+</div>
+
+<h2><span class="num">5</span>Der Baukasten</h2>
+<p>Das ist die Liste, die dir bisher gefehlt hat. Geh sie von links nach rechts durch. Du suchst, was du willst, und findest den passenden Baustein.</p>
+
+<h3>Anzeigen</h3>
+<table>
+  <tr><th style="width:36%">Was du willst</th><th style="width:30%">Baustein</th><th>Bemerkung</th></tr>
+  <tr><td>Text anzeigen</td><td><code>TextView</code></td><td>Der Allrounder. Titel, Beschriftung, Ausgabe.</td></tr>
+  <tr><td>Bild anzeigen</td><td><code>ImageView</code></td><td>Für runde Bilder <code>ShapeableImageView</code>.</td></tr>
+  <tr><td>Fortschritt zeigen</td><td><code>ProgressBar</code></td><td>Als Kreis beim Laden, als Balken bei bekannter Dauer.</td></tr>
+  <tr><td>Bewertung mit Sternen</td><td><code>RatingBar</code></td><td></td></tr>
+</table>
+
+<h3>Eingeben</h3>
+<table>
+  <tr><th style="width:36%">Was du willst</th><th style="width:30%">Baustein</th><th>Bemerkung</th></tr>
+  <tr><td>Text eingeben</td><td><code>EditText</code></td><td>Immer <code>inputType</code> setzen. Dann erscheint die richtige Tastatur.</td></tr>
+  <tr><td>Eingabefeld mit Rahmen und Fehlermeldung</td><td><code>TextInputLayout</code> mit <code>TextInputEditText</code></td><td>Die heutige Bauform. Zeigt Beschriftung und Fehler sauber an.</td></tr>
+  <tr><td>Ja oder nein</td><td><code>MaterialSwitch</code> oder <code>CheckBox</code></td><td>Schalter wirkt sofort, Häkchen wirkt beim Bestätigen.</td></tr>
+  <tr><td>Eines aus mehreren</td><td><code>RadioButton</code> in einer <code>RadioGroup</code></td><td>Nur bis etwa fünf Möglichkeiten.</td></tr>
+  <tr><td>Eines aus vielen</td><td><code>Spinner</code> oder <code>AutoCompleteTextView</code></td><td>Ab etwa sechs Möglichkeiten.</td></tr>
+  <tr><td>Zahl in einem Bereich</td><td><code>Slider</code></td><td>Lautstärke, Preisgrenze.</td></tr>
+  <tr><td>Datum oder Zeit</td><td><code>MaterialDatePicker</code>, <code>MaterialTimePicker</code></td><td>Niemals von Hand tippen lassen.</td></tr>
+</table>
+
+<h3>Aktionen auslösen</h3>
+<table>
+  <tr><th style="width:36%">Was du willst</th><th style="width:30%">Baustein</th><th>Bemerkung</th></tr>
+  <tr><td>Normaler Knopf</td><td><code>MaterialButton</code></td><td>Gefüllt für die wichtigste Aktion, umrandet oder flach für die anderen.</td></tr>
+  <tr><td>Knopf nur mit Symbol</td><td><code>ImageButton</code></td><td>Braucht <code>contentDescription</code>, sonst ist er für Blinde unbrauchbar.</td></tr>
+  <tr><td>Die eine Hauptaktion des Bildschirms</td><td><code>FloatingActionButton</code></td><td>Nur einer pro Bildschirm. Unten rechts.</td></tr>
+  <tr><td>Anklickbares Etikett, Filter</td><td><code>Chip</code> in einer <code>ChipGroup</code></td><td></td></tr>
+</table>
+
+<h3>Struktur und Navigation</h3>
+<table>
+  <tr><th style="width:36%">Was du willst</th><th style="width:30%">Baustein</th><th>Bemerkung</th></tr>
+  <tr><td>Kopfzeile mit Titel</td><td><code>MaterialToolbar</code></td><td>Meist in einem <code>AppBarLayout</code>.</td></tr>
+  <tr><td>Hauptnavigation unten</td><td><code>BottomNavigationView</code></td><td>Drei bis fünf Ziele.</td></tr>
+  <tr><td>Reiter zum Wischen</td><td><code>TabLayout</code> mit <code>ViewPager2</code></td><td></td></tr>
+  <tr><td>Menü, das von der Seite kommt</td><td><code>DrawerLayout</code> mit <code>NavigationView</code></td><td>Wenn es mehr als fünf Ziele gibt.</td></tr>
+  <tr><td>Lange oder unbekannt lange Liste</td><td><code>RecyclerView</code></td><td>Der wichtigste Baustein überhaupt. Kommt in Block 7B.</td></tr>
+  <tr><td>Inhalt, der nicht auf den Bildschirm passt</td><td><code>ScrollView</code></td><td>Nur für feste Inhalte. Für Listen niemals, dafür ist RecyclerView da.</td></tr>
+  <tr><td>Inhalt als Kärtchen abheben</td><td><code>MaterialCardView</code></td><td></td></tr>
+</table>
+
+<h3>Rückmeldung geben</h3>
+<table>
+  <tr><th style="width:36%">Was du willst</th><th style="width:30%">Baustein</th><th>Bemerkung</th></tr>
+  <tr><td>Kurze Meldung, verschwindet von selbst</td><td><code>Toast</code></td><td>Kennst du aus Block 01C.</td></tr>
+  <tr><td>Kurze Meldung mit Rückgängig-Knopf</td><td><code>Snackbar</code></td><td>Heute meist besser als Toast, weil man reagieren kann.</td></tr>
+  <tr><td>Frage, die beantwortet werden muss</td><td><code>MaterialAlertDialog</code></td><td>Sparsam einsetzen, unterbricht den Benutzer.</td></tr>
+  <tr><td>Zusatzinhalt von unten einblenden</td><td><code>BottomSheet</code></td><td>Teilen-Menü, Filter.</td></tr>
+  <tr><td>Kleiner Zähler an einem Symbol</td><td><code>BadgeDrawable</code></td><td>Die rote Zahl bei ungelesenen Nachrichten.</td></tr>
+</table>
+
+<h2><span class="num">6</span>Baustein, Behälter, Bildschirm</h2>
+<p>Drei Begriffe, die man leicht verwechselt. Der Unterschied ist einfach.</p>
+<table>
+  <tr><th style="width:24%">Begriff</th><th style="width:32%">Was es ist</th><th>Beispiele</th></tr>
+  <tr><td><b>Control</b><br><span style="font-size:13px;color:var(--muted)">auch Widget oder View</span></td><td>Ein einzelnes Ding, das etwas anzeigt oder etwas entgegennimmt. Hat keine Kinder.</td><td>TextView, Button, EditText, ImageView</td></tr>
+  <tr><td><b>Layout</b><br><span style="font-size:13px;color:var(--muted)">auch Container oder Panel</span></td><td>Ein Behälter. Er zeigt selbst nichts an, sondern ordnet seine Kinder an.</td><td>LinearLayout, FrameLayout, ConstraintLayout</td></tr>
+  <tr><td><b>Bildschirm</b><br><span style="font-size:13px;color:var(--muted)">Screen</span></td><td>Eine ganze Ansicht. In Android eine Activity mit ihrer XML-Datei.</td><td>MainActivity mit activity_main.xml</td></tr>
+</table>
+
+<div class="tip">
+<p style="margin:0"><b>Die Faustregel:</b> Ein Layout benutzt du dann, wenn etwas darin liegen soll. Steckt nichts drin, brauchst du kein Layout, sondern ein Control. Ein leerer Behälter ist fast immer ein Zeichen dafür, dass du den falschen Baustein gewählt hast.</p>
+</div>
+
+<p>In Android hängt alles davon am selben Stamm. Sowohl Button als auch LinearLayout erben von der Klasse <code>View</code>. Darum haben alle dieselben Grundangaben wie <code>layout_width</code>, <code>layout_height</code> und <code>id</code>. Ein Layout ist also nichts anderes als eine View, die Kinder haben darf.</p>
+
+<h2><span class="num">7</span>Faustregeln, an die sich alle halten</h2>
+<table>
+  <tr><th style="width:40%">Regel</th><th>Warum</th></tr>
+  <tr><td>Alles Antippbare mindestens <b>48dp mal 48dp</b></td><td>Das ist etwa die Fläche einer Fingerkuppe. Kleineres trifft man nicht zuverlässig. Gilt als offizielle Mindestgrösse in Android.</td></tr>
+  <tr><td>Abstände in Vielfachen von <b>8dp</b></td><td>Ergibt ein ruhiges Bild. 8, 16, 24, 32. Bei Symbolen auch 4dp.</td></tr>
+  <tr><td>Höchstens <b>eine</b> Hauptaktion pro Bildschirm</td><td>Zwei gleich auffällige Knöpfe bedeuten, dass der Benutzer nachdenken muss.</td></tr>
+  <tr><td>Alles muss <b>quer</b> funktionieren</td><td>Das Gerät wird gedreht. Inhalt, der nur hochkant passt, ist ein Fehler.</td></tr>
+  <tr><td>Schriftgrössen in <b>sp</b>, alles andere in <b>dp</b></td><td>sp wächst mit, wenn jemand am Handy grosse Schrift eingestellt hat.</td></tr>
+  <tr><td>Jedes Symbol braucht eine <b>contentDescription</b></td><td>Sonst liest der Screenreader nur "Schaltfläche" vor.</td></tr>
+  <tr><td>Farbe nie als einzige Information</td><td>Rot allein sagt einem farbenblinden Benutzer nichts. Immer noch Text oder Symbol dazu.</td></tr>
+</table>
+
+<h2><span class="num">8</span>So zerlegst du selbst eine App</h2>
+<p>Das ist die Arbeitstechnik. Sie funktioniert bei jeder App und auch bei jedem Mockup, das dir jemand hinlegt.</p>
+<ol>
+  <li><b>Zonen finden.</b> Zeichne drei waagrechte Striche: Kopf, Inhalt, Fuss. Was gehört wohin?</li>
+  <li><b>Wiederholung suchen.</b> Gibt es etwas, das mehrfach fast gleich aussieht? Das ist eine Liste. Zeichne nur <b>eine</b> Zeile davon.</li>
+  <li><b>Einzelteile benennen.</b> Geh die eine Zeile durch und benenne jedes Ding mit dem Namen aus dem Baukasten oben.</li>
+  <li><b>Richtung bestimmen.</b> Frag pro Gruppe: liegen die Dinge nebeneinander, untereinander oder übereinander? Daraus folgt das Layout.</li>
+</ol>
+<p>Erst danach öffnest du Android Studio. Wer ohne diese Skizze anfängt, baut zweimal.</p>
+
+<h2><span class="num">9</span>Übungen ohne Vorlage</h2>
+<p>Die Lösungen zu Übung 3 und Übung 4 stehen im Classroom-Material <b>02A Loesung - Die drei Unterlagen</b>. Schau erst hinein, wenn du es selbst versucht hast.</p>
+
+<div class="ex">
+  <h3>Übung 1: Deine Lieblings-App zerlegen</h3>
+  <p class="goal">Nimm eine App auf deinem Handy, die oben nicht vorkommt. Mach einen Screenshot der Startseite. Zeichne die drei Zonen ein und beschrifte mindestens sechs Bausteine mit ihrem Android-Namen.</p>
+  <p style="font-size:13.5px;margin:0"><b>So prüfst du:</b> Du hast mindestens einen Baustein gefunden, den es in den vier Beispielen oben nicht gab. Und du kannst sagen, warum die App ihn braucht.</p>
+</div>
+
+<div class="ex">
+  <h3>Übung 2: Die eine Zeile</h3>
+  <p class="goal">Nimm die Liste aus deiner App. Zeichne <b>nur eine Zeile</b> gross auf ein Blatt. Zeichne Kästchen um jede Gruppe. Schreib bei jedem Kästchen dazu, ob es ein LinearLayout waagrecht, ein LinearLayout senkrecht oder ein ConstraintLayout ist.</p>
+  <p style="font-size:13.5px;margin:0"><b>So prüfst du:</b> Deine Skizze hat höchstens drei Verschachtelungsebenen. Wird es tiefer, geht es meistens einfacher.</p>
+</div>
+
+<div class="ex">
+  <h3>Übung 3: Baustein wählen</h3>
+  <p class="goal">Welchen Baustein nimmst du? Antworte aus dem Kopf, dann prüfe im Baukasten oben.</p>
+  <ol style="font-size:14px;margin:8px 0 0">
+    <li>Der Benutzer soll aus zwölf Ländern eines wählen.</li>
+    <li>Der Benutzer soll bestätigen, dass er die Bedingungen gelesen hat.</li>
+    <li>Du willst melden, dass eine Nachricht gelöscht wurde, und ein Rückgängig anbieten.</li>
+    <li>Der Benutzer soll ein Geburtsdatum eingeben.</li>
+    <li>Du willst 500 Produkte untereinander anzeigen.</li>
+  </ol>
+</div>
+
+<div class="ex">
+  <h3>Übung 4: Fehlersuche im Entwurf</h3>
+  <p class="goal">Jemand entwirft einen Bildschirm mit sieben Zielen in der unteren Navigation, einem Löschen-Knopf oben links und drei gleich auffälligen gefüllten Buttons. Nenne drei Probleme und begründe jedes in einem Satz.</p>
+</div>
+
+<div class="ex" style="border-left-color:var(--acc)">
+  <h3>Übung 5: Erklären</h3>
+  <p class="goal">Erkläre einem Lerngspänli in zwei Sätzen, warum WhatsApp, YouTube und Instagram trotz völlig verschiedener Zwecke fast gleich aufgebaut sind.</p>
+</div>
+
+<p class="foot">M335 Mobile Applikationen &middot; Nachschlagewerk, Classroom-Thema 90 &middot; Gehört zusammen mit "Layouts verstehen" und "Constraints verstehen" &middot; Die Skizzen sind eigene schematische Nachzeichnungen, keine Bildschirmfotos</p>
+
+</div>
+</body>
+</html>

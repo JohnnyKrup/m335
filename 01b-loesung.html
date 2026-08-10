@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>01B Loesung, Android Studio und erster Code</title>
+<style>
+  :root{
+    --bg:#f9f9f7; --surface:#fcfcfb; --fg:#0b0b0b; --ink2:#52514e; --muted:#898781;
+    --line:#e1e0d9; --rule:#c3c2b7;
+    --acc:#2a78d6; --acc-bg:#e8f0f8;
+    --good:#0ca30c; --ok-bg:#e6f2ed;
+    --amber:#b1701c; --amber-bg:#fbf0df;
+    --crit:#d03b3b; --crit-bg:#fbeae7;
+    --vio:#4a3aa7; --vio-bg:#eceaf7;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font:16px/1.62 system-ui,-apple-system,"Segoe UI",sans-serif}
+  .wrap{max-width:920px;margin:0 auto;padding:40px 24px 90px}
+  h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+  .sub{color:var(--ink2);margin:0 0 26px;font-size:15px}
+  h2{font-size:20px;margin:46px 0 12px;padding-top:15px;border-top:2px solid var(--rule);letter-spacing:-.01em}
+  h3{font-size:16.5px;margin:28px 0 8px}
+  p{margin:0 0 12px}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;
+       background:#f0eee9;padding:1px 5px;border-radius:4px}
+  pre{background:#26241f;color:#eae7df;padding:14px 16px;border-radius:10px;overflow-x:auto;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.6px;line-height:1.6;margin:0 0 16px}
+  pre .k{color:#d8a0d0} pre .t{color:#8fc4e8} pre .s{color:#b7d69a} pre .c{color:#8f8a7d}
+  .tip{border-left:3px solid var(--good);background:var(--ok-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .tip b{color:#006300}
+  .note{border-left:3px solid var(--crit);background:var(--crit-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .note b{color:var(--crit)}
+  .info{border-left:3px solid var(--acc);background:var(--acc-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .info b{color:var(--acc)}
+  table{border-collapse:collapse;width:100%;font-size:14.2px;margin:0 0 16px;background:var(--surface)}
+  th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-weight:600;background:#f3f1ec}
+  td.pre{font-family:ui-monospace,Menlo,monospace;font-weight:600;color:#3a2d86;white-space:nowrap}
+  ul,ol{margin:0 0 14px;padding-left:22px} li{margin:0 0 7px}
+  .ue{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 17px;margin:0 0 14px}
+  .ue .t{font-weight:600;margin-bottom:5px}
+  .foot{margin-top:50px;padding-top:16px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>01B Loesung, Android Studio und erster Code</h1>
+<p class="sub">Lösungsmaterial zum Auftrag 01B. Modul 335 Block 01.</p>
+<p class="sub"><b>Zum Durchlesen brauchst du etwa 10 Minuten.</b> Das ist ein Richtwert. Du musst nicht alles lesen, such dir die Stelle, die du brauchst.</p>
+
+<div class="info">
+<p><b>Wie du das hier benutzt.</b> Nicht abtippen. Vergleichen. Zu jeder Lösung steht eine kurze Begründung. Die Begründung ist der eigentliche Inhalt, der Code ist nur der Beleg dazu.</p>
+</div>
+
+
+<h2>Vergleichsliste, dein eigener Code</h2>
+<p>Geh diese sechs Punkte an <b>deiner eigenen</b> Datei durch, bevor du den fertigen Code liest. Dein Screenshot zeigt nur, dass dein Name auf dem Emulator steht. Diese Liste zeigt, ob der Code darunter stimmt.</p>
+
+<table>
+<tr><th>Nr</th><th>Das prüfst du</th><th>Warum es zählt</th></tr>
+<tr><td>1</td><td>Steht in der TextView <code>android:id="@+id/tvGreeting"</code>, mit Plus?</td><td>Ohne Plus sucht Android eine bestehende id und findet nichts</td></tr>
+<tr><td>2</td><td>Heisst die id <code>tvGreeting</code> und nicht <code>txtGreeting</code>?</td><td><code>tv</code> ist das Präfix für TextView. Dieselbe Konvention gilt im ganzen Modul und in der Leistungsbeurteilung</td></tr>
+<tr><td>3</td><td>Steht <code>findViewById</code> <b>nach</b> <code>setContentView</code>?</td><td>Vorher gibt es die Views noch nicht. Genau das war dein Absturz in Teil C</td></tr>
+<tr><td>4</td><td>Heisst deine Java-Variable gleich wie die id?</td><td>Sonst musst du beim Lesen zwischen zwei Namen übersetzen</td></tr>
+<tr><td>5</td><td>Steht oben <code>import android.widget.TextView;</code>?</td><td>Den hat Alt und Enter erzeugt. Ohne ihn bleibt das Wort rot</td></tr>
+<tr><td>6</td><td>Ist der Block mit dem Pfeil noch da, unverändert?</td><td>Er hält deinen Inhalt unter der Uhr und über der Navigationsleiste. Wer ihn löscht, hat am Nachmittag ein Problem</td></tr>
+</table>
+
+
+<h2>Das fertige activity_main.xml</h2>
+<p>Der Stand am Ende von Teil B. Nur die eine Zeile mit der id ist neu, alles andere hat die Vorlage erzeugt.</p>
+<pre>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;<span class="t">androidx.constraintlayout.widget.ConstraintLayout</span>
+    xmlns:android=<span class="s">"http://schemas.android.com/apk/res/android"</span>
+    xmlns:app=<span class="s">"http://schemas.android.com/apk/res-auto"</span>
+    xmlns:tools=<span class="s">"http://schemas.android.com/tools"</span>
+    android:id=<span class="s">"@+id/main"</span>
+    android:layout_width=<span class="s">"match_parent"</span>
+    android:layout_height=<span class="s">"match_parent"</span>
+    tools:context=<span class="s">".MainActivity"</span>&gt;
+
+    &lt;<span class="t">TextView</span>
+        android:id=<span class="s">"@+id/tvGreeting"</span>          <span class="c">&lt;!-- das ist deine neue Zeile --&gt;</span>
+        android:layout_width=<span class="s">"wrap_content"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:text=<span class="s">"Hello World!"</span>
+        app:layout_constraintBottom_toBottomOf=<span class="s">"parent"</span>
+        app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span>
+        app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
+        app:layout_constraintTop_toTopOf=<span class="s">"parent"</span> /&gt;
+
+&lt;/<span class="t">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</pre>
+
+<div class="tip">
+<p><b><code>android:text="Hello World!"</code> bleibt stehen und das ist richtig.</b> Der Text aus dem XML wird beim Laden gesetzt. Dein <code>setText</code> im Code läuft danach und überschreibt ihn. Wer die Zeile löscht, sieht keinen Unterschied. Wer sie stehen lässt, sieht im Layout-Editor weiterhin etwas.</p>
+</div>
+
+
+<h2>Das fertige MainActivity.java</h2>
+<p>Der Stand am Ende von Teil B und nach der Reparatur in C4. Die zwei neuen Zeilen stehen <b>nach</b> <code>setContentView</code>.</p>
+<pre><span class="k">package</span> ch.wiss.m335.helloworld;
+
+<span class="k">import</span> android.os.Bundle;
+<span class="k">import</span> android.widget.TextView;              <span class="c">// von Alt und Enter erzeugt</span>
+<span class="k">import</span> androidx.activity.EdgeToEdge;
+<span class="k">import</span> androidx.appcompat.app.AppCompatActivity;
+<span class="k">import</span> androidx.core.graphics.Insets;
+<span class="k">import</span> androidx.core.view.ViewCompat;
+<span class="k">import</span> androidx.core.view.WindowInsetsCompat;
+
+<span class="k">public class</span> <span class="t">MainActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span> {
+
+    <span class="k">@Override</span>
+    <span class="k">protected void</span> onCreate(<span class="t">Bundle</span> savedInstanceState) {
+        <span class="k">super</span>.onCreate(savedInstanceState);
+        EdgeToEdge.enable(<span class="k">this</span>);
+        setContentView(R.layout.activity_main);
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -&gt; {
+            <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            <span class="k">return</span> insets;
+        });
+
+        <span class="c">// deine zwei neuen Zeilen, nach setContentView</span>
+        <span class="t">TextView</span> tvGreeting = findViewById(R.id.tvGreeting);
+        tvGreeting.setText(<span class="s">"Hallo Anna!"</span>);
+    }
+}</pre>
+
+<div class="note">
+<p><b>Der Block mit dem Pfeil bleibt unangetastet.</b> Er sorgt dafür, dass dein Inhalt nicht unter der Uhr und nicht unter der Navigationsleiste liegt. Wer ihn löscht, hat am Nachmittag in Block 02 ein Problem, das er nicht mehr zuordnen kann.</p>
+</div>
+
+
+<h2>Teil C, der Stacktrace</h2>
+<p>So sieht der Absturz aus. Bei dir stehen andere Zeilennummern und ein anderer Paketname.</p>
+
+<table>
+<tr><th>Schritt</th><th>Was du findest</th><th>Warum</th></tr>
+<tr>
+<td>1</td>
+<td>Rund die Hälfte der Zeilen beginnt mit <code>android.app.</code> oder <code>com.android.</code></td>
+<td>Das ist Android selbst beim Starten der Activity. Nie dein Fehler</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>Caused by: java.lang.NullPointerException: Attempt to invoke virtual method 'void android.widget.TextView.setText(java.lang.CharSequence)' on a null object reference</code></td>
+<td>Das ist die echte Ursache. Der obere Teil sagt nur, dass die Activity nicht starten konnte</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Die erste Zeile mit deinem Paketnamen, etwa <code>at ch.wiss.m335.helloworld.MainActivity.onCreate(MainActivity.java:22)</code></td>
+<td>Datei und Zeilennummer. Genau dort steht dein <code>setText</code></td>
+</tr>
+</table>
+
+<p><b>Die Antwort in einem Satz:</b> <code>findViewById</code> stand vor <code>setContentView</code>. Zu diesem Zeitpunkt gab es die Views noch nicht, also lieferte es <code>null</code>. Der Aufruf von <code>setText</code> auf <code>null</code> hat die App zum Absturz gebracht.</p>
+
+<div class="tip">
+<p><b>Der Satz, der bei jedem Absturz hilft.</b> Die Meldung nennt immer die Methode, die nicht ausgeführt werden konnte, und den Grund. Hier: <code>setText</code> auf <code>null</code>. Wer nur "NullPointerException" liest und aufhört, verschenkt die halbe Information.</p>
+</div>
+
+
+<h2>Antworten zu den Denkfragen</h2>
+<p>Diese drei Fragen kommen im <b>01B Check</b> als Quizfragen wieder. Hier steht die längere Begründung dazu.</p>
+
+<div class="ue">
+<p class="t">Frage 1, was macht setContentView genau?</p>
+<p>Es liest die XML-Datei, erzeugt daraus die Java-Objekte der Views und hängt sie an das Fenster der Activity.</p>
+<p><b>Warum das zählt:</b> Vorher gibt es die Views nicht, nachher schon. Das ist der ganze Grund, warum <code>findViewById</code> danach stehen muss. Genau diesen Fehler hast du in Teil C selbst erzeugt.</p>
+</div>
+
+<div class="ue">
+<p class="t">Frage 2, woher kommt R.id.tvGreeting?</p>
+<p>Die R-Klasse wird von Gradle beim Bauen automatisch erzeugt, aus allem, was im Ordner <code>res</code> liegt. Für jede id entsteht eine Konstante mit einer Zahl dahinter.</p>
+<p><b>Warum das zählt:</b> Du schreibst sie nie von Hand und änderst sie nie von Hand. Wenn <code>R.id.tvGreeting</code> rot bleibt, obwohl die id im XML steht, wurde die R-Klasse nur noch nicht neu erzeugt. Build, dann Rebuild Project löst das.</p>
+</div>
+
+<div class="ue">
+<p class="t">Frage 3, wann wird der Block mit dem Pfeil ausgeführt?</p>
+<p>Nicht sofort. Der Block wird nur <b>angemeldet</b>. Ausgeführt wird er erst dann, wenn das System die Fensterausschnitte meldet, also nach dem Zeichnen.</p>
+<p><b>Warum das zählt:</b> Das ist der Unterschied zwischen Anmelden und Ausführen. Genau darauf baut 01C auf. Ein Klick-Listener funktioniert nach demselben Muster: du schreibst den Code jetzt hin, ausgeführt wird er irgendwann später oder nie.</p>
+</div>
+
+
+<h2>Lösungen der zwei Übungen</h2>
+<p>Sie gehören zur Hausaufgabe 1.</p>
+
+<div class="ue">
+<p class="t">Übung 1, eine zweite Zeile</p>
+<p>Im XML eine zweite TextView neben die erste, ohne <code>android:text</code>. Damit sie nicht übereinander liegen, hängst du sie unter die erste.</p>
+<pre>&lt;<span class="t">TextView</span>
+    android:id=<span class="s">"@+id/tvClass"</span>
+    android:layout_width=<span class="s">"wrap_content"</span>
+    android:layout_height=<span class="s">"wrap_content"</span>
+    android:layout_marginTop=<span class="s">"8dp"</span>
+    app:layout_constraintTop_toBottomOf=<span class="s">"@id/tvGreeting"</span>
+    app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
+    app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span> /&gt;</pre>
+<p>Und im Code, nach den zwei bestehenden Zeilen:</p>
+<pre><span class="t">TextView</span> tvClass = findViewById(R.id.tvClass);
+tvClass.setText(<span class="s">"Klasse ABC"</span>);</pre>
+<p><b>Begründung:</b> Es ist dasselbe Muster wie in Teil B, nur ein zweites Mal. Wer es hier ohne Vorlage schafft, hat den Weg vom Layout zum Code verstanden und nicht nur abgetippt. Neu ist einzig <code>constraintTop_toBottomOf</code> mit <code>@id</code> ohne Plus. Das kommt am Nachmittag in Block 02 ausführlich.</p>
+</div>
+
+<div class="ue">
+<p class="t">Übung 2, erklären</p>
+<p><b>Eine mögliche Erklärung:</b> <code>setContentView</code> baut den Bildschirm erst auf. Vorher existiert keine einzige View. <code>findViewById</code> durchsucht die Views, die es schon gibt. Wenn es keine gibt, findet es nichts und liefert <code>null</code> zurück. Es meldet keinen Fehler, es liefert einfach nichts. Der Fehler kommt erst eine Zeile später, wenn man auf diesem Nichts <code>setText</code> aufruft.</p>
+<p><b>Begründung:</b> Der wichtige Punkt ist, dass <code>findViewById</code> selbst nicht abstürzt. Wer das erklären kann, versteht auch, warum die Fehlermeldung auf <code>setText</code> zeigt und nicht auf <code>findViewById</code>. Genau diese Verschiebung zwischen Ursache und Absturzstelle macht Stacktraces am Anfang verwirrend.</p>
+</div>
+
+
+<h2>Zur Zusatzaufgabe</h2>
+<p>Dazu gibt es hier bewusst keine Lösung. Die Frage bleibt offen, das ist ihr Zweck.</p>
+
+
+<h2>Hinweise für die Lehrperson</h2>
+<ul>
+<li><b>Der rote Import ist die erste echte Hürde.</b> Sag den Satz einmal laut für alle: rot heisst nicht Fehler, rot heisst Import fehlt. Das spart ein Dutzend Handmeldungen.</li>
+<li><b>Häufigster Fehler in C1:</b> Beim Verschieben wird auch der Block mit dem Pfeil verschoben oder gelöscht. Dann stürzt die App aus einem anderen Grund ab und der Stacktrace zeigt etwas anderes. Darum steht "du ergänzt nur, du löschst nichts" zweimal im Auftrag.</li>
+<li><b>Der Nachweis ist die abgeschriebene Caused by-Zeile</b>, nicht der Screenshot. Ein Screenshot beweist nur, dass jemand den Reiter geöffnet hat. Beim Korrigieren also auf die Zeilennummer schauen: sie muss bei jedem anders sein.</li>
+<li><b>Der Blockschnitt liegt zwischen Teil B und Teil C.</b> Lass niemanden mit einer abstürzenden App in die Pause gehen. Wer bei Minute 18 noch nicht seinen Namen auf dem Emulator hat, holt Teil C nach der Pause nach.</li>
+<li><b>Zum Buch:</b> nur Kapitel 3.6 angeben. Die Abschnitte 3.1 bis 3.4 sind veraltet, und 3.4 nennt <code>Empty Activity</code>. Wer dem folgt, hat kein XML-Layout und kann den Auftrag nicht durchführen.</li>
+</ul>
+
+
+<p class="foot">Modul 335 Block 01, Lösungsmaterial zu 01B. Fassung 1 vom 08.08.2026. Gehört als Material neben die Aufgabe 01B Arbeitsblatt - Android Studio und erster Code.</p>
+
+</div>
+</body>
+</html>

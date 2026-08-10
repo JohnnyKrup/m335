@@ -1,0 +1,7 @@
+# Vercel
+.vercel
+
+# Betriebssystem
+.DS_Store
+Thumbs.db
+desktop.ini

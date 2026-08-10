@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M335 Constraints verstehen</title>
+<style>
+  :root{
+    --bg:#faf9f7; --fg:#1c1b1a; --muted:#6b6862; --line:#dedbd4; --card:#fff;
+    --acc:#2f6fb0; --acc-bg:#e8f0f8;
+    --ok:#3d8168; --ok-bg:#e6f2ed;
+    --warn:#a63d2f; --warn-bg:#fbeae7;
+    --amber:#b1701c; --amber-bg:#fbf0df;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font:16px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:940px;margin:0 auto;padding:40px 24px 90px}
+  h1{font-size:31px;line-height:1.22;margin:0 0 6px;letter-spacing:-.02em}
+  .sub{color:var(--muted);margin:0 0 34px;font-size:15px}
+  h2{font-size:21px;margin:46px 0 12px;letter-spacing:-.01em;
+     padding-top:14px;border-top:1px solid var(--line)}
+  h2 .num{color:var(--muted);font-weight:400;margin-right:8px}
+  h3{font-size:16.5px;margin:24px 0 8px}
+  p{margin:0 0 12px}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.89em;
+       background:#f0eee9;padding:1px 5px;border-radius:4px;white-space:nowrap}
+  pre{background:#26241f;color:#eae7df;padding:15px 17px;border-radius:10px;overflow-x:auto;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+      font-size:12.8px;line-height:1.6;margin:0 0 16px}
+  pre code{background:none;padding:0;white-space:pre}
+  .c{color:#8f8a7d} .t{color:#8fc4e8} .a{color:#d8bd7a} .s{color:#b7d69a} .hl{color:#f0a48c}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:0 0 16px}
+  .note{border-left:3px solid var(--warn);background:var(--warn-bg);padding:14px 18px;
+        border-radius:0 8px 8px 0;margin:0 0 16px}
+  .note b{color:var(--warn)}
+  .tip{border-left:3px solid var(--ok);background:var(--ok-bg);padding:14px 18px;
+       border-radius:0 8px 8px 0;margin:0 0 16px}
+  .tip b{color:var(--ok)}
+  table{border-collapse:collapse;width:100%;font-size:14.5px;margin:0 0 16px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-weight:600;background:#f3f1ec}
+  ul,ol{margin:0 0 14px;padding-left:22px} li{margin:0 0 7px}
+
+  /* Kantenbild */
+  .edges{position:relative;width:290px;height:170px;margin:6px auto 22px;
+         border:2.5px solid var(--acc);background:var(--acc-bg);border-radius:8px}
+  .edges .mid{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+              font-size:13px;color:var(--acc);font-weight:600}
+  .e{position:absolute;font:600 11.5px ui-monospace,Menlo,Consolas,monospace;color:var(--acc);
+     background:#fff;padding:2px 7px;border-radius:10px;border:1.5px solid var(--acc);white-space:nowrap}
+  .e.top{top:-13px;left:50%;transform:translateX(-50%)}
+  .e.bot{bottom:-13px;left:50%;transform:translateX(-50%)}
+  .e.sta{left:-30px;top:50%;transform:translateY(-50%)}
+  .e.end{right:-26px;top:50%;transform:translateY(-50%)}
+  .e.base{top:60%;left:50%;transform:translateX(-50%);border-style:dashed}
+
+  /* Grössen-Vergleich */
+  .sizes{display:flex;gap:14px;flex-wrap:wrap;margin:0 0 18px}
+  .sz{flex:1;min-width:180px}
+  .sz .frame{border:2px dashed var(--acc);background:var(--acc-bg);border-radius:8px;
+             padding:10px;height:78px;display:flex;align-items:center}
+  .sz .inner{background:#57534c;color:#fff;font-size:11.5px;text-align:center;
+             padding:9px 8px;border-radius:5px}
+  .sz .cap{font:600 12.5px ui-monospace,Menlo,Consolas,monospace;margin:8px 0 2px}
+  .sz .txt{font-size:12.5px;color:var(--muted);line-height:1.45}
+
+  /* Schrittkette */
+  .steps{display:flex;gap:14px;flex-wrap:wrap;margin:0 0 18px}
+  .step{flex:1;min-width:170px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:0 0 12px;overflow:hidden}
+  .step .hd{background:#f3f1ec;padding:7px 12px;font:600 13px/1.3 inherit;border-bottom:1px solid var(--line)}
+  .step .bd{padding:10px 12px 0}
+  .mini{border:2px solid #b6b1a8;border-radius:7px;height:118px;position:relative;background:#fff;padding:5px}
+  .mini .blk{position:absolute;border-radius:4px;font-size:8.5px;color:#fff;
+             display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.15}
+  .g{background:#3d8168} .o{background:#b1701c} .grey{background:#c9c5bd;color:#4a4740 !important}
+  .step p{font-size:12.5px;color:var(--muted);margin:9px 0 0;line-height:1.45}
+
+  /* Checkliste */
+  .checks{counter-reset:q;margin:0 0 16px;padding:0;list-style:none}
+  .checks li{counter-increment:q;background:#fff;border:1px solid var(--line);border-radius:10px;
+             padding:13px 16px 13px 52px;position:relative;margin:0 0 9px}
+  .checks li::before{content:counter(q);position:absolute;left:15px;top:12px;width:24px;height:24px;
+                     border-radius:50%;background:var(--acc);color:#fff;font:600 13px/24px inherit;text-align:center}
+  .checks b{display:block;margin-bottom:2px}
+  .checks span{font-size:13.8px;color:var(--muted)}
+
+  /* Uebungen */
+  .ex{background:#fff;border:1px solid var(--line);border-left:3px solid var(--amber);
+      border-radius:0 10px 10px 0;padding:16px 20px;margin:0 0 14px}
+  .ex h3{margin:0 0 6px;font-size:15.5px}
+  .ex .goal{font-size:13.5px;color:var(--muted);margin:0 0 10px}
+  details{margin-top:10px;border-top:1px dashed var(--line);padding-top:10px}
+  summary{cursor:pointer;font-size:13.5px;font-weight:600;color:var(--acc);list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:"\25B8 ";}
+  details[open] summary::before{content:"\25BE ";}
+  details pre{margin-top:10px}
+  .foot{margin-top:52px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Constraints verstehen</h1>
+<p class="sub">M335 Mobile Applikationen &middot; Nachschlagewerk zu Block 02 &middot; Alles, was du über Anker im ConstraintLayout wissen musst &middot; Fassung 2 vom 10.08.2026</p>
+
+<div class="card">
+<p style="margin:0"><b>Warum es eigene Unterlagen dafür braucht.</b> Beim ConstraintLayout ordnet das Layout deine Elemente nicht von selbst an. Jedes Element muss selbst sagen, woran es hängt. Das ist der Unterschied zu allen anderen Layouts und der Grund, warum am Anfang alles in der linken oberen Ecke landet. Wenn du diese Seite durch hast, weisst du, welche Angaben Pflicht sind, in welcher Reihenfolge du vorgehst und welche fünf Fragen du dir bei jedem Anker stellst.</p>
+</div>
+
+<h2><span class="num">1</span>Was ist bei welchem Element Pflicht</h2>
+<p>Fehlt eine Pflichtangabe, passiert eines von zwei Dingen. Entweder das Projekt lässt sich nicht bauen, oder es baut sich und sieht dann falsch aus. Der zweite Fall ist der gemeinere.</p>
+
+<table>
+  <tr><th style="width:32%">Situation</th><th>Immer Pflicht</th><th>Zusätzlich Pflicht</th></tr>
+  <tr>
+    <td><b>Jede View, überall</b><br><span style="color:var(--muted);font-size:13px">TextView, Button, jedes Layout</span></td>
+    <td><code>android:layout_width</code><br><code>android:layout_height</code></td>
+    <td>nichts. Ohne diese zwei baut das Projekt nicht.</td>
+  </tr>
+  <tr>
+    <td><b>Kind eines ConstraintLayout</b></td>
+    <td>die zwei von oben</td>
+    <td>mindestens <b>ein waagrechter</b> Anker (Start oder End) und <b>ein senkrechter</b> Anker (Top, Bottom oder Baseline)</td>
+  </tr>
+  <tr>
+    <td><b>Ein LinearLayout selbst</b></td>
+    <td>die zwei von oben</td>
+    <td><code>android:orientation</code>. Fehlt es, nimmt Android <code>horizontal</code> an, und dein Formular steht plötzlich nebeneinander.</td>
+  </tr>
+  <tr>
+    <td><b>Kind eines LinearLayout</b></td>
+    <td>die zwei von oben</td>
+    <td>keine Anker. Das LinearLayout ordnet selbst. Willst du den Platz nach einem Verhältnis aufteilen statt nach dem Inhalt, kommt <code>layout_weight</code> dazu.</td>
+  </tr>
+  <tr>
+    <td><b>Element, das du im Java-Code brauchst</b></td>
+    <td>die zwei von oben</td>
+    <td><code>android:id</code>. Ohne id gibt es keinen Eintrag in der R-Klasse und kein <code>findViewById</code>.</td>
+  </tr>
+  <tr>
+    <td><b>Element, auf das ein Anker zeigt</b></td>
+    <td>die zwei von oben</td>
+    <td><code>android:id</code>. Du kannst nur ansprechen, was einen Namen hat.</td>
+  </tr>
+</table>
+
+<div class="note">
+<p style="margin:0"><b>Der Editor lügt dich an.</b> Im Design-Tab bleibt ein Element dort liegen, wo du es hinschiebst, auch ohne Anker. Das ist reine Bequemlichkeit beim Bearbeiten. Startest du die App, wird das Element ohne Anker an Position 0,0 gezeichnet, also oben links. Wenn dein Layout im Editor gut aussieht und auf dem Gerät nicht, ist fast immer ein fehlender Anker die Ursache.</p>
+</div>
+
+<h2><span class="num">2</span>width und height, die drei Werte</h2>
+<p>Beide Attribute nehmen dieselben Werte an. Du gibst sie für jede Achse getrennt an.</p>
+
+<div class="sizes">
+  <div class="sz">
+    <div class="frame"><div class="inner">Text</div></div>
+    <div class="cap">wrap_content</div>
+    <div class="txt">So gross wie mein Inhalt. Ein Button wird so breit wie seine Beschriftung.</div>
+  </div>
+  <div class="sz">
+    <div class="frame"><div class="inner" style="width:100%">so breit wie der Elternteil</div></div>
+    <div class="cap">match_parent</div>
+    <div class="txt">So gross wie mein Elternteil. Im ConstraintLayout unerwünscht, weil es die Anker aushebelt.</div>
+  </div>
+  <div class="sz">
+    <div class="frame"><div class="inner" style="width:100%">von Anker zu Anker</div></div>
+    <div class="cap">0dp</div>
+    <div class="txt">Nur im ConstraintLayout. Heisst "spann mich zwischen meine beiden Anker auf dieser Achse".</div>
+  </div>
+</div>
+
+<div class="tip">
+<p style="margin:0"><b>0dp hat zwei Bedeutungen, je nach Elternteil.</b> Im <b>ConstraintLayout</b> heisst 0dp "von Anker zu Anker". Im <b>LinearLayout mit layout_weight</b> heisst 0dp "meine Grösse ergibt sich aus dem Gewicht". Beides ist Absicht, nie ein Tippfehler. Der offizielle Name im ConstraintLayout lautet <code>match_constraint</code>, geschrieben wird aber <code>0dp</code>.</p>
+</div>
+
+<p>Merksatz für den Alltag: <b>0dp ohne zwei Anker auf dieser Achse ergibt Breite null.</b> Das Element ist dann unsichtbar. Wenn etwas verschwindet, prüfe zuerst, ob du 0dp gesetzt, aber nur einen Anker vergeben hast.</p>
+
+<h2><span class="num">3</span>Die Kanten, an die du hängen kannst</h2>
+
+<div class="edges">
+  <span class="e top">Top</span>
+  <span class="e bot">Bottom</span>
+  <span class="e sta">Start</span>
+  <span class="e end">End</span>
+  <span class="e base">Baseline</span>
+  <div class="mid" style="margin-top:-26px">deine View</div>
+</div>
+
+<table>
+  <tr><th style="width:130px">Kante</th><th>Bedeutung</th></tr>
+  <tr><td><code>Top</code></td><td>Oberkante</td></tr>
+  <tr><td><code>Bottom</code></td><td>Unterkante</td></tr>
+  <tr><td><code>Start</code></td><td>Anfangskante. Bei uns links. In arabischer oder hebräischer Sprache automatisch rechts.</td></tr>
+  <tr><td><code>End</code></td><td>Endkante. Bei uns rechts.</td></tr>
+  <tr><td><code>Baseline</code></td><td>Die Schriftlinie, auf der Buchstaben sitzen. Nur für Elemente mit Text. Damit richtest du einen Button und ein Label so aus, dass die Schrift auf gleicher Höhe steht.</td></tr>
+</table>
+
+<p>Es gibt auch <code>Left</code> und <code>Right</code>. Benutze sie nicht. <code>Start</code> und <code>End</code> drehen sich in Sprachen mit anderer Leserichtung automatisch mit, <code>Left</code> und <code>Right</code> nicht. Android Studio warnt dich sogar, wenn du Left benutzt.</p>
+
+<h2><span class="num">4</span>Wie ein Anker aufgebaut ist</h2>
+<p>Jeder Anker folgt demselben Muster. Lies ihn als Satz von links nach rechts.</p>
+
+<pre><code><span class="a">app:layout_constraint<span class="hl">Bottom</span>_to<span class="hl">Top</span>Of</span>=<span class="s">"@id/llButtons"</span>
+<span class="c">                     ^meine       ^fremde         ^wessen
+                      Kante        Kante            Kante</span>
+
+<span class="c">Gelesen: "Meine Unterkante klebt an der Oberkante von llButtons."</span></code></pre>
+
+<p>Der Wert rechts ist entweder <code>"parent"</code> für den Bildschirmrand deines Layouts, oder die id eines Geschwisterelements. Ein Geschwister ist ein Element, das im selben ConstraintLayout liegt wie du.</p>
+
+<pre><code><span class="c">Oben am Rand kleben</span>
+<span class="a">app:layout_constraintTop_toTopOf</span>=<span class="s">"parent"</span>
+
+<span class="c">Unter ein Geschwister setzen</span>
+<span class="a">app:layout_constraintTop_toBottomOf</span>=<span class="s">"@id/llForm"</span>
+
+<span class="c">Ueber die volle Breite spannen (braucht layout_width 0dp)</span>
+<span class="a">app:layout_constraintStart_toStartOf</span>=<span class="s">"parent"</span>
+<span class="a">app:layout_constraintEnd_toEndOf</span>=<span class="s">"parent"</span></code></pre>
+
+<h2><span class="num">5</span>Die Ankerkette, von aussen nach innen</h2>
+<p>Das ist die Regel, die im Unterricht am meisten Zeit spart.</p>
+
+<div class="note">
+<p style="margin:0"><b>Ein Anker kann nur auf etwas zeigen, dessen eigene Position schon feststeht.</b> Solange die Button-Reihe selbst nicht am unteren Rand hängt, kannst du den Trennstreifen nicht sinnvoll an ihre Oberkante hängen. Du hängst dann an etwas, das selbst noch in der Luft schwebt.</p>
+</div>
+
+<p>Daraus folgt eine Reihenfolge. Du arbeitest immer von den festen Punkten nach innen. Feste Punkte sind die Ränder des Elternteils.</p>
+
+<div class="steps">
+  <div class="step">
+    <div class="hd">Schritt 1</div>
+    <div class="bd">
+      <div class="mini">
+        <div class="blk grey" style="left:5px;right:5px;top:5px;height:40px">Formular</div>
+        <div class="blk grey" style="left:5px;right:5px;top:52px;height:9px">Streifen</div>
+        <div class="blk g" style="left:5px;right:5px;bottom:5px;height:22px">Buttons</div>
+      </div>
+      <p>Verankere zuerst, was am <b>Rand</b> klebt. Die Button-Reihe an <code>parent</code> unten. Das Formular an <code>parent</code> oben.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="hd">Schritt 2</div>
+    <div class="bd">
+      <div class="mini">
+        <div class="blk grey" style="left:5px;right:5px;top:5px;height:40px">Formular</div>
+        <div class="blk o" style="left:5px;right:5px;bottom:32px;height:9px">Streifen</div>
+        <div class="blk g" style="left:5px;right:5px;bottom:5px;height:22px">Buttons</div>
+      </div>
+      <p>Jetzt erst hat der Streifen ein Ziel. Seine Unterkante an die <b>Oberkante der Buttons</b>. Vorher war das nicht möglich.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="hd">Schritt 3</div>
+    <div class="bd">
+      <div class="mini">
+        <div class="blk grey" style="left:5px;right:5px;top:5px;height:40px">Formular</div>
+        <div class="blk o" style="left:5px;right:5px;bottom:32px;height:9px">Streifen</div>
+        <div class="blk g" style="left:5px;right:5px;bottom:5px;height:22px">Buttons</div>
+        <div class="blk" style="left:5px;right:5px;top:48px;bottom:44px;border:1.5px dashed #2f6fb0;color:#2f6fb0;font-size:8px">frei</div>
+      </div>
+      <p>Zum Schluss die Breiten. Alle drei auf <code>0dp</code> mit Start und End an <code>parent</code>. Der Rest bleibt leerer Platz.</p>
+    </div>
+  </div>
+</div>
+
+<p>Wenn du im Code arbeitest, merkst du das kaum. Im Design-Editor merkst du es sofort, weil dir das Ziel gar nicht erst zum Anklicken angeboten wird.</p>
+
+<h2><span class="num">6</span>Die fünf Fragen bei jedem Anker</h2>
+<p>Stell dir diese Fragen in dieser Reihenfolge. Nach ein paar Malen läuft das automatisch.</p>
+
+<ol class="checks">
+  <li><b>Wo soll das Element hin?</b><span>Am Rand kleben, unter etwas anderem sitzen, oder in der Mitte stehen? Sag es dir laut in einem Satz.</span></li>
+  <li><b>Was ist mein Bezugspunkt?</b><span>Der Bildschirmrand, also <code>parent</code>? Oder ein Geschwister? Falls Geschwister: hat es eine id, und steht seine eigene Position schon fest?</span></li>
+  <li><b>Welche meiner Kanten berührt welche fremde Kante?</b><span>Daraus wird der Attributname. Meine Kante zuerst, fremde Kante danach.</span></li>
+  <li><b>Habe ich beide Achsen bedient?</b><span>Ein waagrechter und ein senkrechter Anker. Fehlt einer, springt das Element beim Start in die Ecke.</span></li>
+  <li><b>Welche Grösse ergibt sich daraus?</b><span>Soll das Element zwischen zwei Anker gespannt werden, gehört auf diese Achse <code>0dp</code>. Soll es nur so gross wie sein Inhalt sein, <code>wrap_content</code>.</span></li>
+</ol>
+
+<h2><span class="num">7</span>Zentrieren und verschieben</h2>
+<p>Zentrieren ist kein eigenes Attribut. Du setzt einfach <b>zwei gegenüberliegende Anker</b>, und das Element stellt sich in die Mitte dazwischen.</p>
+
+<pre><code><span class="c">Waagrecht mittig im Elternteil</span>
+<span class="a">app:layout_constraintStart_toStartOf</span>=<span class="s">"parent"</span>
+<span class="a">app:layout_constraintEnd_toEndOf</span>=<span class="s">"parent"</span>
+
+<span class="c">Nicht ganz mittig, sondern bei 20 Prozent von links</span>
+<span class="a">app:layout_constraintHorizontal_bias</span>=<span class="s">"0.2"</span></code></pre>
+
+<p>Der Wert von <code>bias</code> geht von 0.0 bis 1.0. Ohne Angabe ist er 0.5, also genau mittig. Es gibt ihn auch senkrecht als <code>layout_constraintVertical_bias</code>. Wichtig: bias wirkt nur, wenn beide gegenüberliegenden Anker gesetzt sind und das Element kleiner ist als der Platz dazwischen.</p>
+
+<h2><span class="num">8</span>Abstand halten</h2>
+<table>
+  <tr><th style="width:38%">Was du willst</th><th>Attribut</th></tr>
+  <tr><td>Abstand nach aussen, zum Nachbarn hin</td><td><code>android:layout_marginTop</code> und so weiter</td></tr>
+  <tr><td>Abstand nach innen, zum eigenen Inhalt</td><td><code>android:padding</code></td></tr>
+  <tr><td>Abstand nur dann, wenn der Nachbar unsichtbar wird</td><td><code>app:layout_goneMarginTop</code></td></tr>
+</table>
+<p>Eselsbrücke: <b>padding ist innen, margin ist aussen.</b> Ein Button mit padding wird selbst grösser. Ein Button mit margin bleibt gleich gross und rückt von den anderen ab.</p>
+
+<h2><span class="num">9</span>Wenn es nicht klappt</h2>
+<table>
+  <tr><th style="width:38%">Symptom</th><th>Wahrscheinliche Ursache</th></tr>
+  <tr><td>Element sitzt oben links, obwohl es im Editor richtig aussah</td><td>Es fehlt ein Anker auf einer der beiden Achsen.</td></tr>
+  <tr><td>Element ist gar nicht sichtbar</td><td><code>0dp</code> gesetzt, aber nur ein Anker auf dieser Achse. Ergibt Grösse null.</td></tr>
+  <tr><td>Element geht über den Bildschirmrand hinaus</td><td><code>wrap_content</code> statt <code>0dp</code>. Anker begrenzen nur bei 0dp.</td></tr>
+  <tr><td>Ein Anker zeigt auf ein Element, das im XML weiter unten steht</td><td>Beim Verweis nach unten brauchst du <code>@+id/</code> mit Plus. Ohne Plus kennt Android die id an dieser Stelle noch nicht.</td></tr>
+  <tr><td>Formular steht nebeneinander statt untereinander</td><td>Im LinearLayout fehlt <code>android:orientation="vertical"</code>.</td></tr>
+  <tr><td>Roter Unterstrich bei <code>@id/...</code></td><td>Das Zielelement hat keine id, oder du hast dich vertippt. Beim ersten Definieren <code>@+id/</code>, beim Verweisen <code>@id/</code>.</td></tr>
+  <tr><td>Etwas liegt unter der Uhr oben oder der Navigationsleiste unten</td><td>Edge to Edge. Seit Android 15 zeichnet das System bis unter die Systemleisten. Darum steht in MainActivity ein Insets-Listener.</td></tr>
+  <tr><td>Alles rutscht bei gedrehtem Gerät durcheinander</td><td>Zu viel fix in dp gesetzt. Setze Grössen so oft wie möglich auf <code>0dp</code> oder <code>wrap_content</code>.</td></tr>
+</table>
+
+<h2><span class="num">10</span>Design-Editor oder Code</h2>
+<p>Der Design-Editor ist zum Ankersetzen fummelig. Du musst winzige Kreise treffen und ziehen. Das ist keine Schwäche von dir.</p>
+<div class="tip">
+<p style="margin:0"><b>Arbeite im Split-Modus.</b> Oben rechts im Editor gibt es drei Knöpfe: Code, Split, Design. Wähle <b>Split</b>. Dann tippst du links im XML und siehst rechts sofort das Ergebnis. Du behältst die Kontrolle über den Code und hast trotzdem die Vorschau. Den Design-Editor benutzt du zum Kontrollieren, nicht zum Bauen.</p>
+</div>
+<p>Nützlich im Design-Editor bleibt der <b>Component Tree</b> links unten. Dort siehst du die Verschachtelung als Baum, und ein Element ohne Anker bekommt ein rotes Warnzeichen.</p>
+
+<h2><span class="num">11</span>Übungen ohne Vorlage</h2>
+<p>Diese Übungen machst du <b>nach</b> dem Auftrag 02B, am Ende von Block 4. Dein Projekt <code>M335 Formular</code> ist die Ausgangslage. Alle fünf verändern nur Anker und Grössen an etwas, das schon läuft.</p>
+<p>Bau sie <b>ohne</b> abzuschreiben. Abtippen fühlt sich nach Verstehen an, aber erst das eigene Bauen bleibt hängen. Die Lösungen stehen im Classroom-Material <b>02A Loesung - Die drei Unterlagen</b>. Schau erst hinein, wenn du es selbst versucht hast.</p>
+
+<div class="ex">
+  <h3>Übung 1: Der fünfte Button</h3>
+  <p class="goal">Ergänze in deiner Buttonreihe einen fünften Button mit der Beschriftung "Teilen". Bau ihn genau wie die anderen vier. Starte danach die App und schau dir die fünf Beschriftungen an.</p>
+  <p style="font-size:13.5px;margin:0 0 8px"><b>Und dann rechne nach.</b> Ein Medium Phone ist rund 400 dp breit. Jeder Button reserviert innen rund 50 dp Polster für sich selbst. Wie viel Platz bleibt bei fünf Buttons für den Text? Vergleiche das mit den rund 50 dp, die "Abbrechen" bei 11sp braucht.</p>
+  <p style="font-size:13.5px;margin:0"><b>So prüfst du:</b> Du kannst in einem Satz sagen, was bei fünf Buttons passiert und warum. Die Antwort ist keine Regel, sondern eine Rechnung.</p>
+</div>
+
+<div class="ex">
+  <h3>Übung 2: Streifen nach unten</h3>
+  <p class="goal">Setz den Trennstreifen unter die Buttons statt darüber. Du darfst nur Anker ändern, nichts hinzufügen und nichts löschen.</p>
+  <p style="font-size:13.5px;margin:0"><b>So prüfst du:</b> Reihenfolge von oben nach unten ist Formular, Buttons, Streifen. Der Streifen berührt den unteren Rand.</p>
+</div>
+
+<div class="ex">
+  <h3>Übung 3: Formular in die Mitte</h3>
+  <p class="goal">Das Formular soll nicht mehr oben kleben, sondern senkrecht mittig zwischen dem oberen Rand und dem Trennstreifen stehen.</p>
+  <p style="font-size:13.5px;margin:0"><b>So prüfst du:</b> Über und unter dem Formular ist gleich viel leerer Platz. Beim Drehen ins Querformat bleibt es mittig.</p>
+</div>
+
+<div class="ex">
+  <h3>Übung 4: Formular füllt den Platz</h3>
+  <p class="goal">Jetzt das Gegenteil. Das Formular soll den ganzen Platz zwischen Oberkante und Trennstreifen ausfüllen, mit einem sichtbaren Hintergrund, damit du es siehst.</p>
+  <p style="font-size:13.5px;margin:0"><b>So prüfst du:</b> Der farbige Bereich reicht von ganz oben bis knapp über den Streifen. Die Textfelder bleiben oben.</p>
+</div>
+
+<div class="ex">
+  <h3>Übung 5: Von null auf</h3>
+  <p class="goal">Neues Projekt, leeres ConstraintLayout. Setz einen einzigen Button mit der Beschriftung "Weiter" in die untere rechte Ecke, mit 16dp Abstand zu beiden Rändern. Ohne nachzuschauen.</p>
+  <p style="font-size:13.5px;margin:0"><b>So prüfst du:</b> Der Button sitzt unten rechts, auch im Querformat, und berührt die Ränder nicht.</p>
+</div>
+
+<div class="ex" style="border-left-color:var(--acc)">
+  <h3>Übung 6: Erklären</h3>
+  <p class="goal">Erkläre einem Lerngspänli in höchstens zwei Sätzen, warum du die Button-Reihe verankern musstest, bevor du den Trennstreifen daran hängen konntest.</p>
+  <p style="font-size:13.5px;margin:0">Wenn du das in eigenen Worten sagen kannst, brauchst du dieses Dokument beim nächsten Mal nicht mehr.</p>
+</div>
+
+<p class="foot">M335 Mobile Applikationen &middot; Nachschlagewerk, Classroom-Thema 90 &middot; Gehört zusammen mit "Layouts verstehen" &middot; Lösungen im Material 02A Loesung &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M335 Layouts verstehen</title>
+<style>
+  :root{
+    --bg:#faf9f7; --fg:#1c1b1a; --muted:#6b6862; --line:#dedbd4;
+    --card:#ffffff;
+    --constraint:#2f6fb0; --constraint-bg:#e8f0f8;
+    --linear:#3d8168;   --linear-bg:#e6f2ed;
+    --frame:#b1701c;    --frame-bg:#fbf0df;
+    --warn:#a63d2f;     --warn-bg:#fbeae7;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  .wrap{max-width:920px; margin:0 auto; padding:40px 24px 80px}
+  h1{font-size:30px; line-height:1.25; margin:0 0 6px; letter-spacing:-.02em}
+  .sub{color:var(--muted); margin:0 0 36px; font-size:15px}
+  h2{font-size:21px; margin:44px 0 12px; letter-spacing:-.01em}
+  h3{font-size:16px; margin:22px 0 8px}
+  p{margin:0 0 12px}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.9em;
+       background:#f0eee9; padding:1px 5px; border-radius:4px}
+  pre{background:#26241f; color:#eae7df; padding:16px 18px; border-radius:10px;
+      overflow-x:auto; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+      font-size:13px; line-height:1.55; margin:0 0 16px}
+  pre .c{color:#8f8a7d}
+  pre .t{color:#8fc4e8}
+  pre .a{color:#d8bd7a}
+  pre .s{color:#b7d69a}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:12px;
+        padding:20px 22px; margin:0 0 16px}
+  .note{border-left:3px solid var(--warn); background:var(--warn-bg);
+        padding:14px 18px; border-radius:0 8px 8px 0; margin:0 0 16px}
+  .note b{color:var(--warn)}
+  table{border-collapse:collapse; width:100%; font-size:14.5px; margin:0 0 16px}
+  th,td{text-align:left; padding:9px 12px; border-bottom:1px solid var(--line); vertical-align:top}
+  th{font-weight:600; background:#f3f1ec}
+
+  /* Farblegende */
+  .legend{display:flex; flex-wrap:wrap; gap:10px; margin:0 0 20px}
+  .chip{font-size:13px; padding:5px 12px; border-radius:20px; border:1.5px solid}
+  .chip.c{color:var(--constraint); border-color:var(--constraint); background:var(--constraint-bg)}
+  .chip.l{color:var(--linear); border-color:var(--linear); background:var(--linear-bg)}
+  .chip.f{color:var(--frame); border-color:var(--frame); background:var(--frame-bg)}
+
+  /* Handy-Skizze */
+  .split{display:flex; gap:26px; flex-wrap:wrap; align-items:flex-start}
+  .phone{
+    width:250px; flex:0 0 250px; height:460px; border:3px solid #3a3833;
+    border-radius:26px; padding:9px; background:#fff; position:relative;
+  }
+  .root{
+    height:100%; border:2px dashed var(--constraint); border-radius:14px;
+    background:var(--constraint-bg); padding:8px 7px 7px; display:flex; flex-direction:column;
+    position:relative;
+  }
+  .tag{
+    position:absolute; top:-9px; left:9px; font-size:10.5px; font-weight:600;
+    padding:1px 7px; border-radius:9px; background:#fff; letter-spacing:.02em;
+  }
+  .tag.c{color:var(--constraint); border:1.5px solid var(--constraint)}
+  .tag.l{color:var(--linear); border:1.5px solid var(--linear)}
+  .tag.f{color:var(--frame); border:1.5px solid var(--frame)}
+  .tag.r{left:auto; right:9px}
+  .box-l{border:2px solid var(--linear); background:var(--linear-bg);
+         border-radius:9px; padding:11px 8px 8px; position:relative}
+  .box-f{border:2px solid var(--frame); background:var(--frame-bg);
+         border-radius:9px; padding:11px 8px 8px; position:relative; flex:1;
+         display:flex; align-items:center; justify-content:center; margin:10px 0 8px}
+  .head{display:flex; justify-content:space-between; font-size:10px; color:#3f3d39;
+        padding:0 2px 2px; position:relative}
+  .head span{background:#fff; border:1px solid #c8c4bb; border-radius:4px; padding:2px 5px}
+  .qtext{font-size:10px; color:#4a4741; text-align:center; line-height:1.45; padding:0 4px}
+  .overlay{position:absolute; right:8px; top:26px; background:#fff; border:1.5px solid var(--frame);
+           color:var(--frame); font-size:9.5px; font-weight:600; padding:3px 8px; border-radius:5px}
+  .abtn{background:#fff; border:1px solid #8d8880; color:#3f3d39; font-size:9.5px;
+        text-align:center; padding:5px 0; border-radius:4px; margin-bottom:5px}
+  .abtn:last-child{margin-bottom:0}
+  .nbtn{background:#57534c; color:#fff; font-size:9.5px; text-align:center;
+        padding:7px 0; border-radius:4px; margin-top:8px}
+
+  /* Baum */
+  .tree{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+        font-size:13.5px; line-height:1.9; flex:1; min-width:270px}
+  .tree div{white-space:pre}
+  .tc{color:var(--constraint); font-weight:600}
+  .tl{color:var(--linear); font-weight:600}
+  .tf{color:var(--frame); font-weight:600}
+  .tg{color:var(--muted)}
+
+  /* Anker-Grafik */
+  .anchors{display:flex; gap:20px; flex-wrap:wrap; margin:0 0 16px}
+  .anchor{flex:1; min-width:190px; border:1px solid var(--line); background:#fff;
+          border-radius:10px; padding:14px 16px}
+  .anchor b{font-size:14px}
+  .anchor p{font-size:13.5px; color:var(--muted); margin:4px 0 0}
+  ol,ul{margin:0 0 14px; padding-left:22px}
+  li{margin:0 0 7px}
+  .foot{margin-top:50px; padding-top:18px; border-top:1px solid var(--line);
+        font-size:13px; color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Layouts verstehen</h1>
+  <p class="sub">Modul 335 Mobile Applikationen, Nachschlagewerk zu Block 02. Wie du ConstraintLayout, LinearLayout und FrameLayout ineinander steckst. Fassung 2 vom 10.08.2026.</p>
+
+  <div class="card">
+    <p style="margin:0 0 10px"><b>Wenn du hier hängst, liegt das nicht an dir.</b> Ein Auftrag zeigt dir ein Bild und nennt dir drei Layout-Typen. Er sagt dir aber nirgends, welches Layout <i>in</i> welchem steckt. Genau das ist die eigentliche Fähigkeit. Diese Seite holt das nach.</p>
+    <p style="margin:0"><b>Das ist keine Lösung zum Abtippen.</b> Das Beispiel auf dieser Seite ist der Spielbildschirm der Quiz-App, die du ab Tag 2 baust. Dein heutiger Auftrag sieht anders aus. Du lernst hier das Denkmuster, nicht die Antwort.</p>
+  </div>
+
+  <h2>1. Die Denkregel</h2>
+  <p>Bevor du eine einzige Zeile XML schreibst, zeichnest du das Bild in <b>Kästchen</b> nach. Nicht die Knöpfe und Textfelder, sondern die Gruppen. Frag dich bei jeder Gruppe nur eine Sache:</p>
+  <ul>
+    <li>Liegen die Dinge <b>hintereinander</b> in einer Reihe oder Spalte? Dann LinearLayout.</li>
+    <li>Liegen die Dinge <b>übereinander</b> wie Folien auf dem Hellraumprojektor? Dann FrameLayout.</li>
+    <li>Muss etwas <b>an einem Rand kleben</b> oder relativ zu etwas anderem sitzen? Dann ConstraintLayout.</li>
+  </ul>
+  <p>Ein Layout kann ein anderes Layout als Kind haben. Das ist der Trick. Du löst nicht das ganze Bild mit einem Layout, sondern jede Gruppe mit dem Layout, das für diese Gruppe passt.</p>
+
+  <h2>2. Die drei Layouts nebeneinander</h2>
+  <table>
+    <tr><th style="width:150px">Layout</th><th>Ordnet seine Kinder</th><th>Nimm es für</th></tr>
+    <tr>
+      <td><b style="color:var(--linear)">LinearLayout</b></td>
+      <td>in einer Reihe, entweder <code>vertical</code> oder <code>horizontal</code></td>
+      <td>Formulare, Button-Reihen, alles was einfach untereinander oder nebeneinander steht</td>
+    </tr>
+    <tr>
+      <td><b style="color:var(--frame)">FrameLayout</b></td>
+      <td>alle auf demselben Fleck, gestapelt. Das letzte Kind liegt zuoberst</td>
+      <td>Text über einem Bild, ein Hinweis über dem Inhalt, ein Ladebalken über allem</td>
+    </tr>
+    <tr>
+      <td><b style="color:var(--constraint)">ConstraintLayout</b></td>
+      <td>gar nicht von selbst. Jedes Kind sagt dir, woran es hängt</td>
+      <td>die äusserste Ebene, wenn Dinge an Rändern kleben sollen</td>
+    </tr>
+  </table>
+
+  <div class="note">
+    <p style="margin:0"><b>Der wichtigste Satz zum ConstraintLayout.</b> Ein Kind ohne Constraint landet beim Start der App oben links in der Ecke, egal wo du es im Editor hingeschoben hast. Der Editor lügt dich an. Jedes Kind braucht mindestens <b>einen waagrechten und einen senkrechten Anker</b>.</p>
+  </div>
+
+  <h2>3. Ein Bauplan zum Mitlesen: der Quiz-Spielbildschirm</h2>
+  <p>So sieht der Bildschirm aus, auf dem du ab Tag 2 eine Quizfrage beantwortest. Oben links die Kategorie, oben rechts der Punktestand. In der Mitte die Frage. Unten vier Antworten untereinander und ein Weiter-Knopf.</p>
+  <div class="legend">
+    <span class="chip c">ConstraintLayout</span>
+    <span class="chip l">LinearLayout</span>
+    <span class="chip f">FrameLayout</span>
+  </div>
+
+  <div class="split">
+    <div class="phone">
+      <div class="root">
+        <span class="tag c">ConstraintLayout</span>
+
+        <div class="head">
+          <span>Kategorie: Sport</span>
+          <span>2 von 5</span>
+        </div>
+
+        <div class="box-f">
+          <span class="tag f">FrameLayout</span>
+          <div class="qtext">Wie viele Spieler stehen pro Mannschaft beim Fussball gleichzeitig auf dem Platz?</div>
+          <div class="overlay">Richtig</div>
+        </div>
+
+        <div class="box-l">
+          <span class="tag l">LinearLayout vertical</span>
+          <div class="abtn">9</div>
+          <div class="abtn">10</div>
+          <div class="abtn">11</div>
+          <div class="abtn">12</div>
+        </div>
+
+        <div class="nbtn">Weiter</div>
+
+      </div>
+    </div>
+
+    <div class="tree">
+      <div><span class="tc">ConstraintLayout</span>  <span class="tg">id = main</span></div>
+      <div><span class="tg">│</span></div>
+      <div><span class="tg">├─ TextView  tvCategory</span></div>
+      <div><span class="tg">│    Anker: oben und links an parent</span></div>
+      <div><span class="tg">│</span></div>
+      <div><span class="tg">├─ TextView  tvScore</span></div>
+      <div><span class="tg">│    Anker: oben und rechts an parent</span></div>
+      <div><span class="tg">│</span></div>
+      <div><span class="tg">├─</span> <span class="tf">FrameLayout</span> <span class="tg">flQuestion</span></div>
+      <div><span class="tg">│    Anker: oben an tvCategory,</span></div>
+      <div><span class="tg">│           unten an llAnswers</span></div>
+      <div><span class="tg">│    ├─ TextView  tvQuestion</span></div>
+      <div><span class="tg">│    └─ TextView  tvFeedback  (liegt drüber)</span></div>
+      <div><span class="tg">│</span></div>
+      <div><span class="tg">├─</span> <span class="tl">LinearLayout</span> <span class="tg">llAnswers, vertical</span></div>
+      <div><span class="tg">│    Anker: unten an btnNext</span></div>
+      <div><span class="tg">│    ├─ Button  btnAnswer1</span></div>
+      <div><span class="tg">│    ├─ Button  btnAnswer2</span></div>
+      <div><span class="tg">│    ├─ Button  btnAnswer3</span></div>
+      <div><span class="tg">│    └─ Button  btnAnswer4</span></div>
+      <div><span class="tg">│</span></div>
+      <div><span class="tg">└─ Button  btnNext</span></div>
+      <div><span class="tg">     Anker: unten an parent</span></div>
+    </div>
+  </div>
+
+  <p>Lies den Baum von aussen nach innen. Das ConstraintLayout hat <b>fünf</b> Kinder. Die acht Elemente darunter stecken in zwei dieser fünf. Genau so tippst du es auch ein.</p>
+
+  <div class="card">
+    <p style="margin:0 0 10px"><b>Warum die Antworten untereinander stehen und nicht nebeneinander.</b> Die längste Antwort im Fragenbestand hat 31 Zeichen. Nebeneinander bliebe jeder Antwort rund ein Viertel der Bildschirmbreite. Der Text bräche mitten im Wort um. Untereinander hat jede Antwort die volle Breite.</p>
+    <p style="margin:0"><b>Warum die Frage in einem FrameLayout steckt.</b> Nach dem Antippen soll die Rückmeldung <i>über</i> der Frage erscheinen, nicht darunter. Übereinander heisst FrameLayout. Das zweite Kind <code>tvFeedback</code> steht im XML weiter unten, also liegt es oben. Zuerst ist es auf <code>gone</code> gestellt.</p>
+  </div>
+
+  <h2>4. Wie du einen Anker setzt</h2>
+  <p>Ein Anker ist immer nach demselben Muster gebaut. Du liest ihn wie einen Satz.</p>
+
+  <pre><span class="a">app:layout_constraintBottom_toTopOf</span>=<span class="s">"@id/llAnswers"</span>
+<span class="c">        ^meine Seite   ^fremde Seite   ^wessen Seite</span>
+<span class="c">"Meine Unterkante klebt an der Oberkante von llAnswers."</span></pre>
+
+  <div class="anchors">
+    <div class="anchor">
+      <b>An den Bildschirmrand</b>
+      <p>Statt einer id schreibst du <code>"parent"</code>. Beispiel oben ankleben: <code>constraintTop_toTopOf="parent"</code></p>
+    </div>
+    <div class="anchor">
+      <b>An ein Geschwister</b>
+      <p>Du schreibst dessen id. Das Geschwister muss eine id haben, sonst kannst du es nicht ansprechen.</p>
+    </div>
+    <div class="anchor">
+      <b>Voll ausdehnen</b>
+      <p>Im ConstraintLayout heisst voll nicht <code>match_parent</code>, sondern <code>0dp</code> plus Anker auf beiden Seiten.</p>
+    </div>
+  </div>
+
+  <div class="note">
+    <p style="margin:0"><b><code>0dp</code> heisst nicht null.</b> Im ConstraintLayout heisst <code>0dp</code>: dehne dich zwischen deine beiden Anker aus. Das gilt in beide Richtungen. <code>layout_width="0dp"</code> braucht einen Anker links und einen rechts. <code>layout_height="0dp"</code> braucht einen Anker oben und einen unten. Fehlt einer davon, siehst du nichts.</p>
+  </div>
+
+  <h2>5. Der Bauplan als XML</h2>
+  <p>Verkürzt. Die Wiederholungen sind als Kommentar angedeutet.</p>
+  <pre><span class="t">&lt;androidx.constraintlayout.widget.ConstraintLayout</span>
+    <span class="a">xmlns:android</span>=<span class="s">"http://schemas.android.com/apk/res/android"</span>
+    <span class="a">xmlns:app</span>=<span class="s">"http://schemas.android.com/apk/res-auto"</span>
+    <span class="a">android:id</span>=<span class="s">"@+id/main"</span>
+    <span class="a">android:layout_width</span>=<span class="s">"match_parent"</span>
+    <span class="a">android:layout_height</span>=<span class="s">"match_parent"</span><span class="t">&gt;</span>
+
+    <span class="c">&lt;!-- 1. Kopfzeile. Zwei einzelne Texte, kein Container nötig. --&gt;</span>
+    <span class="t">&lt;TextView</span> <span class="a">android:id</span>=<span class="s">"@+id/tvCategory"</span>
+        <span class="a">android:layout_width</span>=<span class="s">"wrap_content"</span>
+        <span class="a">android:layout_height</span>=<span class="s">"wrap_content"</span>
+        <span class="a">android:text</span>=<span class="s">"Kategorie: Sport"</span>
+        <span class="a">app:layout_constraintTop_toTopOf</span>=<span class="s">"parent"</span>
+        <span class="a">app:layout_constraintStart_toStartOf</span>=<span class="s">"parent"</span> <span class="t">/&gt;</span>
+
+    <span class="t">&lt;TextView</span> <span class="a">android:id</span>=<span class="s">"@+id/tvScore"</span>
+        <span class="a">android:layout_width</span>=<span class="s">"wrap_content"</span>
+        <span class="a">android:layout_height</span>=<span class="s">"wrap_content"</span>
+        <span class="a">android:text</span>=<span class="s">"2 von 5"</span>
+        <span class="a">app:layout_constraintTop_toTopOf</span>=<span class="s">"parent"</span>
+        <span class="a">app:layout_constraintEnd_toEndOf</span>=<span class="s">"parent"</span> <span class="t">/&gt;</span>
+
+    <span class="c">&lt;!-- 2. Fragebereich. Nimmt den ganzen Platz zwischen
+         Kopfzeile und Antworten ein, darum Höhe 0dp. --&gt;</span>
+    <span class="t">&lt;FrameLayout</span>
+        <span class="a">android:id</span>=<span class="s">"@+id/flQuestion"</span>
+        <span class="a">android:layout_width</span>=<span class="s">"0dp"</span>
+        <span class="a">android:layout_height</span>=<span class="s">"0dp"</span>
+        <span class="a">app:layout_constraintTop_toBottomOf</span>=<span class="s">"@id/tvCategory"</span>
+        <span class="a">app:layout_constraintBottom_toTopOf</span>=<span class="s">"@+id/llAnswers"</span>
+        <span class="a">app:layout_constraintStart_toStartOf</span>=<span class="s">"parent"</span>
+        <span class="a">app:layout_constraintEnd_toEndOf</span>=<span class="s">"parent"</span><span class="t">&gt;</span>
+
+        <span class="t">&lt;TextView</span> <span class="a">android:id</span>=<span class="s">"@+id/tvQuestion"</span>
+            <span class="a">android:layout_width</span>=<span class="s">"match_parent"</span>
+            <span class="a">android:layout_height</span>=<span class="s">"match_parent"</span>
+            <span class="a">android:gravity</span>=<span class="s">"center"</span>
+            <span class="a">android:text</span>=<span class="s">"Wie viele Spieler stehen pro Mannschaft ..."</span> <span class="t">/&gt;</span>
+
+        <span class="c">&lt;!-- Steht weiter unten, also liegt es oben drauf. --&gt;</span>
+        <span class="t">&lt;TextView</span> <span class="a">android:id</span>=<span class="s">"@+id/tvFeedback"</span>
+            <span class="a">android:layout_width</span>=<span class="s">"wrap_content"</span>
+            <span class="a">android:layout_height</span>=<span class="s">"wrap_content"</span>
+            <span class="a">android:layout_gravity</span>=<span class="s">"top|end"</span>
+            <span class="a">android:text</span>=<span class="s">"Richtig"</span>
+            <span class="a">android:visibility</span>=<span class="s">"gone"</span> <span class="t">/&gt;</span>
+
+    <span class="t">&lt;/FrameLayout&gt;</span>
+
+    <span class="c">&lt;!-- 3. Vier Antworten untereinander. --&gt;</span>
+    <span class="t">&lt;LinearLayout</span>
+        <span class="a">android:id</span>=<span class="s">"@+id/llAnswers"</span>
+        <span class="a">android:layout_width</span>=<span class="s">"0dp"</span>
+        <span class="a">android:layout_height</span>=<span class="s">"wrap_content"</span>
+        <span class="a">android:orientation</span>=<span class="s">"vertical"</span>
+        <span class="a">app:layout_constraintStart_toStartOf</span>=<span class="s">"parent"</span>
+        <span class="a">app:layout_constraintEnd_toEndOf</span>=<span class="s">"parent"</span>
+        <span class="a">app:layout_constraintBottom_toTopOf</span>=<span class="s">"@+id/btnNext"</span><span class="t">&gt;</span>
+
+        <span class="t">&lt;Button</span> <span class="a">android:id</span>=<span class="s">"@+id/btnAnswer1"</span>
+            <span class="a">android:layout_width</span>=<span class="s">"match_parent"</span>
+            <span class="a">android:layout_height</span>=<span class="s">"wrap_content"</span>
+            <span class="a">android:text</span>=<span class="s">"9"</span> <span class="t">/&gt;</span>
+
+        <span class="c">&lt;!-- btnAnswer2 bis btnAnswer4 genau gleich --&gt;</span>
+
+    <span class="t">&lt;/LinearLayout&gt;</span>
+
+    <span class="c">&lt;!-- 4. Weiter, klebt unten. --&gt;</span>
+    <span class="t">&lt;Button</span>
+        <span class="a">android:id</span>=<span class="s">"@+id/btnNext"</span>
+        <span class="a">android:layout_width</span>=<span class="s">"0dp"</span>
+        <span class="a">android:layout_height</span>=<span class="s">"wrap_content"</span>
+        <span class="a">android:text</span>=<span class="s">"Weiter"</span>
+        <span class="a">app:layout_constraintStart_toStartOf</span>=<span class="s">"parent"</span>
+        <span class="a">app:layout_constraintEnd_toEndOf</span>=<span class="s">"parent"</span>
+        <span class="a">app:layout_constraintBottom_toBottomOf</span>=<span class="s">"parent"</span> <span class="t">/&gt;</span>
+
+<span class="t">&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</span></pre>
+
+  <p>Beachte die Breiten. Im ConstraintLayout steht <code>0dp</code>. Beim Button <b>innerhalb</b> des LinearLayout steht <code>match_parent</code>. Beides heisst "volle Breite", aber der Elternteil entscheidet, wie man das schreibt.</p>
+
+  <h2>6. Fünf Fallen, in die alle tappen</h2>
+
+  <h3>Falle 1: Der Editor zeigt es richtig, die App nicht</h3>
+  <p>Du schiebst ein Element im Design-Editor an den unteren Rand und es sieht gut aus. Startest du die App, sitzt es oben links. Grund: du hast keinen Anker gesetzt. Im Editor erkennst du das an einem kleinen roten Warnsymbol. Arbeite lieber direkt im Code-Tab, dort siehst du sofort, ob die Anker da sind.</p>
+
+  <h3>Falle 2: Ein Element mit 0dp ist unsichtbar</h3>
+  <p>Du gibst dem Fragebereich <code>layout_height="0dp"</code> und setzt nur einen Anker nach oben. Die Höhe bleibt tatsächlich null, also siehst du nichts. <code>0dp</code> ist eine Rechenanweisung, kein Wert. Ohne zweiten Anker gibt es nichts zu rechnen. Merksatz: <b>0dp braucht immer zwei Anker auf derselben Achse.</b></p>
+
+  <h3>Falle 3: <code>cannot resolve symbol</code> beim Anker</h3>
+  <p>Du verankerst <code>flQuestion</code> unten an <code>llAnswers</code>. Das <code>llAnswers</code> steht aber im XML weiter unten und existiert an dieser Stelle noch nicht. Android Studio färbt den Verweis rot.</p>
+  <table>
+    <tr><th style="width:110px">Schreibweise</th><th>Bedeutung</th><th>Wann</th></tr>
+    <tr><td><code>@+id/x</code></td><td>lege die id <code>x</code> an</td><td>bei der Vergabe, und beim Verweis nach <b>unten</b> im Dokument</td></tr>
+    <tr><td><code>@id/x</code></td><td>benutze die id <code>x</code>, die es schon gibt</td><td>beim Verweis nach <b>oben</b> im Dokument</td></tr>
+  </table>
+  <p>Im Beispiel oben siehst du beides: <code>@id/tvCategory</code> zeigt nach oben, <code>@+id/llAnswers</code> zeigt nach unten.</p>
+
+  <h3>Falle 4: Zwei Elemente hängen aneinander im Kreis</h3>
+  <p>Du verankerst A unten an B und B oben an A. Android kann daraus keine Position berechnen und meldet <code>circular dependency</code>. Die Regel dahinter: eine Kette von Ankern muss irgendwann bei <code>parent</code> ankommen. Zeichne die Kette auf Papier und folge den Pfeilen. Wenn du im Kreis läufst, hast du den Fehler gefunden.</p>
+
+  <h3>Falle 5: Im Querformat ist plötzlich kein Platz mehr</h3>
+  <p>Dreh den Emulator mit <code>Strg</code> und <code>F11</code>. Die Höhe schrumpft auf etwa die Hälfte. Beim Quiz-Bildschirm bleiben die vier Antworten und der Weiter-Knopf gleich hoch, also frisst der Fragebereich mit seiner Höhe <code>0dp</code> den Verlust allein. Bei zu wenig Platz wird er null hoch und die Frage verschwindet.</p>
+  <p>Die saubere Lösung ist ein <code>ScrollView</code> um den Teil, der wachsen darf. Probier zuerst ohne, und bau es erst ein, wenn du das Problem wirklich siehst.</p>
+
+  <h2>7. Prüfe dich selbst</h2>
+  <ol>
+    <li>Zeig auf dem Bauplan oben, welche fünf Kinder das ConstraintLayout hat. Wenn du acht zählst, hast du eine Ebene zu tief geschaut.</li>
+    <li>Warum steht bei <code>btnAnswer1</code> die Breite auf <code>match_parent</code> und bei <code>btnNext</code> auf <code>0dp</code>, obwohl beide gleich breit aussehen?</li>
+    <li>Nimm bei einem Kind des ConstraintLayout alle Anker weg und starte neu. Landet es oben links? Dann hast du die Regel verstanden.</li>
+    <li>Der Weiter-Knopf soll nach oben wandern, sobald die Tastatur erscheint. Woran müsste er dafür hängen, und woran hängt er jetzt?</li>
+    <li>Erkläre einem Lerngspänli in einem Satz, warum die Rückmeldung "Richtig" in ein FrameLayout gehört und nicht in ein LinearLayout.</li>
+  </ol>
+
+  <p class="foot">M335 Mobile Applikationen &middot; Nachschlagewerk, Classroom-Thema 90 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch.</p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>01A Loesung, Mobile Applikationen</title>
+<style>
+  :root{
+    --bg:#f9f9f7; --surface:#fcfcfb; --fg:#0b0b0b; --ink2:#52514e; --muted:#898781;
+    --line:#e1e0d9; --rule:#c3c2b7;
+    --acc:#2a78d6; --acc-bg:#e8f0f8;
+    --good:#0ca30c; --ok-bg:#e6f2ed;
+    --amber:#b1701c; --amber-bg:#fbf0df;
+    --crit:#d03b3b; --crit-bg:#fbeae7;
+    --vio:#4a3aa7; --vio-bg:#eceaf7;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font:16px/1.62 system-ui,-apple-system,"Segoe UI",sans-serif}
+  .wrap{max-width:920px;margin:0 auto;padding:40px 24px 90px}
+  h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+  .sub{color:var(--ink2);margin:0 0 26px;font-size:15px}
+  h2{font-size:20px;margin:46px 0 12px;padding-top:15px;border-top:2px solid var(--rule);letter-spacing:-.01em}
+  h3{font-size:16.5px;margin:28px 0 8px}
+  h4{font-size:14.5px;margin:20px 0 6px;color:var(--ink2)}
+  p{margin:0 0 12px}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;
+       background:#f0eee9;padding:1px 5px;border-radius:4px}
+  pre{background:#26241f;color:#eae7df;padding:14px 16px;border-radius:10px;overflow-x:auto;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.6px;line-height:1.6;margin:0 0 16px}
+  .tip{border-left:3px solid var(--good);background:var(--ok-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .tip b{color:#006300}
+  .note{border-left:3px solid var(--crit);background:var(--crit-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .note b{color:var(--crit)}
+  .warn{border-left:3px solid var(--amber);background:var(--amber-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .warn b{color:var(--amber)}
+  .info{border-left:3px solid var(--acc);background:var(--acc-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .info b{color:var(--acc)}
+  .chk{border-left:3px solid var(--vio);background:var(--vio-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .chk b{color:var(--vio)}
+  table{border-collapse:collapse;width:100%;font-size:14.2px;margin:0 0 16px;background:var(--surface)}
+  th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-weight:600;background:#f3f1ec}
+  ul,ol{margin:0 0 14px;padding-left:22px} li{margin:0 0 7px}
+  .ue{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 17px;margin:0 0 14px}
+  .ue .t{font-weight:600;margin-bottom:5px}
+  .foot{margin-top:50px;padding-top:16px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>01A Loesung, Mobile Applikationen</h1>
+<p class="sub">Lösungsmaterial zum Auftrag 01A. Modul 335 Block 01.</p>
+<p class="sub"><b>Zum Durchlesen brauchst du etwa 10 Minuten.</b> Das ist ein Richtwert. Du musst nicht alles lesen, such dir die Stelle, die du brauchst.</p>
+
+<div class="info">
+<p><b>Wie du das hier benutzt.</b> Nicht abschreiben. Vergleichen. Zu jeder Lösung steht eine kurze Begründung. Die Begründung ist der eigentliche Inhalt, die Antwort ist nur der Beleg dazu.</p>
+<p>Bei diesem Auftrag gibt es keine einzig richtige Tabelle. Deine Tabelle ist richtig, wenn jede Zeile einen Beleg hat, den man nachstellen kann.</p>
+</div>
+
+
+<h2>Beispieltabelle, so sieht der richtige Detailgrad aus</h2>
+<p>Das sind drei Musterzeilen. Sie zeigen, wie genau eine Zeile sein muss. Deine Faktoren sind wahrscheinlich andere. Das ist in Ordnung.</p>
+
+<table>
+<tr><th>Faktor</th><th>PC oder Notebook</th><th>Smartphone</th><th>Einfluss auf die Programmierung</th><th>Beleg</th></tr>
+<tr>
+<td>Bildschirmgrösse</td>
+<td>19 bis 27 Zoll</td>
+<td>6 bis 7 Zoll</td>
+<td>Weniger Elemente pro Ansicht. Inhalte müssen scrollbar sein. Lange Formulare werden auf mehrere Bildschirme verteilt</td>
+<td>Vorgegebenes Beispiel, kein Beleg nötig</td>
+</tr>
+<tr>
+<td>Eingabe</td>
+<td>Maus, Zeiger etwa 1 Pixel gross</td>
+<td>Finger, Auflagefläche etwa 9 Millimeter</td>
+<td>Klickflächen brauchen eine Mindestgrösse von 48 dp. Ein Hover-Effekt funktioniert nicht, weil der Finger nicht schwebt</td>
+<td>SBB Mobile, Fahrplanabfrage. Die Knöpfe Ab und An sind gross und weit auseinander. Auf der Webseite am PC sind dieselben Felder halb so hoch. Screenshot 1</td>
+</tr>
+<tr>
+<td>Unterbrechung</td>
+<td>Programm läuft weiter, wenn ich das Fenster wechsle</td>
+<td>Das System darf die App im Hintergrund beenden</td>
+<td>Der Zustand muss aktiv gespeichert werden. Man darf sich nicht darauf verlassen, dass Variablen noch leben</td>
+<td>Instagram, Kommentarfeld. Ich tippe einen Text, wechsle für zwei Minuten zu einer anderen App, gehe zurück. Der Text ist noch da. Bei der Kamera-App ist meine Einstellung dagegen zurückgesetzt. Screenshot 2</td>
+</tr>
+</table>
+
+<div class="tip">
+<p><b>Woran man eine gute Zeile erkennt.</b> In der Spalte Einfluss steht etwas, das ein Programmierer tut. Nicht etwas, das ein Benutzer merkt. "Der Text ist klein" ist Benutzersicht. "Schriftgrössen in sp statt in Pixel, damit die Systemeinstellung greift" ist Programmierersicht.</p>
+</div>
+
+
+<h2>Antworten zu den Denkfragen</h2>
+<p>Diese vier Fragen kommen im <b>01A Check</b> als Quizfragen wieder. Dort bekommst du zu jeder Antwort sofort eine Rückmeldung. Hier steht die längere Begründung dazu.</p>
+
+<div class="ue">
+<p class="t">Frage 1, woher weiss eine KI das?</p>
+<p>Aus Texten, die Menschen geschrieben haben. Blogbeiträge, Dokumentationen, Forenantworten, Bücher. Die KI hat nie ein Telefon in der Hand gehabt.</p>
+<p><b>Warum das zählt:</b> Die Liste ist eine Zusammenfassung dessen, was oft geschrieben wurde. Was oft geschrieben wurde, ist meistens richtig, aber manchmal veraltet. Eine Aussage von 2015 über Android steht gleichberechtigt neben einer von heute.</p>
+</div>
+
+<div class="ue">
+<p class="t">Frage 2, woran erkennst du eine falsche Zeile?</p>
+<p>Man erkennt sie nicht am Lesen. Sie klingt genauso gut wie die richtigen. Man erkennt sie nur daran, dass man sie nicht belegen kann.</p>
+<p><b>Warum das zählt:</b> Genau darum ist Teil B der Auftrag und nicht Teil A. Plausibilität ist kein Prüfverfahren. Wer eine Liste nur liest, findet den Fehler nie.</p>
+</div>
+
+<div class="ue">
+<p class="t">Frage 3, warum ist "kleine Bildschirme" wertlos als Beleg?</p>
+<p>Weil es die Behauptung wiederholt, statt sie zu stützen. Ein Beleg muss auf etwas zeigen, das man nachstellen kann. App, Bildschirm, Verhalten.</p>
+<p><b>Warum das zählt:</b> Dasselbe Muster kommt in der Leistungsbeurteilung wieder. Dort musst du einen Testfall schreiben. Ein Testfall ohne konkreten Schritt und ohne erwartetes Ergebnis ist wertlos aus demselben Grund.</p>
+</div>
+
+<div class="ue">
+<p class="t">Frage 4, was nennt die KI wahrscheinlich nicht?</p>
+<p>Es gibt keine eine richtige Antwort. Häufig fehlen in KI-Listen:</p>
+<ul>
+<li>Dass die Tastatur einen Teil des Bildschirms wegnimmt, sobald sie erscheint.</li>
+<li>Dass eine Drehung die Activity neu erzeugt und dabei alles verloren geht, was nicht gesichert wurde.</li>
+<li>Dass Berechtigungen zur Laufzeit abgefragt werden und der Benutzer Nein sagen darf.</li>
+<li>Dass die App jederzeit ohne Vorwarnung beendet werden kann.</li>
+</ul>
+<p><b>Warum das zählt:</b> Diese vier Punkte sind genau die, die im Kurs später Arbeit machen. Wer sie am Tag 1 selbst gefunden hat, erkennt sie am Tag 3 wieder.</p>
+</div>
+
+
+<h2>Die drei Stellen aus B3</h2>
+<p>Zu jeder dieser drei gehört eine eigene Zeile auf deinem Arbeitsblatt, mit dem Status EIGEN. Vergleiche deine Zeile mit dem, was hier steht.</p>
+
+<div class="ue">
+<p class="t">Die Drehung</p>
+<p><b>Was man sieht:</b> Das Bild wird breiter und niedriger. Elemente stehen neu angeordnet oder werden abgeschnitten. Die Tastatur nimmt im Querformat fast den halben Bildschirm ein. Bei manchen Apps springt die Ansicht an den Anfang zurück.</p>
+<p><b>Folge für den Programmierer:</b> Ein Layout darf nicht auf eine feste Höhe bauen. Und: Android erzeugt die Activity bei der Drehung neu. Alles, was nur in einer Variable stand, ist danach weg. Wer den Zustand behalten will, muss ihn selbst sichern.</p>
+<p><b>Begründung:</b> Das ist der Grund, warum du in Block 02B das Querformat prüfst und warum wir am Tag 3 über Zustand reden. Die Drehung ist der billigste Weg, einen Fehler in der Zustandsverwaltung sichtbar zu machen.</p>
+</div>
+
+<div class="ue">
+<p class="t">Die Unterbrechung</p>
+<p><b>Was man sieht:</b> Meistens ist die Eingabe noch da. Bei manchen Apps, oder nach längerer Zeit, ist sie weg. Bei Spielen startet oft die ganze Runde neu.</p>
+<p><b>Folge für den Programmierer:</b> Am PC läuft ein Programm weiter, bis der Benutzer es schliesst. Am Telefon entscheidet das System. Wenn der Speicher knapp wird, beendet Android die App im Hintergrund. Der Benutzer merkt davon nichts, er sieht beim Zurückkommen nur eine leere App.</p>
+<p><b>Begründung:</b> Das ist der Grund für den ganzen Lebenszyklus einer Activity. Und der Grund, warum wir am Tag 3 den Punktestand nicht einfach in einer Variable lassen, sondern speichern.</p>
+</div>
+
+<div class="ue">
+<p class="t">Der Fehlgriff</p>
+<p><b>Was man sieht:</b> Zwei Knöpfe zu nah beieinander, ein Kreuz zum Schliessen, das zu klein ist, ein Link mitten im Text, ein Löschen-Knopf direkt neben Speichern.</p>
+<p><b>Warum es mit der Maus kein Problem wäre:</b> Der Mauszeiger ist eine Spitze und man sieht genau, worauf man zeigt, bevor man klickt. Der Finger ist eine Fläche von rund neun Millimetern und er verdeckt beim Tippen genau die Stelle, die man treffen will.</p>
+<p><b>Folge für den Programmierer:</b> Google verlangt mindestens 48 dp für jede Klickfläche. Nicht 48 Pixel. Und gefährliche Aktionen gehören nicht neben harmlose.</p>
+<p><b>Begründung:</b> Das ist HANOK 1.1, ergonomische Standards. In der Leistungsbeurteilung ist Bedienbarkeit ein eigener Punkt.</p>
+</div>
+
+<h2>Die Erklärung aus C3</h2>
+
+<div class="ue">
+<p class="t">Warum "der Bildschirm ist kleiner" keine brauchbare Antwort ist</p>
+<p><b>Eine mögliche Erklärung:</b> "Der Bildschirm ist kleiner" beschreibt das Gerät. Gefragt ist aber, was ich deswegen anders programmiere. Erst der zweite Teil ist die Antwort. Also nicht "der Bildschirm ist kleiner", sondern "darum passt nicht alles auf eine Ansicht, darum baue ich ein Formular auf zwei Bildschirme auf, und darum muss ich die Eingaben vom ersten Bildschirm zum zweiten mitnehmen".</p>
+<p><b>Begründung:</b> Die Erklärung steht am Schluss, weil man beim Erklären merkt, wo die eigene Antwort aufhört. Wer nur die Behauptung nachsprechen kann, hat den Einfluss auf die Programmierung nicht.</p>
+</div>
+
+
+<h2>Zur Zusatzaufgabe</h2>
+<p>Dazu gibt es hier bewusst keine Lösung. Die Frage bleibt offen, das ist ihr Zweck.</p>
+
+
+<h2>Hinweise für die Lehrperson</h2>
+<ul>
+<li><b>Die Zeile mit Status WEG ist der Nachweis</b>, nicht die Länge der Tabelle. Wer acht Zeilen abgibt und keine mit WEG hat, hat vermutlich nicht geprüft. Nachfragen lohnt sich mehr als korrigieren.</li>
+<li><b>Ein Blick auf die Statusspalte genügt für die Korrektur.</b> Kommen KI, WEG und EIGEN alle drei vor, ist der Auftrag verstanden. Steht überall KI, wurde die Liste nur abgeschrieben.</li>
+<li><b>Der häufigste Fehler ist der Beleg, der die Behauptung wiederholt.</b> Zwei Beispiele aus der Klasse vorlesen lassen, einen guten und einen schlechten, reicht meist für alle.</li>
+<li><b>Die Spalte Einfluss wird oft aus Benutzersicht gefüllt.</b> Die Rückfrage lautet immer gleich: Was muss ich deswegen im Code anders machen?</li>
+<li><b>B3 ist die Stelle, an der die eigenen Zeilen entstehen.</b> Wer B3 überspringt, gibt eine reine KI-Liste ab. Das ist der häufigste Weg, den Auftrag formal zu erfüllen und trotzdem nichts gelernt zu haben.</li>
+<li><b>Teil C trägt den ganzen Auftrag.</b> Wenn die Zeit knapp wird, lieber Teil B um zwei Minuten kürzen als Teil C. Ohne die gemeinsame Auswertung bleibt es eine Rechercheaufgabe.</li>
+<li><b>Für das Selbststudium</b> ersetzt die Classroom-Frage 01A Frage - Was die KI nicht wusste das Plenum. Sie muss mit sichtbaren Antworten eingerichtet sein, sonst fehlt der Vergleich mit den anderen.</li>
+</ul>
+
+
+<p class="foot">Modul 335 Block 01, Lösungsmaterial zu 01A. Fassung 1 vom 08.08.2026. Gehört als Material neben die Aufgabe 01A Auftrag - Mobile Applikationen.</p>
+
+</div>
+</body>
+</html>

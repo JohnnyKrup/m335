@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>01B Android Studio und erster Code</title>
+<style>
+  :root{
+    --bg:#f9f9f7; --surface:#fcfcfb; --fg:#0b0b0b; --ink2:#52514e; --muted:#898781;
+    --line:#e1e0d9; --rule:#c3c2b7;
+    --acc:#2a78d6; --acc-bg:#e8f0f8;
+    --good:#0ca30c; --ok-bg:#e6f2ed;
+    --amber:#b1701c; --amber-bg:#fbf0df;
+    --crit:#d03b3b; --crit-bg:#fbeae7;
+    --vio:#4a3aa7; --vio-bg:#eceaf7;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font:16px/1.62 system-ui,-apple-system,"Segoe UI",sans-serif}
+  .wrap{max-width:920px;margin:0 auto;padding:40px 24px 90px}
+  h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+  .sub{color:var(--ink2);margin:0 0 26px;font-size:15px}
+  h2{font-size:20px;margin:46px 0 12px;padding-top:15px;border-top:2px solid var(--rule);letter-spacing:-.01em}
+  h3{font-size:16.5px;margin:28px 0 8px}
+  h4{font-size:14.5px;margin:20px 0 6px;color:var(--ink2)}
+  p{margin:0 0 12px}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;
+       background:#f0eee9;padding:1px 5px;border-radius:4px}
+  pre{background:#26241f;color:#eae7df;padding:14px 16px;border-radius:10px;overflow-x:auto;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.6px;line-height:1.6;margin:0 0 16px}
+  pre .k{color:#d8a0d0} pre .t{color:#8fc4e8} pre .s{color:#b7d69a} pre .c{color:#8f8a7d}
+  .tip{border-left:3px solid var(--good);background:var(--ok-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .tip b{color:#006300}
+  .note{border-left:3px solid var(--crit);background:var(--crit-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .note b{color:var(--crit)}
+  .warn{border-left:3px solid var(--amber);background:var(--amber-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .warn b{color:var(--amber)}
+  .info{border-left:3px solid var(--acc);background:var(--acc-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .info b{color:var(--acc)}
+  .chk{border-left:3px solid var(--vio);background:var(--vio-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
+  .chk b{color:var(--vio)}
+  table{border-collapse:collapse;width:100%;font-size:14.2px;margin:0 0 16px;background:var(--surface)}
+  th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-weight:600;background:#f3f1ec}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  td.pre,th.pre{font-family:ui-monospace,Menlo,monospace;font-weight:600;color:#3a2d86;white-space:nowrap}
+  ul,ol{margin:0 0 14px;padding-left:22px} li{margin:0 0 7px}
+  .step{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:0 0 16px}
+  .step .n{display:inline-block;background:#26241f;color:#fff;font:600 12px/1 system-ui,sans-serif;
+           padding:5px 9px;border-radius:6px;margin-right:8px}
+  .ue{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 17px;margin:0 0 14px}
+  .ue .t{font-weight:600;margin-bottom:5px}
+  .time{display:inline-block;font:600 11px/1.5 system-ui,sans-serif;padding:2px 8px;border-radius:20px;
+        background:#e4e2f5;color:#3a2d86;border:1px solid #bdb5e0;white-space:nowrap;margin-left:8px}
+  .foot{margin-top:50px;padding-top:16px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>01B Android Studio und erster Code</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Block 01. Zeitbudget 30 Minuten, dazu 10 Minuten Einführung durch die Lehrperson.</p>
+<p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
+
+
+<h2>01 Einführung</h2>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>3.1</td><td>Kennt die Bedienung und den Einsatz einer passenden Entwicklungs-, Simulations- und Testumgebung</td></tr>
+<tr><td>3.2</td><td>Kennt ein gängiges Framework und dessen APIs</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du findest dich in der Projektstruktur eines Android-Projekts zurecht und weisst, wofür die fünf wichtigsten Dateien da sind.</li>
+<li>Du gibst einem Element im Layout eine id und sprichst es im Java-Code an.</li>
+<li>Du erklärst, warum <code>findViewById</code> nach <code>setContentView</code> stehen muss.</li>
+<li>Du liest einen Stacktrace in drei Schritten und benennst die Ursache eines Absturzes.</li>
+</ul>
+
+<h3>Das brauchst du vorher</h3>
+<ul>
+<li>Der Vorbereitungsauftrag ist erledigt. Android Studio läuft, dein Projekt <code>M335 HelloWorld</code> zeigt Hello World.</li>
+<li>Der Emulator ist gestartet. Lass ihn bis am Abend offen, ein Kaltstart kostet ein bis drei Minuten.</li>
+<li>Java aus den früheren Modulen. Mehr nicht.</li>
+</ul>
+
+<h3>Das gibst du ab</h3>
+<ul>
+<li>Dein ausgefülltes <b>Arbeitsblatt</b>. Das ist die Aufgabe <b>01B Arbeitsblatt - Android Studio und erster Code</b> in Google Classroom.</li>
+<li>Zwei Screenshots als Anhang zur selben Aufgabe. Einer vom Emulator mit deinem eigenen Namen, einer vom Logcat mit dem Absturz.</li>
+<li>Den ausgefüllten <b>01B Check - Wissenscheck Android Studio und erster Code</b>.</li>
+</ul>
+
+<div class="info">
+<p><b>Warum du absichtlich etwas kaputt machst.</b> Teil C ist der wichtigste Teil dieses Auftrags. Du wirst in den nächsten fünf Tagen viele Abstürze sehen. Wer den Stacktrace lesen kann, findet die Ursache in dreissig Sekunden. Wer es nicht kann, sitzt zwanzig Minuten fest und ruft nach Hilfe. Die drei Schritte, die du heute lernst, gelten für jeden Absturz im ganzen Modul.</p>
+</div>
+
+<h3>Einführung durch die Lehrperson <span class="time">10 Minuten, vor dem Auftrag</span></h3>
+<ul>
+<li>Kontrolle: läuft bei allen der Vorbereitungsauftrag?</li>
+<li>Projektstruktur zeigen: Manifest, java, res, Gradle Scripts.</li>
+<li>Der Weg vom Layout zum Code: die R-Klasse und <code>findViewById</code>.</li>
+<li>Kurz den Layout-Editor zeigen. Tiefer gehen wir am Nachmittag in Block 02.</li>
+</ul>
+
+
+<h2>02 Auftrag</h2>
+
+<h3>Ausgangslage</h3>
+<p>Aus dem Vorbereitungsauftrag hast du ein Projekt, das Hello World anzeigt. Du hast es aber nur erzeugt, nicht verstanden.</p>
+<p>Jetzt schaust du hinein. Danach änderst du zum ersten Mal etwas am Code. Und dann lässt du es absichtlich krachen.</p>
+
+<div class="note">
+<p><b>Du ergänzt nur. Du löschst nichts.</b> Der Code, den Android Studio erzeugt hat, enthält mehr, als es auf den ersten Blick scheint. Lass alles stehen, auch die Zeilen, die du heute noch nicht verstehst.</p>
+</div>
+
+<h3>Werkzeugkasten</h3>
+<p>Das sind alle Bausteine, die du für diesen Auftrag brauchst. Mehr nicht.</p>
+<table>
+<tr><th>Baustein</th><th>Wofür</th><th>So sieht er aus</th></tr>
+<tr><td class="pre">android:id</td><td>Gibt einem Element im Layout einen Namen, damit du es im Code findest</td><td class="pre">android:id="@+id/tvGreeting"</td></tr>
+<tr><td class="pre">setContentView</td><td>Lädt das Layout und erzeugt daraus die Views. Steht schon im Code</td><td class="pre">setContentView(R.layout.activity_main);</td></tr>
+<tr><td class="pre">findViewById</td><td>Holt dir ein Element aus dem geladenen Layout in den Code</td><td class="pre">TextView tv = findViewById(R.id.tvGreeting);</td></tr>
+<tr><td class="pre">setText</td><td>Schreibt Text in eine TextView</td><td class="pre">tvGreeting.setText("Hallo Anna!");</td></tr>
+<tr><td class="pre">R</td><td>Automatisch erzeugte Klasse. Enthält für jede id eine Zahl. Nie von Hand ändern</td><td class="pre">R.id.tvGreeting</td></tr>
+<tr><td>Logcat</td><td>Der Reiter unten in Android Studio. Zeigt alle Meldungen des Geräts</td><td>Reiter <b>Logcat</b></td></tr>
+<tr><td>Alt und Enter</td><td>Holt einen fehlenden Import. Cursor muss im roten Wort stehen</td><td>Taste <b>Alt</b> und <b>Enter</b></td></tr>
+</table>
+
+<p>Welche Angaben Pflicht sind:</p>
+<table>
+<tr><th>Angabe</th><th>Pflicht bei</th><th>Bemerkung</th></tr>
+<tr><td class="pre">android:id</td><td>jedem Element, das du im Code ansprechen willst</td><td>Ohne id findet <code>findViewById</code> nichts</td></tr>
+<tr><td class="pre">@+id/</td><td>beim ersten Vergeben einer id</td><td>Das Plus legt die id neu an</td></tr>
+<tr><td class="pre">@id/</td><td>beim Verweisen auf eine bestehende id</td><td>Ohne Plus. Kommt in Block 02 dran</td></tr>
+<tr><td>Reihenfolge im Code</td><td>immer</td><td><code>setContentView</code> zuerst, danach erst <code>findViewById</code></td></tr>
+</table>
+
+<h3>Namen der Controls</h3>
+<p>Im Modul 335 gilt eine feste Regel. Der Klassenname des Controls bestimmt das Präfix.</p>
+<ul>
+<li>Zusammengesetzter Name, also mehrere Wörter: erster Buchstabe jedes Wortes. <code>TextView</code> wird <code>tv</code>, <code>EditText</code> wird <code>et</code>.</li>
+<li>Ein Wort: die übliche Dreibuchstaben-Abkürzung. <code>Button</code> wird <code>btn</code>.</li>
+<li>Dahinter der Zweck in Grossschreibung. Also <code>tvGreeting</code>.</li>
+<li>Die Java-Variable heisst gleich wie die id.</li>
+</ul>
+<p>Bezeichner sind englisch, sichtbare Texte deutsch.</p>
+
+<div class="tip">
+<p><b>Warum das Präfix mehr ist als Kosmetik.</b> Wer <code>tv</code> schreibt, muss wissen, dass es eine TextView ist und kein Fernseher. Das Präfix übt die API-Namen mit, ohne dass du sie auswendig lernen musst.</p>
+</div>
+
+<h3>Denkfragen <span class="time">2 Minuten</span></h3>
+<p>Denk kurz darüber nach, bevor du anfängst. Abgeben musst du hier nichts. Die drei Fragen kommen im Wissenscheck wieder, dort bekommst du sofort eine Rückmeldung.</p>
+<ol>
+<li>Was macht die Zeile <code>setContentView(R.layout.activity_main)</code> genau? Was gibt es vorher noch nicht, das es nachher gibt?</li>
+<li>Woher kommt <code>R.id.tvGreeting</code>? Wer erzeugt die R-Klasse und wann?</li>
+<li>In deiner <code>MainActivity</code> steht schon ein Block mit einem Pfeil, also mit <code>-&gt;</code>. Schau ihn dir an. Wann wird dieser Code wohl ausgeführt?</li>
+</ol>
+
+
+<h3>Teil A, Projekt erkunden <span class="time">6 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">A1</span><b>Ansicht umstellen.</b></p>
+<p>Öffne dein Projekt. Stell die Ansicht links oben von <code>Project</code> auf <code>Android</code>. Das ist keine echte Ordnerstruktur, sondern eine Sicht, die das Wichtige nach oben holt.</p>
+</div>
+
+<div class="step">
+<p><span class="n">A2</span><b>Fünf Dateien suchen und kurz anschauen.</b></p>
+<table>
+<tr><th>Datei</th><th>Wofür sie da ist</th></tr>
+<tr><td class="pre">app / manifests / AndroidManifest.xml</td><td>Der Steckbrief der App</td></tr>
+<tr><td class="pre">app / java / ... / MainActivity.java</td><td>Dein Code</td></tr>
+<tr><td class="pre">app / res / layout / activity_main.xml</td><td>Dein Bildschirm</td></tr>
+<tr><td class="pre">app / res / values / strings.xml</td><td>Alle Texte der App</td></tr>
+<tr><td class="pre">Gradle Scripts / build.gradle.kts (Module :app)</td><td>Die Bauanleitung</td></tr>
+</table>
+<p>Trag auf deinem Arbeitsblatt zu jeder Datei ein, was dir beim Hineinschauen aufgefallen ist. Ein Stichwort genügt.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil A.</b></p>
+<ul>
+<li>Du hast alle fünf Dateien gefunden und geöffnet.</li>
+<li>Du kannst sagen, in welcher Datei der sichtbare Text Hello World steht.</li>
+<li>Du kannst sagen, in welcher Datei steht, ab welcher Android-Version deine App läuft.</li>
+<li>Auf deinem Arbeitsblatt steht zu jeder der fünf Dateien ein Stichwort.</li>
+</ul>
+</div>
+
+
+<h3>Teil B, Die erste Änderung <span class="time">10 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">B1</span><b>Der TextView eine id geben.</b></p>
+<p>Öffne <code>app / res / layout / activity_main.xml</code> und wechsle oben rechts auf die Ansicht <code>Code</code>. Suche das Element <code>TextView</code>. Ergänze als erste Zeile innerhalb der TextView:</p>
+<pre>android:id=<span class="s">"@+id/tvGreeting"</span></pre>
+<p>Das <code>@+id/</code> bedeutet: leg diese id neu an. Ohne Plus würde Android Studio eine bestehende id suchen und nichts finden.</p>
+</div>
+
+<div class="step">
+<p><span class="n">B2</span><b>Den Text aus dem Code setzen.</b></p>
+<p>Öffne <code>MainActivity.java</code>. Suche die Zeile mit <code>setContentView</code>. Füge direkt darunter diese zwei Zeilen ein:</p>
+<pre><span class="t">TextView</span> tvGreeting = findViewById(R.id.tvGreeting);
+tvGreeting.setText(<span class="s">"Hallo DEIN NAME!"</span>);</pre>
+</div>
+
+<div class="warn">
+<p><b>TextView ist jetzt rot unterkringelt. Das ist richtig so.</b> Der Import fehlt. Klick mitten in das Wort <code>TextView</code> und drück <b>Alt und Enter</b>. Wähle <code>Import class</code>. Oben in der Datei erscheint eine neue Zeile mit <code>import android.widget.TextView;</code></p>
+</div>
+
+<div class="step">
+<p><span class="n">B3</span><b>Starten.</b></p>
+<p>Drück Run. Auf dem Emulator steht nun dein Name. Mach davon einen Screenshot. Der Emulator-Rahmen muss darauf sichtbar sein.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil B.</b></p>
+<ul>
+<li>Im Editor ist nichts mehr rot unterkringelt.</li>
+<li>Auf dem Emulator steht dein eigener Name, nicht Hello World.</li>
+<li>Oben in <code>MainActivity.java</code> steht eine neue Zeile <code>import android.widget.TextView;</code></li>
+<li>Der Screenshot vom Emulator liegt bereit.</li>
+<li>Du hast nichts gelöscht. Der Block mit dem Pfeil steht noch da.</li>
+</ul>
+</div>
+
+
+<h3>Teil C, Absichtlich kaputt machen <span class="time">12 Minuten</span></h3>
+<p>Jetzt lernst du das Wichtigste an diesem Block: wie du Fehler selbst findest.</p>
+
+<div class="step">
+<p><span class="n">C1</span><b>Die zwei Zeilen verschieben.</b></p>
+<p>Schieb deine beiden neuen Zeilen so, dass sie <b>oberhalb</b> von <code>setContentView</code> stehen. Sonst änderst du nichts.</p>
+</div>
+
+<div class="step">
+<p><span class="n">C2</span><b>Starten und abstürzen lassen.</b></p>
+<p>Drück Run. Die App stürzt ab. Das ist gewollt.</p>
+</div>
+
+<div class="step">
+<p><span class="n">C3</span><b>Den Stacktrace lesen.</b></p>
+<p>Öffne unten den Reiter <code>Logcat</code>. Du siehst einen langen roten Block. Der wirkt erschlagend, ist aber immer gleich aufgebaut.</p>
+<table>
+<tr><th>Schritt</th><th>Was du tust</th></tr>
+<tr><td>1</td><td>Ignoriere alle Zeilen, die mit <code>android.</code> oder <code>com.android.</code> beginnen. Das ist Android selbst und nicht dein Fehler. Das ist meistens die Hälfte des Blocks</td></tr>
+<tr><td>2</td><td>Suche das Wort <code>Caused by</code>. Der Satz direkt dahinter ist die echte Ursache. Die allererste Zeile ganz oben sagt nur, dass etwas abgestürzt ist, nicht warum</td></tr>
+<tr><td>3</td><td>Suche unterhalb von <code>Caused by</code> die erste Zeile mit deinem <b>eigenen Paketnamen</b>. Dort stehen Datei und Zeilennummer. Das ist die Stelle in deinem Code</td></tr>
+</table>
+<p>Schreib die drei Ergebnisse auf dein Arbeitsblatt. Mach einen Screenshot vom Logcat.</p>
+</div>
+
+<div class="tip">
+<p><b>Diese drei Schritte gelten für jeden Absturz im ganzen Modul.</b> Du brauchst sie am Tag 2, am Tag 3, am Tag 4 und in der Leistungsbeurteilung. Merk sie dir jetzt, dann musst du sie nie wieder nachschlagen.</p>
+</div>
+
+<div class="step">
+<p><span class="n">C4</span><b>Reparieren.</b></p>
+<p>Stell die Reihenfolge wieder her. Die App muss wieder laufen.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil C.</b></p>
+<ul>
+<li>Auf deinem Arbeitsblatt steht die <code>Caused by</code>-Zeile, abgeschrieben aus deinem eigenen Logcat.</li>
+<li>Daneben stehen deine Datei und deine Zeilennummer.</li>
+<li>Du kannst in einem Satz sagen, warum die App abgestürzt ist.</li>
+<li>Der Screenshot vom Logcat liegt bereit.</li>
+<li>Die App läuft wieder und zeigt deinen Namen.</li>
+</ul>
+</div>
+
+<div class="info">
+<p><b>Zum Vergleichen.</b> Die fertigen Dateien, die Antworten zu den Denkfragen und die Lösungen der zwei Übungen findest du im Classroom-Material <b>01B Loesung - Android Studio und erster Code</b>. Schau erst hinein, wenn du selbst fertig bist.</p>
+</div>
+
+
+<h3>Übungen ohne Vorlage</h3>
+<p>Diese zwei Übungen gehören zur <b>Hausaufgabe 1</b>. Im Block reicht die Zeit dafür nicht. Du löst sie mit dem, was du eben gelernt hast. Kein neuer Stoff.</p>
+
+<div class="ue">
+<p class="t">Übung 1, eine zweite Zeile</p>
+<p>Ergänze im Layout eine zweite <code>TextView</code> unter der ersten. Setz ihren Text aus dem Code, nicht im XML. Sie soll deine Klasse anzeigen.</p>
+<p><b>So prüfst du:</b> Auf dem Emulator stehen zwei Zeilen untereinander. Beide Texte kommen aus <code>MainActivity.java</code>, im XML steht kein <code>android:text</code>.</p>
+</div>
+
+<div class="ue">
+<p class="t">Übung 2, erklären</p>
+<p>Erkläre einem Lerngspänli in eigenen Worten, warum <code>findViewById</code> nach <code>setContentView</code> stehen muss und nicht davor. Nimm deinen eigenen Absturz aus Teil C als Beispiel.</p>
+<p><b>So prüfst du:</b> Dein Gegenüber kann danach selbst sagen, was <code>findViewById</code> zurückgibt, wenn es zu früh aufgerufen wird.</p>
+</div>
+
+
+<h3>Zusatzaufgabe für Schnelle</h3>
+<p>Zuerst die Pflichtaufgabe fertig und lauffähig. Dann erst hier weiter.</p>
+<p><b>Auftrag:</b> Öffne <code>strings.xml</code>. Leg dort einen eigenen Eintrag an und lass deine TextView diesen Text anzeigen, ohne dass der Text irgendwo sonst im Projekt steht.</p>
+<p><b>Und die Frage, die dazugehört:</b> Android Studio zeigt eine gelbe Warnung, wenn Text direkt im Layout steht. Warum ist der Umweg über <code>strings.xml</code> gewollt? Nenne einen Fall, in dem er dir echte Arbeit spart, und einen, in dem er nur lästig ist.</p>
+<p>Keine Musterlösung. Auch nicht im Lösungsmaterial.</p>
+
+
+<h3>Wenn etwas nicht funktioniert</h3>
+<table>
+<tr><th>Das siehst du</th><th>Ursache</th><th>Das machst du</th></tr>
+<tr><td><code>TextView</code> ist rot unterkringelt</td><td>Der Import fehlt</td><td>Cursor mitten ins rote Wort, dann Alt und Enter, dann Import class</td></tr>
+<tr><td>Alt und Enter bietet keinen Import an</td><td>Der Cursor steht nicht im roten Wort</td><td>Klick mitten in das Wort, nicht davor und nicht dahinter</td></tr>
+<tr><td><code>R.id.tvGreeting</code> bleibt rot, obwohl die id im XML steht</td><td>Die R-Klasse wurde noch nicht neu erzeugt</td><td>Menü Build, dann Rebuild Project. Danach warten, bis die Statusleiste unten leer ist</td></tr>
+<tr><td>Die App stürzt beim Start ab, im Logcat steht <code>NullPointerException</code></td><td>Das ist Teil C und gewollt. Oder die id im Code stimmt nicht mit dem XML überein</td><td>Drei Schritte aus C3 anwenden. Dann id im XML mit der im Code vergleichen, Buchstabe für Buchstabe</td></tr>
+<tr><td>Im Projekt gibt es keine Datei <code>activity_main.xml</code></td><td>Falsches Template. Empty Activity statt Empty Views Activity</td><td>Projekt neu anlegen mit <b>Empty Views Activity</b></td></tr>
+<tr><td><code>MainActivity</code> hat die Endung <code>.kt</code></td><td>Die Sprache steht auf Kotlin</td><td>Projekt neu anlegen mit Language <b>Java</b></td></tr>
+<tr><td>Viele rote Fehler direkt nach dem Öffnen</td><td>Gradle ist noch nicht fertig</td><td>Warten, bis die Statusleiste unten leer ist. Der erste Sync dauert gemessen zwei Minuten vierundzwanzig</td></tr>
+<tr><td>Im Logcat siehst du nichts</td><td>Oben ist das falsche Gerät oder der falsche Prozess gewählt</td><td>Oben im Logcat dein Gerät und deine App auswählen. Notfalls den Filter leeren</td></tr>
+<tr><td>Der Text auf dem Emulator ändert sich nicht</td><td>Die App wurde nicht neu installiert</td><td>Nochmals auf Run drücken und warten, bis unten Launch succeeded steht</td></tr>
+<tr><td>Die oberste Zeile liegt unter der Uhr</td><td>Der Block mit dem Pfeil wurde gelöscht</td><td>Wieder einsetzen. Er ist kein Beiwerk, er hält deinen Inhalt unter der Statusleiste</td></tr>
+</table>
+
+
+<h3>Abgabe</h3>
+<p>Alles läuft über die Aufgabe <b>01B Arbeitsblatt - Android Studio und erster Code</b> in Google Classroom.</p>
+<ol>
+<li>Dein ausgefülltes Arbeitsblatt. Die Kopie liegt schon in deinem Drive, am Schluss auf Abgeben klicken.</li>
+<li>Screenshot vom Emulator mit deinem eigenen Namen.</li>
+<li>Screenshot vom Logcat mit dem Absturz aus Teil C.</li>
+<li>Danach den <b>01B Check</b> ausfüllen.</li>
+</ol>
+
+
+<h2>03 Guide</h2>
+<table>
+<tr><th>Zeitbudget</th><td>30 Minuten. Denkfragen 2, Teil A 6, Teil B 10, Teil C 12. Dazu 10 Minuten Einführung durch die Lehrperson davor</td></tr>
+<tr><th>Sozialform</th><td>Einzel- oder Partnerarbeit</td></tr>
+<tr><th>Aufgabenart</th><td>Geführter Aufbau mit einer Entdeckungsstelle (C1 gegen C4)</td></tr>
+<tr><th>Voraussetzung</th><td>Vorbereitungsauftrag erledigt, Projekt läuft</td></tr>
+<tr><th>KI</th><td>In Teil A bis C <b>nicht</b> erlaubt. Bei den Übungen und der Zusatzaufgabe erlaubt</td></tr>
+<tr><th>Abgabe</th><td>Ein Arbeitsblatt plus zwei Screenshots, dazu der Wissenscheck</td></tr>
+</table>
+
+<div class="warn">
+<p><b>Achtung beim Blockschnitt.</b> Teil A und B liegen im Block 1 vor der Pause, Teil C im Block 2 danach. Der Schnitt liegt gut: Teil B endet damit, dass der eigene Name auf dem Emulator steht. Lass niemanden vor der Pause mit einer abstürzenden App sitzen.</p>
+</div>
+
+<h3>Die vier Beiträge in Google Classroom</h3>
+<table>
+<tr><th>Name</th><th>Typ</th><th>Einstellung</th></tr>
+<tr><td>01B Auftrag - Android Studio und erster Code</td><td>Material</td><td>Schüler können Datei ansehen. Das ist dieses Dokument</td></tr>
+<tr><td>01B Arbeitsblatt - Android Studio und erster Code</td><td>Aufgabe</td><td><b>Für jeden Schüler eine Kopie erstellen.</b> Das ist die Abgabe</td></tr>
+<tr><td>01B Check - Wissenscheck Android Studio und erster Code</td><td>Aufgabe mit Quiz</td><td>Unbenotet, beliebig oft wiederholbar. Sieben Fragen</td></tr>
+<tr><td>01B Loesung - Android Studio und erster Code</td><td>Material</td><td>Schüler können Datei ansehen</td></tr>
+</table>
+
+
+<h2>04 Unterrichtsmittel</h2>
+<table>
+<tr><th>Art</th><th>Was</th></tr>
+<tr><td>Hardware</td><td>Eigenes Notebook, laufender Emulator Medium Phone API 36.1</td></tr>
+<tr><td>Software und Tools</td><td>Android Studio Quail 2 Patch 1, Google Classroom</td></tr>
+<tr><td>Dokumente</td><td>Arbeitsblatt 01B, als Kopie pro Schüler in Classroom</td></tr>
+<tr><td>Buch</td><td>Android-Apps entwickeln für Einsteiger (Rheinwerk), <b>Kapitel 3.6</b></td></tr>
+</table>
+
+<div class="note">
+<p><b>Nur Kapitel 3.6, nicht 3.1 bis 3.5.</b> Die Abschnitte 3.1 bis 3.4 sind veraltet. In 3.4 sagt das Buch, man solle <code>Empty Activity</code> wählen. Das ist heute die Compose-Vorlage und hat kein XML-Layout. Wer dem Buch dort folgt, kann diesen Auftrag nicht durchführen. Für uns gilt <b>Empty Views Activity</b>.</p>
+</div>
+
+
+<h2>05 Evaluation</h2>
+
+<h3>Antworten zu den Denkfragen, für die Lehrperson</h3>
+<ol>
+<li><code>setContentView</code> liest die XML-Datei, erzeugt daraus die Java-Objekte der Views und hängt sie an das Fenster. Vorher gibt es die Views nicht, nachher schon. Genau darum muss <code>findViewById</code> danach kommen.</li>
+<li>Die R-Klasse wird von Gradle beim Bauen automatisch erzeugt, aus allem, was im Ordner <code>res</code> liegt. Für jede id entsteht eine Konstante mit einer Zahl. Sie wird nie von Hand geschrieben und nie von Hand geändert.</li>
+<li>Der Block mit dem Pfeil ist ein Listener. Er wird nicht sofort ausgeführt, sondern erst dann, wenn das System die Fensterausschnitte meldet. Wer hier "sofort, wie jede andere Zeile" antwortet, hat den Unterschied zwischen Anmelden und Ausführen noch nicht. Genau das ist die Vorbereitung auf 01C.</li>
+</ol>
+
+<h3>Worauf du beim Rundgang achtest</h3>
+<table>
+<tr><th>Zeitpunkt</th><th>Worauf</th></tr>
+<tr><td>Minute 6</td><td>Hat jeder die Ansicht auf Android umgestellt? Wer noch auf Project steht, sucht die Dateien vergeblich</td></tr>
+<tr><td>Minute 14</td><td>Der rote Import ist die erste Hürde. Sag den Satz einmal laut für alle: rot heisst nicht Fehler, rot heisst Import fehlt</td></tr>
+<tr><td>Minute 18</td><td>Steht bei allen der eigene Name auf dem Emulator? Wer hier nicht fertig ist, geht ohne Teil C in die Pause und holt ihn nachher nach</td></tr>
+<tr><td>Minute 24</td><td>C3 ist die wichtigste Stelle des Auftrags. Frag zwei Lernende, was in ihrer <code>Caused by</code>-Zeile steht. Wer nur den Screenshot macht und nicht liest, hat den Punkt nicht</td></tr>
+</table>
+
+<h3>Häufigster Fehler</h3>
+<p>Beim Verschieben in C1 wird oft auch der Block mit dem Pfeil verschoben oder gelöscht. Dann stürzt die App aus einem anderen Grund ab und der Stacktrace zeigt etwas anderes. Der Satz "du ergänzt nur, du löschst nichts" steht deshalb zweimal im Auftrag.</p>
+
+<h3>Bewertung</h3>
+<p>Formativ. Der eigentliche Nachweis ist die abgeschriebene <code>Caused by</code>-Zeile mit der eigenen Zeilennummer, nicht der Screenshot. Ein Screenshot beweist nur, dass jemand den Reiter geöffnet hat.</p>
+
+
+<p class="foot">Modul 335 Block 01, Auftrag 01B. Fassung 1 vom 08.08.2026. Lösungen im Material 01B Loesung - Android Studio und erster Code.</p>
+
+</div>
+</body>
+</html>

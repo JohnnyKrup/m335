@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modul 335 Mobile Applikationen</title>
+<style>
+  :root{
+    --bg:#f9f9f7; --surface:#fcfcfb; --fg:#0b0b0b; --ink2:#52514e; --muted:#898781;
+    --line:#e1e0d9; --rule:#c3c2b7;
+    --acc:#2a78d6; --acc-bg:#e8f0f8;
+    --good:#0ca30c; --ok-bg:#e6f2ed;
+    --vio:#4a3aa7;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font:16px/1.62 system-ui,-apple-system,"Segoe UI",sans-serif}
+  .wrap{max-width:860px;margin:0 auto;padding:44px 24px 90px}
+  h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
+  .sub{color:var(--ink2);margin:0 0 30px;font-size:15px}
+  h2{font-size:19px;margin:40px 0 10px;padding-top:14px;border-top:2px solid var(--rule);
+     letter-spacing:-.01em}
+  h2 .tag{font:600 11.5px/1.5 system-ui,sans-serif;color:var(--muted);
+          margin-left:10px;letter-spacing:.02em;text-transform:uppercase}
+  p{margin:0 0 12px}
+  .info{border-left:3px solid var(--acc);background:var(--acc-bg);padding:13px 17px;
+        border-radius:0 8px 8px 0;margin:0 0 20px;font-size:14.5px}
+  .info b{color:var(--acc)}
+  ul{list-style:none;margin:0;padding:0}
+  li{border-bottom:1px solid var(--line);display:flex;align-items:baseline;
+     gap:12px;padding:11px 2px}
+  li:last-child{border-bottom:none}
+  .art{font:600 10.5px/1.5 system-ui,sans-serif;letter-spacing:.03em;text-transform:uppercase;
+       padding:2px 8px;border-radius:20px;white-space:nowrap;flex:0 0 auto;width:104px;text-align:center}
+  .a-auftrag{background:#e4e2f5;color:#3a2d86;border:1px solid #bdb5e0}
+  .a-blatt{background:#fbf0df;color:#8a560f;border:1px solid #e3c894}
+  .a-loesung{background:var(--ok-bg);color:#046004;border:1px solid #a9d4b4}
+  .a-nach{background:var(--acc-bg);color:#1a5aa8;border:1px solid #a8c6e8}
+  a{color:var(--acc);text-decoration:none;font-weight:600}
+  a:hover{text-decoration:underline}
+  .zeit{margin-left:auto;font:12.5px ui-monospace,Menlo,Consolas,monospace;
+        color:var(--muted);white-space:nowrap;flex:0 0 auto}
+  .foot{margin-top:52px;padding-top:16px;border-top:1px solid var(--rule);
+        font-size:13px;color:var(--muted)}
+  @media (max-width:560px){
+    li{flex-wrap:wrap}
+    .zeit{margin-left:0;width:100%}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Modul 335, Mobile Applikationen</h1>
+<p class="sub">Alle Aufträge, Arbeitsblätter, Lösungen und Nachschlagewerke. WISS.</p>
+
+<div class="info">
+<p style="margin:0"><b>So arbeitest du damit.</b> Der Auftrag sagt dir, was zu tun ist. Das Arbeitsblatt füllst du dabei aus, die abgabefähige Fassung findest du in Google Classroom. Die Lösung schaust du dir erst an, wenn du es selbst versucht hast. Die Nachschlagewerke bleiben das ganze Modul über hier liegen, du darfst jederzeit hineinschauen.</p>
+</div>
+
+
+<h2>Tag 1, Vormittag <span class="tag">Vom Zuschauer zum Bauenden</span></h2>
+<ul>
+  <li><span class="art a-auftrag">Auftrag</span><a href="/01a">01A Mobile Applikationen</a><span class="zeit">45 Min</span></li>
+  <li><span class="art a-blatt">Arbeitsblatt</span><a href="/01a-arbeitsblatt">01A Arbeitsblatt</a><span class="zeit">nebenher</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="/01a-loesung">01A Lösung</a><span class="zeit">10 Min</span></li>
+
+  <li><span class="art a-auftrag">Auftrag</span><a href="/01b">01B Android Studio und erster Code</a><span class="zeit">30 Min</span></li>
+  <li><span class="art a-blatt">Arbeitsblatt</span><a href="/01b-arbeitsblatt">01B Arbeitsblatt</a><span class="zeit">nebenher</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="/01b-loesung">01B Lösung</a><span class="zeit">10 Min</span></li>
+
+  <li><span class="art a-auftrag">Auftrag</span><a href="/01c">01C Buttons und Events</a><span class="zeit">65 Min</span></li>
+  <li><span class="art a-blatt">Arbeitsblatt</span><a href="/01c-arbeitsblatt">01C Arbeitsblatt</a><span class="zeit">nebenher</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="/01c-loesung">01C Lösung</a><span class="zeit">15 Min</span></li>
+</ul>
+
+
+<h2>Tag 1, Nachmittag <span class="tag">Der Bauplan vor dem Bauen</span></h2>
+<ul>
+  <li><span class="art a-auftrag">Auftrag</span><a href="/02a">02A Die drei Unterlagen</a><span class="zeit">115 Min</span></li>
+  <li><span class="art a-blatt">Arbeitsblatt</span><a href="/02a-arbeitsblatt">02A Arbeitsblatt</a><span class="zeit">nebenher</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="/02a-loesung">02A Lösung</a><span class="zeit">15 Min</span></li>
+
+  <li><span class="art a-auftrag">Auftrag</span><a href="/02b">02B Formular bauen</a><span class="zeit">65 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="/02b-loesung">02B Lösung</a><span class="zeit">20 Min</span></li>
+</ul>
+
+
+<h2>Nachschlagen <span class="tag">Das ganze Modul über offen</span></h2>
+<ul>
+  <li><span class="art a-nach">Nachschlagen</span><a href="/apps">Wie Apps aufgebaut sind</a><span class="zeit">11 Min lesen</span></li>
+  <li><span class="art a-nach">Nachschlagen</span><a href="/layouts">Layouts verstehen</a><span class="zeit">6 Min lesen</span></li>
+  <li><span class="art a-nach">Nachschlagen</span><a href="/constraints">Constraints verstehen</a><span class="zeit">11 Min lesen</span></li>
+</ul>
+
+<p class="foot">Modul 335 Mobile Applikationen &middot; WISS &middot; Die Wissenschecks und die Abgaben laufen über Google Classroom &middot; Die Skizzen sind eigene schematische Nachzeichnungen, keine Bildschirmfotos.</p>
+
+</div>
+</body>
+</html>

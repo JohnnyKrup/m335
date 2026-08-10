@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>01B Arbeitsblatt, Android Studio und erster Code</title>
+<style>
+  body{margin:0;background:#f9f9f7;color:#0b0b0b;
+       font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+  .wrap{max-width:960px;margin:0 auto;padding:36px 24px 80px}
+  h1{font-size:26px;line-height:1.2;margin:0 0 4px}
+  h2{font-size:18px;margin:34px 0 10px}
+  p{margin:0 0 10px}
+  code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88em;background:#f0eee9;padding:1px 5px;border-radius:4px}
+  .sub{color:#52514e;margin:0 0 22px;font-size:15px}
+  .foot{margin-top:44px;padding-top:14px;border-top:1px solid #c3c2b7;font-size:13px;color:#898781}
+  td,th{vertical-align:top}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>01B Arbeitsblatt, Android Studio und erster Code</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Block 01. Das ist deine Abgabe.</p>
+<p class="sub">Du füllst es während des Auftrags aus, Schritt für Schritt. Es braucht keine eigene Zeit.</p>
+
+<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;font-size:14px">
+<tr>
+<td style="border:1px solid #c3c2b7;padding:7px 9px;width:16%"><b>Name</b></td>
+<td style="border:1px solid #c3c2b7;padding:7px 9px">&nbsp;</td>
+<td style="border:1px solid #c3c2b7;padding:7px 9px;width:14%"><b>Klasse</b></td>
+<td style="border:1px solid #c3c2b7;padding:7px 9px">&nbsp;</td>
+<td style="border:1px solid #c3c2b7;padding:7px 9px;width:14%"><b>Datum</b></td>
+<td style="border:1px solid #c3c2b7;padding:7px 9px">&nbsp;</td>
+</tr>
+</table>
+
+<h2>Teil A, die fünf Dateien</h2>
+<p>Schau jede Datei kurz an. Trag in die letzte Spalte ein Stichwort ein, das dir aufgefallen ist. Zum Beispiel etwas, das du wiedererkannt hast, oder etwas, das dich überrascht hat.</p>
+
+<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;font-size:14px">
+<tr>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left;width:36%">Datei</th>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left;width:24%">Wofür sie da ist</th>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left">Was mir aufgefallen ist</th>
+</tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">app / manifests / AndroidManifest.xml</td><td style="border:1px solid #c3c2b7;padding:9px">Der Steckbrief der App</td><td style="border:1px solid #c3c2b7;padding:11px">&nbsp;</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">app / java / ... / MainActivity.java</td><td style="border:1px solid #c3c2b7;padding:9px">Dein Code</td><td style="border:1px solid #c3c2b7;padding:11px">&nbsp;</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">app / res / layout / activity_main.xml</td><td style="border:1px solid #c3c2b7;padding:9px">Dein Bildschirm</td><td style="border:1px solid #c3c2b7;padding:11px">&nbsp;</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">app / res / values / strings.xml</td><td style="border:1px solid #c3c2b7;padding:9px">Alle Texte der App</td><td style="border:1px solid #c3c2b7;padding:11px">&nbsp;</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">Gradle Scripts / build.gradle.kts (Module :app)</td><td style="border:1px solid #c3c2b7;padding:9px">Die Bauanleitung</td><td style="border:1px solid #c3c2b7;padding:11px">&nbsp;</td></tr>
+</table>
+
+<p>Zwei Fragen dazu. Antworte mit dem Dateinamen.</p>
+<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;font-size:14px">
+<tr>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left;width:62%">Frage</th>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left">Deine Antwort</th>
+</tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">In welcher Datei steht der sichtbare Text Hello World?</td><td style="border:1px solid #c3c2b7;padding:11px">&nbsp;</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">In welcher Datei steht, ab welcher Android-Version deine App läuft?</td><td style="border:1px solid #c3c2b7;padding:11px">&nbsp;</td></tr>
+</table>
+
+<h2>Teil C, dein Stacktrace</h2>
+<p>Nach dem Absturz in Teil C. Schreib ab, was in <b>deinem</b> Logcat steht. Nicht das aus dem Beispiel und nicht das vom Sitznachbarn. Die Zeilennummer ist bei jedem anders.</p>
+
+<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;font-size:14px">
+<tr>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left;width:34%">Was du suchst</th>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left">Was bei dir steht</th>
+</tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">Die ganze Zeile nach <b>Caused by</b></td><td style="border:1px solid #c3c2b7;padding:14px">&nbsp;</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">Die erste Zeile darunter mit deinem eigenen Paketnamen</td><td style="border:1px solid #c3c2b7;padding:14px">&nbsp;</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">Deine Datei und deine Zeilennummer</td><td style="border:1px solid #c3c2b7;padding:14px">&nbsp;</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">In einem Satz: warum ist die App abgestürzt?</td><td style="border:1px solid #c3c2b7;padding:14px">&nbsp;</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">Ungefähr wie viele Zeilen des roten Blocks konntest du nach Schritt 1 überspringen?</td><td style="border:1px solid #c3c2b7;padding:14px">&nbsp;</td></tr>
+</table>
+
+<h2>Deine Screenshots</h2>
+<p>Trag hier ein, was jeder Screenshot zeigt. Die Bilddateien lädst du zusätzlich in Google Classroom hoch.</p>
+
+<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;font-size:14px">
+<tr>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left;width:10%">Nr.</th>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left;width:38%">Was das Bild zeigen muss</th>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left">Dateiname deines Screenshots</th>
+</tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">1</td><td style="border:1px solid #c3c2b7;padding:9px">Der Emulator mit deinem eigenen Namen. Der Emulator-Rahmen muss sichtbar sein</td><td style="border:1px solid #c3c2b7;padding:11px">&nbsp;</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">2</td><td style="border:1px solid #c3c2b7;padding:9px">Der Logcat mit dem Absturz aus Teil C. Die Zeile mit Caused by muss zu sehen sein</td><td style="border:1px solid #c3c2b7;padding:11px">&nbsp;</td></tr>
+</table>
+
+<h2>Bevor du abgibst</h2>
+<p>Geh diese sechs Punkte durch. Erst wenn alle stimmen, ist dein Blatt fertig.</p>
+<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;font-size:14px">
+<tr>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left;width:8%">Haken</th>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left">Das muss stimmen</th>
+</tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">&nbsp;</td><td style="border:1px solid #c3c2b7;padding:9px">Zu allen fünf Dateien steht ein Stichwort</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">&nbsp;</td><td style="border:1px solid #c3c2b7;padding:9px">Beide Fragen zu Teil A sind mit einem Dateinamen beantwortet</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">&nbsp;</td><td style="border:1px solid #c3c2b7;padding:9px">Die Caused by-Zeile ist aus meinem eigenen Logcat abgeschrieben</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">&nbsp;</td><td style="border:1px solid #c3c2b7;padding:9px">Meine Datei und meine Zeilennummer stehen da</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">&nbsp;</td><td style="border:1px solid #c3c2b7;padding:9px">Beide Screenshots sind hochgeladen</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">&nbsp;</td><td style="border:1px solid #c3c2b7;padding:9px">Meine App läuft wieder und zeigt meinen Namen</td></tr>
+</table>
+
+<p class="foot">Modul 335 Block 01, Arbeitsblatt zu 01B. Fassung 1 vom 08.08.2026. Abgabe in Google Classroom unter 01B Arbeitsblatt - Android Studio und erster Code. Den Auftrag mit der Anleitung findest du im Material 01B Auftrag - Android Studio und erster Code.</p>
+
+</div>
+</body>
+</html>
