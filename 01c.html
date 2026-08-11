@@ -4,73 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>01C Buttons und Events</title>
-<style>
-  :root{
-    --bg:#f9f9f7; --surface:#fcfcfb; --fg:#0b0b0b; --ink2:#52514e; --muted:#898781;
-    --line:#e1e0d9; --rule:#c3c2b7;
-    --acc:#2a78d6; --acc-bg:#e8f0f8;
-    --good:#0ca30c; --ok-bg:#e6f2ed;
-    --amber:#b1701c; --amber-bg:#fbf0df;
-    --crit:#d03b3b; --crit-bg:#fbeae7;
-    --vio:#4a3aa7; --vio-bg:#eceaf7;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--fg);
-       font:16px/1.62 system-ui,-apple-system,"Segoe UI",sans-serif}
-  .wrap{max-width:920px;margin:0 auto;padding:40px 24px 90px}
-  h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
-  .sub{color:var(--ink2);margin:0 0 26px;font-size:15px}
-  h2{font-size:20px;margin:46px 0 12px;padding-top:15px;border-top:2px solid var(--rule);letter-spacing:-.01em}
-  h3{font-size:16.5px;margin:28px 0 8px}
-  h4{font-size:14.5px;margin:20px 0 6px;color:var(--ink2)}
-  p{margin:0 0 12px}
-  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;
-       background:#f0eee9;padding:1px 5px;border-radius:4px}
-  pre{background:#26241f;color:#eae7df;padding:14px 16px;border-radius:10px;overflow-x:auto;
-      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.6px;line-height:1.6;margin:0 0 16px}
-  pre .k{color:#d8a0d0} pre .t{color:#8fc4e8} pre .s{color:#b7d69a} pre .c{color:#8f8a7d}
-  .tip{border-left:3px solid var(--good);background:var(--ok-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
-  .tip b{color:#006300}
-  .note{border-left:3px solid var(--crit);background:var(--crit-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
-  .note b{color:var(--crit)}
-  .warn{border-left:3px solid var(--amber);background:var(--amber-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
-  .warn b{color:var(--amber)}
-  .info{border-left:3px solid var(--acc);background:var(--acc-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
-  .info b{color:var(--acc)}
-  .chk{border-left:3px solid var(--vio);background:var(--vio-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
-  .chk b{color:var(--vio)}
-  table{border-collapse:collapse;width:100%;font-size:14.2px;margin:0 0 16px;background:var(--surface)}
-  th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top}
-  th{font-weight:600;background:#f3f1ec}
-  td.pre,th.pre{font-family:ui-monospace,Menlo,monospace;font-weight:600;color:#3a2d86;white-space:nowrap}
-  ul,ol{margin:0 0 14px;padding-left:22px} li{margin:0 0 7px}
-  .step{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:0 0 16px}
-  .step .n{display:inline-block;background:#26241f;color:#fff;font:600 12px/1 system-ui,sans-serif;
-           padding:5px 9px;border-radius:6px;margin-right:8px}
-  .ue{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 17px;margin:0 0 14px}
-  .ue .t{font-weight:600;margin-bottom:5px}
-  .time{display:inline-block;font:600 11px/1.5 system-ui,sans-serif;padding:2px 8px;border-radius:20px;
-        background:#e4e2f5;color:#3a2d86;border:1px solid #bdb5e0;white-space:nowrap;margin-left:8px}
-  .foot{margin-top:50px;padding-top:16px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
-<!--M335:RAHMEN-CSS-->
-  .site-header{border-bottom:1px solid #c3c2b7;background:#fcfcfb}
-  .site-header .in{max-width:960px;margin:0 auto;padding:14px 24px;
-    display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-  .site-header .brand{display:flex;align-items:center;gap:9px;color:#52514e;
-    font:600 14px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:.01em;text-decoration:none}
-  .site-header svg{flex:0 0 auto;display:block}
-  .site-header .back{font:600 13.5px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;color:#2a78d6;text-decoration:none}
-  .site-header .back:hover{text-decoration:underline}
-  .site-footer{border-top:1px solid #c3c2b7;margin-top:8px}
-  .site-footer .in{max-width:960px;margin:0 auto;padding:16px 24px;
-    display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
-    font:13px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif;color:#898781}
-  .site-footer .brand{display:flex;align-items:center;gap:8px}
-  .site-footer svg{flex:0 0 auto;display:block;opacity:.65}
-  .site-footer .back{font-weight:600;color:#2a78d6;text-decoration:none}
-  .site-footer .back:hover{text-decoration:underline}
-<!--/M335:RAHMEN-CSS-->
-</style>
+<!--M335:STIL-->
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
@@ -553,38 +490,6 @@ findViewById(R.id.btnClear).setOnClickListener(<span class="k">this</span>);</pr
 <tr><td>Dokumente</td><td>Arbeitsblatt 01C, als Kopie pro Schüler in Classroom</td></tr>
 <tr><td>Buch</td><td>Android-Apps entwickeln für Einsteiger (Rheinwerk), Kapitel 4.4 Buttons</td></tr>
 </table>
-
-
-<h2>05 Evaluation</h2>
-
-<h3>Antworten zu den Denkfragen, für die Lehrperson</h3>
-<ol>
-<li>Das System merkt den Klick und ruft den Zuhörer auf, der beim Button angemeldet wurde. Der Button selbst weiss nichts, er wird benachrichtigt. Wer hier "der Button prüft dauernd, ob jemand drückt" antwortet, denkt noch in Schleifen statt in Ereignissen.</li>
-<li>Beides geht. Drei eigene Zuhörer wie in Teil 2 und 3, oder ein einziger für alle wie in Teil 4. Genau das ist die Frage, die dieser Block beantwortet.</li>
-<li>Weil der Code zum Zeitpunkt von <code>onCreate</code> noch nicht laufen soll. Er wird dort nur angemeldet. Ausgeführt wird er später, vielleicht oft, vielleicht nie. Das ist derselbe Gedanke wie beim Block mit dem Pfeil aus 01B.</li>
-</ol>
-
-<h3>Worauf du beim Rundgang achtest</h3>
-<table>
-<tr><th>Zeitpunkt</th><th>Worauf</th></tr>
-<tr><td>Minute 7</td><td>Läuft bei allen das Layout? Wer hier noch rote Zeilen hat, hat beim Ersetzen etwas stehen lassen</td></tr>
-<tr><td>Minute 20</td><td>Die fünf Imports sind die erste Hürde. Sag einmal laut für alle: fünfmal Alt und Enter, nicht viermal</td></tr>
-<tr><td>Minute 27</td><td>Zeig den Logcat-Filter einmal vorne. Ohne ihn ersaufen sie in Systemmeldungen</td></tr>
-<tr><td>Minute 45</td><td><b>4.2 ist der wichtigste Moment des Auftrags.</b> Dort werden <code>etName</code> und <code>tvOutput</code> rot. Lass die Klasse selbst darauf kommen, warum. Wer hier nur weiterliest, hat den Gültigkeitsbereich nicht</td></tr>
-<tr><td>Minute 55</td><td>Wer beim ersten Klick abstürzt, hat die Typangabe stehen lassen. Lass ihn die Drei-Schritte-Regel aus 01B anwenden, statt die Stelle zu zeigen</td></tr>
-</table>
-
-<h3>Was diese Aufgabe wirklich prüft</h3>
-<p>Nicht das Tippen. Der Code steht vollständig da. Geprüft wird die Antwort aus 4.2, geschrieben bevor die Erklärung gelesen wurde, und die begründete Entscheidung aus Teil 5. Beides steht auf dem Arbeitsblatt und ist bei jedem anders.</p>
-
-<h3>Häufigster Fehler</h3>
-<p>In Teil 4.3 bleibt die Typangabe in <code>onCreate</code> stehen. Damit entsteht eine neue lokale Variable, das Klassenattribut bleibt <code>null</code>, und die App stürzt beim ersten Klick ab. Das ist ein sehr lehrreicher Absturz, weil er nicht beim Start kommt, sondern erst beim Klick.</p>
-
-<h3>Warum die Reihenfolge umgedreht ist</h3>
-<p>Im Original-Notizbuch wurde zuerst die Interface-Variante gebaut. Weil das Template bereits ein Lambda enthält und jede KI sofort eines liefert, erleben die Studierenden den Nachteil jetzt selbst, statt ihn zu erraten.</p>
-
-<h3>Bewertung</h3>
-<p>Formativ. Die Zusatzaufgabe ist der Einstieg in die Eingabevalidierung, die in der Leistungsbeurteilung vier Punkte wert ist und in Quiz-Stufe 5 richtig unterrichtet wird.</p>
 
 
 <p class="foot">Modul 335 Block 01, Auftrag 01C. Fassung 4 vom 08.08.2026. Lösungen im Material 01C Loesung - Buttons und Events.</p>

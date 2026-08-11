@@ -4,66 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>01A Loesung, Mobile Applikationen</title>
-<style>
-  :root{
-    --bg:#f9f9f7; --surface:#fcfcfb; --fg:#0b0b0b; --ink2:#52514e; --muted:#898781;
-    --line:#e1e0d9; --rule:#c3c2b7;
-    --acc:#2a78d6; --acc-bg:#e8f0f8;
-    --good:#0ca30c; --ok-bg:#e6f2ed;
-    --amber:#b1701c; --amber-bg:#fbf0df;
-    --crit:#d03b3b; --crit-bg:#fbeae7;
-    --vio:#4a3aa7; --vio-bg:#eceaf7;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--fg);
-       font:16px/1.62 system-ui,-apple-system,"Segoe UI",sans-serif}
-  .wrap{max-width:920px;margin:0 auto;padding:40px 24px 90px}
-  h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
-  .sub{color:var(--ink2);margin:0 0 26px;font-size:15px}
-  h2{font-size:20px;margin:46px 0 12px;padding-top:15px;border-top:2px solid var(--rule);letter-spacing:-.01em}
-  h3{font-size:16.5px;margin:28px 0 8px}
-  h4{font-size:14.5px;margin:20px 0 6px;color:var(--ink2)}
-  p{margin:0 0 12px}
-  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;
-       background:#f0eee9;padding:1px 5px;border-radius:4px}
-  pre{background:#26241f;color:#eae7df;padding:14px 16px;border-radius:10px;overflow-x:auto;
-      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.6px;line-height:1.6;margin:0 0 16px}
-  .tip{border-left:3px solid var(--good);background:var(--ok-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
-  .tip b{color:#006300}
-  .note{border-left:3px solid var(--crit);background:var(--crit-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
-  .note b{color:var(--crit)}
-  .warn{border-left:3px solid var(--amber);background:var(--amber-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
-  .warn b{color:var(--amber)}
-  .info{border-left:3px solid var(--acc);background:var(--acc-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
-  .info b{color:var(--acc)}
-  .chk{border-left:3px solid var(--vio);background:var(--vio-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
-  .chk b{color:var(--vio)}
-  table{border-collapse:collapse;width:100%;font-size:14.2px;margin:0 0 16px;background:var(--surface)}
-  th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top}
-  th{font-weight:600;background:#f3f1ec}
-  ul,ol{margin:0 0 14px;padding-left:22px} li{margin:0 0 7px}
-  .ue{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 17px;margin:0 0 14px}
-  .ue .t{font-weight:600;margin-bottom:5px}
-  .foot{margin-top:50px;padding-top:16px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
-<!--M335:RAHMEN-CSS-->
-  .site-header{border-bottom:1px solid #c3c2b7;background:#fcfcfb}
-  .site-header .in{max-width:960px;margin:0 auto;padding:14px 24px;
-    display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-  .site-header .brand{display:flex;align-items:center;gap:9px;color:#52514e;
-    font:600 14px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:.01em;text-decoration:none}
-  .site-header svg{flex:0 0 auto;display:block}
-  .site-header .back{font:600 13.5px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;color:#2a78d6;text-decoration:none}
-  .site-header .back:hover{text-decoration:underline}
-  .site-footer{border-top:1px solid #c3c2b7;margin-top:8px}
-  .site-footer .in{max-width:960px;margin:0 auto;padding:16px 24px;
-    display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
-    font:13px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif;color:#898781}
-  .site-footer .brand{display:flex;align-items:center;gap:8px}
-  .site-footer svg{flex:0 0 auto;display:block;opacity:.65}
-  .site-footer .back{font-weight:600;color:#2a78d6;text-decoration:none}
-  .site-footer .back:hover{text-decoration:underline}
-<!--/M335:RAHMEN-CSS-->
-</style>
+<!--M335:STIL-->
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
@@ -79,8 +23,8 @@
 <p class="sub"><b>Zum Durchlesen brauchst du etwa 10 Minuten.</b> Das ist ein Richtwert. Du musst nicht alles lesen, such dir die Stelle, die du brauchst.</p>
 
 <div class="info">
-<p><b>Wie du das hier benutzt.</b> Nicht abschreiben. Vergleichen. Zu jeder Lösung steht eine kurze Begründung. Die Begründung ist der eigentliche Inhalt, die Antwort ist nur der Beleg dazu.</p>
-<p>Bei diesem Auftrag gibt es keine einzig richtige Tabelle. Deine Tabelle ist richtig, wenn jede Zeile einen Beleg hat, den man nachstellen kann.</p>
+<p><b>Wie du das hier benutzt.</b> Nicht abschreiben. Vergleichen. Zu jeder Lösung steht eine kurze Begründung. Die Begründung ist der eigentliche Inhalt, die Antwort ist nur der Beweis dazu.</p>
+<p>Bei diesem Auftrag gibt es keine einzig richtige Tabelle. Deine Tabelle ist richtig, wenn jede Zeile einen Beweis hat, den man nachstellen kann.</p>
 </div>
 
 
@@ -88,13 +32,13 @@
 <p>Das sind drei Musterzeilen. Sie zeigen, wie genau eine Zeile sein muss. Deine Faktoren sind wahrscheinlich andere. Das ist in Ordnung.</p>
 
 <table>
-<tr><th>Faktor</th><th>PC oder Notebook</th><th>Smartphone</th><th>Einfluss auf die Programmierung</th><th>Beleg</th></tr>
+<tr><th>Faktor</th><th>PC oder Notebook</th><th>Smartphone</th><th>Einfluss auf die Programmierung</th><th>Beweis</th></tr>
 <tr>
 <td>Bildschirmgrösse</td>
 <td>19 bis 27 Zoll</td>
 <td>6 bis 7 Zoll</td>
 <td>Weniger Elemente pro Ansicht. Inhalte müssen scrollbar sein. Lange Formulare werden auf mehrere Bildschirme verteilt</td>
-<td>Vorgegebenes Beispiel, kein Beleg nötig</td>
+<td>Vorgegebenes Beispiel, kein Beweis nötig</td>
 </tr>
 <tr>
 <td>Eingabe</td>
@@ -128,13 +72,13 @@
 
 <div class="ue">
 <p class="t">Frage 2, woran erkennst du eine falsche Zeile?</p>
-<p>Man erkennt sie nicht am Lesen. Sie klingt genauso gut wie die richtigen. Man erkennt sie nur daran, dass man sie nicht belegen kann.</p>
+<p>Man erkennt sie nicht am Lesen. Sie klingt genauso gut wie die richtigen. Man erkennt sie nur daran, dass man sie nicht beweisen kann.</p>
 <p><b>Warum das zählt:</b> Genau darum ist Teil B der Auftrag und nicht Teil A. Plausibilität ist kein Prüfverfahren. Wer eine Liste nur liest, findet den Fehler nie.</p>
 </div>
 
 <div class="ue">
-<p class="t">Frage 3, warum ist "kleine Bildschirme" wertlos als Beleg?</p>
-<p>Weil es die Behauptung wiederholt, statt sie zu stützen. Ein Beleg muss auf etwas zeigen, das man nachstellen kann. App, Bildschirm, Verhalten.</p>
+<p class="t">Frage 3, warum ist "kleine Bildschirme" wertlos als Beweis?</p>
+<p>Weil es die Behauptung wiederholt, statt sie zu stützen. Ein Beweis muss auf etwas zeigen, das man nachstellen kann. App, Bildschirm, Verhalten.</p>
 <p><b>Warum das zählt:</b> Dasselbe Muster kommt in der Leistungsbeurteilung wieder. Dort musst du einen Testfall schreiben. Ein Testfall ohne konkreten Schritt und ohne erwartetes Ergebnis ist wertlos aus demselben Grund.</p>
 </div>
 
@@ -193,7 +137,7 @@
 <ul>
 <li><b>Die Zeile mit Status WEG ist der Nachweis</b>, nicht die Länge der Tabelle. Wer acht Zeilen abgibt und keine mit WEG hat, hat vermutlich nicht geprüft. Nachfragen lohnt sich mehr als korrigieren.</li>
 <li><b>Ein Blick auf die Statusspalte genügt für die Korrektur.</b> Kommen KI, WEG und EIGEN alle drei vor, ist der Auftrag verstanden. Steht überall KI, wurde die Liste nur abgeschrieben.</li>
-<li><b>Der häufigste Fehler ist der Beleg, der die Behauptung wiederholt.</b> Zwei Beispiele aus der Klasse vorlesen lassen, einen guten und einen schlechten, reicht meist für alle.</li>
+<li><b>Der häufigste Fehler ist der Beweis, der die Behauptung wiederholt.</b> Zwei Beispiele aus der Klasse vorlesen lassen, einen guten und einen schlechten, reicht meist für alle.</li>
 <li><b>Die Spalte Einfluss wird oft aus Benutzersicht gefüllt.</b> Die Rückfrage lautet immer gleich: Was muss ich deswegen im Code anders machen?</li>
 <li><b>B3 ist die Stelle, an der die eigenen Zeilen entstehen.</b> Wer B3 überspringt, gibt eine reine KI-Liste ab. Das ist der häufigste Weg, den Auftrag formal zu erfüllen und trotzdem nichts gelernt zu haben.</li>
 <li><b>Teil C trägt den ganzen Auftrag.</b> Wenn die Zeit knapp wird, lieber Teil B um zwei Minuten kürzen als Teil C. Ohne die gemeinsame Auswertung bleibt es eine Rechercheaufgabe.</li>

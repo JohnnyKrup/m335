@@ -4,74 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>02A Die drei Unterlagen</title>
-<style>
-  :root{
-    --bg:#f9f9f7; --surface:#fcfcfb; --fg:#0b0b0b; --ink2:#52514e; --muted:#898781;
-    --line:#e1e0d9; --rule:#c3c2b7;
-    --acc:#2a78d6; --acc-bg:#e8f0f8;
-    --good:#0ca30c; --ok-bg:#e6f2ed;
-    --amber:#b1701c; --amber-bg:#fbf0df;
-    --crit:#d03b3b; --crit-bg:#fbeae7;
-    --vio:#4a3aa7; --vio-bg:#eceaf7;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--fg);
-       font:16px/1.62 system-ui,-apple-system,"Segoe UI",sans-serif}
-  .wrap{max-width:920px;margin:0 auto;padding:40px 24px 90px}
-  h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
-  .sub{color:var(--ink2);margin:0 0 26px;font-size:15px}
-  h2{font-size:20px;margin:46px 0 12px;padding-top:15px;border-top:2px solid var(--rule);letter-spacing:-.01em}
-  h3{font-size:16.5px;margin:28px 0 8px}
-  h4{font-size:14.5px;margin:20px 0 6px;color:var(--ink2)}
-  p{margin:0 0 12px}
-  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;
-       background:#f0eee9;padding:1px 5px;border-radius:4px}
-  pre{background:#26241f;color:#eae7df;padding:14px 16px;border-radius:10px;overflow-x:auto;
-      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.6px;line-height:1.6;margin:0 0 16px}
-  pre .k{color:#d8a0d0} pre .t{color:#8fc4e8} pre .s{color:#b7d69a} pre .c{color:#8f8a7d}
-  .tip{border-left:3px solid var(--good);background:var(--ok-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
-  .tip b{color:#006300}
-  .note{border-left:3px solid var(--crit);background:var(--crit-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
-  .note b{color:var(--crit)}
-  .warn{border-left:3px solid var(--amber);background:var(--amber-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
-  .warn b{color:var(--amber)}
-  .info{border-left:3px solid var(--acc);background:var(--acc-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
-  .info b{color:var(--acc)}
-  .chk{border-left:3px solid var(--vio);background:var(--vio-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
-  .chk b{color:var(--vio)}
-  table{border-collapse:collapse;width:100%;font-size:14.2px;margin:0 0 16px;background:var(--surface)}
-  th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top}
-  th{font-weight:600;background:#f3f1ec}
-  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-  td.pre,th.pre{font-family:ui-monospace,Menlo,monospace;font-weight:600;color:#3a2d86;white-space:nowrap}
-  ul,ol{margin:0 0 14px;padding-left:22px} li{margin:0 0 7px}
-  .step{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:0 0 16px}
-  .step .n{display:inline-block;background:#26241f;color:#fff;font:600 12px/1 system-ui,sans-serif;
-           padding:5px 9px;border-radius:6px;margin-right:8px}
-  .ue{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 17px;margin:0 0 14px}
-  .ue .t{font-weight:600;margin-bottom:5px}
-  .time{display:inline-block;font:600 11px/1.5 system-ui,sans-serif;padding:2px 8px;border-radius:20px;
-        background:#e4e2f5;color:#3a2d86;border:1px solid #bdb5e0;white-space:nowrap;margin-left:8px}
-  .foot{margin-top:50px;padding-top:16px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
-<!--M335:RAHMEN-CSS-->
-  .site-header{border-bottom:1px solid #c3c2b7;background:#fcfcfb}
-  .site-header .in{max-width:960px;margin:0 auto;padding:14px 24px;
-    display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-  .site-header .brand{display:flex;align-items:center;gap:9px;color:#52514e;
-    font:600 14px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:.01em;text-decoration:none}
-  .site-header svg{flex:0 0 auto;display:block}
-  .site-header .back{font:600 13.5px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;color:#2a78d6;text-decoration:none}
-  .site-header .back:hover{text-decoration:underline}
-  .site-footer{border-top:1px solid #c3c2b7;margin-top:8px}
-  .site-footer .in{max-width:960px;margin:0 auto;padding:16px 24px;
-    display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
-    font:13px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif;color:#898781}
-  .site-footer .brand{display:flex;align-items:center;gap:8px}
-  .site-footer svg{flex:0 0 auto;display:block;opacity:.65}
-  .site-footer .back{font-weight:600;color:#2a78d6;text-decoration:none}
-  .site-footer .back:hover{text-decoration:underline}
-<!--/M335:RAHMEN-CSS-->
-</style>
+<!--M335:STIL-->
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
@@ -109,16 +45,16 @@
 <h3>Das brauchst du vorher</h3>
 <ul>
 <li>Ein Handy oder Tablet mit ein paar Apps darauf. Dein eigenes.</li>
-<li>Papier und Stift, oder das Arbeitsblatt ausgedruckt. Gezeichnet wird von Hand.</li>
-<li>Die drei Unterlagen aus dem Classroom-Thema <b>90 Nachschlagen</b>.</li>
+<li>Papier und Stift. Gezeichnet wird von Hand.</li>
+<li>Die drei Unterlagen unter <b>Nachschlagen</b>.</li>
 <li>Android Studio brauchst du in Teil 1 bis 3 <b>nicht</b>. Erst bei den Übungen am Ende von Block 4.</li>
 </ul>
 
 <h3>Das gibst du ab</h3>
 <ul>
-<li>Das ausgefüllte <b>02A Arbeitsblatt - Die drei Unterlagen</b>, alle drei Felder.</li>
+<li>Das ausgefüllte <b>02A Arbeitsblatt</b> aus Google Classroom.</li>
 <li>Den Screenshot der App, die du in Feld 1 zerlegt hast, als Anhang.</li>
-<li>Den ausgefüllten <b>02A Check - Die drei Unterlagen</b>.</li>
+<li>Den ausgefüllten <b>02A Wissenscheck</b>.</li>
 </ul>
 
 <div class="info">
@@ -131,7 +67,7 @@
 
 <h3>Ausgangslage</h3>
 <p>Du liest heute Nachmittag drei Unterlagen und wendest jede sofort auf <b>deine eigene Lieblings-App</b> an. Am Ende hast du für einen einzigen Bildschirm den ganzen Weg gemacht: was ich sehe, welche Gruppen es sind, woran jedes Element hängt.</p>
-<p>Du programmierst heute nichts. Das ist Absicht. Der Bauplan kommt vor dem Bauen.</p>
+<p>Du programmierst in dieser Aufgabe nichts. Das ist Absicht. Der Bauplan kommt vor dem Bauen.</p>
 
 <h3>Werkzeugkasten</h3>
 <p>Das sind die drei Unterlagen. Mehr brauchst du nicht.</p>
@@ -376,7 +312,7 @@
 <table>
 <tr><th>Name</th><th>Typ</th><th>Einstellung</th></tr>
 <tr><td>02A Auftrag - Die drei Unterlagen</td><td>Material</td><td>Schüler können Datei ansehen. Dieses Dokument</td></tr>
-<tr><td>02A Arbeitsblatt - Die drei Unterlagen</td><td>Aufgabe</td><td><b>Für jeden Schüler eine Kopie erstellen.</b> Hier wird abgegeben</td></tr>
+<tr><td>02A Arbeitsblatt - Die drei Unterlagen</td><td>Aufgabe</td><td><b>Für jeden Schüler:in eine Kopie erstellen.</b> Hier wird abgegeben</td></tr>
 <tr><td>02A Check - Die drei Unterlagen</td><td>Aufgabe mit Quiz</td><td>Unbenotet, beliebig oft wiederholbar, kein Fälligkeitsdatum. Sieben Fragen</td></tr>
 <tr><td>02A Loesung - Die drei Unterlagen</td><td>Material</td><td>Schüler können Datei ansehen. Alle elf Übungslösungen und die Antworten zu den Denkfragen</td></tr>
 </table>
@@ -397,23 +333,6 @@
 <tr><td>Buch</td><td>Android-Apps entwickeln für Einsteiger, Kapitel 4.1 bis 4.3 Layouts</td></tr>
 </table>
 
-
-<h2>05 Evaluation</h2>
-
-<h3>Was diese Aufgabe wirklich prüft</h3>
-<p>Nicht ob jemand die drei Unterlagen gelesen hat. Das kann man nicht messen. Geprüft wird, ob jemand das Gelesene auf ein <b>eigenes</b> Beispiel anwenden kann. Darum ist auf dem Arbeitsblatt nichts vorgegeben ausser den Spaltenüberschriften.</p>
-<p>Der schärfste Punkt ist Feld 3. Wer dort eine leere Zelle hat, hat die Regel mit den zwei Achsen nicht verstanden. Das kostet in 02B und in jedem weiteren Layout Zeit.</p>
-
-<h3>Worauf du beim Rundgang achtest</h3>
-<ul>
-<li><b>Minute 15.</b> Hat jeder eine App gewählt, die nicht in der Unterlage steht? Wer WhatsApp nimmt, schreibt nur ab.</li>
-<li><b>Minute 45.</b> Zeichnet jemand die ganze Liste statt einer Zeile? Das ist der häufigste Fehler in Teil 2. Sofort ansprechen, sonst ist die Zeit weg.</li>
-<li><b>Minute 75.</b> Feld 3 anschauen. Leere Zellen bei waagrecht oder senkrecht sind der Punkt, an dem du eingreifst.</li>
-<li><b>Statusspalte.</b> Wer überall <code>EIGEN</code> stehen hat und trotzdem sechs perfekte Android-Namen kennt, hat wahrscheinlich eine KI benutzt. Nicht schlimm, aber ansprechen. Ehrlichkeit ist hier die Übung.</li>
-</ul>
-
-<h3>Bewertung</h3>
-<p>Formativ. Das Arbeitsblatt wird eingesammelt und durchgesehen, nicht benotet. Der eigentliche Nachweis sind die drei ausgefüllten Felder und der Wissenscheck.</p>
 
 <p class="foot">Modul 335 Block 02, Auftrag 02A. Fassung 1 vom 10.08.2026. Lösungen im Material 02A Loesung - Die drei Unterlagen. Antworten zu den Denkfragen ebenfalls dort.</p>
 
