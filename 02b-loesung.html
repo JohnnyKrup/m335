@@ -20,7 +20,7 @@
 <div class="wrap">
 
 <h1>02B Lösung, Formular bauen</h1>
-<p class="sub">Lösungsmaterial zum Auftrag 02B. Modul 335 Block 02. Fassung 2 vom 08.08.2026.</p>
+<p class="sub">Lösungsmaterial zum Auftrag 02B. Modul 335 Block 02. Fassung 3 vom 11.08.2026.</p>
 <p class="sub"><b>Zum Durchlesen brauchst du etwa 20 Minuten.</b> Das ist ein Richtwert. Du musst nicht alles lesen, such dir die Stelle, die du brauchst.</p>
 
 <div class="info">
@@ -35,7 +35,7 @@
 
 <table>
 <tr><th>Nr</th><th>Das prüfst du</th><th>Warum es zählt</th></tr>
-<tr><td>1</td><td>Hat jedes direkte Kind des ConstraintLayout mindestens eine waagrechte <b>und</b> eine senkrechte Constraint?</td><td>Ohne beide landet das Element beim Start oben links, egal was der Editor zeigt</td></tr>
+<tr><td>1</td><td>Hat jedes direkte Child des ConstraintLayout mindestens eine waagrechte <b>und</b> eine senkrechte Constraint?</td><td>Ohne beide landet das Element beim Start oben links, egal was der Editor zeigt</td></tr>
 <tr><td>2</td><td>Stehen <code>llForm</code> und <code>llButtons</code> auf <code>layout_width="0dp"</code>?</td><td>Mit <code>match_parent</code> sieht es auf deinem Emulator oft gleich aus und bricht auf anderen Geräten</td></tr>
 <tr><td>3</td><td>Haben alle vier Buttons <code>layout_width="0dp"</code> zusammen mit <code>layout_weight="1"</code>?</td><td>Nur beide zusammen ergeben gleiche Breiten. Eines allein reicht nicht</td></tr>
 <tr><td>3b</td><td>Hat jeder Button <code>android:maxLines="1"</code> und <code>android:textSize="11sp"</code>?</td><td>Ohne beides bricht "Abbrechen" auf zwei Zeilen um, und Android trennt mitten im Wort</td></tr>
@@ -57,7 +57,7 @@
 
 <div class="ue">
 <p class="t">Frage 1, warum kann match_parent im ConstraintLayout nicht dasselbe leisten?</p>
-<p><code>match_parent</code> heisst "so gross wie mein Elter". Im ConstraintLayout hat der Elter aber keine feste Grösse, an der sich ein Kind orientieren könnte, denn seine Grösse hängt selbst von den Kindern und ihren Constraints ab. Darum ist die Angabe dort mehrdeutig.</p>
+<p><code>match_parent</code> heisst "so gross wie mein Parent". Im ConstraintLayout hat der Parent aber keine feste Grösse, an der sich ein Child orientieren könnte, denn seine Grösse hängt selbst von den Children und ihren Constraints ab. Darum ist die Angabe dort mehrdeutig.</p>
 <p><code>0dp</code> ist die eindeutige Anweisung: nimm den Platz zwischen meinen zwei Constraints.</p>
 </div>
 
@@ -307,8 +307,8 @@
 <p>Es gibt keine Musterformulierung, aber eine gute Erklärung enthält diese drei Punkte.</p>
 <ol>
 <li><b>Im LinearLayout</b> gibt es eine feste Richtung. Der Container weiss immer, wie breit er ist. <code>match_parent</code> heisst dort schlicht: so breit wie er. <code>0dp</code> allein ergibt dort null Breite, es wird erst durch <code>layout_weight</code> sinnvoll.</li>
-<li><b>Im ConstraintLayout</b> gibt es keine Richtung. Jedes Kind hängt an Ankern. Der Container hat keine Breite, die er einem Kind anbieten könnte, bevor die Kinder platziert sind. <code>0dp</code> heisst dort: berechne meine Breite aus meinen zwei Ankern.</li>
-<li><b>Das gleiche Wort, zwei Bedeutungen.</b> Was <code>0dp</code> bedeutet, entscheidet nicht das Element selbst, sondern <b>sein direkter Elter</b>. Darum musst du beim Lesen eines Layouts immer zuerst nach oben schauen.</li>
+<li><b>Im ConstraintLayout</b> gibt es keine Richtung. Jedes Child hängt an Ankern. Der Container hat keine Breite, die er einem Child anbieten könnte, bevor die Children platziert sind. <code>0dp</code> heisst dort: berechne meine Breite aus meinen zwei Ankern.</li>
+<li><b>Das gleiche Wort, zwei Bedeutungen.</b> Was <code>0dp</code> bedeutet, entscheidet nicht das Element selbst, sondern <b>sein direkter Parent</b>. Darum musst du beim Lesen eines Layouts immer zuerst nach oben schauen.</li>
 </ol>
 <p>Punkt 3 ist der eigentliche Lerninhalt. Wer nur 1 und 2 sagt, hat es beschrieben. Wer 3 sagt, hat es verstanden.</p>
 </div>
@@ -331,7 +331,7 @@
 <p>Eine gute Notiz benennt eine konkrete Folge. Zum Beispiel: "Im Querformat ist der Bildschirm so flach, dass die Buttonreihe das Feld Geburtsdatum überdeckt." Oder: "Das unterste Feld ist nicht mehr sichtbar, und ich kann nicht scrollen."</p>
 <p>Genau dieser Befund ist die Brücke zur Zusatzaufgabe und später zum Testen am Tag 4.</p>
 
-<p class="foot">Modul 335 Block 02, Lösungsmaterial zu 02B. Fassung 2 vom 08.08.2026. Gehört zum Auftrag 02B Auftrag - Formular bauen.</p>
+<p class="foot">Modul 335 | Block 02 | Lösung 02B | Fassung 3 | 11.08.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->

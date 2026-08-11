@@ -20,7 +20,7 @@
 <div class="wrap">
 
 <h1>02B Formular bauen</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Block 02. Zeitbudget 65 Minuten. Fassung 2 vom 08.08.2026.</p>
+<p class="sub">Modul 335 Mobile Applikationen, Block 02. Zeitbudget 65 Minuten. Fassung 3 vom 11.08.2026.</p>
 <p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
 
 
@@ -73,8 +73,8 @@
 <p>Das sind alle Bausteine, die du für diesen Auftrag brauchst. Mehr nicht.</p>
 <table>
 <tr><th>Baustein</th><th>Wofür</th></tr>
-<tr><td class="pre">ConstraintLayout</td><td>Der Wurzelcontainer. Kinder werden mit Constraints an Kanten geheftet</td></tr>
-<tr><td class="pre">LinearLayout</td><td>Container, der seine Kinder stur untereinander oder nebeneinander stellt</td></tr>
+<tr><td class="pre">ConstraintLayout</td><td>Der Wurzelcontainer. Children werden mit Constraints an Kanten geheftet</td></tr>
+<tr><td class="pre">LinearLayout</td><td>Container, der seine Children stur untereinander oder nebeneinander stellt</td></tr>
 <tr><td class="pre">TextView</td><td>Beschriftung</td></tr>
 <tr><td class="pre">EditText</td><td>Eingabefeld</td></tr>
 <tr><td class="pre">View</td><td>Ein Rechteck ohne Inhalt. Hier der Trennstreifen</td></tr>
@@ -87,7 +87,7 @@
 <tr><td class="pre">android:id</td><td>jedem Element, das du im Code brauchst oder das als Anker dient</td><td>Namenskonvention siehe unten</td></tr>
 <tr><td class="pre">android:layout_width</td><td>jedem Element</td><td>immer</td></tr>
 <tr><td class="pre">android:layout_height</td><td>jedem Element</td><td>immer</td></tr>
-<tr><td class="pre">app:layout_constraint...</td><td>jedem direkten Kind des ConstraintLayout</td><td>mindestens eine waagrechte und eine senkrechte</td></tr>
+<tr><td class="pre">app:layout_constraint...</td><td>jedem direkten Child des ConstraintLayout</td><td>mindestens eine waagrechte und eine senkrechte</td></tr>
 <tr><td class="pre">android:orientation</td><td>jedem LinearLayout</td><td>ohne Angabe nimmt Android waagrecht an</td></tr>
 <tr><td class="pre">android:inputType</td><td>jedem EditText</td><td>bestimmt die Tastatur</td></tr>
 </table>
@@ -158,7 +158,7 @@
     <span class="c">&lt;!-- hier kommen die Feldpaare hinein --&gt;</span>
 
 &lt;/<span class="t">LinearLayout</span>&gt;</pre>
-<p><b>Lies die Breite genau.</b> <code>0dp</code> heisst hier nicht "null breit". Im ConstraintLayout heisst <code>0dp</code>: spann dich zwischen deine beiden waagrechten Constraints. Die sind Start an Start und Ende an Ende des Elters. Also über die ganze Breite.</p>
+<p><b>Lies die Breite genau.</b> <code>0dp</code> heisst hier nicht "null breit". Im ConstraintLayout heisst <code>0dp</code>: spann dich zwischen deine beiden waagrechten Constraints. Die sind Start an Start und Ende an Ende des Parent. Also über die ganze Breite.</p>
 </div>
 
 <div class="step">
@@ -430,7 +430,7 @@
 <h3>Wenn etwas nicht funktioniert</h3>
 <table>
 <tr><th>Das siehst du</th><th>Ursache</th><th>Das machst du</th></tr>
-<tr><td>Alles liegt oben links übereinander</td><td>Einem Kind des ConstraintLayout fehlt eine Constraint</td><td>Jedes direkte Kind braucht mindestens eine waagrechte und eine senkrechte Constraint</td></tr>
+<tr><td>Alles liegt oben links übereinander</td><td>Einem Child des ConstraintLayout fehlt eine Constraint</td><td>Jedes direkte Child braucht mindestens eine waagrechte und eine senkrechte Constraint</td></tr>
 <tr><td>Rot: <code>cannot resolve symbol '@id/llButtons'</code></td><td>Der Verweis steht im XML vor der Stelle, an der die id vergeben wird, oder die id ist anders geschrieben</td><td>Schreibweise vergleichen. Beim Vergeben steht <code>@+id/</code>, beim Verweisen <code>@id/</code></td></tr>
 <tr><td>Die Buttons sind unterschiedlich breit</td><td><code>layout_width</code> steht auf <code>wrap_content</code></td><td>Auf <code>0dp</code> ändern. Siehe B3</td></tr>
 <tr><td>Eine Beschriftung steht auf zwei Zeilen, mitten im Wort getrennt</td><td>Der Text ist breiter als der Platz, der dem Button bleibt</td><td><code>android:maxLines="1"</code> und <code>android:textSize="11sp"</code> setzen. Reicht das nicht, ist ein Button zu viel in der Reihe. Siehe der Kasten unter B3</td></tr>
@@ -485,7 +485,7 @@
 </table>
 
 
-<p class="foot">Modul 335 Block 02, Auftrag 02B. Fassung 2 vom 08.08.2026. Lösungen im Material 02B Lösung - Formular bauen. Antworten zu den Denkfragen ebenfalls dort.</p>
+<p class="foot">Modul 335 | Block 02 | Auftrag 02B | Fassung 3 | 11.08.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->

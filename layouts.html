@@ -120,7 +120,7 @@
 <div class="wrap">
 
   <h1>Layouts verstehen</h1>
-  <p class="sub">Modul 335 Mobile Applikationen, Grundlagen zu Block 02. Wie du ConstraintLayout, LinearLayout und FrameLayout ineinander steckst. Fassung 2 vom 10.08.2026.</p>
+  <p class="sub">Modul 335 Mobile Applikationen, Grundlagen zu Block 02. Wie du ConstraintLayout, LinearLayout und FrameLayout ineinander steckst. Fassung 3 vom 11.08.2026.</p>
 
   <div class="card">
     <p style="margin:0 0 10px"><b>Wenn du hier hängst, liegt das nicht an dir.</b> Ein Auftrag zeigt dir ein Bild und nennt dir drei Layout-Typen. Er sagt dir aber nirgends, welches Layout <i>in</i> welchem steckt. Genau das ist die eigentliche Fähigkeit. Diese Seite holt das nach.</p>
@@ -134,11 +134,11 @@
     <li>Liegen die Dinge <b>übereinander</b> wie Folien auf dem Hellraumprojektor? Dann FrameLayout.</li>
     <li>Muss etwas <b>an einem Rand kleben</b> oder relativ zu etwas anderem sitzen? Dann ConstraintLayout.</li>
   </ul>
-  <p>Ein Layout kann ein anderes Layout als Kind haben. Das ist der Trick. Du löst nicht das ganze Bild mit einem Layout, sondern jede Gruppe mit dem Layout, das für diese Gruppe passt.</p>
+  <p>Ein Layout kann ein anderes Layout als Child haben. Das ist der Trick. Du löst nicht das ganze Bild mit einem Layout, sondern jede Gruppe mit dem Layout, das für diese Gruppe passt.</p>
 
   <h2>2. Die drei Layouts nebeneinander</h2>
   <table>
-    <tr><th style="width:150px">Layout</th><th>Ordnet seine Kinder</th><th>Nimm es für</th></tr>
+    <tr><th style="width:150px">Layout</th><th>Ordnet seine Children</th><th>Nimm es für</th></tr>
     <tr>
       <td><b style="color:var(--linear)">LinearLayout</b></td>
       <td>in einer Reihe, entweder <code>vertical</code> oder <code>horizontal</code></td>
@@ -146,18 +146,18 @@
     </tr>
     <tr>
       <td><b style="color:var(--frame)">FrameLayout</b></td>
-      <td>alle auf demselben Fleck, gestapelt. Das letzte Kind liegt zuoberst</td>
+      <td>alle auf demselben Fleck, gestapelt. Das letzte Child liegt zuoberst</td>
       <td>Text über einem Bild, ein Hinweis über dem Inhalt, ein Ladebalken über allem</td>
     </tr>
     <tr>
       <td><b style="color:var(--constraint)">ConstraintLayout</b></td>
-      <td>gar nicht von selbst. Jedes Kind sagt dir, woran es hängt</td>
+      <td>gar nicht von selbst. Jedes Child sagt dir, woran es hängt</td>
       <td>die äusserste Ebene, wenn Dinge an Rändern kleben sollen</td>
     </tr>
   </table>
 
   <div class="note">
-    <p style="margin:0"><b>Der wichtigste Satz zum ConstraintLayout.</b> Ein Kind ohne Constraint landet beim Start der App oben links in der Ecke, egal wo du es im Editor hingeschoben hast. Der Editor lügt dich an. Jedes Kind braucht mindestens <b>einen waagrechten und einen senkrechten Anker</b>.</p>
+    <p style="margin:0"><b>Der wichtigste Satz zum ConstraintLayout.</b> Ein Child ohne Constraint landet beim Start der App oben links in der Ecke, egal wo du es im Editor hingeschoben hast. Der Editor lügt dich an. Jedes Child braucht mindestens <b>einen waagrechten und einen senkrechten Anker</b>.</p>
   </div>
 
   <h2>3. Ein Bauplan zum Mitlesen: der Quiz-Spielbildschirm</h2>
@@ -224,11 +224,11 @@
     </div>
   </div>
 
-  <p>Lies den Baum von aussen nach innen. Das ConstraintLayout hat <b>fünf</b> Kinder. Die acht Elemente darunter stecken in zwei dieser fünf. Genau so tippst du es auch ein.</p>
+  <p>Lies den Baum von aussen nach innen. Das ConstraintLayout hat <b>fünf</b> Children. Die acht Elemente darunter stecken in zwei dieser fünf. Genau so tippst du es auch ein.</p>
 
   <div class="card">
     <p style="margin:0 0 10px"><b>Warum die Antworten untereinander stehen und nicht nebeneinander.</b> Die längste Antwort im Fragenbestand hat 31 Zeichen. Nebeneinander bliebe jeder Antwort rund ein Viertel der Bildschirmbreite. Der Text bräche mitten im Wort um. Untereinander hat jede Antwort die volle Breite.</p>
-    <p style="margin:0"><b>Warum die Frage in einem FrameLayout steckt.</b> Nach dem Antippen soll die Rückmeldung <i>über</i> der Frage erscheinen, nicht darunter. Übereinander heisst FrameLayout. Das zweite Kind <code>tvFeedback</code> steht im XML weiter unten, also liegt es oben. Zuerst ist es auf <code>gone</code> gestellt.</p>
+    <p style="margin:0"><b>Warum die Frage in einem FrameLayout steckt.</b> Nach dem Antippen soll die Rückmeldung <i>über</i> der Frage erscheinen, nicht darunter. Übereinander heisst FrameLayout. Das zweite Child <code>tvFeedback</code> steht im XML weiter unten, also liegt es oben. Zuerst ist es auf <code>gone</code> gestellt.</p>
   </div>
 
   <h2>4. Wie du einen Anker setzt</h2>
@@ -339,7 +339,7 @@
 
 <span class="t">&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</span></pre>
 
-  <p>Beachte die Breiten. Im ConstraintLayout steht <code>0dp</code>. Beim Button <b>innerhalb</b> des LinearLayout steht <code>match_parent</code>. Beides heisst "volle Breite", aber der Elternteil entscheidet, wie man das schreibt.</p>
+  <p>Beachte die Breiten. Im ConstraintLayout steht <code>0dp</code>. Beim Button <b>innerhalb</b> des LinearLayout steht <code>match_parent</code>. Beides heisst "volle Breite", aber der Parent entscheidet, wie man das schreibt.</p>
 
   <h2>6. Fünf Fallen, in die alle tappen</h2>
 
@@ -367,14 +367,14 @@
 
   <h2>7. Prüfe dich selbst</h2>
   <ol>
-    <li>Zeig auf dem Bauplan oben, welche fünf Kinder das ConstraintLayout hat. Wenn du acht zählst, hast du eine Ebene zu tief geschaut.</li>
+    <li>Zeig auf dem Bauplan oben, welche fünf Children das ConstraintLayout hat. Wenn du acht zählst, hast du eine Ebene zu tief geschaut.</li>
     <li>Warum steht bei <code>btnAnswer1</code> die Breite auf <code>match_parent</code> und bei <code>btnNext</code> auf <code>0dp</code>, obwohl beide gleich breit aussehen?</li>
-    <li>Nimm bei einem Kind des ConstraintLayout alle Anker weg und starte neu. Landet es oben links? Dann hast du die Regel verstanden.</li>
+    <li>Nimm bei einem Child des ConstraintLayout alle Anker weg und starte neu. Landet es oben links? Dann hast du die Regel verstanden.</li>
     <li>Der Weiter-Knopf soll nach oben wandern, sobald die Tastatur erscheint. Woran müsste er dafür hängen, und woran hängt er jetzt?</li>
     <li>Erkläre einem Lerngspänli in einem Satz, warum die Rückmeldung "Richtig" in ein FrameLayout gehört und nicht in ein LinearLayout.</li>
   </ol>
 
-  <p class="foot">M335 Mobile Applikationen &middot; Grundlagen, in Google Classroom &middot; Bezeichner im Code englisch, sichtbare Texte deutsch.</p>
+  <p class="foot">Modul 335 | Grundlagen | Layouts verstehen | Fassung 3 | 11.08.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->

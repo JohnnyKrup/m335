@@ -113,7 +113,7 @@
 <div class="wrap">
 
 <h1>Constraints verstehen</h1>
-<p class="sub">M335 Mobile Applikationen &middot; Grundlagen zu Block 02 &middot; Alles, was du über Anker im ConstraintLayout wissen musst &middot; Fassung 2 vom 10.08.2026</p>
+<p class="sub">M335 Mobile Applikationen &middot; Grundlagen zu Block 02 &middot; Alles, was du über Anker im ConstraintLayout wissen musst &middot; Fassung 3 vom 11.08.2026</p>
 
 <div class="card">
 <p style="margin:0"><b>Warum es eigene Unterlagen dafür braucht.</b> Beim ConstraintLayout ordnet das Layout deine Elemente nicht von selbst an. Jedes Element muss selbst sagen, woran es hängt. Das ist der Unterschied zu allen anderen Layouts und der Grund, warum am Anfang alles in der linken oberen Ecke landet. Wenn du diese Seite durch hast, weisst du, welche Angaben Pflicht sind, in welcher Reihenfolge du vorgehst und welche fünf Fragen du dir bei jedem Anker stellst.</p>
@@ -130,7 +130,7 @@
     <td>nichts. Ohne diese zwei baut das Projekt nicht.</td>
   </tr>
   <tr>
-    <td><b>Kind eines ConstraintLayout</b></td>
+    <td><b>Child eines ConstraintLayout</b></td>
     <td>die zwei von oben</td>
     <td>mindestens <b>ein waagrechter</b> Anker (Start oder End) und <b>ein senkrechter</b> Anker (Top, Bottom oder Baseline)</td>
   </tr>
@@ -140,7 +140,7 @@
     <td><code>android:orientation</code>. Fehlt es, nimmt Android <code>horizontal</code> an, und dein Formular steht plötzlich nebeneinander.</td>
   </tr>
   <tr>
-    <td><b>Kind eines LinearLayout</b></td>
+    <td><b>Child eines LinearLayout</b></td>
     <td>die zwei von oben</td>
     <td>keine Anker. Das LinearLayout ordnet selbst. Willst du den Platz nach einem Verhältnis aufteilen statt nach dem Inhalt, kommt <code>layout_weight</code> dazu.</td>
   </tr>
@@ -170,9 +170,9 @@
     <div class="txt">So gross wie mein Inhalt. Ein Button wird so breit wie seine Beschriftung.</div>
   </div>
   <div class="sz">
-    <div class="frame"><div class="inner" style="width:100%">so breit wie der Elternteil</div></div>
+    <div class="frame"><div class="inner" style="width:100%">so breit wie der Parent</div></div>
     <div class="cap">match_parent</div>
-    <div class="txt">So gross wie mein Elternteil. Im ConstraintLayout unerwünscht, weil es die Anker aushebelt.</div>
+    <div class="txt">So gross wie mein Parent. Im ConstraintLayout unerwünscht, weil es die Anker aushebelt.</div>
   </div>
   <div class="sz">
     <div class="frame"><div class="inner" style="width:100%">von Anker zu Anker</div></div>
@@ -182,7 +182,7 @@
 </div>
 
 <div class="tip">
-<p style="margin:0"><b>0dp hat zwei Bedeutungen, je nach Elternteil.</b> Im <b>ConstraintLayout</b> heisst 0dp "von Anker zu Anker". Im <b>LinearLayout mit layout_weight</b> heisst 0dp "meine Grösse ergibt sich aus dem Gewicht". Beides ist Absicht, nie ein Tippfehler. Der offizielle Name im ConstraintLayout lautet <code>match_constraint</code>, geschrieben wird aber <code>0dp</code>.</p>
+<p style="margin:0"><b>0dp hat zwei Bedeutungen, je nach Parent.</b> Im <b>ConstraintLayout</b> heisst 0dp "von Anker zu Anker". Im <b>LinearLayout mit layout_weight</b> heisst 0dp "meine Grösse ergibt sich aus dem Gewicht". Beides ist Absicht, nie ein Tippfehler. Der offizielle Name im ConstraintLayout lautet <code>match_constraint</code>, geschrieben wird aber <code>0dp</code>.</p>
 </div>
 
 <p>Merksatz für den Alltag: <b>0dp ohne zwei Anker auf dieser Achse ergibt Breite null.</b> Das Element ist dann unsichtbar. Wenn etwas verschwindet, prüfe zuerst, ob du 0dp gesetzt, aber nur einen Anker vergeben hast.</p>
@@ -237,7 +237,7 @@
 <p style="margin:0"><b>Ein Anker kann nur auf etwas zeigen, dessen eigene Position schon feststeht.</b> Solange die Button-Reihe selbst nicht am unteren Rand hängt, kannst du den Trennstreifen nicht sinnvoll an ihre Oberkante hängen. Du hängst dann an etwas, das selbst noch in der Luft schwebt.</p>
 </div>
 
-<p>Daraus folgt eine Reihenfolge. Du arbeitest immer von den festen Punkten nach innen. Feste Punkte sind die Ränder des Elternteils.</p>
+<p>Daraus folgt eine Reihenfolge. Du arbeitest immer von den festen Punkten nach innen. Feste Punkte sind die Ränder des Parent.</p>
 
 <div class="steps">
   <div class="step">
@@ -292,7 +292,7 @@
 <h2><span class="num">7</span>Zentrieren und verschieben</h2>
 <p>Zentrieren ist kein eigenes Attribut. Du setzt einfach <b>zwei gegenüberliegende Anker</b>, und das Element stellt sich in die Mitte dazwischen.</p>
 
-<pre><code><span class="c">Waagrecht mittig im Elternteil</span>
+<pre><code><span class="c">Waagrecht mittig im Parent</span>
 <span class="a">app:layout_constraintStart_toStartOf</span>=<span class="s">"parent"</span>
 <span class="a">app:layout_constraintEnd_toEndOf</span>=<span class="s">"parent"</span>
 
@@ -371,7 +371,7 @@
   <p style="font-size:13.5px;margin:0">Wenn du das in eigenen Worten sagen kannst, brauchst du dieses Dokument beim nächsten Mal nicht mehr.</p>
 </div>
 
-<p class="foot">M335 Mobile Applikationen &middot; Grundlagen, in Google Classroom &middot; Gehört zusammen mit "Layouts verstehen" &middot; Lösungen im Material 02A Lösung &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
+<p class="foot">Modul 335 | Grundlagen | Constraints verstehen | Fassung 3 | 11.08.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->
