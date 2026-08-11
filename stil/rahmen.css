@@ -3,7 +3,9 @@
    Kopf- und Fussbereich, gilt fuer ALLE Seiten inklusive Startseite.
    Wird von web-bau/bauen.js nach Docs/Web/stil/ kopiert.
    ------------------------------------------------------------------ */
-  .site-header{border-bottom:1px solid #c3c2b7;background:#fcfcfb}
+  html{scroll-padding-top:64px}
+  .site-header{border-bottom:1px solid #c3c2b7;background:#fcfcfb;
+    position:sticky;top:0;z-index:20}
   .site-header .in{max-width:960px;margin:0 auto;padding:14px 24px;
     display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
   .site-header .brand{display:flex;align-items:center;gap:9px;color:#52514e;
@@ -17,5 +19,4 @@
     font:13px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif;color:#898781}
   .site-footer .brand{display:flex;align-items:center;gap:8px}
   .site-footer svg{flex:0 0 auto;display:block;opacity:.65}
-  .site-footer .back{font-weight:600;color:#2a78d6;text-decoration:none}
-  .site-footer .back:hover{text-decoration:underline}
+  @media print{ .site-header{position:static} }
