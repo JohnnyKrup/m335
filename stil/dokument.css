@@ -1,6 +1,6 @@
 /* Erzeugt von web-bau/bauen.js aus den Quelldokumenten.
    Nicht von Hand aendern, sondern die Regel im Auftrag selbst.
-   47 Regeln aus 10 Dokumenten. */
+   53 Regeln aus 10 Dokumenten. */
 
 :root{--bg:#f9f9f7; --surface:#fcfcfb; --fg:#0b0b0b; --ink2:#52514e; --muted:#898781;
     --line:#e1e0d9; --rule:#c3c2b7;
@@ -52,9 +52,15 @@ li{margin:0 0 7px}
 .time{display:inline-block;font:600 11px/1.5 system-ui,sans-serif;padding:2px 8px;border-radius:20px;
         background:#e4e2f5;color:#3a2d86;border:1px solid #bdb5e0;white-space:nowrap;margin-left:8px}
 .bild{margin:0 0 16px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px}
-.bild img{display:block;width:100%;height:auto;border-radius:6px;background:#f0eee9}
+.bild a{display:block;text-decoration:none}
+.bild img{display:block;margin:0 auto;max-width:100%;max-height:min(68vh,16cm);width:auto;height:auto;border-radius:6px;background:#f0eee9}
 .bild figcaption{font-size:13.5px;color:var(--ink2);margin-top:8px;line-height:1.5}
 .bild figcaption b{color:var(--fg)}
+.bild .lupe{display:block;margin-top:6px;font-size:12.5px;color:var(--muted);text-align:right}
+.bild.hoch{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.bild.hoch a{flex:0 0 auto;margin:0 auto}
+.bild.hoch img{max-height:min(58vh,14cm)}
+.bild.hoch figcaption{flex:1 1 250px;margin-top:0}
 .schrittbild{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;align-items:start;margin:0 0 16px}
 .schrittbild .bild{margin:0}
 .foot{margin-top:50px;padding-top:16px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
