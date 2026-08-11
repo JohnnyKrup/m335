@@ -5,3 +5,6 @@
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Von Hand geaenderte Fassungen, die das Bauskript gerettet hat
+*.vonHand

@@ -54,7 +54,7 @@
 <ul>
 <li>Screenshot deines Bildschirms im Hochformat, mit deinem eigenen Vornamen im Feld Vorname.</li>
 <li>Screenshot desselben Bildschirms im Querformat.</li>
-<li>Den ausgefüllten <b>02B Check - Wissenscheck Formular bauen</b>.</li>
+<li>Den ausgefüllten <b>02B Wissenscheck - Formular bauen</b>.</li>
 </ul>
 <p>Mehr nicht. Kein Arbeitsblatt und <b>kein Projekt als ZIP</b>. Dein Produkt ist der laufende Bildschirm. Ob dein XML dahinter sauber ist, prüfst du selbst mit der Vergleichsliste im Lösungsmaterial.</p>
 
@@ -127,6 +127,11 @@
 <tr><td>Build configuration language</td><td class="pre">Kotlin DSL (build.gradle.kts)</td></tr>
 </table>
 <p><b>Achtung bei der Vorlage.</b> <code>Empty Activity</code> und <code>Empty Views Activity</code> stehen direkt nebeneinander. Du brauchst die mit <b>Views</b>. Die andere ist Compose und hat kein XML-Layout.</p>
+<figure class="bild">
+<img src="images/02b-vorlage-empty-views.png" alt="Auswahl der Projektvorlagen, Empty Activity und Empty Views Activity nebeneinander">
+<figcaption><b>Die zwei liegen nebeneinander.</b> Du brauchst die mit <b>Views</b>. Die andere ist Compose und hat kein XML.</figcaption>
+</figure>
+
 <p>Warte, bis der Gradle Sync unten fertig ist. Das dauert ein bis drei Minuten. Fang nicht vorher an zu tippen.</p>
 </div>
 
@@ -234,6 +239,10 @@
 <div class="tip">
 <p><b>Zwei Zeilen, die du hier zum ersten Mal siehst.</b> <code>android:maxLines="1"</code> verbietet dem Button, seine Beschriftung auf zwei Zeilen zu brechen. <code>android:textSize="11sp"</code> macht die Schrift kleiner. Beides brauchst du, sobald Buttons nebeneinander stehen. Warum, steht im Kasten unter B3.</p>
 </div>
+<figure class="bild">
+<img src="images/02b-buttons-ungleich.png" alt="Vier Buttons im Emulator, unterschiedlich breit">
+<figcaption><b>So sieht es in B2 aus.</b> Vergleich es mit deinem eigenen Bildschirm, bevor du in B3 weitergehst.</figcaption>
+</figure>
 <p>Starte die App und schau dir die Reihe an. <b>Sag in einem Satz, was du siehst.</b> Genau danach fragt der Wissenscheck. Wer hier nur schnell weiterklickt, rät dort.</p>
 </div>
 
@@ -241,6 +250,11 @@
 <p><span class="n">B3</span><b>Jetzt richtig.</b></p>
 <p>Ändere bei allen vier Buttons <code>android:layout_width</code> von <code>wrap_content</code> auf <code>0dp</code>. Sonst nichts.</p>
 <p>Starte erneut. Vergleiche mit deinem Satz aus B2.</p>
+<figure class="bild">
+<img src="images/02b-buttons-gleich.png" alt="Dieselben vier Buttons, jetzt alle gleich breit">
+<figcaption><b>Und so nach B3.</b> Eine einzige geänderte Angabe, ein völlig anderes Ergebnis.</figcaption>
+</figure>
+
 <div class="tip">
 <p><b>Was hier passiert.</b> <code>layout_weight</code> verteilt den <b>übrigen</b> Platz. Mit <code>wrap_content</code> nimmt sich jeder Button zuerst so viel, wie sein Text braucht, und erst der Rest wird verteilt. "Abbrechen" ist lang, "Löschen" ist kurz, also werden die Buttons unterschiedlich breit. Mit <code>0dp</code> fordert kein Button vorab Platz an. Dann wird die ganze Breite nach dem Gewicht verteilt, und alle vier werden exakt gleich breit.</p>
 </div>
@@ -348,6 +362,11 @@
 <div class="step">
 <p><span class="n">C4</span><b>Querformat prüfen.</b></p>
 <p>Dreh den Emulator. Der Knopf dafür ist in der Leiste rechts neben dem Emulator, oder mit der Tastenkombination <code>Strg</code> und <code>F11</code>.</p>
+<figure class="bild">
+<img src="images/02b-emulator-drehen.png" alt="Werkzeugleiste rechts neben dem Emulator mit dem Knopf zum Drehen">
+<figcaption><b>Der Drehknopf.</b> Er sitzt in der schmalen Leiste rechts neben dem Emulatorfenster.</figcaption>
+</figure>
+
 <p>Falls sich nichts dreht: in den Emulator-Einstellungen unter <b>Settings</b> muss <b>Auto-rotate screen</b> eingeschaltet sein.</p>
 <p><b>Schau genau hin.</b> Passt noch alles auf den Bildschirm? Überlappt etwas? Ist noch alles erreichbar? Auch danach fragt der Wissenscheck.</p>
 </div>
@@ -364,7 +383,7 @@
 
 
 <h3>Übungen <span class="time">10 Minuten</span></h3>
-<p>Ohne Vorlage. Die Lösungen findest du im Classroom-Material <b>02B Loesung - Formular bauen</b>. Schau erst hinein, wenn du es selbst versucht hast.</p>
+<p>Ohne Vorlage. Die Lösungen findest du im Classroom-Material <b>02B Lösung - Formular bauen</b>. Schau erst hinein, wenn du es selbst versucht hast.</p>
 
 <div class="ue">
 <div class="t">Übung 1, ein viertes Feld</div>
@@ -421,7 +440,7 @@
 <ol>
 <li>Screenshot im Hochformat, mit deinem eigenen Vornamen im Feld Vorname.</li>
 <li>Screenshot im Querformat.</li>
-<li>Danach den <b>02B Check</b> ausfüllen.</li>
+<li>Danach den <b>02B Wissenscheck</b> ausfüllen.</li>
 </ol>
 
 
@@ -439,8 +458,8 @@
 <table>
 <tr><th>Name</th><th>Typ</th><th>Einstellung</th></tr>
 <tr><td>02B Auftrag - Formular bauen</td><td>Aufgabe</td><td>Ohne angehängte Datei zum Kopieren. Dieses Dokument liegt als Anhang bei, nur zum Ansehen. Abgegeben werden zwei Screenshots</td></tr>
-<tr><td>02B Check - Wissenscheck Formular bauen</td><td>Aufgabe mit Quiz</td><td>Unbenotet, beliebig oft wiederholbar. Sieben Fragen</td></tr>
-<tr><td>02B Loesung - Formular bauen</td><td>Material</td><td>Schüler können Datei ansehen. Enthält den vollständigen Code als Text und die Vergleichsliste</td></tr>
+<tr><td>02B Wissenscheck - Formular bauen</td><td>Aufgabe mit Quiz</td><td>Unbenotet, beliebig oft wiederholbar. Sieben Fragen</td></tr>
+<tr><td>02B Lösung - Formular bauen</td><td>Material</td><td>Schüler können Datei ansehen. Enthält den vollständigen Code als Text und die Vergleichsliste</td></tr>
 </table>
 
 <div class="tip">
@@ -453,12 +472,12 @@
 <tr><th>Art</th><th>Was</th></tr>
 <tr><td>Hardware</td><td>Eigenes Notebook, laufender Emulator Medium Phone API 36.1</td></tr>
 <tr><td>Software und Tools</td><td>Android Studio Quail 2, Patch 1</td></tr>
-<tr><td>Dokumente</td><td>Wie Apps aufgebaut sind, Layouts verstehen, Constraints verstehen. Alle im Classroom-Thema 90 Nachschlagen</td></tr>
+<tr><td>Dokumente</td><td>Wie Apps aufgebaut sind, Layouts verstehen, Constraints verstehen. Alle unter Grundlagen</td></tr>
 <tr><td>Buch</td><td>Android-Apps entwickeln für Einsteiger, Kapitel 4.4 Buttons</td></tr>
 </table>
 
 
-<p class="foot">Modul 335 Block 02, Auftrag 02B. Fassung 2 vom 08.08.2026. Lösungen im Material 02B Loesung - Formular bauen. Antworten zu den Denkfragen ebenfalls dort.</p>
+<p class="foot">Modul 335 Block 02, Auftrag 02B. Fassung 2 vom 08.08.2026. Lösungen im Material 02B Lösung - Formular bauen. Antworten zu den Denkfragen ebenfalls dort.</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->

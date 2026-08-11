@@ -1,15 +1,6 @@
-/* ------------------------------------------------------------------
-   M335 dokument.css
-   Gemeinsames Aussehen der Auftraege und Loesungen.
-   Gilt fuer 01a, 01b, 01c, 02a, 02b und ihre Loesungen.
-
-   ACHTUNG: Diese Datei wird von web-bau/bauen.js erzeugt und beim
-   naechsten Lauf ueberschrieben. Aendere stattdessen
-   web-bau/stil/dokument.css
-
-   Die drei Nachschlagewerke haben ihr eigenes CSS, sie brauchen
-   Bausteine wie die Handy-Skizze und das Baumdiagramm.
-   ------------------------------------------------------------------ */
+/* Erzeugt von web-bau/bauen.js aus den Quelldokumenten.
+   Nicht von Hand aendern, sondern die Regel im Auftrag selbst.
+   47 Regeln aus 10 Dokumenten. */
 
 :root{--bg:#f9f9f7; --surface:#fcfcfb; --fg:#0b0b0b; --ink2:#52514e; --muted:#898781;
     --line:#e1e0d9; --rule:#c3c2b7;
@@ -60,6 +51,12 @@ li{margin:0 0 7px}
 .ue .t{font-weight:600;margin-bottom:5px}
 .time{display:inline-block;font:600 11px/1.5 system-ui,sans-serif;padding:2px 8px;border-radius:20px;
         background:#e4e2f5;color:#3a2d86;border:1px solid #bdb5e0;white-space:nowrap;margin-left:8px}
+.bild{margin:0 0 16px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px}
+.bild img{display:block;width:100%;height:auto;border-radius:6px;background:#f0eee9}
+.bild figcaption{font-size:13.5px;color:var(--ink2);margin-top:8px;line-height:1.5}
+.bild figcaption b{color:var(--fg)}
+.schrittbild{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;align-items:start;margin:0 0 16px}
+.schrittbild .bild{margin:0}
 .foot{margin-top:50px;padding-top:16px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
 td.pre{font-family:ui-monospace,Menlo,monospace;font-weight:600;color:#3a2d86;white-space:nowrap}
 pre .a{color:#d8bd7a}
