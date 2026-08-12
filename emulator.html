@@ -42,25 +42,25 @@
 <p>Das Emulator-Fenster ist offen, aber ganz schwarz. Kein Android, keine Uhr, keine Statusleiste. Arbeite der Reihe nach. Hör auf, sobald es läuft.</p>
 
 <div class="step">
-<p><span class="n">1</span><b>Cold Boot Now.</b></p>
+<p><span class="n">1</span><b>Cold Boot.</b></p>
 <p>Das löst die meisten Fälle. Schliesse zuerst das Emulator-Fenster.</p>
 <ul>
 <li>In Android Studio rechts am Rand auf <code>Device Manager</code></li>
 <li>Bei deinem Gerät auf die drei Punkte</li>
-<li><code>Cold Boot Now</code> wählen</li>
+<li><code>Cold Boot</code> wählen</li>
 </ul>
 <figure class="bild">
 <a href="images/emulator-cold-boot.png" target="_blank" rel="noopener">
-<img src="images/emulator-cold-boot.png" alt="Menü im Device Manager mit dem Eintrag Cold Boot Now">
+<img src="images/emulator-cold-boot.png" alt="Menü im Device Manager mit dem Eintrag Cold Boot" width="1310" height="519">
 </a>
-<figcaption><b>Hier liegt Cold Boot Now.</b> Die drei Punkte stehen rechts neben dem Namen deines Geräts.<span class="lupe">Zum Vergrössern anklicken</span></figcaption>
+<figcaption><b>Hier liegt Cold Boot.</b> Die drei Punkte stehen rechts neben dem Namen deines Geräts.<span class="lupe">Zum Vergrössern anklicken</span></figcaption>
 </figure>
 <p>Jetzt startet der Emulator wirklich von vorne. Das dauert länger als sonst. Gib ihm zwei Minuten.</p>
 </div>
 
 <div class="step">
 <p><span class="n">2</span><b>Wipe Data.</b></p>
-<p>Hilft Schritt 1 nicht, setzt du das virtuelle Handy zurück. Gleicher Weg wie oben, nur wählst du <code>Wipe Data</code> statt <code>Cold Boot Now</code>.</p>
+<p>Hilft Schritt 1 nicht, setzt du das virtuelle Handy zurück. Gleicher Weg wie oben, nur wählst du <code>Wipe Data</code> statt <code>Cold Boot</code>.</p>
 <div class="warn">
 <p style="margin:0"><b>Das löscht nur im Emulator.</b> Alle dort installierten Apps sind weg. Dein Projekt in Android Studio bleibt unberührt. Es geht kein Code verloren.</p>
 </div>
@@ -80,18 +80,21 @@ adb start-server</pre>
 <p>Kommt der schwarze Bildschirm immer wieder, liegt es an der Grafikkarte deines Geräts. Dann stellst du die Grafik dauerhaft um.</p>
 <ul>
 <li><code>Device Manager</code>, drei Punkte, <code>Edit</code></li>
-<li>Unten auf <code>Show Advanced Settings</code></li>
-<li>Bei <code>Emulated Performance</code> das Feld <code>Graphics</code> suchen</li>
-<li>Von <code>Automatic</code> auf <code>Software - GLES 2.0</code> stellen</li>
-<li>Speichern, danach noch einmal <code>Cold Boot Now</code></li>
+<li>Oben im Fenster auf den Reiter <code>Additional settings</code></li>
+<li>Nach unten scrollen bis <code>Emulated Performance</code></li>
+<li>Das Feld <code>Graphics acceleration</code> von <code>Automatic</code> auf <code>Software</code> stellen</li>
+<li>Unten auf <code>Finish</code>, danach noch einmal <code>Cold Boot</code></li>
 </ul>
 <figure class="bild">
 <a href="images/emulator-grafik-software.png" target="_blank" rel="noopener">
-<img src="images/emulator-grafik-software.png" alt="Einstellung Graphics auf Software GLES 2.0 in den Advanced Settings">
+<img src="images/emulator-grafik-software.png" alt="Feld Graphics acceleration auf Software, im Reiter Additional settings" width="1110" height="848">
 </a>
-<figcaption><b>Diese eine Einstellung.</b> Sie steht weit unten, du musst in den Advanced Settings scrollen.<span class="lupe">Zum Vergrössern anklicken</span></figcaption>
+<figcaption><b>Diese eine Einstellung.</b> Sie steht im Reiter Additional settings, weit unten unter Emulated Performance.<span class="lupe">Zum Vergrössern anklicken</span></figcaption>
 </figure>
 <p>Software-Grafik ist etwas langsamer. Für unsere Layouts merkst du davon nichts.</p>
+<div class="tip">
+<p style="margin:0"><b>Gleich noch eine Zeile weiter oben.</b> Im selben Reiter steht <code>Default boot</code>. Stell es von <code>Quick</code> auf <code>Cold</code>. Dann startet dein Emulator immer frisch, und der schwarze Bildschirm kommt gar nicht erst wieder. Der Start dauert dafür jedes Mal etwa eine Minute länger.</p>
+</div>
 </div>
 
 
@@ -101,9 +104,9 @@ adb start-server</pre>
 
 <table>
 <tr><th>Einstellung</th><th>Nimm das</th><th>Warum</th></tr>
-<tr><td>Gerät</td><td class="pre">Pixel 6</td><td>Gut getestet, normale Bildschirmgrösse</td></tr>
-<tr><td>System Image</td><td class="pre">API 35</td><td>Passt zu unserem Projekt</td></tr>
-<tr><td>Graphics</td><td class="pre">Software - GLES 2.0</td><td>Läuft auf jedem Gerät</td></tr>
+<tr><td>Gerät</td><td class="pre">Medium Phone</td><td>Der Vorschlag von Android Studio, normale Bildschirmgrösse</td></tr>
+<tr><td>System Image</td><td class="pre">API 36</td><td>Passt zu unserem Projekt</td></tr>
+<tr><td>Graphics acceleration</td><td class="pre">Software</td><td>Läuft auf jedem Gerät</td></tr>
 </table>
 
 <p>Exotische Geräte und sehr neue System Images machen mehr Ärger, als sie bringen. Bleib bei dieser Auswahl.</p>
