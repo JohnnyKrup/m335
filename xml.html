@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M335 XML verstehen</title>
+<style>
+  :root{
+    --bg:#faf9f7; --fg:#1c1b1a; --muted:#6b6862; --line:#dedbd4;
+    --card:#ffffff;
+    --andro:#3d8168;  --andro-bg:#e6f2ed;
+    --app:#2f6fb0;    --app-bg:#e8f0f8;
+    --tools:#b1701c;  --tools-bg:#fbf0df;
+    --warn:#a63d2f;   --warn-bg:#fbeae7;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  .wrap{max-width:920px; margin:0 auto; padding:40px 24px 80px}
+  h1{font-size:30px; line-height:1.25; margin:0 0 6px; letter-spacing:-.02em}
+  .sub{color:var(--muted); margin:0 0 36px; font-size:15px}
+  h2{font-size:21px; margin:44px 0 12px; letter-spacing:-.01em}
+  h3{font-size:16px; margin:22px 0 8px}
+  p{margin:0 0 12px}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.9em;
+       background:#f0eee9; padding:1px 5px; border-radius:4px}
+  pre{background:#26241f; color:#eae7df; padding:16px 18px; border-radius:10px;
+      overflow-x:auto; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+      font-size:13px; line-height:1.55; margin:0 0 16px}
+  pre .c{color:#8f8a7d}
+  pre .t{color:#8fc4e8}
+  pre .a{color:#d8bd7a}
+  pre .s{color:#b7d69a}
+  pre .k{color:#d8a0d0}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:12px;
+        padding:20px 22px; margin:0 0 16px}
+  .note{border-left:3px solid var(--warn); background:var(--warn-bg);
+        padding:14px 18px; border-radius:0 8px 8px 0; margin:0 0 16px}
+  .note b{color:var(--warn)}
+  .merk{border:2px solid #3a3833; background:#fff; border-radius:12px;
+        padding:18px 22px; margin:0 0 20px}
+  .merk .z{font-family:ui-monospace,Menlo,Consolas,monospace; font-size:15px;
+           line-height:2; margin:0}
+  table{border-collapse:collapse; width:100%; font-size:14.5px; margin:0 0 16px}
+  th,td{text-align:left; padding:9px 12px; border-bottom:1px solid var(--line); vertical-align:top}
+  th{font-weight:600; background:#f3f1ec}
+  td.pre,th.pre{font-family:ui-monospace,Menlo,monospace; font-weight:600; white-space:nowrap}
+  td.mitte,th.mitte{text-align:center; white-space:nowrap}
+  .legend{display:flex; flex-wrap:wrap; gap:10px; margin:0 0 20px}
+  .chip{font-size:13px; padding:5px 12px; border-radius:20px; border:1.5px solid;
+        font-family:ui-monospace,Menlo,Consolas,monospace}
+  .chip.a{color:var(--andro); border-color:var(--andro); background:var(--andro-bg)}
+  .chip.b{color:var(--app);   border-color:var(--app);   background:var(--app-bg)}
+  .chip.t{color:var(--tools); border-color:var(--tools); background:var(--tools-bg)}
+  .split{display:flex; gap:20px; flex-wrap:wrap; margin:0 0 16px}
+  .halb{flex:1; min-width:270px; border:1px solid var(--line); background:#fff;
+        border-radius:10px; padding:14px 17px}
+  .halb .kopf{font-weight:600; font-size:14px; margin:0 0 6px}
+  .halb .schirm{font-family:ui-monospace,Menlo,Consolas,monospace; font-size:13px;
+        background:#f5f3ee; border:1px dashed #c8c4bb; border-radius:8px;
+        padding:14px 12px; text-align:center; color:#3f3d39}
+  ol,ul{margin:0 0 14px; padding-left:22px}
+  li{margin:0 0 7px}
+  .foot{margin-top:50px; padding-top:18px; border-top:1px solid var(--line);
+        font-size:13px; color:var(--muted)}
+</style>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+  <h1>XML verstehen</h1>
+  <p class="sub">Modul 335 Mobile Applikationen, Grundlagen. Was <code>android:</code>, <code>app:</code> und <code>tools:</code> bedeuten und was das Zeichen <code>@</code> macht. Lesezeit rund 9 Minuten. Fassung 1 vom 14.08.2026.</p>
+
+  <div class="card">
+    <p style="margin:0 0 10px"><b>Wenn dir das beim ersten Mal nicht klar war, liegt das nicht an dir.</b> Die Aufträge zeigen dir XML und du tippst es ab. Warum manche Zeilen mit <code>android:</code> anfangen, andere mit <code>app:</code> und wieder andere mit <code>tools:</code>, sagt dir keiner. Diese Seite holt das nach.</p>
+    <p style="margin:0">Danach liest du jedes Layout im Modul, ohne raten zu müssen. Du brauchst die Seite ab dem Moment, wo du das erste Layout im Code siehst.</p>
+  </div>
+
+  <h2>1. Wie ein Layout anfängt</h2>
+  <p>Jedes Layout beginnt mit einem Wurzelelement, und darin stehen ein paar Zeilen mit <code>xmlns</code>. Sie sehen aus wie Webadressen und man überliest sie gern.</p>
+
+  <pre><span class="t">&lt;androidx.constraintlayout.widget.ConstraintLayout</span>
+    <span class="a">xmlns:android</span>=<span class="s">"http://schemas.android.com/apk/res/android"</span>
+    <span class="a">xmlns:app</span>=<span class="s">"http://schemas.android.com/apk/res-auto"</span>
+    <span class="a">xmlns:tools</span>=<span class="s">"http://schemas.android.com/tools"</span>
+    <span class="a">android:id</span>=<span class="s">"@+id/clMain"</span> ...</pre>
+
+  <p><code>xmlns</code> heisst <b>XML namespace</b>, auf Deutsch Namensraum. Jede dieser drei Zeilen meldet ein Kürzel an. Ab dann darfst du dieses Kürzel als Präfix vor einem Attribut benutzen.</p>
+  <p>Die Adressen werden nie aufgerufen. Sie sind nur eindeutige Namen, damit sich zwei Anbieter nicht in die Quere kommen. Du tippst sie auch nie selbst, Android Studio schreibt sie hin.</p>
+
+  <div class="note">
+    <p style="margin:0"><b>Fehlt die Zeile, ist das Attribut rot.</b> Wer im Layout <code>tools:text</code> benutzt, ohne dass oben <code>xmlns:tools</code> steht, bekommt einen Fehler. Android Studio bietet dann mit <code>Alt</code> und <code>Enter</code> an, die Zeile zu ergänzen. Das ist der ganze Fehler, mehr steckt nicht dahinter.</p>
+  </div>
+
+  <h2>2. Die drei Präfixe auf einen Blick</h2>
+
+  <div class="legend">
+    <span class="chip a">android:</span>
+    <span class="chip b">app:</span>
+    <span class="chip t">tools:</span>
+  </div>
+
+  <table>
+    <tr><th style="width:110px">Präfix</th><th>Wer hat das Attribut erfunden</th><th>Gilt in der laufenden App</th></tr>
+    <tr>
+      <td class="pre" style="color:var(--andro)">android:</td>
+      <td>Android selbst. Das Attribut steckt im Betriebssystem</td>
+      <td class="mitte"><b>ja</b></td>
+    </tr>
+    <tr>
+      <td class="pre" style="color:var(--app)">app:</td>
+      <td>eine Bibliothek, die dein Projekt zusätzlich benutzt</td>
+      <td class="mitte"><b>ja</b></td>
+    </tr>
+    <tr>
+      <td class="pre" style="color:var(--tools)">tools:</td>
+      <td>Android Studio, nur für die Werkstatt</td>
+      <td class="mitte"><b>nein</b></td>
+    </tr>
+  </table>
+
+  <div class="merk">
+    <p class="z" style="margin:0">
+      <b style="color:var(--andro)">android:</b>  Was macht meine App?<br>
+      <b style="color:var(--app)">app:</b>      Was macht meine App, aber es kommt aus einer Bibliothek.<br>
+      <b style="color:var(--tools)">tools:</b>    Was möchte ich beim Entwickeln sehen?
+    </p>
+  </div>
+
+  <h2>3. android:, was die Plattform selbst kennt</h2>
+  <p>Das ist der Normalfall. Breite, Höhe, Text, Farbe, Abstand, Sichtbarkeit. Alles, was jedes Android-Gerät seit Jahren versteht, trägt dieses Präfix.</p>
+
+  <pre><span class="a">android:layout_width</span>=<span class="s">"match_parent"</span>
+<span class="a">android:layout_height</span>=<span class="s">"wrap_content"</span>
+<span class="a">android:text</span>=<span class="s">"Weiter"</span>
+<span class="a">android:textSize</span>=<span class="s">"14sp"</span>
+<span class="a">android:visibility</span>=<span class="s">"gone"</span></pre>
+
+  <p>Wenn du unsicher bist, welches Präfix ein Attribut braucht, tipp die ersten Buchstaben und lass Android Studio vervollständigen. Es schlägt dir den richtigen Namensraum gleich mit vor.</p>
+
+  <h2>4. app:, was aus einer Bibliothek kommt</h2>
+  <p>Hier kommt die Antwort auf eine Frage, die sich alle stellen: <b>warum heissen die Anker <code>app:layout_constraintTop_toTopOf</code> und nicht <code>android:...</code>?</b></p>
+
+  <p>Weil das <code>ConstraintLayout</code> <b>kein Teil von Android</b> ist. Es ist eine Bibliothek, die Google dazuliefert und die dein Projekt in <code>build.gradle.kts</code> anfordert. Erkennbar ist das schon am Namen des Elements:</p>
+
+  <pre><span class="c">// so heisst ein Element, das Android selbst mitbringt</span>
+<span class="t">&lt;TextView</span> ... <span class="t">/&gt;</span>
+<span class="t">&lt;Button</span> ... <span class="t">/&gt;</span>
+<span class="t">&lt;LinearLayout</span> ... <span class="t">&gt;</span>
+
+<span class="c">// so heisst ein Element aus einer Bibliothek, mit vollem Pfad</span>
+<span class="t">&lt;androidx.constraintlayout.widget.ConstraintLayout</span> ... <span class="t">&gt;</span></pre>
+
+  <p>Ein Attribut, das es im Betriebssystem gar nicht gibt, kann nicht <code>android:</code> heissen. Also bekommt es den Namensraum <code>app:</code>. Der steht für "aus meiner App und ihren Bibliotheken".</p>
+
+  <div class="card">
+    <p style="margin:0 0 10px"><b>Warum das praktisch wichtig ist.</b> Android ändert sich langsam, denn ein neues Attribut im Betriebssystem erreicht alte Geräte nie. Eine Bibliothek dagegen wird mit deiner App ausgeliefert. Sie läuft darum auch auf einem Gerät von 2019, das vom <code>ConstraintLayout</code> noch nie gehört hat.</p>
+    <p style="margin:0">Das ist der Grund, warum in modernem Android so viel aus Bibliotheken kommt. Und darum siehst du <code>app:</code> so oft.</p>
+  </div>
+
+  <h3>Der Trick mit <code>layout_</code></h3>
+  <p>Schau dir die Attributnamen genau an. Manche fangen mit <code>layout_</code> an, andere nicht. Das ist kein Zufall.</p>
+
+  <table>
+    <tr><th style="width:250px">Attribut</th><th>Wen geht es etwas an</th></tr>
+    <tr><td class="pre">android:textSize</td><td>das Element selbst. Wie gross ist meine Schrift</td></tr>
+    <tr><td class="pre">android:text</td><td>das Element selbst. Was steht auf mir drauf</td></tr>
+    <tr><td class="pre">android:layout_width</td><td><b>den Parent.</b> Wie breit soll er mich machen</td></tr>
+    <tr><td class="pre">android:layout_weight</td><td><b>den Parent.</b> Wie viel vom Restplatz kriege ich</td></tr>
+    <tr><td class="pre">app:layout_constraintTop_toTopOf</td><td><b>den Parent.</b> Woran soll er mich hängen</td></tr>
+  </table>
+
+  <p><b>Alles, was mit <code>layout_</code> anfängt, ist eine Nachricht an den Parent.</b> Das erklärt zwei Dinge auf einmal.</p>
+  <ul>
+    <li><code>layout_weight</code> wirkt nur in einem <code>LinearLayout</code>, denn nur das kennt Gewichte. In einem anderen Parent wird es ignoriert.</li>
+    <li><code>layout_constraint...</code> wirkt nur in einem <code>ConstraintLayout</code>. Steckst du ein Element in ein <code>LinearLayout</code>, sind seine Anker wertlos.</li>
+  </ul>
+  <p>Merk dir den Satz: <b>Anker gehören dem Parent.</b> Wechselt der Parent, wechseln die Regeln.</p>
+
+  <h2>5. tools:, was nur Android Studio sieht</h2>
+  <p>Und jetzt das dritte Präfix. Es ist das einzige, das <b>nie in der fertigen App landet</b>. Beim Bauen wirft Android Studio alle <code>tools:</code>-Zeilen weg. Auf dem Gerät gibt es sie nicht.</p>
+
+  <p>Wozu dann? Weil viele Elemente ihren Inhalt erst zur Laufzeit vom Code bekommen. Im XML steht dann nichts, und die Vorschau in Android Studio zeigt eine leere Fläche. Gestalten kann man so nicht.</p>
+
+  <h3><code>tools:text</code></h3>
+  <pre><span class="t">&lt;TextView</span>
+    <span class="a">android:id</span>=<span class="s">"@+id/tvName"</span>
+    <span class="a">android:layout_width</span>=<span class="s">"wrap_content"</span>
+    <span class="a">android:layout_height</span>=<span class="s">"wrap_content"</span>
+    <span class="a">tools:text</span>=<span class="s">"Max Mustermann"</span> <span class="t">/&gt;</span></pre>
+
+  <div class="split">
+    <div class="halb">
+      <p class="kopf">In der Vorschau von Android Studio</p>
+      <div class="schirm">Max Mustermann</div>
+    </div>
+    <div class="halb">
+      <p class="kopf">In der laufenden App, bevor der Code etwas setzt</p>
+      <div class="schirm" style="color:#9a968d">leer</div>
+    </div>
+  </div>
+
+  <p>Du siehst also beim Gestalten, ob der Text umbricht, ob er passt, ob das Layout mit einem langen Namen noch gut aussieht. In der App steht dann der echte Wert, den dein Code hineinschreibt.</p>
+
+  <h3><code>tools:visibility</code></h3>
+  <p>Dasselbe Prinzip für die Sichtbarkeit. Ein Beispiel, das es in fast jeder App gibt, ein Ladeindikator:</p>
+
+  <pre><span class="t">&lt;ProgressBar</span>
+    <span class="a">android:id</span>=<span class="s">"@+id/pbLoading"</span>
+    <span class="a">android:layout_width</span>=<span class="s">"wrap_content"</span>
+    <span class="a">android:layout_height</span>=<span class="s">"wrap_content"</span>
+    <span class="a">android:visibility</span>=<span class="s">"gone"</span>
+    <span class="a">tools:visibility</span>=<span class="s">"visible"</span> <span class="t">/&gt;</span></pre>
+
+  <p>Gelesen als Satz: <b>"Zeig mir das Ding im Designer, aber wenn die App wirklich läuft, soll es weg sein."</b></p>
+  <p>Der Ladeindikator soll ja nur während des Ladens erscheinen. Stünde er im XML auf sichtbar, dreht er sich beim Start der App sinnlos vor sich hin. Stünde er nur auf <code>gone</code>, könntest du ihn im Layout-Editor gar nicht anfassen und positionieren. Beides zusammen löst das Problem.</p>
+
+  <p>Im Java-Code schaltest du ihn dann um:</p>
+  <pre>pbLoading.setVisibility(<span class="t">View</span>.VISIBLE);
+<span class="c">// Daten laden ...</span>
+pbLoading.setVisibility(<span class="t">View</span>.GONE);</pre>
+
+  <h3>Die drei Werte für <code>visibility</code></h3>
+  <table>
+    <tr><th style="width:150px">Wert</th><th class="mitte">Sichtbar</th><th class="mitte">Braucht Platz</th><th>Wann</th></tr>
+    <tr><td class="pre">visible</td><td class="mitte">ja</td><td class="mitte">ja</td><td>der Normalfall</td></tr>
+    <tr><td class="pre">invisible</td><td class="mitte">nein</td><td class="mitte"><b>ja</b></td><td>wenn nichts verrutschen darf, während etwas verschwindet</td></tr>
+    <tr><td class="pre">gone</td><td class="mitte">nein</td><td class="mitte">nein</td><td>der Normalfall beim Ausblenden</td></tr>
+  </table>
+
+  <div class="note">
+    <p style="margin:0 0 10px"><b><code>invisible</code> ist nicht dasselbe wie <code>gone</code>, und der Unterschied kostet Zeit, wenn man ihn nicht kennt.</b> Ein Element auf <code>invisible</code> ist zwar unsichtbar, aber es liegt weiterhin da. Es hält seinen Platz frei, und es fängt Berührungen ab. Wer versucht, auf etwas darunter zu tippen, kommt nicht durch.</p>
+    <p style="margin:0"><b>Nimm im Zweifel <code>gone</code>.</b> Nimm <code>invisible</code> nur, wenn du willst, dass nichts nachrutscht, zum Beispiel bei einem Fehlertext über einem Eingabefeld.</p>
+  </div>
+
+  <h3><code>tools:context</code></h3>
+  <p>Die Zeile steht ganz oben in jedem Layout, das Android Studio erzeugt.</p>
+  <pre><span class="a">tools:context</span>=<span class="s">".MainActivity"</span></pre>
+  <p>Sie sagt der Vorschau, zu welcher Activity dieses Layout gehört. Damit kann Android Studio das richtige Theme anwenden und dir zeigen, wie der Bildschirm wirklich aussehen wird. In der App macht sie nichts. Lass sie stehen.</p>
+
+  <p>Es gibt noch mehr <code>tools:</code>-Attribute. Du triffst sie, wenn du sie brauchst, und dann gilt immer dieselbe Regel: <b>alles mit <code>tools:</code> ist nur für dich, nie für den Benutzer.</b></p>
+
+  <h2>6. Das Zeichen @, ein Verweis statt eines Werts</h2>
+  <p>Neben den Präfixen gibt es ein zweites Zeichen, das man am Anfang überliest. Vergleich diese zwei Zeilen:</p>
+
+  <pre><span class="a">android:text</span>=<span class="s">"Weiter"</span>          <span class="c">// der Wert steht direkt da</span>
+<span class="a">android:text</span>=<span class="s">"@string/btn_next"</span> <span class="c">// hol den Wert woanders</span></pre>
+
+  <p><b>Ein <code>@</code> heisst immer: der Wert steht nicht hier, sondern in den Ressourcen.</b> Was hinter dem <code>@</code> steht, sagt dir, wo genau.</p>
+
+  <table>
+    <tr><th style="width:170px">Schreibweise</th><th>Sucht in</th><th>Beispiel</th></tr>
+    <tr><td class="pre">@string/name</td><td><code>res/values/strings.xml</code></td><td><code>@string/btn_next</code></td></tr>
+    <tr><td class="pre">@color/name</td><td><code>res/values/colors.xml</code></td><td><code>@color/answer_correct</code></td></tr>
+    <tr><td class="pre">@drawable/name</td><td><code>res/drawable/</code></td><td><code>@drawable/ic_launcher_background</code></td></tr>
+    <tr><td class="pre">@layout/name</td><td><code>res/layout/</code></td><td><code>@layout/activity_main</code></td></tr>
+    <tr><td class="pre">@id/name</td><td>den ids in diesem Layout</td><td><code>@id/tvCategory</code></td></tr>
+  </table>
+
+  <h3>Und was macht das Plus in <code>@+id</code>?</h3>
+  <p>Das Plus heisst <b>lege diese id neu an</b>. Ohne Plus heisst es <b>benutze die id, die es schon gibt</b>.</p>
+
+  <table>
+    <tr><th style="width:130px">Schreibweise</th><th>Bedeutung</th><th>Wo du sie schreibst</th></tr>
+    <tr><td class="pre">@+id/tvScore</td><td>lege die id <code>tvScore</code> an</td><td>bei <code>android:id</code>, also bei der Vergabe</td></tr>
+    <tr><td class="pre">@id/tvScore</td><td>benutze die id <code>tvScore</code></td><td>bei jedem Verweis, zum Beispiel in einem Anker</td></tr>
+  </table>
+
+  <p>Die anderen Ressourcen brauchen nie ein Plus, denn dort legst du den Eintrag in seiner eigenen Datei an. Eine <code>id</code> hat keine eigene Datei. Sie entsteht genau dort, wo du sie zum ersten Mal hinschreibst, und darum braucht sie das Plus.</p>
+
+  <div class="note">
+    <p style="margin:0"><b>Ein Sonderfall, der verwirrt.</b> Verweist ein Anker auf ein Element, das im XML <b>weiter unten</b> steht, schreibt man dort ebenfalls <code>@+id/...</code>. Der Grund ist einfach: an dieser Stelle gibt es die id noch nicht, sie wird erst weiter unten vergeben. Mit dem Plus legst du sie schon hier an. In <b>Layouts verstehen</b>, Falle 3, steht dasselbe nochmals mit einem Beispiel.</p>
+  </div>
+
+  <h3>Die Brücke zu Java</h3>
+  <p>Jetzt kommt der Punkt, an dem XML und Java zusammenkommen. Für jeden Eintrag in den Ressourcen erzeugt Android beim Bauen einen Eintrag in einer Klasse namens <code>R</code>. Dieselbe Sache, zwei Schreibweisen:</p>
+
+  <table>
+    <tr><th style="width:250px">Im XML</th><th>Im Java-Code</th></tr>
+    <tr><td class="pre">@string/btn_next</td><td class="pre">R.string.btn_next</td></tr>
+    <tr><td class="pre">@color/answer_correct</td><td class="pre">R.color.answer_correct</td></tr>
+    <tr><td class="pre">@layout/activity_main</td><td class="pre">R.layout.activity_main</td></tr>
+    <tr><td class="pre">@+id/tvScore</td><td class="pre">R.id.tvScore</td></tr>
+  </table>
+
+  <p>Aus dem <code>@</code> wird ein <code>R.</code>, aus dem Schrägstrich ein Punkt. Mehr ist es nicht.</p>
+
+  <div class="card">
+    <p style="margin:0 0 10px"><b>Der Merksatz, der die ganze Woche trägt.</b> Eine id steht an <b>zwei</b> Orten. Im XML wird sie vergeben, im Code wird sie benutzt.</p>
+    <p style="margin:0">Darum bricht dein Projekt, wenn du eine id im XML umbenennst und die Java-Zeile stehen lässt. Und darum ist <code>cannot resolve symbol</code> im Java-Code fast immer ein Tippfehler im XML oder umgekehrt.</p>
+  </div>
+
+  <h2>7. Wenn etwas rot ist</h2>
+  <table>
+    <tr><th>Das siehst du</th><th>Ursache</th><th>Das machst du</th></tr>
+    <tr><td>Rot bei <code>tools:</code> irgendwas</td><td>Die Zeile <code>xmlns:tools</code> fehlt im Wurzelelement</td><td><code>Alt</code> und <code>Enter</code>, Android Studio ergänzt sie</td></tr>
+    <tr><td>Rot bei <code>app:layout_constraint...</code></td><td>Entweder fehlt <code>xmlns:app</code>, oder das Element steckt gar nicht in einem ConstraintLayout</td><td>Erst den Namensraum prüfen, dann den Parent im Component Tree</td></tr>
+    <tr><td>Rot: <code>cannot resolve symbol '@string/…'</code></td><td>Der Eintrag in <code>strings.xml</code> fehlt oder heisst anders</td><td>Namen Zeichen für Zeichen vergleichen. Gross und klein zählt</td></tr>
+    <tr><td>Rot: <code>cannot resolve symbol 'R'</code> im ganzen Java-File</td><td>Irgendeine XML-Datei ist kaputt, darum konnte <code>R</code> nicht erzeugt werden</td><td>Nicht im Java suchen. Die Layouts und <code>values</code>-Dateien prüfen, dann neu bauen</td></tr>
+    <tr><td>Gelb: <code>Hardcoded string, should use @string resource</code></td><td>Ein sichtbarer Text steht direkt im Layout</td><td>Prüfen, ob es Beschriftung ist. Wenn ja, nach <code>strings.xml</code>. Wenn es Daten sind, gehört es sowieso in den Code</td></tr>
+    <tr><td>Die Vorschau zeigt Text, der Emulator nicht</td><td>Der Text steht in <code>tools:text</code></td><td>Das ist richtig so. Der echte Text kommt aus dem Code</td></tr>
+  </table>
+
+  <h2>8. Prüfe dich selbst</h2>
+  <ol>
+    <li>Warum heisst es <code>android:layout_width</code>, aber <code>app:layout_constraintTop_toTopOf</code>? Antworte mit einem Satz über den Erfinder des Attributs.</li>
+    <li>Du löschst in einem Layout die Zeile <code>tools:text="Antwort 1"</code>. Was ändert sich in der laufenden App? Und was in der Vorschau?</li>
+    <li>Ein Element steht auf <code>invisible</code> und liegt über einem Button. Warum reagiert der Button nicht?</li>
+    <li>Nenn zwei Attribute, die mit <code>layout_</code> anfangen, und sag zu jedem, welcher Parent sie überhaupt versteht.</li>
+    <li>Erkläre einem Lerngspänli in einem Satz, warum eine id ein Plus braucht und ein Farbverweis nicht.</li>
+  </ol>
+
+  <div class="merk">
+    <p class="z" style="margin:0">
+      <b style="color:var(--andro)">android:</b>  beeinflusst die App.<br>
+      <b style="color:var(--app)">app:</b>      beeinflusst die App, kommt aus einer Bibliothek.<br>
+      <b style="color:var(--tools)">tools:</b>    hilft dir beim Entwickeln und wird beim Bauen weggeworfen.<br>
+      <b>@</b>         heisst: der Wert steht woanders.<br>
+      <b>@+</b>        heisst zusätzlich: und ich lege ihn hier an.
+    </p>
+  </div>
+
+  <p class="foot">Modul 335 | Grundlagen | XML verstehen | Fassung 1 | 14.08.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>

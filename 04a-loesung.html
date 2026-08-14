@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04A Lösung, Die Fragenliste und die Runde</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>04A Lösung, Die Fragenliste und die Runde</h1>
+<p class="sub">Lösungsmaterial zum Auftrag 04A. Modul 335, Tag 2 Nachmittag. Fassung 1 vom 14.08.2026.</p>
+<p class="sub"><b>Zum Durchlesen brauchst du etwa 15 Minuten.</b> Das ist ein Richtwert. Such dir die Stelle, die du brauchst.</p>
+
+<div class="info">
+<p><b>Wie du das hier benutzt.</b> Nicht abtippen. Vergleichen. Die Begründung ist der eigentliche Inhalt, der Code ist nur der Beleg dazu.</p>
+</div>
+
+
+<h2>Vergleichsliste, dein eigener Code</h2>
+<p>Geh diese neun Punkte an <b>deinen eigenen</b> Dateien durch, bevor du hier weiterliest.</p>
+
+<table>
+<tr><th>Nr</th><th>Das prüfst du</th><th>Warum es zählt</th></tr>
+<tr><td>1</td><td>Gibt es zwei Listen, <code>allQuestions</code> und <code>roundQuestions</code>?</td><td>Der Bestand ändert sich nicht, die Runde bei jedem neuen Start. Zwei Aufgaben, zwei Felder</td></tr>
+<tr><td>2</td><td>Steht die Fünf als Konstante <code>QUESTIONS_PER_ROUND</code> und nicht als Zahl im Code?</td><td>Eine Zahl, die an zwei Orten stehen muss, ist eine Zahl, die man an einem Ort vergisst</td></tr>
+<tr><td>3</td><td>Setzt <code>showQuestion</code> für jeden Button alle drei Dinge zurück, also <code>setEnabled</code>, Hintergrund und Textfarbe?</td><td>Wer nur die Sperre löst, hat einen grünen Knopf in der neuen Frage. Wer nur die Farbe setzt, kann nicht antworten</td></tr>
+<tr><td>4</td><td>Wird der Auslieferungszustand in <code>onCreate</code> gesichert, <b>bevor</b> zum ersten Mal eingefärbt wird?</td><td>Danach ist er weg. Ein Button kennt nur seine aktuelle Farbe, nicht seine erste</td></tr>
+<tr><td>5</td><td>Schaltet dein Code <code>svQuestion</code> um und nicht <code>llQuestion</code>?</td><td>Eine leere ScrollView bleibt sichtbar und fängt jede Berührung ab. Der Knopf darunter reagiert nicht mehr</td></tr>
+<tr><td>6</td><td>Hat die ScrollView <code>0dp</code> in Breite und Höhe und alle vier Anker am Parent?</td><td>Mit <code>wrap_content</code> wächst sie mit ihrem Inhalt und scrollt nie</td></tr>
+<tr><td>7</td><td>Steht <code>btnNext</code> im XML auf <code>gone</code> und wird nur im Code sichtbar?</td><td>Beim Start ist noch nichts beantwortet. Ein Weiter-Knopf ohne Antwort überspringt die Frage</td></tr>
+<tr><td>8</td><td>Füllt genau <b>eine</b> Methode den Fragebildschirm, nämlich <code>showQuestion</code>?</td><td>Wer den Bildschirm an mehreren Stellen füllt, vergisst irgendwann eine davon</td></tr>
+<tr><td>9</td><td>Wird <code>score</code> in <code>startRound</code> zurückgesetzt und nicht nur bei der Felddeklaration?</td><td>Sonst zählt die zweite Runde auf der ersten weiter. Der Fehler zeigt sich erst beim zweiten Durchspielen</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Punkt 3, 5 und 9 prüfen dasselbe Prinzip an drei Orten:</b> was dein Code setzt, muss dein Code auch zurücksetzen. Wer nur einmal durchspielt, findet keinen der drei Fehler.</p>
+</div>
+
+
+<h2>Antworten zu den Denkfragen</h2>
+<p>Diese vier Fragen kommen im <b>04AB Wissenscheck</b> als Quizfragen wieder. Der deckt 04A und 04B zusammen ab.</p>
+
+<div class="ue">
+<p class="t">Frage 1, warum zwei Listen?</p>
+<p>Weil sie zwei verschiedene Dinge sind.</p>
+<table>
+<tr><th></th><th><code>allQuestions</code></th><th><code>roundQuestions</code></th></tr>
+<tr><td>Was</td><td>der ganze Bestand</td><td>die Auswahl fürs aktuelle Spiel</td></tr>
+<tr><td>Wie oft ändert sie sich</td><td>nie, solange die App läuft</td><td>bei jeder neuen Runde</td></tr>
+<tr><td>Wie gross</td><td>sieben</td><td>fünf</td></tr>
+</table>
+<p><b>Der Test:</b> würdest du nur eine Liste führen, müsstest du bei jeder Runde entweder den Bestand kürzen oder dir merken, welche fünf gerade gelten. Beides ist mehr Arbeit als eine zweite Liste.</p>
+<p><b>Warum das zählt:</b> In 04B baust du die Liste aller Fragen auf den Bildschirm. Dort brauchst du <b>sieben</b> Zeilen, nicht fünf. Hättest du nur eine Liste, wäre der Bestand da schon weg.</p>
+</div>
+
+<div class="ue">
+<p class="t">Frage 2, warum steht der Weiter-Knopf im XML auf gone?</p>
+<p>Weil der Bildschirm beim Start seinen <b>Anfangszustand</b> zeigen soll, und beim Start ist noch nichts beantwortet.</p>
+<p>Stünde er im XML auf sichtbar, könntest du beim Start Weiter drücken, ohne geantwortet zu haben. Die Frage wäre übersprungen und der Punkt weg.</p>
+<p><b>Die Regel dahinter:</b> das XML beschreibt den Zustand am Anfang. Alles, was sich danach ändert, macht der Code. Wer den Anfangszustand im Code herstellt, hat einen Moment lang den falschen Bildschirm.</p>
+</div>
+
+<div class="ue">
+<p class="t">Frage 3, was muss zurückgesetzt werden?</p>
+<p>Fünf Dinge. Vier davon macht <code>showQuestion</code>.</p>
+<table>
+<tr><th>Was</th><th>Wer hat es gesetzt</th><th>Zurückgesetzt in</th></tr>
+<tr><td>Der Text der vier Buttons</td><td><code>showQuestion</code> der Vorfrage</td><td><code>showQuestion</code></td></tr>
+<tr><td>Die Sperre der Buttons</td><td><code>lockAnswers</code></td><td><code>showQuestion</code>, <code>setEnabled(true)</code></td></tr>
+<tr><td>Die Hintergrundfarbe</td><td><code>markButton</code></td><td><code>showQuestion</code>, <code>defaultButtonTint</code></td></tr>
+<tr><td>Die Textfarbe</td><td><code>markButton</code></td><td><code>showQuestion</code>, <code>defaultButtonTextColors</code></td></tr>
+<tr><td>Der Weiter-Knopf</td><td><code>onAnswerClicked</code></td><td><code>showQuestion</code>, wieder auf <code>GONE</code></td></tr>
+</table>
+<p><b>Warum das zählt:</b> Die Liste entsteht nicht aus dem Nachdenken über Buttons, sondern aus einer einzigen Frage: <b>was habe ich im Code verändert?</b> Jede Änderung braucht ihre Rücknahme. Das gilt in jeder App, in der ein Bildschirm mehrfach benutzt wird.</p>
+</div>
+
+<div class="ue">
+<p class="t">Frage 4, warum siehst du nur einen Bereich?</p>
+<p>Weil immer genau einer auf <code>View.GONE</code> steht.</p>
+<p><code>GONE</code> heisst unsichtbar <b>und</b> ohne Platzbedarf. Der Bereich wird beim Zeichnen einfach übersprungen.</p>
+<table>
+<tr><th>Wert</th><th>Sichtbar</th><th>Braucht Platz</th></tr>
+<tr><td><code>VISIBLE</code></td><td>ja</td><td>ja</td></tr>
+<tr><td><code>INVISIBLE</code></td><td>nein</td><td><b>ja</b></td></tr>
+<tr><td><code>GONE</code></td><td>nein</td><td>nein</td></tr>
+</table>
+<p><b>Warum hier <code>GONE</code> und nicht <code>INVISIBLE</code>:</b> Mit <code>INVISIBLE</code> läge der Ergebnisbereich weiterhin über der Frage und würde jede Berührung abfangen. Du könntest keine Antwort mehr antippen.</p>
+<p><b>Warum das zählt:</b> Dieselbe Bauweise brauchst du am Tag 3 wieder, dort mit drei Bereichen statt zwei. Aus den verstreuten <code>setVisibility</code>-Aufrufen wird dann eine einzige Methode, die alle Bereiche auf einmal setzt.</p>
+</div>
+
+
+<h2>Die zwei Beobachtungsstellen</h2>
+
+<div class="ue">
+<p class="t">B2, der Weiter-Knopf im Querformat</p>
+<p><b>Was du siehst:</b> Im Hochformat läuft alles. Du drehst ins Querformat, und der Weiter-Knopf ist weg. Kein Absturz, im Logcat steht nichts. Das Spiel steht still, und du siehst nicht warum.</p>
+<p><b>Was die Beobachtung zeigt:</b> Ein ConstraintLayout schneidet ab, was nicht auf den Bildschirm passt. Es merkt nicht, dass etwas fehlt, und es scrollt nicht von selbst.</p>
+<p><b>Die Rechnung dahinter.</b> Der Fragebereich ist ungefähr gleich hoch, egal wie das Gerät steht. Was sich ändert, ist der Platz.</p>
+<table>
+<tr><th>Medium Phone, API 36.1</th><th>Nutzbare Höhe</th><th>Höhe des Fragebereichs</th></tr>
+<tr><td>Hochformat</td><td class="num">rund 850 dp</td><td class="num">rund 420 dp</td></tr>
+<tr><td>Querformat</td><td class="num">rund 360 dp</td><td class="num">rund 420 dp</td></tr>
+</table>
+<p>Im Querformat fehlen also etwa 60 dp. Genau das ist die Höhe des Weiter-Knopfs samt seinem Abstand.</p>
+<p><b>Das ist keine Regel, das ist eine Rechnung.</b> Sobald der Inhalt höher ist als der Platz, brauchst du eine ScrollView. Ob das zutrifft, hängt vom Gerät ab, und darum prüfst du es im Querformat, dem ungünstigsten Fall.</p>
+<p>Die häufigste Fehlbeobachtung ist "die App ist abgestürzt". Sie ist nicht abgestürzt. Genau das macht den Fehler so unangenehm.</p>
+</div>
+
+<div class="ue">
+<p class="t">C2, der grüne Rest</p>
+<p><b>Was du siehst:</b> Du drückst Weiter. Der neue Fragetext und die neuen Antworten erscheinen. Aber ein Button ist immer noch grün, und keiner der vier reagiert.</p>
+<p><b>Was die Beobachtung zeigt:</b> Ein Button behält alles, was du ihm gegeben hast, bis du es zurücknimmst. <code>setText</code> ersetzt nur den Text. Farbe und Sperre bleiben.</p>
+<table>
+<tr><th>Was du in 03C gesetzt hast</th><th>Was <code>setText</code> daran ändert</th></tr>
+<tr><td><code>setEnabled(false)</code></td><td>nichts</td></tr>
+<tr><td><code>setBackgroundTintList(green)</code></td><td>nichts</td></tr>
+<tr><td><code>setTextColor(Color.WHITE)</code></td><td>nichts</td></tr>
+</table>
+<p><b>Der Satz, den du dir merkst:</b> was dein Code setzt, muss dein Code auch zurücksetzen. Das XML macht es nicht für dich, denn das XML gilt nur einmal, beim Aufbauen des Bildschirms.</p>
+<p>Die häufigste Fehlbeobachtung ist "die Frage hat sich gar nicht geändert". Sie hat sich geändert, der Text ist neu. Nur die Farben sind alt.</p>
+</div>
+
+
+<h2>Die fertige MainActivity</h2>
+<p>Nur die Teile, die gegenüber 03D neu sind oder sich geändert haben. Die vollständige Datei liegt im Referenzprojekt.</p>
+
+<h3>Die neuen Felder</h3>
+<pre><span class="c">/** So viele Fragen hat eine Runde. */</span>
+<span class="k">private static final int</span> QUESTIONS_PER_ROUND = <span class="k">5</span>;
+
+<span class="c">/** Der Fragebereich. Wird als Ganzes ein- und ausgeblendet. */</span>
+<span class="k">private</span> <span class="t">ScrollView</span> svQuestion;
+
+<span class="c">/** Der Ergebnisbereich. Liegt im Layout über dem Fragebereich. */</span>
+<span class="k">private</span> <span class="t">LinearLayout</span> llResult;
+
+<span class="c">/** Die Anzeige, die wievielte Frage der Runde gerade dran ist. */</span>
+<span class="k">private</span> <span class="t">TextView</span> tvProgress;
+
+<span class="c">/** Die Anzeige der erreichten Punkte am Ende der Runde. */</span>
+<span class="k">private</span> <span class="t">TextView</span> tvResult;
+
+<span class="c">/** Der Weiter-Knopf. Erscheint erst, wenn geantwortet wurde. */</span>
+<span class="k">private</span> <span class="t">Button</span> btnNext;
+
+<span class="c">/** Der Knopf, der eine neue Runde startet. */</span>
+<span class="k">private</span> <span class="t">Button</span> btnRestart;
+
+<span class="c">/**
+ * Die Hintergrundfarbe der Buttons im Auslieferungszustand.
+ *
+ * Wir merken sie uns, bevor wir sie das erste Mal überschreiben. Sonst
+ * lässt sich die Markierung bei der nächsten Frage nicht zurücknehmen.
+ */</span>
+<span class="k">private</span> <span class="t">ColorStateList</span> defaultButtonTint;
+
+<span class="c">/** Die Textfarbe der Buttons im Auslieferungszustand. */</span>
+<span class="k">private</span> <span class="t">ColorStateList</span> defaultButtonTextColors;
+
+<span class="c">/** Der ganze Fragenbestand. Später kommt er aus einer Datenbank. */</span>
+<span class="k">private</span> <span class="t">List</span>&lt;<span class="t">Question</span>&gt; allQuestions;
+
+<span class="c">/** Die fünf Fragen der laufenden Runde. */</span>
+<span class="k">private</span> <span class="t">List</span>&lt;<span class="t">Question</span>&gt; roundQuestions;
+
+<span class="c">/** Welche Frage der Runde gerade dran ist, beginnend bei 0. */</span>
+<span class="k">private int</span> currentIndex;</pre>
+
+<h3>Das Ende von onCreate</h3>
+<pre>svQuestion = findViewById(R.id.svQuestion);
+llResult = findViewById(R.id.llResult);
+tvCategory = findViewById(R.id.tvCategory);
+tvScore = findViewById(R.id.tvScore);
+tvProgress = findViewById(R.id.tvProgress);
+tvQuestion = findViewById(R.id.tvQuestion);
+tvResult = findViewById(R.id.tvResult);
+btnNext = findViewById(R.id.btnNext);
+btnRestart = findViewById(R.id.btnRestart);
+
+answerButtons = <span class="k">new</span> <span class="t">Button</span>[]{
+        findViewById(R.id.btnAnswer1),
+        findViewById(R.id.btnAnswer2),
+        findViewById(R.id.btnAnswer3),
+        findViewById(R.id.btnAnswer4)
+};
+
+<span class="c">// Den Auslieferungszustand sichern, bevor irgendetwas eingefärbt wird.</span>
+defaultButtonTint = answerButtons[<span class="k">0</span>].getBackgroundTintList();
+defaultButtonTextColors = answerButtons[<span class="k">0</span>].getTextColors();
+
+<span class="k">for</span> (<span class="t">Button</span> button : answerButtons) {
+    button.setOnClickListener(v -&gt; onAnswerClicked(v));
+}
+btnNext.setOnClickListener(v -&gt; onNextClicked());
+btnRestart.setOnClickListener(v -&gt; startRound());
+
+allQuestions = createQuestions();
+Log.d(TAG, <span class="s">"question bank loaded, size="</span> + allQuestions.size());
+
+startRound();</pre>
+
+<div class="note">
+<p><b>Die Reihenfolge in <code>onCreate</code> ist nicht beliebig.</b> Die zwei <code>default...</code>-Zeilen müssen nach dem Array stehen, sonst greifen sie auf <code>null</code> zu. Und <code>startRound()</code> muss ganz zuletzt stehen, denn es füllt den Bildschirm und braucht dafür alle Felder.</p>
+<p>Das ist kein Zufall, sondern die übliche Ordnung: zuerst Views holen, dann Zustand sichern, dann Klicks verdrahten, dann Daten laden, zuletzt anzeigen.</p>
+</div>
+
+<h3>Die vier neuen Methoden</h3>
+<pre><span class="c">/**
+ * Startet eine neue Runde mit den ersten fünf Fragen des Bestands.
+ *
+ * Punktestand und Zähler gehen auf null zurück. Danach ist wieder der
+ * Fragebereich sichtbar und der Ergebnisbereich verschwunden.
+ */</span>
+<span class="k">private void</span> startRound() {
+    roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;(allQuestions.subList(<span class="k">0</span>, QUESTIONS_PER_ROUND));
+    currentIndex = <span class="k">0</span>;
+    score = <span class="k">0</span>;
+
+    llResult.setVisibility(<span class="t">View</span>.GONE);
+    svQuestion.setVisibility(<span class="t">View</span>.VISIBLE);
+
+    showQuestion();
+    Log.d(TAG, <span class="s">"round started"</span>);
+}
+
+<span class="c">/**
+ * Schaltet zur nächsten Frage oder beendet die Runde.
+ *
+ * Erst hochzählen, dann prüfen, dann entscheiden. Eine Liste mit
+ * fünf Einträgen hat die Plätze 0 bis 4.
+ */</span>
+<span class="k">private void</span> onNextClicked() {
+    currentIndex++;
+    <span class="k">if</span> (currentIndex &lt; roundQuestions.size()) {
+        showQuestion();
+    } <span class="k">else</span> {
+        showResult();
+    }
+}
+
+<span class="c">/** Blendet den Fragebereich aus und den Ergebnisbereich ein. */</span>
+<span class="k">private void</span> showResult() {
+    tvResult.setText(getString(R.string.result_format, score, roundQuestions.size()));
+
+    svQuestion.setVisibility(<span class="t">View</span>.GONE);
+    llResult.setVisibility(<span class="t">View</span>.VISIBLE);
+
+    Log.d(TAG, <span class="s">"round finished, score="</span> + score);
+}</pre>
+<p><code>createQuestions</code> steht vollständig im Auftrag, Schritt A3.</p>
+
+<h3>Das umgebaute showQuestion</h3>
+<pre><span class="c">/**
+ * Zeigt die Frage, die gerade dran ist, und setzt die Buttons zurück.
+ *
+ * Genau eine Methode füllt den Fragebildschirm. Das Zurücksetzen der
+ * vier Buttons gehört dazu, denn Markierung und Sperre der Vorfrage
+ * kleben sonst am Button.
+ */</span>
+<span class="k">private void</span> showQuestion() {
+    currentQuestion = roundQuestions.get(currentIndex);
+
+    tvProgress.setText(getString(R.string.progress_format,
+            currentIndex + <span class="k">1</span>, roundQuestions.size()));
+    tvCategory.setText(currentQuestion.getCategory());
+    tvQuestion.setText(currentQuestion.getText());
+    showScore();
+
+    <span class="t">String</span>[] answers = currentQuestion.getAnswers();
+    <span class="k">for</span> (<span class="k">int</span> i = <span class="k">0</span>; i &lt; answerButtons.length; i++) {
+        <span class="t">Button</span> button = answerButtons[i];
+        button.setText(answers[i]);
+        button.setEnabled(<span class="k">true</span>);
+        button.setBackgroundTintList(defaultButtonTint);
+        button.setTextColor(defaultButtonTextColors);
+    }
+
+    btnNext.setVisibility(<span class="t">View</span>.GONE);
+}</pre>
+
+<div class="tip">
+<p><b><code>onAnswerClicked</code> und <code>markAnswers</code> haben sich fast nicht geändert.</b> Sie fragen weiterhin <code>currentQuestion.isCorrect(...)</code>. Neu ist dort nur eine einzige Zeile, <code>btnNext.setVisibility(View.VISIBLE);</code> nach <code>lockAnswers()</code>.</p>
+<p>Das ist die Auszahlung von 03D. Weil die Prüfung in der Datenklasse steckt, kostet der Wechsel von einer Frage auf fünf keine Zeile in der Auswertung.</p>
+</div>
+
+
+<h2>Das fertige Layout</h2>
+<p>Der Aufbau als Baum, so wie ihn der Component Tree zeigt.</p>
+<pre><span class="t">ConstraintLayout</span> clMain
+│
+├─ <span class="t">ScrollView</span> svQuestion              <span class="c">// 0dp x 0dp, vier Anker am Parent</span>
+│    └─ <span class="t">LinearLayout</span> llQuestion       <span class="c">// vertical, match_parent x wrap_content</span>
+│         ├─ <span class="t">LinearLayout</span> llHeader     <span class="c">// horizontal</span>
+│         │    ├─ <span class="t">TextView</span> tvCategory   <span class="c">// 0dp, weight 1</span>
+│         │    └─ <span class="t">TextView</span> tvScore      <span class="c">// wrap_content, rechts</span>
+│         ├─ <span class="t">TextView</span> tvProgress
+│         ├─ <span class="t">TextView</span> tvQuestion
+│         ├─ <span class="t">LinearLayout</span> llAnswers
+│         │    └─ btnAnswer1 bis btnAnswer4
+│         └─ <span class="t">Button</span> btnNext            <span class="c">// visibility="gone" im XML</span>
+│
+└─ <span class="t">LinearLayout</span> llResult             <span class="c">// 0dp x 0dp, vier Anker, visibility="gone"</span>
+     ├─ <span class="t">TextView</span> tvResult
+     └─ <span class="t">Button</span> btnRestart</pre>
+
+<div class="info">
+<p><b>Warum <code>llResult</code> auch <code>0dp</code> in der Höhe hat und oben <b>und</b> unten verankert ist.</b> Heute brauchst du das noch nicht zwingend, morgen schon. In 04B kommt eine ScrollView hinein, und eine ScrollView in einem Parent mit <code>wrap_content</code> wächst mit ihrem Inhalt und scrollt nie.</p>
+<p>Du baust es heute gleich richtig, dann musst du es in 04B nicht anfassen.</p>
+</div>
+
+<div class="warn">
+<p><b>Die Anker fallen nur innerhalb der ScrollView weg, nicht überall.</b> <code>svQuestion</code> und <code>llResult</code> sind Children des ConstraintLayouts und brauchen ihre vier Anker. Alles darunter liegt im LinearLayout und stapelt sich von selbst.</p>
+<p>Die Regel: <b>Anker gehören dem Parent.</b> Ein ConstraintLayout will sie, ein LinearLayout ignoriert sie. Wer sie stehen lässt, bekommt gelbe Warnungen und ein Layout, das anders aussieht als gedacht.</p>
+</div>
+
+
+<h2>Was sich gegenüber 03D geändert hat</h2>
+<table>
+<tr><th>Datei</th><th>Änderung</th></tr>
+<tr><td class="pre">MainActivity.java</td><td>Neu <code>createQuestions</code>, <code>startRound</code>, <code>onNextClicked</code>, <code>showResult</code>. <code>showQuestion</code> holt die Frage aus der Runde und setzt die Buttons zurück. Neue Felder für die zwei Listen, den Index, die Konstante, die vier neuen Views und die zwei gesicherten Farben</td></tr>
+<tr><td class="pre">activity_main.xml</td><td>Neu <code>svQuestion</code> mit <code>llQuestion</code> darin, dazu <code>llHeader</code>, <code>tvProgress</code>, <code>btnNext</code>. Neu der zweite Bereich <code>llResult</code> mit <code>tvResult</code> und <code>btnRestart</code></td></tr>
+<tr><td class="pre">strings.xml</td><td>Vier neue Einträge: <code>progress_format</code>, <code>btn_next</code>, <code>btn_restart</code>, <code>result_format</code></td></tr>
+<tr><td class="pre">model/Question.java</td><td><b>unverändert</b></td></tr>
+<tr><td class="pre">colors.xml</td><td>unverändert</td></tr>
+</table>
+<p>Nicht angefasst: alle Gradle-Dateien, das Manifest und die Themes. 04A braucht keine neue Abhängigkeit.</p>
+
+<div class="tip">
+<p><b><code>Question.java</code> bleibt unangetastet, und das ist die Nachricht.</b> Du hast gestern eine Datenklasse gebaut, heute machst du aus einer Frage sieben, und die Klasse merkt nichts davon. Genau dafür war der Umbau von 03D da.</p>
+</div>
+
+
+<h2>Zwei Dinge sind hier absichtlich unsauber</h2>
+
+<div class="warn">
+<p><b>Erstens: die <code>setVisibility</code>-Aufrufe stehen verstreut.</b> An drei Stellen wird etwas ein- oder ausgeblendet, in <code>startRound</code>, in <code>showQuestion</code> und in <code>showResult</code>. Zähl sie einmal durch.</p>
+<p>Bei zwei Bereichen geht das noch. Am Tag 3 kommt ein dritter dazu, die Kategoriewahl. Dann weiss nach zwei Stunden niemand mehr, was gerade sichtbar ist. Genau dort entsteht daraus <b>eine einzige Methode</b>, die alle Bereiche auf einmal setzt. Wer den Unterschied nie erlebt hat, versteht nicht, warum das besser ist.</p>
+</div>
+
+<div class="warn">
+<p><b>Zweitens: die Runde nimmt immer die ersten fünf Fragen.</b> <code>subList(0, 5)</code> liefert jedes Mal dieselben. Die zweite Runde ist dieselbe wie die erste.</p>
+<p>Das ist Absicht. Mischen ist ein eigenes Thema und kommt später. Heute geht es um den Ablauf, nicht um die Auswahl.</p>
+</div>
+
+
+<h2>Lösungen zu den Übungen</h2>
+
+<div class="ue">
+<p class="t">Übung 1, die Runde verlängern</p>
+<pre><span class="k">private static final int</span> QUESTIONS_PER_ROUND = <span class="k">7</span>;</pre>
+<p>Eine Zeile. Die Anzeige "Frage 1 von 7" stimmt automatisch mit, denn sie liest <code>roundQuestions.size()</code> und nicht die Konstante.</p>
+<p><b>Was bei 8 passiert:</b> Die App stürzt beim Start ab.</p>
+<pre>IndexOutOfBoundsException: toIndex = 8</pre>
+<p><code>subList(0, 8)</code> auf einer Liste mit sieben Einträgen gibt es nicht. Der Bestand ist die Grenze.</p>
+<p><b>Der Punkt der Übung:</b> Du siehst zwei Dinge auf einmal. Erstens, wie viel eine Konstante wert ist, denn die Fünf stand nur an einer Stelle. Zweitens, dass eine Konstante keine Prüfung ersetzt. Sauber wäre:</p>
+<pre><span class="k">int</span> count = <span class="t">Math</span>.min(QUESTIONS_PER_ROUND, allQuestions.size());
+roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;(allQuestions.subList(<span class="k">0</span>, count));</pre>
+<p>Genau diese Zeile brauchst du am Tag 4 wirklich, wenn der Benutzer selbst Fragen anlegt und löscht.</p>
+</div>
+
+<div class="ue">
+<p class="t">Übung 2, der letzte Knopf heisst anders</p>
+<p>Neu in <code>strings.xml</code>:</p>
+<pre>&lt;<span class="t">string</span> name=<span class="s">"btn_result"</span>&gt;Ergebnis&lt;/<span class="t">string</span>&gt;</pre>
+<p>Und in <code>showQuestion</code>, zusammen mit dem Rest der Aufräumarbeit:</p>
+<pre><span class="k">if</span> (currentIndex == roundQuestions.size() - <span class="k">1</span>) {
+    btnNext.setText(R.string.btn_result);
+} <span class="k">else</span> {
+    btnNext.setText(R.string.btn_next);
+}</pre>
+<div class="note">
+<p><b>Der <code>else</code>-Zweig ist der eigentliche Inhalt dieser Übung.</b> Wer ihn weglässt, hat nach der ersten Runde für immer "Ergebnis" auf dem Knopf stehen. Es ist derselbe Fehler wie der grüne Rest aus C2, nur an einer anderen Stelle.</p>
+<p><code>roundQuestions.size() - 1</code> und nicht <code>QUESTIONS_PER_ROUND - 1</code>. Sonst bricht die Übung, sobald jemand Übung 1 gemacht hat.</p>
+</div>
+</div>
+
+<div class="ue">
+<p class="t">Übung 3, erklären</p>
+<p>Eine gute Erklärung nennt den Grundsatz und einen Beleg.</p>
+<p>"Das XML gilt nur einmal, beim Aufbauen des Bildschirms. Danach zeigt der Bildschirm immer den letzten Stand, den mein Code gesetzt hat. Ich habe in 03C die Farbe gesetzt und die Buttons gesperrt. Wenn ich das nicht zurücknehme, gilt es weiter, auch wenn der Text darauf ein neuer ist."</p>
+<p>Als zweite Stelle mit demselben Prinzip: der Weiter-Knopf, der in <code>onAnswerClicked</code> sichtbar wird und in <code>showQuestion</code> wieder verschwinden muss. Oder <code>score</code>, das in <code>startRound</code> auf null zurückgeht.</p>
+</div>
+
+<div class="note">
+<p><b>Zur Zusatzaufgabe steht hier bewusst nichts.</b> Die Frage danach ist der eigentliche Inhalt: zeigt dein Balken den Fortschritt oder die richtigen Antworten, und warum hast du dich so entschieden?</p>
+</div>
+
+
+<h2>Mögliche falsche KI-Rückmeldungen</h2>
+<p>Das sind Antworten, die uns bei diesem Thema schon begegnet sind. Nicht jede KI macht jeden dieser Fehler. Die Liste ist eine Prüfliste, keine Anklage.</p>
+<table>
+<tr><th>Die KI schlägt vor</th><th>Warum das hier falsch ist</th></tr>
+<tr><td>Statt zwei Bereichen gleich eine zweite Activity für das Ergebnis</td><td>Technisch richtig, didaktisch zu früh. Activities und der Wechsel dazwischen sind Tag 3. Heute geht es um den Zustand innerhalb eines Bildschirms</td></tr>
+<tr><td><code>llQuestion.setVisibility(View.GONE)</code> statt <code>svQuestion</code></td><td>Die ScrollView bleibt sichtbar, liegt über dem Ergebnis und fängt jede Berührung ab. "Nochmals spielen" reagiert nicht mehr</td></tr>
+<tr><td><code>setBackgroundTintList(null)</code> zum Zurücksetzen</td><td><code>null</code> heisst "gar keine Färbung", nicht "die vom Anfang". Der Button wird farblos</td></tr>
+<tr><td>Die Buttons mit <code>setBackgroundColor</code> zurücksetzen</td><td>Ein MaterialButton ignoriert das stillschweigend. Derselbe Fall wie in 03C</td></tr>
+<tr><td><code>INVISIBLE</code> statt <code>GONE</code></td><td>Der Bereich braucht weiterhin Platz und fängt Berührungen ab. Sichtbar ist er nicht, im Weg schon</td></tr>
+<tr><td><code>roundQuestions.get(currentIndex++)</code> in einer Zeile</td><td>Läuft, versteckt aber die Zählung mitten im Zugriff. Beim Fehlersuchen sieht niemand mehr, wo hochgezählt wurde</td></tr>
+<tr><td>Die Runde mit <code>Collections.shuffle</code> mischen</td><td>Nicht falsch, aber heute nicht verlangt. Es macht das Testen schwerer, weil jede Runde anders aussieht</td></tr>
+<tr><td><code>onSaveInstanceState</code> gleich mitbauen, damit das Drehen die Runde nicht verliert</td><td>Das ist die Zusatzaufgabe von Tag 3. Vorher soll die Klasse den Verlust selbst erleben</td></tr>
+<tr><td>Einen <code>RecyclerView</code> vorschlagen, sobald das Wort Liste fällt</td><td>Hier wird nichts aufgelistet, hier wird abgearbeitet. Der RecyclerView kommt am Tag 3, und zwar aus einem Grund, den du dann selbst siehst</td></tr>
+</table>
+
+
+<h2>So prüfst du das Ganze</h2>
+<ol>
+<li><b>Run.</b> Oben steht <b>Frage 1 von 5</b> und <b>Punkte 0</b>. Kein Weiter-Knopf.</li>
+<li>Tipp die richtige Antwort. Sie wird grün, Punkte springt auf 1, der Weiter-Knopf erscheint.</li>
+<li><b>Weiter.</b> Frage 2 von 5, alle vier Buttons wieder normal und antippbar. Kein grüner Rest.</li>
+<li>Spiel die Runde zu Ende. Nach der fünften Frage kommt das Ergebnis mit deiner Punktzahl.</li>
+<li><b>Nochmals spielen.</b> Der Knopf reagiert. Es beginnt bei Frage 1 von 5, Punkte 0.</li>
+<li>Spiel die zweite Runde zu Ende. Die Punktzahl beginnt bei null und zählt nicht auf der ersten weiter.</li>
+<li><b>Dreh den Emulator ins Querformat, mitten in der Runde.</b> Der Weiter-Knopf muss erreichbar bleiben, notfalls nach dem Schieben.</li>
+<li>Spiel im Querformat die Runde zu Ende und drück <b>Nochmals spielen</b>. Der Knopf muss reagieren.</li>
+<li>Im Logcat unter <code>Modul335</code>: <code>question bank loaded, size=7</code>, dann <code>round started</code>, pro Antwort eine Zeile, dann <code>round finished, score=</code>.</li>
+</ol>
+
+<div class="tip">
+<p><b>Punkt 3, 6 und 8 sind die wichtigen.</b> Alle drei prüfen dasselbe Prinzip an drei Orten: die Buttons, der Punktestand, die ScrollView. Wer nur einmal durchspielt, findet keinen der drei Fehler.</p>
+</div>
+
+
+<h2>Was im nächsten Auftrag dazukommt</h2>
+<p>Der Ergebnisbildschirm zeigt heute eine Zahl. In <b>04B</b> kommt darunter eine Liste mit allen sieben Fragen der Kategorie.</p>
+<p>Gebaut wird sie zu Fuss: eine Schleife erzeugt pro Frage eine TextView und hängt sie mit <code>addView</code> an. Bei sieben Zeilen läuft das gut. Denk schon mal darüber nach, was bei fünfhundert Zeilen passiert.</p>
+<p>Danach kommt der <b>04AB Wissenscheck</b> über beide Aufträge.</p>
+
+<p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 04A Die Fragenliste und die Runde &middot; Fassung 1 vom 14.08.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>

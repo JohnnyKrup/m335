@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04A Die Fragenliste und die Runde</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>04A Die Fragenliste und die Runde</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 2 Nachmittag. Zeitbudget 55 Minuten. Fassung 1 vom 14.08.2026.</p>
+<p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
+
+
+<h2>01 Einführung</h2>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>1.3</td><td>Geräteeigenschaften kennen und passend einsetzen, hier die Bildschirmhöhe im Querformat</td></tr>
+<tr><td>2.3</td><td>App-Architekturen kennen, den Zustand einer App verwalten</td></tr>
+<tr><td>3.2</td><td>Framework und APIs der Plattform einsetzen</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du baust eine Liste von Objekten auf und arbeitest sie der Reihe nach ab.</li>
+<li>Du blendest Bereiche eines Bildschirms ein und aus, statt einen zweiten Bildschirm zu bauen.</li>
+<li>Du erklärst, warum ein Zustand, den dein Code setzt, von deinem Code auch zurückgesetzt werden muss.</li>
+<li>Du erkennst, wann ein Layout eine <code>ScrollView</code> braucht, und begründest es mit dem Querformat.</li>
+<li>Du unterscheidest den ganzen Bestand von der laufenden Runde.</li>
+</ul>
+
+<h3>Das brauchst du vorher</h3>
+<ul>
+<li>Dein Projekt <b>WissQuiz</b> nach 03D. Die Frage kommt aus einem <code>Question</code>-Objekt.</li>
+<li>Du kennst Listen und Schleifen aus dem Java-Unterricht.</li>
+</ul>
+
+<h3>Das gibst du ab</h3>
+<ul>
+<li>Screenshot deiner App mitten in der Runde, mit der Zeile <b>Frage 3 von 5</b> sichtbar.</li>
+<li>Screenshot deines Ergebnisbildschirms nach der fünften Frage.</li>
+</ul>
+<p>Mehr nicht. Kein Arbeitsblatt und <b>kein Projekt als ZIP</b>. Ob dein Code sauber ist, prüfst du selbst mit der Vergleichsliste im Lösungsmaterial.</p>
+
+<div class="tip">
+<p><b>Der Wissenscheck kommt erst nach 04B.</b> Er heisst <b>04AB Wissenscheck</b> und deckt beide Aufträge zusammen ab. Was du heute beobachtest, brauchst du dort.</p>
+</div>
+
+<div class="info">
+<p><b>Heute wird deine App zum ersten Mal ein Spiel.</b> Bisher gab es eine Frage und danach war Schluss. Ab heute gibt es sieben Fragen im Bestand, eine Runde über fünf davon, einen Weiter-Knopf und am Schluss ein Ergebnis.</p>
+<p>Das ist der grösste Sprung der Woche, was das Verhalten angeht. Der Code dazu ist überschaubar. Der schwierige Teil ist etwas anderes: <b>alles, was dein Code setzt, musst du auch wieder zurücksetzen.</b></p>
+</div>
+
+
+<h2>02 Auftrag</h2>
+
+<h3>Ausgangslage</h3>
+<p>Deine App zeigt genau eine Frage. Du tippst eine Antwort an, sie wird grün oder rot, die vier Buttons sperren, und dann steht die App still.</p>
+<p>Heute kommt die Runde dazu. Sieben Fragen liegen im Code, fünf davon werden gespielt, und am Schluss siehst du deine Punkte.</p>
+
+<h3>Werkzeugkasten</h3>
+<table>
+<tr><th>Baustein</th><th>Wofür</th></tr>
+<tr><td class="pre">List&lt;Question&gt;</td><td>Eine Liste von Objekten. Hält den Fragenbestand und die Runde</td></tr>
+<tr><td class="pre">ArrayList</td><td>Die Umsetzung von <code>List</code>, die wir benutzen</td></tr>
+<tr><td class="pre">subList(0, 5)</td><td>Schneidet die ersten fünf Einträge aus einer Liste heraus</td></tr>
+<tr><td class="pre">ScrollView</td><td>Ein Container, dessen Inhalt sich schieben lässt, wenn er zu hoch ist</td></tr>
+<tr><td class="pre">setVisibility</td><td>Blendet eine View ein oder aus</td></tr>
+<tr><td class="pre">View.GONE</td><td>Unsichtbar und ohne Platzbedarf</td></tr>
+<tr><td class="pre">View.VISIBLE</td><td>Wieder sichtbar</td></tr>
+<tr><td class="pre">getBackgroundTintList</td><td>Liest die Hintergrundfarbe eines Buttons aus. Das Gegenstück zu 03C</td></tr>
+<tr><td class="pre">getTextColors</td><td>Liest die Textfarbe eines Buttons aus</td></tr>
+<tr><td class="pre">static final</td><td>Eine Konstante. Eine Zahl mit Namen statt einer Zahl im Code</td></tr>
+</table>
+
+<h3>Pflichtangaben im Layout</h3>
+<table>
+<tr><th>Angabe</th><th>Pflicht, weil</th></tr>
+<tr><td class="pre">layout_width, layout_height</td><td>Jede View braucht beides, immer</td></tr>
+<tr><td class="pre">0dp bei der ScrollView</td><td>Sie soll genau so gross werden wie ihre vier Anker, nicht wie ihr Inhalt</td></tr>
+<tr><td class="pre">alle vier Anker</td><td>Ohne unteren Anker weiss die ScrollView nicht, wo sie aufhören soll</td></tr>
+<tr><td class="pre">orientation beim LinearLayout</td><td>Ohne Angabe steht es waagrecht, und alles liegt nebeneinander</td></tr>
+<tr><td class="pre">visibility="gone"</td><td>Beim Weiter-Knopf und beim Ergebnisbereich. Sie starten unsichtbar</td></tr>
+</table>
+
+<h3>Namen im Code</h3>
+<table>
+<tr><th>Name</th><th>Was es ist</th></tr>
+<tr><td class="pre">svQuestion</td><td>Die ScrollView um den ganzen Fragebereich</td></tr>
+<tr><td class="pre">llQuestion</td><td>Das LinearLayout darin, das alles untereinander stapelt</td></tr>
+<tr><td class="pre">llHeader</td><td>Die Kopfzeile mit Kategorie links und Punkten rechts</td></tr>
+<tr><td class="pre">tvProgress</td><td>Die Anzeige "Frage 1 von 5"</td></tr>
+<tr><td class="pre">btnNext</td><td>Der Weiter-Knopf</td></tr>
+<tr><td class="pre">llResult</td><td>Der Ergebnisbereich</td></tr>
+<tr><td class="pre">tvResult</td><td>Die Anzeige der erreichten Punkte</td></tr>
+<tr><td class="pre">btnRestart</td><td>Der Knopf "Nochmals spielen"</td></tr>
+<tr><td class="pre">allQuestions</td><td>Der ganze Fragenbestand, sieben Stück</td></tr>
+<tr><td class="pre">roundQuestions</td><td>Die fünf Fragen der laufenden Runde</td></tr>
+<tr><td class="pre">currentIndex</td><td>Welche Frage der Runde dran ist, beginnend bei 0</td></tr>
+<tr><td class="pre">QUESTIONS_PER_ROUND</td><td>Konstante mit dem Wert 5</td></tr>
+<tr><td class="pre">createQuestions, startRound, onNextClicked, showResult</td><td>Die vier neuen Methoden</td></tr>
+</table>
+
+<h3>Denkfragen</h3>
+<ol>
+<li>Es gibt zwei Listen, den Bestand und die Runde. Warum nicht einfach eine?</li>
+<li>Der Weiter-Knopf steht im XML auf <code>gone</code> und wird erst im Code sichtbar. Warum nicht umgekehrt?</li>
+<li>Du drückst Weiter und die nächste Frage erscheint. Was muss alles zurückgesetzt werden, damit sie sich wie eine neue Frage anfühlt? Zähl auf, ohne in den Code zu schauen.</li>
+<li>Der Fragebereich und der Ergebnisbereich hängen an denselben vier Ankern. Sie liegen also am selben Platz. Warum siehst du trotzdem immer nur einen?</li>
+</ol>
+
+<div class="tip">
+<p><b>Diese vier Fragen kommen im 04AB Wissenscheck wieder.</b> Dasselbe gilt für das, was du in B2 und C2 beobachtest.</p>
+</div>
+
+
+<h3>Teil A, der Fragenbestand <span class="time">12 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">A1</span><b>Die neuen Texte in <code>strings.xml</code>.</b></p>
+<p>Vier neue Einträge. Alles davon ist Beschriftung, also gehört es hierhin und nicht ins Objekt.</p>
+<pre>&lt;<span class="t">string</span> name=<span class="s">"progress_format"</span>&gt;Frage %1$d von %2$d&lt;/<span class="t">string</span>&gt;
+
+&lt;!-- Beschriftungen der Knöpfe. --&gt;
+&lt;<span class="t">string</span> name=<span class="s">"btn_next"</span>&gt;Weiter&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"btn_restart"</span>&gt;Nochmals spielen&lt;/<span class="t">string</span>&gt;
+
+&lt;!-- Ergebnisbereich. --&gt;
+&lt;<span class="t">string</span> name=<span class="s">"result_format"</span>&gt;Du hast %1$d von %2$d Punkten erreicht.&lt;/<span class="t">string</span>&gt;</pre>
+<div class="tip">
+<p><b>Die Platzhalter <code>%1$d</code> und <code>%2$d</code> kennst du aus 03B.</b> Die Ziffer sagt, das wievielte Argument gemeint ist, das <code>d</code> sagt, dass es eine ganze Zahl ist. Bei <code>result_format</code> hast du zwei davon.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">A2</span><b>Die Konstante und die zwei Listen.</b></p>
+<p>Neue Felder in <code>MainActivity</code>. Sie kommen zu <code>currentQuestion</code> dazu, das bleibt.</p>
+<pre><span class="c">/** So viele Fragen hat eine Runde. */</span>
+<span class="k">private static final int</span> QUESTIONS_PER_ROUND = <span class="k">5</span>;
+
+<span class="c">/** Der ganze Fragenbestand. Später kommt er aus einer Datenbank. */</span>
+<span class="k">private</span> <span class="t">List</span>&lt;<span class="t">Question</span>&gt; allQuestions;
+
+<span class="c">/** Die fünf Fragen der laufenden Runde. */</span>
+<span class="k">private</span> <span class="t">List</span>&lt;<span class="t">Question</span>&gt; roundQuestions;
+
+<span class="c">/** Welche Frage der Runde gerade dran ist, beginnend bei 0. */</span>
+<span class="k">private int</span> currentIndex;</pre>
+<div class="note">
+<p><b>Warum die 5 eine Konstante ist und keine Zahl im Code.</b> Die Fünf taucht an zwei Orten auf, beim Ausschneiden der Runde und in der Anzeige. Eine Zahl, die an zwei Orten stehen muss, ist eine Zahl, die man an einem Ort vergisst.</p>
+<p><code>static final</code> und Grossbuchstaben sind die übliche Schreibweise dafür. Dein <code>TAG</code> ganz oben ist schon eine.</p>
+</div>
+<div class="warn">
+<p><b>Rot bei <code>List</code>?</b> Der Import fehlt. <code>Alt</code> und <code>Enter</code>, dann <code>java.util.List</code> wählen. Nicht eine der anderen Vorschläge, davon gibt es mehrere.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">A3</span><b>Die sieben Fragen. Diesen Block kopierst du.</b></p>
+<p>Beim Abtippen von Fragetexten lernst du nichts. Kopier den Block und lies ihn danach einmal durch. Interessant ist nur die Form: jede Frage ist ein <code>new Question(...)</code>, genau wie das eine Objekt aus 03D.</p>
+<pre><span class="c">/**
+ * Baut den Fragenbestand auf.
+ *
+ * Alle Fragen stehen fest im Code. Das ist mit Absicht umständlich.
+ * Wer eine Frage ändern will, muss die App neu bauen. Genau darum
+ * kommt später eine Datenbank dazu.
+ *
+ * @return alle sieben Fragen der Kategorie Technologie, nie null
+ */</span>
+<span class="k">private</span> <span class="t">List</span>&lt;<span class="t">Question</span>&gt; createQuestions() {
+    <span class="t">List</span>&lt;<span class="t">Question</span>&gt; questions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;();
+
+    questions.add(<span class="k">new</span> <span class="t">Question</span>(
+            <span class="s">"Was bedeutet die Abkürzung HTTP?"</span>,
+            <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"HyperText Transmission Program"</span>, <span class="s">"HyperText Transfer Program"</span>,
+                    <span class="s">"HyperText Transfer Protocol"</span>, <span class="s">"HyperText Transmission Protocol"</span>},
+            <span class="s">"HyperText Transfer Protocol"</span>, <span class="s">"Technologie"</span>, <span class="s">"leicht"</span>));
+    questions.add(<span class="k">new</span> <span class="t">Question</span>(
+            <span class="s">"Wer gründete zusammen mit Paul Allen das Unternehmen Microsoft?"</span>,
+            <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"Steve Ballmer"</span>, <span class="s">"Bill Gates"</span>, <span class="s">"Steve Jobs"</span>, <span class="s">"Larry Ellison"</span>},
+            <span class="s">"Bill Gates"</span>, <span class="s">"Technologie"</span>, <span class="s">"leicht"</span>));
+    questions.add(<span class="k">new</span> <span class="t">Question</span>(
+            <span class="s">"In welchem Jahr stellte Apple das erste iPhone der Öffentlichkeit vor?"</span>,
+            <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"2005"</span>, <span class="s">"2006"</span>, <span class="s">"2008"</span>, <span class="s">"2007"</span>},
+            <span class="s">"2007"</span>, <span class="s">"Technologie"</span>, <span class="s">"mittel"</span>));
+    questions.add(<span class="k">new</span> <span class="t">Question</span>(
+            <span class="s">"Welche Programmiersprache wurde von Guido van Rossum entwickelt?"</span>,
+            <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"Python"</span>, <span class="s">"PHP"</span>, <span class="s">"Ruby"</span>, <span class="s">"Perl"</span>},
+            <span class="s">"Python"</span>, <span class="s">"Technologie"</span>, <span class="s">"schwer"</span>));
+    questions.add(<span class="k">new</span> <span class="t">Question</span>(
+            <span class="s">"Wofür steht die Abkürzung GPU im Computerbereich?"</span>,
+            <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"General Processing Unit"</span>, <span class="s">"Global Processing Utility"</span>,
+                    <span class="s">"Graphics Processing Unit"</span>, <span class="s">"Graphical Power Unit"</span>},
+            <span class="s">"Graphics Processing Unit"</span>, <span class="s">"Technologie"</span>, <span class="s">"leicht"</span>));
+    questions.add(<span class="k">new</span> <span class="t">Question</span>(
+            <span class="s">"Welche Sprache wird primär für Spring Boot verwendet?"</span>,
+            <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"Java"</span>, <span class="s">"Python"</span>, <span class="s">"Ruby"</span>, <span class="s">"PHP"</span>},
+            <span class="s">"Java"</span>, <span class="s">"Technologie"</span>, <span class="s">"leicht"</span>));
+    questions.add(<span class="k">new</span> <span class="t">Question</span>(
+            <span class="s">"Welche HTTP-Methode wird typischerweise zum Erstellen einer Ressource verwendet?"</span>,
+            <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"DELETE"</span>, <span class="s">"POST"</span>, <span class="s">"GET"</span>, <span class="s">"HEAD"</span>},
+            <span class="s">"POST"</span>, <span class="s">"Technologie"</span>, <span class="s">"mittel"</span>));
+
+    <span class="k">return</span> questions;
+}</pre>
+<p>In <code>onCreate</code> ersetzt du die alte Zeile <code>currentQuestion = new Question(...)</code> durch diese zwei:</p>
+<pre>allQuestions = createQuestions();
+Log.d(TAG, <span class="s">"question bank loaded, size="</span> + allQuestions.size());</pre>
+<div class="warn">
+<p><b>Jetzt ist deine App kaputt, und das ist richtig so.</b> <code>currentQuestion</code> ist nirgends mehr gefüllt. Beim Start stürzt sie ab. Repariert wird das in Teil C.</p>
+<p>Du kannst Teil A trotzdem abschliessen. Es muss übersetzen, es muss noch nicht laufen.</p>
+</div>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil A.</b></p>
+<ul>
+<li><code>strings.xml</code> hat sechs Einträge.</li>
+<li>Nichts ist rot. <code>List</code> und <code>ArrayList</code> sind importiert.</li>
+<li><code>createQuestions</code> hat sieben <code>questions.add(...)</code>.</li>
+<li>Die App übersetzt. Sie stürzt beim Start ab, das ist im Moment richtig.</li>
+</ul>
+</div>
+
+
+<h3>Teil B, der zweiteilige Bildschirm <span class="time">18 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">B1</span><b>Den Weiter-Knopf einbauen.</b></p>
+<p>Neu im Layout, direkt <b>unter</b> dem LinearLayout <code>llAnswers</code> und noch im ConstraintLayout. Wir bauen ihn zuerst genau so ein, wie du es aus 03B kennst, mit Ankern.</p>
+<pre>&lt;<span class="t">Button</span>
+    android:id=<span class="s">"@+id/btnNext"</span>
+    android:layout_width=<span class="s">"0dp"</span>
+    android:layout_height=<span class="s">"wrap_content"</span>
+    android:layout_marginTop=<span class="s">"24dp"</span>
+    android:text=<span class="s">"@string/btn_next"</span>
+    android:visibility=<span class="s">"gone"</span>
+    tools:visibility=<span class="s">"visible"</span>
+    app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span>
+    app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
+    app:layout_constraintTop_toBottomOf=<span class="s">"@id/llAnswers"</span> /&gt;</pre>
+<p>Dazu ein Feld und sein <code>findViewById</code>, wie immer zusammen:</p>
+<pre><span class="c">/** Der Weiter-Knopf. Erscheint erst, wenn geantwortet wurde. */</span>
+<span class="k">private</span> <span class="t">Button</span> btnNext;</pre>
+<p>Und in <code>onAnswerClicked</code>, gleich nach <code>lockAnswers()</code>, eine Zeile:</p>
+<pre>btnNext.setVisibility(<span class="t">View</span>.VISIBLE);</pre>
+<div class="tip">
+<p><b><code>tools:visibility</code> ist der Bruder von <code>tools:text</code>.</b> Auf dem Gerät gilt <code>android:visibility="gone"</code>, der Knopf ist beim Start weg. In der Vorschau von Android Studio gilt <code>tools:visibility="visible"</code>, dort siehst du ihn. So kannst du das Layout gestalten, ohne den Knopf dauernd sichtbar zu schalten.</p>
+<p>Wenn dir bis heute nicht klar war, warum manche Zeilen mit <code>android:</code> anfangen und andere mit <code>app:</code> oder <code>tools:</code>, dann lies <b>XML verstehen</b> im Thema Nachschlagen. Abschnitt 5 erklärt genau diesen Fall.</p>
+</div>
+<div class="warn">
+<p><b>Deine App läuft immer noch nicht.</b> Setz für diesen einen Test <code>currentQuestion = allQuestions.get(0);</code> direkt nach <code>allQuestions = createQuestions();</code> und ruf danach <code>showQuestion();</code> und <code>showScore();</code> auf, so wie es gestern war. Diese Krücke fliegt in Teil C wieder raus.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">B2</span><b>Starten, antworten, drehen. Schau genau hin.</b></p>
+<p>Start die App. Tipp eine Antwort an. Der Weiter-Knopf erscheint unter den vier Antworten.</p>
+<p><b>Jetzt dreh den Emulator ins Querformat</b>, mit <code>Strg</code> und <code>Pfeil links</code> oder über den Knopf in der Emulator-Leiste.</p>
+<p><b>Sag in einem Satz, was mit dem Weiter-Knopf passiert.</b> Genau danach fragt der Wissenscheck.</p>
+<div class="warn">
+<p>Nicht reparieren, nur schauen. Repariert wird in B3.</p>
+<p>Falls bei dir im Querformat noch alles passt: schau, ob du die <b>vierte Antwort und den Weiter-Knopf gleichzeitig</b> siehst. Das ist der Punkt.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">B3</span><b>Den Fragebereich in eine ScrollView packen.</b></p>
+<p>Das ConstraintLayout schneidet ab, was nicht auf den Bildschirm passt. Es scrollt nicht von selbst. Also brauchst du einen Container, der das kann.</p>
+<p>Der Umbau geht in drei Handgriffen:</p>
+<ol>
+<li>Eine <code>ScrollView</code> <code>svQuestion</code> direkt ins ConstraintLayout, mit Breite und Höhe <code>0dp</code> und allen vier Ankern am Parent.</li>
+<li>Darin ein <code>LinearLayout</code> <code>llQuestion</code>, senkrecht, <code>match_parent</code> breit und <code>wrap_content</code> hoch.</li>
+<li>Alle bisherigen Views wandern als Children in dieses LinearLayout. Dabei fallen <b>alle</b> <code>app:layout_constraint...</code>-Zeilen weg, denn im LinearLayout gibt es keine Anker.</li>
+</ol>
+<p>Die Kopfzeile mit Kategorie und Punkten war bisher mit Ankern gebaut. Im LinearLayout brauchst du dafür ein waagrechtes LinearLayout <code>llHeader</code>. Dazu kommt die neue Anzeige <code>tvProgress</code>.</p>
+<pre>&lt;<span class="t">ScrollView</span>
+    android:id=<span class="s">"@+id/svQuestion"</span>
+    android:layout_width=<span class="s">"0dp"</span>
+    android:layout_height=<span class="s">"0dp"</span>
+    app:layout_constraintBottom_toBottomOf=<span class="s">"parent"</span>
+    app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span>
+    app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
+    app:layout_constraintTop_toTopOf=<span class="s">"parent"</span>&gt;
+
+    &lt;<span class="t">LinearLayout</span>
+        android:id=<span class="s">"@+id/llQuestion"</span>
+        android:layout_width=<span class="s">"match_parent"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:orientation=<span class="s">"vertical"</span>&gt;
+
+        &lt;<span class="t">LinearLayout</span>
+            android:id=<span class="s">"@+id/llHeader"</span>
+            android:layout_width=<span class="s">"match_parent"</span>
+            android:layout_height=<span class="s">"wrap_content"</span>
+            android:orientation=<span class="s">"horizontal"</span>&gt;
+
+            &lt;<span class="t">TextView</span>
+                android:id=<span class="s">"@+id/tvCategory"</span>
+                android:layout_width=<span class="s">"0dp"</span>
+                android:layout_height=<span class="s">"wrap_content"</span>
+                android:layout_weight=<span class="s">"1"</span>
+                android:textSize=<span class="s">"14sp"</span>
+                android:textStyle=<span class="s">"bold"</span>
+                tools:text=<span class="s">"Technologie"</span> /&gt;
+
+            &lt;<span class="t">TextView</span>
+                android:id=<span class="s">"@+id/tvScore"</span>
+                android:layout_width=<span class="s">"wrap_content"</span>
+                android:layout_height=<span class="s">"wrap_content"</span>
+                android:textSize=<span class="s">"14sp"</span>
+                android:textStyle=<span class="s">"bold"</span>
+                tools:text=<span class="s">"Punkte 0"</span> /&gt;
+
+        &lt;/<span class="t">LinearLayout</span>&gt;
+
+        &lt;<span class="t">TextView</span>
+            android:id=<span class="s">"@+id/tvProgress"</span>
+            android:layout_width=<span class="s">"match_parent"</span>
+            android:layout_height=<span class="s">"wrap_content"</span>
+            android:layout_marginTop=<span class="s">"4dp"</span>
+            android:textSize=<span class="s">"14sp"</span>
+            tools:text=<span class="s">"Frage 1 von 5"</span> /&gt;
+
+        <span class="c">&lt;!-- tvQuestion, llAnswers und btnNext kommen hierhin.
+             Bei allen dreien alle app:layout_constraint-Zeilen löschen.
+             Breite überall auf match_parent. --&gt;</span>
+
+    &lt;/<span class="t">LinearLayout</span>&gt;
+
+&lt;/<span class="t">ScrollView</span>&gt;</pre>
+<div class="tip">
+<p><b><code>layout_weight="1"</code> bei <code>tvCategory</code> kennst du aus 02B.</b> Die Kategorie nimmt allen Platz, der übrig bleibt, und drückt damit die Punkte nach rechts. Deshalb steht ihre Breite auf <code>0dp</code>.</p>
+</div>
+<div class="warn">
+<p><b>Eine ScrollView hat genau ein Child.</b> Wenn du mehr als eine View direkt hineinlegst, meldet Android Studio einen Fehler. Darum das LinearLayout dazwischen.</p>
+</div>
+<p>Dreh jetzt nochmals ins Querformat. Der Weiter-Knopf ist erreichbar, notfalls musst du nach unten schieben.</p>
+</div>
+
+<div class="step">
+<p><span class="n">B4</span><b>Der Ergebnisbereich.</b></p>
+<p>Ein zweiter Bereich, ganz unten im ConstraintLayout, also <b>nach</b> der schliessenden Zeile der ScrollView.</p>
+<pre>&lt;<span class="t">LinearLayout</span>
+    android:id=<span class="s">"@+id/llResult"</span>
+    android:layout_width=<span class="s">"0dp"</span>
+    android:layout_height=<span class="s">"0dp"</span>
+    android:gravity=<span class="s">"center"</span>
+    android:orientation=<span class="s">"vertical"</span>
+    android:visibility=<span class="s">"gone"</span>
+    app:layout_constraintBottom_toBottomOf=<span class="s">"parent"</span>
+    app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span>
+    app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
+    app:layout_constraintTop_toTopOf=<span class="s">"parent"</span>&gt;
+
+    &lt;<span class="t">TextView</span>
+        android:id=<span class="s">"@+id/tvResult"</span>
+        android:layout_width=<span class="s">"match_parent"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:gravity=<span class="s">"center"</span>
+        android:textSize=<span class="s">"20sp"</span>
+        android:textStyle=<span class="s">"bold"</span>
+        tools:text=<span class="s">"Du hast 4 von 5 Punkten erreicht."</span> /&gt;
+
+    &lt;<span class="t">Button</span>
+        android:id=<span class="s">"@+id/btnRestart"</span>
+        android:layout_width=<span class="s">"wrap_content"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:layout_marginTop=<span class="s">"24dp"</span>
+        android:text=<span class="s">"@string/btn_restart"</span> /&gt;
+
+&lt;/<span class="t">LinearLayout</span>&gt;</pre>
+<div class="info">
+<p><b>Beide Bereiche hängen an denselben vier Ankern.</b> Sie liegen also genau übereinander und füllen beide den ganzen Bildschirm. Weil immer einer von beiden auf <code>gone</code> steht, siehst du trotzdem nur einen.</p>
+<p>Das ist die billigste Art, zwei Bildschirme zu bauen, ohne zwei Activities zu haben. Ab Tag 3 machst du es richtig, mit einer eigenen Activity. Heute reicht das Ein- und Ausblenden.</p>
+</div>
+<div class="warn">
+<p><b><code>gravity</code> und <code>layout_gravity</code> sind zwei verschiedene Dinge.</b> <code>gravity</code> ordnet den Inhalt <b>innerhalb</b> der View an, <code>layout_gravity</code> ordnet die View in ihrem Parent an. Hier brauchst du <code>gravity</code>, denn du willst Text und Knopf in der Mitte des Bereichs.</p>
+</div>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil B.</b></p>
+<ul>
+<li>Die Vorschau zeigt Kategorie und Punkte in einer Zeile, darunter "Frage 1 von 5".</li>
+<li>Im Component Tree hängt alles ausser <code>llResult</code> unter <code>svQuestion</code>.</li>
+<li>Nirgends steht mehr ein <code>app:layout_constraint...</code> innerhalb der ScrollView.</li>
+<li>Die App startet, du kannst antworten, der Weiter-Knopf erscheint.</li>
+<li><b>Im Querformat ist der Weiter-Knopf erreichbar</b>, notfalls nach dem Schieben.</li>
+<li>Vom Ergebnisbereich siehst du nichts. Er steht auf <code>gone</code>.</li>
+</ul>
+</div>
+
+
+<h3>Teil C, die Runde <span class="time">20 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">C1</span><b>Die Runde starten.</b></p>
+<p>Eine neue Methode. Sie schneidet die ersten fünf Fragen aus dem Bestand heraus und stellt alles auf Anfang.</p>
+<pre><span class="c">/**
+ * Startet eine neue Runde mit den ersten fünf Fragen des Bestands.
+ *
+ * Punktestand und Zähler gehen auf null zurück. Danach ist wieder der
+ * Fragebereich sichtbar und der Ergebnisbereich verschwunden.
+ */</span>
+<span class="k">private void</span> startRound() {
+    roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;(allQuestions.subList(<span class="k">0</span>, QUESTIONS_PER_ROUND));
+    currentIndex = <span class="k">0</span>;
+    score = <span class="k">0</span>;
+
+    llResult.setVisibility(<span class="t">View</span>.GONE);
+    svQuestion.setVisibility(<span class="t">View</span>.VISIBLE);
+
+    showQuestion();
+    Log.d(TAG, <span class="s">"round started"</span>);
+}</pre>
+<p>Jetzt baust du <code>showQuestion</code> um. Bisher nahm es <code>currentQuestion</code> als gegeben. Ab jetzt holt es sich die Frage selbst aus der Runde.</p>
+<pre><span class="k">private void</span> showQuestion() {
+    currentQuestion = roundQuestions.get(currentIndex);
+
+    tvProgress.setText(getString(R.string.progress_format,
+            currentIndex + <span class="k">1</span>, roundQuestions.size()));
+    tvCategory.setText(currentQuestion.getCategory());
+    tvQuestion.setText(currentQuestion.getText());
+    showScore();
+
+    <span class="t">String</span>[] answers = currentQuestion.getAnswers();
+    <span class="k">for</span> (<span class="k">int</span> i = <span class="k">0</span>; i &lt; answerButtons.length; i++) {
+        answerButtons[i].setText(answers[i]);
+    }
+
+    btnNext.setVisibility(<span class="t">View</span>.GONE);
+}</pre>
+<p>Dazu die fünf Views holen, die dein Code jetzt braucht. <b>Felder und <code>findViewById</code> gehören wie immer zusammen</b>, also legst du zuerst fünf Felder an. Die Typen sind:</p>
+<table>
+<tr><th>Feld</th><th>Typ</th></tr>
+<tr><td class="pre">svQuestion</td><td class="pre">ScrollView</td></tr>
+<tr><td class="pre">llResult</td><td class="pre">LinearLayout</td></tr>
+<tr><td class="pre">tvProgress</td><td class="pre">TextView</td></tr>
+<tr><td class="pre">tvResult</td><td class="pre">TextView</td></tr>
+<tr><td class="pre">btnRestart</td><td class="pre">Button</td></tr>
+</table>
+<p>Jedes Feld bekommt eine Javadoc-Zeile, so wie die anderen auch. Und dann die fünf Zeilen in <code>onCreate</code>, bei den bestehenden:</p>
+<pre>svQuestion = findViewById(R.id.svQuestion);
+llResult = findViewById(R.id.llResult);
+tvProgress = findViewById(R.id.tvProgress);
+tvResult = findViewById(R.id.tvResult);
+btnRestart = findViewById(R.id.btnRestart);</pre>
+<div class="warn">
+<p><b>Rot bei <code>ScrollView</code> oder <code>LinearLayout</code>?</b> Auch dafür fehlt der Import. <code>Alt</code> und <code>Enter</code>, dann <code>android.widget.ScrollView</code> und <code>android.widget.LinearLayout</code>.</p>
+</div>
+<p>Und die zwei neuen Klick-Behandlungen, direkt bei den anderen:</p>
+<pre>btnNext.setOnClickListener(v -&gt; onNextClicked());
+btnRestart.setOnClickListener(v -&gt; startRound());</pre>
+<p>Zum Schluss in <code>onCreate</code> die Krücke aus B1 löschen. Statt <code>currentQuestion = ...</code>, <code>showQuestion()</code> und <code>showScore()</code> steht dort ab jetzt nur noch:</p>
+<pre>startRound();</pre>
+<div class="warn">
+<p><b><code>onNextClicked</code> gibt es noch nicht.</b> Es wird rot. Das kommt in C3. Du kannst es auch jetzt schon mit <code>Alt</code> und <code>Enter</code> als leere Methode erzeugen lassen.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">C2</span><b>Weiter drücken. Schau genau hin.</b></p>
+<p>Ergänz <code>onNextClicked</code> vorläufig mit zwei Zeilen, damit du überhaupt weiterkommst:</p>
+<pre><span class="k">private void</span> onNextClicked() {
+    currentIndex++;
+    showQuestion();
+}</pre>
+<p>Start die App. Antworte auf Frage 1. Drück Weiter.</p>
+<p><b>Schau dir die vier Antwort-Buttons an und sag in einem Satz, was mit ihnen nicht stimmt.</b> Genau danach fragt der Wissenscheck.</p>
+<div class="warn">
+<p>Nicht reparieren, nur schauen. Repariert wird in C3.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">C3</span><b>Zurücksetzen und Runde beenden.</b></p>
+<p>Du hast in 03C zwei Dinge an den Buttons verändert, die Farbe und die Sperre. Beides klebt jetzt an ihnen. Also musst du beides zurücknehmen, bevor die nächste Frage erscheint.</p>
+<p>Dafür brauchst du den Auslieferungszustand. Den musst du dir merken, <b>bevor</b> du zum ersten Mal einfärbst. Zwei neue Felder:</p>
+<pre><span class="c">/**
+ * Die Hintergrundfarbe der Buttons im Auslieferungszustand.
+ *
+ * Wir merken sie uns, bevor wir sie das erste Mal überschreiben. Sonst
+ * lässt sich die Markierung bei der nächsten Frage nicht zurücknehmen.
+ */</span>
+<span class="k">private</span> <span class="t">ColorStateList</span> defaultButtonTint;
+
+<span class="c">/** Die Textfarbe der Buttons im Auslieferungszustand. */</span>
+<span class="k">private</span> <span class="t">ColorStateList</span> defaultButtonTextColors;</pre>
+<p>Gefüllt werden sie in <code>onCreate</code>, direkt nachdem das Array <code>answerButtons</code> steht:</p>
+<pre><span class="c">// Den Auslieferungszustand sichern, bevor irgendetwas eingefärbt wird.</span>
+defaultButtonTint = answerButtons[<span class="k">0</span>].getBackgroundTintList();
+defaultButtonTextColors = answerButtons[<span class="k">0</span>].getTextColors();</pre>
+<p>Und die Schleife in <code>showQuestion</code> bekommt drei Zeilen dazu:</p>
+<pre><span class="k">for</span> (<span class="k">int</span> i = <span class="k">0</span>; i &lt; answerButtons.length; i++) {
+    <span class="t">Button</span> button = answerButtons[i];
+    button.setText(answers[i]);
+    button.setEnabled(<span class="k">true</span>);
+    button.setBackgroundTintList(defaultButtonTint);
+    button.setTextColor(defaultButtonTextColors);
+}</pre>
+<div class="note">
+<p><b>Warum nicht einfach <code>setBackgroundTintList(null)</code>?</b> Dann ist der Button farblos, ein blasses Rechteck ohne Fläche. <code>null</code> heisst "gar keine Färbung", nicht "die vom Anfang". Die Farbe vom Anfang kennt nur der Button selbst, und darum fragst du ihn, bevor du sie überschreibst.</p>
+<p>Dasselbe gilt für die Textfarbe. <code>Color.WHITE</code> aus 03C ist eine einzelne Farbe, die ursprüngliche ist eine <code>ColorStateList</code> mit einem Wert je Zustand. Deshalb der Typ.</p>
+</div>
+<p>Jetzt die richtige Fassung von <code>onNextClicked</code> und die Methode für das Ergebnis:</p>
+<pre><span class="c">/**
+ * Schaltet zur nächsten Frage oder beendet die Runde.
+ *
+ * Erst hochzählen, dann prüfen, dann entscheiden. Eine Liste mit
+ * fünf Einträgen hat die Plätze 0 bis 4.
+ */</span>
+<span class="k">private void</span> onNextClicked() {
+    currentIndex++;
+    <span class="k">if</span> (currentIndex &lt; roundQuestions.size()) {
+        showQuestion();
+    } <span class="k">else</span> {
+        showResult();
+    }
+}
+
+<span class="c">/** Blendet den Fragebereich aus und den Ergebnisbereich ein. */</span>
+<span class="k">private void</span> showResult() {
+    tvResult.setText(getString(R.string.result_format, score, roundQuestions.size()));
+
+    svQuestion.setVisibility(<span class="t">View</span>.GONE);
+    llResult.setVisibility(<span class="t">View</span>.VISIBLE);
+
+    Log.d(TAG, <span class="s">"round finished, score="</span> + score);
+}</pre>
+<div class="warn">
+<p><b>Ausgeblendet wird <code>svQuestion</code>, nicht <code>llQuestion</code>.</b> Wer das LinearLayout versteckt, hat danach eine leere, aber weiterhin sichtbare ScrollView über dem Ergebnis liegen. Sie fängt jede Berührung ab, und der Knopf "Nochmals spielen" reagiert nicht mehr.</p>
+<p>Die Regel dahinter: ein Container, der etwas versteckt, muss sich selbst verstecken. Nicht nur seinen Inhalt.</p>
+</div>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil C.</b></p>
+<ul>
+<li>Beim Start steht oben <b>Frage 1 von 5</b> und <b>Punkte 0</b>. Kein Weiter-Knopf.</li>
+<li>Richtig antworten färbt grün und zählt einen Punkt. Der Weiter-Knopf erscheint.</li>
+<li>Weiter. <b>Frage 2 von 5</b>, alle vier Buttons wieder normal und antippbar. Kein grüner Rest.</li>
+<li>Nach der fünften Frage kommt das Ergebnis mit deiner Punktzahl.</li>
+<li><b>Nochmals spielen</b> reagiert und beginnt bei Frage 1 von 5, Punkte 0.</li>
+<li>Im Logcat unter <code>Modul335</code>: <code>question bank loaded, size=7</code>, dann <code>round started</code>, pro Antwort eine Zeile, am Schluss <code>round finished, score=</code>.</li>
+</ul>
+</div>
+
+
+<h3>Übungen <span class="time">5 Minuten</span></h3>
+<p>Ohne Vorlage. Die Lösungen findest du im Material <b>04A Lösung - Die Fragenliste und die Runde</b>.</p>
+
+<div class="ue">
+<div class="t">Übung 1, die Runde verlängern</div>
+<p>Stell die Runde auf sieben Fragen um. Du fasst dafür genau eine Zeile an.</p>
+<p><b>So prüfst du:</b> Oben steht <b>Frage 1 von 7</b>, und die Runde geht über alle sieben Fragen. Setz den Wert danach testweise auf <b>8</b> und schau, was passiert. Stell ihn dann auf 5 zurück.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 2, der letzte Knopf heisst anders</div>
+<p>Bei der letzten Frage der Runde soll auf dem Weiter-Knopf <b>Ergebnis</b> stehen statt <b>Weiter</b>. Der neue Text gehört nach <code>strings.xml</code>.</p>
+<p><b>So prüfst du:</b> Bei Frage 5 steht Ergebnis, bei Frage 1 bis 4 steht Weiter. Nach <b>Nochmals spielen</b> steht bei Frage 1 wieder Weiter.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 3, erklären</div>
+<p>Erkläre einem Lerngspänli, warum <code>showQuestion</code> die vier Buttons zurücksetzen muss, obwohl im Layout nirgends etwas von grün oder gesperrt steht.</p>
+<p><b>So prüfst du:</b> Dein Gegenüber kann eine zweite Stelle in deinem Projekt nennen, an der dasselbe Prinzip gilt.</p>
+</div>
+
+
+<h3>Zusatzaufgabe für Schnelle</h3>
+<div class="tip">
+<p>Zuerst die Pflichtaufgabe fertig und lauffähig. Dann erst hier weiter.</p>
+<p><b>Auftrag:</b> Ersetz den Text "Frage 3 von 5" durch einen Balken, der mitwächst.</p>
+<p><b>Und die Frage, die dazugehört:</b> Soll der Balken den <b>Fortschritt</b> zeigen oder die <b>richtigen Antworten</b>? Beides hat einen Sinn. Entscheide dich und begründe es in einem Satz.</p>
+<p>Keine Musterlösung. KI darfst du benutzen, aber du musst deine Lösung erklären können.</p>
+</div>
+
+
+<h3>Wenn etwas nicht funktioniert</h3>
+<table>
+<tr><th>Das siehst du</th><th>Ursache</th><th>Das machst du</th></tr>
+<tr><td>Rot: <code>cannot resolve symbol 'List'</code> oder <code>'ArrayList'</code></td><td>Der Import fehlt</td><td><code>Alt</code> und <code>Enter</code>, dann <code>java.util.List</code> und <code>java.util.ArrayList</code>. Siehe A2</td></tr>
+<tr><td>Absturz beim Start: <code>NullPointerException</code> auf <code>null object reference</code></td><td>Ein Feld hat kein <code>findViewById</code>. Es ist angelegt, aber leer</td><td>Siehe C1. Fünf neue Views brauchen fünf neue Zeilen</td></tr>
+<tr><td>Absturz beim Start: <code>IndexOutOfBoundsException: fromIndex 0, toIndex 5</code></td><td>Der Bestand hat weniger als fünf Fragen</td><td>Zähl die <code>questions.add(...)</code> in <code>createQuestions</code>. Es müssen sieben sein</td></tr>
+<tr><td>Absturz bei der letzten Frage: <code>IndexOutOfBoundsException: Index 5, Size 5</code></td><td>In <code>onNextClicked</code> steht <code>&lt;=</code> statt <code>&lt;</code>, oder die Prüfung fehlt ganz</td><td>Erst hochzählen, dann prüfen, dann entscheiden. Siehe C3</td></tr>
+<tr><td>Die zweite Frage ist schon beantwortet, ein Button ist grün und alle sind gesperrt</td><td>In <code>showQuestion</code> fehlt das Zurücksetzen</td><td>Drei Zeilen je Button: <code>setEnabled(true)</code>, <code>setBackgroundTintList</code>, <code>setTextColor</code>. Siehe C3</td></tr>
+<tr><td>Die Buttons sind nach dem Zurücksetzen farblos und flach</td><td><code>setBackgroundTintList(null)</code> statt der gesicherten Farbe</td><td><code>defaultButtonTint</code> benutzen. Es wird in <code>onCreate</code> gefüllt</td></tr>
+<tr><td>Nach <b>Nochmals spielen</b> reagiert kein Knopf</td><td>Der Code schaltet <code>llQuestion</code> auf <code>GONE</code> statt <code>svQuestion</code></td><td>Die leere ScrollView liegt über dem Ergebnis und fängt jede Berührung ab. Siehe C3</td></tr>
+<tr><td>Im Querformat fehlt der Weiter-Knopf, kein Absturz, nichts im Logcat</td><td>Der Fragebereich ist höher als der Bildschirm und wird abgeschnitten</td><td>Siehe B3. ScrollView mit <code>0dp</code> und vier Ankern</td></tr>
+<tr><td>Der Weiter-Knopf ist von Anfang an sichtbar</td><td><code>android:visibility="gone"</code> fehlt im XML</td><td>Siehe B1. <code>tools:visibility</code> allein wirkt nur in der Vorschau</td></tr>
+<tr><td>Der Ergebnisbereich liegt beim Start über der Frage</td><td><code>android:visibility="gone"</code> fehlt bei <code>llResult</code></td><td>Siehe B4</td></tr>
+<tr><td>Fehler im Layout: <code>ScrollView can host only one direct child</code></td><td>Mehr als eine View direkt in der ScrollView</td><td>Alles in das eine LinearLayout <code>llQuestion</code> legen. Siehe B3</td></tr>
+<tr><td>Alles liegt nebeneinander statt untereinander</td><td><code>android:orientation="vertical"</code> fehlt am LinearLayout</td><td>Ohne Angabe steht ein LinearLayout waagrecht</td></tr>
+<tr><td>Der Punktestand bleibt beim Start leer</td><td><code>showScore()</code> wird nicht mehr aufgerufen</td><td>Es steht ab jetzt in <code>showQuestion</code>. Siehe C1</td></tr>
+</table>
+
+<h3>Abgabe</h3>
+<p>Alles läuft über die Aufgabe <b>04A Auftrag - Die Fragenliste und die Runde</b> in Google Classroom.</p>
+<ol>
+<li>Screenshot mit der Zeile <b>Frage 3 von 5</b>.</li>
+<li>Screenshot des Ergebnisbildschirms.</li>
+</ol>
+<p>Der <b>04AB Wissenscheck</b> kommt nach 04B und deckt beide Aufträge zusammen ab.</p>
+
+
+<h2>03 Guide</h2>
+<table>
+<tr><td>Zeitbudget</td><td>55 Minuten. Teil A 12, Teil B 18, Teil C 20, Übungen 5</td></tr>
+<tr><td>Sozialform</td><td>Einzelarbeit. Bei den Denkfragen und Übung 3 zu zweit</td></tr>
+<tr><td>Aufgabenart</td><td>Ausbau mit zwei Entdeckungsstellen (B2 der Weiter-Knopf im Querformat, C2 der grüne Rest)</td></tr>
+<tr><td>Voraussetzung</td><td>03D, dazu Listen und Schleifen aus dem Java-Unterricht</td></tr>
+<tr><td>KI</td><td>In Teil A bis C <b>nicht</b> erlaubt. Die Kurzwege von Android Studio schon</td></tr>
+<tr><td>Abgabe</td><td>Zwei Screenshots. <b>Kein Arbeitsblatt und kein ZIP.</b> Der Wissenscheck folgt nach 04B</td></tr>
+</table>
+
+<h3>Die zwei Beiträge in Google Classroom</h3>
+<table>
+<tr><th>Name</th><th>Typ</th><th>Einstellung</th></tr>
+<tr><td>04A Auftrag - Die Fragenliste und die Runde</td><td>Aufgabe</td><td>Dieses Dokument liegt als Anhang bei, nur zum Ansehen. Abgegeben werden zwei Screenshots</td></tr>
+<tr><td>04A Lösung - Die Fragenliste und die Runde</td><td>Material</td><td>Schüler können Datei ansehen. Enthält den vollständigen Code als Text und die Vergleichsliste</td></tr>
+</table>
+
+
+<h2>04 Unterrichtsmittel</h2>
+<table>
+<tr><th>Art</th><th>Was</th></tr>
+<tr><td>Hardware</td><td>Eigenes Notebook, laufender Emulator Medium Phone API 36.1</td></tr>
+<tr><td>Software und Tools</td><td>Android Studio Quail 2, Patch 1</td></tr>
+<tr><td>Dokumente</td><td>Layouts verstehen, XML verstehen. Beide liegen im Thema Nachschlagen</td></tr>
+<tr><td>Buch</td><td>Android-Apps entwickeln für Einsteiger, Kapitel 4 Layouts und Container</td></tr>
+</table>
+
+
+<p class="foot">Modul 335 | Tag 2 Nachmittag | Auftrag 04A | Fassung 1 | 14.08.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>
