@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>03D Die Datenklasse Question</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>03D Die Datenklasse Question</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 2 Vormittag. Zeitbudget 45 Minuten. Fassung 3 vom 14.08.2026.</p>
+<p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
+
+
+<h2>01 Einführung</h2>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>2.3</td><td>App-Architekturen kennen, Daten und Oberfläche trennen</td></tr>
+<tr><td>2.4</td><td>Persistenzlösungen vorbereiten, Daten als Objekte modellieren</td></tr>
+<tr><td>3.2</td><td>Framework und APIs der Plattform einsetzen</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du schreibst eine Datenklasse mit privaten Feldern, Konstruktor und Gettern.</li>
+<li>Du erklärst, warum eine Methode wie <code>isCorrect</code> in die Datenklasse gehört und nicht in die Activity.</li>
+<li>Du unterscheidest <b>Daten</b> von <b>Beschriftung</b> und legst beide am richtigen Ort ab.</li>
+<li>Du füllst einen Bildschirm aus einem Objekt statt aus Ressourcen.</li>
+<li>Du zählst, an wie vielen Stellen eine Änderung nötig ist, und beurteilst danach eine Lösung.</li>
+</ul>
+
+<h3>Das brauchst du vorher</h3>
+<ul>
+<li>Dein Projekt <b>WissQuiz</b> nach 03C. Der Klick wird ausgewertet, markiert und gesperrt.</li>
+<li>Du kennst Klassen, Felder, Konstruktor und Getter aus dem Java-Unterricht.</li>
+</ul>
+
+<h3>Das gibst du ab</h3>
+<ul>
+<li>Screenshot deiner App mit der Frage <b>aus dem Objekt</b>, nach einer beantworteten Frage.</li>
+<li>Screenshot deiner Datei <code>Question.java</code>, ganz oder der obere Teil.</li>
+<li>Den ausgefüllten <b>03CD Wissenscheck</b>. Er deckt 03C und 03D zusammen ab.</li>
+</ul>
+<p>Mehr nicht. Kein Arbeitsblatt und <b>kein Projekt als ZIP</b>. Ob dein Code sauber ist, prüfst du selbst mit der Vergleichsliste im Lösungsmaterial.</p>
+
+<div class="info">
+<p><b>Am Ende sieht deine App genau gleich aus wie jetzt.</b> Dieselbe Frage, dieselben vier Antworten, dasselbe Verhalten. Trotzdem ist es der wichtigste Umbau der ganzen Woche.</p>
+<p>Denn danach ist eine <b>andere</b> Frage eine einzige geänderte Zeile. Heute sind es sechs Stellen. Genau das rechnest du am Schluss selbst nach.</p>
+</div>
+
+
+<h2>02 Auftrag</h2>
+
+<h3>Ausgangslage</h3>
+<p>Deine Frage steckt in <code>strings.xml</code>, verteilt auf fünf Einträge. Die richtige Antwort steht als sechster Wert im Java-Code. Das hat für eine Frage funktioniert.</p>
+<p>Heute zieht die Frage in ein eigenes Objekt um. Fragetext, vier Antworten, die richtige, dazu Kategorie und Schwierigkeit, alles an einem Ort.</p>
+
+<h3>Werkzeugkasten</h3>
+<table>
+<tr><th>Baustein</th><th>Wofür</th></tr>
+<tr><td class="pre">class</td><td>Eine eigene Klasse für die Daten einer Frage</td></tr>
+<tr><td class="pre">private</td><td>Felder von aussen unerreichbar machen</td></tr>
+<tr><td class="pre">Konstruktor</td><td>Ein Objekt mit allen Werten auf einmal erzeugen</td></tr>
+<tr><td class="pre">Getter</td><td>Einen Wert von aussen lesbar machen</td></tr>
+<tr><td class="pre">String[]</td><td>Ein Array. Hält die vier Antworten in der Reihenfolge der Buttons</td></tr>
+<tr><td class="pre">package</td><td>Ordnung im Code. Daten kommen in ein eigenes Package</td></tr>
+<tr><td class="pre">tools:text</td><td>Platzhaltertext, den nur die Vorschau zeigt. Kennst du aus 03B</td></tr>
+</table>
+
+<h3>Namen im Code</h3>
+<table>
+<tr><th>Name</th><th>Was es ist</th></tr>
+<tr><td class="pre">ch.wiss.m335.quiz.model</td><td>Neues Package. Hier liegen die Datenklassen</td></tr>
+<tr><td class="pre">Question</td><td>Die Klasse</td></tr>
+<tr><td class="pre">text, answers, correctAnswer, category, difficulty</td><td>Die fünf Felder</td></tr>
+<tr><td class="pre">isCorrect</td><td>Methode der Klasse. Prüft eine angetippte Antwort</td></tr>
+<tr><td class="pre">currentQuestion</td><td>Feld in der Activity. Die Frage, die gerade auf dem Bildschirm steht</td></tr>
+<tr><td class="pre">showQuestion</td><td>Methode in der Activity. Füllt den Bildschirm aus dem Objekt</td></tr>
+</table>
+
+<h3>Denkfragen</h3>
+<ol>
+<li>Der Fragetext soll nach <code>strings.xml</code>, wo alle sichtbaren Texte hingehören. Oder doch nicht? Was unterscheidet den Fragetext von der Beschriftung eines Knopfs?</li>
+<li>Die Prüfung, ob eine Antwort richtig ist, steht heute in der Activity. Wo würde sie besser stehen, und warum?</li>
+<li>Die vier Antworten könnten als vier einzelne Felder stehen oder als ein Array. Was spricht für das Array?</li>
+<li>Deine App sieht am Ende genau gleich aus wie vorher. Woran misst du dann überhaupt, ob der Umbau etwas gebracht hat?</li>
+</ol>
+
+<div class="tip">
+<p><b>Diese vier Fragen kommen im 03CD Wissenscheck wieder.</b> Dasselbe gilt für das, was du in B2 und C1 beobachtest.</p>
+</div>
+
+
+<h3>Teil A, die Datenklasse <span class="time">18 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">A1</span><b>Ein eigenes Package anlegen.</b></p>
+<p>Rechtsklick auf <code>ch.wiss.m335.quiz</code> im Projektbaum, dann <code>New</code>, dann <code>Package</code>. Name: <code>model</code>.</p>
+<p>Darin: Rechtsklick, <code>New</code>, <code>Java Class</code>, Name <code>Question</code>.</p>
+<div class="tip">
+<p><b>Warum ein eigenes Package.</b> In <code>quiz</code> liegen die Bildschirme, in <code>quiz.model</code> die Daten. Diese Trennung kostet dich heute dreissig Sekunden und spart dir am Tag 4 eine Menge Sucherei, wenn sechs Activities und mehrere Datenklassen im Projekt liegen.</p>
+<p>Die Regel dahinter ist älter als Android: <b>was verschiedene Aufgaben hat, liegt an verschiedenen Orten.</b> Eine Activity zeigt etwas an. Eine Datenklasse weiss etwas.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">A2</span><b>Die fünf Felder. Diesen Block bekommst du vorgegeben.</b></p>
+<pre><span class="k">package</span> ch.wiss.m335.quiz.model;
+
+<span class="c">/**
+ * Eine einzelne Quizfrage.
+ *
+ * Diese Klasse hat bewusst dieselben Felder wie der Fragen-Export des
+ * WISS-Quiz aus Modul 295. Dadurch kann die App später Fragen direkt
+ * vom Server übernehmen, ohne dass etwas umbenannt werden muss.
+ */</span>
+<span class="k">public class</span> <span class="t">Question</span> {
+
+    <span class="c">/** Der Fragetext, zum Beispiel "Was ist die Hauptstadt der Schweiz?". */</span>
+    <span class="k">private</span> <span class="t">String</span> text;
+
+    <span class="c">/** Die vier möglichen Antworten in der Reihenfolge der Buttons. */</span>
+    <span class="k">private</span> <span class="t">String</span>[] answers;
+
+    <span class="c">/** Die richtige Antwort als Text. Muss in answers enthalten sein. */</span>
+    <span class="k">private</span> <span class="t">String</span> correctAnswer;
+
+    <span class="c">/** Kategorie: Sport, Technologie, Geographie oder Geschichte. */</span>
+    <span class="k">private</span> <span class="t">String</span> category;
+
+    <span class="c">/** Schwierigkeit: "leicht", "mittel" oder "schwer". */</span>
+    <span class="k">private</span> <span class="t">String</span> difficulty;</pre>
+<div class="note">
+<p><b>Warum alle Felder <code>private</code> sind.</b> Von aussen soll niemand einfach <code>frage.correctAnswer = "irgendwas"</code> schreiben können. Wer den Wert braucht, geht über einen Getter. Wer ihn ändern dürfte, bekäme einen Setter, und diese Klasse hat mit Absicht keine.</p>
+<p>Eine Frage ändert sich nicht, während sie auf dem Bildschirm steht.</p>
+</div>
+<div class="warn">
+<p><b><code>difficulty</code> brauchst du heute nicht.</b> Es steht trotzdem drin, weil die Fragen später aus einer Datei und noch später aus einer Datenbank kommen und dieses Feld dort vorhanden ist. Ein Feld nachträglich einzuführen kostet mehr als eines mitzuführen.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">A3</span><b>Der Konstruktor. Ab hier selbst.</b></p>
+<p>Er nimmt alle fünf Werte entgegen und legt sie in die Felder. Die Reihenfolge der Parameter ist die Reihenfolge der Felder oben.</p>
+<pre><span class="k">public</span> <span class="t">Question</span>(<span class="t">String</span> text, <span class="t">String</span>[] answers, <span class="t">String</span> correctAnswer,
+                <span class="t">String</span> category, <span class="t">String</span> difficulty) {
+    <span class="c">// hier die fünf Zuweisungen</span>
+}</pre>
+<div class="tip">
+<p><b>Der Kurzweg.</b> Android Studio schreibt dir den Konstruktor selbst. Cursor in die Klasse setzen, dann <code>Alt</code> und <code>Einfg</code>, dann <code>Constructor</code>, dann alle fünf Felder auswählen. Schau dir das Ergebnis trotzdem genau an, du musst es lesen können.</p>
+</div>
+<div class="warn">
+<p><b>Achtung bei <code>this</code>.</b> Der Parameter heisst gleich wie das Feld. Ohne <code>this.text = text;</code> würdest du den Parameter sich selbst zuweisen, und das Feld bliebe leer. Der Compiler warnt nicht, die App zeigt einfach nichts an.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">A4</span><b>Die Methode <code>isCorrect</code>. Diesen Block bekommst du vorgegeben.</b></p>
+<pre><span class="c">/**
+ * Prüft, ob eine angetippte Antwort richtig ist.
+ *
+ * Wir vergleichen den Text und nicht die Position. Dadurch bleibt die
+ * Prüfung auch dann korrekt, wenn die Antworten gemischt angezeigt werden.
+ *
+ * @param givenAnswer die Antwort, die der Spieler angetippt hat
+ * @return true, wenn die Antwort richtig ist
+ */</span>
+<span class="k">public boolean</span> isCorrect(<span class="t">String</span> givenAnswer) {
+    <span class="k">return</span> correctAnswer.equals(givenAnswer);
+}</pre>
+<div class="info">
+<p><b>Das ist der wichtigste Satz dieses Auftrags.</b> Bisher stand dieser Vergleich in der Activity. Jetzt steht er in der Frage.</p>
+<p>Eine Frage weiss selbst, was auf sie die richtige Antwort ist. Die Activity muss das nicht wissen, sie fragt nach. <b>Verhalten gehört dorthin, wo die Daten liegen.</b></p>
+<p>Das ist deine erste Begegnung mit dem Gedanken, dass eine Klasse nicht nur Felder hat, sondern auch etwas kann. In der Leistungsbeurteilung zahlt genau das Punkte.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">A5</span><b>Die fünf Getter. Ab hier selbst.</b></p>
+<p><code>getText</code>, <code>getAnswers</code>, <code>getCorrectAnswer</code>, <code>getCategory</code>, <code>getDifficulty</code>. Jeder mit einer kurzen Javadoc-Zeile.</p>
+<pre><span class="c">/** @return der Fragetext */</span>
+<span class="k">public</span> <span class="t">String</span> getText() {
+    <span class="k">return</span> text;
+}</pre>
+<p>Auch hier hilft <code>Alt</code> und <code>Einfg</code>, dann <code>Getter</code>. Die Javadoc-Zeilen schreibst du selbst.</p>
+<p>Setter gibt es keine. Das ist Absicht.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil A.</b></p>
+<ul>
+<li>Es gibt eine Datei <code>app/src/main/java/ch/wiss/m335/quiz/model/Question.java</code>.</li>
+<li>Nichts ist rot. Die Klasse übersetzt.</li>
+<li>Die App startet und sieht aus wie vorher. <b>Die neue Klasse wird noch von niemandem benutzt.</b> Das ist jetzt richtig so.</li>
+<li>Fünf private Felder, ein Konstruktor, <code>isCorrect</code>, fünf Getter, keine Setter.</li>
+</ul>
+</div>
+
+
+<h3>Teil B, die Frage aus dem Objekt <span class="time">17 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">B1</span><b>Ein Objekt anlegen.</b></p>
+<p>In <code>MainActivity</code> ersetzt du das Feld <code>correctAnswer</code> durch ein Feld für die ganze Frage.</p>
+<pre><span class="c">/**
+ * Die Frage, die gerade auf dem Bildschirm steht.
+ *
+ * Bisher stand die richtige Antwort in einem eigenen Feld. Jetzt weiss
+ * die Frage selbst, was auf sie richtig ist.
+ */</span>
+<span class="k">private</span> <span class="t">Question</span> currentQuestion;</pre>
+<p>In <code>onCreate</code>, dort wo bisher <code>correctAnswer = getString(…)</code> stand:</p>
+<pre>currentQuestion = <span class="k">new</span> <span class="t">Question</span>(
+        <span class="s">"Was bedeutet die Abkürzung HTTP?"</span>,
+        <span class="k">new</span> <span class="t">String</span>[]{
+                <span class="s">"HyperText Transmission Program"</span>,
+                <span class="s">"HyperText Transfer Program"</span>,
+                <span class="s">"HyperText Transfer Protocol"</span>,
+                <span class="s">"HyperText Transmission Protocol"</span>
+        },
+        <span class="s">"HyperText Transfer Protocol"</span>,
+        <span class="s">"Technologie"</span>,
+        <span class="s">"leicht"</span>);</pre>
+<div class="note">
+<p><b>Halt, Fragetexte im Java-Code? Sichtbare Texte gehören doch nach <code>strings.xml</code>.</b></p>
+<p>Beides stimmt, weil es zwei verschiedene Dinge sind.</p>
+<table>
+<tr><th></th><th>Beschriftung</th><th>Daten</th></tr>
+<tr><td>Beispiel</td><td>Weiter, Abbrechen, Punkte</td><td>Der Fragetext, die vier Antworten</td></tr>
+<tr><td>Wer ändert sie</td><td>der Entwickler, beim Übersetzen</td><td>der Benutzer, oder ein Server</td></tr>
+<tr><td>Wohin</td><td><code>strings.xml</code></td><td>ins Objekt, später in die Datenbank</td></tr>
+</table>
+<p><b>Die Faustregel:</b> was der Benutzer ändern könnte, sind Daten. Was der Entwickler übersetzt, ist Beschriftung. Am Tag 4 legt der Benutzer selbst neue Fragen an, dann ist es offensichtlich.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">B2</span><b>Die alten Texte löschen. Schau genau hin.</b></p>
+<p>Lösch in <code>res/values/strings.xml</code> alle sechs Einträge, die jetzt im Objekt stehen: <code>category_label</code> und <code>q1_text</code> bis <code>q1_answer4</code>. Übrig bleiben <code>app_name</code> und <code>score_format</code>.</p>
+<p><b>Zähl jetzt, wie viele Stellen rot werden</b>, und wo sie liegen. Sag es dir in einem Satz. Genau danach fragt der Wissenscheck.</p>
+<div class="warn">
+<p>Nicht reparieren, nur schauen. Repariert wird in B3 bis B5.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">B3</span><b>Das Layout aufräumen.</b></p>
+<p>Sechs Views zeigen jetzt Text, den der Code setzt. Also gilt dieselbe Regel wie beim Punktestand in 03B: <code>android:text</code> raus, <code>tools:text</code> rein.</p>
+<table>
+<tr><th>View</th><th>Vorher</th><th>Nachher</th></tr>
+<tr><td class="pre">tvCategory</td><td><code>android:text="@string/category_label"</code></td><td><code>tools:text="Technologie"</code></td></tr>
+<tr><td class="pre">tvQuestion</td><td><code>android:text="@string/q1_text"</code></td><td><code>tools:text="Was bedeutet die Abkürzung HTTP?"</code></td></tr>
+<tr><td class="pre">btnAnswer1 bis btnAnswer4</td><td><code>android:text="@string/q1_answer…"</code></td><td><code>tools:text="Antwort 1"</code> bis <code>tools:text="Antwort 4"</code></td></tr>
+</table>
+<div class="tip">
+<p><b>Warum die Platzhalter nicht die echten Antworten sind.</b> Bei den Buttons steht bewusst <code>Antwort 1</code> und nicht der richtige Text. In der Vorschau willst du sehen, wie das Layout mit <b>irgendeinem</b> Text aussieht. Wer dort die echten Antworten stehen lässt, hält die Vorschau irgendwann für das Ergebnis.</p>
+<p>Beim <code>tvQuestion</code> ist der lange echte Text sinnvoll, denn dort willst du sehen, ob er umbricht.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">B4</span><b>Zuerst die zwei neuen Views holen.</b></p>
+<p>Bisher hast du nur <code>tvScore</code> im Code gebraucht. Jetzt schreibt dein Code auch die Kategorie und den Fragetext. Also brauchst du zwei weitere Felder.</p>
+<pre><span class="c">/** Die Anzeige der Kategorie oben links. */</span>
+<span class="k">private</span> <span class="t">TextView</span> tvCategory;
+
+<span class="c">/** Die Anzeige des Fragetexts. */</span>
+<span class="k">private</span> <span class="t">TextView</span> tvQuestion;</pre>
+<p>Und zu jedem Feld gehört ein <code>findViewById</code>. Die drei Zeilen stehen zusammen in <code>onCreate</code>:</p>
+<pre>tvCategory = findViewById(R.id.tvCategory);
+tvScore = findViewById(R.id.tvScore);
+tvQuestion = findViewById(R.id.tvQuestion);</pre>
+<div class="note">
+<p><b>Diese drei Zeilen sind der häufigste Absturz dieses Auftrags.</b> Ein Feld anzulegen genügt nicht. Ein Feld vom Typ <code>TextView</code> ist zuerst <code>null</code>, und <code>null.setText(…)</code> stürzt ab.</p>
+<p><b>Die Regel:</b> ein Feld für eine View und sein <code>findViewById</code> gehören zusammen. Wer das eine schreibt, schreibt das andere gleich dazu.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">B5</span><b>Den Bildschirm aus dem Objekt füllen.</b></p>
+<p>Eine neue Methode. Sie ist der einzige Ort, an dem der Bildschirm gefüllt wird.</p>
+<pre><span class="c">/**
+ * Schreibt Kategorie, Fragetext und die vier Antworten auf den Bildschirm.
+ *
+ * Genau eine Methode füllt den Bildschirm. Wer den Text an mehreren
+ * Stellen setzt, vergisst irgendwann eine davon.
+ */</span>
+<span class="k">private void</span> showQuestion() {
+    tvCategory.setText(currentQuestion.getCategory());
+    tvQuestion.setText(currentQuestion.getText());
+
+    <span class="t">String</span>[] answers = currentQuestion.getAnswers();
+    <span class="k">for</span> (<span class="k">int</span> i = <span class="s">0</span>; i &lt; answerButtons.length; i++) {
+        answerButtons[i].setText(answers[i]);
+    }
+}</pre>
+<p>Der Aufruf gehört ans <b>Ende von <code>onCreate</code></b>, zusammen mit <code>showScore()</code>. Beide füllen den Bildschirm, beide laufen einmal beim Start.</p>
+<pre>showQuestion();
+showScore();
+Log.d(TAG, <span class="s">"MainActivity onCreate, Frage aus dem Objekt"</span>);</pre>
+<div class="warn">
+<p><b><code>showScore()</code> muss auch in <code>onCreate</code> stehen</b>, nicht nur im Klick. Sonst bleibt die Stelle oben rechts beim Start leer, denn im Layout steht dort nur <code>tools:text</code>. Das kennst du aus 03B.</p>
+</div>
+<div class="warn">
+<p><b>Diese Schleife läuft mit Zähler, nicht mit der Kurzform.</b> Du brauchst den Index <code>i</code>, weil du zwei Dinge gleichzeitig durchgehst: die Buttons und die Antworten. Die Kurzform <code>for (Button b : answerButtons)</code> gibt dir kein <code>i</code>.</p>
+</div>
+<p>Zum Schluss zwei Stellen, an denen noch die alte Prüfung steht. In <code>onAnswerClicked</code> und in <code>markAnswers</code> fragst du ab jetzt die Frage selbst:</p>
+<pre><span class="k">boolean</span> isCorrect = currentQuestion.isCorrect(givenAnswer);</pre>
+<div class="tip">
+<p><b>In <code>markAnswers</code> geht dasselbe.</b> Statt den richtigen Text über einen Getter zu holen und selbst zu vergleichen, fragst du <code>currentQuestion.isCorrect(text)</code>. Kürzer, und der Vergleich steht nur noch an einer einzigen Stelle im ganzen Projekt.</p>
+</div>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil B.</b></p>
+<ul>
+<li><code>strings.xml</code> hat noch genau zwei Einträge, <code>app_name</code> und <code>score_format</code>.</li>
+<li>Nichts ist rot.</li>
+<li>Die App startet und sieht aus wie gestern. Kategorie, Frage, vier Antworten.</li>
+<li>Richtig antworten färbt grün und zählt einen Punkt, falsch antworten färbt rot und grün.</li>
+<li>Im Layout steht nirgends mehr <code>android:text</code>, ausser du hast eine View, die der Code nicht anfasst.</li>
+<li>Der Vergleich <code>equals</code> steht im ganzen Projekt nur noch <b>einmal</b>, nämlich in <code>Question.isCorrect</code>.</li>
+</ul>
+</div>
+
+
+<h3>Teil C, der Beweis <span class="time">5 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">C1</span><b>Eine andere Frage. Zähl mit.</b></p>
+<p>Tausch die Frage gegen diese aus, ebenfalls Kategorie Technologie:</p>
+<table>
+<tr><th>Feld</th><th>Wert</th></tr>
+<tr><td>Fragetext</td><td>Wer gründete zusammen mit Paul Allen das Unternehmen Microsoft?</td></tr>
+<tr><td>Antworten</td><td>Steve Ballmer, Bill Gates, Steve Jobs, Larry Ellison</td></tr>
+<tr><td>Richtig</td><td>Bill Gates</td></tr>
+<tr><td>Kategorie</td><td>Technologie</td></tr>
+<tr><td>Schwierigkeit</td><td>leicht</td></tr>
+</table>
+<p><b>Zähl, wie viele Stellen im Projekt du dafür anfassen musst.</b> Und zähl daneben, wie viele es gestern gewesen wären.</p>
+<p>Sag dir das Ergebnis in einem Satz. Auch danach fragt der Wissenscheck.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil C.</b></p>
+<ul>
+<li>Die App zeigt die neue Frage mit den vier neuen Antworten.</li>
+<li>Ein Klick auf <b>Bill Gates</b> färbt grün und gibt einen Punkt.</li>
+<li>Du hast an genau einer Stelle im Projekt etwas geändert.</li>
+<li>Du kannst sagen, wie viele Stellen es vor dem Umbau gewesen wären.</li>
+</ul>
+</div>
+
+
+<h3>Übungen <span class="time">5 Minuten</span></h3>
+<p>Ohne Vorlage. Die Lösungen findest du im Material <b>03D Lösung - Die Datenklasse</b>.</p>
+
+<div class="ue">
+<div class="t">Übung 1, die Schwierigkeit anzeigen</div>
+<p>Zeig die Schwierigkeit der Frage irgendwo auf dem Bildschirm an. Das Feld gibt es schon, der Getter auch.</p>
+<p><b>So prüfst du:</b> Auf dem Bildschirm steht <b>leicht</b>. Wechselst du die Frage auf eine mit <code>"schwer"</code>, ändert sich die Anzeige mit, ohne dass du am Layout etwas tust.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 2, eine Frage prüfen</div>
+<p>Schreib in <code>Question</code> eine Methode <code>boolean isValid()</code>. Sie gibt <code>true</code> zurück, wenn genau vier Antworten da sind und die richtige Antwort unter ihnen vorkommt.</p>
+<p><b>So prüfst du:</b> Ruf sie testweise in <code>onCreate</code> auf und schreib das Ergebnis in den Logcat. Bau dann absichtlich eine falsche Frage und schau, ob deine Methode es merkt.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 3, erklären</div>
+<p>Erkläre einem Lerngspänli in eigenen Worten, warum <code>isCorrect</code> in <code>Question</code> steht und nicht in <code>MainActivity</code>.</p>
+<p><b>So prüfst du:</b> Dein Gegenüber kann danach eine zweite Methode nennen, die aus demselben Grund in die Datenklasse gehören würde.</p>
+</div>
+
+
+<h3>Zusatzaufgabe für Schnelle</h3>
+<div class="tip">
+<p>Zuerst die Pflichtaufgabe fertig und lauffähig. Dann erst hier weiter.</p>
+<p><b>Auftrag:</b> Deine Antworten stehen immer in derselben Reihenfolge, die richtige ist immer die dritte. Sorg dafür, dass sie bei jedem Start gemischt angezeigt werden.</p>
+<p><b>Und die Frage, die dazugehört:</b> Warum funktioniert deine Auswertung danach immer noch, ohne dass du an <code>isCorrect</code> etwas änderst? Erklär es mit einem Satz aus diesem Auftrag.</p>
+<p>Keine Musterlösung. KI darfst du benutzen, aber du musst deine Lösung erklären können.</p>
+</div>
+
+
+<h3>Wenn etwas nicht funktioniert</h3>
+<table>
+<tr><th>Das siehst du</th><th>Ursache</th><th>Das machst du</th></tr>
+<tr><td>Der Bildschirm bleibt leer, keine Frage, keine Antworten</td><td>Im Konstruktor fehlt <code>this.</code>, die Felder blieben leer</td><td><code>this.text = text;</code> statt <code>text = text;</code>. Siehe A3</td></tr>
+<tr><td>Rot: <code>cannot resolve symbol 'Question'</code> in der Activity</td><td>Der Import fehlt</td><td><code>Alt</code> und <code>Enter</code>. Die Klasse liegt in einem anderen Package</td></tr>
+<tr><td>Rot: <code>cannot resolve symbol '@string/q1_text'</code> im Layout</td><td>Der Eintrag wurde gelöscht, das Layout verweist noch darauf</td><td>Siehe B3. <code>android:text</code> raus, <code>tools:text</code> rein</td></tr>
+<tr><td>Absturz: <code>ArrayIndexOutOfBoundsException</code></td><td>Das Array hat weniger als vier Antworten</td><td>Genau vier eintragen. Die Schleife läuft über <code>answerButtons.length</code></td></tr>
+<tr><td>Absturz beim Start: <code>NullPointerException</code>, <code>TextView.setText(...) on a null object reference</code>, in <code>showQuestion</code></td><td><code>findViewById</code> für <code>tvCategory</code> oder <code>tvQuestion</code> fehlt. Das Feld ist angelegt, aber leer</td><td>Siehe B4. Es ist <b>kein</b> Reihenfolgeproblem: Java läuft von oben nach unten, nichts ist zu früh oder zu langsam. Die Zeile fehlt schlicht</td></tr>
+<tr><td>Jede Antwort gilt als falsch</td><td>Die richtige Antwort im Konstruktor steht anders geschrieben als im Array</td><td>Zeichen für Zeichen vergleichen. Ein Leerzeichen am Ende genügt</td></tr>
+<tr><td>In der Vorschau steht die Frage, im Emulator nicht</td><td><code>showQuestion()</code> wird nicht aufgerufen</td><td>Der Aufruf gehört ans Ende von <code>onCreate</code></td></tr>
+<tr><td>Gelb: <code>Field can be converted to a local variable</code></td><td>Ein Feld wird nur in einer Methode gebraucht</td><td>Prüfen, ob es wirklich ein Feld sein muss. Bei <code>currentQuestion</code> ja, es wird beim Klick gebraucht</td></tr>
+</table>
+
+<h3>Abgabe</h3>
+<p>Alles läuft über die Aufgabe <b>03D Auftrag - Die Datenklasse</b> in Google Classroom.</p>
+<ol>
+<li>Screenshot der laufenden App.</li>
+<li>Screenshot von <code>Question.java</code>.</li>
+<li>Danach den <b>03CD Wissenscheck</b> ausfüllen. Er deckt 03C und 03D zusammen ab.</li>
+</ol>
+
+
+<h2>03 Guide</h2>
+<table>
+<tr><td>Zeitbudget</td><td>45 Minuten. Teil A 18, Teil B 17, Teil C 5, Übungen 5</td></tr>
+<tr><td>Sozialform</td><td>Einzelarbeit. Bei den Denkfragen und Übung 3 zu zweit</td></tr>
+<tr><td>Aufgabenart</td><td>Umbau mit zwei Entdeckungsstellen (B2 wie weit ein Text streut, C1 wie viele Stellen eine Änderung kostet)</td></tr>
+<tr><td>Voraussetzung</td><td>03C, dazu Klassen und Getter aus dem Java-Unterricht</td></tr>
+<tr><td>KI</td><td>In Teil A bis C <b>nicht</b> erlaubt. Die Kurzwege von Android Studio schon</td></tr>
+<tr><td>Abgabe</td><td>Zwei Screenshots, dazu der 03CD Wissenscheck über beide Aufträge. <b>Kein Arbeitsblatt und kein ZIP</b></td></tr>
+</table>
+
+<h3>Die drei Beiträge in Google Classroom</h3>
+<table>
+<tr><th>Name</th><th>Typ</th><th>Einstellung</th></tr>
+<tr><td>03D Auftrag - Die Datenklasse</td><td>Aufgabe</td><td>Dieses Dokument liegt als Anhang bei, nur zum Ansehen. Abgegeben werden zwei Screenshots</td></tr>
+<tr><td>03CD Wissenscheck - Klick auswerten und Datenklasse</td><td>Aufgabe mit Quiz</td><td>Unbenotet, beliebig oft wiederholbar, kein Fälligkeitsdatum. Neun Fragen. <b>Deckt 03C und 03D ab</b>, wird nach 03D ausgefüllt</td></tr>
+<tr><td>03D Lösung - Die Datenklasse</td><td>Material</td><td>Schüler können Datei ansehen. Enthält den vollständigen Code als Text und die Vergleichsliste</td></tr>
+</table>
+
+
+<h2>04 Unterrichtsmittel</h2>
+<table>
+<tr><th>Art</th><th>Was</th></tr>
+<tr><td>Hardware</td><td>Eigenes Notebook, laufender Emulator Medium Phone API 36.1</td></tr>
+<tr><td>Software und Tools</td><td>Android Studio Quail 2, Patch 1</td></tr>
+<tr><td>Dokumente</td><td>Wie Apps aufgebaut sind. Liegt im Thema Nachschlagen</td></tr>
+<tr><td>Buch</td><td>Android-Apps entwickeln für Einsteiger, Kapitel 5 Daten im Code</td></tr>
+</table>
+
+
+<p class="foot">Modul 335 | Tag 2 Vormittag | Auftrag 03D | Fassung 2 | 14.08.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>

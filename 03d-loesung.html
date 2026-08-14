@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>03D Lösung, Die Datenklasse Question</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>03D Lösung, Die Datenklasse Question</h1>
+<p class="sub">Lösungsmaterial zum Auftrag 03D. Modul 335, Tag 2 Vormittag. Fassung 3 vom 14.08.2026.</p>
+<p class="sub"><b>Zum Durchlesen brauchst du etwa 15 Minuten.</b> Das ist ein Richtwert. Such dir die Stelle, die du brauchst.</p>
+
+<div class="info">
+<p><b>Wie du das hier benutzt.</b> Nicht abtippen. Vergleichen. Die Begründung ist der eigentliche Inhalt, der Code ist nur der Beleg dazu.</p>
+</div>
+
+
+<h2>Vergleichsliste, dein eigener Code</h2>
+<p>Geh diese neun Punkte an <b>deinen eigenen</b> Dateien durch, bevor du hier weiterliest.</p>
+
+<table>
+<tr><th>Nr</th><th>Das prüfst du</th><th>Warum es zählt</th></tr>
+<tr><td>1</td><td>Liegt <code>Question.java</code> im Package <code>ch.wiss.m335.quiz.model</code> und nicht neben der Activity?</td><td>Ab Tag 3 liegen sechs Activities im Projekt. Ohne Trennung findest du die Datenklassen nicht mehr</td></tr>
+<tr><td>2</td><td>Sind alle fünf Felder <code>private</code> und gibt es <b>keine</b> Setter?</td><td>Eine Frage ändert sich nicht, während sie auf dem Bildschirm steht. Was sich nicht ändern soll, bekommt keinen Setter</td></tr>
+<tr><td>3</td><td>Steht im Konstruktor überall <code>this.feld = parameter</code>?</td><td>Ohne <code>this</code> weist du den Parameter sich selbst zu. Der Compiler warnt nicht, der Bildschirm bleibt leer</td></tr>
+<tr><td>4</td><td>Steht <code>isCorrect</code> in <code>Question</code> und nicht in <code>MainActivity</code>?</td><td>Eine Frage weiss selbst, was auf sie richtig ist. Verhalten gehört dorthin, wo die Daten liegen</td></tr>
+<tr><td>5</td><td>Steht <code>equals</code> im ganzen Projekt nur noch in <code>isCorrect</code>?</td><td>Ein Vergleich an einer Stelle ist ein Vergleich, den man einmal richtig macht</td></tr>
+<tr><td>6</td><td>Hat <code>strings.xml</code> nur noch <code>app_name</code> und <code>score_format</code>?</td><td>Fragetexte sind Daten, keine Beschriftung. Ein Rest in <code>strings.xml</code> heisst, du hast eine Stelle übersehen</td></tr>
+<tr><td>7</td><td>Steht im Layout bei jeder View, die der Code füllt, <code>tools:text</code> statt <code>android:text</code>?</td><td>Sonst siehst du beim Testen nie, ob dein Code wirklich läuft</td></tr>
+<tr><td>8</td><td>Füllt genau <b>eine</b> Methode den Bildschirm, nämlich <code>showQuestion()</code>?</td><td>Wer den Text an mehreren Stellen setzt, vergisst irgendwann eine davon</td></tr>
+<tr><td>8b</td><td>Hat <b>jedes</b> View-Feld ein <code>findViewById</code> in <code>onCreate</code>? Also <code>tvCategory</code>, <code>tvScore</code> und <code>tvQuestion</code>?</td><td>Ein Feld ohne <code>findViewById</code> bleibt <code>null</code> und stürzt beim ersten <code>setText</code> ab. Der häufigste Absturz dieses Auftrags</td></tr>
+<tr><td>9</td><td>Hat jedes Feld und jede Methode in <code>Question</code> eine Javadoc-Zeile?</td><td>Genau das verlangt die Leistungsbeurteilung, und es kostet hier zehn Minuten statt einer Stunde</td></tr>
+</table>
+
+
+<h2>Antworten zu den Denkfragen</h2>
+<p>Diese vier Fragen kommen im <b>03CD Wissenscheck</b> als Quizfragen wieder. Der deckt 03C und 03D zusammen ab.</p>
+
+<div class="ue">
+<p class="t">Frage 1, was unterscheidet den Fragetext von der Beschriftung eines Knopfs?</p>
+<p><b>Wer ihn ändert.</b> Das ist das ganze Kriterium.</p>
+<table>
+<tr><th></th><th>Beschriftung</th><th>Daten</th></tr>
+<tr><td>Beispiel</td><td>Weiter, Abbrechen, Punkte</td><td>Der Fragetext, die vier Antworten</td></tr>
+<tr><td>Wer ändert sie</td><td>der Entwickler, beim Übersetzen</td><td>der Benutzer, oder ein Server</td></tr>
+<tr><td>Wohin</td><td><code>strings.xml</code></td><td>ins Objekt, später in die Datenbank</td></tr>
+</table>
+<p><b>Die Faustregel:</b> was der Benutzer ändern könnte, sind Daten. Was der Entwickler übersetzt, ist Beschriftung.</p>
+<p><b>Warum das zählt:</b> Am Tag 4 legt der Benutzer selbst neue Fragen an. Stünden sie in <code>strings.xml</code>, ginge das gar nicht, denn Ressourcen sind zur Laufzeit unveränderlich. Sie werden beim Bauen fest in die App gepackt.</p>
+</div>
+
+<div class="ue">
+<p class="t">Frage 2, wo gehört die Prüfung hin?</p>
+<p>In die Klasse <code>Question</code>. Eine Frage weiss selbst, was auf sie die richtige Antwort ist.</p>
+<p>Die Activity muss das nicht wissen. Sie fragt nach: <code>currentQuestion.isCorrect(givenAnswer)</code>.</p>
+<p><b>Der Test, ob du es richtig herum hast:</b> Stell dir vor, du zeigst dieselbe Frage auf einem zweiten Bildschirm an. Steht die Prüfung in der Activity, musst du sie kopieren. Steht sie in der Frage, kommt sie mit.</p>
+<p><b>Warum das zählt:</b> Genau das passiert am Tag 3, wenn der Spielbildschirm in eine eigene Activity umzieht. <code>Question</code> zieht einfach mit, ohne dass du etwas anfassen musst.</p>
+</div>
+
+<div class="ue">
+<p class="t">Frage 3, vier Felder oder ein Array?</p>
+<p>Ein <b>Array</b>. Zwei Gründe.</p>
+<ul>
+<li><b>Du kannst darüber laufen.</b> Vier Felder <code>answer1</code> bis <code>answer4</code> zwingen dich zu vier Zeilen Code, jedes Mal wenn du sie brauchst. Ein Array erlaubt eine Schleife.</li>
+<li><b>Die Anzahl ist nicht in Stein gemeisselt.</b> Am Tag 4 gibt es Fragen mit nur zwei oder drei Antworten. Mit einem Array ist das eine Längenprüfung, mit vier Feldern ein Umbau.</li>
+</ul>
+<p><b>Die Gegenrede, die es auch gibt:</b> vier Felder sind selbstdokumentierend, ein Array nicht. Bei einer Datenbank wird das später wieder ein Thema, dort stehen wirklich vier Spalten. Beide Wege sind vertretbar, aber im Java-Code gewinnt das Array.</p>
+</div>
+
+<div class="ue">
+<p class="t">Frage 4, woran misst du den Nutzen, wenn nichts anders aussieht?</p>
+<p>An der <b>Anzahl Stellen</b>, die eine Änderung kostet.</p>
+<table>
+<tr><th>Eine andere Frage einbauen</th><th>Stellen</th></tr>
+<tr><td>Vor dem Umbau, mit <code>strings.xml</code></td><td class="num">6</td></tr>
+<tr><td>Nach dem Umbau, mit dem Objekt</td><td class="num">1</td></tr>
+</table>
+<p>Sechs, weil fünf Einträge in <code>strings.xml</code> geändert werden müssen und dazu die Zeile mit der richtigen Antwort im Code.</p>
+<p><b>Warum das zählt:</b> Das ist das Mass, mit dem Entwickler Lösungen vergleichen. Nicht "sieht es schöner aus", sondern "was kostet die nächste Änderung". Genau danach wird in der Leistungsbeurteilung gefragt, wenn du deine Lösung begründen musst.</p>
+</div>
+
+
+<h2>Die zwei Beobachtungsstellen</h2>
+
+<div class="ue">
+<p class="t">B2, wie weit ein Text streut</p>
+<p><b>Was du siehst:</b> Du löschst sechs Einträge in <code>strings.xml</code>, und es werden <b>sieben</b> Stellen rot. Sechs im Layout und eine im Java-Code.</p>
+<table>
+<tr><th>Wo</th><th>Was</th></tr>
+<tr><td><code>activity_main.xml</code></td><td>sechs <code>android:text</code>-Zeilen: <code>tvCategory</code>, <code>tvQuestion</code>, vier Buttons</td></tr>
+<tr><td><code>MainActivity.java</code></td><td>die Zeile <code>correctAnswer = getString(R.string.q1_answer3);</code></td></tr>
+</table>
+<p><b>Was die Beobachtung zeigt:</b> Ein Text, den du an einer Stelle definierst, wird an sieben Stellen benutzt. Solange er stimmt, merkst du das nie. Sobald er sich ändert, sind es sieben Stellen, an denen etwas schiefgehen kann.</p>
+<p>Nach dem Umbau ist es umgekehrt: die Texte stehen an einer Stelle und werden von einer Methode verteilt.</p>
+<p>Die häufigste Fehlbeobachtung ist "nur das Layout wird rot". Die Java-Zeile übersieht man leicht, weil sie ganz woanders steht.</p>
+</div>
+
+<div class="ue">
+<p class="t">C1, was eine Änderung kostet</p>
+<p><b>Was du siehst:</b> Eine andere Frage einzubauen kostet <b>genau eine Stelle</b>, nämlich den <code>new Question(…)</code>-Aufruf. Layout unberührt, <code>strings.xml</code> unberührt, alle fünf Methoden unberührt.</p>
+<p>Vor dem Umbau wären es sechs gewesen.</p>
+<div class="tip">
+<p><b>Das ist der ganze Sinn dieses Auftrags.</b> Deine App sieht nach 45 Minuten Arbeit genau gleich aus wie vorher. Was sich geändert hat, siehst du nicht auf dem Bildschirm, sondern erst bei der nächsten Änderung.</p>
+<p>Merk dir diesen Satz: <b>eine gute Struktur erkennt man nicht am Ergebnis, sondern an den Kosten der nächsten Änderung.</b></p>
+</div>
+</div>
+
+
+<h2>Die fertige Question</h2>
+<p>Datei <code>app/src/main/java/ch/wiss/m335/quiz/model/Question.java</code>.</p>
+
+<pre><span class="k">package</span> ch.wiss.m335.quiz.model;
+
+<span class="c">/**
+ * Eine einzelne Quizfrage.
+ *
+ * Diese Klasse hat bewusst dieselben Felder wie der Fragen-Export des
+ * WISS-Quiz aus Modul 295. Dadurch kann die App später Fragen direkt
+ * vom Server übernehmen, ohne dass etwas umbenannt werden muss.
+ *
+ * Noch ohne Datenbank. Die Fragen stehen fest im Code.
+ */</span>
+<span class="k">public class</span> <span class="t">Question</span> {
+
+    <span class="c">/** Der Fragetext, zum Beispiel "Was ist die Hauptstadt der Schweiz?". */</span>
+    <span class="k">private</span> <span class="t">String</span> text;
+
+    <span class="c">/** Die vier möglichen Antworten in der Reihenfolge der Buttons. */</span>
+    <span class="k">private</span> <span class="t">String</span>[] answers;
+
+    <span class="c">/** Die richtige Antwort als Text. Muss in answers enthalten sein. */</span>
+    <span class="k">private</span> <span class="t">String</span> correctAnswer;
+
+    <span class="c">/** Kategorie: Sport, Technologie, Geographie oder Geschichte. */</span>
+    <span class="k">private</span> <span class="t">String</span> category;
+
+    <span class="c">/** Schwierigkeit: "leicht", "mittel" oder "schwer". */</span>
+    <span class="k">private</span> <span class="t">String</span> difficulty;
+
+    <span class="c">/**
+     * Erzeugt eine neue Frage.
+     *
+     * @param text          der Fragetext
+     * @param answers       genau vier Antworten
+     * @param correctAnswer die richtige Antwort, muss in answers vorkommen
+     * @param category      die Kategorie
+     * @param difficulty    die Schwierigkeit
+     */</span>
+    <span class="k">public</span> <span class="t">Question</span>(<span class="t">String</span> text, <span class="t">String</span>[] answers, <span class="t">String</span> correctAnswer,
+                    <span class="t">String</span> category, <span class="t">String</span> difficulty) {
+        <span class="k">this</span>.text = text;
+        <span class="k">this</span>.answers = answers;
+        <span class="k">this</span>.correctAnswer = correctAnswer;
+        <span class="k">this</span>.category = category;
+        <span class="k">this</span>.difficulty = difficulty;
+    }
+
+    <span class="c">/**
+     * Prüft, ob eine angetippte Antwort richtig ist.
+     *
+     * Wir vergleichen den Text und nicht die Position. Dadurch bleibt die
+     * Prüfung auch dann korrekt, wenn die Antworten gemischt angezeigt werden.
+     *
+     * @param givenAnswer die Antwort, die der Spieler angetippt hat
+     * @return true, wenn die Antwort richtig ist
+     */</span>
+    <span class="k">public boolean</span> isCorrect(<span class="t">String</span> givenAnswer) {
+        <span class="k">return</span> correctAnswer.equals(givenAnswer);
+    }
+
+    <span class="c">/** @return der Fragetext */</span>
+    <span class="k">public</span> <span class="t">String</span> getText() {
+        <span class="k">return</span> text;
+    }
+
+    <span class="c">/** @return die vier Antworten */</span>
+    <span class="k">public</span> <span class="t">String</span>[] getAnswers() {
+        <span class="k">return</span> answers;
+    }
+
+    <span class="c">/** @return die richtige Antwort als Text */</span>
+    <span class="k">public</span> <span class="t">String</span> getCorrectAnswer() {
+        <span class="k">return</span> correctAnswer;
+    }
+
+    <span class="c">/** @return die Kategorie */</span>
+    <span class="k">public</span> <span class="t">String</span> getCategory() {
+        <span class="k">return</span> category;
+    }
+
+    <span class="c">/** @return die Schwierigkeit */</span>
+    <span class="k">public</span> <span class="t">String</span> getDifficulty() {
+        <span class="k">return</span> difficulty;
+    }
+}</pre>
+
+<div class="note">
+<p><b>Zu <code>getCorrectAnswer</code>.</b> Deine Activity braucht diesen Getter nirgends, weil sie <code>isCorrect</code> benutzt. Er steht trotzdem drin, denn am Tag 4 zeigt der Ergebnisbildschirm die richtige Antwort an. Ein Getter auf ein Feld, das es sowieso gibt, kostet nichts.</p>
+<p>Aufpassen musst du beim Gegenteil: wenn deine Activity <code>getCorrectAnswer()</code> holt und den Vergleich selbst macht, hast du das Verhalten wieder aus der Datenklasse herausgezogen. Dann könntest du <code>isCorrect</code> auch weglassen.</p>
+</div>
+
+
+<h2>Die geänderten Stellen in MainActivity</h2>
+<p>Die neuen Felder:</p>
+<pre><span class="c">/** Die Anzeige der Kategorie oben links. */</span>
+<span class="k">private</span> <span class="t">TextView</span> tvCategory;
+
+<span class="c">/** Die Anzeige des Fragetexts. */</span>
+<span class="k">private</span> <span class="t">TextView</span> tvQuestion;
+
+<span class="c">/**
+ * Die Frage, die gerade auf dem Bildschirm steht.
+ *
+ * Bisher stand die richtige Antwort in einem eigenen Feld. Jetzt weiss
+ * die Frage selbst, was auf sie richtig ist.
+ */</span>
+<span class="k">private</span> <span class="t">Question</span> currentQuestion;</pre>
+
+<p>Das Objekt in <code>onCreate</code>:</p>
+<pre><span class="c">// Die eine Frage, mit der gespielt wird. Eine andere Frage ist ab
+// jetzt eine andere Zeile, sonst ändert sich nichts.</span>
+currentQuestion = <span class="k">new</span> <span class="t">Question</span>(
+        <span class="s">"Was bedeutet die Abkürzung HTTP?"</span>,
+        <span class="k">new</span> <span class="t">String</span>[]{
+                <span class="s">"HyperText Transmission Program"</span>,
+                <span class="s">"HyperText Transfer Program"</span>,
+                <span class="s">"HyperText Transfer Protocol"</span>,
+                <span class="s">"HyperText Transmission Protocol"</span>
+        },
+        <span class="s">"HyperText Transfer Protocol"</span>,
+        <span class="s">"Technologie"</span>,
+        <span class="s">"leicht"</span>);</pre>
+
+<p>Die neue Methode:</p>
+<pre><span class="c">/**
+ * Schreibt Kategorie, Fragetext und die vier Antworten auf den Bildschirm.
+ *
+ * Genau eine Methode füllt den Bildschirm. Wer den Text an mehreren
+ * Stellen setzt, vergisst irgendwann eine davon.
+ */</span>
+<span class="k">private void</span> showQuestion() {
+    tvCategory.setText(currentQuestion.getCategory());
+    tvQuestion.setText(currentQuestion.getText());
+
+    <span class="t">String</span>[] answers = currentQuestion.getAnswers();
+    <span class="k">for</span> (<span class="k">int</span> i = <span class="s">0</span>; i &lt; answerButtons.length; i++) {
+        answerButtons[i].setText(answers[i]);
+    }
+}</pre>
+
+<p>Die zwei Stellen, an denen jetzt die Frage gefragt wird:</p>
+<pre><span class="c">// in onAnswerClicked</span>
+<span class="k">boolean</span> isCorrect = currentQuestion.isCorrect(givenAnswer);
+
+<span class="c">// in markAnswers</span>
+<span class="k">if</span> (currentQuestion.isCorrect(text)) {
+    markButton(button, R.color.answer_correct);
+} <span class="k">else if</span> (text.equals(givenAnswer)) {
+    markButton(button, R.color.answer_wrong);
+}</pre>
+
+<div class="tip">
+<p><b>Beachte, was aus der Activity verschwunden ist.</b> Das Feld <code>correctAnswer</code> gibt es nicht mehr, und <code>equals</code> steht nur noch einmal, beim Vergleich mit <code>givenAnswer</code>. Der eigentliche Richtig-Vergleich ist ganz in die Datenklasse gewandert.</p>
+</div>
+
+
+<h2>Die zwei Ressourcendateien</h2>
+<p><code>strings.xml</code> ist auf zwei Einträge geschrumpft:</p>
+<pre>&lt;<span class="t">resources</span>&gt;
+    &lt;<span class="t">string</span> name=<span class="s">"app_name"</span>&gt;WissQuiz&lt;/<span class="t">string</span>&gt;
+
+    <span class="c">&lt;!-- Kopfzeile des Spielbildschirms. --&gt;</span>
+    &lt;<span class="t">string</span> name=<span class="s">"score_format"</span>&gt;Punkte %1$d&lt;/<span class="t">string</span>&gt;
+&lt;/<span class="t">resources</span>&gt;</pre>
+
+<p>Im Layout haben sechs Views von <code>android:text</code> auf <code>tools:text</code> gewechselt:</p>
+<pre>&lt;<span class="t">TextView</span>
+    android:id=<span class="s">"@+id/tvCategory"</span>
+    …
+    tools:text=<span class="s">"Technologie"</span> /&gt;
+
+&lt;<span class="t">TextView</span>
+    android:id=<span class="s">"@+id/tvQuestion"</span>
+    …
+    tools:text=<span class="s">"Was bedeutet die Abkürzung HTTP?"</span> /&gt;
+
+&lt;<span class="t">Button</span>
+    android:id=<span class="s">"@+id/btnAnswer1"</span>
+    …
+    tools:text=<span class="s">"Antwort 1"</span> /&gt;</pre>
+<p>Und so weiter für die anderen drei Buttons.</p>
+
+
+<h2>Was sich gegenüber 03C geändert hat</h2>
+<table>
+<tr><th>Datei</th><th>Änderung</th></tr>
+<tr><td class="pre">model/Question.java</td><td><b>neu</b>. Fünf Felder, Konstruktor, <code>isCorrect</code>, fünf Getter</td></tr>
+<tr><td class="pre">MainActivity.java</td><td>Feld <code>correctAnswer</code> weg, dafür <code>currentQuestion</code>, <code>tvCategory</code> und <code>tvQuestion</code>. Neue Methode <code>showQuestion</code></td></tr>
+<tr><td class="pre">activity_main.xml</td><td>Sechs Mal <code>android:text</code> zu <code>tools:text</code></td></tr>
+<tr><td class="pre">strings.xml</td><td>Sechs Einträge weg. Übrig: <code>app_name</code> und <code>score_format</code></td></tr>
+<tr><td class="pre">colors.xml</td><td>unverändert</td></tr>
+</table>
+<p>Nicht angefasst: alle Gradle-Dateien, das Manifest und die Themes.</p>
+
+
+<h2>Lösungen zu den Übungen</h2>
+
+<div class="ue">
+<p class="t">Übung 1, die Schwierigkeit anzeigen</p>
+<p>Der einfachste Weg hängt sie an die Kategorie an:</p>
+<pre>tvCategory.setText(currentQuestion.getCategory() + <span class="s">" ("</span> + currentQuestion.getDifficulty() + <span class="s">")"</span>);</pre>
+<p>Sauberer wäre eine eigene TextView im Layout und ein Format in <code>strings.xml</code>, etwa <code>&lt;string name="category_format"&gt;%1$s, %2$s&lt;/string&gt;</code>. Dann steht die Schreibweise mit Klammern nicht im Java-Code.</p>
+<p><b>Der Punkt der Übung:</b> Du musstest an <code>Question</code> nichts ändern. Das Feld war schon da, obwohl es niemand brauchte. Genau darum steht es drin.</p>
+</div>
+
+<div class="ue">
+<p class="t">Übung 2, eine Frage prüfen</p>
+<pre><span class="c">/**
+ * Prüft, ob diese Frage vollständig ist.
+ *
+ * @return true, wenn genau vier Antworten da sind und die richtige
+ *         Antwort unter ihnen vorkommt
+ */</span>
+<span class="k">public boolean</span> isValid() {
+    <span class="k">if</span> (answers == <span class="k">null</span> || answers.length != <span class="s">4</span>) {
+        <span class="k">return false</span>;
+    }
+    <span class="k">for</span> (<span class="t">String</span> answer : answers) {
+        <span class="k">if</span> (correctAnswer.equals(answer)) {
+            <span class="k">return true</span>;
+        }
+    }
+    <span class="k">return false</span>;
+}</pre>
+<p>Beachte zwei Dinge. Erstens steht die Prüfung <b>in der Klasse</b>, aus demselben Grund wie <code>isCorrect</code>. Zweitens prüft sie zuerst auf <code>null</code>, sonst stürzt die Längenabfrage ab, bevor sie <code>false</code> zurückgeben kann.</p>
+<p><b>Warum das später wichtig wird:</b> Am Tag 4 tippt der Benutzer selbst Fragen ein. Dann brauchst du genau so eine Prüfung, bevor gespeichert wird.</p>
+</div>
+
+<div class="ue">
+<p class="t">Übung 3, erklären</p>
+<p>Eine gute Erklärung nennt den Grundsatz und einen Beleg.</p>
+<p>"Eine Frage weiss selbst, was auf sie die richtige Antwort ist. Die Activity muss das nicht wissen, sie fragt nach. Wenn ich dieselbe Frage auf einem zweiten Bildschirm zeige, kommt die Prüfung mit. Stünde sie in der Activity, müsste ich sie kopieren."</p>
+<p>Als zweite Methode, die aus demselben Grund hineingehört: eine Prüfung auf Vollständigkeit wie in Übung 2, oder eine Methode, die die Antworten gemischt zurückgibt.</p>
+</div>
+
+<div class="note">
+<p><b>Zur Zusatzaufgabe steht hier bewusst nichts.</b> Die Frage danach ist der eigentliche Inhalt: warum funktioniert die Auswertung nach dem Mischen weiter, ohne dass du <code>isCorrect</code> anfasst?</p>
+</div>
+
+
+<h2>Mögliche falsche KI-Rückmeldungen</h2>
+<p>Das sind Antworten, die uns bei diesem Thema schon begegnet sind. Nicht jede KI macht jeden dieser Fehler. Die Liste ist eine Prüfliste, keine Anklage.</p>
+<table>
+<tr><th>Die KI schlägt vor</th><th>Warum das hier falsch ist</th></tr>
+<tr><td>Ein <code>record Question(...)</code> statt einer Klasse</td><td>Kurz und elegant, aber unser Projekt übersetzt mit <b>Java 11</b>. <code>record</code> gibt es erst ab Java 16. Es übersetzt nicht</td></tr>
+<tr><td>Zu jedem Feld auch einen Setter erzeugen lassen</td><td>Android Studio bietet es an, wir wollen es nicht. Eine Frage ändert sich nicht, während sie angezeigt wird</td></tr>
+<tr><td>Die Fragetexte in <code>strings.xml</code> lassen, weil sichtbare Texte dorthin gehören</td><td>Verwechselt Daten mit Beschriftung. Ressourcen sind zur Laufzeit unveränderlich, der Benutzer könnte nie eigene Fragen anlegen</td></tr>
+<tr><td>Die Prüfung <code>correctAnswer.equals(given)</code> in der Activity lassen</td><td>Zieht das Verhalten wieder aus der Datenklasse heraus. Dann ist <code>Question</code> nur noch ein Sack voller Felder</td></tr>
+<tr><td>Vier Felder <code>answer1</code> bis <code>answer4</code> statt eines Arrays</td><td>Läuft, verhindert aber die Schleife. Jede Nutzung kostet danach vier Zeilen statt einer</td></tr>
+<tr><td><code>Lombok</code> mit <code>@Getter</code> einsetzen, damit die Getter wegfallen</td><td>Eine zusätzliche Abhängigkeit für etwas, das die IDE mit zwei Tastendrücken erzeugt. Und du sollst die Getter lesen können</td></tr>
+<tr><td><code>List&lt;String&gt;</code> statt <code>String[]</code></td><td>Nicht falsch, aber die Referenzlösung und der spätere Import aus der Datei nutzen das Array. Halte dich an die Vorgabe, damit dein Code zum Lösungsmaterial passt</td></tr>
+</table>
+
+
+<h2>So prüfst du das Ganze</h2>
+<ol>
+<li>Die App startet und sieht aus wie nach 03C.</li>
+<li>Oben links steht die Kategorie, oben rechts <b>Punkte 0</b>, darunter Frage und vier Antworten.</li>
+<li>Richtig antworten färbt grün und zählt einen Punkt.</li>
+<li>Falsch antworten färbt rot und gleichzeitig grün.</li>
+<li>Nach dem ersten Klick reagiert kein Button mehr.</li>
+<li><code>strings.xml</code> hat zwei Einträge.</li>
+<li>Du tauschst die Frage aus und musst nur eine Stelle anfassen.</li>
+</ol>
+
+<div class="tip">
+<p><b>Punkt 7 ist der eigentliche Test.</b> Alles davor lief schon gestern. Was heute dazugekommen ist, siehst du erst, wenn du etwas änderst.</p>
+</div>
+
+
+<h2>Was im nächsten Auftrag dazukommt</h2>
+<p>Eine Frage ist jetzt ein Objekt. Der nächste Schritt liegt auf der Hand: <b>mehrere</b> Objekte in einer Liste, ein Weiter-Knopf, und eine Runde über fünf Fragen.</p>
+<p>Ab dann zählt der Punktestand wirklich, und die Sperre der Buttons muss vor jeder neuen Frage wieder aufgehoben werden. Deine Übung 2 aus 03C war der Vorlauf dazu.</p>
+
+<p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 03D Die Datenklasse Question &middot; Fassung 3 vom 14.08.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>
