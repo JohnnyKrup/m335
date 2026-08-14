@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>03C Lösung, Klick auswerten</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>03C Lösung, Klick auswerten</h1>
+<p class="sub">Lösungsmaterial zum Auftrag 03C. Modul 335, Tag 2 Vormittag. Fassung 1 vom 14.08.2026.</p>
+<p class="sub"><b>Zum Durchlesen brauchst du etwa 15 Minuten.</b> Das ist ein Richtwert. Du musst nicht alles lesen, such dir die Stelle, die du brauchst.</p>
+
+<div class="info">
+<p><b>Wie du das hier benutzt.</b> Nicht abtippen. Vergleichen. Zu jeder Lösung steht eine kurze Begründung. Die Begründung ist der eigentliche Inhalt, der Code ist nur der Beleg dazu.</p>
+</div>
+
+
+<h2>Vergleichsliste, dein eigener Code</h2>
+<p>Geh diese neun Punkte an <b>deiner eigenen</b> Datei durch, bevor du hier weiterliest. Ein Screenshot zeigt nur das Ergebnis. Diese Liste zeigt, ob der Weg dorthin sauber war.</p>
+
+<table>
+<tr><th>Nr</th><th>Das prüfst du</th><th>Warum es zählt</th></tr>
+<tr><td>1</td><td>Steht der Vergleich als <code>correctAnswer.equals(givenAnswer)</code> und nirgends als <code>==</code>?</td><td>Mit <code>==</code> läuft es manchmal und manchmal nicht. Ein Fehler, der nur beim Sitznachbarn auftritt, ist der teuerste</td></tr>
+<tr><td>2</td><td>Steht in <code>markButton</code> <code>setBackgroundTintList</code> und <b>nicht</b> <code>setBackgroundColor</code>?</td><td>Der zweite Aufruf wird stillschweigend ignoriert. Kein Absturz, keine Meldung, keine Farbe</td></tr>
+<tr><td>3</td><td>Ist die Reihenfolge in <code>onAnswerClicked</code>: auswerten, markieren, sperren?</td><td>Wer zuerst sperrt, verliert die Farben. Wer zuerst markiert und nie sperrt, zählt jeden weiteren Klick</td></tr>
+<tr><td>4</td><td>Werden die Listener in einer <b>Schleife</b> über <code>answerButtons</code> gesetzt, nicht vier Mal einzeln?</td><td>Vier Mal derselbe Code ist vier Mal die Chance, eine Zeile zu vergessen</td></tr>
+<tr><td>5</td><td>Steht die Zahl <code>score</code> als Feld und wird die Anzeige nur über <code>showScore()</code> geschrieben?</td><td>Genau eine Methode schreibt in die Anzeige. Sonst driften Zahl und Text auseinander</td></tr>
+<tr><td>6</td><td>Kommt der Punktetext aus <code>strings.xml</code> mit <code>%1$d</code>, statt im Java-Code zusammengesetzt?</td><td>Sichtbare Texte gehören alle an denselben Ort</td></tr>
+<tr><td>7</td><td>Stehen die zwei Farben in <code>colors.xml</code> und nicht als <code>Color.parseColor</code> im Code?</td><td>Beim Dunkelmodus und beim zweiten Bildschirm rächt sich eine Farbe im Code</td></tr>
+<tr><td>8</td><td>Setzt <code>markButton</code> auch <code>setTextColor</code>?</td><td>Ein gesperrter Button zeichnet seine Schrift blass. Auf kräftigem Grün ist das kaum lesbar</td></tr>
+<tr><td>9</td><td>Hat jede deiner fünf Methoden einen Javadoc-Block, der sagt <b>warum</b> und nicht nur was?</td><td>Der Code sagt schon, was er tut. Der Kommentar muss etwas hinzufügen</td></tr>
+</table>
+
+
+<h2>Antworten zu den Denkfragen</h2>
+<p>Diese vier Fragen kommen im <b>03C Wissenscheck</b> als Quizfragen wieder.</p>
+
+<div class="ue">
+<p class="t">Frage 1, vier Mal derselbe Code oder einmal?</p>
+<p>Einmal. Du brauchst dafür ein <b>Array</b> und eine <b>Schleife</b>.</p>
+<pre>answerButtons = <span class="k">new</span> <span class="t">Button</span>[]{ … };
+
+<span class="k">for</span> (<span class="t">Button</span> button : answerButtons) {
+    button.setOnClickListener(v -&gt; onAnswerClicked(v));
+}</pre>
+<p><b>Warum das zählt:</b> Es geht nicht ums Tippen sparen. Vier Mal derselbe Code ist vier Mal die Chance, eine Zeile zu vergessen, und dann reagiert genau ein Button nicht. Dieser Fehler ist mühsam zu finden, weil drei von vier gehen.</p>
+<p>Ab der Fragenliste hast du nicht mehr vier Buttons, sondern beliebig viele Fragen. Wer hier schon in Schleifen denkt, muss dort nichts umbauen.</p>
+</div>
+
+<div class="ue">
+<p class="t">Frage 2, Nummer oder Text vergleichen?</p>
+<p>Den <b>Text</b>. Wir merken uns <code>correctAnswer</code> als Zeichenkette und vergleichen mit der Beschriftung des angetippten Buttons.</p>
+<p>Für die Nummer spräche, dass sie kürzer zu vergleichen ist. Dagegen spricht der Blick nach vorn: sobald die Antworten gemischt angezeigt werden, stimmt die Nummer nicht mehr. Der Text stimmt immer.</p>
+<p><b>Warum das zählt:</b> Es ist ein Entscheid gegen den kürzeren Weg und für den, der eine Änderung übersteht. Genau danach wird in der Leistungsbeurteilung gefragt, wenn du deine Lösung begründen musst.</p>
+</div>
+
+<div class="ue">
+<p class="t">Frage 3, wie verhinderst du eine zweite Antwort?</p>
+<p><code>setEnabled(false)</code> auf allen vier Buttons, unmittelbar nachdem die Antwort verarbeitet ist.</p>
+<p><b>Die allgemeine Regel:</b> Wer eine Aktion auslöst, die den Zustand verändert, muss den zweiten Klick bedenken. Das gilt für jeden Knopf, der zählt, speichert oder verschickt. Bei einem Speichern-Knopf am Tag 3 kommt dieselbe Frage wieder.</p>
+</div>
+
+<div class="ue">
+<p class="t">Frage 4, wer ist die Wahrheit, die Zahl oder der Text?</p>
+<p>Die <b>Zahl</b> im Feld <code>score</code>. Der Text auf dem Bildschirm ist nur ihre Darstellung.</p>
+<p>Daraus folgt: genau eine Methode schreibt in die Anzeige, hier <code>showScore()</code>. Wer den Text an zwei Stellen setzt, hat irgendwann eine Stelle vergessen, und dann zeigt der Bildschirm etwas anderes als die App weiss.</p>
+<p><b>Warum das zählt:</b> Ein Bildschirm ist eine Anzeige, kein Speicher. Genau das erklärt auch, warum beim Drehen alles weg ist. Siehe unten.</p>
+</div>
+
+
+<h2>Die drei Beobachtungsstellen</h2>
+
+<div class="ue">
+<p class="t">B2 gegen B3, der Button wird nicht bunt</p>
+<p><b>Was du siehst:</b> Der Punktestand geht hoch, im Logcat steht die richtige Zeile, und es passiert keine Farbe. Kein Absturz, nichts Rotes, keine Warnung.</p>
+<p><b>Die Ursache:</b> Das Template erzeugt einen <b>MaterialButton</b>, nicht einen einfachen <code>Button</code>. Er zeichnet seinen Hintergrund selbst, mit runden Ecken und Schatten. <code>setBackgroundColor</code> nimmt er entgegen und ignoriert ihn.</p>
+<p><b>Die Reparatur:</b> <code>setBackgroundTintList(ColorStateList.valueOf(color))</code>.</p>
+<div class="note">
+<p><b>Warum das die unangenehmste Sorte Fehler ist.</b> Es gibt keine Meldung. Nichts ist rot, nichts stürzt ab, der Logcat schweigt. Du hast Code geschrieben, der aussieht als müsste er wirken, und er wirkt nicht.</p>
+<p>Die Lehre daraus: wenn eine Methode nichts bewirkt, ist die erste Frage nicht "habe ich mich vertippt", sondern <b>"ist mein Objekt wirklich das, wofür ich es halte"</b>. Ein MaterialButton verhält sich nicht wie ein Button.</p>
+</div>
+<p>Die häufigste Fehlbeobachtung ist "ich habe mich vertippt". Die zweithäufigste ist "die Farbe war falsch geschrieben".</p>
+</div>
+
+<div class="ue">
+<p class="t">C1, zwei Punkte für eine Frage</p>
+<p><b>Was du siehst:</b> Du tippst dreimal auf die richtige Antwort. Oben rechts steht <code>Punkte 3</code>.</p>
+<p><b>Die Ursache:</b> Nichts hindert dich am zweiten Klick. Der Listener läuft jedes Mal, und jedes Mal zählt er.</p>
+<p><b>Die Lehre:</b> Wer eine verändernde Aktion anbietet, muss den zweiten Klick bedenken. Das ist keine Kleinigkeit für Pingelige, sondern der häufigste Fehler in Formularen überhaupt. Doppelt abgeschickte Bestellungen kommen genau daher.</p>
+<p><b>Merk dir diesen Fall.</b> Am Tag 4 ist er dein erster Testfall im Formular der Leistungsbeurteilung, mit allen sieben Feldern. Die Vorgabe lautet: was passiert, wenn ich eine Antwort zweimal antippe.</p>
+</div>
+
+<div class="ue">
+<p class="t">C3, beim Drehen ist alles weg</p>
+<p><b>Was du siehst:</b> Nach dem Drehen stehen die Buttons wieder im Ausgangszustand. Keine Farbe, keine Sperre, Punktestand zurück auf 0. Als hättest du nie geantwortet.</p>
+<p><b>Die Ursache:</b> Android baut die Activity beim Drehen <b>komplett neu auf</b>. <code>onCreate</code> läuft nochmals, und alles was nur im Arbeitsspeicher deiner Activity stand, ist damit fort. Dein Feld <code>score</code> beginnt wieder bei 0.</p>
+<p><b>Das ist kein Fehler und wird hier nicht repariert.</b> Es ist die wichtigste Beobachtung des ganzen Moduls.</p>
+<div class="warn">
+<p><b>Warum das kein Randthema ist.</b> Das ist einer der grössten Unterschiede zwischen Handy und PC. Ein Fenster am PC wird beim Vergrössern nicht neu gebaut. Eine Activity beim Drehen schon.</p>
+<p>Wer das nicht verstanden hat, baut später Apps, die bei jeder Drehung Daten verlieren, und sucht den Fehler an der falschen Stelle. Am Tag 3 reparierst du es, mit <code>onSaveInstanceState</code>.</p>
+</div>
+<p>Die häufigsten Fehlbeobachtungen: "die Markierung blieb", "die App stürzte ab", "das Layout war verschoben".</p>
+</div>
+
+
+<h2>Die fertige MainActivity</h2>
+<p>Datei <code>app/src/main/java/ch/wiss/m335/quiz/MainActivity.java</code>, Stand am Ende von Teil C.</p>
+
+<pre><span class="k">package</span> ch.wiss.m335.quiz;
+
+<span class="k">import</span> android.content.res.ColorStateList;
+<span class="k">import</span> android.graphics.Color;
+<span class="k">import</span> android.os.Bundle;
+<span class="k">import</span> android.util.Log;
+<span class="k">import</span> android.view.View;
+<span class="k">import</span> android.widget.Button;
+<span class="k">import</span> android.widget.TextView;
+
+<span class="k">import</span> androidx.activity.EdgeToEdge;
+<span class="k">import</span> androidx.appcompat.app.AppCompatActivity;
+<span class="k">import</span> androidx.core.content.ContextCompat;
+<span class="k">import</span> androidx.core.graphics.Insets;
+<span class="k">import</span> androidx.core.view.ViewCompat;
+<span class="k">import</span> androidx.core.view.WindowInsetsCompat;
+
+<span class="c">/**
+ * Der Spielbildschirm der Quiz-App.
+ *
+ * Eine einzige feste Frage mit vier Antworten. Wer antippt, sieht sofort,
+ * was richtig war. Danach sind alle vier Buttons gesperrt.
+ *
+ * Was hier mit Absicht noch fehlt: es gibt keinen Weiter-Knopf und keine
+ * zweite Frage. Genau das ist der Grund für den nächsten Auftrag. Ohne
+ * Datenklasse und ohne Liste bleibt jedes Quiz bei einer Frage stehen.
+ *
+ * Der Insets-Block unten gehört zum Template. Ab Android 15 zeichnet das
+ * System bis unter Statusleiste und Navigationsleiste. Ohne diesen Block
+ * liegt die Kopfzeile unter der Uhr.
+ */</span>
+<span class="k">public class</span> <span class="t">MainActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span> {
+
+    <span class="c">/**
+     * Log-Tag für das ganze Modul 335.
+     *
+     * Bewusst nicht "M335". Diese Zeichenfolge steckt auch im
+     * Paketnamen ch.wiss.m335.quiz. Das Suchfeld im Logcat sucht im
+     * Freitext über alle Spalten, und damit träfe "M335" jede Zeile
+     * unserer App statt nur die selbst geschriebenen.
+     */</span>
+    <span class="k">private static final</span> <span class="t">String</span> TAG = <span class="s">"Modul335"</span>;
+
+    <span class="c">/** Die Anzeige des Punktestands oben rechts. */</span>
+    <span class="k">private</span> <span class="t">TextView</span> tvScore;
+
+    <span class="c">/** Die vier Antwort-Buttons in der Reihenfolge des Layouts. */</span>
+    <span class="k">private</span> <span class="t">Button</span>[] answerButtons;
+
+    <span class="c">/**
+     * Die richtige Antwort als Text.
+     *
+     * Wir merken uns den Text und nicht die Nummer des Buttons. Dadurch
+     * bleibt die Prüfung auch dann korrekt, wenn die Antworten später
+     * gemischt angezeigt werden.
+     */</span>
+    <span class="k">private</span> <span class="t">String</span> correctAnswer;
+
+    <span class="c">/** Erreichte Punkte. Bei einer einzigen Frage höchstens einer. */</span>
+    <span class="k">private int</span> score = <span class="s">0</span>;
+
+    <span class="k">@Override</span>
+    <span class="k">protected void</span> onCreate(<span class="t">Bundle</span> savedInstanceState) {
+        <span class="k">super</span>.onCreate(savedInstanceState);
+        EdgeToEdge.enable(<span class="k">this</span>);
+        setContentView(R.layout.activity_main);
+
+        <span class="c">// 16dp eigener Rand, in Pixel umgerechnet über die Dichte des Geräts.</span>
+        <span class="k">final int</span> extraPadding = <span class="t">Math</span>.round(<span class="k">16</span> * getResources().getDisplayMetrics().density);
+
+        <span class="c">// Wichtig: der eigene Rand wird zu den System-Insets dazugerechnet.</span>
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.clMain), (v, insets) -&gt; {
+            <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.Type.systemBars());
+            v.setPadding(
+                    systemBars.left + extraPadding,
+                    systemBars.top + extraPadding,
+                    systemBars.right + extraPadding,
+                    systemBars.bottom + extraPadding);
+            <span class="k">return</span> insets;
+        });
+
+        tvScore = findViewById(R.id.tvScore);
+
+        <span class="c">// Die vier Buttons in ein Array. Alles, was danach kommt, läuft in
+        // einer Schleife. Vier Mal derselbe Code wäre vier Mal die Chance,
+        // eine Zeile zu vergessen.</span>
+        answerButtons = <span class="k">new</span> <span class="t">Button</span>[]{
+                findViewById(R.id.btnAnswer1),
+                findViewById(R.id.btnAnswer2),
+                findViewById(R.id.btnAnswer3),
+                findViewById(R.id.btnAnswer4)
+        };
+
+        <span class="c">// Die richtige Antwort steht in strings.xml, damit der Text nur an
+        // einer Stelle steht. Später kommt sie aus dem Question-Objekt.</span>
+        correctAnswer = getString(R.string.q1_answer3);
+
+        <span class="k">for</span> (<span class="t">Button</span> button : answerButtons) {
+            button.setOnClickListener(v -&gt; onAnswerClicked(v));
+        }
+
+        showScore();
+        Log.d(TAG, <span class="s">"MainActivity onCreate, Spielbildschirm bereit"</span>);
+    }
+
+    <span class="c">/**
+     * Wird aufgerufen, wenn einer der vier Antwort-Buttons angetippt wird.
+     *
+     * @param view der Button, der angetippt wurde
+     */</span>
+    <span class="k">private void</span> onAnswerClicked(<span class="t">View</span> view) {
+        <span class="t">String</span> givenAnswer = ((<span class="t">Button</span>) view).getText().toString();
+        <span class="k">boolean</span> isCorrect = correctAnswer.equals(givenAnswer);
+
+        <span class="k">if</span> (isCorrect) {
+            score++;
+            showScore();
+        }
+
+        markAnswers(givenAnswer);
+        lockAnswers();
+
+        Log.d(TAG, <span class="s">"answer="</span> + givenAnswer + <span class="s">" correct="</span> + isCorrect);
+    }
+
+    <span class="c">/**
+     * Färbt die richtige Antwort grün. War die Antwort falsch, wird der
+     * angetippte Button zusätzlich rot.
+     *
+     * @param givenAnswer die Antwort, die der Spieler angetippt hat
+     */</span>
+    <span class="k">private void</span> markAnswers(<span class="t">String</span> givenAnswer) {
+        <span class="k">for</span> (<span class="t">Button</span> button : answerButtons) {
+            <span class="t">String</span> text = button.getText().toString();
+            <span class="k">if</span> (text.equals(correctAnswer)) {
+                markButton(button, R.color.answer_correct);
+            } <span class="k">else if</span> (text.equals(givenAnswer)) {
+                markButton(button, R.color.answer_wrong);
+            }
+        }
+    }
+
+    <span class="c">/**
+     * Färbt einen einzelnen Button ein.
+     *
+     * @param button   der Button, der eingefärbt wird
+     * @param colorRes die Farbe aus colors.xml
+     */</span>
+    <span class="k">private void</span> markButton(<span class="t">Button</span> button, <span class="k">int</span> colorRes) {
+        <span class="k">int</span> color = <span class="t">ContextCompat</span>.getColor(<span class="k">this</span>, colorRes);
+
+        <span class="c">// Achtung: das heutige Template erzeugt einen MaterialButton.
+        // setBackgroundColor ignoriert er stillschweigend. Nichts stürzt ab,
+        // es passiert nur einfach nichts. Richtig ist setBackgroundTintList.</span>
+        button.setBackgroundTintList(<span class="t">ColorStateList</span>.valueOf(color));
+
+        <span class="c">// Die Textfarbe wird ausdrücklich gesetzt, weil ein gesperrter
+        // Button seine Schrift sonst blass zeichnet.</span>
+        button.setTextColor(<span class="t">Color</span>.WHITE);
+    }
+
+    <span class="c">/**
+     * Sperrt alle vier Antwort-Buttons.
+     *
+     * Ohne diese Sperre tippt jemand zweimal auf dieselbe richtige Antwort
+     * und bekommt zwei Punkte für eine Frage. Genau dieser Fall wird am
+     * Tag 4 der erste Testfall.
+     */</span>
+    <span class="k">private void</span> lockAnswers() {
+        <span class="k">for</span> (<span class="t">Button</span> button : answerButtons) {
+            button.setEnabled(<span class="k">false</span>);
+        }
+    }
+
+    <span class="c">/** Schreibt den aktuellen Punktestand in die Anzeige oben rechts. */</span>
+    <span class="k">private void</span> showScore() {
+        tvScore.setText(getString(R.string.score_format, score));
+    }
+}</pre>
+
+
+<h2>Die zwei Ressourcendateien</h2>
+<p><code>app/src/main/res/values/colors.xml</code>:</p>
+<pre>&lt;?xml version=<span class="s">"1.0"</span> encoding=<span class="s">"utf-8"</span>?&gt;
+&lt;<span class="t">resources</span>&gt;
+    &lt;<span class="t">color</span> name=<span class="s">"black"</span>&gt;#FF000000&lt;/<span class="t">color</span>&gt;
+    &lt;<span class="t">color</span> name=<span class="s">"white"</span>&gt;#FFFFFFFF&lt;/<span class="t">color</span>&gt;
+
+    <span class="c">&lt;!-- Markierung der Antworten in der Spielrunde. --&gt;</span>
+    &lt;<span class="t">color</span> name=<span class="s">"answer_correct"</span>&gt;#0CA30C&lt;/<span class="t">color</span>&gt;
+    &lt;<span class="t">color</span> name=<span class="s">"answer_wrong"</span>&gt;#D03B3B&lt;/<span class="t">color</span>&gt;
+&lt;/<span class="t">resources</span>&gt;</pre>
+
+<p>In <code>strings.xml</code> ist eine Zeile dazugekommen:</p>
+<pre>&lt;<span class="t">string</span> name=<span class="s">"score_format"</span>&gt;Punkte %1$d&lt;/<span class="t">string</span>&gt;</pre>
+
+
+<h2>Was sich gegenüber 03B geändert hat</h2>
+<table>
+<tr><th>Datei</th><th>Änderung</th></tr>
+<tr><td class="pre">MainActivity.java</td><td>Vier Felder, ein Array, ein Listener in der Schleife. Fünf neue Methoden: <code>onAnswerClicked</code>, <code>markAnswers</code>, <code>markButton</code>, <code>lockAnswers</code>, <code>showScore</code></td></tr>
+<tr><td class="pre">colors.xml</td><td>Zwei Farben dazu</td></tr>
+<tr><td class="pre">strings.xml</td><td>Eine Zeile dazu, <code>score_format</code></td></tr>
+<tr><td class="pre">activity_main.xml</td><td><b>unverändert</b>. Am Layout hast du heute nichts angefasst</td></tr>
+</table>
+<p>Nicht angefasst: alle Gradle-Dateien, das Manifest und die Themes. Dieser Auftrag braucht keine neue Abhängigkeit.</p>
+
+
+<h2>Lösungen zu den Übungen</h2>
+
+<div class="ue">
+<p class="t">Übung 1, die richtige Antwort wechseln</p>
+<pre>correctAnswer = getString(R.string.q1_answer2);</pre>
+<p>Genau eine Zahl. Kein Text ändert sich, keine Bedingung, kein Layout.</p>
+<p><b>Das ist der eigentliche Punkt der Übung:</b> Was richtig ist, steht an genau einer Stelle im Code. Hättest du die Nummer des Buttons verglichen, müsstest du jetzt auch noch die Bedingung anpassen. Wer den Text vergleicht, ändert nur die Quelle des Texts.</p>
+</div>
+
+<div class="ue">
+<p class="t">Übung 2, eine Runde neu starten</p>
+<pre><span class="c">/** Gibt alle vier Antwort-Buttons wieder frei und nimmt die Farbe weg. */</span>
+<span class="k">private void</span> resetRound() {
+    <span class="k">for</span> (<span class="t">Button</span> button : answerButtons) {
+        button.setEnabled(<span class="k">true</span>);
+        button.setBackgroundTintList(<span class="k">null</span>);
+    }
+}</pre>
+<div class="note">
+<p><b>Achtung, <code>setBackgroundTintList(null)</code> ist eine Falle.</b> Es nimmt die Färbung weg, und der Button hat danach <b>gar keine</b> Hintergrundfarbe mehr. Er wird farblos, nicht wieder blau. Auch die Schriftfarbe bleibt weiss und ist damit unsichtbar.</p>
+<p>Sauber wäre, den Auslieferungszustand in <code>onCreate</code> zu sichern und ihn hier zurückzusetzen. Genau so löst es die Referenz-App am Tag 3, wenn eine zweite Runde beginnt. Wenn dir das aufgefallen ist, hast du mehr gesehen als die Übung verlangt.</p>
+</div>
+</div>
+
+<div class="ue">
+<p class="t">Übung 3, erklären</p>
+<p>Eine gute Erklärung nennt beide Teile: was passiert ist und warum es gefährlich ist.</p>
+<p>"Das Template macht aus meinem Button einen MaterialButton. Der zeichnet seinen Hintergrund selbst und ignoriert <code>setBackgroundColor</code> einfach. Es gibt keine Fehlermeldung, also sucht man an der falschen Stelle. Ein Absturz hätte mir die Zeile gezeigt, dieses Schweigen zeigt mir gar nichts."</p>
+<p>Wer dazu sagen kann, woran man solche Fälle erkennt, hat es ganz verstanden: wenn eine Methode nichts bewirkt, zuerst prüfen, welchen Typ das Objekt wirklich hat.</p>
+</div>
+
+<div class="note">
+<p><b>Zur Zusatzaufgabe steht hier bewusst nichts.</b> Die zwei Fragen dazu musst du selbst beantworten können.</p>
+</div>
+
+
+<h2>Mögliche falsche KI-Rückmeldungen</h2>
+<p>Das sind Antworten, die uns bei diesem Thema schon begegnet sind. Nicht jede KI macht jeden dieser Fehler, und dieselbe KI antwortet nicht jedes Mal gleich. Die Liste ist keine Anklage, sondern eine Prüfliste.</p>
+<table>
+<tr><th>Die KI schlägt vor</th><th>Warum das hier falsch ist</th></tr>
+<tr><td><code>button.setBackgroundColor(Color.GREEN)</code></td><td>Die klassische Falle dieser Stufe. Bei einem MaterialButton passiert nichts. Antwort aus der Zeit vor Material Components</td></tr>
+<tr><td><code>android:onClick="onAnswerClicked"</code> im XML</td><td>Funktioniert noch, Google rät seit Jahren davon ab. Der Bezug ist nur ein Text, kein Compiler prüft ihn. Wer die Methode umbenennt, merkt es erst beim Absturz</td></tr>
+<tr><td><code>switch (view.getId())</code> zur Unterscheidung der vier Buttons</td><td>Bricht in Library-Modulen, weil Ressourcen-IDs dort keine Konstanten sind. Dieselbe Falle wie in 01C. Hier braucht es den Vergleich ohnehin nicht, weil wir den Text lesen</td></tr>
+<tr><td><code>correctAnswer == givenAnswer</code></td><td>Vergleicht Objekte statt Inhalt. Läuft manchmal zufällig, und genau darum ist es gefährlich</td></tr>
+<tr><td><code>Color.parseColor("#0CA30C")</code> direkt im Code</td><td>Läuft, aber die Farbe steht dann im Java-Code statt in <code>colors.xml</code></td></tr>
+<tr><td><code>tvScore.setText("Punkte " + score)</code></td><td>Läuft, holt aber das Wort "Punkte" in den Code. Sichtbare Texte gehören nach <code>strings.xml</code></td></tr>
+<tr><td><code>(Button) findViewById(R.id.btnAnswer1)</code> mit Cast</td><td>Seit API 26 ist <code>findViewById</code> generisch. Der Cast ist überflüssig</td></tr>
+<tr><td>Ein <code>ViewModel</code>, damit beim Drehen nichts verloren geht</td><td>Löst das Problem, aber nicht auf unserem Weg. Am Tag 3 reparieren wir es mit <code>onSaveInstanceState</code></td></tr>
+</table>
+
+
+<h2>So prüfst du das Ganze</h2>
+<ol>
+<li>Run auf dem Emulator. Oben links <b>Technologie</b>, oben rechts <b>Punkte 0</b>.</li>
+<li>Tipp auf <b>HyperText Transfer Protocol</b>. Der Button wird grün, Punkte springt auf 1.</li>
+<li>Alle vier Buttons sind jetzt gesperrt. Weiteres Tippen ändert nichts.</li>
+<li>App neu starten. Tipp diesmal auf <b>HyperText Transfer Program</b>. Dieser wird rot, der richtige gleichzeitig grün. Punkte bleibt 0.</li>
+<li>Im Logcat, Filter <code>tag:Modul335</code>, steht pro Antwort genau eine Zeile mit <code>correct=true</code> oder <code>correct=false</code>.</li>
+<li>Dreh das Gerät, nachdem du geantwortet hast. Sag in einem Satz, was passiert.</li>
+</ol>
+
+<div class="tip">
+<p><b>Punkt 4 ist der wichtige.</b> Er prüft zwei Dinge auf einmal: dass der Vergleich über <code>equals</code> läuft und dass beide Markierungen gleichzeitig gesetzt werden. Wer nur Punkt 2 testet, übersieht beide Fehler.</p>
+</div>
+
+
+<h2>Was im nächsten Auftrag dazukommt</h2>
+<p>Dein Spiel steht nach einem Klick still. Es gibt keinen Weiter-Knopf, weil es keine zweite Frage gibt. Und es gibt keine zweite Frage, weil die eine fest in <code>strings.xml</code> steht.</p>
+<p>Genau da setzt der nächste Auftrag an. Eine <b>Datenklasse</b> <code>Question</code> hält Fragetext, vier Antworten und die richtige zusammen. Danach ist eine zweite Frage nur noch ein weiteres Objekt, und die fünf Zeilen <code>q1_…</code> fliegen wieder raus.</p>
+
+<p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 03C Klick auswerten &middot; Fassung 1 vom 14.08.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>
