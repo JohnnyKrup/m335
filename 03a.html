@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>03A Das Projektgerüst der Quiz-App</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>03A Das Projektgerüst der Quiz-App</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 2 Vormittag. Zeitbudget 30 Minuten. Fassung 2 vom 14.08.2026.</p>
+<p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
+
+
+<h2>01 Einführung</h2>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>2.3</td><td>App-Architekturen kennen und die Bestandteile einer Android-App benennen</td></tr>
+<tr><td>3.1</td><td>Entwicklungs- und Testumgebung einrichten und einsetzen</td></tr>
+<tr><td>3.2</td><td>Framework und APIs der Plattform einsetzen</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du legst ein Android-Projekt mit den Vorgaben des Moduls an.</li>
+<li>Du zeigst im Dateibaum, wo das Layout, wo der Code und wo die Texte liegen.</li>
+<li>Du liest im Manifest ab, welcher Bildschirm beim Start erscheint.</li>
+<li>Du sagst, welche der drei SDK-Zahlen darüber entscheidet, wie viele Geräte deine App installieren können.</li>
+<li>Du filterst im Logcat nach deinen eigenen Log-Zeilen.</li>
+</ul>
+
+<h3>Das brauchst du vorher</h3>
+<ul>
+<li>Android Studio läuft, der Emulator Medium Phone API 36.1 ist eingerichtet. Aus dem Vorbereitungsauftrag.</li>
+<li>Du hast 01B gemacht und kannst einen Stacktrace in drei Schritten lesen.</li>
+<li>Du hast 02B gemacht und hast schon einmal ein Projekt selbst angelegt.</li>
+</ul>
+
+<h3>Das gibst du ab</h3>
+<ul>
+<li>Screenshot des Emulators. Der Titel <b>WissQuiz</b> steht in der Mitte.</li>
+<li>Screenshot des Logcat mit dem Filter <code>tag:Modul335</code> und deiner Log-Zeile darin.</li>
+<li>Den ausgefüllten <b>03A Wissenscheck - Das Projektgerüst</b>.</li>
+</ul>
+<p>Mehr nicht. Kein Arbeitsblatt und <b>kein Projekt als ZIP</b>. Dein Produkt ist die laufende App. Ob dein Projekt sauber aufgesetzt ist, prüfst du selbst mit der Vergleichsliste im Lösungsmaterial.</p>
+
+<div class="info">
+<p><b>Warum du das Gerüst getrennt baust.</b> Ab jetzt baust du fünf Tage lang an einer einzigen App weiter, der Quiz-App. Jeder weitere Auftrag setzt auf dem Stand des vorherigen auf. Wenn heute Gradle, Paketname und Emulator einmal sauber zusammenspielen, ist jeder Fehler ab morgen ein Fehler in deinem eigenen Code. Das spart dir über die Woche Stunden.</p>
+</div>
+
+
+<h2>02 Auftrag</h2>
+
+<h3>Ausgangslage</h3>
+<p>Du legst das Projekt für die Quiz-App an. Am Ende startet die App und zeigt einen Titel. Sie macht sonst nichts.</p>
+<p>Das ist Absicht. Heute geht es darum, dass du weisst, welche Datei wofür da ist. Das Quiz selbst beginnt im nächsten Auftrag.</p>
+
+<h3>Werkzeugkasten</h3>
+<p>Das sind die Bausteine, die du für diesen Auftrag brauchst. Es sind heute keine Controls, sondern Dateien.</p>
+<table>
+<tr><th>Baustein</th><th>Wofür</th></tr>
+<tr><td class="pre">AndroidManifest.xml</td><td>Der Ausweis der App. Name, Symbol, Theme und alle Bildschirme stehen hier</td></tr>
+<tr><td class="pre">app/build.gradle.kts</td><td>Die Bauanleitung des App-Moduls. Paketname, SDK-Stufen, Abhängigkeiten</td></tr>
+<tr><td class="pre">gradle/libs.versions.toml</td><td>Der Versionskatalog. Jede Versionsnummer steht genau hier, an einem Ort</td></tr>
+<tr><td class="pre">res/layout/activity_main.xml</td><td>Das Layout des Startbildschirms</td></tr>
+<tr><td class="pre">res/values/strings.xml</td><td>Alle sichtbaren Texte</td></tr>
+<tr><td class="pre">MainActivity.java</td><td>Der Code hinter dem Startbildschirm</td></tr>
+<tr><td class="pre">Logcat</td><td>Das Fenster unten in Android Studio. Dort landen deine Log-Zeilen</td></tr>
+</table>
+
+<p>Welche Angaben beim Anlegen Pflicht sind. Die Namen links sind genau die Beschriftungen im Assistenten.</p>
+<table>
+<tr><th>Feld im Assistenten</th><th>Wert</th><th>Bemerkung</th></tr>
+<tr><td>Vorlage</td><td class="pre">Empty Views Activity</td><td>Nicht <code>Empty Activity</code>. Die ist Compose und hat kein XML</td></tr>
+<tr><td>Name</td><td class="pre">WissQuiz</td><td>Ein Wort, ohne Leerzeichen. Steht im Fenstertitel und im App-Menü</td></tr>
+<tr><td>Package name</td><td class="pre">ch.wiss.m335.quiz</td><td>Nie <code>com.example</code>. Das lehnt der Play Store ab</td></tr>
+<tr><td>Save location</td><td class="pre">…\M335\WissQuiz</td><td>Der Ordner <code>M335</code> auf deinem Rechner, darin ein Ordner <code>WissQuiz</code></td></tr>
+<tr><td>Language</td><td class="pre">Java</td><td>Im ganzen Modul Java, kein Kotlin</td></tr>
+<tr><td>Minimum SDK</td><td class="pre">API 26 ("Oreo"; Android 8.0)</td><td>Darunter steht der Satz mit dem Prozentwert. Lies ihn</td></tr>
+<tr><td>Build configuration language</td><td class="pre">Kotlin DSL (build.gradle.kts)</td><td>Nicht Groovy DSL</td></tr>
+</table>
+
+<h3>Namen der Controls</h3>
+<p>Die Regel aus 02B gilt weiter. Der Klassenname des Controls bestimmt das Präfix.</p>
+<ul>
+<li>Zusammengesetzter Name: erster Buchstabe jedes Wortes. <code>TextView</code> wird <code>tv</code>, <code>ConstraintLayout</code> wird <code>cl</code>.</li>
+<li>Ein Wort: die übliche Dreibuchstaben-Abkürzung. <code>Button</code> wird <code>btn</code>.</li>
+</ul>
+<p>Bezeichner sind englisch, sichtbare Texte deutsch.</p>
+
+<h3>Denkfragen</h3>
+<p>Denk kurz darüber nach, bevor du anfängst. Abgeben musst du hier nichts. Es geht darum, dass du eine Erwartung hast, bevor du loslegst.</p>
+<ol>
+<li>Android Studio erzeugt beim Anlegen über dreissig Dateien. Wie viele davon hast du selbst geschrieben, und wie viele wirst du je anfassen?</li>
+<li>Im Manifest trägt genau eine Activity den Eintrag mit <code>MAIN</code> und <code>LAUNCHER</code>. Was würde wohl passieren, wenn zwei Activities ihn hätten?</li>
+<li>Im Projekt stehen drei Zahlen mit ähnlichem Namen: <code>minSdk</code>, <code>targetSdk</code> und <code>compileSdk</code>. Welche davon entscheidet, auf wie vielen Geräten deine App überhaupt läuft?</li>
+<li>Du benennst im Layout eine <code>android:id</code> um. Welche andere Datei musst du danach anschauen?</li>
+</ol>
+
+<div class="tip">
+<p><b>Diese vier Fragen kommen im Wissenscheck wieder.</b> Dort bekommst du zu jeder Antwort sofort eine Rückmeldung. Dasselbe gilt für das, was du in C1 beobachtest. Wer hier kurz nachdenkt und dort genau hinschaut, hat den Wissenscheck in fünf Minuten durch.</p>
+</div>
+
+
+<h3>Teil A, das Projekt anlegen <span class="time">10 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">A1</span><b>Den Assistenten öffnen und die Vorlage wählen.</b></p>
+<p>Wenn Android Studio noch ein Projekt offen hat: <code>File</code>, dann <code>New</code>, dann <code>New Project</code>. Auf dem Startbildschirm ohne offenes Projekt heisst der Knopf <b>New Project</b>.</p>
+<p>Der Assistent hat zwei Seiten. Auf der ersten wählst du links die Kategorie <b>Phone and Tablet</b>. In der Kachelliste rechts nimmst du <b>Empty Views Activity</b>. Dann <b>Next</b>.</p>
+<div class="note">
+<p><b>Die zwei Kacheln sehen fast gleich aus.</b> <code>Empty Activity</code> und <code>Empty Views Activity</code> stehen nebeneinander. Du brauchst die mit <b>Views</b>. Die andere ist Jetpack Compose. Sie hat kein <code>res/layout</code>, keinen Layout-Editor und kein XML. Nichts aus diesem Modul funktioniert dort.</p>
+<p>Wer sie erwischt, merkt es erst zwanzig Minuten später. Schau zweimal hin, bevor du auf Next klickst.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">A2</span><b>Die zweite Seite ausfüllen, Feld für Feld.</b></p>
+<table>
+<tr><th>Feld</th><th>Was du einträgst</th></tr>
+<tr><td><b>Name</b></td><td><code>WissQuiz</code>. Ein Wort, kein Leerzeichen. Android Studio baut daraus auch den Namen deines Themes</td></tr>
+<tr><td><b>Package name</b></td><td><code>ch.wiss.m335.quiz</code>. Das Feld füllt sich beim Tippen des Namens selbst aus. Überschreib es</td></tr>
+<tr><td><b>Save location</b></td><td>Dein Ordner <code>M335</code>, darin <code>WissQuiz</code>. Also zum Beispiel <code>C:\M335\WissQuiz</code></td></tr>
+<tr><td><b>Language</b></td><td><code>Java</code>. Die Vorauswahl ist Kotlin, du musst sie ändern</td></tr>
+<tr><td><b>Minimum SDK</b></td><td><code>API 26 ("Oreo"; Android 8.0)</code></td></tr>
+<tr><td><b>Build configuration language</b></td><td><code>Kotlin DSL (build.gradle.kts) [Recommended]</code></td></tr>
+</table>
+<p>Dann <b>Finish</b>.</p>
+<div class="warn">
+<p><b>Merk dir den Pfad aus Save location.</b> Du öffnest dieses Projekt an den nächsten vier Tagen jeden Morgen wieder. Es entsteht keine zweite App mehr, alles Weitere baust du hier hinein.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">A3</span><b>Der Satz unter Minimum SDK. Lies ihn, bevor du weiterklickst.</b></p>
+<p>Sobald du eine Stufe wählst, schreibt Android Studio darunter einen Satz in dieser Art:</p>
+<pre>Your app will run on approximately 98.4% of devices.</pre>
+<p>Daneben steht ein Link <b>Help me choose</b>. Er öffnet eine Tabelle mit allen Android-Versionen und ihrem Anteil.</p>
+<p>Rechne kurz mit, statt eine Regel zu glauben.</p>
+<table>
+<tr><th>Minimum SDK</th><th>Läuft auf etwa</th><th>Was das heisst</th></tr>
+<tr><td class="pre">API 26, Android 8.0</td><td class="num">98.4 %</td><td>Fast jedes Gerät da draussen</td></tr>
+<tr><td class="pre">API 36, Android 16</td><td class="num">7.5 %</td><td>Nur brandneue Geräte</td></tr>
+</table>
+<p>Darum steht bei uns 26 und nicht 36. Ein höheres Minimum gibt dir neuere Bausteine, kostet dich aber Geräte. Bei 36 könnten über neunzig Prozent deiner Nutzer deine App nicht einmal installieren.</p>
+<div class="info">
+<p><b>Drei Zahlen, die man leicht verwechselt.</b> Sie sehen ähnlich aus und bedeuten etwas völlig anderes.</p>
+<table>
+<tr><th>Angabe</th><th>Bei uns</th><th>Was sie bedeutet</th></tr>
+<tr><td class="pre">minSdk</td><td>26</td><td><b>Die älteste</b> Android-Version, auf der deine App startet. Bestimmt, wie viele Geräte du erreichst</td></tr>
+<tr><td class="pre">targetSdk</td><td>36</td><td>Die Version, gegen die du <b>getestet</b> hast. Android verhält sich danach</td></tr>
+<tr><td class="pre">compileSdk</td><td>36.1</td><td>Die Version, mit der <b>übersetzt</b> wird. Sie sagt nichts über die Geräte aus</td></tr>
+</table>
+<p>Also: <code>compileSdk 36.1</code> schliesst kein einziges altes Gerät aus. Nur <code>minSdk</code> tut das. Die drei stehen nachher alle in <code>app/build.gradle.kts</code>, dort kannst du sie nachlesen.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">A4</span><b>Warten, bis der Sync fertig ist.</b></p>
+<p>Unten läuft ein Balken. Der erste Gradle Sync dauert gemessen zwei Minuten und vierundzwanzig Sekunden. Fang nicht vorher an zu tippen.</p>
+<div class="warn">
+<p><b>Rote Fehler während des Sync sind normal.</b> Solange der Balken läuft, kennt Android Studio dein Projekt noch nicht vollständig. <code>R</code> ist unbekannt, Imports sind rot. Das verschwindet von selbst. Erst wenn die Statusleiste unten leer ist, ist ein roter Fehler ein echter Fehler.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">A5</span><b>Einmal starten.</b></p>
+<p>Grüner Pfeil oben, Ziel ist der Emulator Medium Phone API 36.1. Auf dem Bildschirm steht <b>Hello World!</b>.</p>
+<p>Das ist der Beweis, dass Android Studio, Gradle und Emulator zusammenspielen. Ab hier ist jeder Fehler dein eigener.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil A.</b></p>
+<ul>
+<li>Im Fenstertitel von Android Studio steht <b>WissQuiz</b>.</li>
+<li>Der Ordner auf deiner Festplatte heisst <code>M335\WissQuiz</code> und enthält unter anderem <code>app</code>, <code>gradle</code> und <code>settings.gradle.kts</code>.</li>
+<li>Es gibt einen Ordner <code>app/src/main/res/layout</code>. Fehlt er, hast du die Compose-Vorlage erwischt.</li>
+<li>Die Statusleiste unten ist leer, kein Balken läuft mehr.</li>
+<li>Auf dem Emulator steht <b>Hello World!</b>.</li>
+<li>Im App-Menü des Emulators findest du das Symbol <b>WissQuiz</b>.</li>
+</ul>
+</div>
+
+
+<h3>Teil B, die Bestandteile einer App <span class="time">5 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">B1</span><b>Der Rundgang.</b></p>
+<p>Stell links oben in der Projektansicht von <b>Android</b> auf <b>Project</b> um. Jetzt siehst du die echten Ordner auf der Festplatte statt der aufgeräumten Ansicht.</p>
+<p>Klick die folgenden sechs Stellen einmal an. Nur schauen, nichts ändern.</p>
+<table>
+<tr><th>Wo</th><th>Was dort liegt</th></tr>
+<tr><td class="pre">app/src/main/java/</td><td>Dein Java-Code. Hier liegt <code>MainActivity.java</code></td></tr>
+<tr><td class="pre">app/src/main/res/layout/</td><td>Die Layouts. Ein XML pro Bildschirm</td></tr>
+<tr><td class="pre">app/src/main/res/values/</td><td><code>strings.xml</code>, <code>colors.xml</code>, <code>themes.xml</code></td></tr>
+<tr><td class="pre">app/src/main/res/mipmap-*/</td><td>Das App-Symbol in sechs Grössen</td></tr>
+<tr><td class="pre">app/src/main/AndroidManifest.xml</td><td>Der Ausweis der App</td></tr>
+<tr><td class="pre">gradle/libs.versions.toml</td><td>Der Versionskatalog</td></tr>
+</table>
+<div class="tip">
+<p><b>Die Trennung, auf die es ankommt.</b> Alles unter <code>res</code> sind <b>Ressourcen</b>, also Texte, Farben, Bilder und Layouts. Alles unter <code>java</code> ist <b>Code</b>. Android baut aus den Ressourcen eine Klasse namens <code>R</code>. Darum heisst es im Code <code>R.layout.activity_main</code> und <code>R.string.app_name</code>. Wer das einmal verstanden hat, findet jede Ressource wieder.</p>
+</div>
+<p><b>Stell jetzt wieder auf <code>Android</code> zurück.</b> Zum Arbeiten ist diese Ansicht die bessere. Sie fasst zusammen, was zusammengehört, und blendet die Ordner aus, die dich nichts angehen. Alle Wegangaben in diesem Modul beziehen sich darauf.</p>
+<div class="note">
+<p><b>Merk dir, dass es die zwei Ansichten gibt.</b> Wenn du im Unterricht einmal eine Datei nicht findest, die es laut Anleitung geben muss, ist die Ansicht der erste Verdacht. <code>Project</code> zeigt alles, <code>Android</code> zeigt das Aufgeräumte.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">B2</span><b>Das Manifest lesen.</b></p>
+<p>Öffne <code>app/src/main/AndroidManifest.xml</code>. Such den Block, der so aussieht:</p>
+<pre>&lt;<span class="t">intent-filter</span>&gt;
+    &lt;<span class="t">action</span> android:name=<span class="s">"android.intent.action.MAIN"</span> /&gt;
+    &lt;<span class="t">category</span> android:name=<span class="s">"android.intent.category.LAUNCHER"</span> /&gt;
+&lt;/<span class="t">intent-filter</span>&gt;</pre>
+<p>Diese vier Zeilen beantworten die Frage, welcher Bildschirm beim Antippen des Symbols erscheint. Ohne sie hat deine App kein Symbol im App-Menü.</p>
+<p>Such dann am <code>&lt;activity&gt;</code>-Element diese Zeile. Sie steht schon da, das Template hat sie mitgeliefert.</p>
+<pre>android:windowSoftInputMode=<span class="s">"adjustResize"</span></pre>
+<p>Sie sorgt dafür, dass der Bildschirm zusammenrückt, wenn die Tastatur aufgeht, statt dass die Tastatur deine Felder verdeckt. Du brauchst sie ab dem Auftrag mit dem Namensfeld. Lass sie stehen.</p>
+<p><b>Du änderst in diesem Schritt nichts.</b> Du liest nur. Am Ende sollst du zu jeder Zeile im Manifest sagen können, ob sie einen Namen festlegt, ein Aussehen bestimmt oder ein Verhalten schaltet.</p>
+<div class="tip">
+<p><b>Hier kommen später fünf weitere <code>&lt;activity&gt;</code>-Blöcke dazu.</b> Nur die MainActivity behält den <code>intent-filter</code>. Wer ihn bei einer zweiten Activity mitkopiert, bekommt zwei Symbole im App-Menü.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">B3</span><b>Der Versionskatalog.</b></p>
+<p>Öffne <code>gradle/libs.versions.toml</code>. Die Datei hat drei Abschnitte.</p>
+<table>
+<tr><th>Abschnitt</th><th>Was dort steht</th></tr>
+<tr><td class="pre">[versions]</td><td>Nur Zahlen. Jede Version genau einmal</td></tr>
+<tr><td class="pre">[libraries]</td><td>Die Bibliotheken. Sie verweisen mit <code>version.ref</code> nach oben</td></tr>
+<tr><td class="pre">[plugins]</td><td>Die Gradle-Plugins, bei uns nur eines</td></tr>
+</table>
+<p>Vergleich das mit <code>app/build.gradle.kts</code>. Dort steht bei den Abhängigkeiten nur <code>libs.appcompat</code>, ohne jede Zahl.</p>
+<p><b>Du änderst hier nichts.</b> Die Zahlen kommen aus dem Template. Übernimm, was dein Assistent erzeugt hat.</p>
+<div class="tip">
+<p><b>Warum die Zahlen an einem Ort stehen.</b> Ein Projekt benutzt schnell zwanzig Bibliotheken. Steht die Version jeweils dort, wo die Bibliothek eingetragen ist, findet man beim Aktualisieren nie alle Stellen. Der Katalog dreht das um: eine Zahl, ein Ort, alle Verweise zeigen dorthin.</p>
+<p>Am Tag 4 trägst du hier selbst etwas ein, wenn die Datenbank dazukommt. Dann weisst du schon, wohin.</p>
+</div>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil B.</b></p>
+<ul>
+<li>Du kannst ohne Nachschauen sagen, in welchem Ordner ein Layout liegt und in welchem der Java-Code.</li>
+<li>Die Projektansicht steht wieder auf <code>Android</code>.</li>
+<li>Du hast im Manifest den <code>intent-filter</code> und die Zeile <code>android:windowSoftInputMode="adjustResize"</code> gefunden. Beide stehen unverändert da.</li>
+<li>Du kannst zeigen, wo die Version von <code>appcompat</code> steht, und wo sie benutzt wird.</li>
+<li>Am Versionskatalog hast du nichts geändert.</li>
+</ul>
+</div>
+
+
+<h3>Teil C, dein eigener Startbildschirm <span class="time">10 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">C1</span><b>Das Layout aufräumen und die Root-id umbenennen.</b></p>
+<p>Öffne <code>app/src/main/res/layout/activity_main.xml</code> im Modus <b>Code</b>.</p>
+<ol>
+<li>Lösche die ganze <code>&lt;TextView ... /&gt;</code> mit dem Hello World.</li>
+<li>Das Root-Element bleibt stehen. Es heisst <code>androidx.constraintlayout.widget.ConstraintLayout</code> und trägt <code>android:id="@+id/main"</code>.</li>
+<li>Ändere diese id auf <code>@+id/clMain</code>. Sonst nichts.</li>
+</ol>
+<p><b>Warum du das änderst.</b> Das Template hält sich nicht an unsere Namensregel. Ein ConstraintLayout bekommt das Präfix <code>cl</code>.</p>
+<p>Starte die App. <b>Schau genau hin, was passiert.</b></p>
+</div>
+
+<div class="step">
+<p><span class="n">C2</span><b>Die Ursache finden.</b></p>
+<p>Die App startet nicht. Sie geht sofort wieder zu, oder es erscheint <code>WissQuiz keeps stopping</code>.</p>
+<p>Lies den Stacktrace im Logcat, in den drei Schritten aus 01B.</p>
+<ol>
+<li>Such die Zeile, die mit <code>Caused by</code> beginnt.</li>
+<li>Such darunter die erste Zeile mit <code>ch.wiss.m335.quiz</code>.</li>
+<li>Dort steht die Zeilennummer in deiner eigenen Datei.</li>
+</ol>
+<p>Du landest in <code>MainActivity.java</code>. Dort steht ein Block, den die Vorlage erzeugt hat:</p>
+<pre><span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -&gt; {
+    <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.Type.systemBars());
+    v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+    <span class="k">return</span> insets;
+});</pre>
+<p><code>R.id.main</code> gibt es nicht mehr. <code>findViewById</code> liefert dafür <code>null</code>, und der Listener stolpert darüber.</p>
+<p>Zieh die id nach. Aus <code>R.id.main</code> wird <code>R.id.clMain</code>.</p>
+<div class="tip">
+<p><b>Der Merksatz.</b> Eine id steht an zwei Orten: im XML wird sie vergeben, im Code wird sie benutzt. Wer eine umbenennt, muss die andere Stelle mitziehen. Das gilt für jede id, die du in diesem Modul noch änderst.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">C3</span><b>Deinen eigenen Rand setzen und den Titel anlegen.</b></p>
+<p>Erweitere den Insets-Block so, wie du es in 02B gemacht hast. Vor den Listener kommt die Zeile:</p>
+<pre><span class="k">final int</span> extraPadding = <span class="t">Math</span>.round(<span class="k">16</span> * getResources().getDisplayMetrics().density);</pre>
+<p>Danach addierst du <code>extraPadding</code> zu jedem der vier Werte in <code>setPadding</code>. Den Aufruf schreibst du selbst.</p>
+<p>Trag in <code>res/values/strings.xml</code> einen zweiten Text ein:</p>
+<pre>&lt;<span class="t">string</span> name=<span class="s">"stage_hint"</span>&gt;Das Projekt steht.&lt;/<span class="t">string</span>&gt;</pre>
+<p>Bau dann im Layout zwei TextViews. Die Werte stehen in der Tabelle, die Constraints setzt du selbst.</p>
+<table>
+<tr><th>id</th><th>Text</th><th>Grösse</th><th>Wo</th></tr>
+<tr><td class="pre">tvTitle</td><td class="pre">@string/app_name</td><td>28sp, fett</td><td>mittig im Bildschirm, alle vier Anker auf <code>parent</code></td></tr>
+<tr><td class="pre">tvStage</td><td class="pre">@string/stage_hint</td><td>14sp</td><td>direkt darunter, 8dp Abstand nach oben</td></tr>
+</table>
+<div class="note">
+<p><b>Kein fester Text im Layout.</b> Schreib nicht <code>android:text="WissQuiz"</code>. Verweise auf <code>@string/app_name</code>. Der Grund ist heute noch klein, ab dem Auftrag mit den Fragen wird er gross: ein Text, der an zwei Orten steht, wird irgendwann an einem Ort vergessen.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">C4</span><b>Der Log-Tag und der Filter.</b></p>
+<p>Trag in <code>MainActivity</code> ganz oben in der Klasse die Konstante ein:</p>
+<pre><span class="k">private static final</span> <span class="t">String</span> TAG = <span class="s">"Modul335"</span>;</pre>
+<p>Am Ende von <code>onCreate</code> schreibst du eine Log-Zeile:</p>
+<pre>Log.d(TAG, <span class="s">"MainActivity onCreate, das Projekt steht"</span>);</pre>
+<p>Starte. Öffne unten das Fenster <b>Logcat</b> und tipp ins Suchfeld:</p>
+<pre>tag:Modul335</pre>
+<p>Deine Zeile muss erscheinen, und sonst fast nichts.</p>
+<div class="warn">
+<p><b>Warum der Tag nicht <code>M335</code> heisst.</b> Das Suchfeld im Logcat sucht standardmässig im Freitext über alle Spalten, auch im Paketnamen. Unser Paket heisst <code>ch.wiss.m335.quiz</code>. Mit dem Tag <code>M335</code> träfe der Filter jede Zeile unserer App, auch die vielen aus dem System. Die Liste bliebe lang und der Filter nutzlos. <code>Modul335</code> steht sonst nirgends.</p>
+</div>
+<div class="tip">
+<p><b>Der Filter kann mehr als Freitext.</b> Logcat kennt eine kleine Abfragesprache. <code>tag:Modul335</code> sucht nur in der Tag-Spalte. <code>package:ch.wiss.m335.quiz</code> nur in deiner App. Beides zusammen mit <code>level:DEBUG</code> ergibt genau deine eigenen Zeilen.</p>
+</div>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil C.</b></p>
+<ul>
+<li>Die App startet ohne Absturz.</li>
+<li>Mittig steht <b>WissQuiz</b> in grosser fetter Schrift, darunter <b>Das Projekt steht.</b></li>
+<li>Zwischen Text und Bildschirmrand ist ringsum Luft, oben liegt nichts unter der Uhr.</li>
+<li>Im Logcat zeigt der Filter <code>tag:Modul335</code> genau deine Zeile.</li>
+<li>Du kannst in einem Satz sagen, warum die App nach C1 abgestürzt ist.</li>
+</ul>
+</div>
+
+
+<h3>Übungen <span class="time">5 Minuten</span></h3>
+<p>Ohne Vorlage. Die Lösungen findest du im Material <b>03A Lösung - Das Projektgerüst</b>. Schau erst hinein, wenn du es selbst versucht hast.</p>
+
+<div class="ue">
+<div class="t">Übung 1, eine zweite Log-Zeile</div>
+<p>Schreib eine zweite Log-Zeile, die nur beim Verlassen der App erscheint. Die passende Methode heisst <code>onPause</code>. Finde selbst heraus, wie du sie überschreibst.</p>
+<p><b>So prüfst du:</b> Du drückst im Emulator den Home-Knopf. Erst dann erscheint die zweite Zeile im gefilterten Logcat.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 2, der Rand wird grösser</div>
+<p>Ändere deinen eigenen Rand von 16dp auf 40dp. Ändere dazu genau eine Zahl.</p>
+<p><b>So prüfst du:</b> Der Titel rückt sichtbar von den Rändern weg. Der Abstand nach oben zur Uhr bleibt zusätzlich erhalten.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 3, erklären</div>
+<p>Erkläre einem Lerngspänli in eigenen Worten, warum deine App nach dem Umbenennen der id abgestürzt ist. Zeig dabei auf beide Stellen, die XML-Zeile und die Java-Zeile.</p>
+<p><b>So prüfst du:</b> Dein Gegenüber kann danach selbst sagen, wo es nachschauen muss, wenn es eine id ändert.</p>
+</div>
+
+
+<h3>Zusatzaufgabe für Schnelle</h3>
+<div class="tip">
+<p>Zuerst die Pflichtaufgabe fertig und lauffähig. Dann erst hier weiter.</p>
+<p><b>Auftrag:</b> Sorg dafür, dass im App-Menü des Emulators nicht <b>WissQuiz</b> steht, sondern <b>Quiz WISS</b>. Der Fenstertitel in Android Studio soll dabei unverändert bleiben.</p>
+<p><b>Und die Frage, die dazugehört:</b> An wie vielen Stellen steht der Name deiner App jetzt insgesamt? Zähl sie auf und sag zu jeder, wer sie sieht: der Benutzer, du in der IDE, oder das Betriebssystem.</p>
+<p>Keine Musterlösung. KI darfst du benutzen, aber du musst deine Lösung erklären können.</p>
+</div>
+
+
+<h3>Wenn etwas nicht funktioniert</h3>
+<table>
+<tr><th>Das siehst du</th><th>Ursache</th><th>Das machst du</th></tr>
+<tr><td>Es gibt keinen Ordner <code>res/layout</code>, in <code>MainActivity</code> steht <code>setContent { … }</code></td><td>Im Assistenten wurde <b>Empty Activity</b> gewählt. Das ist Compose</td><td>Projekt wegwerfen und neu anlegen mit <b>Empty Views Activity</b>. Umbauen dauert länger</td></tr>
+<tr><td>Rote Fehler beim Sync, <code>R</code> ist unbekannt, obwohl du noch nichts geschrieben hast</td><td>Der erste Gradle Sync ist noch nicht fertig</td><td>Warten, bis die Statusleiste unten leer ist. Danach einmal <code>Build</code>, <code>Clean Project</code></td></tr>
+<tr><td>Die App stürzt beim Start ab, im Logcat steht <code>NullPointerException</code></td><td>Die id wurde im XML umbenannt, im Java steht noch die alte</td><td>Siehe C2. <code>R.id.main</code> wird <code>R.id.clMain</code></td></tr>
+<tr><td>Der grüne Run-Pfeil ist grau und lässt sich nicht anklicken</td><td>Eine Gradle-Datei wurde geändert, der Sync fehlt</td><td><code>File</code>, <code>Sync Project with Gradle Files</code>. Oder auf den Elefanten oben rechts klicken</td></tr>
+<tr><td>Der Titel liegt teilweise unter der Uhr</td><td>Der Insets-Block wurde gelöscht</td><td>Wieder einsetzen. Er ist kein Beiwerk, er löst ein echtes Problem</td></tr>
+<tr><td>Im Logcat erscheint nichts, obwohl die App läuft</td><td>Der Filter ist falsch geschrieben, oder es ist das falsche Gerät ausgewählt</td><td>Oben links im Logcat den laufenden Emulator wählen. Filter genau <code>tag:Modul335</code>, gross und klein zählt</td></tr>
+<tr><td>Im Logcat erscheinen hunderte Zeilen</td><td>Der Filter steht auf Freitext <code>M335</code> statt auf <code>tag:Modul335</code></td><td>Filter korrigieren. Der Grund steht im Kasten unter C4</td></tr>
+<tr><td>Gelbes Warndreieck bei <code>android:text</code> im Layout</td><td>Dort steht fester Text statt <code>@string/…</code></td><td>Text nach <code>strings.xml</code> auslagern und verweisen</td></tr>
+<tr><td><code>Emulator: process finished with exit code 1</code></td><td>Der Emulator läuft schon, oder zu wenig Arbeitsspeicher</td><td>Im Device Manager den laufenden Emulator beenden und neu starten</td></tr>
+</table>
+
+<h3>Abgabe</h3>
+<p>Alles läuft über die Aufgabe <b>03A Auftrag - Das Projektgerüst</b> in Google Classroom.</p>
+<ol>
+<li>Screenshot des Emulators mit dem Titel.</li>
+<li>Screenshot des Logcat mit dem Filter <code>tag:Modul335</code>.</li>
+<li>Danach den <b>03A Wissenscheck</b> ausfüllen.</li>
+</ol>
+
+
+<h2>03 Guide</h2>
+<table>
+<tr><td>Zeitbudget</td><td>30 Minuten. Teil A 10, Teil B 5, Teil C 10, Übungen 5</td></tr>
+<tr><td>Sozialform</td><td>Einzelarbeit. Bei den Denkfragen und Übung 3 zu zweit</td></tr>
+<tr><td>Aufgabenart</td><td>Geführter Aufbau mit einer Entdeckungsstelle (C1 gegen C2)</td></tr>
+<tr><td>Voraussetzung</td><td>Vorbereitungsauftrag, 01B, 02B</td></tr>
+<tr><td>KI</td><td>In Teil A bis C <b>nicht</b> erlaubt. Bei den Übungen und der Zusatzaufgabe erlaubt</td></tr>
+<tr><td>Abgabe</td><td>Zwei Screenshots, dazu der Wissenscheck. <b>Kein Arbeitsblatt und kein ZIP</b></td></tr>
+</table>
+
+<h3>Die drei Beiträge in Google Classroom</h3>
+<table>
+<tr><th>Name</th><th>Typ</th><th>Einstellung</th></tr>
+<tr><td>03A Auftrag - Das Projektgerüst</td><td>Aufgabe</td><td>Dieses Dokument liegt als Anhang bei, nur zum Ansehen. Abgegeben werden zwei Screenshots</td></tr>
+<tr><td>03A Wissenscheck - Das Projektgerüst</td><td>Aufgabe mit Quiz</td><td>Unbenotet, beliebig oft wiederholbar, kein Fälligkeitsdatum. Sechs Fragen</td></tr>
+<tr><td>03A Lösung - Das Projektgerüst</td><td>Material</td><td>Schüler können Datei ansehen. Enthält den vollständigen Code als Text und die Vergleichsliste</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Warum es hier kein Arbeitsblatt gibt.</b> Das Produkt dieses Auftrags ist eine laufende App, kein Papier. Was schriftlich gezeigt werden muss, also die vier Denkfragen und die Beobachtung aus C1, steckt vollständig im Wissenscheck.</p>
+</div>
+
+
+<h2>04 Unterrichtsmittel</h2>
+<table>
+<tr><th>Art</th><th>Was</th></tr>
+<tr><td>Hardware</td><td>Eigenes Notebook, laufender Emulator Medium Phone API 36.1</td></tr>
+<tr><td>Software und Tools</td><td>Android Studio Quail 2, Patch 1</td></tr>
+<tr><td>Dokumente</td><td>Wie Apps aufgebaut sind. Liegt im Thema Nachschlagen</td></tr>
+<tr><td>Buch</td><td>Android-Apps entwickeln für Einsteiger, Kapitel 3 Das erste Projekt</td></tr>
+</table>
+
+
+<p class="foot">Modul 335 | Tag 2 Vormittag | Auftrag 03A | Fassung 2 | 14.08.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>

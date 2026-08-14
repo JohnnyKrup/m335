@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>03A Lösung, Das Projektgerüst</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>03A Lösung, Das Projektgerüst</h1>
+<p class="sub">Lösungsmaterial zum Auftrag 03A. Modul 335, Tag 2 Vormittag. Fassung 2 vom 14.08.2026.</p>
+<p class="sub"><b>Zum Durchlesen brauchst du etwa 10 Minuten.</b> Das ist ein Richtwert. Du musst nicht alles lesen, such dir die Stelle, die du brauchst.</p>
+
+<div class="info">
+<p><b>Wie du das hier benutzt.</b> Nicht abtippen. Vergleichen. Zu jeder Lösung steht eine kurze Begründung. Die Begründung ist der eigentliche Inhalt, der Code ist nur der Beleg dazu.</p>
+<p>Wenn deine Lösung anders aussieht und trotzdem funktioniert, ist sie richtig. Du solltest aber sagen können, warum du es anders gemacht hast.</p>
+</div>
+
+
+<h2>Vergleichsliste, dein eigenes Projekt</h2>
+<p>Geh diese acht Punkte an <b>deinem eigenen</b> Projekt durch, bevor du hier weiterliest. Ein Screenshot zeigt nur das Ergebnis. Diese Liste zeigt, ob der Weg dorthin sauber war.</p>
+<p>Alles, was hier steht, trägt die ganze Woche. Ein Fehler hier kostet dich am Tag 4 eine halbe Stunde Suche.</p>
+
+<table>
+<tr><th>Nr</th><th>Das prüfst du</th><th>Warum es zählt</th></tr>
+<tr><td>1</td><td>Steht in <code>app/build.gradle.kts</code> bei <code>namespace</code> und <code>applicationId</code> genau <code>ch.wiss.m335.quiz</code>?</td><td>Der Logcat-Filter, das Suchen im Stacktrace und der Import in jeder neuen Klasse hängen daran</td></tr>
+<tr><td>2</td><td>Gibt es einen Ordner <code>app/src/main/res/layout</code> mit <code>activity_main.xml</code> darin?</td><td>Fehlt er, wurde die Compose-Vorlage gewählt. Dann trägt nichts aus diesem Modul</td></tr>
+<tr><td>2b</td><td>Steht in <code>app/build.gradle.kts</code> <code>minSdk = 26</code>, <code>targetSdk = 36</code> und der <code>compileSdk</code>-Block mit <code>release(36)</code>?</td><td>Nur <code>minSdk</code> entscheidet über die Geräte. Mit 36 könnten über neunzig Prozent deine App nicht installieren</td></tr>
+<tr><td>3</td><td>Heisst das Root-Element im Layout <code>@+id/clMain</code> und nicht <code>@+id/main</code>?</td><td>Namensregel des Moduls. Sie gilt auch in der Leistungsbeurteilung</td></tr>
+<tr><td>4</td><td>Steht in <code>MainActivity.java</code> überall <code>R.id.clMain</code>, nirgends mehr <code>R.id.main</code>?</td><td>Eine übersehene Stelle heisst Absturz beim Start, nicht roter Text im Editor</td></tr>
+<tr><td>5</td><td>Verweisen beide TextViews auf <code>@string/…</code> statt auf festen Text?</td><td>Ein Text an zwei Orten wird an einem Ort vergessen. Ab dem Auftrag mit den Fragen wird das teuer</td></tr>
+<tr><td>6</td><td>Wird <code>extraPadding</code> zu den System-Insets <b>addiert</b>, nicht statt ihnen gesetzt?</td><td>Beim Ersetzen liegt dein Titel wieder unter der Uhr</td></tr>
+<tr><td>7</td><td>Heisst der Log-Tag genau <code>Modul335</code> und ist er <code>private static final</code>?</td><td>Ein Tag pro Klasse als Konstante ist der übliche Weg. Der Name ist Modulvorgabe</td></tr>
+<tr><td>8</td><td>Stehen in <code>libs.versions.toml</code> noch genau die Zahlen, die dein Assistent erzeugt hat?</td><td>Wer eigenmächtig eine Version anhebt, baut ein anderes Projekt als der Rest der Klasse. Die Ursache steht dann nicht im Code</td></tr>
+</table>
+
+
+<h2>Antworten zu den Denkfragen</h2>
+<p>Diese vier Fragen kommen im <b>03A Wissenscheck</b> als Quizfragen wieder. Hier steht die längere Begründung dazu.</p>
+
+<div class="ue">
+<p class="t">Frage 1, wie viele der erzeugten Dateien hast du selbst geschrieben?</p>
+<p>Keine einzige. Von den über dreissig Dateien fasst du im ganzen Modul etwa acht an: das Manifest, die zwei Gradle-Dateien, den Versionskatalog, die Layouts, <code>strings.xml</code> und deine Java-Klassen.</p>
+<p><b>Warum das zählt:</b> Wer glaubt, er müsse alles verstehen, verliert Zeit an <code>backup_rules.xml</code> und <code>rules.keep</code>. Die brauchst du nie. Lern die acht, ignoriere den Rest, und schau nach, wenn dich eine Fehlermeldung dorthin schickt.</p>
+</div>
+
+<div class="ue">
+<p class="t">Frage 2, was passiert bei zwei Activities mit MAIN und LAUNCHER?</p>
+<p>Deine App bekommt <b>zwei Symbole</b> im App-Menü, mit demselben Namen. Der Benutzer sieht die App doppelt und weiss nicht, welche er antippen soll.</p>
+<p>Der <code>intent-filter</code> beantwortet nicht die Frage "welche Activity gibt es", sondern "was soll das System starten, wenn jemand die App öffnet". Es kann nur eine Antwort geben.</p>
+<p><b>Warum das zählt:</b> Am Tag 3 kommen vier weitere Activities dazu. Die häufigste Art, sie einzutragen, ist Kopieren des bestehenden Blocks. Wer dabei den <code>intent-filter</code> mitkopiert, sieht den Fehler erst im App-Menü.</p>
+</div>
+
+<div class="ue">
+<p class="t">Frage 3, welche der drei Zahlen entscheidet über die Anzahl Geräte?</p>
+<p><b><code>minSdk</code></b>, bei uns 26. Sie nennt die älteste Android-Version, auf der deine App startet. Alles darunter kann sie nicht einmal installieren.</p>
+<table>
+<tr><th>Angabe</th><th>Bei uns</th><th>Was sie bedeutet</th></tr>
+<tr><td class="pre">minSdk</td><td>26</td><td>Die älteste Version, auf der die App läuft. <b>Nur diese schliesst Geräte aus</b></td></tr>
+<tr><td class="pre">targetSdk</td><td>36</td><td>Die Version, gegen die getestet wurde. Android schaltet danach sein Verhalten</td></tr>
+<tr><td class="pre">compileSdk</td><td>36.1</td><td>Die Version, mit der übersetzt wird. Sagt nichts über Geräte aus</td></tr>
+</table>
+<p>Der Assistent rechnet es dir vor: API 26 erreicht rund 98.4 Prozent aller Geräte, API 36 nur rund 7.5 Prozent.</p>
+<p><b>Warum das zählt:</b> Wer <code>compileSdk</code> für die Gerätezahl hält, wählt aus Vorsicht ein zu tiefes <code>compileSdk</code> und kann dann neue Bausteine nicht benutzen. Die zwei Zahlen ziehen in verschiedene Richtungen. Hoch übersetzen und tief laufen lassen ist der übliche Weg.</p>
+</div>
+
+<div class="ue">
+<p class="t">Frage 4, du benennst eine id im Layout um. Wo schaust du danach?</p>
+<p>In der Java-Klasse, die dieses Layout benutzt. Jede id lebt an zwei Orten: im XML wird sie mit <code>@+id/</code> vergeben, im Code wird sie mit <code>R.id.</code> benutzt.</p>
+<p><b>Warum das zählt:</b> Der Compiler warnt dich nicht. <code>R.id.main</code> existiert nach dem Umbenennen zwar nicht mehr, aber wenn irgendwo sonst im Projekt noch eine id <code>main</code> steht, kompiliert es weiter und liefert zur Laufzeit <code>null</code>. Genau das ist der Absturz aus C1.</p>
+</div>
+
+
+<h2>Die Beobachtungsstelle</h2>
+
+<div class="ue">
+<p class="t">C1 gegen C2, die App stürzt nach dem Umbenennen ab</p>
+<p><b>Was du siehst:</b> Die App startet gar nicht sichtbar. Der Emulator zeigt kurz nichts oder eine Meldung <code>WissQuiz keeps stopping</code>.</p>
+<p><b>Was im Logcat steht:</b></p>
+<pre><span class="c">Caused by: java.lang.NullPointerException: Attempt to invoke virtual method
+  'void android.view.View.setPadding(int, int, int, int)' on a null object reference
+    at ch.wiss.m335.quiz.MainActivity.lambda$onCreate$0(MainActivity.java:38)</span></pre>
+<p><b>Die Ursache:</b> <code>findViewById(R.id.main)</code> findet nichts mehr und gibt <code>null</code> zurück. Der Listener bekommt <code>null</code> und ruft darauf <code>setPadding</code> auf.</p>
+<p><b>Die drei Schritte, mit denen du dorthin kommst:</b> <code>Caused by</code> suchen, darunter die erste Zeile mit <code>ch.wiss.m335.quiz</code> suchen, die Zeilennummer ablesen. Genau wie in 01B.</p>
+<div class="tip">
+<p><b>Der Merksatz für die ganze Woche.</b> Eine id steht an zwei Orten. Im XML wird sie vergeben, im Code wird sie benutzt. Wer eine ändert, zieht die andere nach.</p>
+</div>
+</div>
+
+
+<h2>Das fertige Layout</h2>
+<p>Datei <code>app/src/main/res/layout/activity_main.xml</code>, Stand am Ende von Teil C.</p>
+
+<pre>&lt;?xml version=<span class="s">"1.0"</span> encoding=<span class="s">"utf-8"</span>?&gt;
+&lt;<span class="t">androidx.constraintlayout.widget.ConstraintLayout</span>
+    xmlns:android=<span class="s">"http://schemas.android.com/apk/res/android"</span>
+    xmlns:app=<span class="s">"http://schemas.android.com/apk/res-auto"</span>
+    xmlns:tools=<span class="s">"http://schemas.android.com/tools"</span>
+    android:id=<span class="s">"@+id/clMain"</span>
+    android:layout_width=<span class="s">"match_parent"</span>
+    android:layout_height=<span class="s">"match_parent"</span>
+    tools:context=<span class="s">".MainActivity"</span>&gt;
+
+    &lt;<span class="t">TextView</span>
+        android:id=<span class="s">"@+id/tvTitle"</span>
+        android:layout_width=<span class="s">"wrap_content"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:text=<span class="s">"@string/app_name"</span>
+        android:textSize=<span class="s">"28sp"</span>
+        android:textStyle=<span class="s">"bold"</span>
+        app:layout_constraintBottom_toBottomOf=<span class="s">"parent"</span>
+        app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span>
+        app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
+        app:layout_constraintTop_toTopOf=<span class="s">"parent"</span> /&gt;
+
+    &lt;<span class="t">TextView</span>
+        android:id=<span class="s">"@+id/tvStage"</span>
+        android:layout_width=<span class="s">"wrap_content"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:layout_marginTop=<span class="s">"8dp"</span>
+        android:text=<span class="s">"@string/stage_hint"</span>
+        android:textSize=<span class="s">"14sp"</span>
+        app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span>
+        app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
+        app:layout_constraintTop_toBottomOf=<span class="s">"@id/tvTitle"</span> /&gt;
+
+&lt;/<span class="t">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</pre>
+
+<div class="tip">
+<p><b>Warum <code>tvTitle</code> alle vier Anker hat.</b> Ein Element, das gegen alle vier Kanten des Parent gespannt ist und <code>wrap_content</code> gross ist, landet genau in der Mitte. Das ist der übliche Weg zum Zentrieren im ConstraintLayout. Du brauchst dafür keine Angabe wie <code>gravity</code>.</p>
+<p><code>tvStage</code> hängt oben an <code>@id/tvTitle</code>, nicht am Parent. Darum rutscht es mit, wenn der Titel länger wird. Beachte: hier steht <code>@id</code> ohne Plus, weil die id schon vergeben ist.</p>
+</div>
+
+
+<h2>Die fertige MainActivity</h2>
+<p>Datei <code>app/src/main/java/ch/wiss/m335/quiz/MainActivity.java</code>.</p>
+
+<pre><span class="k">package</span> ch.wiss.m335.quiz;
+
+<span class="k">import</span> android.os.Bundle;
+<span class="k">import</span> android.util.Log;
+
+<span class="k">import</span> androidx.activity.EdgeToEdge;
+<span class="k">import</span> androidx.appcompat.app.AppCompatActivity;
+<span class="k">import</span> androidx.core.graphics.Insets;
+<span class="k">import</span> androidx.core.view.ViewCompat;
+<span class="k">import</span> androidx.core.view.WindowInsetsCompat;
+
+<span class="c">/**
+ * Startbildschirm der Quiz-App.
+ *
+ * Das Gerüst steht, mehr nicht. Zu sehen ist nur der Titel.
+ * Die Knöpfe zu den weiteren Bildschirmen kommen später, sobald es
+ * Bildschirme gibt, zu denen sie führen können.
+ *
+ * Der Insets-Block unten gehört zum Template. Ab Android 15 zeichnet das
+ * System bis unter Statusleiste und Navigationsleiste. Ohne diesen Block
+ * liegt der Titel unter der Uhr.
+ */</span>
+<span class="k">public class</span> <span class="t">MainActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span> {
+
+    <span class="c">/**
+     * Log-Tag für das ganze Modul 335.
+     *
+     * Bewusst nicht "M335". Diese Zeichenfolge steckt auch im
+     * Paketnamen ch.wiss.m335.quiz. Das Suchfeld im Logcat sucht im
+     * Freitext über alle Spalten, und damit träfe "M335" jede Zeile
+     * unserer App statt nur die selbst geschriebenen.
+     */</span>
+    <span class="k">private static final</span> <span class="t">String</span> TAG = <span class="s">"Modul335"</span>;
+
+    <span class="k">@Override</span>
+    <span class="k">protected void</span> onCreate(<span class="t">Bundle</span> savedInstanceState) {
+        <span class="k">super</span>.onCreate(savedInstanceState);
+        EdgeToEdge.enable(<span class="k">this</span>);
+        setContentView(R.layout.activity_main);
+
+        <span class="c">// 16dp eigener Rand, in Pixel umgerechnet über die Dichte des Geräts.</span>
+        <span class="k">final int</span> extraPadding = <span class="t">Math</span>.round(<span class="k">16</span> * getResources().getDisplayMetrics().density);
+
+        <span class="c">// Wichtig: der eigene Rand wird zu den System-Insets dazugerechnet.
+        // Wer hier nur setPadding(extraPadding, ...) schreibt, verliert den
+        // Abstand zur Statusleiste wieder.</span>
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.clMain), (v, insets) -&gt; {
+            <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.Type.systemBars());
+            v.setPadding(
+                    systemBars.left + extraPadding,
+                    systemBars.top + extraPadding,
+                    systemBars.right + extraPadding,
+                    systemBars.bottom + extraPadding);
+            <span class="k">return</span> insets;
+        });
+
+        Log.d(TAG, <span class="s">"MainActivity onCreate, das Projekt steht"</span>);
+    }
+}</pre>
+
+
+<h2>Die zwei Ressourcendateien</h2>
+<p>Datei <code>app/src/main/res/values/strings.xml</code>.</p>
+<pre>&lt;<span class="t">resources</span>&gt;
+    &lt;<span class="t">string</span> name=<span class="s">"app_name"</span>&gt;WissQuiz&lt;/<span class="t">string</span>&gt;
+    &lt;<span class="t">string</span> name=<span class="s">"stage_hint"</span>&gt;Das Projekt steht.&lt;/<span class="t">string</span>&gt;
+&lt;/<span class="t">resources</span>&gt;</pre>
+
+<p><b>Am Manifest hast du nichts geändert.</b> Das Template liefert es fertig, samt <code>intent-filter</code> und der Zeile <code>android:windowSoftInputMode="adjustResize"</code> am <code>&lt;activity&gt;</code>-Element. Angeschaut hast du es trotzdem, weil dort ab dem Auftrag mit der zweiten Activity jedes Mal etwas dazukommt.</p>
+
+
+<h2>Was sich gegenüber dem Template geändert hat</h2>
+<table>
+<tr><th>Datei</th><th>Vorher, wie das Template es erzeugt</th><th>Jetzt</th><th>Warum</th></tr>
+<tr><td class="pre">settings.gradle.kts</td><td><code>rootProject.name = "MyApplication"</code></td><td><code>"WissQuiz"</code></td><td>Kommt aus dem Assistenten, steht im Fenstertitel</td></tr>
+<tr><td class="pre">app/build.gradle.kts</td><td><code>com.example.…</code></td><td><code>ch.wiss.m335.quiz</code></td><td><code>com.example</code> lehnt der Play Store ab</td></tr>
+<tr><td class="pre">AndroidManifest.xml</td><td>fertig, mit <code>intent-filter</code> und <code>adjustResize</code></td><td><b>unverändert</b></td><td>Das Template liefert alles, was diese Stufe braucht</td></tr>
+<tr><td class="pre">activity_main.xml</td><td><code>@+id/main</code>, ein TextView "Hello World!"</td><td><code>@+id/clMain</code>, <code>tvTitle</code> und <code>tvStage</code></td><td>Namensregel, und der Titel zeigt, dass die App wirklich läuft</td></tr>
+<tr><td class="pre">strings.xml</td><td>nur <code>app_name</code></td><td>plus <code>stage_hint</code></td><td>Kein fester Text im Layout</td></tr>
+<tr><td class="pre">MainActivity.java</td><td>ohne Log-Tag, Rand 0</td><td>Konstante <code>TAG</code>, 16dp Rand, Javadoc</td><td>Log-Tag ist im ganzen Modul <code>Modul335</code></td></tr>
+</table>
+
+
+<h2>Lösungen zu den Übungen</h2>
+
+<div class="ue">
+<p class="t">Übung 1, eine zweite Log-Zeile</p>
+<pre><span class="k">@Override</span>
+<span class="k">protected void</span> onPause() {
+    <span class="k">super</span>.onPause();
+    Log.d(TAG, <span class="s">"MainActivity onPause, die App geht in den Hintergrund"</span>);
+}</pre>
+<p>Die Methode gehört in dieselbe Klasse, ausserhalb von <code>onCreate</code>. Der Aufruf <code>super.onPause()</code> ist Pflicht. Ohne ihn wirft Android beim Verlassen eine Ausnahme, weil die Basisklasse ihre eigene Arbeit nicht machen konnte.</p>
+<p><b>Was du dabei nebenbei siehst:</b> Eine Activity hat einen Lebenszyklus. <code>onCreate</code> läuft einmal beim Erzeugen, <code>onPause</code> jedes Mal beim Verlassen. Am Tag 3 nutzt du das aus, wenn der beste Wert nach der Rückkehr aktuell sein muss.</p>
+</div>
+
+<div class="ue">
+<p class="t">Übung 2, der Rand wird grösser</p>
+<pre><span class="k">final int</span> extraPadding = <span class="t">Math</span>.round(<span class="k">40</span> * getResources().getDisplayMetrics().density);</pre>
+<p>Genau eine Zahl. Die <code>16</code> wird zur <code>40</code>.</p>
+<p><b>Warum das die richtige Stelle ist:</b> Der Wert steht an einem Ort und wird an vier Stellen benutzt. Wer stattdessen die vier Werte im <code>setPadding</code> einzeln anpasst, hat dieselbe Zahl viermal im Code und vergisst beim nächsten Mal eine davon.</p>
+</div>
+
+<div class="ue">
+<p class="t">Übung 3, erklären</p>
+<p>Eine gute Erklärung nennt beide Stellen und die Richtung dazwischen.</p>
+<p>"Im XML habe ich die id vergeben, mit <code>@+id/clMain</code>. Im Java wird sie mit <code>findViewById(R.id.main)</code> gesucht. Diesen Namen gibt es nicht mehr, also kommt <code>null</code> zurück. Auf <code>null</code> kann man kein <code>setPadding</code> aufrufen, und darum stürzt die App ab, sobald sie startet."</p>
+<p>Wer dazu noch sagen kann, warum der Compiler nicht gewarnt hat, hat es ganz verstanden: <code>findViewById</code> darf zur Übersetzungszeit nicht wissen, welche Views im Layout stehen. Es prüft erst beim Laufen.</p>
+</div>
+
+<div class="note">
+<p><b>Zur Zusatzaufgabe steht hier bewusst nichts.</b> Es gibt mehrere richtige Wege, und die Frage danach musst du selbst beantworten können.</p>
+</div>
+
+
+<h2>Mögliche falsche KI-Rückmeldungen</h2>
+<p>Das sind Antworten, die uns bei diesem Thema schon begegnet sind. Nicht jede KI macht jeden dieser Fehler, und dieselbe KI antwortet nicht jedes Mal gleich. Die Liste ist keine Anklage, sondern eine Prüfliste: wenn eine dieser Antworten kommt, weisst du, woran du sie erkennst.</p>
+<table>
+<tr><th>Die KI schlägt vor</th><th>Warum das falsch ist</th></tr>
+<tr><td><code>build.gradle</code> in Groovy, mit <code>apply plugin: 'com.android.application'</code></td><td>Antwort aus der Zeit vor 2023. Wir arbeiten mit Kotlin DSL und <code>alias(libs.plugins.…)</code> aus dem Versionskatalog</td></tr>
+<tr><td><code>compileSdk = 36</code> als einfache Zahl</td><td>Gilt bis AGP 8. Ab AGP 9 ist es ein Block mit <code>version = release(36) { minorApiLevel = 1 }</code></td></tr>
+<tr><td><code>jcenter()</code> im Repositories-Block</td><td>Abgeschaltet. Heute nur noch <code>google()</code> und <code>mavenCentral()</code></td></tr>
+<tr><td>Abhängigkeiten direkt als <code>implementation("androidx.appcompat:appcompat:1.6.1")</code></td><td>Läuft, umgeht aber den Versionskatalog. Dann stehen Versionen an zwei Orten</td></tr>
+<tr><td><code>(TextView) findViewById(R.id.tvTitle)</code> mit Cast</td><td>Seit API 26 ist <code>findViewById</code> generisch. Der Cast ist überflüssig</td></tr>
+<tr><td>Den Insets-Block löschen, damit der eigene Rand wirkt</td><td>Löst das sichtbare Problem und schafft ein grösseres. Der Titel liegt danach unter der Uhr</td></tr>
+<tr><td>"Aktualisiere alle Bibliotheken auf die neueste Version"</td><td>Die KI weiss nicht, welcher Stand in deiner Klasse gilt. Wer allein anhebt, baut ein anderes Projekt als alle anderen, und die Ursache steht nicht im Code</td></tr>
+<tr><td>Eine konkrete Versionsnummer, ohne Zögern genannt</td><td>Die KI kann keine Version nachschlagen, sie erinnert sich an eine. Nimm die Zahl als Startwert und lass Android Studio nachmessen</td></tr>
+</table>
+
+
+<h2>So prüfst du das Ganze</h2>
+<ol>
+<li>Projekt öffnen, warten bis die Statusleiste unten leer ist.</li>
+<li>Im Fenstertitel steht <b>WissQuiz</b>.</li>
+<li><b>Run</b> auf dem Emulator Medium Phone API 36.1.</li>
+<li>Auf dem Emulator steht mittig <b>WissQuiz</b> und darunter <b>Das Projekt steht.</b></li>
+<li>Im Logcat nach <code>tag:Modul335</code> filtern. Dort steht deine Zeile.</li>
+<li>Im App-Menü des Emulators heisst das Symbol <b>WissQuiz</b>.</li>
+</ol>
+
+<div class="tip">
+<p><b>Punkt 5 ist der wichtigste.</b> Wenn der Filter <code>tag:Modul335</code> etwas zeigt, sind Paketname, Log-Tag und Emulator-Verbindung alle drei in Ordnung. Ab hier ist jeder Fehler ein eigener.</p>
+</div>
+
+<p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 03A Das Projektgerüst &middot; Fassung 2 vom 14.08.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>

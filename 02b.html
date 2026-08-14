@@ -73,7 +73,7 @@
 <p>Das sind alle Bausteine, die du für diesen Auftrag brauchst. Mehr nicht.</p>
 <table>
 <tr><th>Baustein</th><th>Wofür</th></tr>
-<tr><td class="pre">ConstraintLayout</td><td>Der Wurzelcontainer. Children werden mit Constraints an Kanten geheftet</td></tr>
+<tr><td class="pre">ConstraintLayout</td><td>Der Root-Container. Children werden mit Constraints an Kanten geheftet</td></tr>
 <tr><td class="pre">LinearLayout</td><td>Container, der seine Children stur untereinander oder nebeneinander stellt</td></tr>
 <tr><td class="pre">TextView</td><td>Beschriftung</td></tr>
 <tr><td class="pre">EditText</td><td>Eingabefeld</td></tr>
@@ -139,7 +139,7 @@
 
 <div class="step">
 <p><span class="n">A2</span><b>Die Hello-World-TextView entfernen.</b></p>
-<p>Öffne <code>app/src/main/res/layout/activity_main.xml</code> und wechsle oben rechts auf <b>Code</b>. Lösche die ganze <code>&lt;TextView ... /&gt;</code>. Der Wurzelknoten bleibt stehen. Er heisst <code>androidx.constraintlayout.widget.ConstraintLayout</code> und hat die id <code>main</code>.</p>
+<p>Öffne <code>app/src/main/res/layout/activity_main.xml</code> und wechsle oben rechts auf <b>Code</b>. Lösche die ganze <code>&lt;TextView ... /&gt;</code>. Das Root-Element bleibt stehen. Es heisst <code>androidx.constraintlayout.widget.ConstraintLayout</code> und hat die id <code>main</code>.</p>
 <p>Diese id <code>main</code> brauchst du später noch. Merke sie dir.</p>
 </div>
 
@@ -334,7 +334,7 @@
 
 <div class="step">
 <p><span class="n">C1</span><b>Rand setzen, so wie man es erwarten würde.</b></p>
-<p>Gib dem Wurzelknoten <code>ConstraintLayout</code> die Zeile:</p>
+<p>Gib dem Root-Element <code>ConstraintLayout</code> die Zeile:</p>
 <pre>android:padding=<span class="s">"5dp"</span></pre>
 <p>Starte die App. <b>Schau genau hin.</b> Ändert sich etwas?</p>
 </div>
