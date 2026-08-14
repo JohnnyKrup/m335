@@ -120,11 +120,12 @@
 <div class="wrap">
 
   <h1>Layouts verstehen</h1>
-  <p class="sub">Modul 335 Mobile Applikationen, Grundlagen zu Block 02. Wie du ConstraintLayout, LinearLayout und FrameLayout ineinander steckst. Fassung 3 vom 11.08.2026.</p>
+  <p class="sub">Modul 335 Mobile Applikationen, Grundlagen zu Block 02. Wie du ConstraintLayout, LinearLayout und FrameLayout ineinander steckst. Fassung 4 vom 14.08.2026.</p>
 
   <div class="card">
     <p style="margin:0 0 10px"><b>Wenn du hier hängst, liegt das nicht an dir.</b> Ein Auftrag zeigt dir ein Bild und nennt dir drei Layout-Typen. Er sagt dir aber nirgends, welches Layout <i>in</i> welchem steckt. Genau das ist die eigentliche Fähigkeit. Diese Seite holt das nach.</p>
-    <p style="margin:0"><b>Das ist keine Lösung zum Abtippen.</b> Das Beispiel auf dieser Seite ist der Spielbildschirm der Quiz-App, die du ab Tag 2 baust. Dein heutiger Auftrag sieht anders aus. Du lernst hier das Denkmuster, nicht die Antwort.</p>
+    <p style="margin:0"><b>Das ist keine Lösung zum Abtippen.</b> Das Beispiel auf dieser Seite ist <b>ein</b> Quiz-Spielbildschirm, nicht deiner. Es ist so gebaut, dass alle drei Layout-Typen darin vorkommen. Der Bildschirm, den du ab Tag 2 wirklich baust, sieht anders aus und ist einfacher. Warum, steht unten in Abschnitt 8.</p>
+    <p style="margin:8px 0 0">Du lernst hier das <b>Denkmuster</b>, nicht die Antwort.</p>
   </div>
 
   <h2>1. Die Denkregel</h2>
@@ -198,7 +199,7 @@
     </div>
 
     <div class="tree">
-      <div><span class="tc">ConstraintLayout</span>  <span class="tg">id = main</span></div>
+      <div><span class="tc">ConstraintLayout</span>  <span class="tg">id = clMain</span></div>
       <div><span class="tg">│</span></div>
       <div><span class="tg">├─ TextView  tvCategory</span></div>
       <div><span class="tg">│    Anker: oben und links an parent</span></div>
@@ -262,7 +263,7 @@
   <pre><span class="t">&lt;androidx.constraintlayout.widget.ConstraintLayout</span>
     <span class="a">xmlns:android</span>=<span class="s">"http://schemas.android.com/apk/res/android"</span>
     <span class="a">xmlns:app</span>=<span class="s">"http://schemas.android.com/apk/res-auto"</span>
-    <span class="a">android:id</span>=<span class="s">"@+id/main"</span>
+    <span class="a">android:id</span>=<span class="s">"@+id/clMain"</span>
     <span class="a">android:layout_width</span>=<span class="s">"match_parent"</span>
     <span class="a">android:layout_height</span>=<span class="s">"match_parent"</span><span class="t">&gt;</span>
 
@@ -374,7 +375,24 @@
     <li>Erkläre einem Lerngspänli in einem Satz, warum die Rückmeldung "Richtig" in ein FrameLayout gehört und nicht in ein LinearLayout.</li>
   </ol>
 
-  <p class="foot">Modul 335 | Grundlagen | Layouts verstehen | Fassung 3 | 11.08.2026</p>
+  <h2>8. Warum dein eigener Bildschirm anders aussieht</h2>
+
+  <p>Ab Tag 2 baust du deinen eigenen Spielbildschirm. Er ist <b>einfacher</b> als der Bauplan hier, und das hat Gründe. Vergleiche selbst, sobald du ihn hast.</p>
+
+  <table>
+    <tr><th>Auf dieser Seite</th><th>In deiner App</th><th>Warum</th></tr>
+    <tr><td>Der Fragetext steckt in einem <code>FrameLayout</code>, damit eine Rückmeldung darüber liegen kann</td><td>Der Fragetext steht direkt im ConstraintLayout</td><td>Deine App zeigt die Rückmeldung nicht als Text über der Frage, sondern indem sie die Antwort-Buttons einfärbt. Grün für richtig, rot für deine falsche. Dann braucht es nichts, was übereinander liegt, und damit auch kein FrameLayout</td></tr>
+    <tr><td>Der Weiter-Knopf ist von Anfang an da</td><td>Er kommt erst dazu, wenn es eine zweite Frage gibt</td><td>Wohin sollte er führen, solange es nur eine Frage gibt</td></tr>
+    <tr><td>Oben rechts steht <code>2 von 5</code></td><td>Oben rechts steht <code>Punkte 0</code>, später zusätzlich <code>Frage 1 von 5</code></td><td>Zwei verschiedene Angaben, die man leicht verwechselt. Deine App zeigt sie darum getrennt</td></tr>
+  </table>
+
+  <div class="note">
+    <p style="margin:0"><b>Nimm das nicht als Fehler, sondern als Aufgabe.</b> Ein Bauplan ist eine von mehreren möglichen Antworten. Wer <code>FrameLayout</code> gelernt hat und danach merkt, dass er es hier gar nicht braucht, hat mehr verstanden als jemand, der es einfach eingebaut hat. Die Frage lautet immer: <b>liegt hier wirklich etwas übereinander?</b> Wenn nein, dann kein FrameLayout.</p>
+  </div>
+
+  <p>Ein echtes FrameLayout siehst du trotzdem noch. Ein Ladebalken über dem Inhalt, ein Hinweis über einer leeren Liste, ein Text über einem Bild: das sind die Fälle, für die es da ist.</p>
+
+  <p class="foot">Modul 335 | Grundlagen | Layouts verstehen | Fassung 4 | 14.08.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->

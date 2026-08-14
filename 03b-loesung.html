@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>03B Lösung, Der Spielbildschirm</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>03B Lösung, Der Spielbildschirm</h1>
+<p class="sub">Lösungsmaterial zum Auftrag 03B. Modul 335, Tag 2 Vormittag. Fassung 1 vom 14.08.2026.</p>
+<p class="sub"><b>Zum Durchlesen brauchst du etwa 15 Minuten.</b> Das ist ein Richtwert. Du musst nicht alles lesen, such dir die Stelle, die du brauchst.</p>
+
+<div class="info">
+<p><b>Wie du das hier benutzt.</b> Nicht abtippen. Vergleichen. Zu jeder Lösung steht eine kurze Begründung. Die Begründung ist der eigentliche Inhalt, der Code ist nur der Beleg dazu.</p>
+<p>Wenn deine Lösung anders aussieht und trotzdem funktioniert, ist sie richtig. Layout hat selten genau einen Weg. Du solltest aber sagen können, warum du es anders gemacht hast.</p>
+</div>
+
+
+<h2>Vergleichsliste, dein eigenes XML</h2>
+<p>Geh diese neun Punkte an <b>deiner eigenen</b> Datei durch, bevor du hier weiterliest. Ein Screenshot zeigt nur das Ergebnis. Diese Liste zeigt, ob der Weg dorthin sauber war.</p>
+<p>Genau diese Punkte geben in der Leistungsbeurteilung Punkte.</p>
+
+<table>
+<tr><th>Nr</th><th>Das prüfst du</th><th>Warum es zählt</th></tr>
+<tr><td>1</td><td>Hat jedes direkte Child des ConstraintLayout eine waagrechte <b>und</b> eine senkrechte Constraint?</td><td>Ohne beide landet das Element beim Start oben links, egal was der Editor zeigt</td></tr>
+<tr><td>2</td><td>Hängt <code>tvScore</code> über <code>layout_constraintBaseline_toBaselineOf</code> und <b>nicht</b> zusätzlich über einen Top-Anker?</td><td>Zwei senkrechte Constraints an derselben View sind ein Widerspruch. Die Baseline ist bereits die senkrechte</td></tr>
+<tr><td>3</td><td>Stehen <code>tvQuestion</code> und <code>llAnswers</code> auf <code>layout_width="0dp"</code>?</td><td>Mit <code>match_parent</code> sieht es auf deinem Emulator oft gleich aus und bricht auf anderen Geräten</td></tr>
+<tr><td>4</td><td>Stehen die vier Buttons auf <code>layout_width="match_parent"</code>?</td><td>Sie sitzen im LinearLayout, nicht im ConstraintLayout. Dort heisst "so breit wie der Container" eben <code>match_parent</code></td></tr>
+<tr><td>5</td><td>Hat <code>llAnswers</code> die Angabe <code>android:orientation="vertical"</code>?</td><td>Ohne Angabe nimmt Android waagrecht an. Deine vier Buttons stünden nebeneinander</td></tr>
+<tr><td>6</td><td>Zeigen die Anker nach oben auf <code>@id/…</code>, ohne Plus?</td><td>Mit Plus entsteht still eine zweite, leere id und der Anker zeigt ins Leere</td></tr>
+<tr><td>7</td><td>Hat der <b>letzte</b> Button <b>kein</b> <code>layout_marginBottom</code>?</td><td>Der Abstand gehört zwischen die Buttons, nicht um die Liste herum</td></tr>
+<tr><td>8</td><td>Verweist jeder sichtbare Text auf <code>@string/…</code>? Steht nirgends fester Text im Layout?</td><td>Ein Text an zwei Orten wird an einem Ort vergessen. Ab dem Auftrag mit der Fragenliste wird das teuer</td></tr>
+<tr><td>9</td><td>Folgen alle ids der Konvention: <code>cl</code>, <code>tv</code>, <code>ll</code>, <code>btn</code>?</td><td>Dieselbe Konvention gilt in der Leistungsbeurteilung</td></tr>
+</table>
+
+
+<h2>Antworten zu den Denkfragen</h2>
+<p>Diese vier Fragen kommen im <b>03B Wissenscheck</b> als Quizfragen wieder. Hier steht die längere Begründung dazu.</p>
+
+<div class="ue">
+<p class="t">Frage 1, vier Constraints oder ein LinearLayout?</p>
+<p>Ein <b>LinearLayout</b>. Es stellt seine Children stur untereinander und rückt sie nach, sobald eines höher wird. Genau dafür ist es gebaut.</p>
+<p>Im ConstraintLayout bräuchte jeder Button einen Anker auf seinen Vorgänger. Das sind vier Ketten. Willst du einen Button zwischen Nummer 2 und 3 einschieben, änderst du drei Anker von Hand.</p>
+<p><b>Die Denkregel:</b> hintereinander gleich LinearLayout, am Rand klebend gleich ConstraintLayout. Hier gilt beides, darum steckt das eine im anderen.</p>
+</div>
+
+<div class="ue">
+<p class="t">Frage 2, woran richtest du den zweiten Text aus?</p>
+<p>An der <b>Grundlinie</b> des ersten, also <code>app:layout_constraintBaseline_toBaselineOf="@id/tvCategory"</code>. Die Grundlinie ist die Linie, auf der die Buchstaben sitzen.</p>
+<p>Mit <code>Top_toTopOf</code> ginge es auch, aber nur solange beide Texte gleich gross sind. Sobald einer grösser wird, sitzen sie sichtbar versetzt, weil über einem grösseren Buchstaben mehr Luft steht.</p>
+<p><b>Warum das zählt:</b> Alles, was in einer Zeile nebeneinander steht, wird an der Baseline ausgerichtet. Das kommt in der Rangliste am Tag 3 wieder, dort mit Name links und Punktzahl rechts.</p>
+</div>
+
+<div class="ue">
+<p class="t">Frage 3, welche Breite für den Fragetext?</p>
+<p><code>0dp</code>, zusammen mit einem Anker links und einem rechts. Du bist direkt im ConstraintLayout.</p>
+<p><code>0dp</code> heisst dort nicht "null breit". Es heisst: spann dich zwischen deine beiden waagrechten Constraints.</p>
+<p><b>Die Stelle, an der es kippt:</b> Innerhalb des <code>llAnswers</code> gilt das nicht mehr. Dort ist es ein LinearLayout, und dort heisst "so breit wie der Container" wieder <code>match_parent</code>. Beide Schreibweisen stehen in deiner Datei, wenige Zeilen auseinander.</p>
+</div>
+
+<div class="ue">
+<p class="t">Frage 4, warum die Texte in strings.xml?</p>
+<p>Drei Gründe, in der Reihenfolge ihrer Wichtigkeit für dieses Modul.</p>
+<ul>
+<li><b>Ein Ort pro Text.</b> Ändert sich eine Antwort, änderst du sie einmal statt an drei Stellen.</li>
+<li><b>Der Code kann darauf zugreifen.</b> Im nächsten Auftrag liest du <code>R.string.q1_answer3</code>, um die richtige Antwort zu vergleichen. Wäre der Text nur im Layout, müsstest du ihn im Java-Code nochmals hinschreiben, und dann stehen zwei Fassungen desselben Satzes im Projekt.</li>
+<li><b>Mehrsprachigkeit.</b> Ein zweiter Ordner <code>values-fr</code> genügt, und die App spricht Französisch. Ohne Ressourcen müsstest du jedes Layout kopieren.</li>
+</ul>
+<p>Android Studio warnt bei festem Text mit einem gelben Dreieck. Das ist kein Schikane-Hinweis, das ist genau dieser Punkt.</p>
+</div>
+
+
+<h2>Die zwei Beobachtungsstellen</h2>
+
+<div class="ue">
+<p class="t">A4, in der Vorschau steht "Punkte 0", im Emulator steht nichts</p>
+<p><b>Was du siehst:</b> Rechts im Split-Modus zeigt Android Studio oben rechts <code>Punkte 0</code>. Startest du die App, ist die Stelle leer.</p>
+<p><b>Die Ursache:</b> Im Layout steht <code>tools:text</code> und nicht <code>android:text</code>.</p>
+<table>
+<tr><th>Angabe</th><th>Wer sieht es</th><th>Landet in der App</th></tr>
+<tr><td class="pre">android:text</td><td>Vorschau und Gerät</td><td>ja</td></tr>
+<tr><td class="pre">tools:text</td><td><b>nur</b> die Vorschau in Android Studio</td><td>nein</td></tr>
+</table>
+<p>Der ganze <code>tools:</code>-Namensraum ist ein Werkzeug für dich, nicht für den Benutzer. Beim Bauen wird alles daraus entfernt.</p>
+<p><b>Warum das genau hier steht:</b> Der Punktestand soll später vom Code gesetzt werden. Stünde jetzt ein <code>android:text</code> da, sähest du beim Testen nie, ob dein Code den Text wirklich setzt, oder ob du nur den alten aus dem Layout anschaust. Mit <code>tools:text</code> hast du eine gefüllte Vorschau zum Bauen und einen ehrlichen Emulator zum Prüfen.</p>
+<p>Die häufigste Fehlbeobachtung ist "ich habe etwas falsch abgetippt". Die zweithäufigste ist "der Emulator ist noch nicht aktualisiert".</p>
+</div>
+
+<div class="ue">
+<p class="t">C1, das Querformat</p>
+<p><b>Was du siehst:</b> Der Bildschirm wird flacher. Die Buttontexte haben weniger Platz, und mindestens einer bricht auf zwei Zeilen um. <b>Dieser eine Button wird höher als die anderen drei.</b> Die Liste sieht ungleichmässig aus.</p>
+<p><b>Die Ursache:</b> Die Buttons stehen auf <code>layout_height="wrap_content"</code>. Jeder wickelt sich um seinen eigenen Inhalt. Ein Text auf zwei Zeilen braucht die doppelte Höhe.</p>
+<p><b>Warum das im Hochformat nicht auffällt:</b> Dort ist der Bildschirm breit genug, jeder Text passt auf eine Zeile, und alle vier Buttons sind zufällig gleich hoch.</p>
+<p>Die Frage ist mit Absicht gewählt. <code>HyperText Transmission Protocol</code> ist mit 31 Zeichen die längste Antwort im ganzen Fragenbestand. Wenn irgendwo etwas umbricht, dann hier.</p>
+<div class="tip">
+<p><b>Die Regel dahinter:</b> <code>wrap_content</code> heisst "so gross wie mein Inhalt". Sobald der Inhalt von aussen bestimmt wird, also vom verfügbaren Platz, bestimmt der Platz die Grösse mit. Bei einem Text ist genau das der Fall.</p>
+</div>
+<p>Repariert wird das hier nicht. Es ist die Zusatzaufgabe, und die hat mit Absicht keine Musterlösung.</p>
+</div>
+
+
+<h2>Das fertige Layout</h2>
+<p>Datei <code>app/src/main/res/layout/activity_main.xml</code>, Stand am Ende von Teil C. Ohne die Übungen.</p>
+
+<pre>&lt;?xml version=<span class="s">"1.0"</span> encoding=<span class="s">"utf-8"</span>?&gt;
+&lt;<span class="t">androidx.constraintlayout.widget.ConstraintLayout</span>
+    xmlns:android=<span class="s">"http://schemas.android.com/apk/res/android"</span>
+    xmlns:app=<span class="s">"http://schemas.android.com/apk/res-auto"</span>
+    xmlns:tools=<span class="s">"http://schemas.android.com/tools"</span>
+    android:id=<span class="s">"@+id/clMain"</span>
+    android:layout_width=<span class="s">"match_parent"</span>
+    android:layout_height=<span class="s">"match_parent"</span>
+    tools:context=<span class="s">".MainActivity"</span>&gt;
+
+    <span class="c">&lt;!-- 1. Kopfzeile, Kategorie links --&gt;</span>
+    &lt;<span class="t">TextView</span>
+        android:id=<span class="s">"@+id/tvCategory"</span>
+        android:layout_width=<span class="s">"wrap_content"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:text=<span class="s">"@string/category_label"</span>
+        android:textSize=<span class="s">"14sp"</span>
+        android:textStyle=<span class="s">"bold"</span>
+        app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
+        app:layout_constraintTop_toTopOf=<span class="s">"parent"</span> /&gt;
+
+    <span class="c">&lt;!-- 2. Punktestand rechts, auf derselben Grundlinie --&gt;</span>
+    &lt;<span class="t">TextView</span>
+        android:id=<span class="s">"@+id/tvScore"</span>
+        android:layout_width=<span class="s">"wrap_content"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:textSize=<span class="s">"14sp"</span>
+        android:textStyle=<span class="s">"bold"</span>
+        app:layout_constraintBaseline_toBaselineOf=<span class="s">"@id/tvCategory"</span>
+        app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span>
+        tools:text=<span class="s">"Punkte 0"</span> /&gt;
+
+    <span class="c">&lt;!-- 3. Der Fragetext, ueber die ganze Breite --&gt;</span>
+    &lt;<span class="t">TextView</span>
+        android:id=<span class="s">"@+id/tvQuestion"</span>
+        android:layout_width=<span class="s">"0dp"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:layout_marginTop=<span class="s">"32dp"</span>
+        android:text=<span class="s">"@string/q1_text"</span>
+        android:textSize=<span class="s">"20sp"</span>
+        app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span>
+        app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
+        app:layout_constraintTop_toBottomOf=<span class="s">"@id/tvCategory"</span> /&gt;
+
+    <span class="c">&lt;!-- 4. Die vier Antworten, untereinander --&gt;</span>
+    &lt;<span class="t">LinearLayout</span>
+        android:id=<span class="s">"@+id/llAnswers"</span>
+        android:layout_width=<span class="s">"0dp"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:layout_marginTop=<span class="s">"24dp"</span>
+        android:orientation=<span class="s">"vertical"</span>
+        app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span>
+        app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
+        app:layout_constraintTop_toBottomOf=<span class="s">"@id/tvQuestion"</span>&gt;
+
+        &lt;<span class="t">Button</span>
+            android:id=<span class="s">"@+id/btnAnswer1"</span>
+            android:layout_width=<span class="s">"match_parent"</span>
+            android:layout_height=<span class="s">"wrap_content"</span>
+            android:layout_marginBottom=<span class="s">"10dp"</span>
+            android:text=<span class="s">"@string/q1_answer1"</span> /&gt;
+
+        &lt;<span class="t">Button</span>
+            android:id=<span class="s">"@+id/btnAnswer2"</span>
+            android:layout_width=<span class="s">"match_parent"</span>
+            android:layout_height=<span class="s">"wrap_content"</span>
+            android:layout_marginBottom=<span class="s">"10dp"</span>
+            android:text=<span class="s">"@string/q1_answer2"</span> /&gt;
+
+        &lt;<span class="t">Button</span>
+            android:id=<span class="s">"@+id/btnAnswer3"</span>
+            android:layout_width=<span class="s">"match_parent"</span>
+            android:layout_height=<span class="s">"wrap_content"</span>
+            android:layout_marginBottom=<span class="s">"10dp"</span>
+            android:text=<span class="s">"@string/q1_answer3"</span> /&gt;
+
+        &lt;<span class="t">Button</span>
+            android:id=<span class="s">"@+id/btnAnswer4"</span>
+            android:layout_width=<span class="s">"match_parent"</span>
+            android:layout_height=<span class="s">"wrap_content"</span>
+            android:text=<span class="s">"@string/q1_answer4"</span> /&gt;
+
+    &lt;/<span class="t">LinearLayout</span>&gt;
+
+&lt;/<span class="t">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</pre>
+
+<div class="tip">
+<p><b>Beachte, was hier nicht steht.</b> Am <code>tvScore</code> gibt es <b>kein</b> <code>android:text</code>. Das ist kein Versehen. Der Punktestand wird ab dem nächsten Auftrag vom Code gesetzt, und ein Text im Layout würde dir dann vorgaukeln, dein Code funktioniere.</p>
+</div>
+
+
+<h2>Die Texte</h2>
+<p>Datei <code>app/src/main/res/values/strings.xml</code>.</p>
+<pre>&lt;<span class="t">resources</span>&gt;
+    &lt;<span class="t">string</span> name=<span class="s">"app_name"</span>&gt;WissQuiz&lt;/<span class="t">string</span>&gt;
+
+    <span class="c">&lt;!-- Kopfzeile des Spielbildschirms. --&gt;</span>
+    &lt;<span class="t">string</span> name=<span class="s">"category_label"</span>&gt;Technologie&lt;/<span class="t">string</span>&gt;
+
+    <span class="c">&lt;!--
+      Eine einzige feste Frage. Im nächsten Auftrag mit der Datenklasse
+      kommen Frage und Antworten aus einem Objekt und nicht mehr von hier.
+    --&gt;</span>
+    &lt;<span class="t">string</span> name=<span class="s">"q1_text"</span>&gt;Was bedeutet die Abkürzung HTTP?&lt;/<span class="t">string</span>&gt;
+    &lt;<span class="t">string</span> name=<span class="s">"q1_answer1"</span>&gt;HyperText Transmission Program&lt;/<span class="t">string</span>&gt;
+    &lt;<span class="t">string</span> name=<span class="s">"q1_answer2"</span>&gt;HyperText Transfer Program&lt;/<span class="t">string</span>&gt;
+    &lt;<span class="t">string</span> name=<span class="s">"q1_answer3"</span>&gt;HyperText Transfer Protocol&lt;/<span class="t">string</span>&gt;
+    &lt;<span class="t">string</span> name=<span class="s">"q1_answer4"</span>&gt;HyperText Transmission Protocol&lt;/<span class="t">string</span>&gt;
+&lt;/<span class="t">resources</span>&gt;</pre>
+<p><code>stage_hint</code> ist weg. Der Kommentar über den Fragetexten ist nicht Zierde, er erklärt dem nächsten Leser, warum hier fünf Zeilen stehen, die es später nicht mehr gibt.</p>
+
+
+<h2>Die zwei Textstellen in MainActivity</h2>
+<p>Der Java-Code ist unverändert geblieben. Nur der Javadoc-Block und die Log-Zeile wurden nachgezogen.</p>
+<pre><span class="c">/**
+ * Der Spielbildschirm der Quiz-App.
+ *
+ * Zu sehen sind Kategorie, Punktestand, eine feste Frage und vier
+ * Antwort-Buttons. Der Bildschirm reagiert noch auf nichts. Das Auswerten
+ * des Klicks kommt im nächsten Auftrag.
+ *
+ * Der Punktestand oben rechts bleibt darum leer. In der Vorschau steht
+ * dort eine Zahl, im Emulator nicht. Der Grund ist tools:text im Layout.
+ *
+ * Der Insets-Block unten gehört zum Template. Ab Android 15 zeichnet das
+ * System bis unter Statusleiste und Navigationsleiste. Ohne diesen Block
+ * liegt die Kopfzeile unter der Uhr.
+ */</span></pre>
+<pre>Log.d(TAG, <span class="s">"MainActivity onCreate, Spielbildschirm steht"</span>);</pre>
+<p>Deine Formulierung darf abweichen. Sie muss nur zutreffen.</p>
+
+
+<h2>Was sich gegenüber 03A geändert hat</h2>
+<table>
+<tr><th>Datei</th><th>Änderung</th></tr>
+<tr><td class="pre">activity_main.xml</td><td>Ganz neu. <code>tvTitle</code> und <code>tvStage</code> weg. Neu <code>tvCategory</code>, <code>tvScore</code>, <code>tvQuestion</code> und <code>llAnswers</code> mit <code>btnAnswer1</code> bis <code>btnAnswer4</code></td></tr>
+<tr><td class="pre">strings.xml</td><td><code>stage_hint</code> weg. Sechs Texte dazu: Kategorie, Fragetext, vier Antworten</td></tr>
+<tr><td class="pre">MainActivity.java</td><td>Nur Javadoc und Log-Text. <b>Keine einzige Anweisung geändert</b></td></tr>
+</table>
+<p>Nicht angefasst: alle Gradle-Dateien, der Versionskatalog, das Manifest, die Themes und <code>colors.xml</code>. Dieser Auftrag braucht keine neue Abhängigkeit und keine neue Farbe.</p>
+
+
+<h2>Lösungen zu den Übungen</h2>
+
+<div class="ue">
+<p class="t">Übung 1, der Punktestand wird sichtbar</p>
+<p>Eine Zeile am <code>tvScore</code>:</p>
+<pre>android:text=<span class="s">"Punkte 0"</span></pre>
+<p>Sauberer wäre ein Eintrag in <code>strings.xml</code> und ein Verweis darauf. Für eine Übung, die du gleich wieder zurückbaust, tut es die kurze Fassung.</p>
+<p><b>Warum du zurückbaust:</b> Im nächsten Auftrag schreibt der Code diesen Text. Bleibt der Text im Layout stehen, siehst du beim Testen nie, ob dein Code wirklich läuft. Du schaust dann auf den alten Text und hältst ihn für dein Ergebnis. Solche Fehler kosten am meisten Zeit, weil alles richtig aussieht.</p>
+</div>
+
+<div class="ue">
+<p class="t">Übung 2, eine fünfte Antwort</p>
+<p>Ein weiterer Button im <code>llAnswers</code>, nach dem vierten. Dabei ändern sich zwei Dinge.</p>
+<pre>&lt;<span class="t">Button</span>
+    android:id=<span class="s">"@+id/btnAnswer5"</span>
+    android:layout_width=<span class="s">"match_parent"</span>
+    android:layout_height=<span class="s">"wrap_content"</span>
+    android:text=<span class="s">"HyperText Transport Protocol"</span> /&gt;</pre>
+<p>Der vierte Button braucht jetzt <code>android:layout_marginBottom="10dp"</code>, denn er hat einen Nachbarn bekommen. Der fünfte bekommt keinen.</p>
+<p><b>Das ist der eigentliche Punkt der Übung:</b> Am ConstraintLayout hast du nichts angefasst. Kein Anker, keine Constraint. Das LinearLayout hat den neuen Button von selbst eingereiht und alles darunter nachgeschoben. Genau darum steckt es dort.</p>
+</div>
+
+<div class="ue">
+<p class="t">Übung 3, erklären</p>
+<p>Eine gute Erklärung nennt den Unterschied und den Preis.</p>
+<p>"Das LinearLayout stellt seine Children von allein untereinander. Ich sage nur <code>vertical</code>, den Rest macht es. Wenn ich einen Button einschiebe, rutschen die anderen selbst nach. Im ConstraintLayout müsste jeder Button an seinem Vorgänger hängen, dann sind das vier Anker, und beim Einschieben müsste ich drei davon von Hand umhängen."</p>
+<p>Wer dazu noch sagen kann, warum das LinearLayout selbst im ConstraintLayout sitzt, hat es ganz verstanden: die Liste als Ganzes soll links und rechts am Bildschirmrand kleben und unter der Frage hängen. Das ist Constraint-Arbeit.</p>
+</div>
+
+<div class="note">
+<p><b>Zur Zusatzaufgabe steht hier bewusst nichts.</b> Es gibt mehrere richtige Wege, und jeder hat einen Preis. Die Frage danach musst du selbst beantworten können.</p>
+</div>
+
+
+<h2>Mögliche falsche KI-Rückmeldungen</h2>
+<p>Das sind Antworten, die uns bei diesem Thema schon begegnet sind. Nicht jede KI macht jeden dieser Fehler, und dieselbe KI antwortet nicht jedes Mal gleich. Die Liste ist keine Anklage, sondern eine Prüfliste: wenn eine dieser Antworten kommt, weisst du, woran du sie erkennst.</p>
+<table>
+<tr><th>Die KI schlägt vor</th><th>Warum das hier falsch ist</th></tr>
+<tr><td>Für die vier Buttons je eine Constraint auf den Vorgänger, direkt im ConstraintLayout</td><td>Läuft, ist aber vier Mal so viel Arbeit und bricht beim Einschieben eines Buttons. Dafür gibt es das LinearLayout</td></tr>
+<tr><td><code>android:layout_width="match_parent"</code> am <code>tvQuestion</code></td><td><code>tvQuestion</code> ist direktes Child des ConstraintLayout. Dort ist <code>match_parent</code> mehrdeutig, richtig ist <code>0dp</code> mit zwei Ankern</td></tr>
+<tr><td><code>android:text="Technologie"</code> direkt ins Layout</td><td>Fester Text im Layout. Android Studio warnt gelb, und beim Vergleich im Code hast du den Satz doppelt</td></tr>
+<tr><td>Ein <code>RelativeLayout</code> für die Kopfzeile</td><td>Läuft, ist aber seit Jahren abgelöst. Im Modul gilt ConstraintLayout, und die Baseline-Constraint löst genau diesen Fall</td></tr>
+<tr><td><code>android:gravity="center_vertical"</code>, um die zwei Kopfzeilen-Texte auf eine Höhe zu bringen</td><td>Richtet den Text <b>innerhalb</b> seiner eigenen View aus. Die zwei Views stehen danach immer noch versetzt. Gebraucht wird der Baseline-Anker</td></tr>
+<tr><td><code>tools:text</code> durch <code>android:text</code> ersetzen, weil im Emulator nichts steht</td><td>Behebt das Symptom und nimmt dir die Kontrolle. Ab dem nächsten Auftrag setzt der Code diesen Text</td></tr>
+<tr><td>Eine <code>TableLayout</code> oder ein <code>GridLayout</code> für die Antworten</td><td>Vier Elemente in einer Spalte sind keine Tabelle. Mehr Struktur als nötig kostet nur Lesezeit</td></tr>
+</table>
+
+
+<h2>So prüfst du das Ganze</h2>
+<ol>
+<li>Die App startet. Oben links steht <b>Technologie</b>, oben rechts nichts.</li>
+<li>In der Vorschau in Android Studio steht oben rechts <b>Punkte 0</b>.</li>
+<li>Der Fragetext steht über die ganze Breite, vier Buttons darunter, alle gleich breit.</li>
+<li>Zwischen den Buttons ist Luft, unter dem letzten nicht.</li>
+<li>Ein Antippen tut nichts. Der Button blinkt kurz auf, das war alles.</li>
+<li>Im Querformat wird mindestens ein Button höher als die anderen.</li>
+<li>Im Logcat zeigt der Filter <code>tag:Modul335</code> deine neue Meldung.</li>
+</ol>
+
+<div class="tip">
+<p><b>Punkt 5 ist der, den man übersieht.</b> Dass nichts passiert, ist heute das richtige Ergebnis. Wer hier schon einen Klick auswertet, hat zwei Baustellen gleichzeitig offen und weiss beim nächsten Fehler nicht, welche ihn erwischt hat.</p>
+</div>
+
+
+<h2>Was im nächsten Auftrag dazukommt</h2>
+<ul>
+<li>Der Klick wird ausgewertet. Die richtige Antwort wird grün, deine falsche rot.</li>
+<li>Alle vier Buttons sperren sich, damit niemand zweimal Punkte für dieselbe Frage bekommt.</li>
+<li>Der Punktestand oben rechts wird vom Code gesetzt, mit einem Platzhalter in <code>strings.xml</code>.</li>
+<li>Zwei neue Farben in <code>colors.xml</code>.</li>
+</ul>
+<p>Und danach steht das Spiel still, weil es nur eine Frage gibt. Genau daran merkst du, warum es eine Datenklasse braucht.</p>
+
+<p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 03B Der Spielbildschirm &middot; Fassung 1 vom 14.08.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>
