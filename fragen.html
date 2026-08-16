@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Der Fragenbestand</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>Der Fragenbestand</h1>
+<p class="sub">Modul 335 Mobile Applikationen. Material zum Auftrag 05C. Version 1 vom 16.08.2026.</p>
+
+<div class="info">
+<p><b>Das hier ist kein Lesestoff und keine Lösung. Es ist Rohstoff.</b> Auf dieser Seite steht eine einzige Java-Klasse mit dreissig Quizfragen.</p>
+<p><b>Kopier sie, tipp sie nicht ab.</b> Fragen abzutippen bringt dir nichts bei. Was du an dieser Klasse lernen sollst, steht in den drei Abschnitten darunter, und das sind zusammen zwölf Zeilen.</p>
+</div>
+
+<h2>Wozu du sie brauchst</h2>
+<p>Bis 05B lagen sieben Fragen in deiner <code>GameActivity</code>, alle aus der Kategorie Technologie. Ab 05C wählst du vor jeder Runde eine Kategorie. Damit in jeder Kategorie eine Runde von fünf Fragen aufgeht, braucht es mehr Fragen und mehr Kategorien.</p>
+
+<table>
+<tr><th>Kategorie</th><th class="num">Fragen</th></tr>
+<tr><td>Sport</td><td class="num">8</td></tr>
+<tr><td>Technologie</td><td class="num">7</td></tr>
+<tr><td>Geographie</td><td class="num">8</td></tr>
+<tr><td>Geschichte</td><td class="num">7</td></tr>
+<tr><th>zusammen</th><th class="num">30</th></tr>
+</table>
+
+<p>Die Fragen stammen aus dem WISS-Quiz, das du aus den Modulen 294, 295 und 223 kennst. Es ist derselbe Bestand, nur in Java statt in JSON.</p>
+
+<h2>Die drei Dinge, die du hier wirklich lesen sollst</h2>
+
+<h3>1. Der Bestand zieht aus der Activity aus</h3>
+<p>Bis jetzt baute <code>createQuestions()</code> die Fragen direkt im Spielbildschirm. Das ging, solange es sieben waren. Bei dreissig wäre die <code>GameActivity</code> zu zwei Dritteln Daten.</p>
+<p><b>Die Regel:</b> eine Klasse hat eine Aufgabe. Die <code>GameActivity</code> zeigt ein Spiel an. Sie ist nicht der Ort, an dem Fragen wohnen.</p>
+
+<h3>2. Die Klasse wird nie erzeugt</h3>
+<p>Es gibt nirgends ein <code>new QuestionBank()</code>. Alle Methoden sind <code>static</code>, und der Konstruktor ist <code>private</code>. Du rufst sie über den Klassennamen auf:</p>
+<pre><span class="t">QuestionBank</span>.byCategory(<span class="s">"Sport"</span>)</pre>
+<p>Der private Konstruktor ist kein Trick, sondern eine Ansage. Er sagt: von dieser Klasse braucht niemand ein Objekt, sie hält nur Wissen bereit.</p>
+
+<h3>3. Alle steht zuoberst</h3>
+<p><code>categories()</code> liefert fünf Einträge, und <b>Alle</b> ist der erste. Das ist eine Entscheidung und kein Zufall. Alle ist der Normalfall, und der schnellste Weg soll der kürzeste sein.</p>
+<p><code>byCategory</code> behandelt diesen Eintrag darum besonders: bei <code>CATEGORY_ALL</code> gibt es den ganzen Bestand zurück, sonst filtert es.</p>
+
+<div class="warn">
+<p><b>Und das Unbequeme daran, das ist Absicht.</b> Zweihundert Zeilen für dreissig Fragen. Wer eine Frage ändern will, muss die App neu bauen und neu installieren. Wer eine ergänzen will, braucht Android Studio.</p>
+<p>Rechne das mit deiner Klasse durch: eine Lehrperson mit fünfhundert Fragen kann so nicht arbeiten. Genau darum kommt am Tag 4 eine Datenbank dazu, und danach zwei Bildschirme zum Anlegen und Bearbeiten. Erst wenn der Schmerz da war, ergibt das Sinn.</p>
+</div>
+
+<h2>So kommt die Klasse in dein Projekt</h2>
+<ol>
+<li>Rechtsklick auf das Paket <code>model</code> im Projektbaum, dann <b>New</b>, dann <b>Java Class</b>. Name <code>QuestionBank</code>.</li>
+<li>Den ganzen Block unten markieren und kopieren.</li>
+<li>In deiner neuen Datei alles markieren und durch das Kopierte ersetzen.</li>
+</ol>
+<div class="tip">
+<p><b>Prüf die erste Zeile.</b> Dort steht <code>package ch.wiss.m335.quiz.model;</code>. Heisst dein Paket anders, passt Android Studio das beim Einfügen meist selbst an. Wenn nicht, korrigier die Zeile von Hand, sonst findet der Compiler die Klasse nicht.</p>
+</div>
+
+<h2>QuestionBank.java</h2>
+<pre><span class="k">package</span> ch.wiss.m335.quiz.model;
+
+<span class="k">import</span> java.util.<span class="t">ArrayList</span>;
+<span class="k">import</span> java.util.<span class="t">Arrays</span>;
+<span class="k">import</span> java.util.<span class="t">List</span>;
+
+<span class="c">/**</span>
+<span class="c"> * Der Fragenbestand der App.</span>
+<span class="c"> *</span>
+<span class="c"> * Stufe 3: alle 30 Fragen stehen fest im Code. Das ist mit Absicht</span>
+<span class="c"> * umständlich. Wer eine Frage ändern will, muss die App neu bauen.</span>
+<span class="c"> * Genau darum kommt in Stufe 7 eine Datenbank dazu.</span>
+<span class="c"> *</span>
+<span class="c"> * Die Fragen stammen aus questions_m335.json, dem Export des WISS-Quiz</span>
+<span class="c"> * aus Modul 295.</span>
+<span class="c"> */</span>
+<span class="k">public</span> <span class="k">final</span> <span class="k">class</span> <span class="t">QuestionBank</span> {
+
+<span class="c">    /** Der Eintrag in der Auswahl, der keine Kategorie einschränkt. */</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> CATEGORY_ALL = <span class="s">&quot;Alle&quot;</span>;
+
+<span class="c">    /** Diese Klasse wird nie erzeugt, sie hat nur statische Methoden. */</span>
+    <span class="k">private</span> <span class="t">QuestionBank</span>() {
+    }
+
+<span class="c">    /**</span>
+<span class="c">     * Liefert die Einträge für die Kategorieauswahl.</span>
+<span class="c">     *</span>
+<span class="c">     * &quot;Alle&quot; steht bewusst zuoberst. Es ist der Normalfall, und der</span>
+<span class="c">     * schnellste Weg soll der kürzeste sein.</span>
+<span class="c">     *</span>
+<span class="c">     * @return die fünf Einträge in Anzeigereihenfolge</span>
+<span class="c">     */</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="t">List</span>&lt;<span class="t">String</span>&gt; categories() {
+        <span class="k">return</span> <span class="t">Arrays</span>.asList(CATEGORY_ALL, <span class="s">&quot;Sport&quot;</span>, <span class="s">&quot;Technologie&quot;</span>, <span class="s">&quot;Geographie&quot;</span>, <span class="s">&quot;Geschichte&quot;</span>);
+    }
+
+<span class="c">    /**</span>
+<span class="c">     * Liefert alle Fragen einer Kategorie.</span>
+<span class="c">     *</span>
+<span class="c">     * @param category eine Kategorie oder CATEGORY_ALL</span>
+<span class="c">     * @return die passenden Fragen, nie null</span>
+<span class="c">     */</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="t">List</span>&lt;<span class="t">Question</span>&gt; byCategory(<span class="t">String</span> category) {
+        <span class="k">if</span> (CATEGORY_ALL.equals(category)) {
+            <span class="k">return</span> createAll();
+        }
+        <span class="t">List</span>&lt;<span class="t">Question</span>&gt; result = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;();
+        <span class="k">for</span> (<span class="t">Question</span> question : createAll()) {
+            <span class="k">if</span> (question.getCategory().equals(category)) {
+                result.add(question);
+            }
+        }
+        <span class="k">return</span> result;
+    }
+
+<span class="c">    /**</span>
+<span class="c">     * Baut den ganzen Fragenbestand auf.</span>
+<span class="c">     *</span>
+<span class="c">     * @return alle 30 Fragen, nie null</span>
+<span class="c">     */</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="t">List</span>&lt;<span class="t">Question</span>&gt; createAll() {
+        <span class="t">List</span>&lt;<span class="t">Question</span>&gt; questions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;();
+
+
+<span class="c">        // Sport</span>
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;Wie viele Spieler stehen pro Mannschaft beim Fussball gleichzeitig auf dem Platz?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;11&quot;</span>, <span class="s">&quot;12&quot;</span>, <span class="s">&quot;9&quot;</span>, <span class="s">&quot;10&quot;</span>},
+                <span class="s">&quot;11&quot;</span>, <span class="s">&quot;Sport&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;In welcher Sportart wird der Stanley Cup vergeben?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;American Football&quot;</span>, <span class="s">&quot;Eishockey&quot;</span>, <span class="s">&quot;Basketball&quot;</span>, <span class="s">&quot;Baseball&quot;</span>},
+                <span class="s">&quot;Eishockey&quot;</span>, <span class="s">&quot;Sport&quot;</span>, <span class="s">&quot;mittel&quot;</span>));
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;Welcher Schweizer Tennisspieler gewann insgesamt 20 Grand-Slam-Einzeltitel?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Stan Wawrinka&quot;</span>, <span class="s">&quot;Marc Rosset&quot;</span>, <span class="s">&quot;Heinz Günthardt&quot;</span>, <span class="s">&quot;Roger Federer&quot;</span>},
+                <span class="s">&quot;Roger Federer&quot;</span>, <span class="s">&quot;Sport&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;Alle wie viele Jahre finden die Olympischen Sommerspiele statt?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;2&quot;</span>, <span class="s">&quot;4&quot;</span>, <span class="s">&quot;3&quot;</span>, <span class="s">&quot;5&quot;</span>},
+                <span class="s">&quot;4&quot;</span>, <span class="s">&quot;Sport&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;Wo fanden die Olympischen Sommerspiele 2016 statt?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Peking&quot;</span>, <span class="s">&quot;London&quot;</span>, <span class="s">&quot;Tokio&quot;</span>, <span class="s">&quot;Rio de Janeiro&quot;</span>},
+                <span class="s">&quot;Rio de Janeiro&quot;</span>, <span class="s">&quot;Sport&quot;</span>, <span class="s">&quot;mittel&quot;</span>));
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;Wie viele Punkte braucht eine Mannschaft mindestens, um einen regulären Satz im Volleyball (Sätze 1 bis 4) zu gewinnen?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;25&quot;</span>, <span class="s">&quot;15&quot;</span>, <span class="s">&quot;30&quot;</span>, <span class="s">&quot;21&quot;</span>},
+                <span class="s">&quot;25&quot;</span>, <span class="s">&quot;Sport&quot;</span>, <span class="s">&quot;schwer&quot;</span>));
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;Wie viele Ringe hat das olympische Symbol?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;5&quot;</span>, <span class="s">&quot;3&quot;</span>, <span class="s">&quot;4&quot;</span>, <span class="s">&quot;6&quot;</span>},
+                <span class="s">&quot;5&quot;</span>, <span class="s">&quot;Sport&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;In welchem Sport gibt es einen Slam Dunk?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Basketball&quot;</span>, <span class="s">&quot;Volleyball&quot;</span>, <span class="s">&quot;Tennis&quot;</span>, <span class="s">&quot;Handball&quot;</span>},
+                <span class="s">&quot;Basketball&quot;</span>, <span class="s">&quot;Sport&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+
+<span class="c">        // Technologie</span>
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;Was bedeutet die Abkürzung HTTP?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;HyperText Transmission Program&quot;</span>, <span class="s">&quot;HyperText Transfer Program&quot;</span>,
+                        <span class="s">&quot;HyperText Transfer Protocol&quot;</span>, <span class="s">&quot;HyperText Transmission Protocol&quot;</span>},
+                <span class="s">&quot;HyperText Transfer Protocol&quot;</span>, <span class="s">&quot;Technologie&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;Wer gründete zusammen mit Paul Allen das Unternehmen Microsoft?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Steve Ballmer&quot;</span>, <span class="s">&quot;Bill Gates&quot;</span>, <span class="s">&quot;Steve Jobs&quot;</span>, <span class="s">&quot;Larry Ellison&quot;</span>},
+                <span class="s">&quot;Bill Gates&quot;</span>, <span class="s">&quot;Technologie&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;In welchem Jahr stellte Apple das erste iPhone der Öffentlichkeit vor?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;2005&quot;</span>, <span class="s">&quot;2006&quot;</span>, <span class="s">&quot;2008&quot;</span>, <span class="s">&quot;2007&quot;</span>},
+                <span class="s">&quot;2007&quot;</span>, <span class="s">&quot;Technologie&quot;</span>, <span class="s">&quot;mittel&quot;</span>));
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;Welche Programmiersprache wurde von Guido van Rossum entwickelt?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Python&quot;</span>, <span class="s">&quot;PHP&quot;</span>, <span class="s">&quot;Ruby&quot;</span>, <span class="s">&quot;Perl&quot;</span>},
+                <span class="s">&quot;Python&quot;</span>, <span class="s">&quot;Technologie&quot;</span>, <span class="s">&quot;schwer&quot;</span>));
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;Wofür steht die Abkürzung GPU im Computerbereich?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;General Processing Unit&quot;</span>, <span class="s">&quot;Global Processing Utility&quot;</span>,
+                        <span class="s">&quot;Graphics Processing Unit&quot;</span>, <span class="s">&quot;Graphical Power Unit&quot;</span>},
+                <span class="s">&quot;Graphics Processing Unit&quot;</span>, <span class="s">&quot;Technologie&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;Welche Sprache wird primär für Spring Boot verwendet?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Java&quot;</span>, <span class="s">&quot;Python&quot;</span>, <span class="s">&quot;Ruby&quot;</span>, <span class="s">&quot;PHP&quot;</span>},
+                <span class="s">&quot;Java&quot;</span>, <span class="s">&quot;Technologie&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;Welche HTTP-Methode wird typischerweise zum Erstellen einer Ressource verwendet?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;DELETE&quot;</span>, <span class="s">&quot;POST&quot;</span>, <span class="s">&quot;GET&quot;</span>, <span class="s">&quot;HEAD&quot;</span>},
+                <span class="s">&quot;POST&quot;</span>, <span class="s">&quot;Technologie&quot;</span>, <span class="s">&quot;mittel&quot;</span>));
+
+<span class="c">        // Geographie</span>
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;Wie heisst die Hauptstadt von Australien?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Perth&quot;</span>, <span class="s">&quot;Sydney&quot;</span>, <span class="s">&quot;Canberra&quot;</span>, <span class="s">&quot;Melbourne&quot;</span>},
+                <span class="s">&quot;Canberra&quot;</span>, <span class="s">&quot;Geographie&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;Welcher Fluss ist der längste in Europa?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Donau&quot;</span>, <span class="s">&quot;Rhein&quot;</span>, <span class="s">&quot;Dnepr&quot;</span>, <span class="s">&quot;Wolga&quot;</span>},
+                <span class="s">&quot;Wolga&quot;</span>, <span class="s">&quot;Geographie&quot;</span>, <span class="s">&quot;mittel&quot;</span>));
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;Welcher ist der tiefste See der Erde?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Lake Superior&quot;</span>, <span class="s">&quot;Tanganjikasee&quot;</span>, <span class="s">&quot;Baikalsee&quot;</span>, <span class="s">&quot;Kaspisches Meer&quot;</span>},
+                <span class="s">&quot;Baikalsee&quot;</span>, <span class="s">&quot;Geographie&quot;</span>, <span class="s">&quot;mittel&quot;</span>));
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;In welchem Land liegt die Atacama-Wüste?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Argentinien&quot;</span>, <span class="s">&quot;Chile&quot;</span>, <span class="s">&quot;Peru&quot;</span>, <span class="s">&quot;Bolivien&quot;</span>},
+                <span class="s">&quot;Chile&quot;</span>, <span class="s">&quot;Geographie&quot;</span>, <span class="s">&quot;mittel&quot;</span>));
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;Was ist die Hauptstadt der Schweiz?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Genf&quot;</span>, <span class="s">&quot;Basel&quot;</span>, <span class="s">&quot;Bern&quot;</span>, <span class="s">&quot;Zürich&quot;</span>},
+                <span class="s">&quot;Bern&quot;</span>, <span class="s">&quot;Geographie&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;Welcher Ozean ist der grösste der Welt?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Indischer Ozean&quot;</span>, <span class="s">&quot;Pazifik&quot;</span>, <span class="s">&quot;Atlantik&quot;</span>, <span class="s">&quot;Arktischer Ozean&quot;</span>},
+                <span class="s">&quot;Pazifik&quot;</span>, <span class="s">&quot;Geographie&quot;</span>, <span class="s">&quot;mittel&quot;</span>));
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;Was ist die Hauptstadt von Spanien?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Paris&quot;</span>, <span class="s">&quot;Bern&quot;</span>, <span class="s">&quot;Rom&quot;</span>, <span class="s">&quot;Madrid&quot;</span>},
+                <span class="s">&quot;Madrid&quot;</span>, <span class="s">&quot;Geographie&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;Welches ist das höchste Gebirge der Welt?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Rocky Mountains&quot;</span>, <span class="s">&quot;Himalaya&quot;</span>, <span class="s">&quot;Alpen&quot;</span>, <span class="s">&quot;Anden&quot;</span>},
+                <span class="s">&quot;Himalaya&quot;</span>, <span class="s">&quot;Geographie&quot;</span>, <span class="s">&quot;mittel&quot;</span>));
+
+<span class="c">        // Geschichte</span>
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;In welchem Jahr fiel die Berliner Mauer?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;1990&quot;</span>, <span class="s">&quot;1991&quot;</span>, <span class="s">&quot;1989&quot;</span>, <span class="s">&quot;1987&quot;</span>},
+                <span class="s">&quot;1989&quot;</span>, <span class="s">&quot;Geschichte&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;In welchem Jahr wurde die Schweizerische Eidgenossenschaft gegründet?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;1291&quot;</span>, <span class="s">&quot;1351&quot;</span>, <span class="s">&quot;1499&quot;</span>, <span class="s">&quot;1315&quot;</span>},
+                <span class="s">&quot;1291&quot;</span>, <span class="s">&quot;Geschichte&quot;</span>, <span class="s">&quot;mittel&quot;</span>));
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;Wer war der erste Bundeskanzler der Bundesrepublik Deutschland?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Kurt Georg Kiesinger&quot;</span>, <span class="s">&quot;Ludwig Erhard&quot;</span>,
+                        <span class="s">&quot;Willy Brandt&quot;</span>, <span class="s">&quot;Konrad Adenauer&quot;</span>},
+                <span class="s">&quot;Konrad Adenauer&quot;</span>, <span class="s">&quot;Geschichte&quot;</span>, <span class="s">&quot;mittel&quot;</span>));
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;Welches Reich endete 1453 mit der Eroberung Konstantinopels?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Heiliges Römisches Reich&quot;</span>, <span class="s">&quot;Mongolisches Reich&quot;</span>,
+                        <span class="s">&quot;Byzantinisches Reich&quot;</span>, <span class="s">&quot;Persisches Reich&quot;</span>},
+                <span class="s">&quot;Byzantinisches Reich&quot;</span>, <span class="s">&quot;Geschichte&quot;</span>, <span class="s">&quot;schwer&quot;</span>));
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;In welchem Jahr begann der Dreissigjährige Krieg?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;1648&quot;</span>, <span class="s">&quot;1608&quot;</span>, <span class="s">&quot;1618&quot;</span>, <span class="s">&quot;1625&quot;</span>},
+                <span class="s">&quot;1618&quot;</span>, <span class="s">&quot;Geschichte&quot;</span>, <span class="s">&quot;mittel&quot;</span>));
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;Wer verfasste das politische Werk &#x27;Der Fürst&#x27; (Il Principe)?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Dante Alighieri&quot;</span>, <span class="s">&quot;Niccolo Machiavelli&quot;</span>,
+                        <span class="s">&quot;Thomas Hobbes&quot;</span>, <span class="s">&quot;Erasmus von Rotterdam&quot;</span>},
+                <span class="s">&quot;Niccolo Machiavelli&quot;</span>, <span class="s">&quot;Geschichte&quot;</span>, <span class="s">&quot;schwer&quot;</span>));
+        questions.add(<span class="k">new</span> <span class="t">Question</span>(
+                <span class="s">&quot;In welchem Jahr endete der Zweite Weltkrieg in Europa?&quot;</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;1945&quot;</span>, <span class="s">&quot;1944&quot;</span>, <span class="s">&quot;1943&quot;</span>, <span class="s">&quot;1946&quot;</span>},
+                <span class="s">&quot;1945&quot;</span>, <span class="s">&quot;Geschichte&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+
+        <span class="k">return</span> questions;
+    }
+}
+</pre>
+
+<div class="note">
+<p><b>Wenn du dreissig Mal <code>questions.add(new Question(...))</code> untereinander siehst, ist das der Punkt.</b> Es ist stur, es ist lang, und es funktioniert. Merk dir das Gefühl. Am Tag 4 wirst du es wiedererkennen, wenn dieselben Daten aus einer Datenbank kommen.</p>
+</div>
+
+<p class="foot">Modul 335 Mobile Applikationen &middot; Material Der Fragenbestand &middot; Version 1 vom 16.08.2026 &middot; Die Fragen stammen aus dem WISS-Quiz, Bezeichner im Code englisch</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>

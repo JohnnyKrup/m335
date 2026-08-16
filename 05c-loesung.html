@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>05C Lösung Drei Zustände und die Kategoriewahl</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>05C Lösung: Drei Zustände und die Kategoriewahl</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Lösungsmaterial zum Auftrag 05C. Version 1 vom 16.08.2026.</p>
+
+<div class="info">
+<p><b>Wie du das hier benutzt.</b> Nicht abtippen. Vergleichen. Die Begründung ist der eigentliche Inhalt, der Code ist nur der Beleg dazu.</p>
+</div>
+
+
+<h2>Vergleichsliste, dein eigener Code</h2>
+<p>Geh diese zwölf Punkte an <b>deinen eigenen</b> Dateien durch, bevor du hier weiterliest.</p>
+
+<table>
+<tr><th>Nr</th><th>Das prüfst du</th><th>Warum es zählt</th></tr>
+<tr><td>1</td><td>Setzt <code>showState</code> in <b>jedem</b> Aufruf alle drei Bereiche?</td><td>Sonst bleibt einer stehen, den niemand erwähnt hat. Genau das war die Beobachtung aus A3</td></tr>
+<tr><td>2</td><td>Gibt es ausserhalb von <code>showState</code> noch ein <code>setVisibility</code> auf <code>llCategory</code>, <code>svQuestion</code> oder <code>llResult</code>?</td><td>Wenn ja, hast du wieder zwei Wahrheiten. Es darf genau eine geben</td></tr>
+<tr><td>3</td><td>Stehen die zwei Zeilen mit <code>btnNext</code> unverändert in <code>showQuestion</code> und <code>onAnswerClicked</code>?</td><td>Der Weiter-Knopf ist ein Detail innerhalb eines Bereichs, kein Zustand des Bildschirms</td></tr>
+<tr><td>4</td><td>Ist <code>GameState</code> ein <code>enum</code> mit drei Werten und kein <code>int</code> und kein <code>String</code>?</td><td>Nur beim <code>enum</code> meldet der Compiler den Tippfehler. Sonst passiert einfach nichts</td></tr>
+<tr><td>5</td><td>Haben alle drei Bereiche <code>0dp</code> in beiden Richtungen und dieselben vier Anker?</td><td>Sie liegen übereinander. Unterschiedlich gross bedeutet, dass einer durchscheint</td></tr>
+<tr><td>6</td><td>Steht <code>android:visibility="gone"</code> bei <code>svQuestion</code> und <code>llResult</code>, aber <b>nicht</b> bei <code>llCategory</code>?</td><td>Beim Aufbauen ist die Auswahl dran. Steht überall gone, ist der Bildschirm kurz leer</td></tr>
+<tr><td>7</td><td>Ist <code>createQuestions()</code> aus der <code>GameActivity</code> verschwunden, samt Javadoc?</td><td>Eine tote Methode mit dreissig Fragen darin fällt beim Laufen nie auf. Beim Lesen sofort</td></tr>
+<tr><td>8</td><td>Läuft <code>buildQuestionList</code> über <code>categoryQuestions</code>?</td><td>Sonst stehen im Ergebnis immer dreissig Zeilen, egal welche Kategorie du gespielt hast</td></tr>
+<tr><td>9</td><td>Mischt <code>Collections.shuffle</code> eine <b>Kopie</b> und nicht <code>categoryQuestions</code> selbst?</td><td>Sonst steht dein Bestand nach jeder Runde in einer anderen Reihenfolge</td></tr>
+<tr><td>10</td><td>Steht <code>Math.min</code> beim Zuschneiden der Runde?</td><td>Ohne ihn stürzt jede Kategorie mit weniger als fünf Fragen ab. Heute gibt es keine, am Tag 4 schon</td></tr>
+<tr><td>11</td><td>Endet <code>onCreate</code> mit <code>showState(GameState.CHOOSE_CATEGORY)</code> und <b>nicht</b> mit <code>startRound()</code>?</td><td>Sonst startet die App sofort in einer Runde und die Auswahl sieht niemand</td></tr>
+<tr><td>12</td><td>Haben die neuen Felder und Methoden Javadoc, und beschreibt der Klassenkommentar die drei Bereiche?</td><td>Genau das verlangt die Leistungsbeurteilung. Ein falscher Kommentar ist schlimmer als gar keiner</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Punkt 1 und Punkt 2 sind zwei Seiten derselben Sache.</b> Punkt 1 sorgt dafür, dass die eine Stelle vollständig ist. Punkt 2 sorgt dafür, dass es bei einer bleibt. Fehlt eines von beiden, hast du wieder den Zustand von gestern, nur mit mehr Zeilen.</p>
+</div>
+
+
+<h2>Antworten zu den Denkfragen</h2>
+<p>Diese vier Fragen kommen im <b>05CD Wissenscheck</b> als Quizfragen wieder.</p>
+
+<div class="ue">
+<p class="t">Frage 1, ist es nicht Verschwendung, alle Bereiche zu setzen?</p>
+<p><b>Nein, es ist die einzige Form, die man nicht vergessen kann.</b></p>
+<p>Die Alternative wäre, nur das zu ändern, was sich ändert. Dann müsste jeder Aufruf wissen, <b>woher</b> er kommt: von der Auswahl zur Frage heisst llCategory ausblenden, von der Frage zum Ergebnis heisst svQuestion ausblenden. Bei drei Zuständen sind das sechs Übergänge.</p>
+<table>
+<tr><th></th><th>Alle setzen</th><th>Nur ändern, was sich ändert</th></tr>
+<tr><td>Zeilen</td><td class="num">3</td><td class="num">6 Übergänge</td></tr>
+<tr><td>Was du wissen musst</td><td>wohin</td><td>woher und wohin</td></tr>
+<tr><td>Ein vierter Zustand kostet</td><td>eine Zeile</td><td>vier weitere Übergänge</td></tr>
+</table>
+<p><b>Und der Preis?</b> Drei Aufrufe von <code>setVisibility</code> statt einem. Android macht daraus nichts, wenn der Wert schon stimmt. Das ist unmessbar wenig.</p>
+<p><b>Warum das zählt:</b> Das ist ein Muster, das du überall wiedererkennst. Einen Zustand vollständig herzustellen ist fast immer billiger und sicherer, als jeden möglichen Übergang zu beschreiben.</p>
+</div>
+
+<div class="ue">
+<p class="t">Frage 2, warum ein enum und nicht drei boolean?</p>
+<p>Zwei Vorteile, und beide sind hart.</p>
+<p><b>Erstens: unmögliche Zustände gibt es nicht.</b> Mit drei <code>boolean</code> hättest du acht Kombinationen, und sechs davon sind Unsinn. Alle drei sichtbar, keiner sichtbar, zwei sichtbar. Der <code>enum</code> hat drei Werte, und jeder ergibt Sinn.</p>
+<p><b>Zweitens: der Compiler liest mit.</b> <code>GameState.QUESTIN</code> ist sofort rot. Ein <code>int</code> mit dem Wert 7 oder ein <code>String</code> mit dem Wert <code>"Frage"</code> statt <code>"frage"</code> übersetzt tadellos, und dann passiert beim Laufen einfach nichts.</p>
+<div class="note">
+<p><b>Dazu kommt, dass es sich liest.</b> <code>showState(GameState.RESULT)</code> sagt, was gemeint ist. <code>showState(2)</code> zwingt jeden Leser, oben nachzuschauen, was die 2 bedeutet.</p>
+</div>
+<p><b>Warum das zählt:</b> Immer wenn etwas genau eine von wenigen festen Möglichkeiten ist, ist ein <code>enum</code> die richtige Antwort. Das gilt für Zustände, Kategorien, Schwierigkeitsgrade und vieles mehr.</p>
+</div>
+
+<div class="ue">
+<p class="t">Frage 3, warum kein Objekt von QuestionBank?</p>
+<p><b>Weil es nichts gäbe, was zwei Objekte unterschiede.</b> Ein Objekt lohnt sich, wenn jedes davon einen eigenen Zustand hat. Zwei <code>Question</code>-Objekte haben verschiedene Texte und Antworten. Zwei <code>QuestionBank</code>-Objekte hätten genau dieselben dreissig Fragen.</p>
+<pre><span class="c">// so nicht
+// QuestionBank bank = new QuestionBank();
+// bank.byCategory("Sport");</span>
+
+<span class="c">// sondern so</span>
+<span class="t">QuestionBank</span>.byCategory(<span class="s">"Sport"</span>);</pre>
+<p>Der private Konstruktor macht das verbindlich. Er sagt: von aussen kann niemand ein Objekt bauen, auch nicht aus Versehen.</p>
+<div class="warn">
+<p><b>Und die Grenze dazu.</b> Sobald die Fragen aus einer Datenbank kommen, ändert sich das. Dann gibt es einen Zustand, nämlich die Verbindung, und dann ist <code>static</code> plötzlich im Weg. Genau darum sieht die Klasse am Tag 4 anders aus.</p>
+</div>
+<p><b>Warum das zählt:</b> Die Frage lautet nie "static oder nicht", sondern "hat das hier einen eigenen Zustand". Aus der Antwort folgt der Rest.</p>
+</div>
+
+<div class="ue">
+<p class="t">Frage 4, was ginge kaputt, wenn du das Original mischst?</p>
+<p><b>Die Liste im Ergebnisbereich stünde bei jeder Runde in einer anderen Reihenfolge.</b></p>
+<p><code>Collections.shuffle</code> mischt die übergebene Liste selbst, es gibt keine neue zurück. Gibst du ihm <code>categoryQuestions</code>, ist danach dein Bestand durcheinander. Und <code>buildQuestionList</code> läuft genau über diesen Bestand.</p>
+<table>
+<tr><th>Runde</th><th>Mit Kopie</th><th>Ohne Kopie</th></tr>
+<tr><td>1</td><td>Liste in Bestandsreihenfolge</td><td>Liste durcheinander</td></tr>
+<tr><td>2</td><td>dieselbe Reihenfolge</td><td>anders durcheinander</td></tr>
+<tr><td>3</td><td>dieselbe Reihenfolge</td><td>wieder anders</td></tr>
+</table>
+<p>Übung 2 lässt dich das bauen. Es stürzt nichts ab und es ist auch nicht falsch, es ist nur unbrauchbar. Ein Bestand hat eine feste Ordnung, sonst findet man nichts wieder.</p>
+<p><b>Warum das zählt:</b> Viele Methoden in Java ändern das Original, statt etwas Neues zurückzugeben. <code>Collections.shuffle</code>, <code>Collections.sort</code>, <code>List.removeAll</code>. Die Frage "ändert das mein Original" gehört ab jetzt zu deinem Werkzeug.</p>
+</div>
+
+
+<h2>Die Beobachtungsstelle</h2>
+
+<div class="ue">
+<p class="t">A3, zwei Bereiche gleichzeitig</p>
+<p><b>Was du siehst:</b> Nach der letzten Frage erscheint der Ergebnisbereich, und der Fragebereich bleibt darunter stehen. Beide sind sichtbar. Weil beide gleich gross sind und den ganzen Bildschirm füllen, liegen sie genau übereinander, und du siehst Text durch Text.</p>
+<p><b>Was die Beobachtung zeigt:</b> Die naive Form von <code>showState</code> sagt nur, was <b>sichtbar</b> werden soll. Sie sagt nie, was <b>verschwinden</b> soll. Und niemand sonst sagt es, denn die alten Zeilen hast du in A2 gelöscht.</p>
+<pre><span class="c">// die naive Form, so wie sie in A1 stand</span>
+<span class="k">if</span> (state == <span class="t">GameState</span>.QUESTION) { svQuestion.setVisibility(<span class="t">View</span>.VISIBLE); }
+<span class="k">if</span> (state == <span class="t">GameState</span>.RESULT)   { llResult.setVisibility(<span class="t">View</span>.VISIBLE); }
+
+<span class="c">// die fertige Form, jede Zeile entscheidet vollständig</span>
+svQuestion.setVisibility(state == <span class="t">GameState</span>.QUESTION ? <span class="t">View</span>.VISIBLE : <span class="t">View</span>.GONE);
+llResult.setVisibility(state == <span class="t">GameState</span>.RESULT ? <span class="t">View</span>.VISIBLE : <span class="t">View</span>.GONE);</pre>
+<p><b>Die häufigsten Fehlbeobachtungen:</b></p>
+<ul>
+<li>"das Ergebnis ist gar nicht erschienen" ist falsch. Es ist erschienen, es liegt nur über etwas anderem.</li>
+<li>"die Frage war noch nicht fertig ausgeblendet" ist falsch. Sie wurde nie ausgeblendet, kein einziger Aufruf verlangt das.</li>
+<li>"das Layout ist verrutscht" verwechselt zwei Dinge. Am Layout hat sich nichts geändert, nur an der Sichtbarkeit.</li>
+<li>"die App ist abgestürzt" ist falsch. Es sieht kaputt aus und läuft einwandfrei.</li>
+</ul>
+<p><b>Der Satz, den du dir merkst:</b> eine Methode, die einen Zustand herstellt, muss ihn <b>ganz</b> herstellen. Was sie nicht erwähnt, bleibt so, wie es war.</p>
+<div class="tip">
+<p><b>Das ist derselbe Fehler wie in 04A und 04B</b>, zum dritten Mal an einer neuen Stelle. In 04A behielten die Buttons ihre Farbe, in 04B blieben die Zeilen der Liste liegen, heute bleibt ein ganzer Bereich stehen. Drei Fälle, ein Prinzip: <b>was dein Code setzt, muss dein Code auch zurücksetzen.</b></p>
+</div>
+</div>
+
+
+<h2>Der Code, den du am Ende hast</h2>
+
+<h3>showState und der enum</h3>
+<pre><span class="c">/** Die drei Zustände, die dieser Bildschirm kennt. */</span>
+<span class="k">private</span> <span class="k">enum</span> <span class="t">GameState</span> { CHOOSE_CATEGORY, QUESTION, RESULT }</pre>
+
+<pre><span class="c">/**
+ * Schaltet den Bildschirm auf einen Zustand um.
+ *
+ * Das ist die einzige Stelle, die über die Sichtbarkeit der drei
+ * Bereiche entscheidet. Wer wissen will, was gerade zu sehen ist, liest
+ * diese drei Zeilen und sonst nichts.
+ *
+ * Wichtig: die Methode setzt bei jedem Aufruf alle drei Bereiche, auch
+ * die, die sich gar nicht ändern. Genau das ist der Sinn der Sache.
+ *
+ * GONE und nicht INVISIBLE. INVISIBLE versteckt einen Bereich, lässt
+ * aber seinen Platz frei und fängt weiterhin jede Berührung ab.
+ *
+ * @param state der Zustand, der sichtbar werden soll
+ */</span>
+<span class="k">private void</span> showState(<span class="t">GameState</span> state) {
+    llCategory.setVisibility(state == <span class="t">GameState</span>.CHOOSE_CATEGORY ? <span class="t">View</span>.VISIBLE : <span class="t">View</span>.GONE);
+    svQuestion.setVisibility(state == <span class="t">GameState</span>.QUESTION ? <span class="t">View</span>.VISIBLE : <span class="t">View</span>.GONE);
+    llResult.setVisibility(state == <span class="t">GameState</span>.RESULT ? <span class="t">View</span>.VISIBLE : <span class="t">View</span>.GONE);
+
+    Log.d(TAG, <span class="s">"showState "</span> + state);
+}</pre>
+
+<div class="info">
+<p><b>Warum GONE und nicht INVISIBLE.</b> <code>INVISIBLE</code> versteckt einen Bereich, lässt ihm aber seinen Platz und fängt weiterhin jede Berührung ab. Deine drei Bereiche sind gleich gross wie der ganze Bildschirm. Mit <code>INVISIBLE</code> läge der Ergebnisbereich unsichtbar über deinen Antwort-Buttons und würde jeden Tipp schlucken.</p>
+<p>Die Tabelle dazu steht im Blatt <b>XML verstehen</b> im Thema Nachschlagen.</p>
+</div>
+
+<h3>Die Runde entsteht aus der Auswahl</h3>
+<pre><span class="c">/**
+ * Stellt die Runde aus der gewählten Kategorie zusammen und startet sie.
+ *
+ * Gemischt wird eine Kopie des Bestands, nicht der Bestand selbst. Die
+ * Liste im Ergebnisbereich soll ihre eigene Reihenfolge behalten.
+ */</span>
+<span class="k">private void</span> onStartClicked() {
+    selectedCategory = (<span class="t">String</span>) spnCategory.getSelectedItem();
+    categoryQuestions = <span class="t">QuestionBank</span>.byCategory(selectedCategory);
+
+    <span class="t">List</span>&lt;<span class="t">Question</span>&gt; pool = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;(categoryQuestions);
+    <span class="t">Collections</span>.shuffle(pool);
+
+    <span class="k">int</span> count = <span class="t">Math</span>.min(QUESTIONS_PER_ROUND, pool.size());
+    roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;(pool.subList(<span class="k">0</span>, count));
+
+    Log.d(TAG, <span class="s">"category="</span> + selectedCategory + <span class="s">", bank="</span> + categoryQuestions.size()
+            + <span class="s">", round="</span> + count);
+
+    startRound();
+}
+
+<span class="c">/**
+ * Startet die vorbereitete Runde.
+ *
+ * Punktestand und Zähler gehen auf null zurück. Danach ist der
+ * Fragebereich sichtbar, und die anderen zwei sind es nicht.
+ */</span>
+<span class="k">private void</span> startRound() {
+    <span class="c">// Eine neue Runde macht das alte Ergebnis ungültig, bis sie fertig ist.</span>
+    setResult(RESULT_CANCELED);
+
+    currentIndex = <span class="k">0</span>;
+    score = <span class="k">0</span>;
+
+    showQuestion();
+    showState(<span class="t">GameState</span>.QUESTION);
+
+    Log.d(TAG, <span class="s">"round started"</span>);
+}</pre>
+
+<div class="note">
+<p><b>Zwei Methoden statt einer, und der Schnitt ist Absicht.</b> <code>onStartClicked</code> beantwortet die Frage <b>welche</b> Fragen, <code>startRound</code> die Frage <b>los geht es</b>. Nur darum kann der Knopf <b>Nochmals spielen</b> zur Auswahl zurückführen, ohne dass irgendetwas doppelt läuft.</p>
+</div>
+
+<h3>Die drei Zeilen in onCreate, die sich geändert haben</h3>
+<pre>btnStart.setOnClickListener(v -&gt; onStartClicked());
+
+<span class="c">// Nochmals spielen führt zurück zur Auswahl, nicht direkt in eine
+// neue Runde. Sonst käme man nie mehr an eine andere Kategorie.</span>
+btnRestart.setOnClickListener(v -&gt; showState(<span class="t">GameState</span>.CHOOSE_CATEGORY));
+
+spnCategory.setAdapter(<span class="k">new</span> <span class="t">ArrayAdapter</span>&lt;&gt;(<span class="k">this</span>,
+        android.R.layout.simple_spinner_dropdown_item, <span class="t">QuestionBank</span>.categories()));
+
+showState(<span class="t">GameState</span>.CHOOSE_CATEGORY);
+
+Log.d(TAG, <span class="s">"GameActivity onCreate"</span>);</pre>
+
+
+<h2>Was sich gegenüber 05B geändert hat</h2>
+<table>
+<tr><th>Datei</th><th>Änderung</th></tr>
+<tr><td class="pre">model/QuestionBank.java</td><td><b>Neu.</b> Alle dreissig Fragen, dazu <code>categories()</code> und <code>byCategory()</code></td></tr>
+<tr><td class="pre">GameActivity.java</td><td>Neu <code>GameState</code>, <code>showState</code>, <code>onStartClicked</code> und die drei Felder für die Auswahl. <code>createQuestions</code> gelöscht, <code>allQuestions</code> wurde zu <code>categoryQuestions</code>. Vier <code>setVisibility</code>-Zeilen weg</td></tr>
+<tr><td class="pre">activity_game.xml</td><td>Neu <code>llCategory</code> mit drei Children. <code>svQuestion</code> bekommt <code>visibility="gone"</code></td></tr>
+<tr><td class="pre">strings.xml</td><td>Von 21 auf 23 Einträge. Neu <code>choose_category</code> und <code>btn_start</code></td></tr>
+<tr><td class="pre">MainActivity.java, AboutActivity.java</td><td><b>unverändert</b></td></tr>
+<tr><td class="pre">model/Question.java</td><td><b>unverändert</b>, zum fünften Mal in Folge</td></tr>
+<tr><td class="pre">AndroidManifest.xml, colors.xml, Gradle, Themes</td><td>unverändert. Auch 05C braucht keine neue Abhängigkeit</td></tr>
+</table>
+
+<div class="tip">
+<p><b><code>Question</code> ist seit 03D unverändert, und das ist kein Zufall.</b> Inzwischen gibt es Runden, Listen, drei Bildschirme, einen Rückkanal und eine Kategoriewahl. Die Klasse, die eine Frage beschreibt, hat von all dem nie etwas mitbekommen. So sieht ein guter Schnitt aus.</p>
+</div>
+
+
+<h2>Drei Dinge sind hier absichtlich noch unsauber</h2>
+
+<div class="warn">
+<p><b>Erstens: die Fragenliste wird weiterhin zu Fuss gebaut.</b> Bei <b>Alle</b> sind das jetzt dreissig TextView-Objekte statt sieben. Die Rechnung aus 04B wird langsam spürbar. Das Werkzeug dafür kommt in <b>06C</b>.</p>
+</div>
+
+<div class="warn">
+<p><b>Zweitens: die dreissig Fragen stehen fest im Code.</b> Wer eine ändern will, muss die App neu bauen. Das ist der Köder für die Datenbank am Tag 4.</p>
+</div>
+
+<div class="warn">
+<p><b>Drittens: der Punktestand überlebt das Beenden der App nicht.</b> Unverändert seit 05B. Das ist das Thema von <b>05D</b>.</p>
+</div>
+
+
+<h2>Lösungen zu den Übungen</h2>
+
+<div class="ue">
+<p class="t">Übung 1, die Kategorie im Ergebnis nennen</p>
+<p>Ein Format in <code>strings.xml</code> statt eines festen Textes:</p>
+<pre>&lt;<span class="t">string</span> name=<span class="s">"list_title_format"</span>&gt;Alle Fragen aus %1$s&lt;/<span class="t">string</span>&gt;</pre>
+<p>Ein Feld für die Überschrift, ein <code>findViewById</code> dazu, und in <code>showResult</code> oder in <code>buildQuestionList</code> eine Zeile:</p>
+<pre>tvListTitle.setText(getString(R.string.list_title_format, selectedCategory));</pre>
+<div class="note">
+<p><b>Hier bekommt <code>tvListTitle</code> zum ersten Mal ein Feld.</b> In 04B stand ausdrücklich, dass es keines braucht, weil der Code den Text nie anfasst. Jetzt fasst er ihn an, also braucht es eines.</p>
+<p>Das ist kein Widerspruch, sondern die Regel in Aktion: ein Feld bekommt, was der Code anfasst. Ändert sich der Code, ändert sich die Antwort.</p>
+</div>
+<p><b>Der alte Eintrag <code>list_title</code> wird dabei unbenutzt.</b> Löschen, sonst hast du eine Leiche in <code>strings.xml</code>.</p>
+</div>
+
+<div class="ue">
+<p class="t">Übung 2, das Original mischen</p>
+<pre><span class="c">// so sieht es ohne Kopie aus</span>
+<span class="t">Collections</span>.shuffle(categoryQuestions);
+
+<span class="k">int</span> count = <span class="t">Math</span>.min(QUESTIONS_PER_ROUND, categoryQuestions.size());
+roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;(categoryQuestions.subList(<span class="k">0</span>, count));</pre>
+<p><b>Was du siehst:</b> Die Runde läuft normal. Aber die Liste im Ergebnisbereich steht bei jeder Runde in einer anderen Reihenfolge. Bei <b>Alle</b> mit dreissig Zeilen fällt es sofort auf, denn die Kategorien sind nicht mehr beieinander.</p>
+<p><b>Warum:</b> <code>Collections.shuffle</code> gibt nichts zurück, es ändert die übergebene Liste. Und <code>buildQuestionList</code> läuft über genau diese Liste.</p>
+<div class="tip">
+<p><b>Woran du solche Methoden erkennst.</b> Schau auf den Rückgabewert. <code>Collections.shuffle</code> ist <code>void</code>, es kann also gar nichts Neues liefern. Wenn eine Methode <code>void</code> ist und trotzdem etwas tut, hat sie etwas verändert. Die Frage ist nur, was.</p>
+</div>
+</div>
+
+<div class="ue">
+<p class="t">Übung 3, erklären</p>
+<p>Eine gute Erklärung nennt das Prinzip und den Beleg.</p>
+<p>"<code>showState</code> stellt einen Zustand her, und ein Zustand ist erst dann hergestellt, wenn alles stimmt. Was die Methode nicht erwähnt, bleibt so, wie es vorher war. In A3 haben wir das gesehen: die Form, die nur den neuen Bereich einblendet, hat den alten stehen lassen. Das Ergebnis lag über der Frage."</p>
+<p>Wer nur sagt "sonst bleibt der alte sichtbar", hat die Beobachtung. Wer den Satz mit dem Zustand dazusagt, hat die Regel.</p>
+</div>
+
+<div class="note">
+<p><b>Zur Zusatzaufgabe steht hier bewusst nichts.</b> Die Frage danach ist der eigentliche Inhalt: welche Werte musst du dir merken, und welche kannst du daraus wieder ausrechnen? Die kürzeste Liste gewinnt, und sie ist erstaunlich kurz. Wer alles speichern will, was auf dem Bildschirm steht, hat die Frage noch nicht verstanden.</p>
+</div>
+
+
+<h2>Mögliche falsche KI-Rückmeldungen</h2>
+<p>Das sind Antworten, die uns bei diesem Thema schon begegnet sind. Nicht jede KI macht jeden dieser Fehler. Die Liste ist eine Prüfliste, keine Anklage.</p>
+<table>
+<tr><th>Die KI schlägt vor</th><th>Warum das hier falsch ist</th></tr>
+<tr><td>Für jeden Zustand eine eigene Activity bauen, dann braucht es kein <code>showState</code></td><td>Der häufigste Anfängerentwurf, und er kostet später am meisten. Eine Activity ist eine Aufgabe, kein Bild. Das war Denkfrage 3 aus 05A</td></tr>
+<tr><td>Ein <code>ViewFlipper</code> oder ein <code>ViewSwitcher</code> statt drei Bereichen mit <code>visibility</code></td><td>Gibt es wirklich und funktioniert. Es versteckt aber genau das, was du heute lernen sollst, und bringt ein weiteres Element mit eigenen Regeln</td></tr>
+<tr><td><code>INVISIBLE</code> statt <code>GONE</code>, das sei sauberer</td><td>Der Platz bleibt dann reserviert, und der unsichtbare Bereich fängt jede Berührung ab. Bei Bereichen, die sich abwechseln, immer <code>GONE</code></td></tr>
+<tr><td>Die drei Zustände als <code>int</code>-Konstanten, das sei schneller</td><td>Der Geschwindigkeitsunterschied ist nicht messbar. Dafür meldet der Compiler keinen Tippfehler mehr, und der Code liest sich schlechter</td></tr>
+<tr><td>Die Kategorien direkt ins XML des Spinners schreiben, mit <code>android:entries</code></td><td>Geht und ist für feste Listen sogar üblich. Hier kommen die Kategorien aber aus derselben Quelle wie die Fragen. Zwei Orte für dieselbe Wahrheit sind einer zu viel</td></tr>
+<tr><td><code>Collections.shuffle(categoryQuestions)</code> ohne Kopie, das spare Speicher</td><td>Es spart eine Liste mit dreissig Verweisen, also nichts. Und es macht die Reihenfolge deines Bestands kaputt. Genau das baut Übung 2 nach</td></tr>
+<tr><td>Eine eigene <code>Random</code>-Instanz und selbst gebaute Zufallsindizes</td><td>Mehr Code für dasselbe Ergebnis, mit der zusätzlichen Gefahr, dass eine Frage zweimal vorkommt. <code>Collections.shuffle</code> gibt es genau dafür</td></tr>
+<tr><td><code>setOnItemSelectedListener</code> am Spinner, um die Auswahl mitzuschreiben</td><td>Unnötig. Du brauchst die Kategorie nur in dem Moment, in dem der Knopf gedrückt wird, und dann fragst du sie mit <code>getSelectedItem</code> ab</td></tr>
+<tr><td>Ein <code>switch</code> über den <code>enum</code> in <code>showState</code>, mit drei Zweigen</td><td>Läuft, ist aber länger und verführt genau zum Fehler aus A3. In jedem Zweig müsstest du wieder alle drei Bereiche setzen, sonst bleibt einer stehen</td></tr>
+</table>
+
+
+<h2>So prüfst du das Ganze</h2>
+<ol>
+<li><b>Run.</b> Menü, dann <b>Spielen</b>. Der Spielbildschirm zeigt die Frage nach der Kategorie.</li>
+<li>Klapp die Auswahlliste auf. Fünf Einträge, <b>Alle</b> zuoberst.</li>
+<li>Wähl <b>Geschichte</b>, dann <b>Runde starten</b>. Es kommt <b>Frage 1 von 5</b>, und alle Fragen sind aus der Geschichte.</li>
+<li>Spiel die Runde zu Ende. Unter dem Ergebnis stehen <b>sieben</b> Zeilen, alle aus der Geschichte.</li>
+<li><b>Nochmals spielen.</b> Du landest bei der Auswahl, nicht in einer Runde.</li>
+<li>Wähl <b>Alle</b>. Unter dem Ergebnis stehen jetzt <b>dreissig</b> Zeilen, nach Kategorien gruppiert.</li>
+<li>Spiel dieselbe Kategorie zweimal. Die fünf Fragen kommen in anderer Reihenfolge, die Liste darunter nicht.</li>
+<li>Es ist zu keinem Zeitpunkt mehr als ein Bereich sichtbar.</li>
+<li><b>Zurück zum Start.</b> Der Punktestand kommt im Menü an, wie in 05B.</li>
+<li>Im Logcat steht pro Runde <code>showState CHOOSE_CATEGORY</code>, dann <code>category=...</code>, dann <code>showState QUESTION</code>, am Schluss <code>showState RESULT</code>.</li>
+</ol>
+
+<div class="tip">
+<p><b>Punkt 4, 6 und 7 sind die wichtigen.</b> Punkt 4 und 6 prüfen, ob die Liste wirklich filtert. Punkt 7 prüft beides auf einmal: die Runde muss sich ändern, der Bestand darunter nicht.</p>
+</div>
+
+
+<h2>Was als Nächstes kommt</h2>
+<p><b>05D</b> gibt dem Menü ein Gedächtnis, das über das Beenden der App hinausreicht. Aus dem letzten Punktestand wird der beste, und er ist auch morgen noch da.</p>
+<p>Danach der <b>05CD Wissenscheck</b> über beide Aufträge.</p>
+
+<p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 05C Drei Zustände und die Kategoriewahl &middot; Version 1 vom 16.08.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>
