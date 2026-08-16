@@ -20,7 +20,7 @@
 <div class="wrap">
 
 <h1>04A Lösung, Die Fragenliste und die Runde</h1>
-<p class="sub">Lösungsmaterial zum Auftrag 04A. Modul 335, Tag 2 Nachmittag. Fassung 1 vom 14.08.2026.</p>
+<p class="sub">Lösungsmaterial zum Auftrag 04A. Modul 335, Tag 2 Nachmittag. Fassung 3 vom 15.08.2026.</p>
 <p class="sub"><b>Zum Durchlesen brauchst du etwa 15 Minuten.</b> Das ist ein Richtwert. Such dir die Stelle, die du brauchst.</p>
 
 <div class="info">
@@ -29,7 +29,7 @@
 
 
 <h2>Vergleichsliste, dein eigener Code</h2>
-<p>Geh diese neun Punkte an <b>deinen eigenen</b> Dateien durch, bevor du hier weiterliest.</p>
+<p>Geh diese zwölf Punkte an <b>deinen eigenen</b> Dateien durch, bevor du hier weiterliest.</p>
 
 <table>
 <tr><th>Nr</th><th>Das prüfst du</th><th>Warum es zählt</th></tr>
@@ -42,10 +42,14 @@
 <tr><td>7</td><td>Steht <code>btnNext</code> im XML auf <code>gone</code> und wird nur im Code sichtbar?</td><td>Beim Start ist noch nichts beantwortet. Ein Weiter-Knopf ohne Antwort überspringt die Frage</td></tr>
 <tr><td>8</td><td>Füllt genau <b>eine</b> Methode den Fragebildschirm, nämlich <code>showQuestion</code>?</td><td>Wer den Bildschirm an mehreren Stellen füllt, vergisst irgendwann eine davon</td></tr>
 <tr><td>9</td><td>Wird <code>score</code> in <code>startRound</code> zurückgesetzt und nicht nur bei der Felddeklaration?</td><td>Sonst zählt die zweite Runde auf der ersten weiter. Der Fehler zeigt sich erst beim zweiten Durchspielen</td></tr>
+<tr><td>10</td><td>Hat <b>jedes</b> neue Feld und <b>jede</b> neue Methode eine Javadoc-Zeile? Also auch <code>svQuestion</code>, <code>llResult</code>, <code>tvProgress</code>, <code>tvResult</code>, <code>btnRestart</code>, <code>onNextClicked</code>, <code>showResult</code> und <code>startRound</code>?</td><td>Genau das verlangt die Leistungsbeurteilung. Elf Felder und vier Methoden auf einmal nachzudokumentieren dauert eine Stunde, hier kostet es fünf Minuten</td></tr>
+<tr><td>11</td><td>Beschreibt das Javadoc <b>über der Klasse</b>, was die App heute tut? Und stimmt der Kommentar bei <code>score</code> noch?</td><td>Der alte Text aus 03B sagt, der Bildschirm reagiere auf nichts. Ein falscher Kommentar ist schlimmer als gar keiner, denn wer ihn liest, glaubt ihm</td></tr>
+<tr><td>12</td><td>Steht <code>showScore()</code> nur noch <b>zweimal</b> im Projekt, nämlich in <code>showQuestion</code> und in <code>onAnswerClicked</code>?</td><td>Ein dritter Aufruf in <code>onCreate</code> ist ein Rest der Krücke. Er tut nichts, sieht aber aus, als würde er etwas tun</td></tr>
 </table>
 
 <div class="tip">
 <p><b>Punkt 3, 5 und 9 prüfen dasselbe Prinzip an drei Orten:</b> was dein Code setzt, muss dein Code auch zurücksetzen. Wer nur einmal durchspielt, findet keinen der drei Fehler.</p>
+<p><b>Punkt 10 und 11 sehen nach Fleissarbeit aus und sind es nicht.</b> Ein Kommentar, der nicht mehr stimmt, schickt dich beim Fehlersuchen in die falsche Richtung. Und Javadoc nachträglich für ein ganzes Projekt zu schreiben ist eine Stunde Arbeit, die niemand gerne macht.</p>
 </div>
 
 
@@ -130,6 +134,55 @@
 </table>
 <p><b>Der Satz, den du dir merkst:</b> was dein Code setzt, muss dein Code auch zurücksetzen. Das XML macht es nicht für dich, denn das XML gilt nur einmal, beim Aufbauen des Bildschirms.</p>
 <p>Die häufigste Fehlbeobachtung ist "die Frage hat sich gar nicht geändert". Sie hat sich geändert, der Text ist neu. Nur die Farben sind alt.</p>
+</div>
+
+
+<h2>Die Aufrufkette, zum Nachschlagen</h2>
+<p>Der Überblick aus dem Auftrag, hier nochmals als Ganzes. Wenn deine App etwas doppelt macht oder eine Zeile wirkungslos scheint, such die Stelle hier.</p>
+
+<pre>onCreate()
+└─ startRound()                     <span class="c">// die einzige Zeile, die etwas startet</span>
+     ├─ Runde ausschneiden, currentIndex und score auf 0
+     ├─ llResult auf GONE, svQuestion auf VISIBLE
+     └─ showQuestion()
+          ├─ Frage aus der Runde holen
+          ├─ Fortschritt, Kategorie und Fragetext setzen
+          ├─ <span class="s">showScore()</span>
+          ├─ die vier Buttons füllen und zurücksetzen
+          └─ btnNext auf GONE
+
+Klick auf eine Antwort
+└─ onAnswerClicked()
+     ├─ bei richtig: score++ und <span class="s">showScore()</span>
+     ├─ markAnswers()  ──►  markButton()
+     ├─ lockAnswers()
+     └─ btnNext auf VISIBLE
+
+Klick auf Weiter
+└─ onNextClicked()
+     ├─ noch Fragen übrig  →  showQuestion()
+     └─ Runde zu Ende      →  showResult()
+
+Klick auf Nochmals spielen
+└─ startRound()                     <span class="c">// dieselbe Methode wie beim Start</span></pre>
+
+<div class="tip">
+<p><b>Die Kette beantwortet die häufigste Frage dieses Auftrags:</b> was darf in <code>onCreate</code> stehen bleiben? Antwort: alles, was <b>einrichtet</b>. Views holen, Farben sichern, Klicks verdrahten, Fragen laden. Und dann eine einzige Zeile, die alles in Gang setzt.</p>
+<p>Was in der Kette schon vorkommt, gehört nicht zusätzlich nach oben. <code>showScore()</code> ist das Beispiel: es steckt in <code>showQuestion</code>, und das steckt in <code>startRound</code>.</p>
+</div>
+
+<div class="info">
+<p><b>Warum <code>onCreate</code> nicht einfach alles machen kann.</b> Es läuft genau einmal, beim Aufbauen des Bildschirms. Alles, was mehr als einmal passieren muss, braucht eine eigene Methode mit einem eigenen Auslöser.</p>
+<table>
+<tr><th>Methode</th><th>Wann sie läuft</th><th>Wie oft pro Runde</th></tr>
+<tr><td class="pre">onCreate</td><td>beim Aufbauen des Bildschirms</td><td class="num">1</td></tr>
+<tr><td class="pre">startRound</td><td>beim Start und beim Knopf Nochmals spielen</td><td class="num">1</td></tr>
+<tr><td class="pre">showQuestion</td><td>bei jeder neuen Frage</td><td class="num">5</td></tr>
+<tr><td class="pre">onAnswerClicked</td><td>bei jedem Antippen einer Antwort</td><td class="num">5</td></tr>
+<tr><td class="pre">onNextClicked</td><td>bei jedem Weiter</td><td class="num">5</td></tr>
+<tr><td class="pre">showResult</td><td>nach der letzten Frage</td><td class="num">1</td></tr>
+</table>
+<p>Die Spalte ganz rechts ist die Begründung fürs Auslagern. Alles mit einer Zahl über eins kann nicht in <code>onCreate</code> stehen.</p>
 </div>
 
 
@@ -329,7 +382,7 @@ startRound();</pre>
 <h2>Was sich gegenüber 03D geändert hat</h2>
 <table>
 <tr><th>Datei</th><th>Änderung</th></tr>
-<tr><td class="pre">MainActivity.java</td><td>Neu <code>createQuestions</code>, <code>startRound</code>, <code>onNextClicked</code>, <code>showResult</code>. <code>showQuestion</code> holt die Frage aus der Runde und setzt die Buttons zurück. Neue Felder für die zwei Listen, den Index, die Konstante, die vier neuen Views und die zwei gesicherten Farben</td></tr>
+<tr><td class="pre">MainActivity.java</td><td>Neu <code>createQuestions</code>, <code>startRound</code>, <code>onNextClicked</code>, <code>showResult</code>. <code>showQuestion</code> holt die Frage aus der Runde und setzt die Buttons zurück. Neue Felder für die zwei Listen, den Index, die Konstante, die fünf neuen Views und die zwei gesicherten Farben. <b>Das Javadoc über der Klasse und bei <code>score</code> ist nachgezogen</b></td></tr>
 <tr><td class="pre">activity_main.xml</td><td>Neu <code>svQuestion</code> mit <code>llQuestion</code> darin, dazu <code>llHeader</code>, <code>tvProgress</code>, <code>btnNext</code>. Neu der zweite Bereich <code>llResult</code> mit <code>tvResult</code> und <code>btnRestart</code></td></tr>
 <tr><td class="pre">strings.xml</td><td>Vier neue Einträge: <code>progress_format</code>, <code>btn_next</code>, <code>btn_restart</code>, <code>result_format</code></td></tr>
 <tr><td class="pre">model/Question.java</td><td><b>unverändert</b></td></tr>
@@ -384,6 +437,13 @@ roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;
 <p><b>Der <code>else</code>-Zweig ist der eigentliche Inhalt dieser Übung.</b> Wer ihn weglässt, hat nach der ersten Runde für immer "Ergebnis" auf dem Knopf stehen. Es ist derselbe Fehler wie der grüne Rest aus C2, nur an einer anderen Stelle.</p>
 <p><code>roundQuestions.size() - 1</code> und nicht <code>QUESTIONS_PER_ROUND - 1</code>. Sonst bricht die Übung, sobald jemand Übung 1 gemacht hat.</p>
 </div>
+<div class="note">
+<p><b>Die Variante, die fast alle zuerst bauen.</b> Man setzt den Text nicht in <code>showQuestion</code>, sondern in <code>onAnswerClicked</code>, weil der Knopf ja erst dort erscheint:</p>
+<pre><span class="k">if</span> (currentIndex + <span class="k">1</span> == roundQuestions.size()) {
+    btnNext.setText(R.string.btn_result);
+}</pre>
+<p>Das läuft, und zwar genau eine Runde lang. Danach steht für immer <b>Ergebnis</b> auf dem Knopf, denn es gibt keine Stelle mehr, die ihn zurücksetzt. In <code>showQuestion</code> mit <code>else</code> hast du beide Fälle an einem Ort, und der Ort ist derselbe, an dem du auch die Buttons zurücksetzt.</p>
+</div>
 </div>
 
 <div class="ue">
@@ -424,7 +484,8 @@ roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;
 <li>Spiel die zweite Runde zu Ende. Die Punktzahl beginnt bei null und zählt nicht auf der ersten weiter.</li>
 <li><b>Dreh den Emulator ins Querformat, mitten in der Runde.</b> Der Weiter-Knopf muss erreichbar bleiben, notfalls nach dem Schieben.</li>
 <li>Spiel im Querformat die Runde zu Ende und drück <b>Nochmals spielen</b>. Der Knopf muss reagieren.</li>
-<li>Im Logcat unter <code>Modul335</code>: <code>question bank loaded, size=7</code>, dann <code>round started</code>, pro Antwort eine Zeile, dann <code>round finished, score=</code>.</li>
+<li>Im Logcat unter <code>Modul335</code>: <code>question bank loaded, size=7</code>, dann <code>round started</code>, pro Antwort eine Zeile, dann <code>round finished, score=</code>. <b>Keine Zeile mehr aus 03D dazwischen.</b></li>
+<li>In <code>onCreate</code> steht keine Krücke mehr. Die letzte Zeile ist <code>startRound();</code>.</li>
 </ol>
 
 <div class="tip">
@@ -437,7 +498,7 @@ roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;
 <p>Gebaut wird sie zu Fuss: eine Schleife erzeugt pro Frage eine TextView und hängt sie mit <code>addView</code> an. Bei sieben Zeilen läuft das gut. Denk schon mal darüber nach, was bei fünfhundert Zeilen passiert.</p>
 <p>Danach kommt der <b>04AB Wissenscheck</b> über beide Aufträge.</p>
 
-<p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 04A Die Fragenliste und die Runde &middot; Fassung 1 vom 14.08.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
+<p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 04A Die Fragenliste und die Runde &middot; Fassung 3 vom 15.08.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->

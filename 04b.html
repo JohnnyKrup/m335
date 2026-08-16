@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04B Alle Fragen als Liste</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>04B Alle Fragen als Liste</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 2 Nachmittag. Zeitbudget 35 Minuten. Fassung 2 vom 15.08.2026.</p>
+<p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
+
+
+<h2>01 Einführung</h2>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>1.1</td><td>Ergonomische Standards anwenden, hier eine Liste, die sich schieben lässt</td></tr>
+<tr><td>2.3</td><td>App-Architekturen kennen, Oberfläche aus Daten erzeugen statt fest zu verdrahten</td></tr>
+<tr><td>3.2</td><td>Framework und APIs der Plattform einsetzen</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du erzeugst Views im Java-Code statt im XML und hängst sie an ein Layout.</li>
+<li>Du erklärst, warum ein Container, den dein Code füllt, im XML leer dasteht.</li>
+<li>Du erkennst, dass ein Code, der etwas erzeugt, auch fürs Aufräumen zuständig ist.</li>
+<li>Du unterscheidest den Bestand von der Runde an einem sichtbaren Beispiel.</li>
+<li>Du rechnest aus, was ein Verfahren bei vielen Daten kostet, statt es zu schätzen.</li>
+<li>Du erklärst, warum <code>this</code> dort passt, wo ein <code>Context</code> verlangt wird.</li>
+</ul>
+
+<h3>Das brauchst du vorher</h3>
+<ul>
+<li>Dein Projekt <b>WissQuiz</b> nach 04A. Die Runde läuft, das Ergebnis erscheint.</li>
+<li>Du kennst Schleifen und Listen aus dem Java-Unterricht.</li>
+</ul>
+
+<h3>Das gibst du ab</h3>
+<ul>
+<li>Screenshot deines Ergebnisbildschirms mit der Liste, alle sieben Zeilen sichtbar oder scrollbar.</li>
+<li>Screenshot desselben Bildschirms nach der <b>zweiten</b> Runde.</li>
+</ul>
+<p>Mehr nicht. Kein Arbeitsblatt und <b>kein Projekt als ZIP</b>. Ob dein Code sauber ist, prüfst du selbst mit der Vergleichsliste im Lösungsmaterial.</p>
+
+<div class="tip">
+<p><b>Nach diesem Auftrag kommt der 04AB Wissenscheck.</b> Er deckt 04A und 04B zusammen ab. Was du in 04A beobachtet hast und was du heute in B3 beobachtest, kommt dort als Frage wieder.</p>
+</div>
+
+<div class="info">
+<p><b>Der zweite Screenshot ist der eigentliche.</b> Nach einer Runde sieht fast jede Lösung richtig aus. Was heute zählt, siehst du erst beim zweiten Durchgang.</p>
+</div>
+
+
+<h2>02 Auftrag</h2>
+
+<h3>Ausgangslage</h3>
+<p>Dein Ergebnisbildschirm zeigt eine Zahl und einen Knopf. Sieben Fragen liegen im Bestand, gespielt hast du fünf davon. Die anderen zwei hat nie jemand gesehen.</p>
+<p>Heute kommt darunter eine Liste mit <b>allen</b> Fragen der Kategorie. Sie steht nicht im Layout. Dein Code baut sie Zeile für Zeile.</p>
+
+<h3>Werkzeugkasten</h3>
+<table>
+<tr><th>Baustein</th><th>Wofür</th></tr>
+<tr><td class="pre">new TextView(this)</td><td>Eine View im Java-Code erzeugen, ohne XML</td></tr>
+<tr><td class="pre">addView</td><td>Eine View an ein Layout anhängen</td></tr>
+<tr><td class="pre">removeAllViews</td><td>Alle Children eines Layouts entfernen</td></tr>
+<tr><td class="pre">setTextSize</td><td>Schriftgrösse im Code setzen. Die Zahl gilt als <code>sp</code></td></tr>
+<tr><td class="pre">setPadding</td><td>Innenabstand im Code setzen. Die Zahlen sind Pixel, nicht dp</td></tr>
+<tr><td class="pre">getDisplayMetrics().density</td><td>Der Umrechnungsfaktor von dp nach Pixel. Kennst du aus dem Insets-Block</td></tr>
+<tr><td class="pre">ScrollView</td><td>Container, dessen Inhalt sich schieben lässt. Kennst du aus 04A</td></tr>
+<tr><td class="pre">layout_weight</td><td>Verteilt den Restplatz in einem LinearLayout. Kennst du aus 02B</td></tr>
+<tr><td class="pre">layout_gravity</td><td>Ordnet eine View <b>in ihrem Parent</b> an</td></tr>
+</table>
+
+<h3>Pflichtangaben im Layout</h3>
+<table>
+<tr><th>Angabe</th><th>Pflicht, weil</th></tr>
+<tr><td class="pre">layout_height="0dp" plus layout_weight="1"</td><td>Bei der neuen ScrollView. Nur so bekommt sie den Restplatz und nicht die Höhe ihres Inhalts</td></tr>
+<tr><td class="pre">orientation="vertical"</td><td>Beim leeren LinearLayout darin. Sonst landen alle Zeilen nebeneinander</td></tr>
+<tr><td class="pre">layout_gravity</td><td>Beim Knopf. Er stand bisher mittig, weil der Parent es so wollte. Das ändert sich heute</td></tr>
+</table>
+
+<h3>Namen im Code</h3>
+<table>
+<tr><th>Name</th><th>Was es ist</th></tr>
+<tr><td class="pre">tvListTitle</td><td>Die Überschrift über der Liste</td></tr>
+<tr><td class="pre">svQuestionList</td><td>Die ScrollView um die Liste</td></tr>
+<tr><td class="pre">llQuestionList</td><td>Das LinearLayout darin. Im XML leer, im Code gefüllt</td></tr>
+<tr><td class="pre">buildQuestionList</td><td>Die neue Methode. Baut die Zeilen</td></tr>
+<tr><td class="pre">row</td><td>Die TextView einer einzelnen Zeile, innerhalb der Schleife</td></tr>
+<tr><td class="pre">list_title</td><td>Neuer Eintrag in <code>strings.xml</code></td></tr>
+</table>
+
+<h3>Denkfragen</h3>
+<ol>
+<li>Das LinearLayout für die Liste steht im XML leer da. Warum baut der Code die Zeilen und nicht das Layout?</li>
+<li>Die Liste soll alle Fragen zeigen. Du hast zwei Listen im Projekt. Welche nimmst du, und woran erkennst du am Bildschirm, ob du die richtige erwischt hast?</li>
+<li>Sieben Fragen ergeben sieben TextView-Objekte. Was passiert bei fünfhundert Fragen? Rechne es durch, bevor du weiterliest.</li>
+<li>Der Ergebnisbereich hat Höhe <code>0dp</code> mit einem Anker oben und einem unten. Warum ist gerade das für die neue ScrollView wichtig?</li>
+</ol>
+
+<div class="tip">
+<p><b>Diese vier Fragen kommen im 04AB Wissenscheck wieder.</b> Dasselbe gilt für das, was du in B3 beobachtest.</p>
+</div>
+
+
+<h3>Teil A, der Platz für die Liste <span class="time">12 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">A1</span><b>Ein neuer Text in <code>strings.xml</code>.</b></p>
+<pre>&lt;<span class="t">string</span> name=<span class="s">"list_title"</span>&gt;Alle Fragen dieser Kategorie&lt;/<span class="t">string</span>&gt;</pre>
+<p>Eine Überschrift ist Beschriftung, kein Inhalt. Also gehört sie hierhin. Die Faustregel aus 03D gilt weiter.</p>
+</div>
+
+<div class="step">
+<p><span class="n">A2</span><b>Der Ergebnisbereich verliert seine Mitte.</b></p>
+<p>Dein <code>llResult</code> hat heute <code>android:gravity="center"</code>. Das hat Ergebnis und Knopf zusammen in die Bildschirmmitte gerückt. Sobald eine Liste dazukommt, ist das falsch, denn die Liste soll unten den ganzen Restplatz bekommen.</p>
+<p>Zwei kleine Änderungen:</p>
+<table>
+<tr><th>Wo</th><th>Was</th></tr>
+<tr><td class="pre">llResult</td><td>die Zeile <code>android:gravity="center"</code> <b>löschen</b></td></tr>
+<tr><td class="pre">btnRestart</td><td><code>android:layout_gravity="center_horizontal"</code> <b>ergänzen</b></td></tr>
+</table>
+<div class="note">
+<p><b><code>gravity</code> und <code>layout_gravity</code> sind zwei verschiedene Dinge.</b> Das stand schon in 04A, hier ist der Fall dazu.</p>
+<table>
+<tr><th></th><th>Wer wird angeordnet</th><th>Wer bestimmt</th></tr>
+<tr><td class="pre">gravity</td><td>der <b>Inhalt</b> einer View</td><td>die View selbst, für ihre Children</td></tr>
+<tr><td class="pre">layout_gravity</td><td>die <b>View</b> selbst</td><td>der Parent, in dem sie liegt</td></tr>
+</table>
+<p>Vorher hat der Parent alles mittig geschoben. Jetzt sagt nur noch der Knopf von sich aus, dass er in die Mitte will. Der Rest füllt die Breite.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">A3</span><b>Überschrift und leerer Listenbereich.</b></p>
+<p>Beides kommt in <code>llResult</code>, <b>unter</b> den Knopf <code>btnRestart</code>.</p>
+<pre>&lt;<span class="t">TextView</span>
+    android:id=<span class="s">"@+id/tvListTitle"</span>
+    android:layout_width=<span class="s">"match_parent"</span>
+    android:layout_height=<span class="s">"wrap_content"</span>
+    android:layout_marginTop=<span class="s">"28dp"</span>
+    android:text=<span class="s">"@string/list_title"</span>
+    android:textSize=<span class="s">"14sp"</span>
+    android:textStyle=<span class="s">"bold"</span> /&gt;
+
+&lt;<span class="t">ScrollView</span>
+    android:id=<span class="s">"@+id/svQuestionList"</span>
+    android:layout_width=<span class="s">"match_parent"</span>
+    android:layout_height=<span class="s">"0dp"</span>
+    android:layout_weight=<span class="s">"1"</span>
+    android:layout_marginTop=<span class="s">"6dp"</span>&gt;
+
+    &lt;<span class="t">LinearLayout</span>
+        android:id=<span class="s">"@+id/llQuestionList"</span>
+        android:layout_width=<span class="s">"match_parent"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:orientation=<span class="s">"vertical"</span> /&gt;
+
+&lt;/<span class="t">ScrollView</span>&gt;</pre>
+<div class="info">
+<p><b>Das LinearLayout schliesst sich sofort wieder, mit <code>/&gt;</code>.</b> Es hat kein einziges Child im XML, und das ist Absicht. Es ist ein leerer Platz, den dein Code später füllt.</p>
+<p>In der Vorschau siehst du darum nichts. Das ist richtig so und kein Fehler.</p>
+</div>
+<div class="warn">
+<p><b><code>0dp</code> mit <code>layout_weight="1"</code>, nicht <code>wrap_content</code>.</b> Hier steht es umgekehrt zu 04A, und der Grund ist der Parent.</p>
+<p>In 04A hing die ScrollView in einem <b>ConstraintLayout</b>, dort heisst voll <code>0dp</code> plus Anker. Hier hängt sie in einem <b>LinearLayout</b>, dort heisst voll <code>0dp</code> plus <code>layout_weight</code>. Zwei Schreibweisen, dieselbe Idee: nimm den Platz, der übrig bleibt.</p>
+<p>Mit <code>wrap_content</code> würde sie so hoch wie ihr Inhalt und schiebe nie.</p>
+</div>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil A.</b></p>
+<ul>
+<li>Nichts ist rot.</li>
+<li>Im Component Tree hängen unter <code>llResult</code> vier Dinge: <code>tvResult</code>, <code>btnRestart</code>, <code>tvListTitle</code>, <code>svQuestionList</code>.</li>
+<li>Unter <code>svQuestionList</code> hängt <code>llQuestionList</code>, und darunter nichts.</li>
+<li>Die App läuft wie gestern. Spiel eine Runde zu Ende: das Ergebnis steht oben, der Knopf mittig darunter, dann die Überschrift <b>Alle Fragen dieser Kategorie</b>, darunter leerer Platz.</li>
+</ul>
+</div>
+
+
+<h3>Der Überblick, bevor Teil B anfängt</h3>
+<p>In Teil B kommt eine einzige neue Methode dazu. Wichtig ist, <b>wo sie hängt</b>. Hier die Aufrufkette aus 04A, ergänzt um die neue Zeile.</p>
+
+<pre>onCreate()
+└─ startRound()
+     ├─ Runde ausschneiden, currentIndex und score auf 0
+     ├─ llResult auf GONE, svQuestion auf VISIBLE
+     └─ showQuestion()
+
+Klick auf Weiter
+└─ onNextClicked()
+     ├─ noch Fragen übrig  →  showQuestion()
+     └─ Runde zu Ende      →  showResult()
+                                 ├─ Ergebnistext setzen
+                                 ├─ <span class="s">buildQuestionList()</span>     <span class="c">// neu in 04B</span>
+                                 ├─ svQuestion auf GONE
+                                 └─ llResult auf VISIBLE
+
+Klick auf Nochmals spielen
+└─ startRound()                  <span class="c">// und danach wieder von vorne</span></pre>
+
+<table>
+<tr><th>Methode</th><th>Wann sie läuft</th><th>Wie oft, wenn du zwei Runden spielst</th></tr>
+<tr><td class="pre">onCreate</td><td>beim Aufbauen des Bildschirms</td><td class="num">1</td></tr>
+<tr><td class="pre">showQuestion</td><td>bei jeder Frage</td><td class="num">10</td></tr>
+<tr><td class="pre">showResult</td><td>nach der letzten Frage einer Runde</td><td class="num">2</td></tr>
+<tr><td class="pre">buildQuestionList</td><td>von <code>showResult</code> aus</td><td class="num">2</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Merk dir die letzte Zeile.</b> <code>buildQuestionList</code> läuft nicht einmal, sondern einmal pro Runde. Genau darauf schaust du in B3.</p>
+</div>
+
+
+<h3>Teil B, die Liste zu Fuss <span class="time">18 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">B1</span><b>Das Feld und sein <code>findViewById</code>.</b></p>
+<p>Dein Code muss an das leere LinearLayout herankommen. Die ScrollView und die Überschrift braucht er nicht, die fasst er nie an.</p>
+<pre><span class="c">/**
+ * Der Bereich, in dem die Zeilen der Fragenliste entstehen.
+ *
+ * Im Layout ist er leer. Gefüllt wird er in buildQuestionList.
+ */</span>
+<span class="k">private</span> <span class="t">LinearLayout</span> llQuestionList;</pre>
+<p>Und die Zeile in <code>onCreate</code>, bei den anderen:</p>
+<pre>llQuestionList = findViewById(R.id.llQuestionList);</pre>
+<div class="tip">
+<p><b>Nur ein Feld für vier neue Views.</b> <code>tvListTitle</code> bekommt seinen Text aus <code>strings.xml</code> und ändert sich nie. <code>svQuestionList</code> scrollt von selbst. Beide braucht der Code nicht, also bekommen sie kein Feld.</p>
+<p>Die Regel: ein Feld bekommt nur, was der Code auch anfasst.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">B2</span><b>Die Methode, die die Zeilen baut.</b></p>
+<p>Neu, und in dieser Fassung noch nicht ganz fertig. Tipp sie genau so ab.</p>
+<pre><span class="c">/**
+ * Baut die Liste aller Fragen zu Fuss.
+ *
+ * Für jede Frage entsteht in Java eine neue TextView, die mit addView an
+ * das LinearLayout gehängt wird. Das LinearLayout selbst ist im Layout leer.
+ */</span>
+<span class="k">private void</span> buildQuestionList() {
+
+    <span class="c">// 8dp Abstand oben und unten, in Pixel umgerechnet über die Dichte.</span>
+    <span class="k">int</span> padding = <span class="t">Math</span>.round(<span class="k">8</span> * getResources().getDisplayMetrics().density);
+
+    <span class="k">for</span> (<span class="k">int</span> i = <span class="k">0</span>; i &lt; allQuestions.size(); i++) {
+        <span class="t">Question</span> question = allQuestions.get(i);
+
+        <span class="t">TextView</span> row = <span class="k">new</span> <span class="t">TextView</span>(<span class="k">this</span>);
+        row.setText((i + <span class="k">1</span>) + <span class="s">". "</span> + question.getText());
+        row.setTextSize(<span class="k">14</span>);
+        row.setPadding(<span class="k">0</span>, padding, <span class="k">0</span>, padding);
+
+        llQuestionList.addView(row);
+    }
+
+    Log.d(TAG, <span class="s">"list built by hand, rows="</span> + allQuestions.size());
+}</pre>
+<p>Der Aufruf gehört an den <b>Anfang von <code>showResult</code></b>, direkt nach der Zeile mit dem Ergebnistext:</p>
+<pre>tvResult.setText(getString(R.string.result_format, score, roundQuestions.size()));
+buildQuestionList();</pre>
+<div class="note">
+<p><b>Hier entsteht zum ersten Mal eine View im Java-Code.</b> Bisher stand jede View im XML, und du hast sie mit <code>findViewById</code> geholt. Jetzt erzeugst du sie selbst mit <code>new</code>.</p>
+<p><b>Der Unterschied im Kopf:</b> was im XML steht, gibt es genau einmal und immer. Was der Code erzeugt, gibt es so oft, wie er es erzeugt. Das ist die ganze Freiheit und zugleich die ganze Gefahr.</p>
+</div>
+
+<h4>Und was ist dieses <code>this</code>?</h4>
+<p><code>this</code> ist das Objekt, in dem die Methode gerade läuft. <code>buildQuestionList</code> steht in <code>MainActivity</code>, also ist <code>this</code> genau dieses eine MainActivity-Objekt, das Android beim Start erzeugt hat.</p>
+<p>Der Konstruktor verlangt aber gar keine Activity. Er verlangt einen <b>Context</b>:</p>
+<pre><span class="k">public</span> <span class="t">TextView</span>(<span class="t">Context</span> context)</pre>
+<p>Dass deine Activity trotzdem hineinpasst, liegt an der Vererbung. <code>MainActivity</code> erbt von <code>AppCompatActivity</code>, das über mehrere Stufen von <code>Activity</code>, und das am Ende von <code>Context</code>. <b>Eine Activity ist ein Context.</b> Kein Android-Trick, sondern normale Java-Vererbung, dieselbe Regel wie bei <code>List&lt;Question&gt; x = new ArrayList&lt;&gt;()</code>.</p>
+
+<div class="tip">
+<p><b>So schaust du das selbst nach, ohne zu raten.</b></p>
+<table>
+<tr><th>Weg</th><th>Wie</th><th>Was du siehst</th></tr>
+<tr><td>Parameter-Info</td><td>Cursor in die Klammer, <code>Strg</code> und <code>P</code></td><td><code>TextView(Context context)</code></td></tr>
+<tr><td>Vererbungsbaum</td><td>Cursor auf <code>MainActivity</code>, <code>Strg</code> und <code>H</code></td><td>Die Kette bis hinunter zu <code>Context</code></td></tr>
+<tr><td>Einfach probieren</td><td>tippen</td><td>Passt es nicht, ist es sofort rot</td></tr>
+</table>
+<p style="margin:0">Der dritte Weg ist der ehrlichste. Java prüft die Typen beim Übersetzen. Hier kannst du nicht still danebenliegen, anders als bei <code>setBackgroundColor</code> in 03C.</p>
+</div>
+
+<h4>Warum eine View überhaupt einen Context braucht</h4>
+<p>Schau zwei Zeilen weiter unten, dort steht <code>row.setTextSize(14)</code>. <b>14 was?</b> 14 <code>sp</code>. Wie viele Pixel das auf diesem Gerät sind, hängt von der Bildschirmdichte ab und von der Schriftgrösse, die der Benutzer in den Systemeinstellungen gewählt hat.</p>
+<p>Die TextView weiss das nicht von selbst. Sie fragt ihren Context. Dasselbe gilt fürs Theme, also Schriftart, Textfarbe und Standardabstände.</p>
+<div class="note">
+<p><b>Eine View kann sich nicht selbst zeichnen.</b> Sie braucht jemanden, der ihr sagt, wie gross, in welcher Farbe und in welcher Schrift. Dieser Jemand ist der Context, und darum musst du ihn beim Erzeugen mitgeben.</p>
+<p>Bei einer View aus dem XML passiert genau dasselbe, nur unsichtbar. <code>setContentView</code> liest dein Layout und ruft für jedes Element denselben Konstruktor auf, mit derselben Activity als Context.</p>
+</div>
+<div class="warn">
+<p><b>Nimm nicht <code>getApplicationContext()</code>.</b> Es übersetzt und läuft, aber der Application-Context hat <b>kein Theme</b>. Deine Zeilen sähen dann anders aus als der Rest der App. Für alles Sichtbare nimmst du die Activity, also <code>this</code>.</p>
+</div>
+<p>Mehr dazu steht im Blatt <b>Die Activity von innen</b> im Thema Nachschlagen, Abschnitt 5.</p>
+<div class="warn">
+<p><b><code>setTextSize(14)</code> und <code>setPadding(...)</code> rechnen unterschiedlich.</b> Die Zahl bei <code>setTextSize</code> gilt als <code>sp</code>, das nimmt Android dir ab. Die Zahlen bei <code>setPadding</code> sind dagegen <b>Pixel</b>. Darum die Umrechnung über <code>density</code>, wie im Insets-Block ganz oben in <code>onCreate</code>.</p>
+<p>Wer dort einfach <code>8</code> schreibt, bekommt auf einem dichten Bildschirm einen kaum sichtbaren Abstand.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">B3</span><b>Zwei Runden spielen. Zähl mit.</b></p>
+<p>Start die App. Spiel eine Runde ganz durch, bis das Ergebnis kommt. <b>Zähl die Zeilen in der Liste.</b></p>
+<p>Dann <b>Nochmals spielen</b>, und die zweite Runde ebenfalls ganz durch. <b>Zähl nochmals.</b></p>
+<p><b>Sag in einem Satz, was mit der Liste passiert.</b> Genau danach fragt der Wissenscheck.</p>
+<div class="warn">
+<p>Nicht reparieren, nur schauen und zählen. Wenn du magst, spiel eine dritte Runde und zähl ein drittes Mal. Repariert wird in B4.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">B4</span><b>Eine Zeile, ganz oben.</b></p>
+<p>In <code>buildQuestionList</code>, als allererste Zeile im Methodenrumpf:</p>
+<pre>llQuestionList.removeAllViews();</pre>
+<p>Und der Javadoc-Block bekommt den Grund dazu:</p>
+<pre><span class="c"> * Das erste removeAllViews ist entscheidend. Ohne diese Zeile hängt die
+ * Liste bei der zweiten Runde ein zweites Mal darunter.</span></pre>
+<div class="note">
+<p><b><code>addView</code> hängt an, es ersetzt nichts.</b> Der Name sagt es. Es gibt kein <code>setViews</code>, das aufräumt. Wer etwas erzeugt, ist auch fürs Aufräumen zuständig.</p>
+<p><b>Das ist derselbe Satz wie in 04A</b>, nur an einer anderen Stelle. Dort waren es die vier Buttons, die ihre Farbe behalten haben. Hier sind es die Zeilen, die liegen bleiben. Zwei Fälle, ein Prinzip: <b>was dein Code setzt oder erzeugt, muss dein Code auch zurücksetzen oder entfernen.</b></p>
+</div>
+<div class="tip">
+<p><b>Warum die Zeile ganz oben steht und nicht am Schluss.</b> Aufräumen gehört an den Anfang des Bauens, nicht ans Ende. Am Schluss würdest du genau das wieder löschen, was du gerade gebaut hast.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">B5</span><b>Die Kommentare nachziehen.</b></p>
+<p>Wie am Ende jedes Umbaus. Lies das Javadoc über der Klasse und ergänz es um das, was heute dazugekommen ist. Zwei bis drei Zeilen genügen.</p>
+<p>Der Rahmen, den Inhalt formulierst du selbst:</p>
+<pre><span class="c">/**
+ * Der Spielbildschirm der Quiz-App.
+ *
+ * &lt;der Teil aus 04A bleibt stehen&gt;
+ *
+ * &lt;neu: eine Liste aller Fragen im Ergebnisbereich, zu Fuss gebaut.
+ *  Eine Schleife erzeugt pro Frage eine TextView und hängt sie an ein
+ *  LinearLayout, das im Layout leer dasteht&gt;
+ */</span></pre>
+<p>Und dein neues Feld <code>llQuestionList</code> hat schon eine Javadoc-Zeile, weil du sie in B1 mitgeschrieben hast. Prüf das kurz nach.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil B.</b></p>
+<ul>
+<li>Nach der ersten Runde stehen <b>sieben</b> Zeilen da, nicht fünf.</li>
+<li>Jede Zeile beginnt mit einer Nummer und einem Punkt, also <code>1.</code> bis <code>7.</code></li>
+<li>Die Zeilen kleben nicht aneinander, es ist Luft dazwischen.</li>
+<li>Die Liste lässt sich schieben, ohne dass das Ergebnis oben mitwandert.</li>
+<li><b>Nach der zweiten Runde stehen immer noch sieben Zeilen da</b>, nicht vierzehn.</li>
+<li>Im Logcat unter <code>Modul335</code> steht pro Runde einmal <code>list built by hand, rows=7</code>.</li>
+</ul>
+</div>
+
+
+<h3>Übungen <span class="time">5 Minuten</span></h3>
+<p>Ohne Vorlage. Die Lösungen findest du im Material <b>04B Lösung - Alle Fragen als Liste</b>.</p>
+
+<div class="ue">
+<div class="t">Übung 1, die richtige Antwort mitzeigen</div>
+<p>Häng an jede Zeile die richtige Antwort an, getrennt durch ein Zeichen deiner Wahl. Du brauchst dafür keinen neuen Getter.</p>
+<p><b>So prüfst du:</b> Hinter jeder der sieben Fragen steht ihre richtige Antwort. Und du hast an <code>Question</code> nichts geändert.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 2, nur die Runde zeigen</div>
+<p>Lass die Liste testweise nur die fünf Fragen der laufenden Runde zeigen statt aller sieben. Danach stellst du es wieder zurück.</p>
+<p><b>So prüfst du:</b> Es stehen fünf Zeilen da, und es sind genau die, die du eben gespielt hast. Danach wieder sieben.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 3, erklären</div>
+<p>Erkläre einem Lerngspänli, warum <code>removeAllViews</code> nötig ist, obwohl im Layout gar nichts steht, was man entfernen könnte.</p>
+<p><b>So prüfst du:</b> Dein Gegenüber kann eine zweite Stelle in deinem Projekt nennen, an der dasselbe Prinzip gilt.</p>
+</div>
+
+
+<h3>Zusatzaufgabe für Schnelle</h3>
+<div class="tip">
+<p>Zuerst die Pflichtaufgabe fertig und lauffähig. Dann erst hier weiter.</p>
+<p><b>Auftrag:</b> Färb in der Liste die Zeilen der Fragen rot ein, die du in dieser Runde <b>falsch</b> beantwortet hast.</p>
+<p><b>Und die Frage, die dazugehört:</b> Woher weiss deine Liste überhaupt, welche du falsch hattest? Was müsstest du dir dafür merken, und wo würdest du es ablegen?</p>
+<p>Keine Musterlösung. KI darfst du benutzen, aber du musst deine Lösung erklären können.</p>
+</div>
+
+
+<h3>Wenn etwas nicht funktioniert</h3>
+<table>
+<tr><th>Das siehst du</th><th>Ursache</th><th>Das machst du</th></tr>
+<tr><td>Absturz bei der ersten Runde: <code>NullPointerException</code> in <code>buildQuestionList</code></td><td><code>findViewById</code> für <code>llQuestionList</code> fehlt</td><td>Siehe B1. Feld und <code>findViewById</code> gehören zusammen</td></tr>
+<tr><td>Die Liste wird bei jeder Runde länger</td><td><code>removeAllViews()</code> fehlt</td><td>Siehe B4. Erste Zeile in <code>buildQuestionList</code></td></tr>
+<tr><td>Es stehen fünf Zeilen da statt sieben</td><td>Die Schleife läuft über <code>roundQuestions</code> statt <code>allQuestions</code></td><td>Die Liste zeigt den Bestand, nicht die Runde. Beide Stellen in der Schleife prüfen</td></tr>
+<tr><td>Die Liste lässt sich nicht schieben, das Ende fehlt</td><td>Die ScrollView steht auf <code>wrap_content</code> statt <code>0dp</code> mit <code>layout_weight="1"</code></td><td>Siehe A3</td></tr>
+<tr><td>Alle Zeilen stehen nebeneinander in einer Reihe</td><td><code>android:orientation="vertical"</code> fehlt am <code>llQuestionList</code></td><td>Ohne Angabe steht ein LinearLayout waagrecht</td></tr>
+<tr><td>Die Zeilen kleben aneinander</td><td><code>setPadding</code> fehlt, oder es steht <code>8</code> statt der umgerechneten Zahl</td><td>Siehe B2. <code>setPadding</code> rechnet in Pixel, nicht in dp</td></tr>
+<tr><td>Der Knopf <b>Nochmals spielen</b> steht plötzlich links</td><td>Das <code>gravity</code> am <code>llResult</code> ist weg, aber das <code>layout_gravity</code> am Knopf fehlt</td><td>Siehe A2</td></tr>
+<tr><td>Ergebnis und Knopf kleben oben, die Liste hat keinen Platz</td><td>Das <code>gravity="center"</code> steht noch am <code>llResult</code></td><td>Siehe A2. Es muss weg</td></tr>
+<tr><td>Die erzeugten Zeilen sehen anders aus als der Rest der App</td><td>Statt <code>this</code> steht <code>getApplicationContext()</code> im Konstruktor</td><td>Der Application-Context hat kein Theme. Siehe B2</td></tr>
+<tr><td>Rot: <code>cannot resolve symbol 'TextView'</code></td><td>Der Import fehlt</td><td><code>Alt</code> und <code>Enter</code>, dann <code>android.widget.TextView</code></td></tr>
+<tr><td>Die Vorschau zeigt keine Liste</td><td>Das LinearLayout ist im XML leer</td><td>Das ist richtig so. Die Zeilen entstehen erst beim Laufen</td></tr>
+</table>
+
+<h3>Abgabe</h3>
+<p>Alles läuft über die Aufgabe <b>04B Auftrag - Alle Fragen als Liste</b> in Google Classroom.</p>
+<ol>
+<li>Screenshot des Ergebnisbildschirms mit der Liste.</li>
+<li>Screenshot desselben Bildschirms nach der <b>zweiten</b> Runde.</li>
+<li>Danach den <b>04AB Wissenscheck</b> ausfüllen. Er deckt 04A und 04B zusammen ab.</li>
+</ol>
+
+
+<h2>03 Guide</h2>
+<table>
+<tr><td>Zeitbudget</td><td>35 Minuten. Teil A 12, Teil B 18, Übungen 5</td></tr>
+<tr><td>Sozialform</td><td>Einzelarbeit. Bei den Denkfragen und Übung 3 zu zweit</td></tr>
+<tr><td>Aufgabenart</td><td>Ausbau mit einer Entdeckungsstelle (B3, die Liste wächst bei jeder Runde)</td></tr>
+<tr><td>Voraussetzung</td><td>04A, dazu Schleifen und Listen aus dem Java-Unterricht</td></tr>
+<tr><td>KI</td><td>In Teil A und B <b>nicht</b> erlaubt. Die Kurzwege von Android Studio schon</td></tr>
+<tr><td>Abgabe</td><td>Zwei Screenshots, dazu der 04AB Wissenscheck über beide Aufträge. <b>Kein Arbeitsblatt und kein ZIP</b></td></tr>
+</table>
+
+<h3>Die drei Beiträge in Google Classroom</h3>
+<table>
+<tr><th>Name</th><th>Typ</th><th>Einstellung</th></tr>
+<tr><td>04B Auftrag - Alle Fragen als Liste</td><td>Aufgabe</td><td>Dieses Dokument liegt als Anhang bei, nur zum Ansehen. Abgegeben werden zwei Screenshots</td></tr>
+<tr><td>04AB Wissenscheck - Die Runde und die Liste</td><td>Aufgabe mit Quiz</td><td>Unbenotet, beliebig oft wiederholbar, kein Fälligkeitsdatum. <b>Deckt 04A und 04B ab</b>, wird nach 04B ausgefüllt</td></tr>
+<tr><td>04B Lösung - Alle Fragen als Liste</td><td>Material</td><td>Schüler können Datei ansehen. Enthält den vollständigen Code als Text und die Vergleichsliste</td></tr>
+</table>
+
+
+<h2>04 Unterrichtsmittel</h2>
+<table>
+<tr><th>Art</th><th>Was</th></tr>
+<tr><td>Hardware</td><td>Eigenes Notebook, laufender Emulator Medium Phone API 36.1</td></tr>
+<tr><td>Software und Tools</td><td>Android Studio Quail 2, Patch 1</td></tr>
+<tr><td>Dokumente</td><td>Layouts verstehen, XML verstehen, <b>Die Activity von innen</b>. Alle drei liegen im Thema Nachschlagen</td></tr>
+<tr><td>Buch</td><td>Android-Apps entwickeln für Einsteiger, Kapitel 4 Layouts und Container</td></tr>
+</table>
+
+
+<p class="foot">Modul 335 | Tag 2 Nachmittag | Auftrag 04B | Fassung 2 | 15.08.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>

@@ -20,7 +20,7 @@
 <div class="wrap">
 
 <h1>04A Die Fragenliste und die Runde</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Tag 2 Nachmittag. Zeitbudget 55 Minuten. Fassung 1 vom 14.08.2026.</p>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 2 Nachmittag. Zeitbudget 55 Minuten. Fassung 3 vom 15.08.2026.</p>
 <p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
 
 
@@ -41,6 +41,8 @@
 <li>Du erklärst, warum ein Zustand, den dein Code setzt, von deinem Code auch zurückgesetzt werden muss.</li>
 <li>Du erkennst, wann ein Layout eine <code>ScrollView</code> braucht, und begründest es mit dem Querformat.</li>
 <li>Du unterscheidest den ganzen Bestand von der laufenden Runde.</li>
+<li>Du liest an einer Aufrufkette ab, welche Methode von welcher aufgerufen wird.</li>
+<li>Du ziehst deine Kommentare nach, wenn sich der Code darunter geändert hat.</li>
 </ul>
 
 <h3>Das brauchst du vorher</h3>
@@ -263,7 +265,13 @@ Log.d(TAG, <span class="s">"question bank loaded, size="</span> + allQuestions.s
 <p>Wenn dir bis heute nicht klar war, warum manche Zeilen mit <code>android:</code> anfangen und andere mit <code>app:</code> oder <code>tools:</code>, dann lies <b>XML verstehen</b> im Thema Nachschlagen. Abschnitt 5 erklärt genau diesen Fall.</p>
 </div>
 <div class="warn">
-<p><b>Deine App läuft immer noch nicht.</b> Setz für diesen einen Test <code>currentQuestion = allQuestions.get(0);</code> direkt nach <code>allQuestions = createQuestions();</code> und ruf danach <code>showQuestion();</code> und <code>showScore();</code> auf, so wie es gestern war. Diese Krücke fliegt in Teil C wieder raus.</p>
+<p><b>Deine App läuft immer noch nicht.</b> Für diesen einen Test brauchst du eine Krücke. Sie fliegt in C1 wieder raus, darum schreibst du sie <b>mit den zwei Kommentarzeilen</b> hin. Dann findest du sie später auf einen Blick.</p>
+<pre><span class="c">// KRUECKE, fliegt in C1 wieder raus</span>
+currentQuestion = allQuestions.get(<span class="k">0</span>);
+showQuestion();
+showScore();
+<span class="c">// ENDE KRUECKE</span></pre>
+<p>Der Block gehört ans Ende von <code>onCreate</code>, dorthin wo bisher <code>showQuestion()</code> und <code>showScore()</code> standen. Die zwei alten Aufrufe von gestern nimmst du damit in den Block auf, du schreibst sie nicht ein zweites Mal.</p>
 </div>
 </div>
 
@@ -406,6 +414,63 @@ Log.d(TAG, <span class="s">"question bank loaded, size="</span> + allQuestions.s
 </div>
 
 
+<h3>Der Überblick, bevor Teil C anfängt</h3>
+<p>In Teil C wandert ein grosser Teil deines Codes aus <code>onCreate</code> heraus in eigene Methoden. Schau dir vorher an, wo alles landet. Ohne dieses Bild weisst du beim Aufräumen nicht, was in <code>onCreate</code> stehen bleiben darf und was doppelt wäre.</p>
+
+<h4>Was aus <code>onCreate</code> wird</h4>
+<table>
+<tr><th>Das steht nach Teil B in <code>onCreate</code></th><th>Am Ende von 04A</th></tr>
+<tr><td><code>EdgeToEdge.enable(this)</code> und <code>setContentView</code></td><td>bleibt, unverändert</td></tr>
+<tr><td>Der Insets-Block mit <code>setPadding</code></td><td>bleibt, unverändert</td></tr>
+<tr><td>Die <code>findViewById</code>-Zeilen und das Array <code>answerButtons</code></td><td>bleibt, wird in C1 um fünf Zeilen länger</td></tr>
+<tr><td><code>defaultButtonTint</code> und <code>defaultButtonTextColors</code> sichern</td><td>kommt in C3 dazu, direkt nach dem Array</td></tr>
+<tr><td>Die Klick-Behandlung der vier Antwort-Buttons</td><td>bleibt. In C1 kommen zwei dazu, für <code>btnNext</code> und <code>btnRestart</code></td></tr>
+<tr><td><code>allQuestions = createQuestions();</code> und die Log-Zeile dazu</td><td>bleibt, unverändert</td></tr>
+<tr><td><b>Der Krücken-Block aus B1</b>, also <code>currentQuestion = ...</code>, <code>showQuestion()</code> und <code>showScore()</code></td><td><b>weg.</b> An seine Stelle kommt die einzige Zeile <code>startRound();</code></td></tr>
+</table>
+
+<p>Lies die Tabelle von oben nach unten. <b>Alles bleibt, ausser der letzten Zeile.</b> Was du in Teil C neu schreibst, kommt nicht in <code>onCreate</code> dazu, sondern in eigene Methoden darunter.</p>
+
+<h4>Wer ruft wen</h4>
+<p>Das ist der Teil, den man beim ersten Mal übersieht. Die neuen Methoden rufen sich gegenseitig auf.</p>
+
+<pre>onCreate()
+└─ startRound()                     <span class="c">// die einzige Zeile, die etwas startet</span>
+     ├─ Runde ausschneiden, currentIndex und score auf 0
+     ├─ llResult auf GONE, svQuestion auf VISIBLE
+     └─ showQuestion()
+          ├─ Frage aus der Runde holen
+          ├─ Fortschritt, Kategorie und Fragetext setzen
+          ├─ <span class="s">showScore()</span>              <span class="c">// hier drin, darum nicht nochmals oben</span>
+          ├─ die vier Buttons füllen und zurücksetzen
+          └─ btnNext auf GONE
+
+Klick auf eine Antwort
+└─ onAnswerClicked()
+     ├─ bei richtig: score++ und <span class="s">showScore()</span>
+     ├─ markAnswers()
+     ├─ lockAnswers()
+     └─ btnNext auf VISIBLE
+
+Klick auf Weiter
+└─ onNextClicked()
+     ├─ noch Fragen übrig  →  showQuestion()
+     └─ Runde zu Ende      →  showResult()
+
+Klick auf Nochmals spielen
+└─ startRound()                     <span class="c">// dieselbe Methode wie beim Start</span></pre>
+
+<div class="tip">
+<p><b>Genau daran erkennst du, was aus <code>onCreate</code> raus muss.</b> <code>showScore()</code> steht in der Kette unterhalb von <code>showQuestion()</code>, und das steht unterhalb von <code>startRound()</code>. Wer <code>showScore()</code> zusätzlich in <code>onCreate</code> stehen lässt, ruft es zweimal auf. Der erste Aufruf wird vom zweiten sofort überschrieben und tut nichts.</p>
+<p><b>Die Regel:</b> eine Methode, die schon von einer anderen aufgerufen wird, gehört nicht zusätzlich in <code>onCreate</code>.</p>
+</div>
+
+<div class="info">
+<p><b>Warum diese vier Methoden und nicht eine grosse.</b> Jede von ihnen hat einen eigenen Auslöser. <code>startRound</code> läuft beim Start und beim Knopf Nochmals spielen. <code>showQuestion</code> läuft bei jeder Frage. <code>onNextClicked</code> läuft bei jedem Weiter. <code>showResult</code> läuft einmal pro Runde.</p>
+<p><code>onCreate</code> dagegen läuft <b>genau einmal</b>, beim Aufbauen des Bildschirms. Alles, was mehr als einmal passieren muss, kann darum nicht darin stehen. Das ist der ganze Grund fürs Auslagern.</p>
+</div>
+
+
 <h3>Teil C, die Runde <span class="time">20 Minuten</span></h3>
 
 <div class="step">
@@ -455,6 +520,9 @@ Log.d(TAG, <span class="s">"question bank loaded, size="</span> + allQuestions.s
 <tr><td class="pre">btnRestart</td><td class="pre">Button</td></tr>
 </table>
 <p>Jedes Feld bekommt eine Javadoc-Zeile, so wie die anderen auch. Und dann die fünf Zeilen in <code>onCreate</code>, bei den bestehenden:</p>
+<div class="warn">
+<p><b>Zeilen, die du schon hast, nicht ein zweites Mal eintragen.</b> Manche holen sich <code>llResult</code> oder <code>svQuestion</code> schon beim Bauen des Layouts. Schau die Liste durch und ergänz nur, was dir fehlt. Eine doppelte Zeile stürzt nicht ab und wird darum leicht übersehen.</p>
+</div>
 <pre>svQuestion = findViewById(R.id.svQuestion);
 llResult = findViewById(R.id.llResult);
 tvProgress = findViewById(R.id.tvProgress);
@@ -466,8 +534,12 @@ btnRestart = findViewById(R.id.btnRestart);</pre>
 <p>Und die zwei neuen Klick-Behandlungen, direkt bei den anderen:</p>
 <pre>btnNext.setOnClickListener(v -&gt; onNextClicked());
 btnRestart.setOnClickListener(v -&gt; startRound());</pre>
-<p>Zum Schluss in <code>onCreate</code> die Krücke aus B1 löschen. Statt <code>currentQuestion = ...</code>, <code>showQuestion()</code> und <code>showScore()</code> steht dort ab jetzt nur noch:</p>
+<p>Zum Schluss räumst du <code>onCreate</code> auf. <b>Lösch den ganzen Block zwischen den zwei Kommentarzeilen aus B1</b>, also alle fünf Zeilen von <code>// KRUECKE</code> bis <code>// ENDE KRUECKE</code>. An seine Stelle kommt eine einzige Zeile:</p>
 <pre>startRound();</pre>
+<div class="warn">
+<p><b>Halb aufräumen ist schlimmer als gar nicht aufräumen.</b> Wer <code>showScore()</code> stehen lässt, hat eine Zeile, die nichts tut, denn <code>startRound()</code> ruft <code>showQuestion()</code> auf und das ruft <code>showScore()</code>. Beim Fehlersuchen kostet so eine Zeile mehr Zeit als alles andere, weil sie so aussieht, als würde sie etwas bewirken.</p>
+<p>Auch die alte Log-Zeile aus 03D verschwindet. Sie sagt "Frage aus dem Objekt", und das ist ab jetzt selbstverständlich. Neu loggen <code>createQuestions</code> und <code>startRound</code>.</p>
+</div>
 <div class="warn">
 <p><b><code>onNextClicked</code> gibt es noch nicht.</b> Es wird rot. Das kommt in C3. Du kannst es auch jetzt schon mit <code>Alt</code> und <code>Enter</code> als leere Methode erzeugen lassen.</p>
 </div>
@@ -548,9 +620,32 @@ defaultButtonTextColors = answerButtons[<span class="k">0</span>].getTextColors(
 </div>
 </div>
 
+<div class="step">
+<p><span class="n">C4</span><b>Die Kommentare nachziehen.</b></p>
+<p>Ganz oben in <code>MainActivity</code> steht ein Javadoc-Block, der die Klasse beschreibt. Lies ihn durch. Er stammt aus 03B und behauptet Dinge, die längst nicht mehr stimmen, etwa dass der Bildschirm auf nichts reagiert.</p>
+<p>Schreib ihn neu, in drei bis fünf Zeilen. Er soll sagen, was die Klasse <b>heute</b> tut. Ein Vorschlag als Rahmen, den Inhalt formulierst du selbst:</p>
+<pre><span class="c">/**
+ * Der Spielbildschirm der Quiz-App.
+ *
+ * &lt;hier: was neu ist. Fragenbestand als Liste, Runde ueber fuenf
+ *  Fragen, Weiter-Knopf, Ergebnisbereich&gt;
+ *
+ * &lt;hier: der Aufbau. Zwei Bereiche, die uebereinander liegen.
+ *  Immer genau einer steht auf GONE&gt;
+ */</span></pre>
+<p>Dasselbe gilt für das Feld <code>score</code>. Dort steht noch "bei einer einzigen Frage höchstens einer". Heute sind es fünf.</p>
+<div class="note">
+<p><b>Warum das ein eigener Schritt ist.</b> Ein falscher Kommentar ist schlimmer als gar keiner. Wer ihn liest, glaubt ihm, und sucht den Fehler danach an der falschen Stelle.</p>
+<p>Kommentare veralten still. Niemand merkt es, kein Compiler warnt, die App läuft. Darum gehört das Nachziehen ans Ende jedes Umbaus, nicht auf eine Liste für später. <b>In der Leistungsbeurteilung wird Javadoc bewertet</b>, und dort zählt auch, ob er stimmt.</p>
+</div>
+</div>
+
 <div class="chk">
 <p><b>So prüfst du Teil C.</b></p>
 <ul>
+<li>In <code>onCreate</code> steht keine Krücke mehr. Die letzte Zeile ist <code>startRound();</code>.</li>
+<li>Das Javadoc über der Klasse beschreibt, was die App heute tut.</li>
+<li>Jedes neue Feld und jede neue Methode hat eine Javadoc-Zeile.</li>
 <li>Beim Start steht oben <b>Frage 1 von 5</b> und <b>Punkte 0</b>. Kein Weiter-Knopf.</li>
 <li>Richtig antworten färbt grün und zählt einen Punkt. Der Weiter-Knopf erscheint.</li>
 <li>Weiter. <b>Frage 2 von 5</b>, alle vier Buttons wieder normal und antippbar. Kein grüner Rest.</li>
@@ -607,6 +702,9 @@ defaultButtonTextColors = answerButtons[<span class="k">0</span>].getTextColors(
 <tr><td>Der Ergebnisbereich liegt beim Start über der Frage</td><td><code>android:visibility="gone"</code> fehlt bei <code>llResult</code></td><td>Siehe B4</td></tr>
 <tr><td>Fehler im Layout: <code>ScrollView can host only one direct child</code></td><td>Mehr als eine View direkt in der ScrollView</td><td>Alles in das eine LinearLayout <code>llQuestion</code> legen. Siehe B3</td></tr>
 <tr><td>Alles liegt nebeneinander statt untereinander</td><td><code>android:orientation="vertical"</code> fehlt am LinearLayout</td><td>Ohne Angabe steht ein LinearLayout waagrecht</td></tr>
+<tr><td>Eine Zeile in <code>onCreate</code> scheint nichts zu bewirken</td><td>Ein Rest der Krücke aus B1 ist stehen geblieben</td><td>Der ganze Block von <code>// KRUECKE</code> bis <code>// ENDE KRUECKE</code> muss weg. Siehe C1</td></tr>
+<tr><td>Auf dem Weiter-Knopf steht dauerhaft der Text der letzten Frage</td><td>Nur Übung 2 gebaut, ohne den Fall zurückzunehmen</td><td>Zu jedem <code>setText</code> gehört der Gegenfall. Derselbe Fehler wie in C2</td></tr>
+<tr><td>Eine Methode läuft zweimal, oder ein Wert wird sofort wieder überschrieben</td><td>Ein Aufruf steht in <code>onCreate</code> <b>und</b> in einer Methode, die von <code>onCreate</code> aus erreicht wird</td><td>Schau in die Aufrufkette im Überblick vor Teil C. Was dort schon vorkommt, gehört nicht nochmals nach oben</td></tr>
 <tr><td>Der Punktestand bleibt beim Start leer</td><td><code>showScore()</code> wird nicht mehr aufgerufen</td><td>Es steht ab jetzt in <code>showQuestion</code>. Siehe C1</td></tr>
 </table>
 
@@ -647,7 +745,7 @@ defaultButtonTextColors = answerButtons[<span class="k">0</span>].getTextColors(
 </table>
 
 
-<p class="foot">Modul 335 | Tag 2 Nachmittag | Auftrag 04A | Fassung 1 | 14.08.2026</p>
+<p class="foot">Modul 335 | Tag 2 Nachmittag | Auftrag 04A | Fassung 3 | 15.08.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->

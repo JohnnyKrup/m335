@@ -20,7 +20,7 @@
 <div class="wrap">
 
 <h1>Emulator streikt</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Hilfeblatt. Der Emulator zeigt schwarz, startet nicht oder hängt.</p>
+<p class="sub">Modul 335 Mobile Applikationen, Hilfeblatt. Der Emulator zeigt schwarz, startet nicht oder hängt. Fassung 2 vom 15.08.2026.</p>
 <p class="sub">Dieses Blatt arbeitest du selbst ab, bevor du dich meldest. Die meisten Fälle sind in zwei Minuten gelöst.</p>
 
 
@@ -30,16 +30,16 @@
 <p style="margin:0"><b>Ein Emulator braucht beim ersten Start bis zu drei Minuten.</b> Schwarz ist in dieser Zeit normal. Klick nicht mehrmals auf <code>Run</code>. Jeder Klick startet einen weiteren Versuch, und dann wird es wirklich langsam.</p>
 </div>
 
-<p>Warte also erst einmal ab. Wenn nach drei Minuten immer noch kein Android-Startbildschirm da ist, ist es ein echtes Problem. Dann gehst du die vier Schritte weiter unten der Reihe nach durch.</p>
+<p>Warte also erst einmal ab. Wenn nach drei Minuten immer noch kein Android-Startbildschirm da ist, ist es ein echtes Problem. Dann gehst du die fünf Schritte weiter unten der Reihe nach durch.</p>
 
 <div class="tip">
 <p style="margin:0"><b>Der Grund ist fast immer derselbe.</b> Der Emulator startet nicht jedes Mal neu, sondern aus einem gespeicherten Zustand. Das ist schnell, aber dieser gespeicherte Zustand kann kaputtgehen. Die Schritte 1 und 2 werfen ihn weg.</p>
 </div>
 
 
-<h2>02 Schwarzer Bildschirm, die vier Schritte</h2>
+<h2>02 Er zeigt schwarz oder startet gar nicht, die fünf Schritte</h2>
 
-<p>Das Emulator-Fenster ist offen, aber ganz schwarz. Kein Android, keine Uhr, keine Statusleiste. Arbeite der Reihe nach. Hör auf, sobald es läuft.</p>
+<p>Arbeite der Reihe nach. Hör auf, sobald es läuft.</p>
 
 <div class="step">
 <p><span class="n">1</span><b>Cold Boot.</b></p>
@@ -67,12 +67,53 @@
 </div>
 
 <div class="step">
-<p><span class="n">3</span><b>Alte Prozesse abschiessen.</b></p>
-<p>Manchmal hängt im Hintergrund noch ein Emulator von vorhin. Den siehst du nicht, aber er blockiert. Öffne in Android Studio unten das <code>Terminal</code> und tippe diese drei Zeilen, eine nach der anderen:</p>
-<pre>taskkill /F /IM qemu-system-x86_64.exe
-adb kill-server
-adb start-server</pre>
-<p>Die erste Zeile darf mit <code>Der Prozess wurde nicht gefunden</code> antworten. Das ist kein Fehler, dann lief eben keiner mehr. Danach den Emulator neu starten.</p>
+<p><span class="n">3</span><b>Reste von vorhin wegräumen.</b></p>
+<p>Manchmal blockiert etwas von einem früheren Lauf. Das gibt es in zwei Formen, und die zweite ist die häufigere. Geh beide durch.</p>
+
+<h4>3a. Läuft noch ein Emulator im Hintergrund?</h4>
+<p>Task-Manager öffnen mit <code>Strg</code>, <code>Umschalt</code> und <code>Esc</code>. Dann auf den Reiter <code>Details</code> und nach diesen zwei Namen suchen:</p>
+<ul>
+<li><code>emulator.exe</code></li>
+<li><code>qemu-system-x86_64.exe</code></li>
+</ul>
+<p>Findest du einen davon: Rechtsklick, <code>Task beenden</code>. Danach zurück zu Schritt 1.</p>
+<div class="warn">
+<p><b><code>crashpad_handler.exe</code> zählt nicht.</b> Diesen Absturzmelder bringen viele Programme mit, unter anderem TeamViewer, Chrome und Android Studio selbst. Er hat mit deinem Emulator meist nichts zu tun.</p>
+<p>Wenn du ihn nicht beenden kannst und Windows <code>Zugriff verweigert</code> meldet, ist das richtig so. Er gehört einem anderen Programm. Lass ihn in Ruhe und mach mit 3b weiter.</p>
+</div>
+
+<h4>3b. Kein Prozess da, und es geht trotzdem nicht?</h4>
+<p>Dann sind es die <b>Sperrordner</b>. Ein Emulator, der abgestürzt ist, räumt seine Sperren nicht weg. Android Studio liest sie beim nächsten Start und meldet, es laufe schon einer. Es läuft aber keiner, und darum findest du auch keinen Prozess zum Beenden.</p>
+<p>So räumst du sie weg:</p>
+<ul>
+<li>Explorer öffnen mit <code>Windows</code> und <code>E</code></li>
+<li>Oben in die Adresszeile klicken und <code>%USERPROFILE%\.android\avd</code> eintippen, dann <code>Enter</code></li>
+<li>Darin liegt ein Ordner mit dem Namen deines Geräts, zum Beispiel <code>Medium_Phone.avd</code>. Öffne ihn</li>
+<li>Lösch diese zwei, wenn sie da sind: <code>hardware-qemu.ini.lock</code> und <code>multiinstance.lock</code></li>
+</ul>
+<div class="info">
+<p style="margin:0"><b>Das sind Ordner, keine Dateien.</b> Sie enthalten nichts Wichtiges. Sie sind nur eine Markierung nach dem Muster "hier arbeitet gerade jemand". Du löschst keine Daten und kein Gerät, nur die Markierung.</p>
+</div>
+<p>Danach zurück zu Schritt 1.</p>
+
+<h4>3c. adb neu starten.</h4>
+<p>Zum Schluss noch die Brücke zwischen Android Studio und dem Gerät. Öffne in Android Studio unten das <code>Terminal</code> und tippe:</p>
+<pre>$adb = "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe"
+&amp; $adb kill-server
+&amp; $adb start-server
+&amp; $adb devices</pre>
+<p>Die Liste bei <code>devices</code> soll <b>leer</b> sein. Steht dort noch ein Gerät, hängt adb an einem Emulator, den es nicht mehr gibt.</p>
+<div class="warn">
+<p style="margin:0"><b>Warum der lange Pfad und nicht einfach <code>adb</code>?</b> Android Studio nimmt seinen Werkzeugordner nicht in den Suchpfad von Windows auf. Ein blosses <code>adb kill-server</code> endet mit <code>adb is not recognized</code>. Das ist kein Fehler bei dir, das ist bei allen so.</p>
+</div>
+
+<div class="tip">
+<p><b>Der schnelle Weg für 3a und 3b</b>, falls du mit der Konsole umgehen kannst. Beide Zeilen im Terminal, nacheinander:</p>
+<pre>Get-Process | Where-Object { $_.ProcessName -match <span class="s">'emulator|qemu'</span> } | Stop-Process -Force
+
+Get-ChildItem <span class="s">"$env:USERPROFILE\.android\avd"</span> -Recurse -Filter <span class="s">"*.lock"</span> | Remove-Item -Recurse -Force</pre>
+<p style="margin:0">Die zweite Zeile räumt die Sperrordner aller Geräte auf einmal weg. Führ sie nur aus, wenn die erste nichts gefunden hat oder du sie vorher beendet hast.</p>
+</div>
 </div>
 
 <div class="step">
@@ -97,8 +138,24 @@ adb start-server</pre>
 </div>
 </div>
 
+<div class="step">
+<p><span class="n">5</span><b>Von Hand starten, um die echte Meldung zu sehen.</b></p>
+<p>Android Studio zeigt bei einem kaputten Emulator oft nur eine Sammelmeldung, etwa <code>The emulator process for AVD ... has terminated</code>. Das sagt dir nichts. Startest du den Emulator selbst, schreibt er den Grund in Klartext in die Konsole.</p>
+<p>Im <code>Terminal</code>, zwei Zeilen:</p>
+<pre>$emu = "$env:LOCALAPPDATA\Android\Sdk\emulator\emulator.exe"
+&amp; $emu -list-avds</pre>
+<p>Die Ausgabe zeigt dir den genauen Namen deines Geräts. Den setzt du in die nächste Zeile ein:</p>
+<pre>&amp; $emu -avd Medium_Phone -no-snapshot-load</pre>
+<p><code>-no-snapshot-load</code> heisst: ohne gespeicherten Zustand starten. Das ist derselbe Kaltstart wie in Schritt 1, nur von der Konsole aus.</p>
+<p>Solange in der Konsole keine Fehlerzeile erscheint, läuft es. Die Konsole bleibt dabei blockiert, das ist richtig so.</p>
+<div class="warn">
+<p><b>Dieses Fenster gehört nicht zu Android Studio.</b> Es schwebt frei, lässt sich nicht andocken, und der <code>Run</code>-Knopf in Android Studio findet es unter Umständen nicht.</p>
+<p><b>Darum ist Schritt 5 nur zum Nachschauen da.</b> Sobald du die Meldung gelesen hast oder siehst, dass er sauber hochkommt: Fenster schliessen, dann im <code>Device Manager</code> ein <code>Cold Boot</code> machen. Erst damit hast du den Emulator wieder normal in Android Studio.</p>
+</div>
+</div>
 
-<h2>03 Wenn keiner der vier Schritte hilft</h2>
+
+<h2>03 Wenn keiner der fünf Schritte hilft</h2>
 
 <p>Dann leg ein neues virtuelles Gerät an. Im <code>Device Manager</code> das alte löschen, dann auf das Plus.</p>
 
@@ -116,12 +173,15 @@ adb start-server</pre>
 
 <table>
 <tr><th>Was du siehst</th><th>Was los ist</th><th>Was du tust</th></tr>
-<tr><td>Das Emulator-Fenster geht gar nicht auf</td><td>Ein alter Prozess hängt, oder der Arbeitsspeicher ist voll</td><td>Schritt 3, danach Schritt 1</td></tr>
+<tr><td>Meldung, es laufe schon ein Emulator, aber im Task-Manager ist keiner</td><td>Ein abgestürzter Emulator hat seine Sperrordner liegen lassen</td><td><b>Schritt 3b</b>, danach Schritt 1</td></tr>
+<tr><td>Das Emulator-Fenster geht gar nicht auf</td><td>Ein alter Prozess hängt, eine Sperre liegt herum, oder der Arbeitsspeicher ist voll</td><td>Schritt 3, danach Schritt 1</td></tr>
+<tr><td><code>taskkill</code> meldet <code>Prozess nicht gefunden</code></td><td>Es läuft wirklich keiner. Der Prozessname allein ist keine Diagnose</td><td>Schritt 3b. Der Blocker ist dann eine Sperre, kein Prozess</td></tr>
 <tr><td>Weisser statt schwarzer Bildschirm</td><td>Android läuft schon, deine App zeichnet noch nichts</td><td>Ein paar Sekunden warten, das legt sich meist von selbst</td></tr>
 <tr><td>Die App startet und schliesst sofort wieder</td><td>Ein Fehler in deinem Code, nicht im Emulator</td><td>Unten auf <code>Logcat</code>, die erste rote Zeile mit <code>Exception</code> lesen</td></tr>
 <tr><td>Meldung mit <code>INSTALL_FAILED</code></td><td>Eine alte Fassung deiner App blockiert</td><td>Im Emulator das App-Symbol gedrückt halten, deinstallieren, dann <code>Run</code></td></tr>
 <tr><td>Alles ist zäh und ruckelt</td><td>Software-Grafik, oder zu wenig freier Speicher</td><td>Bei Software-Grafik normal. Schliesse Browser-Tabs und andere Programme</td></tr>
 <tr><td>Der <code>Run</code>-Knopf ist grau</td><td>Es ist kein Gerät ausgewählt</td><td>Oben im Auswahlfeld neben <code>Run</code> dein Gerät wählen</td></tr>
+<tr><td>Der Emulator läuft, aber Android Studio sieht ihn nicht</td><td>Du hast ihn in Schritt 5 von Hand gestartet. Das Fenster hängt nicht an der IDE</td><td>Fenster schliessen, dann <code>Cold Boot</code> im <code>Device Manager</code></td></tr>
 <tr><td>Die App zeigt den alten Stand</td><td>Der Emulator hat die neue Fassung nicht bekommen</td><td>Im Menü <code>Build</code>, dann <code>Clean Project</code>, danach <code>Run</code></td></tr>
 </table>
 
@@ -141,10 +201,10 @@ adb start-server</pre>
 <p>Mit diesen vier Angaben ist die Sache meist in zwei Minuten erledigt. Ohne sie sucht man gemeinsam zehn Minuten lang.</p>
 
 <div class="note">
-<p style="margin:0"><b>Ein kaputter Emulator ist keine Ausrede für einen unfertigen Auftrag.</b> Melde dich, sobald du bei Schritt 4 angekommen bist. Warte nicht bis zum Ende der Lektion.</p>
+<p style="margin:0"><b>Ein kaputter Emulator ist keine Ausrede für einen unfertigen Auftrag.</b> Melde dich, sobald du bei Schritt 5 angekommen bist. Warte nicht bis zum Ende der Lektion.</p>
 </div>
 
-<p class="foot">Modul 335 | Hilfe | Emulator streikt | Fassung 1 | 11.08.2026</p>
+<p class="foot">Modul 335 | Hilfe | Emulator streikt | Fassung 2 | 15.08.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M335 Die Activity von innen</title>
+<style>
+  :root{
+    --bg:#faf9f7; --fg:#1c1b1a; --muted:#6b6862; --line:#dedbd4;
+    --card:#ffffff;
+    --a1:#3d8168;  --a1-bg:#e6f2ed;
+    --a2:#2f6fb0;  --a2-bg:#e8f0f8;
+    --a3:#b1701c;  --a3-bg:#fbf0df;
+    --warn:#a63d2f; --warn-bg:#fbeae7;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  .wrap{max-width:920px; margin:0 auto; padding:40px 24px 80px}
+  h1{font-size:30px; line-height:1.25; margin:0 0 6px; letter-spacing:-.02em}
+  .sub{color:var(--muted); margin:0 0 36px; font-size:15px}
+  h2{font-size:21px; margin:44px 0 12px; letter-spacing:-.01em}
+  h3{font-size:16px; margin:22px 0 8px}
+  p{margin:0 0 12px}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.9em;
+       background:#f0eee9; padding:1px 5px; border-radius:4px}
+  pre{background:#26241f; color:#eae7df; padding:16px 18px; border-radius:10px;
+      overflow-x:auto; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+      font-size:13px; line-height:1.55; margin:0 0 16px}
+  pre .c{color:#8f8a7d}
+  pre .t{color:#8fc4e8}
+  pre .a{color:#d8bd7a}
+  pre .s{color:#b7d69a}
+  pre .k{color:#d8a0d0}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:12px;
+        padding:20px 22px; margin:0 0 16px}
+  .note{border-left:3px solid var(--warn); background:var(--warn-bg);
+        padding:14px 18px; border-radius:0 8px 8px 0; margin:0 0 16px}
+  .note b{color:var(--warn)}
+  .merk{border:2px solid #3a3833; background:#fff; border-radius:12px;
+        padding:18px 22px; margin:0 0 20px}
+  .merk p{margin:0}
+  .merk .gross{font-size:17px; line-height:1.5}
+  table{border-collapse:collapse; width:100%; font-size:14.5px; margin:0 0 16px}
+  th,td{text-align:left; padding:9px 12px; border-bottom:1px solid var(--line); vertical-align:top}
+  th{font-weight:600; background:#f3f1ec}
+  td.pre,th.pre{font-family:ui-monospace,Menlo,monospace; font-weight:600; white-space:nowrap}
+  td.mitte,th.mitte{text-align:center; white-space:nowrap}
+  .kette{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:13.5px;
+         line-height:1.85; background:var(--card); border:1px solid var(--line);
+         border-radius:10px; padding:16px 20px; margin:0 0 16px}
+  .kette div{white-space:pre}
+  .kette .hell{color:var(--muted)}
+  .kette .stark{color:var(--a2); font-weight:600}
+  .split{display:flex; gap:20px; flex-wrap:wrap; margin:0 0 16px}
+  .halb{flex:1; min-width:270px; border:1px solid var(--line); background:#fff;
+        border-radius:10px; padding:14px 17px}
+  .halb .kopf{font-weight:600; font-size:14px; margin:0 0 6px}
+  ol,ul{margin:0 0 14px; padding-left:22px}
+  li{margin:0 0 7px}
+  .foot{margin-top:50px; padding-top:18px; border-top:1px solid var(--line);
+        font-size:13px; color:var(--muted)}
+</style>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+  <h1>Die Activity von innen</h1>
+  <p class="sub">Modul 335 Mobile Applikationen, Grundlagen. Wer deine Activity startet, was <code>onCreate</code> ist, wann etwas ein Feld sein muss, und was <code>this</code> bedeutet. Lesezeit rund 10 Minuten. Fassung 1 vom 15.08.2026.</p>
+
+  <div class="card">
+    <p style="margin:0 0 10px"><b>Jeder Auftrag lässt dich in <code>onCreate</code> schreiben, und keiner sagt dir, was das eigentlich ist.</b> Du legst Felder an, holst Views, hängst Klicks an und rufst am Schluss eine Methode auf. Das funktioniert, aber es fühlt sich nach Rezept an.</p>
+    <p style="margin:0">Diese Seite erklärt das Rezept. Danach weisst du, warum die Zeilen in dieser Reihenfolge stehen und was passiert, wenn du eine davon vergisst.</p>
+  </div>
+
+  <h2>1. Wer deine Activity startet</h2>
+
+  <p>Du erzeugst deine Activity nie selbst. Es gibt nirgends ein <code>new MainActivity()</code> in deinem Projekt. Such ruhig danach.</p>
+
+  <p>Stattdessen macht es <b>Android</b>. Der Ablauf ist ungefähr so:</p>
+
+  <div class="kette">
+    <div><span class="hell">1.</span> Du tippst auf das App-Symbol</div>
+    <div><span class="hell">2.</span> Android liest das <span class="stark">AndroidManifest.xml</span> und sucht die Start-Activity</div>
+    <div><span class="hell">3.</span> Android erzeugt ein Objekt deiner Klasse <span class="stark">MainActivity</span></div>
+    <div><span class="hell">4.</span> Android ruft <span class="stark">onCreate(...)</span> darauf auf</div>
+    <div><span class="hell">5.</span> Dein Code läuft</div>
+  </div>
+
+  <p>Darum steht deine Activity im Manifest. Ohne den Eintrag dort findet Android sie nicht, und die App startet mit einem Absturz, obwohl der Code fehlerfrei übersetzt.</p>
+
+  <div class="note">
+    <p style="margin:0"><b>Das ist der Grund für das <code>@Override</code> über <code>onCreate</code>.</b> Du erfindest die Methode nicht, du <b>ersetzt</b> eine, die es schon gibt. Android kennt <code>onCreate</code> und ruft sie auf. Deine Fassung hängt sich in diesen Aufruf ein. Das <code>super.onCreate(savedInstanceState)</code> in der ersten Zeile gibt der ursprünglichen Fassung die Gelegenheit, ihre Arbeit trotzdem zu machen. Lösch es nie.</p>
+  </div>
+
+  <h2>2. <code>onCreate</code>, die eine Methode, die du kennst</h2>
+
+  <p><code>onCreate</code> läuft <b>einmal</b>, wenn der Bildschirm aufgebaut wird. Nicht bei jedem Klick, nicht bei jeder Frage, einmal.</p>
+
+  <p>Daraus folgt alles Weitere. Was mehr als einmal passieren muss, kann nicht in <code>onCreate</code> stehen. Es braucht eine eigene Methode mit einem eigenen Auslöser.</p>
+
+  <table>
+    <tr><th style="width:190px">Gehört in <code>onCreate</code></th><th>Gehört <b>nicht</b> hinein</th></tr>
+    <tr>
+      <td>Das Layout setzen mit <code>setContentView</code></td>
+      <td>Alles, was bei jedem Klick passiert</td>
+    </tr>
+    <tr>
+      <td>Views holen mit <code>findViewById</code></td>
+      <td>Alles, was sich mit den Daten ändert</td>
+    </tr>
+    <tr>
+      <td>Anfangswerte sichern, solange nichts überschrieben ist</td>
+      <td>Alles, was der Benutzer auslöst</td>
+    </tr>
+    <tr>
+      <td>Klick-Behandlungen anhängen</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Daten laden</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><b>Eine letzte Zeile, die alles startet</b></td>
+      <td></td>
+    </tr>
+  </table>
+
+  <div class="merk">
+    <p class="gross"><b><code>onCreate</code> richtet ein. Es zeigt nicht an.</b></p>
+    <p style="margin-top:8px; color:var(--muted); font-size:14.5px">Anzeigen macht eine eigene Methode, die <code>onCreate</code> am Schluss aufruft. Dieselbe Methode kann dann später nochmals laufen, wenn sich etwas geändert hat.</p>
+  </div>
+
+  <p>Wenn du eine Zeile in <code>onCreate</code> stehen hast und nicht sagen kannst, in welche der obigen Gruppen sie gehört, ist sie dort meistens falsch.</p>
+
+  <div class="card">
+    <p style="margin:0"><b>Es gibt noch weitere solche Methoden</b>, etwa <code>onStart</code>, <code>onPause</code> und <code>onDestroy</code>. Android ruft sie auf, wenn dein Bildschirm sichtbar wird, in den Hintergrund gerät oder verschwindet. Du brauchst sie im Moment nicht. <b>Und Android kann eine Activity unter bestimmten Umständen ganz neu aufbauen.</b> Wann das passiert und was es für deine Daten bedeutet, ist ein eigenes Thema am Tag 3.</p>
+  </div>
+
+  <h2>3. Feld oder lokale Variable</h2>
+
+  <p>Diese Entscheidung triffst du in jedem Auftrag, meistens ohne darüber nachzudenken.</p>
+
+  <div class="split">
+    <div class="halb">
+      <p class="kopf">Lokale Variable</p>
+      <p style="font-size:14.5px; margin:0 0 8px">Steht <b>in</b> einer Methode. Entsteht beim Aufruf, ist danach weg.</p>
+      <p style="font-size:14.5px; margin:0"><b>Nimm sie</b>, wenn der Wert nur in dieser einen Methode gebraucht wird.</p>
+    </div>
+    <div class="halb">
+      <p class="kopf">Feld</p>
+      <p style="font-size:14.5px; margin:0 0 8px">Steht <b>ausserhalb</b> aller Methoden, direkt in der Klasse. Lebt so lange wie das Objekt.</p>
+      <p style="font-size:14.5px; margin:0"><b>Nimm es</b>, wenn zwei Methoden denselben Wert brauchen.</p>
+    </div>
+  </div>
+
+  <pre><span class="k">public class</span> <span class="t">MainActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span> {
+
+    <span class="c">// Feld. Beide Methoden unten brauchen es.</span>
+    <span class="k">private</span> <span class="t">TextView</span> tvScore;
+
+    <span class="k">protected void</span> onCreate(<span class="t">Bundle</span> savedInstanceState) {
+        ...
+        tvScore = findViewById(R.id.tvScore);
+
+        <span class="c">// Lokale Variable. Nur hier gebraucht, danach weg.</span>
+        <span class="k">int</span> abstand = <span class="k">16</span>;
+        ...
+    }
+
+    <span class="k">private void</span> showScore() {
+        tvScore.setText(...);   <span class="c">// geht nur, weil tvScore ein Feld ist</span>
+    }
+}</pre>
+
+  <div class="note">
+    <p style="margin:0"><b>Die Prüffrage:</b> braucht das noch jemand ausser dieser einen Methode? Wenn nein, ist es eine lokale Variable. Android Studio hilft dir dabei und meldet gelb <code>Field can be converted to a local variable</code>, wenn ein Feld nur an einer Stelle gebraucht wird. Das ist keine Fehlermeldung, sondern ein Hinweis, den du prüfen sollst.</p>
+  </div>
+
+  <h2>4. <code>findViewById</code>, und warum ein Feld leer bleibt</h2>
+
+  <p>Ein Feld anzulegen erzeugt nichts. Es macht nur einen Platz für etwas, das später kommt.</p>
+
+  <pre><span class="k">private</span> <span class="t">TextView</span> tvScore;   <span class="c">// Platz da, Inhalt: null</span></pre>
+
+  <p>Das <code>null</code> steht nicht da, aber es gilt. Ein Feld vom Typ einer Klasse ist am Anfang immer <code>null</code>. Erst diese Zeile füllt es:</p>
+
+  <pre>tvScore = findViewById(R.id.tvScore);   <span class="c">// jetzt zeigt es auf die echte View</span></pre>
+
+  <p><code>findViewById</code> durchsucht das Layout, das <code>setContentView</code> vorher aufgebaut hat, und liefert die View mit dieser id zurück.</p>
+
+  <div class="merk">
+    <p class="gross"><b>Ein Feld für eine View und sein <code>findViewById</code> gehören zusammen. Wer das eine schreibt, schreibt das andere gleich dazu.</b></p>
+  </div>
+
+  <p>Vergisst du die zweite Zeile, passiert genau das:</p>
+
+  <pre><span class="c">java.lang.NullPointerException: Attempt to invoke virtual method
+  'void android.widget.TextView.setText(java.lang.CharSequence)'
+  on a null object reference</span></pre>
+
+  <p>Gelesen als Satz: <b>du hast <code>setText</code> auf etwas aufgerufen, das nichts ist.</b> Das Feld gibt es, gefüllt wurde es nie.</p>
+
+  <div class="note">
+    <p style="margin:0 0 10px"><b>Die häufigste falsche Erklärung dafür.</b> "Die View war noch nicht fertig geladen, mein Code war zu schnell."</p>
+    <p style="margin:0"><b>Nein.</b> Java läuft von oben nach unten und wartet auf jede Zeile, bis sie fertig ist. Es gibt kein zu früh und kein zu langsam. Wenn etwas <code>null</code> ist, wurde es <b>nie</b> gefüllt. Such nicht nach einer Verzögerung, such nach der fehlenden Zeile.</p>
+  </div>
+
+  <h2>5. <code>this</code> und der Context</h2>
+
+  <p>Sobald du eine View im Code erzeugst statt im XML, willst du plötzlich ein <code>this</code> mitgeben:</p>
+
+  <pre><span class="t">TextView</span> row = <span class="k">new</span> <span class="t">TextView</span>(<span class="k">this</span>);</pre>
+
+  <h3>Was <code>this</code> ist</h3>
+  <p><code>this</code> ist das Objekt, in dem die Methode gerade läuft. Steht die Methode in <code>MainActivity</code>, ist <code>this</code> genau dieses eine MainActivity-Objekt, das Android beim Start erzeugt hat.</p>
+
+  <h3>Warum das passt</h3>
+  <p>Der Konstruktor verlangt gar keine Activity. Er verlangt einen <b>Context</b>:</p>
+  <pre><span class="k">public</span> <span class="t">TextView</span>(<span class="t">Context</span> context)</pre>
+
+  <p>Dass deine Activity trotzdem hineinpasst, liegt an der Vererbung:</p>
+
+  <div class="kette">
+    <div><span class="stark">MainActivity</span></div>
+    <div> └─ AppCompatActivity</div>
+    <div>     └─ FragmentActivity</div>
+    <div>         └─ ComponentActivity</div>
+    <div>             └─ Activity</div>
+    <div>                 └─ ContextThemeWrapper</div>
+    <div>                     └─ ContextWrapper</div>
+    <div>                         └─ <span class="stark">Context</span></div>
+  </div>
+
+  <p><b>Eine Activity ist ein Context.</b> Darum darfst du sie überall einsetzen, wo ein Context verlangt wird. Das ist kein Android-Trick, das ist normale Java-Vererbung, dieselbe Regel wie bei <code>List&lt;String&gt; x = new ArrayList&lt;&gt;()</code>.</p>
+
+  <h3>Woher du das im Alltag weisst</h3>
+  <table>
+    <tr><th style="width:180px">Weg</th><th>Wie</th><th>Was du siehst</th></tr>
+    <tr><td>Parameter-Info</td><td>Cursor in die Klammer, <code>Strg</code> und <code>P</code></td><td><code>TextView(Context context)</code></td></tr>
+    <tr><td>Zur Quelle springen</td><td><code>Strg</code> und Klick auf <code>TextView</code></td><td>Alle Konstruktoren im Original</td></tr>
+    <tr><td>Vererbungsbaum</td><td>Cursor auf <code>MainActivity</code>, <code>Strg</code> und <code>H</code></td><td>Die Kette bis hinunter zu <code>Context</code></td></tr>
+    <tr><td>Einfach probieren</td><td>tippen</td><td>Passt es nicht, ist es sofort rot</td></tr>
+  </table>
+
+  <p>Der letzte Weg ist der ehrlichste. Java prüft die Typen beim Übersetzen. Hier kannst du nicht still danebenliegen.</p>
+
+  <h3>Warum eine View überhaupt einen Context braucht</h3>
+  <p>Schau dir diese Zeile an:</p>
+  <pre>row.setTextSize(<span class="k">14</span>);</pre>
+  <p>14 was? 14 <code>sp</code>. Wie viele Pixel das auf diesem Gerät sind, hängt von der Bildschirmdichte ab und von der Schriftgrösse, die der Benutzer in den Systemeinstellungen gewählt hat. Die TextView weiss das nicht von selbst. <b>Sie fragt ihren Context.</b></p>
+  <p>Dasselbe gilt fürs Theme: welche Schriftart, welche Textfarbe, welcher Standardabstand. All das steht im Theme, und das Theme hängt am Context.</p>
+
+  <div class="merk">
+    <p class="gross"><b>Eine View kann sich nicht selbst zeichnen.</b> Sie braucht jemanden, der ihr sagt, wie gross, in welcher Farbe und in welcher Schrift. Dieser Jemand ist der Context.</p>
+  </div>
+
+  <p>Bei einer View aus dem XML passiert genau dasselbe, nur unsichtbar. <code>setContentView</code> liest das Layout und ruft für jedes Element denselben Konstruktor auf, mit derselben Activity als Context.</p>
+
+  <div class="note">
+    <p style="margin:0"><b>Nimm nicht <code>getApplicationContext()</code>.</b> Es übersetzt und läuft, aber der Application-Context hat <b>kein Theme</b>. Deine erzeugten Views sähen dann anders aus als der Rest der App. Für alles Sichtbare nimmst du die Activity, also <code>this</code>.</p>
+  </div>
+
+  <h2>6. Listener, und was sie mit <code>this</code> machen</h2>
+
+  <p>Ein Listener ist eine Anweisung für später. Du sagst nicht "tu das jetzt", sondern "tu das, wenn jemand tippt".</p>
+
+  <pre>btnNext.setOnClickListener(v -&gt; onNextClicked());</pre>
+
+  <p>Diese Zeile ruft <code>onNextClicked</code> <b>nicht</b> auf. Sie hinterlegt sie. Darum steht sie in <code>onCreate</code>, obwohl der Klick erst viel später kommt. Einmal anhängen, beliebig oft ausgelöst.</p>
+
+  <div class="note">
+    <p style="margin:0 0 10px"><b>Eine Falle, die dich später einmal trifft.</b> In einer Lambda wie oben bleibt <code>this</code> die Activity. Das ist einer der Gründe, warum wir Lambdas nehmen.</p>
+    <p style="margin:0">Schreibst du stattdessen eine anonyme innere Klasse, also <code>new View.OnClickListener() { ... }</code>, dann ist <code>this</code> dort <b>der Listener</b> und nicht mehr die Activity. Du bräuchtest dann <code>MainActivity.this</code>. Wenn dir eine KI so einen Block vorschlägt und danach etwas nicht mehr geht, ist das oft der Grund.</p>
+  </div>
+
+  <h2>7. Von oben nach unten, immer</h2>
+
+  <p>Java arbeitet eine Methode Zeile für Zeile ab und wartet bei jeder, bis sie fertig ist. Es gibt keine Zeile, die nebenher läuft, und keine, die überholt.</p>
+
+  <p>Das klingt selbstverständlich und wird trotzdem regelmässig vergessen, sobald etwas <code>null</code> ist. Die Reihenfolge in <code>onCreate</code> ist darum nicht beliebig:</p>
+
+  <div class="kette">
+    <div><span class="hell">1.</span> setContentView         <span class="hell">baut das Layout auf</span></div>
+    <div><span class="hell">2.</span> findViewById           <span class="hell">geht nur, wenn 1 gelaufen ist</span></div>
+    <div><span class="hell">3.</span> Anfangszustand sichern <span class="hell">geht nur, wenn 2 gelaufen ist</span></div>
+    <div><span class="hell">4.</span> Listener anhängen      <span class="hell">geht nur, wenn 2 gelaufen ist</span></div>
+    <div><span class="hell">5.</span> Daten laden</div>
+    <div><span class="hell">6.</span> anzeigen               <span class="hell">geht nur, wenn alles davor gelaufen ist</span></div>
+  </div>
+
+  <p>Jede Stufe braucht die davor. Darum stürzt es ab, wenn du <code>findViewById</code> vor <code>setContentView</code> schreibst, und darum steht die anzeigende Methode ganz am Schluss.</p>
+
+  <h2>8. Wenn etwas <code>null</code> ist, die Suchreihenfolge</h2>
+
+  <p>Der häufigste Absturz der ganzen Woche. Geh diese vier Fragen der Reihe nach durch, dann findest du ihn in unter einer Minute.</p>
+
+  <table>
+    <tr><th style="width:40px">Nr</th><th>Frage</th><th>Wenn nein</th></tr>
+    <tr><td>1</td><td>Steht im Logcat, <b>welche</b> Methode und <b>welche</b> Zeile es war?</td><td>Such die erste Zeile mit <code>Caused by</code> und darunter deinen eigenen Dateinamen</td></tr>
+    <tr><td>2</td><td>Gibt es zu diesem Feld ein <code>findViewById</code>?</td><td><b>Das ist meist schon die Antwort.</b> Zeile ergänzen</td></tr>
+    <tr><td>3</td><td>Stimmt die id im <code>findViewById</code> mit der im XML überein?</td><td>Zeichen für Zeichen vergleichen. Gross und klein zählt</td></tr>
+    <tr><td>4</td><td>Steht das <code>findViewById</code> <b>nach</b> dem <code>setContentView</code>?</td><td>Nach oben schauen. Vorher gibt es das Layout noch nicht</td></tr>
+  </table>
+
+  <div class="note">
+    <p style="margin:0"><b>Was du in dieser Liste nicht findest:</b> irgendetwas mit Warten, Verzögern oder Timing. Wenn dir jemand vorschlägt, den Aufruf "später" oder "in einem Handler" zu machen, damit die View fertig ist, dann ist das die falsche Spur. Die View ist fertig. Dein Feld ist leer.</p>
+  </div>
+
+  <h2>9. Prüfe dich selbst</h2>
+  <ol>
+    <li>Such in deinem Projekt nach <code>new MainActivity()</code>. Warum findest du nichts, und wer erzeugt die Activity stattdessen?</li>
+    <li>Du hast ein Feld <code>tvScore</code> angelegt, aber das <code>findViewById</code> vergessen. Beschreib in einem Satz, was beim Start passiert und warum.</li>
+    <li>Warum darfst du <code>this</code> einsetzen, wenn ein Konstruktor einen <code>Context</code> verlangt? Antworte mit einem Satz über Vererbung.</li>
+    <li>Nenn zwei Dinge, die eine TextView von ihrem Context erfahren muss, bevor sie sich zeichnen kann.</li>
+    <li>Erkläre einem Lerngspänli, warum eine Zeile mit <code>setOnClickListener</code> in <code>onCreate</code> stehen darf, obwohl der Klick erst zehn Minuten später kommt.</li>
+  </ol>
+
+  <div class="merk">
+    <p class="gross"><b>Die vier Sätze dieser Seite</b></p>
+    <ul style="margin:10px 0 0; font-size:15px">
+      <li>Android erzeugt deine Activity und ruft <code>onCreate</code> auf, einmal.</li>
+      <li><code>onCreate</code> richtet ein, angezeigt wird woanders.</li>
+      <li>Ein Feld und sein <code>findViewById</code> gehören zusammen.</li>
+      <li>Eine View kann sich nicht selbst zeichnen, sie braucht einen Context.</li>
+    </ul>
+  </div>
+
+  <p class="foot">Modul 335 | Grundlagen | Die Activity von innen | Fassung 1 | 15.08.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>
