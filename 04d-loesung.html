@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04D Lösung, Mockups</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>04D Lösung, Mockups</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Block 08. Fassung 1 vom 13.08.2026.</p>
+<p class="sub">Schau erst hinein, wenn du deine zwei Skizzen gezeichnet hast. Eine Mockup-Lösung anzuschauen, bevor man selbst entworfen hat, nimmt genau die Übung weg, um die es geht.</p>
+
+<h2>Antworten zu den Denkfragen</h2>
+
+<p><b>1. Warum von Hand und nicht mit einem Werkzeug?</b></p>
+<p>Weil ein Werkzeug dich zum Verschönern verführt. Sobald etwas gerade Kanten und echte Schriften hat, sieht es fertig aus, und dann diskutiert niemand mehr darüber, ob es richtig ist.</p>
+<p>Dazu kommt die Zeit. Eine Handskizze kostet fünf Minuten und ist danach leicht wegzuwerfen. Ein sauber gebautes Mockup kostet eine Stunde, und nach einer Stunde Arbeit wirft man nichts mehr weg, auch wenn man sollte.</p>
+
+<p><b>2. Vier Knöpfe untereinander auf der Startseite. Was ist die erste Frage?</b></p>
+<p>Passt das im <b>Querformat</b> noch auf den Bildschirm?</p>
+<p>Im Hochformat passen vier Knöpfe locker. Im Querformat bleibt etwa die halbe Höhe, und dazu kommt die Tastatur, sobald irgendwo ein Feld ist. Die Antwort ist fast immer eine ScrollView.</p>
+
+<p><b>3. Warum genügt das Hochformat nicht?</b></p>
+<p>Weil das Gerät sich dreht, ob du willst oder nicht. Ein Bildschirm, der nur im Hochformat funktioniert, ist im Querformat kaputt, und kaputt heisst hier: ein Knopf liegt ausserhalb und lässt sich nicht antippen.</p>
+<p>Genau das ist in dieser App passiert. In Quiz 1 lag der Weiter-Knopf im Querformat unter dem sichtbaren Rand.</p>
+
+<h2>Übung 1, das Desktop-Mockup mobil gemacht</h2>
+
+<table>
+<tr><th style="width:34%">Das Problem</th><th>Warum es mobil nicht geht</th><th style="width:30%">Was stattdessen</th></tr>
+<tr>
+<td>Tabelle mit fünf Spalten</td>
+<td>Auf etwa sechs Zentimetern Breite bleiben pro Spalte gut ein Zentimeter. Darin steht kein Fragetext</td>
+<td>Eine Liste statt einer Tabelle. Pro Zeile das Wichtigste untereinander: Fragetext, darunter klein Kategorie und Schwierigkeit</td>
+</tr>
+<tr>
+<td>Zwei Symbole von 16 mal 16</td>
+<td>Zu klein für einen Finger. Und zwei kleine Ziele nebeneinander heisst, man trifft das falsche</td>
+<td>Antippen der ganzen Zeile öffnet das Formular. Löschen liegt im Formular oder als Wischgeste. Das ganze Element wird das Ziel, nicht ein Symbol darin</td>
+</tr>
+<tr>
+<td>Voller Text beim Darüberfahren</td>
+<td>Es gibt kein Darüberfahren. Ein Finger kann nicht schweben</td>
+<td>Zwei Zeilen anzeigen und mit drei Punkten abschneiden. Den vollen Text sieht man beim Öffnen</td>
+</tr>
+<tr>
+<td>Knopf "Neu" oben rechts, 80 Pixel</td>
+<td>Oben rechts ist die schlechteste Ecke für einen Daumen, und 80 Pixel sind knapp</td>
+<td>Ein runder Knopf unten rechts, der über der Liste schwebt. Genau dafür gibt es den FloatingActionButton</td>
+</tr>
+<tr>
+<td>Statuszeile unten mit "30 Einträge"</td>
+<td>Unten liegt die Navigationsleiste. Und eine Statuszeile ist ein Desktop-Muster</td>
+<td>Die Zahl in die Überschrift oben: "Fragen (30)". Ein Ort weniger, den man im Blick behalten muss</td>
+</tr>
+</table>
+
+<div class="tip">
+<p><b>Vier von fünf Punkten haben dieselbe Ursache.</b> Der Desktop hat viel Platz, feine Zeigegenauigkeit und einen schwebenden Zeiger. Mobil fehlt alles drei.</p>
+<p>Daraus folgt eine Faustregel, die fast immer trägt: <b>weniger nebeneinander, grössere Ziele, nichts Verstecktes.</b></p>
+</div>
+
+<div class="note">
+<p><b>Das Ergebnis dieser Übung ist die App, die du gebaut hast.</b> Die Fragenliste mit zwei Zeilen pro Eintrag, der FloatingActionButton unten rechts, die Zahl in der Überschrift, Antippen der ganzen Zeile.</p>
+<p>Das war kein Zufall und keine Geschmacksfrage. Jede dieser Entscheidungen ist die mobile Antwort auf ein Desktop-Muster, das hier nicht funktioniert.</p>
+</div>
+
+<h2>Die Startseite, eine mögliche Lösung</h2>
+
+<p>Deine Skizze darf anders aussehen. Was zählt, sind die vier Pflichtpunkte.</p>
+
+<pre>┌──────────────────────────────┐
+│ 09:41            ▮▮▮ 100%    │  &lt;- Statusleiste, gehört dir nicht
+├──────────────────────────────┤
+│                              │
+│      WISS Quiz          tv   │  &lt;- tvTitle
+│                              │
+│  Bester Wert: 4 Punkte  tv   │  &lt;- tvBestScore
+│  Letzte Runde: 3 von 5  tv   │  &lt;- tvLastScore
+│                              │
+│  ┌────────────────────────┐  │
+│  │  Spielen         btn   │──┼──&gt; GameActivity
+│  └────────────────────────┘  │
+│  ┌────────────────────────┐  │
+│  │  Rangliste       btn   │──┼──&gt; HighscoreActivity
+│  └────────────────────────┘  │
+│  ┌────────────────────────┐  │
+│  │  Fragen verwalten btn  │──┼──&gt; AdminActivity
+│  └────────────────────────┘  │
+│  ┌────────────────────────┐  │
+│  │  Über die App    btn  │──┼──&gt; AboutActivity
+│  └────────────────────────┘  │
+│                              │
+├──────────────────────────────┤
+│      ◁      ○      □         │  &lt;- Navigationsleiste, gehört dir nicht
+└──────────────────────────────┘</pre>
+
+<p>Was diese Skizze richtig macht:</p>
+<ul>
+<li><b>Beide fremden Ränder sind da.</b> Damit ist von Anfang an sichtbar, dass oben und unten Platz weg ist.</li>
+<li><b>Jedes Element hat seinen Text</b>, also das, was man wirklich liest. Nicht "Knopf 1".</li>
+<li><b>Jedes Element hat sein Kürzel.</b> Wer das baut, weiss, was gemeint ist.</li>
+<li><b>Jeder Knopf hat einen Pfeil mit Ziel.</b> Damit ist die Navigation Teil des Mockups.</li>
+<li><b>Die vier Knöpfe liegen unten</b>, in der Daumenzone. Die Anzeigen oben, denn die liest man nur.</li>
+</ul>
+
+<div class="tip">
+<p><b>Die Anordnung ist kein Geschmack, sondern die Daumenzone aus 02A Teil 1.</b> Was man antippt, gehört nach unten. Was man liest, nach oben. Wer die vier Knöpfe oben und den Punktestand unten zeichnet, hat dieselben Elemente und eine schlechtere App.</p>
+</div>
+
+<h2>Dieselbe Seite im Querformat</h2>
+
+<pre>┌──────────────────────────────────────────────────┐
+│ 09:41                                 ▮▮▮ 100%   │
+├──────────────────────────────────────────────────┤
+│   WISS Quiz                                 tv   │
+│   Bester Wert: 4 Punkte                     tv   │
+│  ┌────────────────────────────────────────────┐  │
+│  │  Spielen                            btn    │  │
+│  └────────────────────────────────────────────┘  │
+│  ┌────────────────────────────────────────────┐  │
+│  │  Rangliste                          btn    │  │  ▲
+│  └────────────────────────────────────────────┘  │  │ scrollbar
+├──────────────────────────────────────────────────┤  ▼
+│                ◁      ○      □                   │
+└──────────────────────────────────────────────────┘</pre>
+
+<p><b>Der Satz darunter:</b> Im Querformat bleibt etwa die halbe Höhe. Zwei der vier Knöpfe und die letzte Punktzahl fallen unten heraus. Der Inhalt kommt darum in eine ScrollView, dann bleibt alles erreichbar.</p>
+
+<div class="warn">
+<p><b>Die falsche Antwort wäre, die Knöpfe nebeneinander zu stellen.</b> Auf dem Papier sieht das gut aus, weil breit ja Platz ist.</p>
+<p>Es geht trotzdem schief. Vier Knöpfe nebeneinander sind je etwa drei Zentimeter breit, und "Fragen verwalten" passt dort nicht hinein. Der Text bricht um oder wird abgeschnitten.</p>
+<p><b>Scrollbar machen ist im Zweifel immer die richtige Antwort.</b> Sie funktioniert auf jedem Gerät und bei jeder Textlänge.</p>
+</div>
+
+<h2>Zur Zusatzaufgabe</h2>
+
+<p>Für den Statistik-Bildschirm gibt es keine Musterlösung, du hast ihn selbst erfunden. Zwei Hinweise zur Selbstkontrolle.</p>
+
+<p><b>Zum leeren Zustand.</b> Wenn noch keine Runde gespielt wurde, gibt es nichts anzuzeigen. Eine leere Fläche sieht aus wie ein Fehler, auch wenn sie keiner ist. Ein guter leerer Zustand sagt drei Dinge:</p>
+<ul>
+<li>Was hier normalerweise steht.</li>
+<li>Warum es gerade leer ist.</li>
+<li>Was man tun kann, damit es sich füllt.</li>
+</ul>
+
+<p>Beispiel: "Noch keine Runde gespielt. Spiel eine Runde, dann siehst du hier deine Auswertung."</p>
+
+<div class="info">
+<p><b>Das gibt es in deiner App schon zweimal.</b> In der Fragenliste steht "Noch keine Fragen. Tipp auf das Plus, um die erste anzulegen." Auf dem Startbildschirm steht "Noch keine Runde gespielt."</p>
+<p>In der Rangliste fehlt er noch. Wer ihn dort vermisst hat, hat genau richtig hingeschaut.</p>
+</div>
+
+<h2>Die zwei Sätze, die zählen</h2>
+
+<p><b>Ein Mockup ist eine Frage, keine Antwort.</b> Es soll früh und billig falsch sein, damit der Code später richtig wird.</p>
+
+<p><b>Zeichne die Ränder mit, die dir nicht gehören.</b> Oben die Uhr, unten die Navigation. Wer sie weglässt, entdeckt sie im Emulator, und dort kostet es zwanzig Minuten statt zwei.</p>
+
+<p class="foot">Modul 335 | Block 08 | Lösung 04D | Fassung 1 | 13.08.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>

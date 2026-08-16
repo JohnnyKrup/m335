@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>05A Zweite Activity und Intent</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>05A Zweite Activity und Intent</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 3 Vormittag. Zeitbudget 40 Minuten. Fassung 1 vom 16.08.2026.</p>
+<p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
+
+
+<h2>01 Einführung</h2>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>2.3</td><td>App-Architekturen kennen, hier die Aufteilung einer App auf mehrere Activities</td></tr>
+<tr><td>3.1</td><td>Entwicklungsumgebung einsetzen, hier das Kopieren einer Klasse ohne Handarbeit</td></tr>
+<tr><td>3.2</td><td>Framework und APIs der Plattform einsetzen, hier Intent und Manifest</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du legst eine zweite und eine dritte Activity an und trägst sie im Manifest ein.</li>
+<li>Du startest einen anderen Bildschirm mit einem Intent.</li>
+<li>Du erklärst, warum eine fehlerfreie Java-Klasse allein nicht genügt, damit Android sie starten kann.</li>
+<li>Du liest eine <code>ActivityNotFoundException</code> und findest die Ursache in der Meldung selbst.</li>
+<li>Du begründest, warum das ganze Spiel eine Activity ist und nicht jede Ansicht eine eigene bekommt.</li>
+<li>Du erkennst, dass die System-Zurück-Taste ohne eine einzige Zeile Code funktioniert.</li>
+</ul>
+
+<h3>Das brauchst du vorher</h3>
+<ul>
+<li>Dein Projekt <b>WissQuiz</b> nach 04B. Die Runde läuft, das Ergebnis erscheint, darunter steht die Liste mit sieben Zeilen.</li>
+<li>Du kennst <code>findViewById</code> und den Listener seit 01C, <code>setContentView</code> seit 01B.</li>
+</ul>
+
+<h3>Das gibst du ab</h3>
+<ul>
+<li>Screenshot deines Startbildschirms mit den vier Knöpfen, zwei davon blass.</li>
+<li>Screenshot des Bildschirms <b>Über die App</b>.</li>
+<li>Screenshot deines Logcat, gefiltert auf <code>tag:Modul335</code>, mit den drei Zeilen der drei Activities untereinander.</li>
+</ul>
+<p>Mehr nicht. Kein Arbeitsblatt und <b>kein Projekt als ZIP</b>. Ob dein Code sauber ist, prüfst du selbst mit der Vergleichsliste im Lösungsmaterial.</p>
+
+<div class="info">
+<p><b>Warum heute Code umzieht statt neu entsteht.</b> Bis gestern war dein Spiel die ganze App. Ab heute ist es ein Teil davon. Du verschiebst laufenden Code in eine neue Activity und merkst dabei, was eine Activity eigentlich zusammenhält.</p>
+<p>Wer stattdessen am Anfang sechs leere Activities anlegt, lernt das nie. Das Umziehen ist kein verlorener Aufwand, es ist die Lektion.</p>
+</div>
+
+<div class="tip">
+<p><b>Der Wissenscheck kommt nach 05B.</b> Er heisst <b>05AB</b> und deckt beide Aufträge des Vormittags zusammen ab. Was du heute in B4 beobachtest, kommt dort als Frage wieder.</p>
+</div>
+
+
+<h2>02 Auftrag</h2>
+
+<h3>Ausgangslage</h3>
+<p>Deine App hat genau einen Bildschirm. Du startest sie, und du bist sofort mitten in einer Runde. Es gibt keinen Anfang und kein Menü.</p>
+<p>Am Ende von heute hat deine App drei Bildschirme. Ein Menü, das Spiel und eine Seite <b>Über die App</b>. Das Spiel selbst ändert sich dabei kein bisschen. Es zieht nur um.</p>
+
+<h3>Werkzeugkasten</h3>
+<table>
+<tr><th>Baustein</th><th>Wofür</th></tr>
+<tr><td class="pre">Intent</td><td>Der Zettel, auf dem steht, welcher Bildschirm als Nächstes dran ist</td></tr>
+<tr><td class="pre">startActivity</td><td>Startet den Bildschirm, den der Intent nennt</td></tr>
+<tr><td class="pre">AndroidManifest.xml</td><td>Das Verzeichnis aller Bildschirme. Was nicht darin steht, gibt es für Android nicht</td></tr>
+<tr><td class="pre">&lt;activity&gt;</td><td>Ein Eintrag darin, einer pro Activity</td></tr>
+<tr><td class="pre">android:exported</td><td>Sagt, ob andere Apps diese Activity starten dürfen</td></tr>
+<tr><td class="pre">intent-filter</td><td>Steht nur bei der Startactivity. Er macht sie zum Einstiegspunkt</td></tr>
+<tr><td class="pre">android:enabled="false"</td><td>Sperrt einen Knopf im XML. Er ist sichtbar und reagiert nicht</td></tr>
+<tr><td>Refactor, dann Copy Class</td><td>Kopiert eine ganze Klasse samt Paket und neuem Namen</td></tr>
+<tr><td class="pre">setContentView</td><td>Sagt einer Activity, welches Layout sie zeigt. Kennst du aus 01B</td></tr>
+<tr><td>System-Zurück-Taste</td><td>Beendet den obersten Bildschirm. Ohne eine Zeile Code</td></tr>
+</table>
+
+<h3>Pflichtangaben</h3>
+<table>
+<tr><th>Angabe</th><th>Pflicht, weil</th></tr>
+<tr><td class="pre">android:name</td><td>Bei jedem <code>&lt;activity&gt;</code>. Der Punkt am Anfang steht für dein Paket, also <code>.GameActivity</code></td></tr>
+<tr><td class="pre">android:exported</td><td>Seit Android 12 bei jeder Activity Pflicht. <code>true</code> nur bei der Startactivity, sonst <code>false</code></td></tr>
+<tr><td>Eine eigene Root-id pro Layout</td><td>Der Insets-Block holt sie mit <code>findViewById</code>. Zwei Layouts mit derselben Root-id gehen zwar, aber dann weisst du nie, welches du gerade meinst</td></tr>
+</table>
+
+<h3>Namen im Code</h3>
+<table>
+<tr><th>Name</th><th>Was es ist</th></tr>
+<tr><td class="pre">GameActivity</td><td>Der Spielbildschirm, ab heute eine eigene Klasse</td></tr>
+<tr><td class="pre">AboutActivity</td><td>Der Bildschirm Über die App</td></tr>
+<tr><td class="pre">activity_game.xml</td><td>Das Layout des Spielbildschirms</td></tr>
+<tr><td class="pre">activity_about.xml</td><td>Das Layout von Über die App</td></tr>
+<tr><td class="pre">clGame, clAbout</td><td>Die Root-ids der zwei neuen Layouts</td></tr>
+<tr><td class="pre">llMenu</td><td>Das LinearLayout, das die vier Knöpfe untereinander stellt</td></tr>
+<tr><td class="pre">btnPlay, btnRanking, btnQuestions, btnAbout</td><td>Die vier Knöpfe im Menü</td></tr>
+<tr><td class="pre">tvTitle, tvMenuHint</td><td>Titel und Hinweiszeile im Menü</td></tr>
+<tr><td class="pre">svAbout, llAbout, tvAbout...</td><td>Der Aufbau von Über die App</td></tr>
+<tr><td class="pre">menu_title, btn_play, about_intro</td><td>Neue Einträge in <code>strings.xml</code></td></tr>
+</table>
+
+<h3>Denkfragen</h3>
+<ol>
+<li>Deine neue Klasse übersetzt fehlerfrei, nichts ist rot. Reicht das, damit Android sie starten kann? Was fehlt noch, und warum meldet der Compiler nichts davon?</li>
+<li>Zwei Knöpfe im Menü sind gesperrt und stehen trotzdem schon da. Nenne einen Grund dafür und einen dagegen.</li>
+<li>Dein Spielbildschirm zeigt nacheinander drei Dinge: die Frage, das Ergebnis und die Liste. Warum bekommt trotzdem nicht jedes davon eine eigene Activity?</li>
+<li>Du schreibst keine einzige Zeile für die Zurück-Taste, und sie funktioniert trotzdem. Wer erledigt das, und woher weiss er, wohin zurück?</li>
+</ol>
+
+<div class="tip">
+<p><b>Diese vier Fragen kommen im 05AB Wissenscheck wieder.</b> Dasselbe gilt für das, was du in B4 beobachtest.</p>
+</div>
+
+
+<h3>Der Überblick, bevor Teil A anfängt</h3>
+<p>Heute wandert Code von einer Klasse in eine andere. Bevor du anfängst, schau dir an, was am Ende wo liegt. Sonst löschst du zu viel oder zu wenig.</p>
+
+<h4>Deine MainActivity, vorher und nachher</h4>
+<table>
+<tr><th>Was heute in deiner MainActivity steht</th><th>Wo es nach 05A liegt</th></tr>
+<tr><td class="pre">TAG</td><td>in <b>beiden</b> Klassen, jede schreibt ins Logcat</td></tr>
+<tr><td><code>onCreate</code>: <code>EdgeToEdge</code>, <code>setContentView</code>, Insets-Block</td><td>in <b>beiden</b> Klassen, mit anderem Layout und anderer Root-id</td></tr>
+<tr><td>Die 19 anderen Felder, von <code>QUESTIONS_PER_ROUND</code> bis <code>score</code></td><td>nur noch in <code>GameActivity</code></td></tr>
+<tr><td><code>onCreate</code>: die zehn <code>findViewById</code> plus die vier im Button-Array</td><td>nur noch in <code>GameActivity</code></td></tr>
+<tr><td><code>onCreate</code>: <code>defaultButtonTint</code>, die Listener, <code>allQuestions</code>, <code>startRound()</code></td><td>nur noch in <code>GameActivity</code></td></tr>
+<tr><td>Alle elf Methoden von <code>createQuestions</code> bis <code>showScore</code></td><td>nur noch in <code>GameActivity</code></td></tr>
+<tr><td><i>neu</i>: zwei <code>findViewById</code> und zwei Listener fürs Menü</td><td>nur in <code>MainActivity</code></td></tr>
+</table>
+<p><b>Die Bilanz:</b> von deiner heutigen MainActivity bleibt genau eines übrig, das Gerüst von <code>onCreate</code>. Alles andere zieht um. Darum kopierst du die Klasse, statt sie abzutippen.</p>
+
+<h4>Der Bauplan der Bildschirme</h4>
+<pre>MainActivity   <span class="c">// das Menü, der Start</span>
+   │
+   ├─ Spielen ──────────▶ <span class="t">GameActivity</span>    <span class="c">// Frage, Ergebnis, Liste</span>
+   │
+   ├─ Rangliste ────────▶ gesperrt, kommt später
+   │
+   ├─ Fragen verwalten ─▶ gesperrt, kommt später
+   │
+   └─ Über die App ─────▶ <span class="t">AboutActivity</span>   <span class="c">// nur Text</span></pre>
+<p>Beachte, dass heute alle Pfeile nur in eine Richtung zeigen. Das Menü schickt los und erfährt nichts über den Ausgang. Das ist das Thema von 05B.</p>
+
+<h4>Welches <code>onCreate</code> läuft wann</h4>
+<table>
+<tr><th>Was du tust</th><th>Welches <code>onCreate</code> läuft</th></tr>
+<tr><td>Die App starten</td><td><code>MainActivity</code></td></tr>
+<tr><td>Auf <b>Spielen</b> tippen</td><td><code>GameActivity</code></td></tr>
+<tr><td>Im Spiel die Zurück-Taste drücken</td><td><b>keines.</b> Die MainActivity war die ganze Zeit da, nur im Hintergrund</td></tr>
+<tr><td>Nochmals auf <b>Spielen</b> tippen</td><td><code>GameActivity</code>, ein zweites Mal, ganz von vorne</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Die Regel dahinter: eine Activity ist eine Aufgabe, kein Bild.</b> Spielen ist eine Aufgabe, vom Anfang bis zum Ergebnis. Darum ist das Spiel <b>eine</b> Activity, obwohl es nacheinander drei Dinge zeigt.</p>
+<p>Der häufigste Anfängerentwurf macht aus jedem Bild eine Activity. Dann muss jeder Wert von Bildschirm zu Bildschirm weitergereicht werden, und die Zurück-Taste führt an Orte, an denen niemand sein will.</p>
+</div>
+
+
+<h3>Teil A, der Umzug <span class="time">12 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">A1</span><b>Die Klasse kopieren, nicht abtippen.</b></p>
+<p>Rechtsklick auf <code>MainActivity.java</code> im Projektbaum, dann <b>Refactor</b>, dann <b>Copy Class</b>.</p>
+<table>
+<tr><th>Feld im Dialog</th><th>Was du einträgst</th></tr>
+<tr><td>New name</td><td><code>GameActivity</code></td></tr>
+<tr><td>Destination package</td><td><code>ch.wiss.m335.quiz</code>, also dasselbe wie bisher</td></tr>
+</table>
+<p>Danach liegen zwei Dateien nebeneinander. <code>GameActivity.java</code> enthält alles, was <code>MainActivity.java</code> enthält, nur mit dem neuen Klassennamen.</p>
+<div class="warn">
+<p><b>Nimm nicht New, dann Activity, dann Empty Views Activity.</b> Der Assistent legt zwar eine Klasse an, aber er trägt sie auch gleich selbst ins Manifest ein. Heute willst du sehen, was dieser Eintrag bewirkt. Darum machst du ihn von Hand.</p>
+<p>Findest du den Weg über Refactor nicht: leg eine neue Java-Klasse <code>GameActivity</code> an und kopier den Inhalt von <code>MainActivity.java</code> hinein. Vergiss dabei den Klassennamen in der Zeile <code>public class ...</code> nicht.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">A2</span><b>Das Layout kopieren und die Root-id ändern.</b></p>
+<p>Rechtsklick auf <code>activity_main.xml</code>, dann <b>Refactor</b>, dann <b>Copy File</b>. Neuer Name <code>activity_game.xml</code>, Zielordner bleibt <code>res/layout</code>.</p>
+<p>In der neuen Datei änderst du zwei Zeilen ganz oben:</p>
+<pre>    android:id=<span class="s">"@+id/clGame"</span>
+    ...
+    tools:context=<span class="s">".GameActivity"</span></pre>
+<div class="note">
+<p><b>Warum die Root-id anders heissen muss.</b> Zwei Layouts dürfen dieselbe id tragen, Android stört das nicht. Aber <code>R.id.clMain</code> gibt es dann nur einmal, und du siehst der Zeile <code>findViewById(R.id.clMain)</code> nicht mehr an, welches Layout gemeint ist.</p>
+<p>Die Regel aus 03A gilt weiter: eine id steht an zwei Orten, im XML wird sie vergeben, im Code wird sie benutzt. Zwei Bildschirme, zwei Namen.</p>
+</div>
+<p><code>tools:context</code> sagt nur der Vorschau, zu welcher Klasse das Layout gehört. Es ändert am laufenden Programm nichts. Mehr dazu im Blatt <b>XML verstehen</b>.</p>
+</div>
+
+<div class="step">
+<p><span class="n">A3</span><b>Die GameActivity auf ihr eigenes Layout umstellen.</b></p>
+<p>Drei Stellen in <code>GameActivity.java</code>, alle in <code>onCreate</code>:</p>
+<table>
+<tr><th>Bisher</th><th>Neu</th></tr>
+<tr><td class="pre">setContentView(R.layout.activity_main);</td><td class="pre">setContentView(R.layout.activity_game);</td></tr>
+<tr><td class="pre">findViewById(R.id.clMain)</td><td class="pre">findViewById(R.id.clGame)</td></tr>
+<tr><td class="pre">Log.d(TAG, "question bank loaded, size=" ...</td><td class="pre">Log.d(TAG, "GameActivity onCreate, question bank size=" ...</td></tr>
+</table>
+<p>Die dritte Änderung ist reine Bequemlichkeit. Ab heute schreiben drei Klassen ins selbe Logcat, und du willst auf einen Blick sehen, wer gerade dran war.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil A.</b></p>
+<ul>
+<li>Nichts ist rot.</li>
+<li>Im Projektbaum liegen <code>MainActivity.java</code> und <code>GameActivity.java</code> nebeneinander, beide im Paket <code>ch.wiss.m335.quiz</code>.</li>
+<li>Unter <code>res/layout</code> liegen <code>activity_main.xml</code> und <code>activity_game.xml</code>.</li>
+<li>In <code>activity_game.xml</code> heisst die Root-id <code>clGame</code>, in <code>activity_main.xml</code> steht weiterhin <code>clMain</code>.</li>
+<li><b>Run.</b> Die App läuft genau wie gestern. Du siehst noch keinen Unterschied, und das ist richtig so. Deine neue Klasse startet noch niemand.</li>
+</ul>
+</div>
+
+
+<h3>Teil B, das Menü und der Weg ins Spiel <span class="time">15 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">B1</span><b>Sechs neue Texte in <code>strings.xml</code>.</b></p>
+<pre>&lt;<span class="c">!-- Startbildschirm, das Menü. --</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"menu_title"</span>&gt;WissQuiz&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"btn_play"</span>&gt;Spielen&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"btn_ranking"</span>&gt;Rangliste&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"btn_questions"</span>&gt;Fragen verwalten&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"btn_about"</span>&gt;Über die App&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"menu_hint"</span>&gt;Rangliste und Fragen verwalten kommen später.&lt;/<span class="t">string</span>&gt;</pre>
+<p>Die Faustregel aus 03D gilt weiter. Was der Benutzer liest, gehört nach <code>strings.xml</code>. Was der Code entscheidet, gehört in den Code.</p>
+</div>
+
+<div class="step">
+<p><span class="n">B2</span><b>Aus <code>activity_main.xml</code> wird das Menü.</b></p>
+<p>Der alte Inhalt steckt seit A2 in <code>activity_game.xml</code>. Du brauchst ihn hier nicht mehr. <b>Ersetze den ganzen Inhalt der Datei</b> durch das hier:</p>
+<pre>&lt;?xml version=<span class="s">"1.0"</span> encoding=<span class="s">"utf-8"</span>?&gt;
+&lt;<span class="t">androidx.constraintlayout.widget.ConstraintLayout</span>
+    xmlns:android=<span class="s">"http://schemas.android.com/apk/res/android"</span>
+    xmlns:app=<span class="s">"http://schemas.android.com/apk/res-auto"</span>
+    xmlns:tools=<span class="s">"http://schemas.android.com/tools"</span>
+    android:id=<span class="s">"@+id/clMain"</span>
+    android:layout_width=<span class="s">"match_parent"</span>
+    android:layout_height=<span class="s">"match_parent"</span>
+    tools:context=<span class="s">".MainActivity"</span>&gt;
+
+    &lt;<span class="t">LinearLayout</span>
+        android:id=<span class="s">"@+id/llMenu"</span>
+        android:layout_width=<span class="s">"0dp"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:orientation=<span class="s">"vertical"</span>
+        app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span>
+        app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
+        app:layout_constraintTop_toTopOf=<span class="s">"parent"</span>&gt;
+
+        &lt;<span class="t">TextView</span>
+            android:id=<span class="s">"@+id/tvTitle"</span>
+            android:layout_width=<span class="s">"match_parent"</span>
+            android:layout_height=<span class="s">"wrap_content"</span>
+            android:text=<span class="s">"@string/menu_title"</span>
+            android:textSize=<span class="s">"26sp"</span>
+            android:textStyle=<span class="s">"bold"</span> /&gt;
+
+        &lt;<span class="t">Button</span>
+            android:id=<span class="s">"@+id/btnPlay"</span>
+            android:layout_width=<span class="s">"match_parent"</span>
+            android:layout_height=<span class="s">"wrap_content"</span>
+            android:layout_marginTop=<span class="s">"32dp"</span>
+            android:text=<span class="s">"@string/btn_play"</span> /&gt;
+
+        &lt;<span class="t">Button</span>
+            android:id=<span class="s">"@+id/btnRanking"</span>
+            android:layout_width=<span class="s">"match_parent"</span>
+            android:layout_height=<span class="s">"wrap_content"</span>
+            android:layout_marginTop=<span class="s">"10dp"</span>
+            android:enabled=<span class="s">"false"</span>
+            android:text=<span class="s">"@string/btn_ranking"</span> /&gt;
+
+        &lt;<span class="t">Button</span>
+            android:id=<span class="s">"@+id/btnQuestions"</span>
+            android:layout_width=<span class="s">"match_parent"</span>
+            android:layout_height=<span class="s">"wrap_content"</span>
+            android:layout_marginTop=<span class="s">"10dp"</span>
+            android:enabled=<span class="s">"false"</span>
+            android:text=<span class="s">"@string/btn_questions"</span> /&gt;
+
+        &lt;<span class="t">Button</span>
+            android:id=<span class="s">"@+id/btnAbout"</span>
+            android:layout_width=<span class="s">"match_parent"</span>
+            android:layout_height=<span class="s">"wrap_content"</span>
+            android:layout_marginTop=<span class="s">"10dp"</span>
+            android:text=<span class="s">"@string/btn_about"</span> /&gt;
+
+        &lt;<span class="t">TextView</span>
+            android:id=<span class="s">"@+id/tvMenuHint"</span>
+            android:layout_width=<span class="s">"match_parent"</span>
+            android:layout_height=<span class="s">"wrap_content"</span>
+            android:layout_marginTop=<span class="s">"16dp"</span>
+            android:text=<span class="s">"@string/menu_hint"</span>
+            android:textSize=<span class="s">"13sp"</span> /&gt;
+
+    &lt;/<span class="t">LinearLayout</span>&gt;
+
+&lt;/<span class="t">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</pre>
+<div class="info">
+<p><b>Zwei Knöpfe stehen da und können nichts.</b> <code>android:enabled="false"</code> macht sie blass und taub. Der Bauplan der App soll von Anfang an sichtbar sein.</p>
+<p>Ein Knopf, der ins Leere führt, wäre schlimmer als einer, der ehrlich sagt, dass er noch nicht kann. Die Hinweiszeile darunter sagt es in Worten.</p>
+</div>
+<div class="warn">
+<p><b>Das <code>llMenu</code> hat nur drei Anker, nicht vier.</b> Oben, links und rechts. Unten bleibt es offen, damit die Knöpfe oben stehen und nicht in der Bildschirmmitte kleben. Seine Höhe ist <code>wrap_content</code>, also so hoch wie sein Inhalt.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">B3</span><b>Die MainActivity leerräumen.</b></p>
+<p>Jetzt der grosse Schritt. <b>Ersetze den ganzen Inhalt von <code>MainActivity.java</code></b> durch das hier. Alles, was du löschst, steht seit A1 in <code>GameActivity.java</code>.</p>
+<pre><span class="k">package</span> ch.wiss.m335.quiz;
+
+<span class="k">import</span> android.content.Intent;
+<span class="k">import</span> android.os.Bundle;
+<span class="k">import</span> android.util.Log;
+<span class="k">import</span> android.widget.Button;
+
+<span class="k">import</span> androidx.activity.EdgeToEdge;
+<span class="k">import</span> androidx.appcompat.app.AppCompatActivity;
+<span class="k">import</span> androidx.core.graphics.Insets;
+<span class="k">import</span> androidx.core.view.ViewCompat;
+<span class="k">import</span> androidx.core.view.WindowInsetsCompat;
+
+<span class="c">/**
+ * Der Startbildschirm der Quiz-App.
+ *
+ * (HIER: was aus diesem Bildschirm geworden ist, zwei bis drei Zeilen.
+ *  Du füllst das in C5 aus.)
+ */</span>
+<span class="k">public class</span> <span class="t">MainActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span> {
+
+    <span class="c">/**
+     * Log-Tag für das ganze Modul 335.
+     *
+     * Bewusst nicht "M335". Diese Zeichenfolge steckt auch im
+     * Paketnamen ch.wiss.m335.quiz. Das Suchfeld im Logcat sucht im
+     * Freitext über alle Spalten, und damit träfe "M335" jede Zeile
+     * unserer App statt nur die selbst geschriebenen.
+     */</span>
+    <span class="k">private static final</span> <span class="t">String</span> TAG = <span class="s">"Modul335"</span>;
+
+    <span class="k">@Override</span>
+    <span class="k">protected void</span> onCreate(<span class="t">Bundle</span> savedInstanceState) {
+        <span class="k">super</span>.onCreate(savedInstanceState);
+        <span class="t">EdgeToEdge</span>.enable(<span class="k">this</span>);
+        setContentView(R.layout.activity_main);
+
+        <span class="c">// 16dp eigener Rand, in Pixel umgerechnet über die Dichte des Geräts.</span>
+        <span class="k">final int</span> extraPadding = <span class="t">Math</span>.round(<span class="k">16</span> * getResources().getDisplayMetrics().density);
+
+        <span class="c">// Wichtig: der eigene Rand wird zu den System-Insets dazugerechnet.</span>
+        <span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(R.id.clMain), (v, insets) -&gt; {
+            <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.<span class="t">Type</span>.systemBars());
+            v.setPadding(
+                    systemBars.left + extraPadding,
+                    systemBars.top + extraPadding,
+                    systemBars.right + extraPadding,
+                    systemBars.bottom + extraPadding);
+            <span class="k">return</span> insets;
+        });
+
+        <span class="t">Button</span> btnPlay = findViewById(R.id.btnPlay);
+
+        <span class="c">// Ein Intent nennt zwei Dinge: von wo aus und wohin.
+        // Mehr braucht ein Start ohne Rückgabe nicht.</span>
+        btnPlay.setOnClickListener(v -&gt; startActivity(<span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">GameActivity</span>.<span class="k">class</span>)));
+
+        Log.d(TAG, <span class="s">"MainActivity onCreate"</span>);
+    }
+}</pre>
+<div class="note">
+<p><b><code>btnPlay</code> ist eine lokale Variable, kein Feld.</b> Der Code fasst den Knopf genau einmal an, nämlich hier, wenn er den Listener setzt. Danach nie wieder.</p>
+<p>Die Prüffrage aus <b>Die Activity von innen</b>: braucht das noch jemand ausser dieser Methode? Nein. Also lokal. Dieselbe Regel wie bei <code>tvListTitle</code> gestern.</p>
+</div>
+<h4>Was ein Intent eigentlich ist</h4>
+<p><code>new Intent(this, GameActivity.class)</code> ist ein Zettel mit zwei Angaben. Von wo aus, und wohin. <code>startActivity</code> gibt den Zettel an Android weiter.</p>
+<p><b>Du startest die Activity nicht selbst.</b> Es gibt nirgends ein <code>new GameActivity()</code>. Du sagst Android, was du willst, und Android baut den Bildschirm auf und ruft sein <code>onCreate</code> auf. Genau wie beim Start der App, nur dass diesmal du der Auslöser bist.</p>
+<p>Das <code>.class</code> hinter dem Namen ist keine Android-Sache, sondern normales Java. Es bezeichnet die Klasse selbst und nicht ein Objekt davon.</p>
+</div>
+
+<div class="step">
+<p><span class="n">B4</span><b>Starten und auf Spielen tippen. Schau genau hin.</b></p>
+<p>Run. Du siehst das Menü mit vier Knöpfen. Tipp auf <b>Spielen</b>.</p>
+<p><b>Was passiert, und was steht im Logcat?</b> Lies die Meldung ganz durch, Wort für Wort. Sie ist eine der freundlichsten, die Android hat.</p>
+<p><b>Sag in einem Satz, was Android hier vermisst.</b> Genau danach fragt der Wissenscheck.</p>
+<div class="warn">
+<p>Nicht reparieren, nur lesen. Repariert wird in B5.</p>
+<p>Vielleicht malt Android Studio schon vorher eine Warnung an deine Klasse. Ignorier sie für den Moment. Wir wollen sehen, was das <b>Gerät</b> sagt, nicht was die IDE vermutet.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">B5</span><b>Der Eintrag im Manifest.</b></p>
+<p>In <code>AndroidManifest.xml</code>, im <code>&lt;application&gt;</code>-Block, <b>unter</b> dem bestehenden <code>&lt;/activity&gt;</code> der MainActivity:</p>
+<pre>&lt;<span class="c">!--
+  Jede weitere Activity braucht einen eigenen Eintrag. Ohne ihn
+  gibt es beim Start eine ActivityNotFoundException. exported
+  bleibt false, weil sie nur aus der eigenen App gestartet wird.
+--</span>&gt;
+&lt;<span class="t">activity</span>
+    android:name=<span class="s">".GameActivity"</span>
+    android:exported=<span class="s">"false"</span>
+    android:windowSoftInputMode=<span class="s">"adjustResize"</span> /&gt;</pre>
+<div class="note">
+<p><b>Das Manifest ist die Schaltzentrale, und Android liest es beim Installieren.</b> Was nicht darin steht, gibt es für das System nicht, auch wenn die Java-Datei tadellos übersetzt.</p>
+<p>Darum meldet der Compiler nichts. Er prüft dein Java gegen dein Java. Ob Android deine Klasse kennt, entscheidet eine ganz andere Datei, und die liest er nicht.</p>
+</div>
+<div class="tip">
+<p><b><code>exported</code> heisst: dürfen andere Apps diesen Bildschirm starten?</b> Das braucht nur der Einstiegspunkt deiner App, also die MainActivity. Bei allem anderen steht <code>false</code>.</p>
+<p>Seit Android 12 ist die Angabe Pflicht. Wer sie weglässt, kommt gar nicht erst zum Übersetzen.</p>
+</div>
+<div class="info">
+<p><b>Der <code>intent-filter</code> bleibt, wo er ist.</b> Er steht nur bei der MainActivity, und er macht sie zum Einstiegspunkt. <code>MAIN</code> heisst hier geht es los, <code>LAUNCHER</code> heisst zeig ein Symbol im App-Menü des Geräts.</p>
+<p>Genau eine Activity deiner App hat ihn. Übung 2 lässt dich ausprobieren, was passiert, wenn er woanders steht.</p>
+</div>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil B.</b></p>
+<ul>
+<li>Beim Start siehst du oben den Titel, darunter vier Knöpfe und ganz unten die Hinweiszeile.</li>
+<li><b>Rangliste</b> und <b>Fragen verwalten</b> sind blass und reagieren nicht.</li>
+<li><b>Über die App</b> reagiert ebenfalls noch nicht. Das ist richtig so, der Knopf bekommt seine Aufgabe erst in Teil C.</li>
+<li><b>Spielen</b> öffnet den Spielbildschirm mit <b>Frage 1 von 5</b>. Er sieht aus wie gestern.</li>
+<li>Die System-Zurück-Taste bringt dich ins Menü zurück, nicht aus der App heraus.</li>
+<li>Spiel eine Runde ganz durch. Ergebnis und Liste erscheinen wie gestern, die Liste hat sieben Zeilen.</li>
+<li>Im Logcat unter <code>tag:Modul335</code> stehen untereinander <code>MainActivity onCreate</code> und <code>GameActivity onCreate, question bank size=7</code>.</li>
+</ul>
+</div>
+
+
+<h3>Teil C, die AboutActivity, jetzt die ganze Kette selbst <span class="time">9 Minuten</span></h3>
+<p>In Teil A und B hast du den Weg einmal geführt gemacht. Jetzt gehst du ihn allein. Es sind dieselben vier Stellen: Texte, Layout, Klasse, Manifest. Dazu der Listener.</p>
+
+<div class="step">
+<p><span class="n">C1</span><b>Die Texte in <code>strings.xml</code>.</b></p>
+<pre>&lt;<span class="c">!-- Bildschirm Über die App. --</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"about_title"</span>&gt;Über die App&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"about_intro"</span>&gt;WissQuiz ist die Übungs-App aus dem Modul 335 Mobile Applikationen an der WISS.&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"about_module"</span>&gt;Sie entsteht Schritt für Schritt im Unterricht. Jeder Auftrag baut ein Stück dazu.&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"about_tech"</span>&gt;Gebaut mit Android Studio und Java. Die Fragen stehen zurzeit fest im Code.&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"about_back"</span>&gt;Mit der Zurück-Taste kommst du ins Menü.&lt;/<span class="t">string</span>&gt;</pre>
+</div>
+
+<div class="step">
+<p><span class="n">C2</span><b>Das Layout <code>activity_about.xml</code>.</b></p>
+<p>Neue Datei unter <code>res/layout</code>. Rechtsklick auf den Ordner, dann <b>New</b>, dann <b>Layout Resource File</b>.</p>
+<pre>&lt;?xml version=<span class="s">"1.0"</span> encoding=<span class="s">"utf-8"</span>?&gt;
+&lt;<span class="t">androidx.constraintlayout.widget.ConstraintLayout</span>
+    xmlns:android=<span class="s">"http://schemas.android.com/apk/res/android"</span>
+    xmlns:app=<span class="s">"http://schemas.android.com/apk/res-auto"</span>
+    xmlns:tools=<span class="s">"http://schemas.android.com/tools"</span>
+    android:id=<span class="s">"@+id/clAbout"</span>
+    android:layout_width=<span class="s">"match_parent"</span>
+    android:layout_height=<span class="s">"match_parent"</span>
+    tools:context=<span class="s">".AboutActivity"</span>&gt;
+
+    &lt;<span class="t">ScrollView</span>
+        android:id=<span class="s">"@+id/svAbout"</span>
+        android:layout_width=<span class="s">"0dp"</span>
+        android:layout_height=<span class="s">"0dp"</span>
+        app:layout_constraintBottom_toBottomOf=<span class="s">"parent"</span>
+        app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span>
+        app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
+        app:layout_constraintTop_toTopOf=<span class="s">"parent"</span>&gt;
+
+        &lt;<span class="t">LinearLayout</span>
+            android:id=<span class="s">"@+id/llAbout"</span>
+            android:layout_width=<span class="s">"match_parent"</span>
+            android:layout_height=<span class="s">"wrap_content"</span>
+            android:orientation=<span class="s">"vertical"</span>&gt;
+
+            &lt;<span class="t">TextView</span>
+                android:id=<span class="s">"@+id/tvAboutTitle"</span>
+                android:layout_width=<span class="s">"match_parent"</span>
+                android:layout_height=<span class="s">"wrap_content"</span>
+                android:text=<span class="s">"@string/about_title"</span>
+                android:textSize=<span class="s">"22sp"</span>
+                android:textStyle=<span class="s">"bold"</span> /&gt;
+
+            &lt;<span class="t">TextView</span>
+                android:id=<span class="s">"@+id/tvAboutIntro"</span>
+                android:layout_width=<span class="s">"match_parent"</span>
+                android:layout_height=<span class="s">"wrap_content"</span>
+                android:layout_marginTop=<span class="s">"20dp"</span>
+                android:text=<span class="s">"@string/about_intro"</span>
+                android:textSize=<span class="s">"15sp"</span> /&gt;
+
+            &lt;<span class="t">TextView</span>
+                android:id=<span class="s">"@+id/tvAboutModule"</span>
+                android:layout_width=<span class="s">"match_parent"</span>
+                android:layout_height=<span class="s">"wrap_content"</span>
+                android:layout_marginTop=<span class="s">"14dp"</span>
+                android:text=<span class="s">"@string/about_module"</span>
+                android:textSize=<span class="s">"15sp"</span> /&gt;
+
+            &lt;<span class="t">TextView</span>
+                android:id=<span class="s">"@+id/tvAboutTech"</span>
+                android:layout_width=<span class="s">"match_parent"</span>
+                android:layout_height=<span class="s">"wrap_content"</span>
+                android:layout_marginTop=<span class="s">"14dp"</span>
+                android:text=<span class="s">"@string/about_tech"</span>
+                android:textSize=<span class="s">"15sp"</span> /&gt;
+
+            &lt;<span class="t">TextView</span>
+                android:id=<span class="s">"@+id/tvAboutBack"</span>
+                android:layout_width=<span class="s">"match_parent"</span>
+                android:layout_height=<span class="s">"wrap_content"</span>
+                android:layout_marginTop=<span class="s">"24dp"</span>
+                android:text=<span class="s">"@string/about_back"</span>
+                android:textSize=<span class="s">"13sp"</span> /&gt;
+
+        &lt;/<span class="t">LinearLayout</span>&gt;
+
+    &lt;/<span class="t">ScrollView</span>&gt;
+
+&lt;/<span class="t">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</pre>
+<p>Die ScrollView hat vier Anker und <code>0dp</code> in beiden Richtungen, genau wie <code>svQuestion</code> im Spielbildschirm. Ihr Parent ist ein ConstraintLayout, also spricht sie dessen Sprache.</p>
+</div>
+
+<div class="step">
+<p><span class="n">C3</span><b>Die Klasse <code>AboutActivity.java</code>.</b></p>
+<p>Neue Java-Klasse im Paket <code>ch.wiss.m335.quiz</code>. Rechtsklick auf das Paket, dann <b>New</b>, dann <b>Java Class</b>.</p>
+<pre><span class="k">package</span> ch.wiss.m335.quiz;
+
+<span class="k">import</span> android.os.Bundle;
+<span class="k">import</span> android.util.Log;
+
+<span class="k">import</span> androidx.activity.EdgeToEdge;
+<span class="k">import</span> androidx.appcompat.app.AppCompatActivity;
+<span class="k">import</span> androidx.core.graphics.Insets;
+<span class="k">import</span> androidx.core.view.ViewCompat;
+<span class="k">import</span> androidx.core.view.WindowInsetsCompat;
+
+<span class="c">/**
+ * Der einfachste Bildschirm der App.
+ *
+ * Er zeigt nur Text und hat keine Logik. Genau darum eignet er sich zum
+ * Üben. Wer den Weg von der Java-Klasse über den Eintrag im Manifest bis
+ * zum Intent einmal gegangen ist, baut den nächsten Bildschirm in der
+ * halben Zeit.
+ *
+ * Zurück geht es mit der System-Zurück-Taste. Dafür braucht es keine
+ * einzige Zeile Code.
+ */</span>
+<span class="k">public class</span> <span class="t">AboutActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span> {
+
+    <span class="c">/** Log-Tag für das ganze Modul 335. Derselbe wie in den anderen Activities. */</span>
+    <span class="k">private static final</span> <span class="t">String</span> TAG = <span class="s">"Modul335"</span>;
+
+    <span class="k">@Override</span>
+    <span class="k">protected void</span> onCreate(<span class="t">Bundle</span> savedInstanceState) {
+        <span class="k">super</span>.onCreate(savedInstanceState);
+        <span class="t">EdgeToEdge</span>.enable(<span class="k">this</span>);
+        setContentView(R.layout.activity_about);
+
+        <span class="c">// 16dp eigener Rand, in Pixel umgerechnet über die Dichte des Geräts.</span>
+        <span class="k">final int</span> extraPadding = <span class="t">Math</span>.round(<span class="k">16</span> * getResources().getDisplayMetrics().density);
+
+        <span class="c">// Wichtig: der eigene Rand wird zu den System-Insets dazugerechnet.</span>
+        <span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(R.id.clAbout), (v, insets) -&gt; {
+            <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.<span class="t">Type</span>.systemBars());
+            v.setPadding(
+                    systemBars.left + extraPadding,
+                    systemBars.top + extraPadding,
+                    systemBars.right + extraPadding,
+                    systemBars.bottom + extraPadding);
+            <span class="k">return</span> insets;
+        });
+
+        Log.d(TAG, <span class="s">"AboutActivity onCreate"</span>);
+    }
+}</pre>
+<div class="tip">
+<p><b>Diese Klasse hat kein einziges <code>findViewById</code> für ihre Texte.</b> Alle fünf TextViews holen ihren Inhalt aus <code>strings.xml</code> und ändern sich nie. Der Code fasst sie nie an, also braucht er sie auch nicht zu suchen.</p>
+<p>Das einzige <code>findViewById</code> hier holt die Root-id, und das nur für den Insets-Block.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">C4</span><b>Zwei Stellen fehlen noch. Die machst du selbst.</b></p>
+<p>Beides hast du in Teil B schon einmal gemacht. Diesmal steht kein Codeblock da.</p>
+<ol>
+<li>Die <code>AboutActivity</code> braucht ihren <b>Eintrag im Manifest</b>. Sie braucht kein <code>windowSoftInputMode</code>, weil auf diesem Bildschirm niemand tippt. Also nur <code>android:name</code> und <code>android:exported</code>.</li>
+<li>Der Knopf <code>btnAbout</code> braucht in <code>MainActivity.onCreate</code> seine <b>lokale Variable und seinen Listener</b>, gebaut wie der von <code>btnPlay</code>, nur mit der anderen Klasse im Intent.</li>
+</ol>
+<p>Danach Run und ausprobieren.</p>
+</div>
+
+<div class="step">
+<p><span class="n">C5</span><b>Die Kommentare nachziehen.</b></p>
+<p>Wie am Ende jedes Umbaus. Heute sind es zwei Klassen.</p>
+<p><b>In der <code>MainActivity</code></b> ersetzt du die Platzhalterzeile aus B3. Der Rahmen, den Inhalt formulierst du selbst:</p>
+<pre><span class="c">/**
+ * Der Startbildschirm der Quiz-App.
+ *
+ * (HIER: was diese Klasse bis 04B war und was jetzt noch übrig ist)
+ *
+ * (HIER: warum zwei Knöpfe gesperrt sind und trotzdem dastehen)
+ */</span></pre>
+<p><b>In der <code>GameActivity</code></b> stimmt der erste Satz noch, sie ist weiterhin der Spielbildschirm. Aber der Kommentar stammt aus 04B und weiss nichts davon, dass sie inzwischen eine eigene Activity ist. Ergänz zwei Zeilen dazu.</p>
+<div class="warn">
+<p><b>Prüf die Platzhalter danach nochmals.</b> Ein Rest wie eine übrig gebliebene Klammer fällt in einem Javadoc-Block nie auf, weil nichts ihn meldet. Lies deine zwei Kommentare am Schluss einmal ganz durch.</p>
+</div>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil C.</b></p>
+<ul>
+<li><b>Über die App</b> öffnet den neuen Bildschirm. Fünf Textzeilen, die oberste fett.</li>
+<li>Die System-Zurück-Taste bringt dich ins Menü zurück.</li>
+<li>Im Logcat steht <code>AboutActivity onCreate</code>.</li>
+<li>Alle drei Zeilen stehen untereinander im Logcat, wenn du der Reihe nach Menü, Spiel, zurück, Über die App aufrufst.</li>
+<li>Dein Klassenkommentar in der <code>MainActivity</code> beschreibt ein Menü und keinen Spielbildschirm mehr.</li>
+<li>In keinem deiner zwei Kommentare steht noch das Wort HIER oder eine leere Klammer.</li>
+</ul>
+</div>
+
+
+<h3>Übungen <span class="time">4 Minuten</span></h3>
+<p>Ohne Vorlage. Die Lösungen findest du im Material <b>05A Lösung - Zweite Activity und Intent</b>.</p>
+
+<div class="ue">
+<div class="t">Übung 1, dein Name auf der Seite</div>
+<p>Häng auf dem Bildschirm <b>Über die App</b> eine weitere Zeile an, die deinen Namen und deine Klasse nennt.</p>
+<p><b>So prüfst du:</b> Die Zeile erscheint unter den anderen. Und in deiner <code>AboutActivity.java</code> steht dein Name nirgends.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 2, den Einstiegspunkt verschieben</div>
+<p>Nimm den ganzen <code>&lt;intent-filter&gt;</code>-Block aus der MainActivity heraus und häng ihn testweise an die AboutActivity. Denk daran, dass dann auch <code>exported</code> nicht mehr stimmt. Starte und schau, was passiert. <b>Danach stellst du alles wieder zurück.</b></p>
+<p><b>So prüfst du:</b> Die App startet direkt mit Über die App, und die Zurück-Taste führt nicht ins Menü, sondern aus der App heraus. Danach startet sie wieder wie vorher.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 3, erklären</div>
+<p>Erkläre einem Lerngspänli, warum eine fehlerfreie Java-Klasse nicht genügt, damit Android sie starten kann.</p>
+<p><b>So prüfst du:</b> Dein Gegenüber kann sagen, <b>wann</b> Android das Manifest liest und warum der Compiler von der Lücke nichts merkt.</p>
+</div>
+
+
+<h3>Zusatzaufgabe für Schnelle</h3>
+<div class="tip">
+<p>Zuerst die Pflichtaufgabe fertig und lauffähig. Dann erst hier weiter.</p>
+<p><b>Auftrag:</b> Mach den Knopf <b>Rangliste</b> benutzbar und lass ihn einen vierten Bildschirm öffnen, der ehrlich sagt, dass es noch keine Rangliste gibt.</p>
+<p><b>Und die Frage, die dazugehört:</b> Wäre das ein guter Entwurf? Was spricht dagegen, für jede kurze Meldung einen eigenen Bildschirm zu bauen, und wie würdest du es sonst lösen?</p>
+<p>Keine Musterlösung. KI darfst du benutzen, aber du musst deine Lösung erklären können.</p>
+</div>
+
+
+<h3>Wenn etwas nicht funktioniert</h3>
+<table>
+<tr><th>Das siehst du</th><th>Ursache</th><th>Das machst du</th></tr>
+<tr><td>Absturz beim Tippen auf <b>Spielen</b>: <code>ActivityNotFoundException</code></td><td>Der Eintrag der <code>GameActivity</code> im Manifest fehlt</td><td>Siehe B5. Genau das ist die Beobachtung aus B4</td></tr>
+<tr><td>Derselbe Absturz beim Tippen auf <b>Über die App</b></td><td>Der Eintrag der <code>AboutActivity</code> im Manifest fehlt</td><td>Siehe C4, Punkt 1</td></tr>
+<tr><td><b>Über die App</b> reagiert auf gar nichts</td><td>Der Listener am <code>btnAbout</code> fehlt</td><td>Siehe C4, Punkt 2. Bau ihn wie den von <code>btnPlay</code></td></tr>
+<tr><td>Absturz beim Öffnen des Spielbildschirms: <code>NullPointerException</code> im Insets-Block</td><td><code>findViewById(R.id.clGame)</code>, aber das Layout heisst noch <code>clMain</code></td><td>Siehe A2. Beide Stellen müssen denselben Namen tragen</td></tr>
+<tr><td>Rot: <code>cannot resolve symbol 'clGame'</code></td><td>Die Root-id in <code>activity_game.xml</code> ist noch <code>clMain</code></td><td>Siehe A2</td></tr>
+<tr><td>Rot: <code>cannot resolve symbol 'GameActivity'</code></td><td>Die kopierte Klasse liegt in einem anderen Paket</td><td>Siehe A1. Sie gehört nach <code>ch.wiss.m335.quiz</code></td></tr>
+<tr><td>Rot: <code>cannot resolve symbol 'Intent'</code></td><td>Der Import fehlt</td><td><code>Alt</code> und <code>Enter</code>, dann <code>android.content.Intent</code></td></tr>
+<tr><td>Der Spielbildschirm zeigt das Menü</td><td><code>setContentView</code> in der <code>GameActivity</code> zeigt noch auf <code>activity_main</code></td><td>Siehe A3</td></tr>
+<tr><td>Die App startet direkt im Spiel statt im Menü</td><td>Der <code>intent-filter</code> steht bei der falschen Activity, oder er steht doppelt</td><td>Genau eine Activity hat ihn, die <code>MainActivity</code></td></tr>
+<tr><td>Der Übersetzer bricht ab: <code>android:exported needs to be explicitly specified</code></td><td>Bei einem neuen <code>&lt;activity&gt;</code> fehlt die Angabe</td><td>Seit Android 12 Pflicht. Bei allem ausser der Startactivity <code>false</code></td></tr>
+<tr><td><b>Rangliste</b> und <b>Fragen verwalten</b> reagieren nicht</td><td>Keine. <code>android:enabled="false"</code></td><td>Das ist richtig so</td></tr>
+<tr><td>Die Knöpfe kleben in der Bildschirmmitte statt oben</td><td>Das <code>llMenu</code> hat auch unten einen Anker</td><td>Siehe B2. Nur oben, links und rechts</td></tr>
+</table>
+
+<h3>Abgabe</h3>
+<p>Alles läuft über die Aufgabe <b>05A Auftrag - Zweite Activity und Intent</b> in Google Classroom.</p>
+<ol>
+<li>Screenshot des Startbildschirms mit den vier Knöpfen.</li>
+<li>Screenshot des Bildschirms <b>Über die App</b>.</li>
+<li>Screenshot des Logcat mit den drei <code>onCreate</code>-Zeilen untereinander.</li>
+</ol>
+<p>Der <b>05AB Wissenscheck</b> kommt nach 05B und deckt beide Aufträge zusammen ab.</p>
+
+
+<h2>03 Guide</h2>
+<table>
+<tr><td>Zeitbudget</td><td>40 Minuten. Teil A 12, Teil B 15, Teil C 9, Übungen 4</td></tr>
+<tr><td>Sozialform</td><td>Einzelarbeit. Bei den Denkfragen und Übung 3 zu zweit</td></tr>
+<tr><td>Aufgabenart</td><td>Umbau mit einer Entdeckungsstelle (B4, die <code>ActivityNotFoundException</code>)</td></tr>
+<tr><td>Voraussetzung</td><td>04B. Dazu <code>findViewById</code> und Listener aus 01C</td></tr>
+<tr><td>KI</td><td>In Teil A bis C <b>nicht</b> erlaubt. Die Kurzwege von Android Studio schon</td></tr>
+<tr><td>Abgabe</td><td>Drei Screenshots. <b>Kein Arbeitsblatt und kein ZIP</b>. Der Wissenscheck 05AB folgt nach 05B</td></tr>
+</table>
+
+<h3>Die zwei Beiträge in Google Classroom</h3>
+<table>
+<tr><th>Name</th><th>Typ</th><th>Einstellung</th></tr>
+<tr><td>05A Auftrag - Zweite Activity und Intent</td><td>Aufgabe</td><td>Dieses Dokument liegt als Anhang bei, nur zum Ansehen. Abgegeben werden drei Screenshots</td></tr>
+<tr><td>05A Lösung - Zweite Activity und Intent</td><td>Material</td><td>Schüler können Datei ansehen. Enthält den vollständigen Code als Text und die Vergleichsliste</td></tr>
+</table>
+<p>Der <b>05AB Wissenscheck</b> gehört zum Beitrag von 05B, nicht hierher.</p>
+
+
+<h2>04 Unterrichtsmittel</h2>
+<table>
+<tr><th>Art</th><th>Was</th></tr>
+<tr><td>Hardware</td><td>Eigenes Notebook, laufender Emulator Medium Phone API 36.1</td></tr>
+<tr><td>Software und Tools</td><td>Android Studio Quail 2, Patch 1</td></tr>
+<tr><td>Dokumente</td><td><b>Wie Apps aufgebaut sind</b>, <b>Die Activity von innen</b>, <b>XML verstehen</b>. Alle drei liegen im Thema Nachschlagen</td></tr>
+<tr><td>Buch</td><td>Android-Apps entwickeln für Einsteiger, Abschnitt 4.2.1 Activities anmelden (S. 96 bis 98) und 5.1.4 Die GameActivity (S. 136 bis 137)</td></tr>
+</table>
+
+
+<p class="foot">Modul 335 | Tag 3 Vormittag | Auftrag 05A | Fassung 1 | 16.08.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>

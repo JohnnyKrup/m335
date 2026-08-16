@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04C User Stories</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>04C User Stories</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Block 08. Zeitbudget 25 Minuten. Fassung 2 vom 16.08.2026.</p>
+<p class="sub">Dieser Auftrag ist <b>bewusst kurz</b>. Das Format kennst du aus 294 und 295. Wir frischen es auf und arbeiten dann nur noch an der einen Stelle, an der es in der Prüfung schiefgeht.</p>
+
+<h2>01 Einführung</h2>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>1.1</td><td>Ergonomische Standards und Prinzipien der Interaktion kennen und anwenden</td></tr>
+<tr><td>2.3</td><td>Kennt die Besonderheiten der App-Architekturen bezüglich Funktionalitäten, Möglichkeiten und Grenzen der mobilen Devices</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du schreibst eine User Story im Format Rolle, Wunsch, Nutzen.</li>
+<li>Du unterscheidest ein messbares Akzeptanzkriterium von einem Wunschsatz.</li>
+<li>Du schreibst zu einer Story zwei Kriterien, die eine andere Person überprüfen kann.</li>
+<li>Du erkennst, wann eine Story zu gross ist, um sie in einem Schritt zu bauen.</li>
+</ul>
+
+<h3>Das brauchst du vorher</h3>
+<ul>
+<li>Deine Quiz-App aus Quiz 2.3. Sie zeigt Fragen an und zählt Punkte.</li>
+<li>Das Arbeitsblatt <b>04C User Stories</b> aus Google Classroom.</li>
+<li>Was du in 294 und 295 über User Stories gelernt hast. Wir bauen darauf auf.</li>
+</ul>
+
+<h3>Das gibst du ab</h3>
+<ul>
+<li>Zwei User Stories zu deiner Quiz-App, jede mit zwei messbaren Akzeptanzkriterien.</li>
+<li>Die reparierten Kriterien aus Übung 1.</li>
+</ul>
+
+<div class="info">
+<p><b>Warum das genau so in der Prüfung steht.</b> Teil A1 der Leistungsbeurteilung verlangt zwei User Stories mit je <b>mindestens zwei messbaren</b> Akzeptanzkriterien. 8 Minuten, 3 Punkte, von Hand auf Papier, ohne Hilfsmittel.</p>
+<p>Punkte gehen dort fast nie am Format verloren. Sie gehen am Wort <b>messbar</b> verloren.</p>
+</div>
+
+<h2>02 Auftrag</h2>
+
+<h3>Die Auffrischung in drei Zeilen</h3>
+
+<p>Eine User Story beschreibt, was jemand mit der App erreichen will. Nicht, wie es programmiert wird.</p>
+
+<pre>Als &lt;Rolle&gt;
+möchte ich &lt;Wunsch&gt;,
+damit &lt;Nutzen&gt;.</pre>
+
+<p>Beispiel aus dem Quiz:</p>
+
+<pre>Als Spielerin
+möchte ich nach der Runde meinen Namen eintragen,
+damit ich mein Ergebnis in der Rangliste wiederfinde.</pre>
+
+<div class="warn">
+<p><b>Der dritte Teil ist der, den alle weglassen.</b> Ohne "damit" ist es keine Story, sondern eine Anforderung.</p>
+<p>Der Nutzen ist ausserdem der einzige Teil, der dir beim Streichen hilft. Wenn du den Nutzen nicht formulieren kannst, brauchst du die Funktion vermutlich nicht.</p>
+</div>
+
+<h3>Der Teil, um den es heute geht</h3>
+
+<p>Ein Akzeptanzkriterium sagt, <b>woran man erkennt</b>, dass die Story erfüllt ist. Es ist der Vertrag zwischen "gebaut" und "fertig".</p>
+
+<p>Die Prüffrage lautet immer gleich:</p>
+
+<div class="tip">
+<p><b>Könnte eine andere Person, die meine App nicht kennt, dieses Kriterium überprüfen und zu demselben Ergebnis kommen wie ich?</b></p>
+<p>Ja heisst messbar. Nein heisst Wunschsatz.</p>
+</div>
+
+<p>Zwei Beispiele zur selben Story:</p>
+
+<table>
+<tr><th>Kriterium</th><th>Messbar?</th><th>Warum</th></tr>
+<tr><td>Das Eintragen funktioniert gut</td><td>nein</td><td>"Gut" kann jeder anders beurteilen. Es gibt nichts nachzuschauen</td></tr>
+<tr><td>Ein Name mit weniger als drei Zeichen wird abgelehnt, die Meldung erscheint direkt unter dem Feld</td><td>ja</td><td>Zwei Zeichen eintippen, hinschauen. Zwei Personen kommen zum selben Ergebnis</td></tr>
+</table>
+
+<p>Woran du einen Wunschsatz erkennst: er enthält eines dieser Wörter und nichts, was man nachmessen kann.</p>
+
+<p><b>benutzerfreundlich, schnell, einfach, übersichtlich, schön, intuitiv, sinnvoll, korrekt, zuverlässig</b></p>
+
+<div class="note">
+<p><b>Diese Wörter sind nicht verboten.</b> Sie sind nur allein zu wenig. "Schnell" wird messbar, sobald eine Zahl dabei steht: "die Liste erscheint in weniger als einer Sekunde". "Übersichtlich" wird messbar als "pro Zeile stehen höchstens zwei Zeilen Text".</p>
+</div>
+
+<h3>Denkfragen</h3>
+<ol>
+<li>Warum ist "die App soll keine Fehler haben" kein brauchbares Akzeptanzkriterium?</li>
+<li>Deine Story lautet "möchte ich das Quiz spielen". Warum ist sie zu gross?</li>
+</ol>
+
+<div class="step">
+<p><span class="n">A1</span><b>Übung 1, vier Kriterien reparieren.</b> <span class="time">8 Min</span></p>
+<p>Alle vier stammen aus echten Abgaben. Jedes ist ein Wunschsatz. Schreib jedes so um, dass es überprüfbar wird.</p>
+<table>
+<tr><th class="num">Nr</th><th>Kriterium</th></tr>
+<tr><td class="num">1</td><td>Die Fragen werden korrekt angezeigt.</td></tr>
+<tr><td class="num">2</td><td>Der Punktestand stimmt.</td></tr>
+<tr><td class="num">3</td><td>Die Rangliste ist übersichtlich.</td></tr>
+<tr><td class="num">4</td><td>Das Formular ist benutzerfreundlich.</td></tr>
+</table>
+<p>Tipp: Frag dich bei jedem, <b>was du antippen</b> würdest und <b>was danach auf dem Bildschirm stehen</b> müsste.</p>
+</div>
+
+<div class="step">
+<p><span class="n">A2</span><b>Zwei eigene Stories zu deinem Quiz.</b> <span class="time">12 Min</span></p>
+<p>Schreib zwei User Stories zu deiner eigenen App. Jede mit zwei Akzeptanzkriterien.</p>
+<p>Such dir zwei aus, die du <b>schon gebaut hast</b>. Dann kannst du die Kriterien am Emulator sofort gegenprüfen, und genau das ist die Übung.</p>
+<ul>
+<li>Eine Runde spielen und Punkte sammeln</li>
+<li>Sich in die Rangliste eintragen</li>
+<li>Eine eigene Frage anlegen</li>
+<li>Eine Kategorie auswählen</li>
+</ul>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du deine zwei Stories.</b></p>
+<ul>
+<li>Jede Story hat alle drei Teile, auch das "damit".</li>
+<li>Die Rolle ist ein Mensch, nicht "das System" und nicht "der Entwickler".</li>
+<li>Kein Kriterium enthält eines der neun Wörter von oben ohne eine Zahl oder eine sichtbare Folge daneben.</li>
+<li>Du kannst jedes Kriterium am Emulator in unter dreissig Sekunden überprüfen.</li>
+<li><b>Der harte Test:</b> Gib die Kriterien deiner Sitznachbarin. Sie prüft sie an <b>ihrer</b> App. Kommt sie zum selben Urteil wie du, sind sie messbar.</li>
+</ul>
+</div>
+
+<h3>Zusatzaufgabe für Schnelle</h3>
+
+<div class="ue">
+<div class="t">Eine zu grosse Story zerlegen</div>
+<p>Diese Story ist zu gross:</p>
+<pre>Als Lehrperson
+möchte ich die Fragen verwalten,
+damit der Fragenbestand aktuell bleibt.</pre>
+<p>"Verwalten" versteckt vier Dinge. Zerleg sie in vier Stories, die man einzeln bauen und einzeln abnehmen kann. Gib jeder ein Akzeptanzkriterium.</p>
+<p><b>Für Sehrschnelle:</b> Bring die vier in eine Reihenfolge und begründe sie in einem Satz. Welche muss zuerst gebaut werden, damit die anderen überhaupt prüfbar sind?</p>
+</div>
+
+<h3>Wenn etwas nicht funktioniert</h3>
+<table>
+<tr><th>Problem</th><th>Das hilft</th></tr>
+<tr><td>Mir fällt kein Nutzen ein</td><td>Frag "und dann?". "Ich möchte meinen Namen eintragen." Und dann? "Dann sehe ich mich in der Rangliste." Das ist der Nutzen</td></tr>
+<tr><td>Mein Kriterium klingt immer noch schwammig</td><td>Nenn eine Zahl. Wie viele Zeichen, wie viele Meldungen, wie viele Einträge</td></tr>
+<tr><td>Ich habe zehn Kriterien</td><td>Dann ist die Story zu gross. Zerleg sie</td></tr>
+<tr><td>Meine Rolle heisst "der Benutzer"</td><td>Geht, ist aber blass. "Spielerin", "Lehrperson", "jemand, der zum ersten Mal spielt" sagt mehr</td></tr>
+</table>
+
+<h3>Abgabe</h3>
+<ul>
+<li>Übung 1, vier reparierte Kriterien.</li>
+<li>Zwei eigene User Stories mit je zwei messbaren Akzeptanzkriterien.</li>
+</ul>
+
+<h2>03 Guide</h2>
+
+<h3>Der Beitrag in Google Classroom</h3>
+<ul>
+<li><b>04C Arbeitsblatt User Stories.</b> Ausfüllen und abgeben.</li>
+</ul>
+
+<h2>04 Unterrichtsmittel</h2>
+<ul>
+<li>Deine Quiz-App aus Quiz 2.3, zum Gegenprüfen der Kriterien.</li>
+<li>Das Formular der Leistungsbeurteilung, Teil A1.</li>
+</ul>
+
+<p class="foot">Modul 335 | Block 08 | Auftrag 04C | Fassung 2 | 16.08.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>05A Lösung Zweite Activity und Intent</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>05A Lösung: Zweite Activity und Intent</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Lösungsmaterial zum Auftrag 05A. Fassung 1 vom 16.08.2026.</p>
+
+<div class="info">
+<p><b>Wie du das hier benutzt.</b> Nicht abtippen. Vergleichen. Die Begründung ist der eigentliche Inhalt, der Code ist nur der Beleg dazu.</p>
+</div>
+
+
+<h2>Vergleichsliste, dein eigener Code</h2>
+<p>Geh diese elf Punkte an <b>deinen eigenen</b> Dateien durch, bevor du hier weiterliest.</p>
+
+<table>
+<tr><th>Nr</th><th>Das prüfst du</th><th>Warum es zählt</th></tr>
+<tr><td>1</td><td>Steht in <code>AndroidManifest.xml</code> für <b>jede</b> der drei Activities genau ein <code>&lt;activity&gt;</code>-Eintrag?</td><td>Was nicht darin steht, gibt es für Android nicht. Der Compiler merkt davon nichts</td></tr>
+<tr><td>2</td><td>Trägt nur die <code>MainActivity</code> einen <code>&lt;intent-filter&gt;</code>?</td><td>Er bestimmt den Einstiegspunkt. Zwei davon geben zwei Symbole im App-Menü des Geräts</td></tr>
+<tr><td>3</td><td>Steht bei <code>GameActivity</code> und <code>AboutActivity</code> <code>exported="false"</code>?</td><td>Mit <code>true</code> dürfte jede fremde App deinen Spielbildschirm direkt öffnen, am Menü vorbei</td></tr>
+<tr><td>4</td><td>Heisst die Root-id in <code>activity_game.xml</code> <code>clGame</code> und in <code>activity_about.xml</code> <code>clAbout</code>?</td><td>Sonst siehst du einer Zeile <code>findViewById(R.id.clMain)</code> nicht mehr an, welchen Bildschirm sie meint</td></tr>
+<tr><td>5</td><td>Zeigt <code>setContentView</code> in der <code>GameActivity</code> auf <code>activity_game</code>?</td><td>Sonst zeigt dein Spielbildschirm das Menü, und niemand versteht warum</td></tr>
+<tr><td>6</td><td>Ist deine <code>MainActivity</code> wirklich leer bis auf <code>TAG</code> und <code>onCreate</code>?</td><td>Ein zurückgebliebenes Feld oder eine tote Methode stürzt nicht ab und fällt nie auf. In der Leistungsbeurteilung schon</td></tr>
+<tr><td>7</td><td>Sind <code>btnPlay</code> und <code>btnAbout</code> <b>lokale Variablen</b> und keine Felder?</td><td>Ein Feld bekommt nur, was der Code auch nach <code>onCreate</code> noch anfasst</td></tr>
+<tr><td>8</td><td>Steht jeder sichtbare Text in <code>strings.xml</code>, auch die Hinweiszeile und die fünf Zeilen von Über die App?</td><td>Sichtbarer Text im Java-Code lässt sich nicht übersetzen und nicht ändern, ohne den Code anzufassen</td></tr>
+<tr><td>9</td><td>Hat die <code>GameActivity</code> dieselben elf Methoden wie deine MainActivity gestern, keine mehr und keine weniger?</td><td>Beim Kopieren geht schnell etwas verloren, oder es bleibt in der alten Klasse eine Kopie liegen</td></tr>
+<tr><td>10</td><td>Haben beide neuen Klassen ihre Javadoc-Blöcke, auch das Feld <code>TAG</code> in der <code>AboutActivity</code>?</td><td>Genau das verlangt die Leistungsbeurteilung. Ein Feld ohne Kommentar kostet Punkte</td></tr>
+<tr><td>11</td><td>Beschreibt der Klassenkommentar der <code>MainActivity</code> ein Menü, und weiss der der <code>GameActivity</code>, dass sie eine eigene Activity ist?</td><td>Ein falscher Kommentar ist schlimmer als gar keiner, denn wer ihn liest, glaubt ihm</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Punkt 6 und Punkt 9 sind zwei Seiten desselben Schnitts.</b> Beim Umziehen entstehen genau zwei Fehlerarten: es bleibt zu viel liegen, oder es geht zu viel mit. Beide fallen beim Laufen nicht auf, weil die App danach trotzdem funktioniert.</p>
+</div>
+
+
+<h2>Antworten zu den Denkfragen</h2>
+<p>Diese vier Fragen kommen im <b>05AB Wissenscheck</b> als Quizfragen wieder. Der deckt 05A und 05B zusammen ab.</p>
+
+<div class="ue">
+<p class="t">Frage 1, reicht eine fehlerfreie Klasse?</p>
+<p><b>Nein. Es fehlt der Eintrag im Manifest.</b> Und der Compiler kann davon nichts wissen.</p>
+<table>
+<tr><th></th><th>Der Compiler</th><th>Android</th></tr>
+<tr><td>Wann er hinschaut</td><td>beim Übersetzen, auf deinem Rechner</td><td>beim Installieren, auf dem Gerät</td></tr>
+<tr><td>Was er prüft</td><td>ob dein Java in sich stimmt</td><td>was diese App überhaupt anbietet</td></tr>
+<tr><td>Woraus</td><td>aus den <code>.java</code>-Dateien</td><td>aus dem Manifest</td></tr>
+</table>
+<p><code>new Intent(this, GameActivity.class)</code> ist tadelloses Java. Die Klasse gibt es, sie erbt richtig, der Konstruktor passt. Der Compiler hat nichts zu beanstanden. Dass Android die Klasse nicht kennt, ist eine ganz andere Frage.</p>
+<p><b>Warum das zählt:</b> Es gibt in einer Android-App zwei Wahrheiten. Was dein Code kann, und was das System von deiner App weiss. Der Riss zwischen beiden erklärt die meisten Fehler, die sich nicht mit dem Compiler finden lassen.</p>
+</div>
+
+<div class="ue">
+<p class="t">Frage 2, zwei gesperrte Knöpfe</p>
+<p><b>Dafür:</b> Der Bauplan der App ist von Anfang an sichtbar. Wer die App das erste Mal öffnet, sieht sofort, was sie einmal können wird. Und ein gesperrter Knopf ist ehrlicher als einer, der ins Leere führt.</p>
+<p><b>Dagegen:</b> Ein Knopf, der nie etwas tut, wirkt kaputt. Benutzer tippen zwei-, dreimal darauf und melden dann einen Fehler. Wer die App nicht aus dem Unterricht kennt, weiss nicht, dass da noch etwas kommt.</p>
+<p><b>Der Kompromiss, den wir gewählt haben:</b> die Hinweiszeile darunter. Sie sagt in Worten, was die blassen Knöpfe nur andeuten.</p>
+<div class="note">
+<p><b>Ehrlich gesagt: in einer echten App würde man sie gar nicht zeigen.</b> Was es noch nicht gibt, kommt nicht auf den Bildschirm. Hier stehen sie aus einem Unterrichtsgrund da, nicht aus einem ergonomischen.</p>
+<p>Das ist ein Unterschied, den du bei jedem Beispiel im Kurs mitdenken darfst.</p>
+</div>
+</div>
+
+<div class="ue">
+<p class="t">Frage 3, warum nicht drei Activities fürs Spiel?</p>
+<p><b>Weil eine Activity eine Aufgabe ist und kein Bild.</b> Spielen ist eine Aufgabe, vom Anfang bis zum Ergebnis. Frage, Ergebnis und Liste sind drei Ansichten derselben Aufgabe.</p>
+<p>Rechne durch, was drei Activities kosten würden:</p>
+<table>
+<tr><th>Was</th><th>Mit einer Activity</th><th>Mit drei</th></tr>
+<tr><td>Der Punktestand</td><td>ein Feld</td><td>muss von Bildschirm zu Bildschirm weitergereicht werden</td></tr>
+<tr><td>Die Fragen der Runde</td><td>ein Feld</td><td>dito, und Objekte lassen sich nicht einfach mitgeben</td></tr>
+<tr><td>Die Zurück-Taste</td><td>verlässt das Spiel</td><td>führt mitten in die letzte Frage zurück</td></tr>
+<tr><td>Die Fragenliste am Schluss</td><td>hat <code>allQuestions</code> zur Hand</td><td>müsste den ganzen Bestand nochmals bekommen</td></tr>
+</table>
+<p><b>Warum das zählt:</b> Das ist der häufigste Anfängerentwurf, und er fällt erst auf, wenn die App schon steht. Die Frage "ist das eine neue Aufgabe oder nur eine andere Ansicht" stellst du ab jetzt bei jedem Bildschirm.</p>
+</div>
+
+<div class="ue">
+<p class="t">Frage 4, wer erledigt die Zurück-Taste?</p>
+<p><b>Android, mit einem Stapel.</b> Jede gestartete Activity kommt oben drauf. Die Zurück-Taste nimmt die oberste weg. Danach ist wieder die sichtbar, die darunter liegt.</p>
+<pre>App gestartet          Auf Spielen getippt      Zurück gedrückt
+
+                       ┌──────────────┐
+                       │ GameActivity │  ← oben
+┌──────────────┐       ├──────────────┤         ┌──────────────┐
+│ MainActivity │       │ MainActivity │         │ MainActivity │
+└──────────────┘       └──────────────┘         └──────────────┘</pre>
+<p><b>Zurück heisst also nicht "zur MainActivity".</b> Zurück heisst "eine Stufe tiefer im Stapel". Dass du im Menü landest, liegt nur daran, dass es dort liegt.</p>
+<p><b>Der Beleg dafür ist Übung 2.</b> Wer den Einstiegspunkt auf die AboutActivity verschiebt, landet beim Zurückdrücken ausserhalb der App. Nicht weil etwas kaputt wäre, sondern weil dann nichts mehr darunter liegt.</p>
+<p><b>Warum das zählt:</b> Der Stapel erklärt auch, warum deine MainActivity beim Spielen nicht endet, sondern nur in den Hintergrund geht. Genau darauf baut 05B auf.</p>
+</div>
+
+
+<h2>Die Beobachtungsstelle</h2>
+
+<div class="ue">
+<p class="t">B4, der Absturz beim ersten Tippen auf Spielen</p>
+<p><b>Was du siehst:</b> Die App verschwindet, das Gerät meldet, dass WissQuiz beendet wurde. Im Logcat steht rot:</p>
+<pre>android.content.ActivityNotFoundException: Unable to find explicit activity class
+{ch.wiss.m335.quiz/ch.wiss.m335.quiz.GameActivity}; have you declared this
+activity in your AndroidManifest.xml?</pre>
+<p><b>Was die Beobachtung zeigt:</b> Die Meldung nennt die Lösung im Klartext, und zwar als Frage. Hast du diese Activity in deinem Manifest angemeldet? Nein, hattest du nicht.</p>
+<p><b>Das ist die freundlichste Fehlermeldung, die Android hat.</b> Lies sie einmal ganz. Nicht jede ist so höflich, und wer diese hier überliest, überliest auch die anderen.</p>
+<p><b>Die häufigsten Fehlbeobachtungen:</b></p>
+<ul>
+<li>"die GameActivity war noch nicht fertig übersetzt" ist falsch. Wäre sie das nicht, hätte sich die App gar nicht installieren lassen.</li>
+<li>"der Intent zeigt auf die falsche Klasse" ist falsch. Die Meldung nennt genau den Namen, den du gemeint hast, mit vollem Paket.</li>
+<li>"das Layout <code>activity_game.xml</code> fehlt" verwechselt zwei Dinge. Das Layout stand nie zur Debatte, die Activity wurde nie gestartet.</li>
+<li>"es gab gar keinen Absturz, es ist nur nichts passiert" kommt von jemandem, der den Manifest-Eintrag schon vorher gemacht hat.</li>
+</ul>
+<p><b>Der Satz, den du dir merkst:</b> Der Compiler prüft, ob dein Code in sich stimmt. Das Manifest sagt, was es für Android überhaupt gibt. Beides muss stimmen, und nur eines davon meldet sich von selbst.</p>
+<div class="tip">
+<p><b>Dieselbe Art Fehler wie in 03A</b>, als die Root-id von <code>main</code> auf <code>clMain</code> umbenannt wurde und die App abstürzte. Auch dort war das Java richtig und der Verweis nach draussen falsch. Zwei Fälle, ein Prinzip: <b>ein Name ist erst dann ein Name, wenn ihn beide Seiten kennen.</b></p>
+</div>
+</div>
+
+
+<h2>Der Code, den du am Ende hast</h2>
+
+<h3>MainActivity.java, vollständig</h3>
+<pre><span class="k">package</span> ch.wiss.m335.quiz;
+
+<span class="k">import</span> android.content.Intent;
+<span class="k">import</span> android.os.Bundle;
+<span class="k">import</span> android.util.Log;
+<span class="k">import</span> android.widget.Button;
+
+<span class="k">import</span> androidx.activity.EdgeToEdge;
+<span class="k">import</span> androidx.appcompat.app.AppCompatActivity;
+<span class="k">import</span> androidx.core.graphics.Insets;
+<span class="k">import</span> androidx.core.view.ViewCompat;
+<span class="k">import</span> androidx.core.view.WindowInsetsCompat;
+
+<span class="c">/**
+ * Der Startbildschirm der Quiz-App.
+ *
+ * Bis 04B war diese Klasse der Spielbildschirm. Der ganze Spielinhalt ist
+ * nach GameActivity umgezogen. Übrig bleibt ein Menü mit vier Einträgen.
+ *
+ * Zwei Einträge sind gesperrt und stehen trotzdem schon da. Der Bauplan
+ * der App soll von Anfang an sichtbar sein. Ein Knopf, der ins Leere
+ * führt, wäre schlimmer als einer, der ehrlich sagt, dass er noch nicht
+ * kann.
+ *
+ * Die Knöpfe bekommen kein Feld. Der Code fasst sie nur ein einziges Mal
+ * an, nämlich hier in onCreate, wenn er ihren Listener setzt.
+ *
+ * Was hier mit Absicht noch fehlt: dieser Bildschirm schickt zur
+ * GameActivity los und bekommt nichts zurück. Wie die Runde ausgegangen
+ * ist, erfährt er nicht.
+ */</span>
+<span class="k">public class</span> <span class="t">MainActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span> {
+
+    <span class="c">/**
+     * Log-Tag für das ganze Modul 335.
+     *
+     * Bewusst nicht "M335". Diese Zeichenfolge steckt auch im
+     * Paketnamen ch.wiss.m335.quiz. Das Suchfeld im Logcat sucht im
+     * Freitext über alle Spalten, und damit träfe "M335" jede Zeile
+     * unserer App statt nur die selbst geschriebenen.
+     */</span>
+    <span class="k">private static final</span> <span class="t">String</span> TAG = <span class="s">"Modul335"</span>;
+
+    <span class="k">@Override</span>
+    <span class="k">protected void</span> onCreate(<span class="t">Bundle</span> savedInstanceState) {
+        <span class="k">super</span>.onCreate(savedInstanceState);
+        <span class="t">EdgeToEdge</span>.enable(<span class="k">this</span>);
+        setContentView(R.layout.activity_main);
+
+        <span class="c">// 16dp eigener Rand, in Pixel umgerechnet über die Dichte des Geräts.</span>
+        <span class="k">final int</span> extraPadding = <span class="t">Math</span>.round(<span class="k">16</span> * getResources().getDisplayMetrics().density);
+
+        <span class="c">// Wichtig: der eigene Rand wird zu den System-Insets dazugerechnet.</span>
+        <span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(R.id.clMain), (v, insets) -&gt; {
+            <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.<span class="t">Type</span>.systemBars());
+            v.setPadding(
+                    systemBars.left + extraPadding,
+                    systemBars.top + extraPadding,
+                    systemBars.right + extraPadding,
+                    systemBars.bottom + extraPadding);
+            <span class="k">return</span> insets;
+        });
+
+        <span class="t">Button</span> btnPlay = findViewById(R.id.btnPlay);
+        <span class="t">Button</span> btnAbout = findViewById(R.id.btnAbout);
+
+        <span class="c">// Ein Intent nennt zwei Dinge: von wo aus und wohin. Mehr braucht
+        // ein Start ohne Rückgabe nicht.</span>
+        btnPlay.setOnClickListener(v -&gt; startActivity(<span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">GameActivity</span>.<span class="k">class</span>)));
+        btnAbout.setOnClickListener(v -&gt; startActivity(<span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">AboutActivity</span>.<span class="k">class</span>)));
+
+        Log.d(TAG, <span class="s">"MainActivity onCreate"</span>);
+    }
+}</pre>
+
+<div class="note">
+<p><b>Die zwei gesperrten Knöpfe kommen im Java-Code nicht vor.</b> Sie haben eine id, aber kein <code>findViewById</code> und keinen Listener. Sie sind reine Anzeige, und das steht vollständig im XML.</p>
+<p>Das ist derselbe Gedanke wie bei <code>tvListTitle</code> in 04B. Ein Feld oder eine Variable bekommt nur, was der Code auch anfasst.</p>
+</div>
+
+<h3>AndroidManifest.xml, der application-Block</h3>
+<pre>&lt;<span class="t">application</span> ... &gt;
+
+    &lt;<span class="c">!-- Nur diese Activity hat den intent-filter. Sie ist der Start. --</span>&gt;
+    &lt;<span class="t">activity</span>
+        android:name=<span class="s">".MainActivity"</span>
+        android:exported=<span class="s">"true"</span>
+        android:windowSoftInputMode=<span class="s">"adjustResize"</span>&gt;
+        &lt;<span class="t">intent-filter</span>&gt;
+            &lt;<span class="t">action</span> android:name=<span class="s">"android.intent.action.MAIN"</span> /&gt;
+
+            &lt;<span class="t">category</span> android:name=<span class="s">"android.intent.category.LAUNCHER"</span> /&gt;
+        &lt;/<span class="t">intent-filter</span>&gt;
+    &lt;/<span class="t">activity</span>&gt;
+
+    &lt;<span class="c">!--
+      Jede weitere Activity braucht einen eigenen Eintrag. Ohne ihn
+      gibt es beim Start eine ActivityNotFoundException. exported
+      bleibt false, weil sie nur aus der eigenen App gestartet wird.
+    --</span>&gt;
+    &lt;<span class="t">activity</span>
+        android:name=<span class="s">".GameActivity"</span>
+        android:exported=<span class="s">"false"</span>
+        android:windowSoftInputMode=<span class="s">"adjustResize"</span> /&gt;
+
+    &lt;<span class="t">activity</span>
+        android:name=<span class="s">".AboutActivity"</span>
+        android:exported=<span class="s">"false"</span> /&gt;
+
+&lt;/<span class="t">application</span>&gt;</pre>
+
+<div class="info">
+<p><b>Warum die AboutActivity kein <code>windowSoftInputMode</code> braucht.</b> Diese Angabe regelt, was passiert, wenn die Bildschirmtastatur aufgeht. Auf Über die App tippt niemand etwas ein, also gibt es dort keine Tastatur.</p>
+<p>Sie mitzuschreiben wäre nicht falsch, nur überflüssig. Das Template setzt sie bei jeder erzeugten Activity, weil es nicht wissen kann, was du vorhast.</p>
+</div>
+
+<h3>Die drei geänderten Zeilen in der GameActivity</h3>
+<pre>setContentView(R.layout.activity_game);
+...
+<span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(R.id.clGame), (v, insets) -&gt; {
+...
+Log.d(TAG, <span class="s">"GameActivity onCreate, question bank size="</span> + allQuestions.size());</pre>
+<p>Sonst nichts. Die elf Methoden, die zwanzig Felder und das ganze Verhalten sind Zeile für Zeile dieselben wie gestern.</p>
+
+<div class="tip">
+<p><b>Das ist der Beleg dafür, dass der Umzug sauber war.</b> Wenn beim Verschieben einer Klasse mehr als die Adresse geändert werden muss, war die Klasse vorher zu eng mit ihrer Umgebung verwachsen.</p>
+</div>
+
+
+<h2>Was sich gegenüber 04B geändert hat</h2>
+<table>
+<tr><th>Datei</th><th>Änderung</th></tr>
+<tr><td class="pre">GameActivity.java</td><td><b>Neu</b>, entstanden als Kopie der alten MainActivity. Drei Zeilen geändert, Klassenkommentar nachgezogen</td></tr>
+<tr><td class="pre">AboutActivity.java</td><td><b>Neu.</b> Nur <code>onCreate</code> mit dem Insets-Block und einer Log-Zeile</td></tr>
+<tr><td class="pre">MainActivity.java</td><td>Leergeräumt und neu. Nur noch <code>TAG</code>, <code>onCreate</code>, zwei Knöpfe und zwei Intents</td></tr>
+<tr><td class="pre">activity_game.xml</td><td><b>Neu</b>, Kopie von <code>activity_main.xml</code> aus 04B. Root-id <code>clGame</code></td></tr>
+<tr><td class="pre">activity_about.xml</td><td><b>Neu.</b> Eine ScrollView, darin fünf TextViews</td></tr>
+<tr><td class="pre">activity_main.xml</td><td>Neu. Titel, vier Knöpfe, Hinweiszeile. Zwei Knöpfe mit <code>enabled="false"</code></td></tr>
+<tr><td class="pre">AndroidManifest.xml</td><td>Zwei <code>&lt;activity&gt;</code>-Einträge dazu, beide <code>exported="false"</code></td></tr>
+<tr><td class="pre">strings.xml</td><td>Von 7 auf 18 Einträge. Neu alles fürs Menü und für Über die App</td></tr>
+<tr><td class="pre">model/Question.java</td><td><b>unverändert</b>, zum dritten Mal in Folge</td></tr>
+<tr><td class="pre">colors.xml, Gradle, Themes</td><td>unverändert. Auch 05A braucht keine neue Abhängigkeit</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Zum dritten Mal bleibt <code>Question</code> unangetastet.</b> Die App hat jetzt drei Bildschirme statt einem, und die Datenklasse merkt davon nichts. Genau so soll es sein. Sie beschreibt eine Frage und weiss nicht, wer sie anzeigt.</p>
+</div>
+
+
+<h2>Vier Dinge sind hier absichtlich noch unsauber</h2>
+
+<div class="warn">
+<p><b>Erstens: das Menü erfährt nichts über den Ausgang der Runde.</b> Du spielst, du gewinnst vier Punkte, du gehst zurück, und der Startbildschirm tut, als wäre nichts gewesen. Das ist genau das Thema von <b>05B</b>.</p>
+</div>
+
+<div class="warn">
+<p><b>Zweitens: die <code>setVisibility</code>-Aufrufe stehen immer noch verstreut.</b> Vier Stellen in drei Methoden, unverändert seit 04A. Noch am selben Vormittag kommt ein dritter Bereich dazu. Dann weiss niemand mehr, was gerade sichtbar ist, und genau dort wird daraus eine einzige Methode.</p>
+</div>
+
+<div class="warn">
+<p><b>Drittens: die Fragenliste wird weiterhin zu Fuss gebaut.</b> Unverändert seit 04B. Bis das Werkzeug für den anderen Fall kommt, soll das Umständliche spürbar bleiben.</p>
+</div>
+
+<div class="warn">
+<p><b>Viertens: <code>TAG</code> steht jetzt dreimal im Projekt</b>, in jeder Activity einmal, mit demselben Wert. Das ist doppelter Code, und du hast recht, wenn dich das stört.</p>
+<p>Sauberer wäre eine eigene Klasse mit Konstanten, oder eine gemeinsame Basisklasse. Beides kostet ein neues Konzept, und bei drei Zeilen lohnt es sich noch nicht. <b>Merk dir die Stelle.</b> Bei sechs Activities lohnt es sich.</p>
+</div>
+
+
+<h2>Lösungen zu den Übungen</h2>
+
+<div class="ue">
+<p class="t">Übung 1, dein Name auf der Seite</p>
+<p>Ein neuer Eintrag in <code>strings.xml</code>:</p>
+<pre>&lt;<span class="t">string</span> name=<span class="s">"about_author"</span>&gt;Gebaut von Vorname Nachname, Klasse XY.&lt;/<span class="t">string</span>&gt;</pre>
+<p>Und eine sechste TextView in <code>activity_about.xml</code>, gebaut wie die anderen:</p>
+<pre>&lt;<span class="t">TextView</span>
+    android:id=<span class="s">"@+id/tvAboutAuthor"</span>
+    android:layout_width=<span class="s">"match_parent"</span>
+    android:layout_height=<span class="s">"wrap_content"</span>
+    android:layout_marginTop=<span class="s">"14dp"</span>
+    android:text=<span class="s">"@string/about_author"</span>
+    android:textSize=<span class="s">"15sp"</span> /&gt;</pre>
+<p><b>Der Punkt der Übung:</b> null Zeilen Java. Ein sichtbarer Text braucht keinen Code. Wer stattdessen <code>tvAboutAuthor.setText("...")</code> schreibt, hat drei Zeilen mehr und einen Text, der sich nicht übersetzen lässt.</p>
+</div>
+
+<div class="ue">
+<p class="t">Übung 2, den Einstiegspunkt verschieben</p>
+<p>Der ganze Block wandert, und <code>exported</code> muss mitwandern:</p>
+<pre>&lt;<span class="t">activity</span>
+    android:name=<span class="s">".MainActivity"</span>
+    android:exported=<span class="s">"false"</span>
+    android:windowSoftInputMode=<span class="s">"adjustResize"</span> /&gt;
+
+&lt;<span class="t">activity</span>
+    android:name=<span class="s">".AboutActivity"</span>
+    android:exported=<span class="s">"true"</span>&gt;
+    &lt;<span class="t">intent-filter</span>&gt;
+        &lt;<span class="t">action</span> android:name=<span class="s">"android.intent.action.MAIN"</span> /&gt;
+
+        &lt;<span class="t">category</span> android:name=<span class="s">"android.intent.category.LAUNCHER"</span> /&gt;
+    &lt;/<span class="t">intent-filter</span>&gt;
+&lt;/<span class="t">activity</span>&gt;</pre>
+<p><b>Was du siehst:</b> Die App startet direkt mit Über die App. Es gibt keinen Weg ins Menü, denn dorthin führt kein Knopf. Und die Zurück-Taste beendet die App, statt irgendwohin zu führen.</p>
+<p><b>Das ist der Beleg zu Denkfrage 4.</b> Der Stapel hat nur einen Eintrag. Zurück nimmt ihn weg, und dann ist nichts mehr da.</p>
+<div class="warn">
+<p><b>Danach unbedingt zurückstellen.</b> Sonst startet deine App am falschen Ort, und dein Screenshot für die Abgabe stimmt nicht mehr.</p>
+<p>Wer <code>exported</code> beim Verschieben vergisst, kommt gar nicht erst zum Starten. Der Übersetzer bricht ab und sagt genau, was fehlt.</p>
+</div>
+</div>
+
+<div class="ue">
+<p class="t">Übung 3, erklären</p>
+<p>Eine gute Erklärung nennt zwei Zeitpunkte und einen Grund.</p>
+<p>"Der Compiler schaut auf meinem Rechner nach, ob mein Java in sich stimmt. Er liest nur <code>.java</code>-Dateien. Das Manifest liest er nicht, denn es ist kein Programm, sondern ein Verzeichnis. Android liest es später beim Installieren, und erst dort entscheidet sich, welche Bildschirme es für das System gibt. Darum kann eine fehlerfreie Klasse trotzdem unauffindbar sein."</p>
+<p>Wer nur sagt "sie muss im Manifest stehen", hat die halbe Antwort. Die andere Hälfte ist das <b>wann</b>.</p>
+</div>
+
+<div class="note">
+<p><b>Zur Zusatzaufgabe steht hier bewusst nichts.</b> Die Frage danach ist der eigentliche Inhalt: wäre ein eigener Bildschirm für eine einzige Meldung ein guter Entwurf? Wer die Zusatzaufgabe löst, merkt beim Bauen selbst, dass der Aufwand in keinem Verhältnis steht, und sucht dann nach dem leichteren Weg.</p>
+</div>
+
+
+<h2>Mögliche falsche KI-Rückmeldungen</h2>
+<p>Das sind Antworten, die uns bei diesem Thema schon begegnet sind. Nicht jede KI macht jeden dieser Fehler. Die Liste ist eine Prüfliste, keine Anklage.</p>
+<table>
+<tr><th>Die KI schlägt vor</th><th>Warum das hier falsch ist</th></tr>
+<tr><td>Die Activities mit <b>New</b>, <b>Activity</b>, <b>Empty Views Activity</b> anlegen</td><td>Geht, aber der Assistent trägt sie gleich selbst ins Manifest ein. Heute willst du sehen, was dieser Eintrag bewirkt. Ausserdem erzeugt er ein Layout mit der Root-id <code>main</code>, die wir seit 03A nicht wollen</td></tr>
+<tr><td><code>startActivityForResult(intent, 1)</code> zusammen mit <code>onActivityResult</code></td><td>Seit API 30 veraltet. Und heute brauchst du gar keine Rückgabe. Der heutige Weg dafür kommt in 05B</td></tr>
+<tr><td>Statt einer zweiten Activity ein <b>Fragment</b> nehmen</td><td>In grossen Apps der übliche Weg, aber ein ganz neues Konzept mit eigenem Lebenszyklus. Kommt im Kursplan nicht vor und gibt keine Punkte in der Leistungsbeurteilung</td></tr>
+<tr><td><code>android:launchMode="singleTop"</code>, damit nichts doppelt geöffnet wird</td><td>Löst ein Problem, das du nicht hast. Es ändert das Verhalten des Stapels und macht die Zurück-Taste schwer vorhersagbar</td></tr>
+<tr><td>Bei allen Activities <code>exported="true"</code>, dann klappt es sicher</td><td>Es klappt dann auch, aber du öffnest jeden Bildschirm für fremde Apps. Nur der Einstiegspunkt braucht <code>true</code></td></tr>
+<tr><td>Die Activity mit <code>new GameActivity()</code> erzeugen</td><td>Übersetzt sogar und macht trotzdem nichts. Ein so erzeugtes Objekt hat kein Fenster, keinen Context und kein Layout. Activities erzeugt Android, nicht du</td></tr>
+<tr><td>Auf jeden Bildschirm einen eigenen Zurück-Knopf setzen</td><td>Nicht falsch, aber unnötig. Die System-Zurück-Taste und die Wischgeste können es schon, und sie funktionieren in jeder App gleich</td></tr>
+<tr><td>Der AboutActivity ein Theme mit ActionBar und Pfeil nach links geben</td><td>Ein weiteres Thema mit eigenem Aufwand, und es ersetzt die Zurück-Taste nicht, sondern kommt dazu</td></tr>
+<tr><td>Für Über die App einen <code>AlertDialog</code> statt einer Activity</td><td><b>Für einen kurzen Text tatsächlich die bessere Wahl.</b> Heute geht es aber genau darum, eine zweite Activity einmal von Hand zu bauen. Merk dir den Einwand für die Zusatzaufgabe</td></tr>
+<tr><td>Den vollen Klassennamen ins Manifest schreiben, also <code>ch.wiss.m335.quiz.GameActivity</code></td><td>Nicht falsch, nur länger. Der Punkt am Anfang steht für das Paket der App. Beides funktioniert, unser Standard ist die kurze Form</td></tr>
+</table>
+
+
+<h2>So prüfst du das Ganze</h2>
+<ol>
+<li><b>Run.</b> Der Startbildschirm zeigt den Titel, vier Knöpfe und die Hinweiszeile.</li>
+<li><b>Rangliste</b> und <b>Fragen verwalten</b> sind blass und reagieren auf keinen Tipp.</li>
+<li><b>Über die App</b> öffnet den Textbildschirm. Die Zurück-Taste bringt dich ins Menü.</li>
+<li><b>Spielen</b> öffnet den Spielbildschirm mit <b>Frage 1 von 5</b>.</li>
+<li>Spiel eine Runde ganz durch. Ergebnis, Knopf und Liste mit sieben Zeilen sind da wie gestern.</li>
+<li><b>Nochmals spielen</b> startet eine neue Runde. Die Liste hat weiterhin sieben Zeilen, nicht vierzehn.</li>
+<li>Die Zurück-Taste im Spiel bringt dich ins Menü, nicht aus der App heraus.</li>
+<li>Tipp nochmals auf <b>Spielen</b>. Die Runde beginnt von vorne, bei <b>Frage 1 von 5</b> und null Punkten.</li>
+<li>Im Logcat unter <code>tag:Modul335</code> stehen alle drei Zeilen: <code>MainActivity onCreate</code>, <code>GameActivity onCreate, question bank size=7</code> und <code>AboutActivity onCreate</code>.</li>
+<li>Deine <code>MainActivity.java</code> ist kürzer als eine Bildschirmseite.</li>
+</ol>
+
+<div class="tip">
+<p><b>Punkt 7 und Punkt 9 sind die wichtigen.</b> Punkt 7 zeigt, dass die MainActivity beim Spielen nicht beendet wurde, sondern die ganze Zeit unter dem Spiel lag. Punkt 9 zeigt, dass wirklich drei verschiedene Klassen laufen und nicht eine, die anders aussieht.</p>
+</div>
+
+
+<h2>Was als Nächstes kommt</h2>
+<p>In <b>05B</b> bekommt das Menü seinen Rückkanal. Nach der Runde steht auf dem Startbildschirm, wie viele Punkte du hattest. Dabei lernst du zwei Dinge, die zusammengehören: wie eine Activity ein Ergebnis zurückgibt, und wann sie es tun muss.</p>
+<p>Danach der <b>05AB Wissenscheck</b> über beide Aufträge des Vormittags.</p>
+
+<p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 05A Zweite Activity und Intent &middot; Fassung 1 vom 16.08.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>
