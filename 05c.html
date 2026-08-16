@@ -20,7 +20,7 @@
 <div class="wrap">
 
 <h1>05C Drei Zustände und die Kategoriewahl</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Tag 3 Vormittag. Zeitbudget 45 Minuten. Version 1 vom 16.08.2026.</p>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 3 Vormittag. Zeitbudget 45 Minuten. Version 2 vom 16.08.2026.</p>
 <p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
 
 
@@ -42,6 +42,7 @@
 <li>Du füllst eine Auswahlliste aus Daten, statt die Einträge ins XML zu schreiben.</li>
 <li>Du lagerst Daten aus einer Activity in eine eigene Klasse aus.</li>
 <li>Du mischst eine Kopie und nicht das Original, und kannst sagen warum.</li>
+<li>Du erkennst einen Kommentar, der seit deinem eigenen Umbau nicht mehr stimmt.</li>
 </ul>
 
 <h3>Das brauchst du vorher</h3>
@@ -240,7 +241,7 @@ svQuestion.setVisibility(state == <span class="t">GameState</span>.QUESTION ? <s
 </div>
 
 
-<h3>Teil B, der dritte Bereich <span class="time">22 Minuten</span></h3>
+<h3>Teil B, der dritte Bereich <span class="time">20 Minuten</span></h3>
 
 <div class="step">
 <p><span class="n">B1</span><b>Die Klasse <code>QuestionBank</code> ins Projekt holen.</b></p>
@@ -419,7 +420,57 @@ spnCategory.setAdapter(<span class="k">new</span> <span class="t">ArrayAdapter</
 </div>
 
 
-<h3>Übungen <span class="time">7 Minuten</span></h3>
+<h3>Teil C, die Kommentare nachziehen <span class="time">4 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">C1</span><b>Der Klassenkommentar stimmt nicht mehr.</b></p>
+<p>Lies den Javadoc-Block über <code>public class GameActivity</code>. Er stammt aus 05A und 05B. Zwei Sätze darin sind seit heute <b>falsch</b>, und einer fehlt ganz.</p>
+<p>Der Rahmen, den Inhalt formulierst du selbst:</p>
+<pre><span class="c">/**
+ * Der Spielbildschirm der Quiz-App.
+ *
+ * (DER TEIL AUS 05A UND 05B BLEIBT STEHEN)
+ *
+ * (WEG: der Satz über die verstreuten setVisibility-Aufrufe.
+ *  Seit Teil A gibt es genau eine Stelle)
+ *
+ * (WEG: der Satz, dass der Fragenbestand in dieser Klasse liegt.
+ *  Er wohnt seit Teil B in QuestionBank)
+ *
+ * (HIER: die drei Bereiche und wer über ihre Sichtbarkeit entscheidet)
+ *
+ * (HIER: was diese Klasse vom Bestand überhaupt noch hält)
+ */</span></pre>
+<p>Danach prüfst du die neuen Stellen. <b>Jede davon braucht ihre Javadoc-Zeile</b>, und die meisten hast du beim Eintippen schon geschrieben:</p>
+<table>
+<tr><th>Was</th><th>Steht ein Kommentar dort?</th></tr>
+<tr><td class="pre">enum GameState</td><td>eine Zeile, welche Zustände es sind</td></tr>
+<tr><td class="pre">llCategory, spnCategory, btnStart</td><td>je eine Zeile</td></tr>
+<tr><td class="pre">selectedCategory, categoryQuestions</td><td>je eine Zeile</td></tr>
+<tr><td class="pre">showState</td><td>der Block mit <code>@param</code>, samt dem Satz über <b>alle drei</b> Bereiche</td></tr>
+<tr><td class="pre">onStartClicked</td><td>der Block mit dem Hinweis auf die Kopie</td></tr>
+</table>
+<div class="warn">
+<p><b>Lies deine Kommentare am Schluss ganz durch.</b> Ein Rest wie das Wort HIER, das Wort WEG oder eine leere Klammer fällt in einem Javadoc-Block nie auf, weil nichts ihn meldet.</p>
+</div>
+<div class="note">
+<p><b>Warum das ein eigener Schritt ist und keine Fleissarbeit.</b> Kommentare veralten still. Kein Compiler warnt, die App läuft, und alles sieht in Ordnung aus.</p>
+<p>Genau hier ist es besonders bitter: der Satz über die verstreuten <code>setVisibility</code>-Aufrufe beschreibt den Zustand, den du heute beseitigt hast. Wer ihn stehen lässt, hat einen Kommentar, der das Gegenteil dessen behauptet, was der Code tut. <b>Ein falscher Kommentar ist schlimmer als gar keiner</b>, denn wer ihn liest, glaubt ihm.</p>
+</div>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil C.</b></p>
+<ul>
+<li>Im Klassenkommentar steht nichts mehr von verstreuten <code>setVisibility</code>-Aufrufen.</li>
+<li>Im Klassenkommentar steht nichts mehr davon, dass der Fragenbestand in dieser Klasse liegt.</li>
+<li>Der <code>enum</code>, die drei neuen Views, die zwei neuen Felder und die zwei neuen Methoden haben je einen Kommentar.</li>
+<li>Nirgends steht mehr das Wort HIER, das Wort WEG oder eine leere Klammer.</li>
+</ul>
+</div>
+
+
+<h3>Übungen <span class="time">5 Minuten</span></h3>
 <p>Ohne Vorlage. Die Lösungen findest du im Material <b>05C Lösung - Drei Zustände und die Kategoriewahl</b>.</p>
 
 <div class="ue">
@@ -478,9 +529,9 @@ spnCategory.setAdapter(<span class="k">new</span> <span class="t">ArrayAdapter</
 
 <h2>03 Guide</h2>
 <table>
-<tr><td>Zeitbudget</td><td>45 Minuten. Teil A 16, Teil B 22, Übungen 7</td></tr>
+<tr><td>Zeitbudget</td><td>45 Minuten. Teil A 16, Teil B 20, Teil C 4, Übungen 5</td></tr>
 <tr><td>Sozialform</td><td>Einzelarbeit. Bei den Denkfragen und Übung 3 zu zweit</td></tr>
-<tr><td>Aufgabenart</td><td>Umbau mit einer Entdeckungsstelle (A3, zwei Bereiche gleichzeitig sichtbar)</td></tr>
+<tr><td>Aufgabenart</td><td>Umbau mit einer Entdeckungsstelle (A3, zwei Bereiche gleichzeitig sichtbar). Endet mit Kommentare nachziehen</td></tr>
 <tr><td>Voraussetzung</td><td>05B. Dazu das Material <b>Der Fragenbestand</b></td></tr>
 <tr><td>KI</td><td>In Teil A und B <b>nicht</b> erlaubt. Die Kurzwege von Android Studio schon</td></tr>
 <tr><td>Abgabe</td><td>Drei Screenshots. <b>Kein Arbeitsblatt und kein ZIP</b>. Der Wissenscheck 05CD folgt nach 05D</td></tr>
@@ -505,7 +556,7 @@ spnCategory.setAdapter(<span class="k">new</span> <span class="t">ArrayAdapter</
 </table>
 
 
-<p class="foot">Modul 335 | Tag 3 Vormittag | Auftrag 05C | Version 1 | 16.08.2026</p>
+<p class="foot">Modul 335 | Tag 3 Vormittag | Auftrag 05C | Version 2 | 16.08.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->

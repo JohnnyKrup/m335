@@ -20,7 +20,7 @@
 <div class="wrap">
 
 <h1>05C Lösung: Drei Zustände und die Kategoriewahl</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Lösungsmaterial zum Auftrag 05C. Version 1 vom 16.08.2026.</p>
+<p class="sub">Modul 335 Mobile Applikationen, Lösungsmaterial zum Auftrag 05C. Version 2 vom 16.08.2026.</p>
 
 <div class="info">
 <p><b>Wie du das hier benutzt.</b> Nicht abtippen. Vergleichen. Die Begründung ist der eigentliche Inhalt, der Code ist nur der Beleg dazu.</p>
@@ -28,7 +28,7 @@
 
 
 <h2>Vergleichsliste, dein eigener Code</h2>
-<p>Geh diese zwölf Punkte an <b>deinen eigenen</b> Dateien durch, bevor du hier weiterliest.</p>
+<p>Geh diese dreizehn Punkte an <b>deinen eigenen</b> Dateien durch, bevor du hier weiterliest.</p>
 
 <table>
 <tr><th>Nr</th><th>Das prüfst du</th><th>Warum es zählt</th></tr>
@@ -43,7 +43,8 @@
 <tr><td>9</td><td>Mischt <code>Collections.shuffle</code> eine <b>Kopie</b> und nicht <code>categoryQuestions</code> selbst?</td><td>Sonst steht dein Bestand nach jeder Runde in einer anderen Reihenfolge</td></tr>
 <tr><td>10</td><td>Steht <code>Math.min</code> beim Zuschneiden der Runde?</td><td>Ohne ihn stürzt jede Kategorie mit weniger als fünf Fragen ab. Heute gibt es keine, am Tag 4 schon</td></tr>
 <tr><td>11</td><td>Endet <code>onCreate</code> mit <code>showState(GameState.CHOOSE_CATEGORY)</code> und <b>nicht</b> mit <code>startRound()</code>?</td><td>Sonst startet die App sofort in einer Runde und die Auswahl sieht niemand</td></tr>
-<tr><td>12</td><td>Haben die neuen Felder und Methoden Javadoc, und beschreibt der Klassenkommentar die drei Bereiche?</td><td>Genau das verlangt die Leistungsbeurteilung. Ein falscher Kommentar ist schlimmer als gar keiner</td></tr>
+<tr><td>12</td><td>Haben der <code>enum</code>, die drei neuen Views, die zwei neuen Felder und die zwei neuen Methoden je eine Javadoc-Zeile?</td><td>Genau das verlangt die Leistungsbeurteilung. Ein Feld ohne Kommentar kostet Punkte</td></tr>
+<tr><td>13</td><td>Ist im Klassenkommentar der Satz über die <b>verstreuten</b> <code>setVisibility</code>-Aufrufe verschwunden, und der Satz, dass der Bestand in dieser Klasse liegt?</td><td>Beide behaupten seit heute das Gegenteil deines Codes. Ein falscher Kommentar ist schlimmer als gar keiner</td></tr>
 </table>
 
 <div class="tip">
@@ -232,11 +233,39 @@ showState(<span class="t">GameState</span>.CHOOSE_CATEGORY);
 Log.d(TAG, <span class="s">"GameActivity onCreate"</span>);</pre>
 
 
+<h3>Der Klassenkommentar, ein Beispiel</h3>
+<p>Deiner darf anders klingen. Wichtig ist, dass die zwei alten Sätze weg sind und die zwei neuen drin.</p>
+<pre><span class="c">/**
+ * Der Spielbildschirm der Quiz-App.
+ *
+ * Bis 04B war das die MainActivity. Seit 05A ist der Spielinhalt eine
+ * eigene Activity, und die MainActivity ist das Menü. Gestartet wird
+ * dieser Bildschirm mit einem Intent vom Menü aus.
+ *
+ * Seit 05B gibt er sein Ergebnis zurück. Sobald die Runde fertig ist,
+ * hinterlegt publishResult die Punkte mit setResult.
+ *
+ * Der Bildschirm hat drei Bereiche, llCategory, svQuestion und llResult.
+ * Sie liegen im Layout übereinander, an denselben vier Ankern. Genau einer
+ * ist sichtbar, und darüber entscheidet ausschliesslich showState.
+ *
+ * Der Fragenbestand liegt seit 05C in QuestionBank. Diese Klasse hält nur
+ * noch die Fragen der gewählten Kategorie und die fünf der laufenden Runde.
+ *
+ * Was hier mit Absicht noch unsauber ist: die Liste im Ergebnisbereich
+ * entsteht Zeile für Zeile im Speicher, auch die Zeilen, die niemand sieht.
+ */</span></pre>
+<div class="note">
+<p><b>Die zwei Sätze, die weg mussten.</b> Der eine sagte, die <code>setVisibility</code>-Aufrufe stünden verstreut, der andere, der Fragenbestand liege in dieser Klasse. Beides hast du heute selbst geändert.</p>
+<p><b>Das ist die Regel dahinter:</b> ein Kommentar beschreibt den Zustand, nicht die Geschichte. Was nicht mehr stimmt, kommt weg, auch wenn es einmal richtig war.</p>
+</div>
+
+
 <h2>Was sich gegenüber 05B geändert hat</h2>
 <table>
 <tr><th>Datei</th><th>Änderung</th></tr>
 <tr><td class="pre">model/QuestionBank.java</td><td><b>Neu.</b> Alle dreissig Fragen, dazu <code>categories()</code> und <code>byCategory()</code></td></tr>
-<tr><td class="pre">GameActivity.java</td><td>Neu <code>GameState</code>, <code>showState</code>, <code>onStartClicked</code> und die drei Felder für die Auswahl. <code>createQuestions</code> gelöscht, <code>allQuestions</code> wurde zu <code>categoryQuestions</code>. Vier <code>setVisibility</code>-Zeilen weg</td></tr>
+<tr><td class="pre">GameActivity.java</td><td>Neu <code>GameState</code>, <code>showState</code>, <code>onStartClicked</code> und die drei Felder für die Auswahl. <code>createQuestions</code> gelöscht, <code>allQuestions</code> wurde zu <code>categoryQuestions</code>. Vier <code>setVisibility</code>-Zeilen weg. Klassenkommentar nachgezogen</td></tr>
 <tr><td class="pre">activity_game.xml</td><td>Neu <code>llCategory</code> mit drei Children. <code>svQuestion</code> bekommt <code>visibility="gone"</code></td></tr>
 <tr><td class="pre">strings.xml</td><td>Von 21 auf 23 Einträge. Neu <code>choose_category</code> und <code>btn_start</code></td></tr>
 <tr><td class="pre">MainActivity.java, AboutActivity.java</td><td><b>unverändert</b></td></tr>
@@ -333,6 +362,7 @@ roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;
 <li>Es ist zu keinem Zeitpunkt mehr als ein Bereich sichtbar.</li>
 <li><b>Zurück zum Start.</b> Der Punktestand kommt im Menü an, wie in 05B.</li>
 <li>Im Logcat steht pro Runde <code>showState CHOOSE_CATEGORY</code>, dann <code>category=...</code>, dann <code>showState QUESTION</code>, am Schluss <code>showState RESULT</code>.</li>
+<li>Im Klassenkommentar der <code>GameActivity</code> steht nichts mehr von verstreuten <code>setVisibility</code>-Aufrufen.</li>
 </ol>
 
 <div class="tip">
@@ -344,7 +374,7 @@ roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;
 <p><b>05D</b> gibt dem Menü ein Gedächtnis, das über das Beenden der App hinausreicht. Aus dem letzten Punktestand wird der beste, und er ist auch morgen noch da.</p>
 <p>Danach der <b>05CD Wissenscheck</b> über beide Aufträge.</p>
 
-<p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 05C Drei Zustände und die Kategoriewahl &middot; Version 1 vom 16.08.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
+<p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 05C Drei Zustände und die Kategoriewahl &middot; Version 2 vom 16.08.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->
