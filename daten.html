@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M335 Wo deine App ihre Daten ablegt</title>
+<style>
+  :root{
+    --bg:#faf9f7; --fg:#1c1b1a; --muted:#6b6862; --line:#dedbd4;
+    --card:#ffffff;
+    --a1:#3d8168;  --a1-bg:#e6f2ed;
+    --a2:#2f6fb0;  --a2-bg:#e8f0f8;
+    --a3:#b1701c;  --a3-bg:#fbf0df;
+    --warn:#a63d2f; --warn-bg:#fbeae7;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  .wrap{max-width:920px; margin:0 auto; padding:40px 24px 80px}
+  h1{font-size:30px; line-height:1.25; margin:0 0 6px; letter-spacing:-.02em}
+  .sub{color:var(--muted); margin:0 0 36px; font-size:15px}
+  h2{font-size:21px; margin:44px 0 12px; letter-spacing:-.01em}
+  h3{font-size:16px; margin:22px 0 8px}
+  p{margin:0 0 12px}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.9em;
+       background:#f0eee9; padding:1px 5px; border-radius:4px}
+  pre{background:#26241f; color:#eae7df; padding:16px 18px; border-radius:10px;
+      overflow-x:auto; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+      font-size:13px; line-height:1.55; margin:0 0 16px}
+  pre .c{color:#8f8a7d}
+  pre .t{color:#8fc4e8}
+  pre .a{color:#d8bd7a}
+  pre .s{color:#b7d69a}
+  pre .k{color:#d8a0d0}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:12px;
+        padding:20px 22px; margin:0 0 16px}
+  .note{border-left:3px solid var(--warn); background:var(--warn-bg);
+        padding:14px 18px; border-radius:0 8px 8px 0; margin:0 0 16px}
+  .note b{color:var(--warn)}
+  .tip{border-left:3px solid var(--a1); background:var(--a1-bg);
+       padding:14px 18px; border-radius:0 8px 8px 0; margin:0 0 16px}
+  .tip b{color:#1f5a45}
+  .info{border-left:3px solid var(--a2); background:var(--a2-bg);
+        padding:14px 18px; border-radius:0 8px 8px 0; margin:0 0 16px}
+  .info b{color:var(--a2)}
+  .merk{border:2px solid #3a3833; background:#fff; border-radius:12px;
+        padding:18px 22px; margin:0 0 20px}
+  .merk p{margin:0}
+  .merk .gross{font-size:17px; line-height:1.5}
+  table{border-collapse:collapse; width:100%; font-size:14.5px; margin:0 0 16px}
+  th,td{text-align:left; padding:9px 12px; border-bottom:1px solid var(--line); vertical-align:top}
+  th{font-weight:600; background:#f3f1ec}
+  td.pre,th.pre{font-family:ui-monospace,Menlo,monospace; font-weight:600; white-space:nowrap}
+  td.mitte,th.mitte{text-align:center; white-space:nowrap}
+  .kette{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:13.5px;
+         line-height:1.85; background:var(--card); border:1px solid var(--line);
+         border-radius:10px; padding:16px 20px; margin:0 0 16px}
+  .kette div{white-space:pre}
+  .kette .hell{color:var(--muted)}
+  .kette .stark{color:var(--a2); font-weight:600}
+  ol,ul{margin:0 0 14px; padding-left:22px}
+  li{margin:0 0 7px}
+  .foot{margin-top:50px; padding-top:18px; border-top:1px solid var(--line);
+        font-size:13px; color:var(--muted)}
+</style>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+  <h1>Wo deine App ihre Daten ablegt</h1>
+  <p class="sub">Modul 335 Mobile Applikationen, Grundlagen. Der Ordner deiner App auf dem Gerät, die Datei der SharedPreferences, und drei Wege, sie dir anzuschauen. Lesezeit rund 8 Minuten. Version 1 vom 16.08.2026.</p>
+
+  <div class="card">
+    <p style="margin:0 0 10px"><b>Ab jetzt speichert deine App etwas.</b> Ein Wert verschwindet nicht mehr, wenn du die App beendest. Das ist neu, und du kannst es prüfen, ohne dem Bildschirm zu glauben.</p>
+    <p style="margin:0">Diese Seite zeigt dir, wo dieser Wert wirklich liegt, wie du die Datei öffnest, und warum du sie auf deinem Laptop nicht findest.</p>
+  </div>
+
+  <h2>1. Der Ordner deiner App</h2>
+
+  <p>Jede installierte App bekommt auf dem Gerät genau einen eigenen Ordner. Er heisst wie der Paketname der App. Unserer heisst so:</p>
+
+  <pre>/data/data/ch.wiss.m335.quiz/</pre>
+
+  <p>Darin liegt alles, was die App je selbst speichert:</p>
+
+  <div class="kette">
+    <div><span class="stark">/data/data/ch.wiss.m335.quiz/</span></div>
+    <div>  ├─ <span class="stark">shared_prefs/</span>   <span class="hell">die kleinen Einzelwerte, als XML</span></div>
+    <div>  ├─ databases/     <span class="hell">die Datenbank, kommt am Tag 4</span></div>
+    <div>  ├─ files/         <span class="hell">eigene Dateien</span></div>
+    <div>  └─ cache/         <span class="hell">was das System jederzeit wegwerfen darf</span></div>
+  </div>
+
+  <p>Beim Deinstallieren verschwindet dieser Ordner ganz. Das ist die ganze Wahrheit über Datenhaltung in Android, in einem Satz.</p>
+
+  <div class="info">
+    <p><b>Der Paketname ist keine Dekoration, er ist die Adresse deiner App auf dem Gerät.</b> Darum darf er nicht <code>com.example</code> heissen, wenn eine App je in einen Store soll. Zwei Apps mit demselben Paketnamen können nicht nebeneinander installiert sein.</p>
+  </div>
+
+  <h3>Die Datei der SharedPreferences</h3>
+
+  <p>SharedPreferences sind eine kleine Ablage für einzelne Werte. Android legt sie als schlichte XML-Datei ab. Der Name der Datei ist der Name, den du beim Öffnen der Ablage angibst.</p>
+
+  <pre>/data/data/ch.wiss.m335.quiz/shared_prefs/m335_quiz.xml
+
+<span class="c">&lt;?xml version='1.0' encoding='utf-8' standalone='yes' ?&gt;</span>
+&lt;<span class="t">map</span>&gt;
+    &lt;<span class="t">int</span> <span class="a">name</span>=<span class="s">"bestScore"</span> <span class="a">value</span>=<span class="s">"4"</span> /&gt;
+&lt;/<span class="t">map</span>&gt;</pre>
+
+  <div class="note">
+    <p><b>Der Ordner <code>shared_prefs</code> entsteht erst beim ersten Schreiben.</b> Vorher gibt es ihn nicht. Wenn du ihn suchst und nicht findest, ist das kein Fehler, sondern die Antwort: es wurde noch nichts gespeichert.</p>
+  </div>
+
+  <h2>2. Weg 1, der Device Explorer</h2>
+
+  <p>Der kurze Weg. Er steckt in Android Studio und braucht keine Konsole.</p>
+
+  <ol>
+    <li>Der Emulator muss laufen.</li>
+    <li>Im <b>Device Manager</b> rechts neben deinem Gerät auf die drei Punkte klicken.</li>
+    <li><b>Open in Device Explorer</b> wählen. Das Fenster öffnet sich unten und zeigt schon das richtige Gerät.</li>
+    <li>Im Baum aufklappen: <code>data</code>, dann nochmals <code>data</code>, dann <code>ch.wiss.m335.quiz</code>, dann <code>shared_prefs</code>.</li>
+    <li>Doppelklick auf die XML-Datei. Android Studio kopiert sie und öffnet sie im Editor.</li>
+  </ol>
+
+  <div class="tip">
+    <p><b>Schau dir die Nachbarn an.</b> Dein Ordner steht mitten unter Dutzenden anderer Apps. Jede hat ihren eigenen, und keine kann in den einer anderen schauen.</p>
+  </div>
+
+  <div class="note">
+    <p><b>Der Device Explorer zeigt eine Kopie.</b> Änderst du die geöffnete Datei im Editor, ändert sich auf dem Gerät nichts. Zum Prüfen ist das genau richtig. Zum Ändern nimmst du deine App.</p>
+  </div>
+
+  <h2>3. Weg 2, die Kommandozeile</h2>
+
+  <p>Schneller, wenn du nur kurz nachsehen willst. Öffne das <b>Terminal</b> in Android Studio, es startet mit PowerShell.</p>
+
+  <div class="note">
+    <p><b><code>adb</code> allein funktioniert nicht.</b> Android Studio nimmt seinen Werkzeugordner nicht in den Suchpfad von Windows auf. Ein blosses <code>adb devices</code> endet mit <code>The term 'adb' is not recognized as the name of a cmdlet</code>.</p>
+  </div>
+
+  <p>Du gibst den vollen Pfad an. Damit du ihn nicht jedes Mal tippst, legst du ihn in eine Variable:</p>
+
+  <pre><span class="c"># einmal pro Terminal-Fenster, danach ist es kurz</span>
+$adb = <span class="s">"$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe"</span>
+
+<span class="c"># läuft der Emulator?</span>
+&amp; $adb devices
+
+List of devices attached
+emulator-5554   device
+
+<span class="c"># die Datei anschauen</span>
+&amp; $adb shell run-as ch.wiss.m335.quiz cat shared_prefs/m335_quiz.xml</pre>
+
+  <p><code>run-as</code> führt den Befehl unter der Kennung deiner App aus. Damit darf er in ihren Ordner schauen, obwohl du selbst dort nichts verloren hast. Das geht, solange die App als Debug-Version installiert ist, also immer, wenn du sie aus Android Studio gestartet hast.</p>
+
+  <p>Beachte den kurzen Pfad am Schluss. Hinter <code>run-as</code> stehst du bereits im Ordner deiner App, darum genügt <code>shared_prefs/m335_quiz.xml</code> ohne <code>/data/data/...</code> davor.</p>
+
+  <h3>Die Fehlermeldung, die alle einmal sehen</h3>
+
+  <p>Die Variable lebt nur in dem einen Terminal-Fenster. Schliesst du es, startest Android Studio neu oder öffnest einen zweiten Tab, ist <code>$adb</code> wieder leer. Der Befehl scheitert dann mit einer Meldung, die auf den ersten Blick nichts mit adb zu tun hat:</p>
+
+  <pre>The expression after '&amp;' in a pipeline element produced an object
+that was not valid. It must result in a command name, a script block,
+or a CommandInfo object.</pre>
+
+  <p>Übersetzt heisst das: hinter <code>&amp;</code> stand nichts. PowerShell hat <code>$adb</code> eingesetzt, und da war leer.</p>
+
+  <p><b>Prüfen kannst du es mit einem einzelnen <code>$adb</code>.</b> Kommt der Pfad zurück, ist alles gut. Kommt eine Leerzeile, fehlt die Zuweisung. Dann führst du die Zeile mit <code>$adb = ...</code> im aktuellen Fenster nochmals aus.</p>
+
+  <div class="tip">
+    <p><b>Wenn du es dauerhaft willst.</b> Leg die Zeile in dein PowerShell-Profil, also in die Datei, die bei jedem neuen Fenster automatisch läuft:</p>
+    <pre style="margin:10px 0 0"><span class="c"># Profil anlegen, falls es noch keines gibt</span>
+<span class="k">if</span> (!(Test-Path $PROFILE)) { New-Item -Type File -Path $PROFILE -Force }
+
+<span class="c"># Zeile anhängen, die einfachen Anführungszeichen sind wichtig</span>
+Add-Content $PROFILE <span class="s">'$adb = "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe"'</span></pre>
+    <p style="margin:10px 0 0">Danach ein neues Terminal öffnen. Für den Unterricht ist das freiwillig, die eine Zeile pro Fenster genügt.</p>
+  </div>
+
+  <h2>4. Weg 3, alles löschen zum Testen</h2>
+
+  <p>Wer prüfen will, ob wirklich gespeichert wird, muss auch wieder auf null kommen können. Drei Wege, vom feinsten zum gröbsten:</p>
+
+  <table>
+    <tr><th>Weg</th><th>Wo</th><th>Was weg ist</th></tr>
+    <tr><td><b>Clear storage</b></td><td><b>Im laufenden Emulator</b>, unter Settings, Apps, WissQuiz, Storage and cache</td><td>nur die Daten deiner App</td></tr>
+    <tr><td class="pre">pm clear</td><td>Im Terminal, <code>&amp; $adb shell pm clear ch.wiss.m335.quiz</code></td><td>dasselbe, nur schneller</td></tr>
+    <tr><td>App deinstallieren</td><td>Im Emulator, Symbol lange drücken, Uninstall</td><td>dasselbe, plus die App selbst</td></tr>
+    <tr><td><b>Wipe Data</b></td><td><b>In Android Studio</b>, im Device Manager hinter den drei Punkten neben dem Gerät</td><td><b>der ganze Emulator</b>, also auch alle anderen Apps darauf</td></tr>
+  </table>
+
+  <div class="note">
+    <p><b>Verwechsle die zwei letzten nicht.</b> Sie klingen ähnlich und sind es nicht.</p>
+    <p><b>Clear storage trifft deine App. Wipe Data trifft das ganze Gerät.</b> Wipe Data setzt das virtuelle Android auf den Auslieferungszustand zurück, dauert Minuten und verlangt meist, dass der Emulator vorher gestoppt wird. Für einen Punktestand ist das ungefähr so passend wie ein neuer Laptop, weil eine Datei stört.</p>
+    <p>Nimm im Zweifel <b>Clear storage</b>.</p>
+  </div>
+
+  <p>Die App zu deinstallieren wirkt genauso. Beim Deinstallieren verschwindet der ganze Ordner aus Abschnitt 1.</p>
+
+  <h2>5. Warum du die Datei auf deinem Laptop nicht findest</h2>
+
+  <p>Der Emulator läuft zwar auf deinem Rechner, hat aber seine eigene Festplatte. Sie ist eine einzige grosse Datei:</p>
+
+  <pre>%USERPROFILE%\.android\avd\Medium_Phone.avd\userdata-qemu.img</pre>
+
+  <p>Darin steckt ein komplettes Linux-Dateisystem. Windows kann diese Datei nicht öffnen, für Windows ist sie nur ein Klumpen Bytes.</p>
+
+  <p>Darum schaut der Device Explorer gar nicht auf deine Festplatte. Er spricht über <code>adb</code> mit dem laufenden Android im Emulator und lässt sich die Datei von dort geben.</p>
+
+  <div class="merk">
+    <p class="gross"><b>Der Emulator ist ein eigener Computer, kein Fenster in deinen.</b></p>
+    <p style="margin:10px 0 0; font-size:15px">Derselbe Gedanke begegnet dir später beim Netz. <code>localhost</code> im Emulator meint den Emulator selbst und nicht deinen PC. Dein Rechner ist von dort unter <code>10.0.2.2</code> erreichbar.</p>
+  </div>
+
+  <h2>6. Und auf einem echten Handy?</h2>
+
+  <p>Genau derselbe Ort, <code>/data/data/&lt;paketname&gt;/</code>. Das ist der interne, app-private Speicher.</p>
+
+  <p>Über USB und den Windows-Explorer siehst du davon nichts. Android zeigt am PC nur den öffentlichen Bereich, also Downloads, DCIM, Pictures. Der App-Bereich bleibt unsichtbar, und zwar mit Absicht. Keine App darf in den Ordner einer anderen schauen, und der Benutzer auch nicht.</p>
+
+  <p>Mit Entwicklerwerkzeugen kommst du auch dort heran. USB-Debugging einschalten, dann derselbe <code>run-as</code>-Befehl. Aber nur bei einer Debug-Version, die du selbst installiert hast. Bei einer App aus dem Play Store verweigert <code>run-as</code> den Dienst.</p>
+
+  <h2>7. Intern gegen extern</h2>
+
+  <table>
+    <tr><th>Bereich</th><th>Beispielpfad</th><th class="mitte">Am PC per USB sichtbar</th><th>Wofür</th></tr>
+    <tr><td><b>Intern, app-privat</b></td><td class="pre">/data/data/&lt;paket&gt;/</td><td class="mitte">nein</td><td>SharedPreferences, die Datenbank ab Tag 4, alles Interne</td></tr>
+    <tr><td>Extern, app-spezifisch</td><td class="pre">/sdcard/Android/data/&lt;paket&gt;/</td><td class="mitte">ja</td><td>Dateien, die der Benutzer sehen soll, etwa ein Export</td></tr>
+    <tr><td>Extern, öffentlich</td><td class="pre">/sdcard/Download/</td><td class="mitte">ja</td><td>gehört dem Benutzer, bleibt nach der Deinstallation liegen</td></tr>
+  </table>
+
+  <p>Die Daten der Quiz-App liegen im ersten Bereich. Ein Punktestand ist nichts, was jemand von aussen bearbeiten können soll. Und beim Deinstallieren verschwindet er mit der App, das ist genau das erwartete Verhalten.</p>
+
+  <h2>8. Wenn du nichts findest</h2>
+
+  <table>
+    <tr><th>Das siehst du</th><th>Wahrscheinlich</th><th>Das machst du</th></tr>
+    <tr><td>Kein Ordner <code>shared_prefs</code></td><td>Es wurde noch nie etwas geschrieben</td><td>In der App eine Aktion auslösen, die speichert, dann neu schauen</td></tr>
+    <tr><td>Der Ordner deiner App fehlt ganz</td><td>Die App ist auf diesem Gerät nicht installiert</td><td>Prüfen, ob der Device Explorer am richtigen Emulator hängt</td></tr>
+    <tr><td>Die Datei ist da, aber leer oder ohne deinen Wert</td><td>Geschrieben wurde in eine andere Ablage oder unter einem anderen Schlüssel</td><td>Name der Ablage und Schlüssel im Code vergleichen. Beide gehören an genau eine Stelle</td></tr>
+    <tr><td class="pre">'adb' is not recognized</td><td>Der Werkzeugordner ist nicht im Suchpfad</td><td>Siehe Abschnitt 3, die Variable <code>$adb</code></td></tr>
+    <tr><td>Meldung über <code>&amp;</code> und ein ungültiges Objekt</td><td><code>$adb</code> ist in diesem Fenster leer</td><td>Die Zuweisung nochmals ausführen</td></tr>
+    <tr><td><code>run-as</code> verweigert den Dienst</td><td>Die App ist keine Debug-Version</td><td>Aus Android Studio heraus installieren</td></tr>
+  </table>
+
+  <h2>9. Prüfe dich selbst</h2>
+
+  <ol>
+    <li>Wo liegt die XML-Datei deiner SharedPreferences, mit vollem Pfad?</li>
+    <li>Du suchst den Ordner <code>shared_prefs</code> und findest ihn nicht. Was schliesst du daraus?</li>
+    <li>Warum kannst du die Datei mit dem Windows-Explorer nicht öffnen, obwohl der Emulator auf deinem Rechner läuft?</li>
+    <li>Was ist der Unterschied zwischen <b>Clear storage</b> und <b>Wipe Data</b>, und wo findest du welches?</li>
+    <li>Erkläre einem Lerngspänli in zwei Sätzen, was mit den Daten deiner App passiert, wenn sie deinstalliert wird.</li>
+  </ol>
+
+  <div class="merk">
+    <p class="gross"><b>Die drei Sätze dieser Seite</b></p>
+    <ul style="margin:10px 0 0; font-size:15px">
+      <li>Jede App hat genau einen Ordner auf dem Gerät, und er heisst wie ihr Paketname.</li>
+      <li>Was darin liegt, sieht keine andere App, und der Benutzer auch nicht.</li>
+      <li>Der Emulator ist ein eigener Computer. Du schaust über <code>adb</code> hinein, nicht über den Explorer.</li>
+    </ul>
+  </div>
+
+  <p class="foot">Modul 335 | Grundlagen | Wo deine App ihre Daten ablegt | Version 1 | 16.08.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>

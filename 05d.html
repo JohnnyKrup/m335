@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>05D Der beste Wert bleibt</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>05D Der beste Wert bleibt</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 3 Vormittag. Zeitbudget 45 Minuten. Version 1 vom 16.08.2026.</p>
+<p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
+
+
+<h2>01 Einführung</h2>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>2.3</td><td>App-Architekturen kennen, hier der Lebenszyklus einer Activity</td></tr>
+<tr><td>2.4</td><td>Persistenzlösungen einsetzen, hier einzelne Werte dauerhaft auf dem Gerät</td></tr>
+<tr><td>3.2</td><td>Framework und APIs der Plattform einsetzen, hier SharedPreferences und das Bundle</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du legst einen einzelnen Wert dauerhaft auf dem Gerät ab und liest ihn wieder.</li>
+<li>Du sagst, warum <code>onCreate</code> beim Zurückkommen aus einem anderen Bildschirm nicht läuft.</li>
+<li>Du wählst die Stelle, an der gelesen wird, nach dem <b>Zeitpunkt</b> und nicht nach dem Gefühl.</li>
+<li>Du rettest Werte über den Neubau einer Activity mit einem <code>Bundle</code>.</li>
+<li>Du unterscheidest drei Arten von Gedächtnis und sagst, welche wie lange hält.</li>
+<li>Du schaust dir die gespeicherte Datei auf dem Gerät selbst an.</li>
+</ul>
+
+<h3>Das brauchst du vorher</h3>
+<ul>
+<li>Dein Projekt <b>WissQuiz</b> nach 05C. Die Kategoriewahl läuft, das Ergebnis kommt ins Menü zurück.</li>
+<li>Das Blatt <b>Wo deine App ihre Daten ablegt</b> aus dem Thema Nachschlagen. Du brauchst es in Teil A.</li>
+</ul>
+
+<h3>Das gibst du ab</h3>
+<ul>
+<li>Screenshot des Menüs nach einer Runde. Beide Zeilen zeigen einen Wert.</li>
+<li>Screenshot des Menüs nach dem <b>vollständigen Beenden und Neustart</b> der App. Der beste Wert steht noch da, die letzte Runde ist wieder leer.</li>
+<li>Screenshot der Datei <code>m335_quiz.xml</code>, geöffnet aus dem Device Explorer.</li>
+</ul>
+<p>Mehr nicht. Kein Arbeitsblatt und <b>kein Projekt als ZIP</b>. Ob dein Code sauber ist, prüfst du selbst mit der Vergleichsliste im Lösungsmaterial.</p>
+
+<div class="info">
+<p><b>Der zweite Screenshot ist der eigentliche.</b> Er zeigt zwei Zeilen nebeneinander, die sich verschieden lange erinnern. Genau das ist der Inhalt dieses Auftrags.</p>
+</div>
+
+
+<h2>02 Auftrag</h2>
+
+<h3>Ausgangslage</h3>
+<p>Dein Menü zeigt seit 05B den Punktestand der letzten Runde. Beende die App und starte sie neu. Der Wert ist weg.</p>
+<p>Das ist richtig so, denn er lebt in zwei Feldern, und Felder verschwinden mit dem Objekt. Heute kommt ein zweiter Wert dazu, der <b>nicht</b> verschwindet. Am Ende stehen beide untereinander auf demselben Bildschirm, und du kannst an ihnen ablesen, wie lange sich Android was merkt.</p>
+
+<h3>Werkzeugkasten</h3>
+<table>
+<tr><th>Baustein</th><th>Wofür</th></tr>
+<tr><td class="pre">SharedPreferences</td><td>Eine kleine Ablage für einzelne Werte. Android legt sie als XML-Datei im Ordner der App ab</td></tr>
+<tr><td class="pre">getSharedPreferences(name, mode)</td><td>Öffnet die Ablage. Der Name wird zum Dateinamen</td></tr>
+<tr><td class="pre">edit().putInt(...).apply()</td><td>Schreiben. Der Editor sammelt, <code>apply</code> gibt den Auftrag ab</td></tr>
+<tr><td class="pre">getInt(key, defaultValue)</td><td>Lesen. Ist nichts da, kommt der Vorgabewert zurück</td></tr>
+<tr><td class="pre">onResume</td><td>Läuft jedes Mal, wenn ein Bildschirm in den Vordergrund kommt</td></tr>
+<tr><td class="pre">onSaveInstanceState</td><td>Läuft, bevor Android eine Activity abräumt. Hier legst du ab, was den Neubau überstehen soll</td></tr>
+<tr><td class="pre">Bundle</td><td>Ein Zettel mit Schlüssel und Wert. Du kennst ihn als Parameter von <code>onCreate</code></td></tr>
+<tr><td class="pre">ScrollView</td><td>Ein Behälter, der scrollt, wenn sein Inhalt höher ist als der Bildschirm. Kennst du aus 04A</td></tr>
+<tr><td class="pre">final class</td><td>Von dieser Klasse kann niemand erben. Passt zu einer reinen Werkzeugklasse</td></tr>
+<tr><td class="pre">static</td><td>Gehört der Klasse und nicht einem Objekt. Kennst du von <code>QuestionBank</code></td></tr>
+</table>
+
+<h3>Pflichtangaben</h3>
+<table>
+<tr><th>Angabe</th><th>Pflicht, weil</th></tr>
+<tr><td>Name der Ablage und Schlüssel als <code>static final</code> an <b>einer</b> Stelle</td><td>Ein Tippfehler fällt sonst nie auf. <code>getInt</code> liefert stillschweigend die Vorgabe zurück</td></tr>
+<tr><td class="pre">Context.MODE_PRIVATE</td><td>Nur diese App darf lesen. Die alten Modi sind seit Android 7 gesperrt und werfen eine Exception</td></tr>
+<tr><td class="pre">.apply()</td><td>Ohne Abschluss schreibt der Editor gar nichts</td></tr>
+<tr><td>Ein Vorgabewert bei jedem <code>getInt</code></td><td>Beim ersten Start ist die Ablage leer. Ohne Vorgabe gibt es keine sinnvolle Antwort</td></tr>
+</table>
+
+<h3>Namen im Code</h3>
+<table>
+<tr><th>Name</th><th>Was es ist</th></tr>
+<tr><td class="pre">data</td><td>Das neue Paket neben <code>model</code>. Dort wohnt ab Tag 4 auch die Datenbank</td></tr>
+<tr><td class="pre">ScoreStorage</td><td>Die neue Klasse. Kennt Name und Schlüssel der Ablage</td></tr>
+<tr><td class="pre">PREFS_NAME, KEY_BEST_SCORE</td><td>Die zwei Konstanten darin</td></tr>
+<tr><td class="pre">NO_SCORE_YET</td><td>Bedeutet: noch nie eine Runde beendet</td></tr>
+<tr><td class="pre">getBestScore, saveIfBetter</td><td>Die zwei öffentlichen Methoden</td></tr>
+<tr><td class="pre">tvBestScore</td><td>Die neue Anzeige im Menü, über <code>tvLastScore</code></td></tr>
+<tr><td class="pre">showBestScore</td><td>Die Methode, die diese Anzeige füllt</td></tr>
+<tr><td class="pre">svMenu</td><td>Die neue <code>ScrollView</code> um das Menü</td></tr>
+<tr><td class="pre">KEY_LAST_SCORE, KEY_LAST_TOTAL</td><td>Die zwei Schlüssel fürs Bundle in der MainActivity</td></tr>
+<tr><td class="pre">best_score_none, best_score_format</td><td>Neue Einträge in <code>strings.xml</code></td></tr>
+</table>
+
+<h3>Denkfragen</h3>
+<ol>
+<li>Die Methode heisst <code>saveIfBetter</code> und nicht <code>save</code>. Der Vergleich steht also in der Ablage-Klasse und nicht in der Activity. Nenne einen Grund dafür.</li>
+<li>Gespeichert wird in der <code>GameActivity</code>, angezeigt wird im Menü. Warum nicht gleich dort speichern, wo angezeigt wird?</li>
+<li>Der beste Wert liegt bewusst <b>nicht</b> zusätzlich im Bundle. Warum ist das kein Sicherheitsnetz, sondern ein Risiko?</li>
+<li><code>apply</code> statt <code>commit</code>. Was ist der Unterschied, und warum ist <code>apply</code> hier richtig?</li>
+</ol>
+
+<div class="tip">
+<p><b>Diese vier Fragen kommen im 05CD Wissenscheck wieder.</b> Dasselbe gilt für das, was du in A4 beobachtest.</p>
+</div>
+
+
+<h3>Der Überblick, bevor Teil A anfängt</h3>
+<p>Drei Dateien sind beteiligt. Jede hat genau eine Aufgabe.</p>
+
+<table>
+<tr><th>Datei</th><th>Aufgabe</th><th>Was du daran machst</th></tr>
+<tr><td class="pre">data/ScoreStorage.java</td><td>kennt Name und Schlüssel der Ablage, liest und schreibt</td><td>ganz neu</td></tr>
+<tr><td class="pre">GameActivity.java</td><td>speichert, sobald eine Runde fertig ist</td><td><b>eine</b> Zeile in <code>showResult</code></td></tr>
+<tr><td class="pre">MainActivity.java</td><td>zeigt an, was gespeichert ist</td><td>ein Feld, eine Methode, und die Frage <b>wann</b></td></tr>
+</table>
+
+<h4>Wer wen ruft</h4>
+<pre><span class="c">// wenn eine Runde fertig ist</span>
+GameActivity.showResult()
+└─ <span class="t">ScoreStorage</span>.saveIfBetter(this, score)
+   └─ die Datei auf dem Gerät
+
+<span class="c">// wenn das Menü etwas anzeigen soll</span>
+MainActivity.showBestScore()
+└─ <span class="t">ScoreStorage</span>.getBestScore(this)
+   └─ dieselbe Datei
+
+<span class="c">// und die eigentliche Frage dieses Auftrags:</span>
+<span class="c">// wer ruft showBestScore auf, und wann?</span></pre>
+
+<div class="info">
+<p><b>Die Activity kennt die Datei nicht.</b> Sie kennt nur zwei Methoden. Wo die Werte wirklich liegen, wie die Ablage heisst und unter welchem Schlüssel etwas steht, weiss allein <code>ScoreStorage</code>.</p>
+<p>Das ist derselbe Gedanke wie bei <code>QuestionBank</code> in 05C. Daten und das Wissen darüber gehören zusammen, und zwar an einem Ort.</p>
+</div>
+
+<div class="tip">
+<p><b>Die Reihenfolge in diesem Auftrag ist Absicht.</b> Teil A speichert einen Wert, der alles überlebt. Teil B rettet einen Wert, der fast nichts überlebt. Erst im Vergleich siehst du, was der Unterschied wert ist.</p>
+</div>
+
+
+<h3>Teil A, der beste Wert <span class="time">17 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">A1</span><b>Das Paket <code>data</code> und die Klasse <code>ScoreStorage</code>.</b></p>
+<p>Rechtsklick auf <code>ch.wiss.m335.quiz</code>, dann <b>New</b>, dann <b>Package</b>, Name <code>data</code>. Darin Rechtsklick, <b>New</b>, <b>Java Class</b>, Name <code>ScoreStorage</code>.</p>
+<p>Dann den Inhalt:</p>
+<pre><span class="k">package</span> ch.wiss.m335.quiz.data;
+
+<span class="k">import</span> android.content.<span class="t">Context</span>;
+<span class="k">import</span> android.content.<span class="t">SharedPreferences</span>;
+
+<span class="c">/**
+ * Speichert den besten Punktestand dauerhaft auf dem Gerät.
+ *
+ * (HIER: zwei bis drei Zeilen, was SharedPreferences sind
+ *  und wie lange sie halten)
+ */</span>
+<span class="k">public final class</span> <span class="t">ScoreStorage</span> {
+
+    <span class="c">/** Der Name der XML-Datei im Ordner der App. */</span>
+    <span class="k">private static final</span> <span class="t">String</span> PREFS_NAME = <span class="s">"m335_quiz"</span>;
+
+    <span class="c">/** Der Schlüssel, unter dem der beste Wert liegt. */</span>
+    <span class="k">private static final</span> <span class="t">String</span> KEY_BEST_SCORE = <span class="s">"bestScore"</span>;
+
+    <span class="c">/** Bedeutet: es wurde noch nie eine Runde beendet. */</span>
+    <span class="k">public static final int</span> NO_SCORE_YET = -<span class="k">1</span>;
+
+    <span class="c">/** Diese Klasse wird nie erzeugt, sie hat nur statische Methoden. */</span>
+    <span class="k">private</span> <span class="t">ScoreStorage</span>() {
+    }
+
+    <span class="c">/**
+     * Liest den besten Punktestand.
+     *
+     * @param context irgendein Context, meistens die Activity
+     * @return der beste Wert, oder NO_SCORE_YET wenn noch keiner da ist
+     */</span>
+    <span class="k">public static int</span> getBestScore(<span class="t">Context</span> context) {
+        <span class="k">return</span> prefs(context).getInt(KEY_BEST_SCORE, NO_SCORE_YET);
+    }
+
+    <span class="c">/**
+     * Speichert den Punktestand, falls er besser ist als der bisherige.
+     *
+     * @param context irgendein Context
+     * @param score   der Punktestand der eben beendeten Runde
+     * @return true, wenn ein neuer Bestwert gespeichert wurde
+     */</span>
+    <span class="k">public static boolean</span> saveIfBetter(<span class="t">Context</span> context, <span class="k">int</span> score) {
+        <span class="k">if</span> (score &lt;= getBestScore(context)) {
+            <span class="k">return false</span>;
+        }
+        prefs(context).edit().putInt(KEY_BEST_SCORE, score).apply();
+        <span class="k">return true</span>;
+    }
+
+    <span class="c">/**
+     * Öffnet die Ablage der App.
+     *
+     * @param context irgendein Context, meistens die Activity
+     * @return die Ablage dieser App
+     */</span>
+    <span class="k">private static</span> <span class="t">SharedPreferences</span> prefs(<span class="t">Context</span> context) {
+        <span class="k">return</span> context.getSharedPreferences(PREFS_NAME, <span class="t">Context</span>.MODE_PRIVATE);
+    }
+}</pre>
+<div class="note">
+<p><b>Die drei Zeilen, an denen alles hängt.</b></p>
+<p><code>edit()</code> gibt dir einen Editor. Der <b>sammelt</b> nur. Erst <code>apply()</code> gibt den Auftrag zum Schreiben ab. Ohne <code>apply()</code> passiert gar nichts, und nichts warnt dich.</p>
+<p><code>getInt(schluessel, vorgabe)</code> liefert die Vorgabe zurück, wenn der Schlüssel nicht da ist. Auch dann, wenn du ihn falsch geschrieben hast. Genau darum stehen Name und Schlüssel als Konstante an einer Stelle.</p>
+<p><code>MODE_PRIVATE</code> heisst: nur diese App darf lesen. Die alten Modi <code>MODE_WORLD_READABLE</code> und <code>MODE_WORLD_WRITEABLE</code> sind seit Android 7 gesperrt.</p>
+</div>
+<div class="tip">
+<p><b>Warum eine eigene Klasse und nicht drei Zeilen in der Activity.</b> So stehen der Name der Ablage und der Schlüssel an genau einem Ort. Wer sie in zwei Activities einzeln hinschreibt, hat beim ersten Tippfehler zwei getrennte Ablagen und merkt es nicht.</p>
+<p>Und der Vergleich <b>ist der Wert besser</b> steckt in <code>saveIfBetter</code>. Damit kann ihn keine Aufrufstelle vergessen. Dasselbe Muster wie <code>isCorrect</code> in <code>Question</code>: das Verhalten gehört dorthin, wo die Daten liegen.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">A2</span><b>Die Runde speichert ihr Ergebnis.</b></p>
+<p>In <code>GameActivity.java</code>, in der Methode <code>showResult</code>, nach dem Aufruf von <code>publishResult()</code>:</p>
+<pre><span class="c">// Der beste Wert wird hier gespeichert und nicht im Menü.
+// Hier entsteht das Ergebnis.</span>
+<span class="k">boolean</span> isNewBest = <span class="t">ScoreStorage</span>.saveIfBetter(<span class="k">this</span>, score);</pre>
+<p>Und die Log-Zeile am Ende derselben Methode wird länger, damit du den Rückgabewert siehst:</p>
+<pre>Log.d(TAG, <span class="s">"round finished, score="</span> + score + <span class="s">" newBest="</span> + isNewBest);</pre>
+<p>Der Import kommt mit <code>Alt</code> und <code>Enter</code>.</p>
+<div class="info">
+<p><b>Warum hier und nicht im Menü.</b> Das Menü bekommt das Ergebnis zwar über den Rückkanal aus 05B. Aber Android darf eine Activity im Hintergrund jederzeit abräumen, wenn der Speicher knapp wird. Dann wird das Menü beim Zurückkommen neu gebaut, und auf den Rückkanal ist kein Verlass.</p>
+<p>Dieselbe Regel wie beim <code>setResult</code> in 05B: <b>tu es dort, wo das Ergebnis entsteht.</b></p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">A3</span><b>Die zweite Zeile im Menü.</b></p>
+<p>In <code>strings.xml</code>, bei den Texten des Startbildschirms:</p>
+<pre>&lt;<span class="t">string</span> name=<span class="s">"best_score_none"</span>&gt;Noch kein Bestwert.&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"best_score_format"</span>&gt;Bester Wert: %1$d Punkte.&lt;/<span class="t">string</span>&gt;</pre>
+<p>In <code>activity_main.xml</code>, <b>über</b> der TextView <code>tvLastScore</code>:</p>
+<pre>&lt;<span class="t">TextView</span>
+    android:id=<span class="s">"@+id/tvBestScore"</span>
+    android:layout_width=<span class="s">"match_parent"</span>
+    android:layout_height=<span class="s">"wrap_content"</span>
+    android:layout_marginTop=<span class="s">"16dp"</span>
+    android:textSize=<span class="s">"14sp"</span>
+    android:textStyle=<span class="s">"bold"</span>
+    tools:text=<span class="s">"Bester Wert: 5 Punkte."</span> /&gt;</pre>
+<p>Bei <code>tvLastScore</code> setzt du den oberen Abstand von <code>10dp</code> auf <code>6dp</code>, damit die zwei Zeilen als Paar zusammengehören.</p>
+<p>In <code>MainActivity.java</code> das Feld, bei den anderen, und in <code>onCreate</code> das passende <code>findViewById</code>:</p>
+<pre><span class="c">/** Die Anzeige des besten Werts, direkt unter dem Titel. */</span>
+<span class="k">private</span> <span class="t">TextView</span> tvBestScore;</pre>
+<p>Und die Methode, die diese Anzeige füllt. Sie kommt zu den anderen <code>show</code>-Methoden ans Ende der Klasse:</p>
+<pre><span class="c">/** Schreibt den besten Wert aus SharedPreferences in die Anzeige. */</span>
+<span class="k">private void</span> showBestScore() {
+    <span class="k">int</span> best = <span class="t">ScoreStorage</span>.getBestScore(<span class="k">this</span>);
+    <span class="k">if</span> (best == <span class="t">ScoreStorage</span>.NO_SCORE_YET) {
+        tvBestScore.setText(getString(R.string.best_score_none));
+    } <span class="k">else</span> {
+        tvBestScore.setText(getString(R.string.best_score_format, best));
+    }
+
+    Log.d(TAG, <span class="s">"best score read, value="</span> + best);
+}</pre>
+<p>Zum Schluss der Aufruf. Er kommt <b>ans Ende von <code>onCreate</code></b>, direkt neben <code>showLastScore();</code>:</p>
+<pre>showBestScore();
+showLastScore();</pre>
+<div class="warn">
+<p><b>Tipp das genau so ab.</b> Der Aufruf steht hier noch nicht an der richtigen Stelle. Wo er hingehört, findest du in A4 selbst heraus.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">A4</span><b>Starten und genau hinschauen.</b></p>
+<p>Run, und dann der Reihe nach:</p>
+<ol>
+<li>Das Menü zeigt oben <b>Noch kein Bestwert</b> und darunter <b>Noch keine Runde gespielt</b>.</li>
+<li>Spiel eine ganze Runde zu Ende und geh mit <b>Zurück zum Start</b> ins Menü.</li>
+<li><b>Schau die zwei Zeilen an.</b> Eine von beiden hat sich geändert, die andere nicht.</li>
+<li>Beende die App jetzt ganz. Über den Aufgabenwechsler wegwischen, nicht nur die Zurück-Taste. Dann starte sie neu.</li>
+<li><b>Schau nochmals.</b> Jetzt steht plötzlich etwas anderes da.</li>
+</ol>
+<p><b>Sag in einem Satz, was zwischen Schritt 3 und Schritt 5 anders war.</b> Nicht am Bildschirm, sondern in deinem Code. Genau danach fragt der Wissenscheck.</p>
+<div class="warn">
+<p>Nicht reparieren, nur schauen. Repariert wird in A5.</p>
+<p>Der Wert <b>ist</b> gespeichert, da liegt der Fehler nicht. Schau im Device Explorer nach, wenn du es nicht glaubst. Der Weg dorthin steht im Blatt <b>Wo deine App ihre Daten ablegt</b>.</p>
+</div>
+<div class="info">
+<p><b>Wenn du zwischendurch nochmals bei null anfangen willst</b>, etwa weil du dich verklickt hast, dann löschst du die Daten deiner App. Das geht <b>im Emulator</b>, nicht in Android Studio:</p>
+<p>Im laufenden Emulator die App-Übersicht öffnen, dann <b>Settings</b>, <b>Apps</b>, <b>WissQuiz</b>, <b>Storage and cache</b>, <b>Clear storage</b>. Genauso gut geht es, die App im Emulator zu deinstallieren.</p>
+<p>Beim ersten Durchgang brauchst du das nicht. Vor heute hat deine App noch nie etwas gespeichert.</p>
+</div>
+<div class="note">
+<p><b>Nimm nicht <code>Wipe Data</code> aus dem Device Manager.</b> Das steht in Android Studio im Menü hinter den drei Punkten neben deinem Gerät, und es klingt nach dem Richtigen. Es setzt aber den <b>ganzen Emulator</b> zurück, also auch alle anderen Apps darauf, und es dauert lange.</p>
+<p>Die Regel: <b>Clear storage trifft deine App, Wipe Data trifft das ganze Gerät.</b> Mehr dazu im Blatt <b>Wo deine App ihre Daten ablegt</b>, Abschnitt 4.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">A5</span><b>Gelesen wird in <code>onResume</code>.</b></p>
+<p>Nimm den Aufruf <code>showBestScore();</code> aus <code>onCreate</code> wieder heraus. Er kommt in eine eigene Methode, direkt unter <code>onCreate</code>:</p>
+<pre><span class="c">/**
+ * Läuft jedes Mal, wenn dieser Bildschirm in den Vordergrund kommt.
+ *
+ * Also nach dem Start, nach der Rückkehr aus der GameActivity und nach
+ * dem Wechsel aus einer anderen App.
+ */</span>
+<span class="k">@Override</span>
+<span class="k">protected void</span> onResume() {
+    <span class="k">super</span>.onResume();
+    showBestScore();
+}</pre>
+<p>Run. Spiel eine Runde, geh zurück. Der beste Wert steht jetzt sofort richtig da.</p>
+
+<h4>Warum das der Unterschied ist</h4>
+<table>
+<tr><th>Methode</th><th>Läuft wann</th><th>Wie oft, wenn du einmal spielst und zurückkommst</th></tr>
+<tr><td class="pre">onCreate</td><td>wenn die Activity <b>entsteht</b></td><td>einmal, ganz am Anfang</td></tr>
+<tr><td class="pre">onResume</td><td>wenn die Activity in den <b>Vordergrund</b> kommt</td><td>zweimal, beim Start und beim Zurückkommen</td></tr>
+</table>
+<p>Deine <code>MainActivity</code> wird beim Zurückkommen aus dem Spiel <b>nicht</b> neu gebaut. Sie war die ganze Zeit da, nur verdeckt. Darum lief <code>onCreate</code> nicht, und darum stand oben noch der alte Text.</p>
+<div class="note">
+<p><b>Diese Sorte Fehler ist die schlimmste.</b> Sie tritt nicht immer auf. Wenn Android das Menü im Hintergrund abräumt, wird es beim Zurückkommen neu gebaut, dann läuft <code>onCreate</code> doch, und dann stimmt der Wert plötzlich. Auf einem Gerät mit wenig Speicher würdest du den Fehler nie sehen.</p>
+<p><b>Die Regel dahinter:</b> Frag nicht, wo ein Aufruf gut aussieht. Frag, <b>wann</b> er laufen muss. Wenn die Antwort <b>jedes Mal beim Anzeigen</b> lautet, gehört er nicht in <code>onCreate</code>.</p>
+</div>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil A.</b></p>
+<ul>
+<li>In <code>onCreate</code> steht <b>kein</b> Aufruf von <code>showBestScore</code> mehr. Er steht nur noch in <code>onResume</code>.</li>
+<li>Beim allerersten Start steht oben <b>Noch kein Bestwert</b>. Dasselbe nach <b>Clear storage</b>.</li>
+<li>Nach einer Runde mit 3 Punkten steht oben <b>Bester Wert: 3 Punkte</b>, und zwar <b>sofort</b> beim Zurückkommen.</li>
+<li>Eine schlechtere Runde ändert die untere Zeile, die obere bleibt.</li>
+<li>Eine bessere Runde ändert beide.</li>
+<li>App ganz beenden und neu starten: der beste Wert steht noch da.</li>
+<li>Im Device Explorer liegt unter <code>shared_prefs</code> die Datei <code>m335_quiz.xml</code> mit deinem Wert.</li>
+<li>Im Logcat steht nach jeder Runde <code>round finished, score=x newBest=true</code> oder <code>false</code>, und bei jeder Rückkehr <code>best score read, value=x</code>.</li>
+</ul>
+</div>
+
+
+<h3>Teil B, was der Neubau überlebt <span class="time">18 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">B1</span><b>Zuerst muss das Menü ins Querformat passen.</b></p>
+<p>Dreh dein Gerät im Menü einmal, bevor du irgendetwas baust. Die Knöpfe im Emulatorrahmen machen das, oder <code>Strg</code> und <code>F11</code>.</p>
+<p><b>Der unterste Knopf ist weg.</b> Das Menü ist länger als der Bildschirm im Querformat, und ein <code>LinearLayout</code> schneidet einfach ab, was nicht mehr passt. Es scrollt nicht von selbst.</p>
+<div class="warn">
+<p><b>Wenn sich gar nichts dreht:</b> im Emulator ist die automatische Drehung ausgeschaltet. Zieh die Statusleiste herunter und schalte <b>Auto-rotate</b> ein. Oder unter Settings, Display, Auto-rotate screen.</p>
+</div>
+<p><b>Das kennst du schon.</b> Genau dieselbe Sache hattest du in 04A beim Fragebereich. Die Lösung ist dieselbe: eine <code>ScrollView</code> um den ganzen Inhalt.</p>
+<p>In <code>activity_main.xml</code> legst du eine <code>ScrollView</code> um das <code>LinearLayout</code> <code>llMenu</code>:</p>
+<pre>&lt;<span class="c">!-- Das Menü steckt in einer ScrollView, damit es im Querformat
+     nicht unten abgeschnitten wird. --</span>&gt;
+&lt;<span class="t">ScrollView</span>
+    android:id=<span class="s">"@+id/svMenu"</span>
+    android:layout_width=<span class="s">"0dp"</span>
+    android:layout_height=<span class="s">"0dp"</span>
+    app:layout_constraintBottom_toBottomOf=<span class="s">"parent"</span>
+    app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span>
+    app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
+    app:layout_constraintTop_toTopOf=<span class="s">"parent"</span>&gt;
+
+    &lt;<span class="c">!-- hier hinein kommt dein llMenu, unverändert bis auf die
+         vier Zeilen unten --</span>&gt;
+
+&lt;/<span class="t">ScrollView</span>&gt;</pre>
+<p>Und am <code>LinearLayout</code> <code>llMenu</code> ändern sich vier Zeilen. Die Anker braucht es nicht mehr, denn jetzt sitzt es in der ScrollView und nicht mehr direkt im ConstraintLayout:</p>
+<table>
+<tr><th>Weg</th><th>Neu</th></tr>
+<tr><td class="pre">android:layout_width="0dp"</td><td class="pre">android:layout_width="match_parent"</td></tr>
+<tr><td class="pre">app:layout_constraintStart_toStartOf<br>app:layout_constraintEnd_toEndOf<br>app:layout_constraintTop_toTopOf</td><td>alle drei <b>löschen</b></td></tr>
+</table>
+<p>Die Höhe bleibt <code>wrap_content</code>. Das ist wichtig: der Inhalt der ScrollView darf so hoch werden, wie er will.</p>
+<div class="note">
+<p><b>Eine ScrollView hat genau ein Child.</b> Nicht zwei, nicht fünf. Darum steckt der Inhalt in einem <code>LinearLayout</code>, und das ist dieses eine Child. Wer zwei Elemente direkt hineinlegt, bekommt <code>ScrollView can host only one direct child</code>.</p>
+<p><b>Und die Höhe ist der ganze Trick.</b> Die ScrollView selbst ist <code>0dp</code> hoch, also genau so hoch wie der Bildschirm. Ihr Inhalt ist <code>wrap_content</code>, also so hoch wie nötig. Genau aus dieser Differenz entsteht das Scrollen.</p>
+</div>
+<p>Run, drehen, nach unten wischen. Alle vier Knöpfe sind erreichbar.</p>
+<div class="tip">
+<p><b>Warum das hierher gehört und nicht in Teil A.</b> Gleich prüfst du, was der Neubau beim Drehen überlebt. Wenn du dabei nur die Hälfte des Bildschirms siehst, prüfst du nichts. <b>Erst muss das Werkzeug funktionieren, dann kannst du damit messen.</b></p>
+<p>Und der Aufbau ist derselbe wie in 05C: zuerst aufräumen, dann das eigentliche Thema.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">B2</span><b>Jetzt nochmals drehen. Und diesmal die zwei Zeilen anschauen.</b></p>
+<p>Spiel eine Runde, geh ins Menü zurück, und dreh erst dann.</p>
+<p><b>Eine Zeile bleibt stehen, die andere ist leer.</b></p>
+<div class="info">
+<p><b>Beim Drehen wird deine Activity abgeräumt und neu gebaut.</b> Android tut das, weil sich das Layout ändern kann. Ein neues Objekt heisst neue Felder, und die stehen auf ihrem Anfangswert.</p>
+<p>Der beste Wert übersteht das trotzdem. Er lebt nicht in einem Feld, sondern in einer Datei, und <code>onResume</code> liest ihn nach dem Neubau sofort wieder.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">B3</span><b>Der Zettel für den Neubau.</b></p>
+<p>Android bietet dir für genau diesen Fall ein <code>Bundle</code> an. Zwei Schlüssel zuerst, zu den anderen Konstanten in <code>MainActivity</code>:</p>
+<pre><span class="c">/** Schlüssel für die Punkte der letzten Runde im Bundle. */</span>
+<span class="k">private static final</span> <span class="t">String</span> KEY_LAST_SCORE = <span class="s">"lastScore"</span>;
+
+<span class="c">/** Schlüssel für die Anzahl Fragen der letzten Runde im Bundle. */</span>
+<span class="k">private static final</span> <span class="t">String</span> KEY_LAST_TOTAL = <span class="s">"lastTotal"</span>;</pre>
+<p>Und die Methode, unter <code>onResume</code>:</p>
+<pre><span class="c">/**
+ * Legt die Werte weg, die den Neubau dieser Activity überstehen sollen.
+ *
+ * @param outState der Zettel, den der Neubau später zurückbekommt
+ */</span>
+<span class="k">@Override</span>
+<span class="k">protected void</span> onSaveInstanceState(@<span class="t">NonNull</span> <span class="t">Bundle</span> outState) {
+    <span class="k">super</span>.onSaveInstanceState(outState);
+    outState.putInt(KEY_LAST_SCORE, lastScore);
+    outState.putInt(KEY_LAST_TOTAL, lastTotal);
+
+    Log.d(TAG, <span class="s">"state saved, lastScore="</span> + lastScore + <span class="s">"/"</span> + lastTotal);
+}</pre>
+<p>Der Import von <code>NonNull</code> kommt mit <code>Alt</code> und <code>Enter</code>, es ist der aus <code>androidx.annotation</code>.</p>
+<div class="warn">
+<p><b>Der beste Wert gehört hier nicht hinein.</b> Er liegt in der Datei und wird in <code>onResume</code> ohnehin neu gelesen. Dieselbe Information an zwei Orten zu halten, geht beim nächsten Umbau schief: einer wird geändert, der andere vergessen.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">B4</span><b>Den Zettel wieder lesen.</b></p>
+<p>Der Zettel kommt genau dort zurück, wo du ihn seit 01B jeden Tag siehst und noch nie gebraucht hast: als Parameter von <code>onCreate</code>.</p>
+<p>In <code>onCreate</code>, nach den <code>findViewById</code>-Zeilen und <b>vor</b> dem Aufruf von <code>showLastScore()</code>:</p>
+<pre><span class="c">// Der Neubau bringt seinen Zettel mit. Beim allerersten Start ist er
+// null, dann bleiben die Felder auf ihrem Anfangswert.</span>
+<span class="k">if</span> (savedInstanceState != <span class="k">null</span>) {
+    lastScore = savedInstanceState.getInt(KEY_LAST_SCORE, NO_ROUND_YET);
+    lastTotal = savedInstanceState.getInt(KEY_LAST_TOTAL, <span class="k">0</span>);
+
+    Log.d(TAG, <span class="s">"state restored, lastScore="</span> + lastScore + <span class="s">"/"</span> + lastTotal);
+}</pre>
+<div class="note">
+<p><b>Die Prüfung auf <code>null</code> ist Pflicht.</b> Beim allerersten Start gibt es keinen Zettel, dann ist der Parameter <code>null</code>. Ohne die Prüfung stürzt die App beim Start ab, und zwar immer.</p>
+<p><b>Und die Reihenfolge zählt.</b> Erst die Felder füllen, dann anzeigen. Wer <code>showLastScore()</code> vorher aufruft, zeigt den alten Anfangswert an und danach nie mehr etwas anderes.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">B5</span><b>Nochmals drehen. Und dann die Bilanz.</b></p>
+<p>Run. Spiel eine Runde, geh ins Menü, dreh das Gerät. <b>Beide Zeilen bleiben stehen.</b></p>
+<p>Und jetzt beende die App ganz und starte sie neu. <b>Der beste Wert steht noch da, die letzte Runde ist wieder leer.</b></p>
+<p>Damit hat dein Menü drei Arten von Gedächtnis nebeneinander:</p>
+<table>
+<tr><th>Womit</th><th class="pre">Drehen</th><th class="pre">App beenden</th><th class="pre">Deinstallieren</th><th>Wofür</th></tr>
+<tr><td>Ein Feld in der Klasse</td><td>nein</td><td>nein</td><td>nein</td><td>alles, was nur während einer Runde gilt</td></tr>
+<tr><td>Feld plus <code>Bundle</code></td><td><b>ja</b></td><td>nein</td><td>nein</td><td>Zustand, den der Neubau nicht verlieren darf</td></tr>
+<tr><td><code>SharedPreferences</code></td><td><b>ja</b></td><td><b>ja</b></td><td>nein</td><td>einzelne Werte, die dem Benutzer gehören</td></tr>
+</table>
+<div class="tip">
+<p><b>Der Aufbau des Bildschirms ist kein Zufall.</b> Zwei Zeilen, zwei Speicher, ein Unterschied, den du in vier Sekunden vorführen kannst. Merk dir die Reihenfolge der Prüfung: erst drehen, dann beenden. Wer nur dreht, sieht den Unterschied nicht, denn das Drehen überstehen beide.</p>
+</div>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil B.</b></p>
+<ul>
+<li>Im Querformat sind alle vier Knöpfe erreichbar, notfalls nach dem Wischen.</li>
+<li>Im Hochformat sieht das Menü aus wie vorher. Die ScrollView darf nichts verschieben.</li>
+<li>Drehen im Menü: beide Zeilen bleiben, wie sie waren.</li>
+<li>App ganz beenden und neu starten: der beste Wert bleibt, die letzte Runde ist auf <b>Noch keine Runde gespielt</b> zurück.</li>
+<li>Ganz frischer Start nach <b>Clear storage</b>: kein Absturz, obwohl es keinen Zettel gibt.</li>
+<li>Im Logcat steht beim Drehen zuerst <code>state saved</code> und danach <code>state restored</code> mit denselben Zahlen.</li>
+<li>In <code>onSaveInstanceState</code> steht nichts über den besten Wert.</li>
+</ul>
+</div>
+
+
+<h3>Teil C, die Kommentare nachziehen <span class="time">4 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">C1</span><b>Der Klassenkommentar der MainActivity stimmt nicht mehr.</b></p>
+<p>Lies den Javadoc-Block über <code>public class MainActivity</code>. Der letzte Absatz stammt aus 05B und ist seit heute nur noch <b>halb</b> wahr.</p>
+<p>Der Rahmen, den Inhalt formulierst du selbst:</p>
+<pre><span class="c">/**
+ * Der Startbildschirm der Quiz-App.
+ *
+ * (DER TEIL AUS 04B, 05A UND 05B BLEIBT STEHEN)
+ *
+ * (WEG: der Satz, dass der Punktestand nur in zwei Feldern lebt und
+ *  das Beenden der App nicht überlebt. Er stimmt seit Teil B nur noch
+ *  für eine der zwei Zeilen)
+ *
+ * (HIER: die zwei Zeilen im Menü und wie lange sich jede erinnert)
+ *
+ * (HIER: warum der beste Wert in onResume gelesen wird und nicht
+ *  in onCreate)
+ */</span></pre>
+<p>Danach prüfst du die neuen Stellen. <b>Jede davon braucht ihre Javadoc-Zeile</b>, und die meisten hast du beim Eintippen schon geschrieben:</p>
+<table>
+<tr><th>Was</th><th>Steht ein Kommentar dort?</th></tr>
+<tr><td class="pre">KEY_LAST_SCORE, KEY_LAST_TOTAL</td><td>je eine Zeile</td></tr>
+<tr><td class="pre">tvBestScore</td><td>eine Zeile</td></tr>
+<tr><td class="pre">showBestScore</td><td>eine Zeile, samt dem Hinweis, dass anderswo gespeichert wird</td></tr>
+<tr><td class="pre">onResume</td><td>der Block mit dem <b>wann</b>. Das ist der wichtigste Kommentar dieses Auftrags</td></tr>
+<tr><td class="pre">onSaveInstanceState</td><td>der Block mit <code>@param</code>, samt dem Satz, was hier bewusst <b>nicht</b> hineingehört</td></tr>
+<tr><td class="pre">ScoreStorage</td><td>Klassenkommentar plus je ein Block auf den drei Methoden</td></tr>
+</table>
+<div class="warn">
+<p><b>Lies deine Kommentare am Schluss ganz durch.</b> Ein Rest wie das Wort HIER, das Wort WEG oder eine leere Klammer fällt in einem Javadoc-Block nie auf, weil nichts ihn meldet.</p>
+</div>
+<div class="note">
+<p><b>Warum das ein eigener Schritt ist und keine Fleissarbeit.</b> Kommentare veralten still. Kein Compiler warnt, die App läuft, und alles sieht in Ordnung aus.</p>
+<p>Hier ist es besonders heikel, weil der alte Satz nicht komplett falsch ist, sondern nur noch für eine der zwei Zeilen gilt. <b>Ein halb richtiger Kommentar ist am gefährlichsten</b>, denn er klingt beim Lesen plausibel.</p>
+</div>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil C.</b></p>
+<ul>
+<li>Im Klassenkommentar der MainActivity steht, dass es zwei Zeilen mit verschieden langem Gedächtnis gibt.</li>
+<li>Im Klassenkommentar steht, warum in <code>onResume</code> gelesen wird.</li>
+<li><code>onResume</code>, <code>onSaveInstanceState</code>, <code>showBestScore</code>, <code>tvBestScore</code> und die zwei Schlüssel haben je einen Kommentar.</li>
+<li><code>ScoreStorage</code> hat einen Klassenkommentar, der sagt, wie lange die Werte halten.</li>
+<li>Nirgends steht mehr das Wort HIER, das Wort WEG oder eine leere Klammer.</li>
+</ul>
+</div>
+
+
+<h3>Übungen <span class="time">6 Minuten</span></h3>
+<p>Ohne Vorlage. Die Lösungen findest du im Material <b>05D Lösung - Der beste Wert bleibt</b>.</p>
+
+<div class="ue">
+<div class="t">Übung 1, Runden zählen</div>
+<p>Speichere zusätzlich, wie viele Runden insgesamt schon gespielt wurden, und zeig die Zahl im Menü an. Der Zähler gehört in <code>ScoreStorage</code>, nicht in die Activity.</p>
+<p><b>So prüfst du:</b> Nach drei Runden steht dort eine 3. Nach dem Beenden und Neustart der App steht sie immer noch da und zählt weiter.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 2, den neuen Bestwert feiern</div>
+<p>Der Rückgabewert von <code>saveIfBetter</code> landet bisher nur im Logcat. Nutze ihn: wenn eine Runde einen neuen Bestwert bringt, soll das im Ergebnisbereich stehen.</p>
+<p><b>So prüfst du:</b> Die erste Runde bringt immer einen neuen Bestwert. Eine schlechtere Runde danach bringt keinen, und dann steht der Text auch nicht da.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 3, erklären</div>
+<p>Erkläre einem Lerngspänli, warum der beste Wert in <code>onResume</code> gelesen wird und nicht in <code>onCreate</code>.</p>
+<p><b>So prüfst du:</b> Dein Gegenüber kann sagen, was am Bildschirm passiert, wenn man es doch in <code>onCreate</code> macht, und warum der Fehler manchmal nicht auftritt.</p>
+</div>
+
+
+<h3>Zusatzaufgabe für Schnelle</h3>
+<div class="tip">
+<p>Zuerst die Pflichtaufgabe fertig und lauffähig. Dann erst hier weiter.</p>
+<p><b>Auftrag:</b> Speichere zusätzlich, <b>wann</b> der beste Wert erreicht wurde, und zeig es im Menü an.</p>
+<p><b>Und die Frage, die dazugehört:</b> Überleg dir vorher, in welcher Form du das Datum ablegst, damit man später auch danach sortieren könnte. Warum ist ein Datum als Text nicht dasselbe wie ein Datum als Zahl?</p>
+<p>Keine Musterlösung. KI darfst du benutzen, aber du musst deine Lösung erklären können.</p>
+</div>
+
+
+<h3>Wenn etwas nicht funktioniert</h3>
+<table>
+<tr><th>Das siehst du</th><th>Ursache</th><th>Das machst du</th></tr>
+<tr><td>Der beste Wert ändert sich erst beim nächsten App-Start</td><td><code>showBestScore</code> wird nur in <code>onCreate</code> aufgerufen</td><td>Siehe A5. Genau das ist die Beobachtung aus A4</td></tr>
+<tr><td>Nach dem Neustart steht wieder <b>Noch kein Bestwert</b></td><td>Das <code>apply()</code> fehlt, oder Schlüssel und Name sind beim Schreiben andere als beim Lesen</td><td>Siehe A1. Beide stehen als Konstante an einer Stelle. Danach im Device Explorer nachschauen, ob die Datei überhaupt existiert</td></tr>
+<tr><td>Der beste Wert wird <b>schlechter</b></td><td>Es wird immer gespeichert statt nur, wenn der Wert besser ist</td><td>Siehe A1. Der Vergleich gehört in <code>saveIfBetter</code></td></tr>
+<tr><td>Der Ordner <code>shared_prefs</code> fehlt im Device Explorer</td><td>Es wurde noch nie geschrieben</td><td>Eine Runde zu Ende spielen, dann nochmals schauen. Das ist kein Fehler</td></tr>
+<tr><td>Der Emulator startet nach dem Zurücksetzen komplett neu und dauert ewig</td><td>Es wurde <code>Wipe Data</code> im Device Manager benutzt statt <code>Clear storage</code> im Emulator</td><td>Siehe A4. <code>Clear storage</code> trifft nur deine App</td></tr>
+<tr><td>Absturz beim Start: <code>NullPointerException</code> auf <code>tvBestScore</code></td><td>Das Feld hat kein <code>findViewById</code></td><td>Siehe A3. Feld und <code>findViewById</code> gehören zusammen</td></tr>
+<tr><td>Beim Drehen passiert gar nichts</td><td>Die automatische Drehung ist im Emulator aus</td><td>Statusleiste herunterziehen, <b>Auto-rotate</b> einschalten</td></tr>
+<tr><td>Im Querformat fehlt der unterste Knopf</td><td>Das Menü steckt noch nicht in einer <code>ScrollView</code></td><td>Siehe B1. Dieselbe Lösung wie in 04A</td></tr>
+<tr><td>Rot: <code>ScrollView can host only one direct child</code></td><td>Es liegen mehrere Elemente direkt in der ScrollView</td><td>Siehe B1. Genau ein Child, und das ist <code>llMenu</code></td></tr>
+<tr><td>Das Menü ist plötzlich leer oder winzig</td><td><code>llMenu</code> steht noch auf <code>0dp</code> Breite, oder seine alten Anker sind noch da</td><td>Siehe B1. In der ScrollView heisst es <code>match_parent</code> und <code>wrap_content</code>, ohne Anker</td></tr>
+<tr><td>Es lässt sich nichts scrollen, obwohl die ScrollView da ist</td><td>Die ScrollView selbst steht auf <code>wrap_content</code> statt <code>0dp</code></td><td>Siehe B1. Aussen <code>0dp</code>, innen <code>wrap_content</code></td></tr>
+<tr><td>Absturz beim allerersten Start nach Teil B</td><td>Die Prüfung <code>if (savedInstanceState != null)</code> fehlt</td><td>Siehe B4</td></tr>
+<tr><td>Nach dem Drehen steht die letzte Runde trotzdem leer</td><td><code>showLastScore()</code> läuft vor dem Lesen des Bundles</td><td>Siehe B4. Erst füllen, dann anzeigen</td></tr>
+<tr><td>Rot: <code>cannot resolve symbol 'ScoreStorage'</code></td><td>Der Import fehlt, oder die Klasse liegt im falschen Paket</td><td><code>Alt</code> und <code>Enter</code>. Sie gehört in <code>data</code>, nicht in <code>model</code></td></tr>
+<tr><td>Rot: <code>cannot resolve symbol 'NonNull'</code></td><td>Der Import fehlt</td><td><code>Alt</code> und <code>Enter</code>, dann <code>androidx.annotation.NonNull</code></td></tr>
+<tr><td>Gelb: <code>method does not override method from its superclass</code></td><td>Die Signatur von <code>onResume</code> oder <code>onSaveInstanceState</code> stimmt nicht genau</td><td>Beide sind <code>protected void</code>. <code>onSaveInstanceState</code> nimmt genau ein <code>Bundle</code></td></tr>
+<tr><td>Der Wert stimmt, aber die App hakt kurz beim Speichern</td><td><code>commit()</code> statt <code>apply()</code></td><td><code>commit</code> schreibt sofort und lässt die Oberfläche warten</td></tr>
+</table>
+
+<h3>Abgabe</h3>
+<p>Alles läuft über die Aufgabe <b>05D Auftrag - Der beste Wert bleibt</b> in Google Classroom.</p>
+<ol>
+<li>Screenshot des Menüs nach einer Runde, beide Zeilen mit einem Wert.</li>
+<li>Screenshot des Menüs nach dem vollständigen Beenden und Neustart der App.</li>
+<li>Screenshot der Datei <code>m335_quiz.xml</code> aus dem Device Explorer.</li>
+</ol>
+<p>Danach kommt der <b>05CD Wissenscheck</b>. Er deckt 05C und 05D zusammen ab.</p>
+
+
+<h2>03 Guide</h2>
+<table>
+<tr><td>Zeitbudget</td><td>45 Minuten. Teil A 17, Teil B 18, Teil C 4, Übungen 6</td></tr>
+<tr><td>Sozialform</td><td>Einzelarbeit. Bei den Denkfragen und Übung 3 zu zweit</td></tr>
+<tr><td>Aufgabenart</td><td>Neubau mit einer Entdeckungsstelle (A4, der Wert aktualisiert sich zu spät). Teil B beginnt mit einem Layout-Fix. Endet mit Kommentare nachziehen</td></tr>
+<tr><td>Voraussetzung</td><td>05C. Dazu das Blatt <b>Wo deine App ihre Daten ablegt</b></td></tr>
+<tr><td>KI</td><td>In Teil A und B <b>nicht</b> erlaubt. Die Kurzwege von Android Studio schon</td></tr>
+<tr><td>Abgabe</td><td>Drei Screenshots. <b>Kein Arbeitsblatt und kein ZIP</b>. Danach der Wissenscheck 05CD</td></tr>
+</table>
+
+<h3>Die drei Beiträge in Google Classroom</h3>
+<table>
+<tr><th>Name</th><th>Typ</th><th>Einstellung</th></tr>
+<tr><td>05D Auftrag - Der beste Wert bleibt</td><td>Aufgabe</td><td>Dieses Dokument liegt als Anhang bei, nur zum Ansehen. Abgegeben werden drei Screenshots</td></tr>
+<tr><td>05D Lösung - Der beste Wert bleibt</td><td>Material</td><td>Schüler können Datei ansehen. Enthält den vollständigen Code als Text und die Vergleichsliste</td></tr>
+<tr><td>05CD Wissenscheck - Zustände und Speichern</td><td>Aufgabe mit Quiz</td><td>Unbenotet, wiederholbar, kein Fälligkeitsdatum. Deckt 05C und 05D ab</td></tr>
+</table>
+
+
+<h2>04 Unterrichtsmittel</h2>
+<table>
+<tr><th>Art</th><th>Was</th></tr>
+<tr><td>Hardware</td><td>Eigenes Notebook, laufender Emulator Medium Phone API 36.1</td></tr>
+<tr><td>Software und Tools</td><td>Android Studio Quail 2, Patch 1</td></tr>
+<tr><td>Dokumente</td><td><b>Wo deine App ihre Daten ablegt</b> (Pflicht für Teil A), <b>Die Activity von innen</b>. Beide im Thema Nachschlagen</td></tr>
+<tr><td>Buch</td><td>Android-Apps entwickeln für Einsteiger, Abschnitt 7.1.3 Werte permanent speichern (S. 218 bis 219)</td></tr>
+</table>
+
+
+<p class="foot">Modul 335 | Tag 3 Vormittag | Auftrag 05D | Version 1 | 16.08.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>
