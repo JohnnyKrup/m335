@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>05B MainActivity und Ergebnis zurück</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>05B MainActivity und Ergebnis zurück</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 3 Vormittag. Zeitbudget 40 Minuten. Version 2 vom 16.08.2026.</p>
+<p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
+
+
+<h2>01 Einführung</h2>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>1.2</td><td>Benutzerführung, hier der Weg zurück und was der Benutzer danach sieht</td></tr>
+<tr><td>2.3</td><td>App-Architekturen kennen, hier der Rückkanal zwischen zwei Activities</td></tr>
+<tr><td>3.2</td><td>Framework und APIs der Plattform einsetzen, hier der ActivityResultLauncher</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du gibst ein Ergebnis von einer Activity an die vorherige zurück.</li>
+<li>Du erklärst, warum der Launcher in <code>onCreate</code> entstehen muss und nicht beim Klick.</li>
+<li>Du sagst, wann ein Ergebnis hinterlegt und wann es ausgeliefert wird.</li>
+<li>Du zählst auf, auf wie viele Arten ein Benutzer einen Bildschirm verlassen kann.</li>
+<li>Du unterscheidest einen Wert im Feld von einem Wert auf dem Bildschirm.</li>
+<li>Du prüfst ein Ergebnis, bevor du es benutzt, statt ihm zu vertrauen.</li>
+<li>Du nimmst einen hinterlegten Wert zurück, sobald er nicht mehr gilt.</li>
+</ul>
+
+<h3>Das brauchst du vorher</h3>
+<ul>
+<li>Dein Projekt <b>WissQuiz</b> nach 05A. Das Menü steht, <b>Spielen</b> öffnet den Spielbildschirm, <b>Über die App</b> funktioniert.</li>
+<li>Du weisst aus 05A, was ein Intent ist und dass Android die Bildschirme auf einen Stapel legt.</li>
+</ul>
+
+<h3>Das gibst du ab</h3>
+<ul>
+<li>Screenshot des Startbildschirms <b>vor</b> der ersten Runde, mit <b>Noch keine Runde gespielt</b>.</li>
+<li>Screenshot desselben Bildschirms <b>nach</b> einer Runde, mit deinem Punktestand.</li>
+<li>Screenshot des Startbildschirms, nachdem du eine Runde <b>mitten drin</b> mit der Zurück-Taste abgebrochen hast. Der alte Text muss stehen bleiben.</li>
+</ul>
+<p>Mehr nicht. Kein Arbeitsblatt und <b>kein Projekt als ZIP</b>. Ob dein Code sauber ist, prüfst du selbst mit der Vergleichsliste im Lösungsmaterial.</p>
+
+<div class="info">
+<p><b>Der dritte Screenshot ist der eigentliche.</b> Die ersten zwei zeigen, dass etwas ankommt. Der dritte zeigt, dass du auch geprüft hast, <b>ob</b> etwas angekommen ist. Genau daran scheitern die meisten Lösungen.</p>
+</div>
+
+<div class="tip">
+<p><b>Nach diesem Auftrag kommt der 05AB Wissenscheck.</b> Er deckt 05A und 05B zusammen ab. Was du in 05A beobachtet hast und was du heute in B4 beobachtest, kommt dort als Frage wieder.</p>
+</div>
+
+
+<h2>02 Auftrag</h2>
+
+<h3>Ausgangslage</h3>
+<p>Seit 05A hat deine App ein Menü. Du tippst auf <b>Spielen</b>, spielst eine Runde, gehst zurück, und das Menü sieht genau gleich aus wie vorher. Es hat nichts mitbekommen.</p>
+<p>Heute bekommt es den Rückkanal. Nach jeder beendeten Runde steht oben im Menü, wie viele Punkte du hattest.</p>
+
+<h3>Werkzeugkasten</h3>
+<table>
+<tr><th>Baustein</th><th>Wofür</th></tr>
+<tr><td class="pre">setResult</td><td>Hinterlegt ein Ergebnis. Es wird noch nicht ausgeliefert</td></tr>
+<tr><td class="pre">finish()</td><td>Beendet diese Activity. Erst jetzt geht das Ergebnis los</td></tr>
+<tr><td class="pre">RESULT_OK</td><td>Die Marke am Ergebnis, an der die andere Seite es erkennt</td></tr>
+<tr><td class="pre">putExtra, getIntExtra</td><td>Legt einen Wert in einen Intent und holt ihn wieder heraus</td></tr>
+<tr><td class="pre">registerForActivityResult</td><td>Meldet an, dass du auf ein Ergebnis wartest. Gehört in <code>onCreate</code></td></tr>
+<tr><td class="pre">ActivityResultLauncher</td><td>Was dabei herauskommt. Damit startest du statt mit <code>startActivity</code></td></tr>
+<tr><td class="pre">launch</td><td>Startet die andere Activity über den Launcher</td></tr>
+<tr><td class="pre">public static final</td><td>Eine Konstante, die auch andere Klassen lesen dürfen. Kennst du von <code>TAG</code>, nur dort <code>private</code></td></tr>
+</table>
+
+<h3>Pflichtangaben</h3>
+<table>
+<tr><th>Angabe</th><th>Pflicht, weil</th></tr>
+<tr><td class="pre">RESULT_OK</td><td>Beim <code>setResult</code> und beim Prüfen. Ohne die Prüfung überschreibst du deinen Text mit Nullen</td></tr>
+<tr><td>Derselbe Schlüssel auf beiden Seiten</td><td>Beim <code>putExtra</code> und beim <code>getIntExtra</code>. Ein Tippfehler fällt nicht auf, denn <code>getIntExtra</code> liefert dann still den Vorgabewert</td></tr>
+<tr><td>Der Launcher in <code>onCreate</code></td><td>Später erzeugt wirft Android eine Ausnahme. Der Grund steht in B2</td></tr>
+</table>
+
+<h3>Namen im Code</h3>
+<table>
+<tr><th>Name</th><th>Was es ist</th></tr>
+<tr><td class="pre">EXTRA_SCORE, EXTRA_TOTAL</td><td>Die zwei Schlüssel, in der <code>GameActivity</code>, <code>public static final</code></td></tr>
+<tr><td class="pre">publishResult</td><td>Die neue Methode in der <code>GameActivity</code>. Hinterlegt das Ergebnis</td></tr>
+<tr><td class="pre">btnBackToMain</td><td>Der neue Knopf im Ergebnisbereich, <b>Zurück zum Start</b></td></tr>
+<tr><td class="pre">gameLauncher</td><td>Der Launcher in der <code>MainActivity</code></td></tr>
+<tr><td class="pre">tvLastScore</td><td>Die Anzeige unter dem Titel im Menü</td></tr>
+<tr><td class="pre">lastScore, lastTotal</td><td>Die zwei Felder, in denen der letzte Punktestand steht</td></tr>
+<tr><td class="pre">NO_ROUND_YET</td><td>Die Konstante <code>-1</code>. Sie bedeutet: es gibt noch nichts anzuzeigen</td></tr>
+<tr><td class="pre">showLastScore</td><td>Die neue Methode im Menü. Setzt den Text, sonst nichts</td></tr>
+<tr><td class="pre">last_score_none, last_score_format, btn_back_to_main</td><td>Neue Einträge in <code>strings.xml</code></td></tr>
+</table>
+
+<h3>Denkfragen</h3>
+<ol>
+<li>Deine <code>MainActivity</code> startet das Spiel und bekommt danach ein Ergebnis. Warum kann sie das überhaupt, obwohl sie die ganze Zeit nicht zu sehen war?</li>
+<li>Auf wie viele verschiedene Arten kann jemand deinen Spielbildschirm verlassen? Zähl sie auf, bevor du weiterliest.</li>
+<li>Der Punktestand steht in einem Feld <b>und</b> auf dem Bildschirm. Warum reicht der Bildschirm allein nicht?</li>
+<li><code>getIntExtra</code> verlangt einen Vorgabewert, also einen Wert für den Fall, dass nichts da ist. Warum ist gerade das eine Falle?</li>
+<li><b>Nochmals spielen</b> startet keine neue Activity, sondern nur eine neue Runde. Was heisst das für ein Ergebnis, das schon bereitliegt?</li>
+</ol>
+
+<div class="tip">
+<p><b>Diese fünf Fragen kommen im 05AB Wissenscheck wieder.</b> Dasselbe gilt für das, was du in B4 und C2 beobachtest.</p>
+</div>
+
+
+<h3>Der Überblick, bevor Teil A anfängt</h3>
+<p>Heute wandert kein Code. Es kommen fünf Stellen dazu, verteilt auf zwei Klassen. Wichtig ist, <b>welche Stelle wem gehört</b>.</p>
+
+<pre>GameActivity                          MainActivity
+────────────                          ────────────
+EXTRA_SCORE, EXTRA_TOTAL   ───lesen──▶  gameLauncher
+   <span class="c">die zwei Schlüssel</span>                   <span class="c">wartet auf das Ergebnis</span>
+
+publishResult()                        lastScore, lastTotal
+   <span class="c">setResult, sobald die</span>                <span class="c">zwei Felder</span>
+   <span class="c">Runde fertig ist</span>
+                                       showLastScore()
+btnBackToMain                             <span class="c">setzt den Text</span>
+   <span class="c">ruft nur finish()</span></pre>
+
+<h4>Der Weg eines Punktestands</h4>
+<table>
+<tr><th>Was passiert</th><th>Wo</th><th>Was mit dem Ergebnis geschieht</th></tr>
+<tr><td>Die letzte Frage ist beantwortet</td><td><code>showResult</code></td><td><code>publishResult</code> legt es bereit</td></tr>
+<tr><td>Der Benutzer schaut sich die Liste an</td><td>Ergebnisbereich</td><td>es liegt bereit und wartet</td></tr>
+<tr><td>Der Benutzer verlässt den Bildschirm</td><td>Knopf <b>oder</b> Zurück-Taste</td><td>Android liefert es aus</td></tr>
+<tr><td>Das Menü ist wieder da</td><td><code>gameLauncher</code></td><td>es wird geprüft und in die Felder geschrieben</td></tr>
+</table>
+
+<div class="note">
+<p><b>Das Ergebnis liegt in einem Speicher, der bis zum Schluss hält.</b> Was einmal hinterlegt ist, bleibt hinterlegt, bis die Activity endet. Auch dann noch, wenn du inzwischen <b>Nochmals spielen</b> angetippt hast, denn das startet keine neue Activity, sondern nur eine neue Runde in derselben.</p>
+<p>Merk dir das. In Teil C brauchst du es.</p>
+</div>
+
+<div class="tip">
+<p><b>Merk dir die dritte Zeile.</b> <code>setResult</code> und die Auslieferung sind zwei verschiedene Zeitpunkte. Genau darauf schaust du in B4.</p>
+</div>
+
+<div class="info">
+<p><b>Warum das Menü überhaupt noch da ist.</b> Als du auf <b>Spielen</b> getippt hast, ist die GameActivity oben auf den Stapel gekommen. Die MainActivity blieb darunter liegen, unsichtbar, aber am Leben. Ihr <code>onCreate</code> lief kein zweites Mal.</p>
+<p>Das hast du in 05A schon gesehen. Heute ist es die Voraussetzung dafür, dass überhaupt jemand da ist, der ein Ergebnis entgegennehmen kann.</p>
+</div>
+
+
+<h3>Teil A, die GameActivity gibt etwas zurück <span class="time">12 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">A1</span><b>Ein neuer Text und ein neuer Knopf.</b></p>
+<p>In <code>strings.xml</code>:</p>
+<pre>&lt;<span class="t">string</span> name=<span class="s">"btn_back_to_main"</span>&gt;Zurück zum Start&lt;/<span class="t">string</span>&gt;</pre>
+<p>In <code>activity_game.xml</code>, in <code>llResult</code>, <b>direkt unter</b> <code>btnRestart</code>:</p>
+<pre>&lt;<span class="t">Button</span>
+    android:id=<span class="s">"@+id/btnBackToMain"</span>
+    android:layout_width=<span class="s">"wrap_content"</span>
+    android:layout_height=<span class="s">"wrap_content"</span>
+    android:layout_gravity=<span class="s">"center_horizontal"</span>
+    android:layout_marginTop=<span class="s">"10dp"</span>
+    android:text=<span class="s">"@string/btn_back_to_main"</span> /&gt;</pre>
+<p>Das <code>layout_gravity</code> steht hier aus demselben Grund wie beim Knopf darüber. Der Parent ordnet nicht mehr an, seit in 04B das <code>gravity</code> am <code>llResult</code> weg ist.</p>
+</div>
+
+<div class="step">
+<p><span class="n">A2</span><b>Die zwei Schlüssel.</b></p>
+<p>In <code>GameActivity.java</code>, gleich unter dem Feld <code>TAG</code>:</p>
+<pre><span class="c">/**
+ * Schlüssel für die erreichten Punkte im Ergebnis-Intent.
+ *
+ * Der Paketname davor ist Gewohnheit, kein Zwang. Ein Intent kann von
+ * überall kommen, und "SCORE" allein wäre kein eindeutiger Name.
+ */</span>
+<span class="k">public static final</span> <span class="t">String</span> EXTRA_SCORE = <span class="s">"ch.wiss.m335.quiz.SCORE"</span>;
+
+<span class="c">/** Schlüssel für die Anzahl Fragen der Runde im Ergebnis-Intent. */</span>
+<span class="k">public static final</span> <span class="t">String</span> EXTRA_TOTAL = <span class="s">"ch.wiss.m335.quiz.TOTAL"</span>;</pre>
+<div class="note">
+<p><b>Hier steht zum ersten Mal <code>public</code> statt <code>private</code>.</b> Das ist kein Zufall. Diese zwei Namen muss die <code>MainActivity</code> lesen können, denn sonst weiss sie nicht, unter welchem Schlüssel sie suchen soll.</p>
+<p><b>Und darum stehen sie hier und nicht dort.</b> Wer etwas hinterlegt, bestimmt den Namen. Die andere Seite holt ihn sich mit <code>GameActivity.EXTRA_SCORE</code>. So gibt es die Zeichenfolge im ganzen Projekt genau einmal.</p>
+</div>
+<div class="warn">
+<p><b>Schreib die Zeichenfolge nirgends ein zweites Mal ab.</b> Ein Tippfehler zwischen <code>putExtra</code> und <code>getIntExtra</code> stürzt nicht ab. <code>getIntExtra</code> findet dann einfach nichts und liefert still den Vorgabewert. Du bekommst eine Null und keinen Hinweis.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">A3</span><b>Die Methode, die das Ergebnis hinterlegt.</b></p>
+<p>Neu in <code>GameActivity.java</code>. Der Import <code>android.content.Intent</code> kommt dazu, den holst du dir mit <code>Alt</code> und <code>Enter</code>.</p>
+<pre><span class="c">/**
+ * Hinterlegt das Ergebnis für die MainActivity.
+ *
+ * Ausgeliefert wird es erst, wenn diese Activity endet.
+ */</span>
+<span class="k">private void</span> publishResult() {
+    <span class="t">Intent</span> data = <span class="k">new</span> <span class="t">Intent</span>();
+    data.putExtra(EXTRA_SCORE, score);
+    data.putExtra(EXTRA_TOTAL, roundQuestions.size());
+    setResult(RESULT_OK, data);
+
+    Log.d(TAG, <span class="s">"result published, score="</span> + score + <span class="s">"/"</span> + roundQuestions.size());
+}</pre>
+<div class="info">
+<p><b>Dieser Intent hat kein Ziel.</b> Vergleich ihn mit dem aus 05A. Dort stand <code>new Intent(this, GameActivity.class)</code>, also von wo und wohin. Hier steht nur <code>new Intent()</code>.</p>
+<p>Der Grund: du sagst nicht, wohin es geht. Android weiss selbst, wer diese Activity gestartet hat. Dieser Intent ist kein Fahrplan, er ist nur ein Behälter für zwei Zahlen.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">A4</span><b>Der Knopf beendet den Bildschirm.</b></p>
+<p>Vorerst rufst du <code>publishResult</code> direkt beim Knopf auf. In <code>onCreate</code>, bei den anderen Listenern:</p>
+<pre>btnBackToMain.setOnClickListener(v -&gt; {
+    publishResult();
+    finish();
+});</pre>
+<p>Dazu das Feld und sein <code>findViewById</code>, gebaut wie bei <code>btnRestart</code>:</p>
+<pre><span class="c">/** Der Knopf, der diesen Bildschirm beendet und ins Menü zurückführt. */</span>
+<span class="k">private</span> <span class="t">Button</span> btnBackToMain;</pre>
+<div class="note">
+<p><b><code>setResult</code> und <code>finish</code> sind zwei verschiedene Dinge.</b> <code>setResult</code> legt das Ergebnis bereit. <code>finish</code> beendet die Activity, und <b>erst dabei</b> wird das Bereitgelegte ausgeliefert.</p>
+<p>Wer nur <code>setResult</code> aufruft und nicht <code>finish</code>, bleibt auf dem Bildschirm stehen und wundert sich, warum nichts ankommt.</p>
+</div>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil A.</b></p>
+<ul>
+<li>Nichts ist rot.</li>
+<li>Spiel eine Runde zu Ende. Unter <b>Nochmals spielen</b> steht jetzt <b>Zurück zum Start</b>, beide mittig.</li>
+<li>Der neue Knopf bringt dich ins Menü. Dort ändert sich noch nichts, das kommt in Teil B.</li>
+<li>Im Logcat unter <code>tag:Modul335</code> steht <code>result published, score=</code> mit deinem Punktestand.</li>
+</ul>
+</div>
+
+
+<h3>Teil B, das Menü nimmt es entgegen <span class="time">16 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">B1</span><b>Zwei Texte und die Anzeige.</b></p>
+<p>In <code>strings.xml</code>:</p>
+<pre>&lt;<span class="t">string</span> name=<span class="s">"last_score_none"</span>&gt;Noch keine Runde gespielt.&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"last_score_format"</span>&gt;Letzte Runde: %1$d von %2$d Punkten.&lt;/<span class="t">string</span>&gt;</pre>
+<p>In <code>activity_main.xml</code>, zwischen <code>tvTitle</code> und <code>btnPlay</code>:</p>
+<pre>&lt;<span class="t">TextView</span>
+    android:id=<span class="s">"@+id/tvLastScore"</span>
+    android:layout_width=<span class="s">"match_parent"</span>
+    android:layout_height=<span class="s">"wrap_content"</span>
+    android:layout_marginTop=<span class="s">"10dp"</span>
+    android:textSize=<span class="s">"14sp"</span>
+    tools:text=<span class="s">"Letzte Runde: 4 von 5 Punkten."</span> /&gt;</pre>
+<p>Und weil jetzt eine Zeile mehr dasteht, setz den Abstand am <code>btnPlay</code> von <code>32dp</code> auf <code>24dp</code>.</p>
+<div class="tip">
+<p><b>Kein <code>android:text</code>, nur <code>tools:text</code>.</b> Diese TextView bekommt ihren Inhalt immer aus dem Code, denn er hängt davon ab, ob schon gespielt wurde. Ein fester Text im XML wäre eine Lüge, die beim Starten sofort überschrieben wird.</p>
+<p>Das <code>tools:text</code> ist nur für die Vorschau. Mehr dazu im Blatt <b>XML verstehen</b>.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">B2</span><b>Die Felder und die Methode im Menü.</b></p>
+<p>In <code>MainActivity.java</code>, unter dem Feld <code>TAG</code>:</p>
+<pre><span class="c">/** Bedeutet: es wurde noch keine Runde zu Ende gespielt. */</span>
+<span class="k">private static final int</span> NO_ROUND_YET = -<span class="k">1</span>;
+
+<span class="c">/** Die Anzeige des letzten Punktestands, unter dem Titel. */</span>
+<span class="k">private</span> <span class="t">TextView</span> tvLastScore;
+
+<span class="c">/** Die Punkte der letzten beendeten Runde, oder NO_ROUND_YET. */</span>
+<span class="k">private int</span> lastScore = NO_ROUND_YET;
+
+<span class="c">/** Wie viele Fragen die letzte beendete Runde hatte. */</span>
+<span class="k">private int</span> lastTotal;</pre>
+<p>Und die Methode, ans Ende der Klasse:</p>
+<pre><span class="c">/**
+ * Schreibt den letzten Punktestand in die Anzeige.
+ *
+ * Es gibt genau eine Stelle, die diesen Text setzt.
+ */</span>
+<span class="k">private void</span> showLastScore() {
+    <span class="k">if</span> (lastScore == NO_ROUND_YET) {
+        tvLastScore.setText(getString(R.string.last_score_none));
+    } <span class="k">else</span> {
+        tvLastScore.setText(getString(R.string.last_score_format, lastScore, lastTotal));
+    }
+}</pre>
+<div class="note">
+<p><b>Warum <code>-1</code> und nicht <code>0</code>?</b> Weil <code>0</code> ein gültiges Ergebnis ist. Wer keine einzige Frage richtig hat, bekommt null Punkte, und das soll auch so dastehen.</p>
+<p>Du brauchst also einen Wert, den es als echtes Ergebnis nicht geben kann. <code>-1</code> ist so einer. Und weil <code>-1</code> allein nichts erklärt, bekommt er einen Namen: <code>NO_ROUND_YET</code>.</p>
+</div>
+<div class="tip">
+<p><b>Genau eine Methode setzt diesen Text.</b> Dieselbe Regel wie bei <code>showQuestion</code> im Spielbildschirm. Wer den Text an drei Stellen setzt, vergisst irgendwann eine davon.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">B3</span><b>Der Launcher.</b></p>
+<p>Das Feld, zu den anderen:</p>
+<pre><span class="c">/**
+ * Der Kanal, über den die GameActivity ihr Ergebnis zurückgibt.
+ *
+ * Der Launcher muss in onCreate entstehen und nicht erst beim Klick.
+ */</span>
+<span class="k">private</span> <span class="t">ActivityResultLauncher</span>&lt;<span class="t">Intent</span>&gt; gameLauncher;</pre>
+<p>Und in <code>onCreate</code>, <b>vor</b> den zwei Knöpfen:</p>
+<pre>tvLastScore = findViewById(R.id.tvLastScore);
+
+gameLauncher = registerForActivityResult(
+        <span class="k">new</span> <span class="t">ActivityResultContracts</span>.<span class="t">StartActivityForResult</span>(),
+        result -&gt; {
+            <span class="k">if</span> (result.getResultCode() == RESULT_OK &amp;&amp; result.getData() != <span class="k">null</span>) {
+                lastScore = result.getData().getIntExtra(<span class="t">GameActivity</span>.EXTRA_SCORE, <span class="k">0</span>);
+                lastTotal = result.getData().getIntExtra(<span class="t">GameActivity</span>.EXTRA_TOTAL, <span class="k">0</span>);
+                showLastScore();
+                Log.d(TAG, <span class="s">"result received, score="</span> + lastScore + <span class="s">"/"</span> + lastTotal);
+            }
+        });</pre>
+<p>Der Knopf <b>Spielen</b> startet ab jetzt über den Launcher. Der Knopf <b>Über die App</b> bleibt, wie er war, denn von dort kommt nichts zurück:</p>
+<pre>btnPlay.setOnClickListener(v -&gt; gameLauncher.launch(<span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">GameActivity</span>.<span class="k">class</span>)));</pre>
+<p>Und ganz am Schluss von <code>onCreate</code>, vor der Log-Zeile:</p>
+<pre>showLastScore();</pre>
+<div class="warn">
+<p><b>Der Launcher gehört in <code>onCreate</code>, nicht in den Listener.</b> Wer ihn erst beim Klick erzeugt, bekommt eine <code>IllegalStateException</code> und die App stürzt ab.</p>
+<p><b>Der Grund:</b> Android muss vorher wissen, dass du auf ein Ergebnis wartest. Wird deine Activity abgeräumt und neu gebaut, während das Spiel läuft, muss die Anmeldung schon beim Aufbau wieder stehen. Sonst käme das Ergebnis bei niemandem an.</p>
+</div>
+<div class="note">
+<p><b>Die Prüfung auf <code>RESULT_OK</code> ist keine Höflichkeit.</b> Der Rückweg wird bei <b>jedem</b> Verlassen der GameActivity ausgelöst, auch wenn jemand mitten in der Runde aussteigt. Dann gibt es kein Ergebnis.</p>
+<p>Ohne diese Prüfung würdest du in dem Fall <code>0</code> und <code>0</code> holen und deinen guten alten Text mit <b>0 von 0</b> überschreiben.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">B4</span><b>Drei Wege aus dem Spiel. Probier alle drei.</b></p>
+<p>Start die App. Oben steht <b>Noch keine Runde gespielt</b>.</p>
+<ol>
+<li>Spiel eine Runde ganz durch und geh mit dem Knopf <b>Zurück zum Start</b> ins Menü. Was steht oben?</li>
+<li>Spiel nochmals eine Runde ganz durch. Diesmal gehst du im Ergebnisbildschirm mit der <b>System-Zurück-Taste</b> zurück. Was steht oben?</li>
+<li>Tipp im Menü nochmals auf <b>Spielen</b> und brich diese Runde <b>mitten drin</b> mit der System-Zurück-Taste ab, etwa bei Frage 3. Was steht oben?</li>
+</ol>
+<p><b>Schreib zu jedem der drei Wege einen Satz auf.</b> Genau danach fragt der Wissenscheck.</p>
+<div class="warn">
+<p>Nicht reparieren, nur schauen. Repariert wird in C1.</p>
+<p>Der zweite Weg ist der wichtige. Überleg dir vorher, was du erwartest, und schau erst dann hin.</p>
+</div>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil B.</b></p>
+<ul>
+<li>Beim ersten Start steht oben <b>Noch keine Runde gespielt</b>.</li>
+<li>Nach Weg 1 steht dort dein Punktestand.</li>
+<li>Nach Weg 3 steht der <b>alte</b> Text weiterhin da, nicht <b>0 von 0</b>.</li>
+<li>Im Logcat steht bei Weg 1 zuerst <code>result published</code> und danach <code>result received</code>.</li>
+<li>Bei Weg 3 steht <b>kein</b> <code>result received</code> im Logcat.</li>
+</ul>
+</div>
+
+
+<h3>Teil C, der richtige Zeitpunkt <span class="time">8 Minuten</span></h3>
+
+<p>Zwei Schritte, und beide beantworten dieselbe Frage: <b>wann gilt ein Ergebnis?</b></p>
+
+<div class="step">
+<p><span class="n">C1</span><b>Der Aufruf wandert nach vorne.</b></p>
+<p>Nimm <code>publishResult()</code> aus dem Listener des Knopfs heraus. Dort bleibt nur noch:</p>
+<pre>btnBackToMain.setOnClickListener(v -&gt; finish());</pre>
+<p>Stattdessen kommt der Aufruf ans Ende von <code>showResult</code>, direkt vor die Log-Zeile:</p>
+<pre>svQuestion.setVisibility(View.GONE);
+llResult.setVisibility(View.VISIBLE);
+
+publishResult();
+
+Log.d(TAG, <span class="s">"round finished, score="</span> + score);</pre>
+<div class="note">
+<p><b>Die Regel: hinterleg ein Ergebnis, sobald es feststeht, nicht erst wenn der Bildschirm endet.</b></p>
+<p>Denkfrage 2 hat dir die Begründung gegeben. Man kann eine Activity auf viele Arten verlassen: den eigenen Knopf, die System-Zurück-Taste, die Wischgeste, den Aufgabenwechsler. Wer erst beim Verlassen hinterlegt, muss jeden dieser Wege abfangen. Wer beim Feststehen hinterlegt, muss gar nichts abfangen.</p>
+</div>
+<div class="tip">
+<p><b>Das ist derselbe Gedanke wie in 04B</b>, nur umgekehrt herum. Dort ging es darum, aufzuräumen, bevor man baut. Hier geht es darum, bereitzulegen, bevor man geht. Beide Male heisst die Frage: an welcher Stelle im Ablauf gehört dieser Schritt wirklich hin?</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">C2</span><b>Und die Kehrseite. Das alte Ergebnis zurücknehmen.</b></p>
+<p>Probier zuerst das hier aus. Spiel eine Runde ganz durch. Tipp dann auf <b>Nochmals spielen</b> und brich diese zweite Runde <b>mitten drin</b> mit der Zurück-Taste ab.</p>
+<p><b>Was steht im Menü?</b> Es steht ein Punktestand da, obwohl du gerade abgebrochen hast.</p>
+<div class="note">
+<p><b>Der Grund steht im Überblick.</b> Das Ergebnis der ersten Runde liegt noch im Speicher. <b>Nochmals spielen</b> startet keine neue Activity, sondern nur eine neue Runde. Also wird beim Verlassen das alte Ergebnis ausgeliefert.</p>
+<p>Falsch ist die Zahl nicht, die erste Runde ging wirklich so aus. Aber sie kommt zum falschen Zeitpunkt, und das verwirrt.</p>
+</div>
+<p>Also nimmst du das alte Ergebnis zurück, sobald eine neue Runde beginnt. In <code>startRound</code>, als <b>erste</b> Zeile im Methodenrumpf:</p>
+<pre><span class="c">// Eine neue Runde macht das alte Ergebnis ungültig, bis sie fertig ist.</span>
+setResult(RESULT_CANCELED);</pre>
+<div class="tip">
+<p><b>Jetzt ist die Regel vollständig.</b> Leg ein Ergebnis bereit, sobald es feststeht, und nimm es zurück, sobald es nicht mehr gilt.</p>
+<p><b>Das ist dasselbe Paar wie <code>addView</code> und <code>removeAllViews</code> in 04B.</b> Wer etwas setzt, ist auch fürs Zurücksetzen zuständig. Zwei Fälle, ein Prinzip.</p>
+</div>
+<div class="warn">
+<p><b>Die erste Zeile, nicht die letzte.</b> Aufräumen gehört an den Anfang. Am Ende von <code>startRound</code> würdest du nichts kaputtmachen, aber die Reihenfolge wäre unehrlich: erst spielen lassen, dann sagen, dass es nicht gilt.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">C3</span><b>Die Kommentare nachziehen.</b></p>
+<p>Wie am Ende jedes Umbaus, und heute für <b>beide</b> Klassen. Der Rahmen, den Inhalt formulierst du selbst.</p>
+<p><b>In der <code>GameActivity</code>:</b></p>
+<pre><span class="c">/**
+ * Der Spielbildschirm der Quiz-App.
+ *
+ * (DER TEIL AUS 05A BLEIBT STEHEN)
+ *
+ * (HIER: dass dieser Bildschirm sein Ergebnis zurückgibt, und wann
+ *  publishResult läuft)
+ */</span></pre>
+<p><b>In der <code>MainActivity</code>:</b></p>
+<pre><span class="c">/**
+ * Der Startbildschirm der Quiz-App.
+ *
+ * (DER TEIL AUS 05A BLEIBT STEHEN)
+ *
+ * (HIER: der Rückkanal. Wie das Spiel gestartet wird und was danach
+ *  oben im Menü steht)
+ *
+ * (HIER: was noch fehlt. Der Punktestand lebt nur in zwei Feldern)
+ */</span></pre>
+<div class="warn">
+<p><b>Lies deine zwei Kommentare am Schluss ganz durch.</b> Ein Rest wie das Wort HIER oder eine leere Klammer fällt in einem Javadoc-Block nie auf, weil nichts ihn meldet.</p>
+<p>Und prüf, ob noch ein Satz aus einem alten Auftrag darin steht, der heute nicht mehr stimmt.</p>
+</div>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil C.</b></p>
+<ul>
+<li>Weg 2 aus B4 nochmals: Runde ganz durchspielen, dann mit der <b>System-Zurück-Taste</b> raus. Jetzt steht der Punktestand im Menü.</li>
+<li>Weg 1 geht immer noch, mit dem Knopf.</li>
+<li>Weg 3 verändert den Text weiterhin nicht.</li>
+<li><b>Der Fall aus C2:</b> Runde fertig, dann <b>Nochmals spielen</b>, dann mitten drin abbrechen. Jetzt bleibt der alte Text stehen, statt sich zu ändern.</li>
+<li>Im Logcat steht bei diesem Abbruch <b>kein</b> <code>result received</code>.</li>
+<li>Im Logcat steht <code>result published</code> jetzt schon, <b>sobald das Ergebnis erscheint</b>, und nicht erst beim Verlassen.</li>
+<li>In keinem deiner zwei Klassenkommentare steht noch das Wort HIER oder eine leere Klammer.</li>
+</ul>
+</div>
+
+
+<h3>Übungen <span class="time">4 Minuten</span></h3>
+<p>Ohne Vorlage. Die Lösungen findest du im Material <b>05B Lösung - MainActivity und Ergebnis zurück</b>.</p>
+
+<div class="ue">
+<div class="t">Übung 1, die Prüfung wegnehmen</div>
+<p>Lösch in <code>onCreate</code> testweise die Bedingung <code>result.getResultCode() == RESULT_OK</code>, sodass nur die Prüfung auf <code>null</code> übrig bleibt. Spiel eine Runde zu Ende, geh zurück, spiel eine zweite Runde und brich sie mitten drin ab. <b>Danach stellst du es wieder her.</b></p>
+<p><b>So prüfst du:</b> Nach dem Abbruch steht oben <b>0 von 0 Punkten</b> statt des alten Ergebnisses. Danach wieder wie vorher.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 2, den Schlüssel verbiegen</div>
+<p>Schreib beim <code>getIntExtra</code> testweise einen Schlüssel von Hand hin, etwa <code>"SCORE"</code>, statt <code>GameActivity.EXTRA_SCORE</code> zu benutzen. Spiel eine Runde. <b>Danach stellst du es wieder her.</b></p>
+<p><b>So prüfst du:</b> Es gibt keinen Absturz und keine rote Zeile. Oben steht trotzdem eine falsche Zahl. Erklär in einem Satz, woher sie kommt.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 3, erklären</div>
+<p>Erkläre einem Lerngspänli den Unterschied zwischen <code>setResult</code> und <code>finish</code>.</p>
+<p><b>So prüfst du:</b> Dein Gegenüber kann sagen, was passiert, wenn man das eine ohne das andere aufruft, und zwar für beide Richtungen.</p>
+</div>
+
+
+<h3>Zusatzaufgabe für Schnelle</h3>
+<div class="tip">
+<p>Zuerst die Pflichtaufgabe fertig und lauffähig. Dann erst hier weiter.</p>
+<p><b>Auftrag:</b> Lass das Menü zusätzlich zum letzten Punktestand den <b>besten</b> Punktestand anzeigen, den in dieser Sitzung jemand erreicht hat.</p>
+<p><b>Und die Frage, die dazugehört:</b> Was heisst hier eigentlich "in dieser Sitzung"? Probier aus, ab wann dein bester Wert wieder verschwindet, und beschreib in zwei Sätzen, woran das liegt.</p>
+<p>Keine Musterlösung. KI darfst du benutzen, aber du musst deine Lösung erklären können.</p>
+</div>
+
+
+<h3>Wenn etwas nicht funktioniert</h3>
+<table>
+<tr><th>Das siehst du</th><th>Ursache</th><th>Das machst du</th></tr>
+<tr><td>Im Menü ändert sich nach der Runde nichts</td><td><code>finish()</code> fehlt. Das Ergebnis liegt bereit und wird nie ausgeliefert</td><td>Siehe A4. Der Knopf muss die Activity beenden</td></tr>
+<tr><td>Nach der System-Zurück-Taste kommt nichts an</td><td><code>publishResult</code> hängt noch am Knopf</td><td>Siehe C1. Genau das ist die Beobachtung aus B4</td></tr>
+<tr><td>Absturz beim Tippen auf <b>Spielen</b>: <code>IllegalStateException</code></td><td><code>registerForActivityResult</code> steht im Listener statt in <code>onCreate</code></td><td>Siehe B3. Der Launcher gehört in <code>onCreate</code></td></tr>
+<tr><td>Oben steht <b>0 von 0 Punkten</b>, obwohl du gespielt hast</td><td>Die Prüfung auf <code>RESULT_OK</code> fehlt, und du bist irgendwann mitten in einer Runde ausgestiegen</td><td>Siehe B3</td></tr>
+<tr><td>Oben steht eine falsche Zahl, ohne Absturz</td><td>Die Schlüssel bei <code>putExtra</code> und <code>getIntExtra</code> sind nicht dieselben</td><td>Siehe A2. Beide Seiten benutzen <code>GameActivity.EXTRA_SCORE</code></td></tr>
+<tr><td>Absturz beim Start: <code>NullPointerException</code> in <code>showLastScore</code></td><td><code>findViewById</code> für <code>tvLastScore</code> fehlt, oder es steht nach dem Aufruf</td><td>Siehe B3. Erst holen, dann benutzen</td></tr>
+<tr><td>Rot: <code>cannot resolve symbol 'ActivityResultLauncher'</code></td><td>Der Import fehlt</td><td><code>Alt</code> und <code>Enter</code>, dann <code>androidx.activity.result.ActivityResultLauncher</code></td></tr>
+<tr><td>Rot: <code>EXTRA_SCORE has private access</code></td><td>Die Konstanten stehen auf <code>private</code></td><td>Siehe A2. Sie müssen <code>public</code> sein, die andere Klasse liest sie</td></tr>
+<tr><td>Der Knopf <b>Zurück zum Start</b> steht links statt mittig</td><td><code>android:layout_gravity</code> fehlt</td><td>Siehe A1. Der Parent ordnet seit 04B nicht mehr an</td></tr>
+<tr><td>Beim ersten Start steht die Anzeige leer</td><td>Der Aufruf <code>showLastScore()</code> am Ende von <code>onCreate</code> fehlt</td><td>Siehe B3. Ohne ihn setzt niemand den Anfangstext</td></tr>
+<tr><td>Nach <b>Nochmals spielen</b> und einem Abbruch erscheint plötzlich ein Punktestand</td><td><code>setResult(RESULT_CANCELED)</code> in <code>startRound</code> fehlt. Das Ergebnis der Runde davor liegt noch im Speicher</td><td>Siehe C2</td></tr>
+<tr><td>Nach <b>Nochmals spielen</b> steht im Menü noch der alte Wert</td><td>Keine. Das Menü sieht die neue Runde erst, wenn du den Spielbildschirm verlässt</td><td>Das ist richtig so</td></tr>
+</table>
+
+<h3>Abgabe</h3>
+<p>Alles läuft über die Aufgabe <b>05B Auftrag - MainActivity und Ergebnis zurück</b> in Google Classroom.</p>
+<ol>
+<li>Screenshot des Startbildschirms vor der ersten Runde.</li>
+<li>Screenshot nach einer beendeten Runde, mit deinem Punktestand.</li>
+<li>Screenshot nach einem <b>Abbruch mitten in der Runde</b>. Der alte Text steht noch da.</li>
+<li>Danach den <b>05AB Wissenscheck</b> ausfüllen. Er deckt 05A und 05B zusammen ab.</li>
+</ol>
+
+
+<h2>03 Guide</h2>
+<table>
+<tr><td>Zeitbudget</td><td>40 Minuten. Teil A 12, Teil B 16, Teil C 8, Übungen 4</td></tr>
+<tr><td>Sozialform</td><td>Einzelarbeit. Bei den Denkfragen und Übung 3 zu zweit</td></tr>
+<tr><td>Aufgabenart</td><td>Ausbau mit zwei Entdeckungsstellen (B4, das Ergebnis geht bei der Zurück-Taste verloren. C2, das alte Ergebnis liegt noch im Speicher)</td></tr>
+<tr><td>Voraussetzung</td><td>05A. Dazu Felder und Methoden aus 03D und 04A</td></tr>
+<tr><td>KI</td><td>In Teil A bis C <b>nicht</b> erlaubt. Die Kurzwege von Android Studio schon</td></tr>
+<tr><td>Abgabe</td><td>Drei Screenshots, dazu der 05AB Wissenscheck über beide Aufträge. <b>Kein Arbeitsblatt und kein ZIP</b></td></tr>
+</table>
+
+<h3>Die drei Beiträge in Google Classroom</h3>
+<table>
+<tr><th>Name</th><th>Typ</th><th>Einstellung</th></tr>
+<tr><td>05B Auftrag - MainActivity und Ergebnis zurück</td><td>Aufgabe</td><td>Dieses Dokument liegt als Anhang bei, nur zum Ansehen. Abgegeben werden drei Screenshots</td></tr>
+<tr><td>05AB Wissenscheck - Zwei Bildschirme und der Rückweg</td><td>Aufgabe mit Quiz</td><td>Unbenotet, beliebig oft wiederholbar, kein Fälligkeitsdatum. <b>Deckt 05A und 05B ab</b>, wird nach 05B ausgefüllt</td></tr>
+<tr><td>05B Lösung - MainActivity und Ergebnis zurück</td><td>Material</td><td>Schüler können Datei ansehen. Enthält den vollständigen Code als Text und die Vergleichsliste</td></tr>
+</table>
+
+
+<h2>04 Unterrichtsmittel</h2>
+<table>
+<tr><th>Art</th><th>Was</th></tr>
+<tr><td>Hardware</td><td>Eigenes Notebook, laufender Emulator Medium Phone API 36.1</td></tr>
+<tr><td>Software und Tools</td><td>Android Studio Quail 2, Patch 1</td></tr>
+<tr><td>Dokumente</td><td><b>Die Activity von innen</b>, <b>XML verstehen</b>. Beide liegen im Thema Nachschlagen</td></tr>
+<tr><td>Buch</td><td>Android-Apps entwickeln für Einsteiger, Abschnitt 5.1.4 Die GameActivity (S. 136 bis 137). <b>Achtung, das Buch zeigt dort noch den alten Weg mit <code>startActivityForResult</code></b></td></tr>
+</table>
+
+
+<p class="foot">Modul 335 | Tag 3 Vormittag | Auftrag 05B | Version 2 | 16.08.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>
