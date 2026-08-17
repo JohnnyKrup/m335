@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>06A Datenmodell zeichnen</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>06A Datenmodell zeichnen</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 3 Nachmittag. Zeitbudget 40 Minuten. Version 1 vom 17.08.2026.</p>
+<p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
+<p class="sub">Heute schreibst du keine Zeile Code. Du zeichnest und du begründest. Beides gibt es in der Leistungsbeurteilung, und beides geht schneller, wenn du es einmal von Hand gemacht hast.</p>
+
+<h2>01 Einführung</h2>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>2.3</td><td>Kennt die Besonderheiten der App-Architekturen bezüglich Funktionalitäten, Möglichkeiten und Grenzen der mobilen Devices</td></tr>
+<tr><td>2.4</td><td>Kennt die Persistenzlösungen auf mobilen Devices und kann sie situationsgerecht einsetzen</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du liest die Felder einer Datenklasse aus deinem eigenen Code ab und schreibst sie mit Datentyp auf.</li>
+<li>Du zeichnest ein Datenmodell als Klassendiagramm, mit Feldnamen und Datentypen.</li>
+<li>Du erklärst, wozu ein Datensatz einen Schlüssel braucht.</li>
+<li>Du nennst drei Möglichkeiten, Daten lokal zu speichern, und entscheidest dich für eine.</li>
+<li>Du begründest deine Wahl mit einer Rechnung und nicht mit einem Gefühl.</li>
+</ul>
+
+<h3>Das brauchst du vorher</h3>
+<ul>
+<li>Deine Quiz-App aus 05D. Du schaust nur hinein, du änderst nichts.</li>
+<li>Deine Datei <code>Question.java</code> aus 03D.</li>
+<li>Deine Datei <code>ScoreStorage.java</code> aus 05D.</li>
+<li>Das Arbeitsblatt <b>06A Datenmodell zeichnen</b> aus Google Classroom.</li>
+<li>Etwas zum Zeichnen. Papier und Stift gehen, das Arbeitsblatt geht auch.</li>
+</ul>
+
+<h3>Das gibst du ab</h3>
+<ul>
+<li>Das Datenmodell deiner Quiz-App als Klassendiagramm, mit Feldnamen und Datentypen.</li>
+<li>Die Tabelle mit der Persistenzwahl für vier Datenarten.</li>
+<li>Die zwei Sätze zur Begründung, im Format der Prüfung.</li>
+</ul>
+
+<div class="info">
+<p><b>Warum das genau so in der Prüfung steht.</b> Teil A der Leistungsbeurteilung hat dafür zwei Aufgaben.</p>
+<p><b>A2 Datenmodell:</b> 7 Minuten, 3 Punkte. Zeichne das Datenmodell als Klassendiagramm, Feldnamen und Datentypen angeben.</p>
+<p><b>A3 Persistenz:</b> 5 Minuten, 2 Punkte. Nenne zwei Möglichkeiten, die Daten lokal zu speichern. Entscheide dich für eine und begründe in zwei Sätzen, warum sie hier passt.</p>
+<p>Das sind 5 von 40 Punkten in 12 Minuten, ohne Gerät und ohne Code. Es ist die beste Punkteausbeute der ganzen Prüfung, und sie geht am häufigsten verloren, weil niemand geübt hat.</p>
+</div>
+
+<h2>02 Auftrag</h2>
+
+<h3>Ausgangslage</h3>
+
+<p>Am Ende von 05D hast du eine Zahl gespeichert. Der beste Punktestand liegt in den SharedPreferences und überlebt den Neustart. Dafür hat eine Zeile Code gereicht.</p>
+
+<p>Im Lösungsmaterial von 05D stand danach ein Ausblick. Er hat gezeigt, was passiert, wenn du statt einer Zahl eine ganze Rangliste ablegen willst: zwanzig Zeilen Umbau in Text und zurück. Und am Schluss stand die Frage, um die es heute geht.</p>
+
+<div class="note">
+<p><b>Die Frage aus dem Ausblick:</b> Was machst du, wenn du nur <b>einen</b> Eintrag ändern willst?</p>
+<p>Die Antwort war: die ganze Liste lesen, im Speicher ändern, die ganze Liste zurückschreiben. Bei jeder Änderung.</p>
+</div>
+
+<p>Ab Tag 4 verwaltet deine App dreissig Fragen. Anlegen, ändern, löschen, nach Kategorie filtern. Dafür brauchst du eine Datenbank. Bevor du eine Datenbank baust, musst du wissen, was hineingehört. Genau das machst du heute.</p>
+
+<p>Heute entscheidest du also zweimal. Erst <b>welche Felder</b> ein Datensatz hat. Dann <b>wohin</b> er kommt.</p>
+
+<h3>Werkzeugkasten</h3>
+
+<p>Ein Datenmodell zeigt, welche Daten deine App aufbewahrt und wie sie aufgebaut sind. Du zeichnest es als Klassendiagramm. Ein Kasten ist eine Art von Datensatz.</p>
+
+<p>So sieht ein Kasten aus. Das Beispiel ist absichtlich nicht aus dem Quiz.</p>
+
+<pre>+---------------------------+
+|        Buchung            |   &lt;- Name, Einzahl, gross
++---------------------------+
+| id: int                   |   &lt;- Feldname : Datentyp
+| titel: String             |
+| datum: String             |
+| plaetze: int              |
+| bezahlt: boolean          |
++---------------------------+</pre>
+
+<p>Mehr braucht es nicht. Drei Regeln:</p>
+
+<table>
+<tr><th>Regel</th><th>Warum</th></tr>
+<tr><td>Der Name steht oben, in der <b>Einzahl</b> und gross geschrieben</td><td>Ein Kasten beschreibt <b>einen</b> Datensatz, nicht die Sammlung. Du zeichnest <code>Buchung</code>, nicht <code>Buchungen</code></td></tr>
+<tr><td>Pro Zeile ein Feld: <b>Feldname, Doppelpunkt, Datentyp</b></td><td>Genau das gibt in der Prüfung die Punkte. Ein Kasten ohne Datentypen ist die Hälfte wert</td></tr>
+<tr><td>Keine Methoden, keine Plus- und Minuszeichen</td><td>Das Modell zeigt die <b>Daten</b>. Was die Klasse kann, steht nicht drin</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Die Datentypen, die du brauchst.</b> Es sind vier.</p>
+<p><code>String</code> für Text, <code>int</code> für ganze Zahlen, <code>double</code> für Kommazahlen, <code>boolean</code> für ja und nein.</p>
+<p>Ein Datum schreibst du vorerst als <code>String</code>. Das ist nicht schön, es reicht aber, und in der Prüfung steht ausdrücklich "einfach halten".</p>
+</div>
+
+<h3>Pflichtangaben</h3>
+
+<table>
+<tr><th>Was</th><th>Pflicht</th><th>Bemerkung</th></tr>
+<tr><td>Name des Kastens</td><td>ja</td><td>Einzahl, grosser Anfangsbuchstabe, englisch wie im Code</td></tr>
+<tr><td>Feldname</td><td>ja</td><td>Genau wie in deinem Code, also englisch</td></tr>
+<tr><td>Datentyp</td><td>ja</td><td>Ohne Datentyp gibt es keine Punkte</td></tr>
+<tr><td>Schlüsselfeld markiert</td><td>ja</td><td>Schreib <code>PK</code> davor oder unterstreiche es</td></tr>
+<tr><td>Beziehung zwischen zwei Kästen</td><td>nur wenn es eine gibt</td><td>Ein Pfeil mit einem Wort daneben genügt</td></tr>
+<tr><td>Sichtbarkeit, Methoden, Normalisierung</td><td>nein</td><td>Kostet Zeit und bringt keine Punkte</td></tr>
+</table>
+
+<h3>Denkfragen</h3>
+<ol>
+<li>Dein Highscore-Eintrag hat kein Schlüsselfeld, deine Frage bekommt gleich eines. Woran liegt das?</li>
+<li>Warum steht bei <code>score</code> der Typ <code>int</code> und nicht <code>String</code>? Was ginge kaputt, wenn du <code>String</code> nimmst?</li>
+<li>Der beste Punktestand ist eine einzige Zahl. Warum baust du dafür keine Datenbank, obwohl du ab Tag 4 sowieso eine hast?</li>
+</ol>
+
+<div class="tip">
+<p><b>Diese drei Fragen gibst du nicht ab.</b> Denk kurz darüber nach und notier dir ein Stichwort. Genau danach fragt der Wissenscheck, und die Antworten stehen im Lösungsmaterial.</p>
+</div>
+
+<h3>Teil A, das Datenmodell deiner Quiz-App <span class="time">18 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">A1</span><b>Die Felder ablesen.</b> <span class="time">6 Min</span></p>
+<p>Öffne deine Datei <code>Question.java</code> aus 03D. Schau dir nur den oberen Teil an, dort wo die Felder stehen.</p>
+<p>Trag jedes Feld in die erste Tabelle deines Arbeitsblatts ein: Feldname, Datentyp, ein Beispielwert.</p>
+<p>Mach dasselbe mit dem Highscore-Eintrag. Wenn du ihn noch nicht als Klasse hast, nimm die drei Angaben, die du im Ergebnisbereich brauchst: der Name, die Punkte, die Kategorie.</p>
+<div class="warn">
+<p><b>Schreib ab, was wirklich dasteht.</b> Nicht, was du erwartest. Wenn dein Feld <code>correctAnswer</code> heisst und vom Typ <code>String</code> ist, dann steht das so im Modell. Wenn du es damals anders benannt hast, ist das auch richtig, es ist dein Code.</p>
+<p>Das ist keine Formsache. In der Prüfung liest du dein Modell später beim Programmieren wieder. Wenn es nicht zu deinem Code passt, hast du zwei Wahrheiten.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">A2</span><b>Die zwei Kästen zeichnen.</b> <span class="time">7 Min</span></p>
+<p>Zeichne auf dem Arbeitsblatt zwei Kästen, einen für die Frage und einen für den Highscore-Eintrag. Halte dich an die drei Regeln aus dem Werkzeugkasten.</p>
+<p>Zeichne von Hand. Kein Werkzeug, keine App. In der Prüfung hast du auch nur einen Stift.</p>
+<p>Wenn du fertig bist, stell dir diese Frage: könnte jemand, der deine App nicht kennt, aus deinem Kasten die Klasse schreiben, ohne dich zu fragen?</p>
+</div>
+
+<div class="step">
+<p><span class="n">A3</span><b>Der Schlüssel und die vier Antworten.</b> <span class="time">5 Min</span></p>
+<p>Zwei Dinge kommen jetzt dazu. Beide sind der Grund, warum dieser Auftrag vor der Datenbank liegt und nicht danach.</p>
+
+<p><b>Erstens der Schlüssel.</b> Ab Tag 4 willst du eine einzelne Frage ändern und eine einzelne löschen. Dafür muss die App sagen können, welche gemeint ist. Der Fragetext taugt dafür nicht, denn er ist genau das, was sich beim Ändern ändert.</p>
+<p>Ergänz im Kasten der Frage ein Feld <code>id</code> vom Typ <code>int</code> und markier es als Schlüssel.</p>
+
+<p><b>Zweitens die vier Antworten.</b> Schau nach, wie sie in deinem <code>Question.java</code> stehen. Bei den meisten steht dort ein Feld vom Typ <code>String[]</code>, also ein Array.</p>
+<p>Und jetzt der Punkt: eine Tabelle in einer Datenbank hat Spalten. Eine Spalte hält einen Wert, nicht vier. Ein Array passt da nicht hinein.</p>
+<p>Entscheide dich für einen der zwei Wege und zeichne ihn:</p>
+<table>
+<tr><th>Weg</th><th>Wie es im Kasten aussieht</th><th>Was es kostet</th></tr>
+<tr><td>Vier einzelne Felder</td><td><code>answer1: String</code> bis <code>answer4: String</code></td><td>Vier Zeilen statt einer. Die Zahl vier ist fest verdrahtet</td></tr>
+<tr><td>Ein zweiter Kasten <code>Answer</code></td><td>Pfeil von <code>Question</code> nach <code>Answer</code>, beschriftet mit <b>1 zu n</b></td><td>Eine zweite Tabelle, ein zweiter Zugriff, ein zweiter Schlüssel</td></tr>
+</table>
+<p>Beide sind vertretbar. Schreib unter deine Zeichnung <b>einen Satz</b>, warum du diesen Weg gewählt hast.</p>
+<div class="tip">
+<p><b>Die Prüfung sagt wörtlich "keine Normalisierung nötig".</b> Das ist ein Hinweis und kein Verbot. Wer normalisiert, verliert Zeit und gewinnt keinen Punkt.</p>
+<p>Und es lohnt sich, den Grund zu kennen: eine Quizfrage hat immer genau vier Antworten. Eine eigene Tabelle lohnt sich dann, wenn die Anzahl offen ist.</p>
+</div>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil A.</b></p>
+<ul>
+<li>Jeder Kasten hat einen Namen in der Einzahl.</li>
+<li>Jede Zeile hat einen Feldnamen <b>und</b> einen Datentyp.</li>
+<li>Der Kasten der Frage hat ein Feld <code>id</code>, und es ist als Schlüssel markiert.</li>
+<li>Die vier Antworten sind sichtbar, entweder als vier Felder oder als zweiter Kasten mit Pfeil.</li>
+<li>Es steht keine einzige Methode im Kasten.</li>
+<li>Du kannst zu jedem Feld sagen, wo es in deiner App vorkommt.</li>
+</ul>
+</div>
+
+<h3>Teil B, wohin die Daten gehören <span class="time">12 Minuten</span></h3>
+
+<p>Deine App bewahrt vier ganz verschiedene Dinge auf. Sie gehören nicht alle an denselben Ort.</p>
+
+<h4>Die drei Möglichkeiten</h4>
+
+<table>
+<tr><th>Möglichkeit</th><th>Was sie ist</th><th>Passt für</th></tr>
+<tr><td><b>SharedPreferences</b></td><td>Eine kleine Ablage für einzelne Werte, als XML-Datei im Ordner der App. Kennst du aus 05D</td><td>Einzelne Zahlen, Wahrheitswerte, kurze Texte. Einstellungen</td></tr>
+<tr><td><b>Eine Datei im internen Speicher</b></td><td>Du schreibst selbst Text oder JSON in eine Datei im Ordner der App</td><td>Grössere Mengen, die als Ganzes gelesen und geschrieben werden. Ein Export</td></tr>
+<tr><td><b>Eine lokale Datenbank</b></td><td>SQLite, im Ordner der App. Ab Tag 4 sprichst du sie über Room an</td><td>Viele gleichartige Datensätze, die einzeln gesucht, geändert und gelöscht werden</td></tr>
+</table>
+
+<div class="info">
+<p><b>Alle drei liegen am selben Ort.</b> Sie liegen im Ordner der App auf dem Gerät und verschwinden erst beim Deinstallieren. Der Unterschied liegt nicht darin, wo sie sind, sondern was du mit ihnen machen kannst.</p>
+<p>Wo dieser Ordner genau liegt und wie du hineinschaust, steht im Blatt <b>Wo deine App ihre Daten ablegt</b>.</p>
+</div>
+
+<h4>Die drei Prüffragen</h4>
+
+<p>Du brauchst keine Regel zum Auswendiglernen. Du brauchst drei Fragen, die du an jede Datenart stellst.</p>
+
+<table>
+<tr><th class="num">Nr</th><th>Frage</th><th>Warum sie zählt</th></tr>
+<tr><td class="num">1</td><td>Wie viele Datensätze werden es, wenn die App ein Jahr läuft?</td><td>Einer bleibt einer. Dreissig werden dreihundert</td></tr>
+<tr><td class="num">2</td><td>Willst du je einen <b>einzelnen</b> davon ändern oder löschen?</td><td>Das ist die Frage aus dem Ausblick von 05D</td></tr>
+<tr><td class="num">3</td><td>Willst du danach suchen, filtern oder sortieren?</td><td>Suchen in einer Textablage heisst: alles lesen und selbst durchgehen</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Zweimal ja bei Frage 2 und 3 heisst Datenbank.</b> Dreimal nein heisst SharedPreferences. Dazwischen entscheidest du und begründest.</p>
+<p>Das ist keine Regel, das ist eine Rechnung. Sie sagt dir, was unter diesen Bedingungen passiert, nicht was du tun sollst.</p>
+</div>
+
+<div class="step">
+<p><span class="n">B1</span><b>Die vier Datenarten einordnen.</b> <span class="time">7 Min</span></p>
+<p>Auf dem Arbeitsblatt steht eine Tabelle mit vier Zeilen. Stell an jede Zeile die drei Prüffragen und trag die Antworten ein. Danach entscheidest du und schreibst <b>einen</b> Satz Begründung dazu.</p>
+<table>
+<tr><th class="num">Nr</th><th>Datenart</th><th>Woher du sie kennst</th></tr>
+<tr><td class="num">1</td><td>Der beste Punktestand, eine Zahl</td><td>05D, liegt schon in den SharedPreferences</td></tr>
+<tr><td class="num">2</td><td>Die Rangliste, rund zehn Einträge mit Name, Punkten und Kategorie</td><td>Der Ausblick in der Lösung von 05D</td></tr>
+<tr><td class="num">3</td><td>Die Fragen, rund dreissig Stück, anlegen, ändern, löschen, filtern</td><td>Kommt ab Tag 4</td></tr>
+<tr><td class="num">4</td><td>Die zuletzt gewählte Kategorie, ein Wort</td><td>05C, die Kategoriewahl beim Start</td></tr>
+</table>
+<div class="warn">
+<p><b>Zeile 2 ist die interessante.</b> Sie ist der einzige Grenzfall. Egal wie du entscheidest, dein Satz muss die Frage beantworten, warum du dich <b>gegen</b> die andere Möglichkeit entschieden hast.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">B2</span><b>Die zwei Sätze schreiben.</b> <span class="time">5 Min</span></p>
+<p>Jetzt schreibst du die Antwort so, wie sie in der Prüfung verlangt wird. Nimm Zeile 3 deiner Tabelle, also die Fragen.</p>
+<p>Der Aufbau ist immer gleich, drei Teile:</p>
+<ol>
+<li>Zwei Möglichkeiten nennen.</li>
+<li>Sich für eine entscheiden.</li>
+<li>In zwei Sätzen begründen, warum sie hier passt.</li>
+</ol>
+<p>Der erste Satz sagt, was für deine Wahl spricht. Der zweite sagt, was gegen die andere spricht. Wer nur den ersten schreibt, bekommt in der Prüfung den halben Punkt.</p>
+<div class="tip">
+<p><b>Die zwei häufigsten Sätze, die nichts wert sind:</b> "Eine Datenbank ist besser" und "Room ist der moderne Weg". Beide beschreiben keine Bedingung deiner App.</p>
+<p>Prüf deinen Satz so: nenne ich eine <b>Eigenschaft meiner Daten</b>, oder ein Urteil über die Technik? Nur das Erste zählt.</p>
+</div>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil B.</b></p>
+<ul>
+<li>Jede der vier Zeilen hat eine Entscheidung und eine Begründung.</li>
+<li>Keine Begründung besteht nur aus "einfacher" oder "besser".</li>
+<li>In deinen zwei Sätzen kommt mindestens eine Zahl oder eine Tätigkeit vor, also dreissig, oder ändern, oder filtern.</li>
+<li>Der zweite Satz sagt, was gegen die andere Möglichkeit spricht.</li>
+<li><b>Der harte Test:</b> Gib deine zwei Sätze deiner Sitznachbarin, ohne zu sagen, um welche Datenart es geht. Errät sie es, sind deine Sätze konkret genug.</li>
+</ul>
+</div>
+
+<h3>Übungen <span class="time">5 Minuten</span></h3>
+
+<div class="ue">
+<div class="t">Übung 1, ein fremdes Modell</div>
+<p>Eine App verwaltet Ausleihen in einer Bibliothek. Ein Eintrag hat einen Buchtitel, einen Namen, ein Ausleihdatum und die Angabe, ob das Buch zurück ist.</p>
+<p>Zeichne den Kasten mit Feldnamen und Datentypen. Er hat fünf Zeilen, nicht vier.</p>
+<p><b>So prüfst du:</b> Die fünfte Zeile ist die id. Wenn sie fehlt, frag dich, wie die App die Ausleihe wiederfindet, wenn das Buch zurückkommt.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 2, ein Feld zu viel</div>
+<p>Jemand zeichnet für die Bibliothek zusätzlich ein Feld <code>isOverdue: boolean</code>.</p>
+<p>Schreib in zwei Sätzen, warum dieses Feld nicht ins Datenmodell gehört und was stattdessen passiert.</p>
+<p><b>So prüfst du:</b> Deine Antwort muss das Wort "berechnen" oder "ausrechnen" enthalten.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 3, erklären</div>
+<p>Erklär einem Lerngspänli in zwei Sätzen, warum die dreissig Fragen in eine Datenbank gehören und der beste Punktestand nicht. Ohne die Wörter "besser", "moderner" und "professioneller".</p>
+<p><b>So prüfst du:</b> Wenn dein Gegenüber nachfragen muss "und warum genau", war es zu allgemein.</p>
+</div>
+
+<h3>Zusatzaufgabe für Schnelle</h3>
+
+<div class="ue">
+<div class="t">Das Modell der Prüfungs-App</div>
+<p>In der Leistungsbeurteilung baust du eine App zur Verwaltung von Modulnoten. Ein Eintrag hat eine Modulnummer, einen Modultitel, eine ZP-Note und eine LB-Note. Auf der Startseite steht rechts neben jedem Modul der Durchschnitt der beiden Noten.</p>
+<p>Zeichne das Datenmodell dazu.</p>
+<p><b>Und dann die Frage, um die es geht:</b> Gehört der Durchschnitt als Feld in den Kasten? Entscheide dich und begründe in einem Satz.</p>
+<p><b>Für Sehrschnelle:</b> Eine Note kann fehlen, solange das Modul läuft. Welchen Datentyp brauchst du dann, und was passiert mit dem Durchschnitt?</p>
+</div>
+
+<h3>Wenn du feststeckst</h3>
+<table>
+<tr><th>Problem</th><th>Das hilft</th></tr>
+<tr><td>Ich weiss nicht, welche Felder in den Kasten gehören</td><td>Schau nicht ins Layout, schau in deine Datenklasse. Was dort als Feld steht, gehört hinein</td></tr>
+<tr><td>Ich habe zwanzig Felder</td><td>Dann sind Anzeigedaten mit dabei. Prüffrage: muss dieser Wert nach dem Neustart noch da sein? Wenn nein, gehört er nicht ins Modell</td></tr>
+<tr><td>Ich weiss nicht, welcher Datentyp</td><td>Frag dich, ob du damit rechnen willst. Rechnen heisst <code>int</code> oder <code>double</code>. Anzeigen heisst <code>String</code></td></tr>
+<tr><td>Mein Kasten hat kein Feld, das eindeutig ist</td><td>Genau darum gibt es die <code>id</code>. Sie ist eine Nummer ohne Bedeutung, und das ist ihre Stärke</td></tr>
+<tr><td>Meine Begründung klingt nach Werbung</td><td>Streich jedes Adjektiv. Was übrig bleibt, muss eine Zahl oder eine Tätigkeit sein</td></tr>
+<tr><td>Ich finde <code>Question.java</code> nicht</td><td>Im Projektbaum unter <code>app</code>, <code>java</code>, dein Paket, Ordner <code>model</code></td></tr>
+</table>
+
+<h3>Abgabe</h3>
+<p>Du gibst das ausgefüllte Arbeitsblatt ab. Darauf müssen stehen:</p>
+<ul>
+<li>Die Feldtabelle zu Frage und Highscore-Eintrag.</li>
+<li>Die zwei gezeichneten Kästen, mit Datentypen und markiertem Schlüssel.</li>
+<li>Dein Satz, warum du die Antworten so gezeichnet hast, wie du sie gezeichnet hast.</li>
+<li>Die Tabelle mit den vier Datenarten und je einer Begründung.</li>
+<li>Die zwei Sätze im Prüfungsformat.</li>
+<li>Die Lösungen zu den drei Übungen.</li>
+</ul>
+
+<div class="tip">
+<p><b>Heb dieses Blatt auf.</b> Am Tag 4 baust du in 07C genau dieses Modell als Datenbank. Wer sein Blatt danebenlegt, tippt ab. Wer es nicht hat, überlegt nochmals von vorn.</p>
+</div>
+
+<h2>03 Guide</h2>
+
+<table>
+<tr><th>Punkt</th><th>Angabe</th></tr>
+<tr><td>Sozialform</td><td>Einzelarbeit. Der harte Test in Teil B läuft zu zweit</td></tr>
+<tr><td>Aufgabenart</td><td>Papier-Auftrag. Es wird kein Code geschrieben und nichts gestartet</td></tr>
+<tr><td>Zeitbudget</td><td>40 Minuten. Teil A 18, Teil B 12, Übungen 5, Einstieg 5</td></tr>
+<tr><td>Hilfsmittel</td><td>Dein eigener Code, die Nachschlageblätter. Eine KI darfst du benutzen, du musst aber jedes Feld erklären können</td></tr>
+<tr><td>Abgabe</td><td>Das Arbeitsblatt in Google Classroom</td></tr>
+</table>
+
+<h3>Die Beiträge in Google Classroom</h3>
+<ul>
+<li><b>06A Auftrag, Datenmodell zeichnen.</b> Material, dieses Dokument.</li>
+<li><b>06A Arbeitsblatt, Datenmodell zeichnen.</b> Aufgabe, für jeden eine Kopie. Das gibst du ab.</li>
+<li><b>06A Loesung, Datenmodell zeichnen.</b> Material. Erst öffnen, wenn du fertig bist.</li>
+</ul>
+
+<h2>04 Unterrichtsmittel</h2>
+<ul>
+<li><b>Wo deine App ihre Daten ablegt</b>, für Teil B. Dort steht, wo die drei Möglichkeiten auf dem Gerät liegen.</li>
+<li>Deine eigene <code>Question.java</code> aus 03D, für Teil A.</li>
+<li>Deine eigene <code>ScoreStorage.java</code> aus 05D, für Teil B Zeile 1.</li>
+<li>Das Lösungsmaterial von 05D, Abschnitt <b>Der Ausblick</b>. Dort steht der Anlass für diesen Auftrag.</li>
+<li>Das Formular der Leistungsbeurteilung, Teil A2 und A3.</li>
+</ul>
+
+<p class="foot">Modul 335 | Tag 3 Nachmittag | Auftrag 06A | Version 1 | 17.08.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>

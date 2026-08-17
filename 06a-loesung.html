@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>06A Lösung, Datenmodell zeichnen</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>06A Lösung, Datenmodell zeichnen</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 3 Nachmittag. Version 1 vom 17.08.2026.</p>
+<p class="sub">Zum Durchlesen brauchst du etwa 8 Minuten. Schau erst hinein, wenn du dein eigenes Modell gezeichnet hast.</p>
+<p class="sub">Bei diesem Auftrag gibt es keine einzige richtige Lösung. Es gibt vertretbare und nicht vertretbare. Vergleich also nicht Zeichnung gegen Zeichnung, sondern deine Begründung gegen die hier.</p>
+
+<h2>Die Vergleichsliste, dein eigenes Blatt</h2>
+
+<p>Geh diese zehn Punkte an deiner eigenen Abgabe durch, bevor du weiterliest. Sie treffen genau das, was in der Leistungsbeurteilung Punkte gibt.</p>
+
+<table>
+<tr><th class="num">Nr</th><th>Das prüfst du</th><th>Warum es zählt</th></tr>
+<tr><td class="num">1</td><td>Jeder Kastenname steht in der Einzahl und mit grossem Anfangsbuchstaben</td><td>Ein Kasten beschreibt einen Datensatz. Wer <code>Fragen</code> schreibt, hat das Modell mit der Liste verwechselt</td></tr>
+<tr><td class="num">2</td><td><b>Jede Zeile hat einen Datentyp</b></td><td>Die Prüfung verlangt es wörtlich. Ein Kasten ohne Typen ist der häufigste halbe Punkt</td></tr>
+<tr><td class="num">3</td><td>Die Feldnamen sind englisch und stimmen mit deinem Code überein</td><td>Du liest dieses Modell in 07C beim Bauen wieder. Zwei Schreibweisen heissen zwei Wahrheiten</td></tr>
+<tr><td class="num">4</td><td>Ein Feld <code>id</code> vom Typ <code>int</code> ist da und als Schlüssel markiert</td><td>Ohne Schlüssel kann die App keinen einzelnen Datensatz ändern oder löschen</td></tr>
+<tr><td class="num">5</td><td>Die vier Antworten stehen nicht als Array im Kasten</td><td>Eine Spalte hält einen Wert. Das ist der Punkt, an dem sich Java-Klasse und Datenbanktabelle unterscheiden</td></tr>
+<tr><td class="num">6</td><td>Es steht keine Methode und kein Plus- oder Minuszeichen im Kasten</td><td>Kostet Zeit, gibt keinen Punkt. In sieben Minuten ist das entscheidend</td></tr>
+<tr><td class="num">7</td><td>Es steht kein Feld im Modell, das nur für die Anzeige da ist</td><td>Ein Modell zeigt, was den Neustart überlebt. Alles andere wird gerechnet oder gelesen</td></tr>
+<tr><td class="num">8</td><td>Alle vier Zeilen der Persistenztabelle haben eine Begründung, nicht nur eine Wahl</td><td>Die Prüfung gibt den Punkt für die Begründung, nicht für die Wahl</td></tr>
+<tr><td class="num">9</td><td>In deinen zwei Sätzen steht eine Zahl oder eine Tätigkeit</td><td>"Besser" und "moderner" sind Urteile über Technik, keine Eigenschaften deiner Daten</td></tr>
+<tr><td class="num">10</td><td>Der zweite Satz sagt, was gegen die andere Möglichkeit spricht</td><td>Die Prüfung verlangt ausdrücklich, dass eine Alternative genannt wird</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Wenn du nur einen Punkt prüfst, dann Nummer 2.</b> Die Datentypen sind das Erste, was beim Zeichnen unter Zeitdruck wegfällt, und sie stehen wörtlich im Bewertungsraster.</p>
+</div>
+
+<p>Wenn ein Punkt bei dir anders ist und du sagen kannst, warum, dann ist er richtig. Genau das wird in der Leistungsbeurteilung gefragt.</p>
+
+<h2>Teil A, das Datenmodell</h2>
+
+<h3>So könnte dein Modell aussehen</h3>
+
+<pre>+---------------------------------+          +--------------------------+
+|            Question             |          |      HighscoreEntry      |
++---------------------------------+          +--------------------------+
+| PK id: int                      |          | name: String             |
+| text: String                    |          | score: int               |
+| answer1: String                 |          | category: String         |
+| answer2: String                 |          +--------------------------+
+| answer3: String                 |
+| answer4: String                 |
+| correctAnswer: String           |
+| category: String                |
+| difficulty: String              |
++---------------------------------+</pre>
+
+<p>Neun Zeilen im einen Kasten, drei im anderen. Wenn dein Kasten genau so aussieht, hast du beide Ergänzungen aus A3 gemacht.</p>
+
+<div class="info">
+<p><b>Warum die zwei Kästen keinen Pfeil zwischen sich haben.</b> Ein Highscore-Eintrag kennt keine Frage, und eine Frage kennt keinen Highscore. Es sind zwei getrennte Dinge in derselben App.</p>
+<p>Ein Pfeil ohne Beziehung ist ein Fehler, kein Schmuck. Zeichne nur, was es wirklich gibt.</p>
+</div>
+
+<h3>Der Schlüssel, und warum nur die Frage einen hat</h3>
+
+<p>Der Schlüssel ist die Antwort auf die Frage aus dem Ausblick von 05D. Er ist die einzige Möglichkeit, einen Datensatz eindeutig zu meinen.</p>
+
+<p>Warum nicht der Fragetext als Schlüssel? Weil der Text genau das ist, was du beim Bearbeiten änderst. Ein Schlüssel, der sich ändert, ist keiner. Deshalb nimmt man eine Nummer ohne Bedeutung.</p>
+
+<p>Der Highscore-Eintrag hat keinen, weil du nie einen einzelnen Eintrag änderst. Du hängst einen an und du liest die ganze Liste. Ein Schlüssel wäre da toter Ballast.</p>
+
+<div class="tip">
+<p><b>Das ist übrigens die kürzeste Fassung der ganzen heutigen Lektion.</b> Wer einen Schlüssel braucht, braucht meistens auch eine Datenbank. Wer keinen braucht, meistens nicht.</p>
+</div>
+
+<h3>Die vier Antworten, beide Wege im Vergleich</h3>
+
+<p>In deinem <code>Question.java</code> steht vermutlich <code>private String[] answers;</code>. Das ist in Java sauber. In einer Datenbanktabelle geht es nicht, denn eine Spalte hält einen Wert.</p>
+
+<table>
+<tr><th>Weg</th><th>Spricht dafür</th><th>Spricht dagegen</th></tr>
+<tr><td><b>Vier Felder</b> <code>answer1</code> bis <code>answer4</code></td><td>Eine Tabelle, ein Zugriff. Das Formular hat sowieso vier Eingabefelder. Eine Quizfrage hat immer genau vier Antworten</td><td>Die Zahl vier steht fest im Modell. Fünf Antworten hiessen Umbau an mehreren Stellen</td></tr>
+<tr><td><b>Zweiter Kasten</b> <code>Answer</code>, 1 zu n</td><td>Beliebig viele Antworten pro Frage. Sauber normalisiert</td><td>Zweite Tabelle, zweiter Schlüssel, zweiter Zugriff, und beim Löschen einer Frage müssen die Antworten mit</td></tr>
+</table>
+
+<p><b>Wir nehmen in diesem Modul die vier Felder.</b> Der Grund ist die feste Anzahl. Eine eigene Tabelle lohnt sich dann, wenn die Anzahl offen ist, und hier ist sie es nicht.</p>
+
+<div class="info">
+<p><b>Wer den zweiten Weg gezeichnet und begründet hat, hat es richtig gemacht.</b> Am Tag 4 baust du dann trotzdem die vier Felder, weil wir es im Modul so festlegen. Deine Zeichnung war deswegen nicht falsch.</p>
+<p>Und die Prüfung sagt wörtlich "keine Normalisierung nötig". Dort ist der einfache Weg der schnellere und gibt dieselben Punkte.</p>
+</div>
+
+<h3>Was nicht ins Modell gehört</h3>
+
+<p>Diese Werte tauchen bei fast jedem irgendwann im Kasten auf. Keiner davon gehört hinein.</p>
+
+<table>
+<tr><th>Wert</th><th>Warum er draussen bleibt</th></tr>
+<tr><td class="pre">currentIndex</td><td>Sagt, bei welcher Frage die Runde gerade ist. Nach dem Neustart bedeutungslos</td></tr>
+<tr><td class="pre">score</td><td>Der laufende Punktestand der Runde. Er gehört zur Runde, nicht zur Frage</td></tr>
+<tr><td class="pre">isAnswered</td><td>Zustand der Anzeige. Wird bei jeder Runde neu gesetzt</td></tr>
+<tr><td class="pre">buttonColor</td><td>Aussehen. Das Modell weiss nichts von Farben</td></tr>
+<tr><td class="pre">questionCount</td><td>Eine Anzahl. Sie wird gezählt, nicht gespeichert</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Die Prüffrage für jedes Feld:</b> muss dieser Wert nach dem Beenden und Neustarten der App noch da sein?</p>
+<p>Nein heisst: er gehört nicht ins Datenmodell. Er lebt in der Activity und stirbt mit ihr.</p>
+</div>
+
+<h2>Antworten zu den Denkfragen</h2>
+
+<p><b>1. Dein Highscore-Eintrag hat kein Schlüsselfeld, deine Frage bekommt gleich eines. Woran liegt das?</b></p>
+<p>An dem, was du damit machst. Die Rangliste wird angehängt und als Ganzes gelesen. Es gibt keinen Moment, in dem die App sagen muss "genau diesen Eintrag".</p>
+<p>Bei den Fragen gibt es diesen Moment ab Tag 4 dauernd: antippen zum Bearbeiten, wischen zum Löschen. Beides braucht eine eindeutige Angabe, und die Position in der Liste taugt dafür nicht, weil sie sich beim Filtern verschiebt.</p>
+
+<p><b>2. Warum steht bei <code>score</code> der Typ <code>int</code> und nicht <code>String</code>?</b></p>
+<p>Weil du damit rechnest und sortierst. Ein <code>String</code> sortiert nach Zeichen, nicht nach Grösse. Dann steht in deiner Rangliste die 9 hinter der 10, und die 100 zwischen der 10 und der 2.</p>
+<p>Ausserdem geht der Vergleich aus 05D nicht mehr. <code>score &gt; bestScore</code> gibt es für Text nicht, und du müsstest bei jedem Vergleich umwandeln.</p>
+<div class="tip">
+<p><b>Die allgemeine Regel dahinter:</b> der Datentyp folgt daraus, was du mit dem Wert tust, nicht daraus, wie er aussieht.</p>
+<p>Eine Postleitzahl sieht aus wie eine Zahl und ist ein <code>String</code>, denn du rechnest nie damit und die führende Null muss bleiben. Ein Punktestand sieht genauso aus und ist ein <code>int</code>.</p>
+</div>
+
+<p><b>3. Der beste Punktestand ist eine einzige Zahl. Warum baust du dafür keine Datenbank, obwohl du ab Tag 4 sowieso eine hast?</b></p>
+<p>Weil die Kosten bleiben und der Nutzen fehlt. Für eine Zahl in der Datenbank brauchst du eine Tabelle, eine Entity-Klasse, eine Dao-Klasse und einen Zugriff, der nicht auf dem Hauptthread laufen darf. Das sind rund vierzig Zeilen für einen Wert, den du mit einer Zeile lesen kannst.</p>
+<p>Und du gewinnst nichts dabei. Es gibt nur einen Datensatz. Du suchst nicht, du filterst nicht, du löschst nicht einzeln.</p>
+<p>Die Antwort ist also nicht "das macht man nicht", sondern "die drei Prüffragen ergeben dreimal nein".</p>
+
+<h2>Teil B, die Persistenzwahl</h2>
+
+<h3>Die vier Zeilen, ausgefüllt</h3>
+
+<table>
+<tr><th>Datenart</th><th>Wie viele</th><th>Einzeln ändern</th><th>Suchen oder filtern</th><th>Wahl</th></tr>
+<tr><td>Der beste Punktestand</td><td>1</td><td>nein</td><td>nein</td><td>SharedPreferences</td></tr>
+<tr><td>Die Rangliste</td><td>rund 10</td><td>nein</td><td>nach Kategorie, aber im Speicher</td><td>SharedPreferences als Text</td></tr>
+<tr><td>Die Fragen</td><td>30 und wachsend</td><td><b>ja</b></td><td><b>ja</b></td><td>Datenbank</td></tr>
+<tr><td>Die zuletzt gewählte Kategorie</td><td>1</td><td>nein</td><td>nein</td><td>SharedPreferences</td></tr>
+</table>
+
+<p>Die Begründungen, je ein Satz:</p>
+<ol>
+<li><b>Bester Punktestand:</b> Ein einzelner Wert, der nur überschrieben wird, und für einen <code>int</code> ist eine Ablage für einzelne Werte genau das richtige Werkzeug.</li>
+<li><b>Rangliste:</b> Rund zehn Einträge, die immer zusammen gelesen und zusammen geschrieben werden, also reicht ein einziger Text in den SharedPreferences.</li>
+<li><b>Fragen:</b> Dreissig Datensätze, die einzeln angelegt, geändert, gelöscht und nach Kategorie gefiltert werden, und genau dafür ist eine Datenbank gebaut.</li>
+<li><b>Zuletzt gewählte Kategorie:</b> Ein einzelnes Wort als Einstellung, also derselbe Fall wie der Punktestand.</li>
+</ol>
+
+<h3>Zeile 2 war die interessante</h3>
+
+<p>Die Rangliste ist der Grenzfall, und beide Antworten sind vertretbar.</p>
+
+<table>
+<tr><th>Wer SharedPreferences gewählt hat</th><th>Wer die Datenbank gewählt hat</th></tr>
+<tr><td>Zehn Einträge, immer als Ganzes gelesen. Der Umweg über Text kostet zwanzig Zeilen, aber nur einmal</td><td>Es ist eine Liste von Datensätzen mit drei Feldern, und das ist genau die Form, für die eine Tabelle da ist</td></tr>
+<tr><td>Ein zweites Werkzeug für eine so kleine Menge lohnt nicht</td><td>Sortieren nach Punkten und Filtern nach Kategorie macht die Datenbank von selbst</td></tr>
+<tr><td><b>Diesen Weg gehen wir im Modul</b>, weil er den Unterschied sichtbar macht</td><td><b>Nicht falsch.</b> In einer echten App mit Tausenden Einträgen wäre er der bessere</td></tr>
+</table>
+
+<div class="note">
+<p><b>Falsch war nur eine Antwort ohne Begründung.</b> Bei einem Grenzfall gibt es den Punkt für den Satz, nicht für das Kreuz.</p>
+</div>
+
+<h3>Die zwei Sätze im Prüfungsformat, ein Muster</h3>
+
+<div class="ue">
+<p class="t">Für die Fragen</p>
+<p><b>Zwei Möglichkeiten:</b> SharedPreferences und eine lokale Datenbank mit SQLite.</p>
+<p><b>Ich entscheide mich für:</b> die Datenbank.</p>
+<p><b>Satz 1.</b> Die App verwaltet dreissig und mehr Fragen, die einzeln angelegt, geändert und gelöscht sowie nach Kategorie gefiltert werden, und genau dafür ist eine Datenbank gebaut.</p>
+<p><b>Satz 2.</b> In den SharedPreferences müsste die ganze Liste als ein einziger Text liegen, und für jede Änderung an einer Frage müsste ich alle dreissig lesen, umbauen und zurückschreiben.</p>
+</div>
+
+<div class="tip">
+<p><b>Schau, was in diesen zwei Sätzen steht:</b> eine Zahl, vier Tätigkeiten und eine Folge. Kein einziges Adjektiv über die Technik.</p>
+<p>Genau daran erkennt eine korrigierende Person, ob jemand verstanden hat oder ob jemand ein Schlagwort abgeschrieben hat.</p>
+</div>
+
+<h3>Die dritte Möglichkeit, und warum sie selten passt</h3>
+
+<p>Eine eigene Datei im internen Speicher ist die dritte Möglichkeit. Sie liegt zwischen den anderen beiden.</p>
+
+<table>
+<tr><th>Sie passt</th><th>Sie passt nicht</th></tr>
+<tr><td>Für einen Export, den man später wieder einliest</td><td>Wenn du einzelne Datensätze ändern willst</td></tr>
+<tr><td>Für Daten, die eine App nur schreibt, etwa ein Protokoll</td><td>Wenn du suchen oder sortieren willst</td></tr>
+<tr><td>Für grosse Mengen, die als Ganzes gehören, etwa ein Bild</td><td>Wenn zwei Stellen gleichzeitig schreiben könnten</td></tr>
+</table>
+
+<p>In der Prüfung reicht es, sie als zweite Möglichkeit zu nennen. Du musst sie nicht wählen.</p>
+
+<h2>Lösungen zu den Übungen</h2>
+
+<div class="ue">
+<p class="t">Übung 1, die Bibliotheks-Ausleihe</p>
+<pre>+------------------------------+
+|            Loan              |
++------------------------------+
+| PK id: int                   |
+| bookTitle: String            |
+| borrowerName: String         |
+| borrowedOn: String           |
+| returned: boolean            |
++------------------------------+</pre>
+<p>Die fünfte Zeile ist die <code>id</code>. Ohne sie findet die App die Ausleihe nicht wieder, wenn das Buch zurückkommt, denn dieselbe Person kann dasselbe Buch zweimal ausleihen.</p>
+<p>Das Datum steht als <code>String</code>. Für dieses Modul reicht das. Wer es später sortieren will, schreibt es als <code>2026-08-17</code> und nicht als <code>17.08.2026</code>, denn nur die erste Form sortiert als Text richtig.</p>
+<div class="tip">
+<p><b>Warum <code>returned</code> und nicht <code>istZurueck</code>.</b> Bezeichner sind im ganzen Modul englisch, sichtbare Texte deutsch. Das gilt auch im Datenmodell, denn aus dem Modell wird eine Klasse.</p>
+</div>
+</div>
+
+<div class="ue">
+<p class="t">Übung 2, das Feld isOverdue</p>
+<p>Es gehört nicht ins Modell, weil es sich aus dem Ausleihdatum und dem heutigen Datum ausrechnen lässt. Stattdessen berechnet die App den Wert im Moment der Anzeige.</p>
+<div class="warn">
+<p><b>Der Grund, warum das mehr ist als Ordnungsliebe.</b> Ein gespeicherter Wert wird falsch, sobald sich die Grundlage ändert. Eine Ausleihe, die heute nicht überfällig ist, ist es in drei Wochen. Wer den Wert speichert, müsste jede Nacht jeden Datensatz nachführen.</p>
+<p><b>Dieselbe Frage kommt in der Zusatzaufgabe wieder</b>, dort beim Durchschnitt der zwei Noten. Die Antwort ist dieselbe.</p>
+</div>
+<p><b>Die allgemeine Regel:</b> was sich aus anderen Feldern ausrechnen lässt, wird gerechnet und nicht gespeichert. Sonst hast du dieselbe Information an zwei Orten, und einer davon ist irgendwann falsch.</p>
+</div>
+
+<div class="ue">
+<p class="t">Übung 3, erklären</p>
+<p>Eine gute Erklärung nennt die Bedingung und die Folge.</p>
+<p>"Die Fragen sind dreissig Datensätze, die ich einzeln anlegen, ändern, löschen und nach Kategorie filtern will. Genau das kann eine Datenbank ohne Umweg, und in einer Textablage müsste ich für jede einzelne Änderung alle dreissig lesen und zurückschreiben."</p>
+<p>"Der beste Punktestand ist eine einzige Zahl, die nur überschrieben wird. Da gibt es nichts zu suchen und nichts einzeln zu ändern, also reicht eine Ablage für einzelne Werte."</p>
+<p>Wer nur sagt "viele Daten gehören in eine Datenbank", hat die halbe Antwort. Die Menge allein entscheidet nicht. Tausend Zeilen, die nur am Stück gelesen werden, gehen auch in eine Datei.</p>
+</div>
+
+<p>Zur Zusatzaufgabe steht hier bewusst nichts. Die Frage danach ist der eigentliche Inhalt: gehört der Durchschnitt als Feld in den Kasten? Denk an Übung 2, dort steckt dieselbe Frage.</p>
+
+<h2>Mögliche falsche KI-Rückmeldungen</h2>
+
+<p>Das sind Antworten, die uns bei diesem Thema schon begegnet sind. Nicht jede KI macht jeden dieser Fehler. Die Liste ist eine Prüfliste, keine Anklage.</p>
+
+<table>
+<tr><th>Die KI schlägt vor</th><th>Warum das hier falsch ist</th></tr>
+<tr><td>Ein voll normalisiertes Modell mit Tabellen für Kategorie und Schwierigkeit</td><td>Formal sauber, hier aber Zeitverschwendung. Die Prüfung sagt wörtlich "keine Normalisierung nötig", und für vier feste Kategorien lohnt keine eigene Tabelle</td></tr>
+<tr><td class="pre">List&lt;String&gt; answers</td><td>Geht in Java, geht nicht in einer Tabellenspalte. In Room bräuchte es einen TypeConverter, und der ist ein Konzept mehr als wir brauchen</td></tr>
+<tr><td>Ein Feld <code>averageGrade</code> im Kasten der Modulnote</td><td>Ein berechneter Wert gehört nicht ins Modell. Siehe Übung 2</td></tr>
+<tr><td>Sichtbarkeitszeichen und Methoden im Klassendiagramm</td><td>Nicht falsch, aber es ist ein Datenmodell und kein Klassenentwurf. In sieben Minuten von Hand kostet es die Zeit, die für die Datentypen fehlt</td></tr>
+<tr><td>Den Fragetext als Primärschlüssel</td><td>Ein Schlüssel darf sich nicht ändern. Der Fragetext ist genau das, was beim Bearbeiten geändert wird</td></tr>
+<tr><td>Alles in SharedPreferences, das sei einfacher</td><td>Stimmt für einen Wert. Bei dreissig einzeln änderbaren Datensätzen wird aus einfacher genau der zwanzigzeilige Umweg aus dem Ausblick von 05D</td></tr>
+<tr><td>Gleich Room, Entity und Dao im Datenmodell mit aufzeichnen</td><td>Das Modell ist unabhängig von der Technik. Es soll auch dann noch stimmen, wenn du morgen etwas anderes als Room nimmst</td></tr>
+<tr><td>Ein Datum als <code>Date</code> oder <code>LocalDate</code> im Modell</td><td>Beides gibt es, beides braucht in Room einen Converter. Für dieses Modul ist <code>String</code> die Vorgabe, und die Prüfung verlangt nichts anderes</td></tr>
+<tr><td>DataStore statt SharedPreferences, das sei der Nachfolger</td><td>Stimmt als Aussage. Es bringt aber eine Abhängigkeit und ein neues Konzept mit, und im Unterricht bauen wir auf dem auf, was in 05D schon läuft</td></tr>
+<tr><td>Eine Beziehung zwischen <code>Question</code> und <code>HighscoreEntry</code></td><td>Es gibt keine. Ein Highscore gehört zu einer Runde, nicht zu einer Frage. Ein Pfeil ohne Beziehung ist ein Fehler</td></tr>
+</table>
+
+<h2>Was als Nächstes kommt</h2>
+
+<p>Direkt danach kommt <b>06B Validierung und inputType</b>. Dort baust du das Formular, das die Felder aus deinem Modell entgegennimmt, und lernst, wie es unbrauchbare Eingaben abfängt.</p>
+
+<p>Am Tag 4 in <b>07C</b> wird aus deinem Kasten eine Tabelle. Die neun Zeilen deines Modells werden neun Spalten, das Feld <code>id</code> wird der Primärschlüssel, und die vier Antwortfelder sind genau der Grund, warum du dort keinen Converter schreiben musst.</p>
+
+<p>Leg dein Blatt an dem Tag daneben. Es ist der Bauplan.</p>
+
+<p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 06A Datenmodell zeichnen &middot; Version 1 vom 17.08.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>
