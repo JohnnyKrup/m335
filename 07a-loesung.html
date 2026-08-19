@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>07A Loesung, Generalprobe Planungsteil</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>07A Loesung, Generalprobe Planungsteil</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 4 Vormittag. Version 2 vom 19.08.2026.</p>
+<p class="sub">Zum Durchlesen brauchst du etwa 14 Minuten. Such dir die Stelle, die du brauchst.</p>
+
+<div class="note">
+<p><b>Erst öffnen, wenn der Block vorbei ist.</b></p>
+<p>Hier steht die Aufgabenstellung von 07A und die Musterlösung dazu. Wer beides vorher liest, hat die Generalprobe nicht gemacht.</p>
+<p>Das kostet dich heute nichts. Am Freitag kostet es dich zwölf Punkte, weil du dann zum ersten Mal unter Zeitdruck planst.</p>
+</div>
+
+<h2>Die Aufgabenstellung, zum Nachlesen</h2>
+
+<div class="info">
+<p>Du programmierst eine App für die Verwaltung einer Einkaufsliste nach folgenden Vorgaben:</p>
+<ul>
+<li>Pro Eintrag: Artikel, Laden, Menge, Preis pro Stück.</li>
+<li>Artikel und Laden sind Pflichtfelder, Mindestlänge 4 Zeichen.</li>
+<li>Menge und Preis können später nachgetragen werden.</li>
+<li>Fehleingaben werden vor dem Speichern abgefangen.</li>
+<li>Die Startseite zeigt Artikel und Laden. Sind Menge und Preis vorhanden, wird der Betrag angezeigt.</li>
+<li>Ein bestehender Eintrag lässt sich antippen, ändern und wieder speichern.</li>
+<li>Datenhaltung nur lokal. Ab Android 8, unterschiedliche Bildschirmgrössen, Hoch- und Querformat.</li>
+<li>Alle selbst erstellten Klassen und Methoden sind Javadoc-kompatibel zu dokumentieren.</li>
+</ul>
+</div>
+
+<h2>Die Vergleichsliste, dein eigenes Blatt</h2>
+
+<p>Geh diese Punkte an deinem Blatt durch, bevor du weiterliest. Erst danach die Musterlösungen. Wer zuerst die Lösung liest, findet seine eigenen Lücken nicht mehr.</p>
+
+<table>
+<tr><th class="num">Nr</th><th>Das prüfst du</th><th>Warum es zählt</th></tr>
+<tr><td class="num">1</td><td><b>Es sind drei Stories.</b> Zähl nach</td><td>Die Prüfung sagt wörtlich <i>drei valide User-Stories</i>. Es ist die grösste Einzelposition des ganzen Rasters mit 6 Punkten</td></tr>
+<tr><td class="num">2</td><td>Jede Story hat ein <b>damit</b></td><td>Ohne Nutzen ist es keine Story, sondern eine Anforderung. Das ist der Teil, den alle weglassen</td></tr>
+<tr><td class="num">3</td><td>Deine Rolle ist ein Mensch, nicht das System und nicht der Entwickler</td><td>Eine Rolle sagt, aus wessen Sicht der Wunsch kommt. Das System hat keine Wünsche</td></tr>
+<tr><td class="num">4</td><td>Zu jedem Kriterium kannst du sagen, was du antippst und was danach dasteht</td><td>Das ist die Prüffrage aus 04C. Kannst du es nicht sagen, ist es ein Wunschsatz</td></tr>
+<tr><td class="num">5</td><td>Keines deiner Kriterien enthält gut, einfach, übersichtlich oder benutzerfreundlich ohne eine Zahl daneben</td><td>Genau daran gehen die Punkte in Aufgabe 1 verloren, fast nie am Format</td></tr>
+<tr><td class="num">6</td><td>Jede Zeile im Datenmodell hat einen Feldnamen <b>und</b> einen Datentyp</td><td>Ein Modell ohne Typen ist die Hälfte wert und in acht Minuten leicht vergessen</td></tr>
+<tr><td class="num">7</td><td><b>Der wichtigste Punkt.</b> In deinem Modell steht kein Feld, das sich ausrechnen lässt</td><td>Der Betrag ist Menge mal Preis. Wer ihn speichert, hat zwei Wahrheiten in einer Zeile, sobald jemand die Menge ändert</td></tr>
+<tr><td class="num">8</td><td>Dein Modell hat ein Schlüsselfeld, und es ist markiert</td><td>Es steht in keinem Satz der Beschreibung. Es folgt daraus, dass ein einzelner Eintrag angetippt und geändert wird</td></tr>
+<tr><td class="num">9</td><td>Zu Menge und Preis steht ein Halbsatz, woran die App erkennt, dass nichts eingetragen ist</td><td>Die Beschreibung sagt ausdrücklich, dass beide leer bleiben dürfen. Ein <code>int</code> kann nicht leer sein</td></tr>
+<tr><td class="num">10</td><td>Du hast <b>nicht</b> normalisiert</td><td>Die Prüfung sagt wörtlich <i>KISS, ohne Normalisierung</i>. Eine zweite Tabelle für den Laden kostet Zeit und gibt keinen Punkt</td></tr>
+<tr><td class="num">11</td><td>Bei Aufgabe 3 stehen <b>zwei</b> Möglichkeiten da, nicht nur deine Wahl</td><td><i>alternative Persistenzmethode genannt</i> ist eine eigene Zeile im Raster mit einem eigenen Punkt</td></tr>
+<tr><td class="num">12</td><td>Deine Begründung nennt eine Eigenschaft deiner Daten, kein Urteil über die Technik</td><td>Der Prüfsatz aus 06A. <i>Room ist modern</i> beschreibt keine Bedingung deiner App</td></tr>
+<tr><td class="num">13</td><td>Alles ist lesbar, aus einer Armlänge Abstand</td><td>Im Prüfungsblatt steht wörtlich <i>Nicht lesbar bedeutet keine Punkte</i></td></tr>
+</table>
+
+<div class="tip">
+<p><b>Wenn du nur zwei Punkte prüfst, dann Nummer 1 und Nummer 7.</b> Nummer 1 kostet bis zu zwei Punkte und ist in fünf Sekunden gezählt. Nummer 7 kostet einen Punkt und ist in zehn Sekunden gefunden: streich jedes Feld, das du ausrechnen kannst.</p>
+</div>
+
+<h2>Aufgabe 1, die drei User Stories</h2>
+
+<p>Ein Muster. Deine dürfen anders lauten, solange sie dieselben Prüfungen bestehen.</p>
+
+<h3>Story 1, erfassen</h3>
+
+<div class="info">
+<p><b>Als</b> jemand, der einkaufen geht,<br>
+<b>möchte ich</b> einen Artikel zusammen mit dem Laden erfassen,<br>
+<b>damit</b> ich im Geschäft sehe, was ich dort mitnehmen muss.</p>
+<p><b>Kriterium 1:</b> Wenn ich Artikel und Laden mit je mindestens 4 Zeichen eintippe und speichere, steht der Eintrag danach auf der Startseite in der Liste.</p>
+<p><b>Kriterium 2:</b> Wenn der Artikel weniger als 4 Zeichen hat, wird nicht gespeichert, und direkt beim Feld erscheint eine Meldung.</p>
+</div>
+
+<h3>Story 2, nachtragen</h3>
+
+<div class="info">
+<p><b>Als</b> jemand, der ein Budget einhalten will,<br>
+<b>möchte ich</b> Menge und Preis später nachtragen,<br>
+<b>damit</b> ich sehe, was ein Posten kostet.</p>
+<p><b>Kriterium 1:</b> Sobald Menge und Preis eingetragen sind, wird in der Zeile der Betrag angezeigt, also Menge mal Preis.</p>
+<p><b>Kriterium 2:</b> Fehlt eine der beiden Zahlen, bleibt die Stelle leer, und der Eintrag steht trotzdem in der Liste.</p>
+</div>
+
+<h3>Story 3, ändern</h3>
+
+<div class="info">
+<p><b>Als</b> jemand, der sich vertippt hat,<br>
+<b>möchte ich</b> einen bestehenden Eintrag antippen und ändern,<br>
+<b>damit</b> ich ihn nicht löschen und neu erfassen muss.</p>
+<p><b>Kriterium 1:</b> Wenn ich einen Eintrag antippe, stehen die gespeicherten Werte im Formular.</p>
+<p><b>Kriterium 2:</b> Nach dem Speichern zeigt die Liste den geänderten Wert, und es gibt <b>keinen zweiten</b> Eintrag mit demselben Artikel.</p>
+</div>
+
+<div class="warn">
+<p><b>Story 3 ist die, die am häufigsten fehlt</b>, und sie ist die wertvollste. Ihr zweites Kriterium beschreibt genau den Fehler, den fast jeder beim Implementieren zuerst baut: der geänderte Eintrag wird als neuer angehängt statt überschrieben.</p>
+<p>Wer dieses Kriterium in der Planung aufschreibt, sucht den Fehler in Teil B nicht eine Viertelstunde lang.</p>
+</div>
+
+<h3>Woran du erkennst, dass deine Kriterien taugen</h3>
+
+<p>Alle sechs Kriterien oben haben dieselbe Form: <b>wenn ich X mache, dann steht Y auf dem Bildschirm</b>. Beides ist sichtbar, beides ist in unter dreissig Sekunden zu prüfen.</p>
+
+<table>
+<tr><th>Kriterium</th><th>Messbar?</th><th>Warum</th></tr>
+<tr><td>Die Liste ist übersichtlich</td><td>nein</td><td>Zwei Personen kommen zu zwei Urteilen. Es gibt nichts nachzuschauen</td></tr>
+<tr><td>Das Speichern funktioniert korrekt</td><td>nein</td><td><i>Korrekt</i> sagt nicht, was danach dasteht</td></tr>
+<tr><td>Pflichtfelder werden geprüft</td><td>fast</td><td>Es fehlt, <b>was passiert</b>. Ergänze: nicht gespeichert, Meldung beim Feld</td></tr>
+<tr><td>Nach dem Speichern steht der Eintrag in der Liste auf der Startseite</td><td>ja</td><td>Antippen, hinschauen, fertig</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Die Beschreibung liefert dir die Kriterien fast fertig.</b> Sätze wie <i>Mindestlänge 4 Zeichen</i>, <i>Fehleingaben werden vor dem Speichern abgefangen</i> und <i>sind Menge und Preis vorhanden, wird der Betrag angezeigt</i> sind schon messbar formuliert.</p>
+<p>Deine Arbeit in Aufgabe 1 ist darum kleiner, als sie aussieht. Du suchst die messbaren Stellen in der Beschreibung und schreibst sie als Kriterium unter die passende Story.</p>
+</div>
+
+<div class="note">
+<p><b>Wie die 6 Punkte verteilt sind, weiss nur die korrigierende Person.</b> Im Bewertungsraster steht nur eine Zeile: <i>drei User Stories mit Akzeptanzkriterien korrekt, 6 Punkte</i>.</p>
+<p>Zwei Punkte pro Story ist die naheliegende Aufteilung, und danach richtet sich diese Lösung. <b>Das ist eine Auslegung und kein Wortlaut.</b> Sicher ist nur: wer zwei statt drei Stories schreibt, kann die volle Punktzahl nicht bekommen.</p>
+</div>
+
+<h2>Aufgabe 2, das Datenmodell</h2>
+
+<pre>+----------------------------------+
+|          ShoppingItem            |
++----------------------------------+
+| PK id: int                       |
+| article: String                  |
+| shop: String                     |
+| quantity: int                    |
+| pricePerUnit: double             |
++----------------------------------+</pre>
+
+<p>Fünf Zeilen. Vier davon stehen wörtlich in der Beschreibung. Die fünfte steht nirgends und gehört trotzdem hinein.</p>
+
+<p><b>Ein ERD ist genauso richtig.</b> Das Prüfungsblatt sagt wörtlich <i>Klassendiagramm oder ERD</i>. Nimm das, was du schneller zeichnest.</p>
+
+<h3>Der Schlüssel, die Zeile die niemand liest</h3>
+
+<p>Kein Satz der Beschreibung sagt <i>jeder Eintrag braucht eine Nummer</i>. Der Satz, der es verlangt, lautet: <b>ein bestehender Eintrag lässt sich antippen, ändern und wieder speichern</b>.</p>
+
+<p>Damit die App den richtigen Eintrag ändern kann, muss sie ihn benennen können. Der Artikelname taugt dafür nicht, denn er ist genau das, was sich beim Ändern ändert. Und zweimal <i>Brot</i> in der Liste ist erlaubt.</p>
+
+<div class="tip">
+<p><b>Die Prüffrage, die den Schlüssel findet:</b> Wird je ein <b>einzelner</b> Datensatz geändert oder gelöscht? Wenn ja, braucht er einen Schlüssel. Dieselbe Frage entscheidet gleich in Aufgabe 3 die Persistenz.</p>
+</div>
+
+<h3>Die zwei Felder, die leer bleiben dürfen</h3>
+
+<p>Die Beschreibung sagt, Menge und Preis können später nachgetragen werden. Ein <code>int</code> in Java kann nicht leer sein, er ist immer eine Zahl. Es gehen zwei Wege, und <b>beide sind richtig</b>, solange du sagst, welchen du nimmst.</p>
+
+<table>
+<tr><th>Weg</th><th>Wie es im Modell steht</th><th>Woran die App erkennt, dass nichts eingetragen ist</th></tr>
+<tr><td>Einfache Typen</td><td><code>quantity: int</code>, <code>pricePerUnit: double</code></td><td>Der Wert <code>0</code> gilt als nicht eingetragen. Reicht hier, denn niemand kauft null Stück zu null Franken</td></tr>
+<tr><td>Objekttypen</td><td><code>quantity: Integer</code>, <code>pricePerUnit: Double</code></td><td>Der Wert kann <code>null</code> sein. Sauberer, dafür musst du beim Rechnen jedes Mal auf <code>null</code> prüfen</td></tr>
+</table>
+
+<p>Im Modul und in der Prüfung reicht der erste Weg. Die Prüfung sagt ausdrücklich <i>KISS</i>. Ein Halbsatz neben dem Modell genügt, zum Beispiel <i>0 heisst nicht eingetragen</i>.</p>
+
+<h3>Was nicht ins Modell gehört</h3>
+
+<table>
+<tr><th>Feld</th><th>Warum es draussen bleibt</th></tr>
+<tr><td><code>amount</code> oder <code>total</code>, der Betrag</td><td><b>Der häufigste Fehler.</b> Er ist Menge mal Preis und entsteht, wenn die Zeile gezeichnet wird. Wer ihn speichert, hat zwei Wahrheiten, sobald jemand die Menge ändert und den Betrag vergisst</td></tr>
+<tr><td><code>isDone</code>, abgehakt</td><td>Steht in keinem Satz der Beschreibung. Es wäre eine gute Idee für eine Einkaufsliste, und trotzdem gibt es dafür keinen Punkt. In der Prüfung baust du, was verlangt ist</td></tr>
+<tr><td><code>position</code>, die Zeilennummer</td><td>Die Reihenfolge in der Liste ist eine Frage der Anzeige, nicht der Daten</td></tr>
+<tr><td><code>currency</code>, die Währung</td><td>Sie ist für alle Einträge gleich. Was für alle gleich ist, gehört nicht in jeden Datensatz</td></tr>
+<tr><td>Eine zweite Tabelle <code>Shop</code></td><td>Das wäre Normalisierung. Das Prüfungsblatt sagt wörtlich <i>KISS, ohne Normalisierung</i></td></tr>
+</table>
+
+<div class="info">
+<p><b>Die Regel dahinter, in einem Satz:</b> ins Datenmodell gehört, was du <b>nicht wieder ausrechnen</b> kannst.</p>
+<p>Dieselbe Regel hattest du in 06A schon zweimal. Beim Ranglisten-Eintrag ging es um den Rang, in der Zusatzaufgabe um den Notendurchschnitt. Heute ist es der Betrag. Es ist immer dieselbe Frage. <b>Und in der echten Prüfung ist es wieder der Durchschnitt.</b></p>
+</div>
+
+<h2>Aufgabe 3, die Persistenz</h2>
+
+<h3>Die zwei Möglichkeiten</h3>
+
+<table>
+<tr><th>Möglichkeit</th><th>Was sie ist</th></tr>
+<tr><td><b>SharedPreferences</b></td><td>Eine kleine Ablage für einzelne Werte im Ordner der App. Kennst du aus 05D</td></tr>
+<tr><td><b>Eine lokale Datenbank</b></td><td>SQLite im Ordner der App, angesprochen über Room. Baust du gleich nachher in 07C</td></tr>
+</table>
+
+<p>Die dritte Möglichkeit, eine eigene Datei mit JSON, darfst du auch nennen. Zwei genügen.</p>
+
+<h3>Die Wahl und die Begründung</h3>
+
+<div class="info">
+<p><b>Ich wähle die lokale Datenbank.</b></p>
+<p>Ein einzelner Eintrag wird angetippt, geändert und wieder gespeichert, und dafür brauche ich einen Schlüssel je Eintrag und einen gezielten Zugriff. Mit SharedPreferences müsste ich für jede Änderung die ganze Liste als Text lesen und komplett zurückschreiben.</p>
+</div>
+
+<p>Schau dir an, was die zwei Sätze machen:</p>
+
+<table>
+<tr><th>Satz</th><th>Aufgabe</th><th>Was ihn trägt</th></tr>
+<tr><td>Erster</td><td>Sagt, was <b>für</b> meine Wahl spricht</td><td>Zwei Tätigkeiten aus der Beschreibung: ändern und wieder speichern</td></tr>
+<tr><td>Zweiter</td><td>Sagt, was <b>gegen</b> die andere spricht</td><td>Eine Folge, die man nachzählen kann: die ganze Liste lesen und zurückschreiben</td></tr>
+</table>
+
+<div class="warn">
+<p><b>Achtung, hier liegen drei Punkte in zwei getrennten Rasterzeilen.</b></p>
+<table>
+<tr><th>Zeile im Bewertungsraster</th><th class="num">P</th><th>Was sie verlangt</th></tr>
+<tr><td><i>Persistenz-Methoden dokumentiert und begründet</i></td><td class="num">2</td><td>Deine Wahl und die Begründung dazu</td></tr>
+<tr><td><i>alternative Persistenzmethode genannt</i></td><td class="num">1</td><td><b>Nur das Nennen der zweiten Möglichkeit.</b> Ein ganzer Punkt für eine Zeile Schreibarbeit</td></tr>
+</table>
+<p>Wer die Alternative weglässt, verliert diesen Punkt vollständig. Er ist der billigste Punkt der ganzen Prüfung.</p>
+</div>
+
+<div class="tip">
+<p><b>Der Prüfsatz aus 06A:</b> nenne ich eine Eigenschaft meiner Daten, oder ein Urteil über die Technik? Nur das Erste zählt.</p>
+<p>Diese drei geben keine Punkte, obwohl sie richtig klingen. <i>Eine Datenbank ist besser.</i> <i>Room ist der moderne Weg auf Android.</i> <i>SharedPreferences ist nur für Einstellungen gedacht.</i> Keiner der drei beschreibt eine Bedingung dieser App.</p>
+</div>
+
+<h2>Aufgabe 4, die zwei Mockups. Die Hausaufgabe</h2>
+
+<p>Das Bewertungsraster sagt <i>zwei aussagekräftige GUI-Mockups erstellt, 4 Punkte</i>. Zwei Bildschirme genügen also, und mehr schaffst du in 15 Minuten auch nicht.</p>
+
+<h3>Mockup 1, die Startseite</h3>
+
+<pre>+------------------------------------------+
+| 09:41                      LTE   [====]  |  &lt;- Statusleiste, nicht deine
++------------------------------------------+
+| Einkaufsliste                      [ + ] |  tvTitle    btnNew -&gt; Formular
++------------------------------------------+
+|                                          |
+|  Brot                            6.00    |  rvItems
+|  Migros                                  |  Zeile antippen -&gt; Formular
+|                                          |
+|  Batterien                               |  &lt;- kein Betrag, Preis fehlt
+|  Coop                                    |
+|                                          |
+|  Zahnpasta                      11.80    |
+|  Coop                                    |
+|                                          |
++------------------------------------------+
+|      &lt;          O          [ ]           |  &lt;- Navigationsleiste, nicht deine
++------------------------------------------+</pre>
+
+<h3>Mockup 2, das Formular</h3>
+
+<pre>+------------------------------------------+
+| 09:41                      LTE   [====]  |
++------------------------------------------+
+| &lt;-  Eintrag bearbeiten                   |  btnBack -&gt; Startseite
++------------------------------------------+
+|                                          |
+|  Artikel                                 |  tvLabel
+|  [ Brot                              ]   |  etArticle, Pflicht, min 4
+|                                          |
+|  Laden                                   |
+|  [ Migros                            ]   |  etShop, Pflicht, min 4
+|                                          |
+|  Menge          Preis pro Stück          |
+|  [ 2       ]    [ 3.00           ]       |  etQuantity   etPrice
+|                                          |
+|         [    Speichern    ]              |  btnSave -&gt; Startseite
+|                                          |
++------------------------------------------+
+|      &lt;          O          [ ]           |
++------------------------------------------+</pre>
+
+<h3>Was diese zwei Skizzen richtig machen</h3>
+
+<table>
+<tr><th class="num">Nr</th><th>Was</th><th>Warum es den Punkt gibt</th></tr>
+<tr><td class="num">1</td><td>Die zwei fremden Ränder sind eingezeichnet</td><td>Sie nehmen Platz weg. Wer sie weglässt, entdeckt es erst im Emulator. Aus 04D</td></tr>
+<tr><td class="num">2</td><td>Jedes Kästchen hat einen Text darin oder daneben</td><td><i>Aussagekräftig</i> heisst genau das. Eine Person, die die App nicht kennt, muss sie bauen können</td></tr>
+<tr><td class="num">3</td><td>Die Kürzel stehen am Rand, also <code>rvItems</code>, <code>etArticle</code>, <code>btnSave</code></td><td>Das unterscheidet ein Mockup vom Kritzeln. Wer <code>rv</code> liest, weiss, dass keine sieben TextViews gemeint sind</td></tr>
+<tr><td class="num">4</td><td>Pfeile mit Ziel, in beide Richtungen</td><td>Ein mobiles Mockup braucht Pfeile, aus 04D. Und der Rückweg gehört dazu</td></tr>
+<tr><td class="num">5</td><td>Eine Zeile ist bewusst <b>ohne</b> Betrag gezeichnet</td><td>Das beweist, dass du den Satz <i>sind Menge und Preis vorhanden</i> gelesen hast. Der billigste Punkt auf dem ganzen Blatt</td></tr>
+<tr><td class="num">6</td><td>Beim Formular steht bei den Pflichtfeldern die Mindestlänge</td><td>Es verbindet Mockup und Fehlerbehandlung. Beides gibt in der Prüfung Punkte</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Freihand genügt, und das ist ernst gemeint.</b> Diese Skizzen sind mit Zeichen gebaut, weil sie in einem Dokument stehen. Auf deinem Blatt ist es ein Bleistiftrechteck mit Wörtern darin. Das gibt dieselben vier Punkte.</p>
+</div>
+
+<div class="warn">
+<p><b>Warum zwei Bildschirme und nicht einer:</b> das Raster sagt <i>zwei</i>. Und die Beschreibung verlangt beides, eine Übersicht und ein Formular zum Anlegen und Ändern. Wer nur die Liste zeichnet, zeigt die Hälfte der App.</p>
+</div>
+
+<h2>Antworten zu den Denkfragen</h2>
+
+<div class="ue">
+<div class="t">1. Warum gehört der berechnete Wert nicht ins Datenmodell?</div>
+<p>Weil er sich aus zwei Feldern ergibt, die schon da sind. Er entsteht in dem Moment, in dem die Zeile gezeichnet wird.</p>
+<p>Wer ihn zusätzlich speichert, handelt sich ein Problem ein: jemand ändert die Menge und vergisst den Betrag. Jetzt stehen zwei Wahrheiten in einer Zeile, und keine Meldung sagt dir, welche stimmt.</p>
+<p>Die Regel: ins Datenmodell gehört, was du nicht wieder ausrechnen kannst.</p>
+</div>
+
+<div class="ue">
+<div class="t">2. <i>Mindestlänge 4 Zeichen</i> oder <i>ein sinnvoller Name</i>?</div>
+<p>Nur das Erste ist ein Akzeptanzkriterium. Du kannst nachzählen, und zwei Personen kommen zum selben Ergebnis.</p>
+<p><i>Sinnvoll</i> beurteilt jeder anders. Es ist nicht verboten, es ist nur allein zu wenig. Sobald eine Zahl oder eine sichtbare Folge dabeisteht, wird daraus ein Kriterium.</p>
+<p>Das ist die Prüffrage aus 04C: könnte eine andere Person, die meine App nicht kennt, das überprüfen und zu demselben Ergebnis kommen wie ich?</p>
+</div>
+
+<div class="ue">
+<div class="t">3. Was folgt aus den 22 Papierpunkten für deine Reihenfolge?</div>
+<p>Zuerst die Rechnung:</p>
+<table>
+<tr><th>Teil</th><th class="num">P</th><th class="num">Min</th><th class="num">P pro Min</th></tr>
+<tr><td>Dokumentation, Aufgaben 1 bis 5 und 7</td><td class="num">22</td><td class="num">71</td><td class="num">0.31</td></tr>
+<tr><td>Implementierung, Aufgabe 6</td><td class="num">26</td><td class="num">150</td><td class="num">0.17</td></tr>
+</table>
+<p><b>Der Papierteil ist fast doppelt so ertragreich pro Minute.</b> Und er braucht kein Gerät, keinen Compiler und kein Glück. Wer beim Programmieren hängen bleibt, verliert Zeit ohne Punkte. Auf dem Papier passiert das nicht.</p>
+<p>Innerhalb des Papierteils:</p>
+<table>
+<tr><th class="num">Nr</th><th>Aufgabe</th><th class="num">Min</th><th class="num">P</th><th class="num">P pro Min</th></tr>
+<tr><td class="num">1</td><td>Drei User Stories</td><td class="num">15</td><td class="num">6</td><td class="num">0.40</td></tr>
+<tr><td class="num">2</td><td>Datenmodell</td><td class="num">8</td><td class="num">3</td><td class="num">0.38</td></tr>
+<tr><td class="num">3</td><td>Persistenz</td><td class="num">8</td><td class="num">3</td><td class="num">0.38</td></tr>
+<tr><td class="num">4</td><td>Mockups</td><td class="num">15</td><td class="num">4</td><td class="num">0.27</td></tr>
+<tr><td class="num">5</td><td>Testplan</td><td class="num">15</td><td class="num">4</td><td class="num">0.27</td></tr>
+</table>
+<p><b>Der Vorschlag, keine Vorschrift:</b> Aufgabe 1 zuerst, sie trägt die meisten Punkte und die meiste Zeit. Dann 2 und 3, die hängen über den Schlüssel zusammen und du hast danach die Vorlage für die Implementierung. Dann 4 und 5.</p>
+<p><b>Und der wichtigste Satz zum Zeitmanagement:</b> geh nach der Dokumentation nicht sofort ins Programmieren, ohne die Aufgaben 4 und 5 gemacht zu haben. Sie geben zusammen 8 Punkte in 30 Minuten. Dieselben 30 Minuten am Code geben im Schnitt 5.</p>
+</div>
+
+<div class="ue">
+<div class="t">4. Wofür gibt das Raster Punkte, wenn KI erlaubt ist?</div>
+<p>Für dasselbe wie vorher, nur ist der Weg dorthin ein anderer geworden. Die Frage ist nicht mehr <i>weiss ich die Antwort</i>, sondern <i>erkenne ich eine falsche</i>.</p>
+<p>Eine KI liefert dir in zehn Sekunden ein Datenmodell. Sie liefert dir dabei mit hoher Wahrscheinlichkeit ein Feld zu viel, weil sie die Beschreibung Satz für Satz in Felder übersetzt. Wer das nicht sieht, schreibt einen Fehler ab, den er ohne KI nicht gemacht hätte.</p>
+<p>Dazu die zwei Dinge, die eine KI dir nicht abnimmt: die Zeit und das Schreiben von Hand.</p>
+</div>
+
+<h2>Mögliche falsche KI-Rückmeldungen</h2>
+
+<p>Das ist eine Prüfliste, keine Anklage. Nicht jede KI macht diese Fehler, und keine macht sie immer. Weil KI in der Prüfung erlaubt ist, sind das die Stellen, an denen du selbst hinschauen musst.</p>
+
+<table>
+<tr><th class="num">Nr</th><th>Was eine KI oft vorschlägt</th><th>Was daran nicht passt</th></tr>
+<tr><td class="num">1</td><td>Ein Feld <code>total</code> oder <code>amount</code> im Datenmodell</td><td>Der häufigste Fehler überhaupt. Eine KI übersetzt die Beschreibung Satz für Satz in Felder, und der Betrag steht als Satz drin. Er ist aber berechnet</td></tr>
+<tr><td class="num">2</td><td>Eine zweite Tabelle <code>Shop</code> mit Fremdschlüssel</td><td>Sieht professionell aus. Das Prüfungsblatt sagt wörtlich <i>KISS, ohne Normalisierung</i>. Kostet Zeit, gibt keinen Punkt</td></tr>
+<tr><td class="num">3</td><td>Die Begründung <i>Room ist der moderne Standard auf Android</i></td><td>Ein Urteil über die Technik. Das Raster verlangt eine begründete Entscheidung, also eine Eigenschaft deiner Daten</td></tr>
+<tr><td class="num">4</td><td>Nur eine Persistenzmöglichkeit, weil danach nicht ausdrücklich gefragt wurde</td><td>Kostet den eigenen Punkt für <i>alternative Persistenzmethode genannt</i>. Frag ausdrücklich nach zweien</td></tr>
+<tr><td class="num">5</td><td><b>Zwei</b> User Stories, weil man meist zwei sieht</td><td>Die Prüfung verlangt drei. Zähl nach, bevor du abschreibst. Es ist die grösste Position des Rasters</td></tr>
+<tr><td class="num">6</td><td>Akzeptanzkriterien im Format Given, When, Then</td><td>Nicht falsch, nur nicht verlangt. Es kostet Zeit, und die Sätze werden dabei oft länger und unschärfer statt messbarer</td></tr>
+<tr><td class="num">7</td><td><code>BigDecimal</code> für den Preis, weil <code>double</code> bei Geld rundet</td><td><b>Fachlich hat sie recht.</b> Im Modul und in der Prüfung reicht <code>double</code>, und <code>BigDecimal</code> steht in keinem Auftrag. Wer es hinschreibt, muss es erklären können</td></tr>
+<tr><td class="num">8</td><td>Ein Klassendiagramm mit Plus- und Minuszeichen und Methoden</td><td>Das Modell zeigt die Daten. Was die Klasse kann, steht nicht drin. Aus 06A</td></tr>
+</table>
+
+<div class="note">
+<p><b>Und die Pflicht dazu:</b> auf der letzten Seite der Prüfung unterschreibst du eine Eidesstattliche Erklärung. Darin steht, dass Stellen aus fremden Quellen <i>(inkl. ChatGPT)</i> als solche kenntlich gemacht sind. Benutzen ja, verschweigen nein.</p>
+</div>
+
+<h2>Lösungen zu den Übungen</h2>
+
+<div class="ue">
+<div class="t">Übung 1, dein eigenes Fundstellenblatt</div>
+<p>Es gibt keine Musterlösung, denn das Blatt gehört dir. So sieht eine brauchbare Zeile aus:</p>
+<table>
+<tr><th>Aufgabe</th><th>Wo</th><th>Was ich mir merken muss</th><th>Was die KI falsch macht</th></tr>
+<tr><td>1</td><td>04C</td><td><b>DREI</b> Stories. Rolle, Wunsch, Nutzen. Kriterium: was tippe ich, was steht danach da</td><td>schreibt zwei</td></tr>
+<tr><td>2</td><td>06A</td><td>Einzahl, Feld : Typ, Schlüssel markieren, nichts Berechnetes</td><td>Feld für den berechneten Wert</td></tr>
+<tr><td>3</td><td>06A</td><td>Zwei nennen, eine wählen, begründen. Eigenschaft der Daten, kein Urteil</td><td>nennt nur eine</td></tr>
+<tr><td>4</td><td>04D</td><td>Zwei Bildschirme. Kästchen, Text, Kürzel, Pfeil. Zwei fremde Ränder</td><td>zeichnet nicht, beschreibt nur</td></tr>
+</table>
+<p>Vier Zeilen auf einer Seite. Wer eine halbe Seite pro Aufgabe schreibt, findet am Prüfungstag nichts wieder.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 2, die Mockups</div>
+<p>Die Musterskizzen stehen oben bei Aufgabe 4, dazu die sechs Punkte, an denen du deine eigenen prüfst.</p>
+<p><b>Der leere Zustand fehlt dort bewusst.</b> Was zeigt die App, wenn noch kein einziger Eintrag da ist? Das Raster verlangt es nicht, und in 15 Minuten schafft es kaum jemand. Wer es trotzdem in zwei Wörtern daneben schreibt, verliert nichts und zeigt, dass er daran gedacht hat.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 3, erklären</div>
+<p>Ein Muster in zwei Sätzen:</p>
+<p><i>Der Betrag steht zwar in der Zeile, aber er ist nur Menge mal Preis und darum kein eigener Wert. Er wird ausgerechnet, wenn die Zeile gezeichnet wird, und genau deshalb kann er nie veralten.</i></p>
+<p>Der zweite Satz ist der, auf den es ankommt. Er sagt, wo der Wert stattdessen entsteht. Ohne ihn fragt dein Gegenüber zu Recht nach.</p>
+</div>
+
+<h2>Was als Nächstes kommt</h2>
+
+<table>
+<tr><th>Wann</th><th>Was</th><th>Was du von heute brauchst</th></tr>
+<tr><td>Gleich nachher, <b>07B</b></td><td>Wert rechts und Filter im Quiz</td><td>Nichts. Zurück zum eigenen Projekt</td></tr>
+<tr><td>Heute Vormittag, <b>07C</b></td><td>Room, Entity und Dao</td><td>Deine Persistenzentscheidung aus Aufgabe 3 wird dort zum ersten Mal gebaut</td></tr>
+<tr><td>Tag 4 Nachmittag, <b>08D</b></td><td>Der Testplan</td><td>Aufgabe 5 der Prüfung verlangt <b>vier</b> Testfälle und Aufgabe 7 die Durchführung. Zusammen 6 Punkte</td></tr>
+<tr><td>Tag 5 Vormittag, <b>09A</b></td><td>Generalprobe am Code, 75 Minuten</td><td><b>Dein Blatt von heute.</b> Du programmierst genau diese Einkaufsliste. Dein Datenmodell ist die Vorlage, deine Mockups sagen dir, was auf den Bildschirm kommt</td></tr>
+<tr><td>Tag 5 Nachmittag</td><td>Die Leistungsbeurteilung, 48 Punkte, 3.5 Stunden</td><td>Dieselben Aufgaben, ein anderes Szenario</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Heb dein Blatt auf.</b> Am Tag 5 sparst du damit die halbe Zeit von 09A. Wer es nicht hat, plant dort nochmals von vorn, und dann bleiben statt 75 nur noch 45 Minuten zum Programmieren.</p>
+</div>
+
+<p class="foot">Modul 335 | Tag 4 Vormittag | Loesung 07A | Version 2 | 19.08.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>

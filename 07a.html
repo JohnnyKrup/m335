@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>07A Generalprobe Planungsteil</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>07A Generalprobe Planungsteil</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 4 Vormittag. Zeitbudget 45 Minuten. Version 2 vom 19.08.2026.</p>
+<p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
+<p class="sub">Heute schreibst du keine Zeile Code. Du machst die Aufgaben 1 bis 3 der Leistungsbeurteilung einmal durch, unter Prüfungsbedingungen, mit 31 Minuten auf der Uhr. Danach wertet ihr gemeinsam aus.</p>
+
+<div class="note">
+<p><b>Was hier steht, darfst du vorher lesen. Die Aufgabenstellung steht nicht hier.</b></p>
+<p>Sie steht nur auf dem Arbeitsblatt, und du liest sie zum ersten Mal, wenn die Uhr läuft. Genau so ist es am Prüfungstag.</p>
+<p>Das Lösungsmaterial enthält sie ebenfalls. Wer es vorher öffnet, hat die Generalprobe nicht gemacht.</p>
+</div>
+
+<h2>01 Einführung</h2>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>1.1</td><td>Ergonomische Standards und Prinzipien der Interaktion kennen und anwenden</td></tr>
+<tr><td>2.3</td><td>Kennt die Besonderheiten der App-Architekturen bezüglich Funktionalitäten, Möglichkeiten und Grenzen der mobilen Devices</td></tr>
+<tr><td>2.4</td><td>Kennt die Persistenzlösungen auf mobilen Devices und kann sie situationsgerecht einsetzen</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du planst eine App, die du noch nie gesehen hast, in 31 Minuten auf Papier.</li>
+<li>Du schreibst drei User Stories zu einer fremden Auftragsbeschreibung, nicht zu deiner eigenen App.</li>
+<li>Du entscheidest, in welcher Reihenfolge du die Aufgaben angehst, und begründest die Reihenfolge mit den Punkten.</li>
+<li>Du liest ein Bewertungsraster und sagst, was ein Blatt mit voller Punktzahl enthalten muss.</li>
+<li>Du bewertest ein fremdes Blatt mit diesem Raster und begründest jeden Abzug.</li>
+<li>Du erkennst eine KI-Antwort, die richtig aussieht und Punkte kostet.</li>
+</ul>
+
+<h3>Das brauchst du vorher</h3>
+<ul>
+<li>Das Arbeitsblatt <b>07A Generalprobe Planungsteil</b> aus Google Classroom. Öffne es erst, wenn die Lehrperson die Zeit startet.</li>
+<li>Einen Stift. Die Prüfung sagt wörtlich, die Dokumentation erfolge handschriftlich.</li>
+<li>Dein Gerät und deine Notizen von 04C, 04D und 06A. Die Prüfung ist Open Book, also ist es die Generalprobe auch.</li>
+<li>Alle Aufgaben sind unterrichtet. Es kommt heute kein neuer Stoff dazu.</li>
+</ul>
+
+<h3>Das gibst du ab</h3>
+<ul>
+<li>Das ausgefüllte Arbeitsblatt, Aufgaben 1 bis 3.</li>
+<li>Das Bewertungsraster, zweimal ausgefüllt. Einmal von dir, einmal von deiner Sitznachbarin.</li>
+<li>Die Zeile, bei der ihr euch nicht einig wart, und wie weit du nach 31 Minuten warst.</li>
+<li><b>Als Hausaufgabe:</b> Aufgabe 4, die zwei Mockups. Sie stehen am Schluss desselben Blatts.</li>
+</ul>
+
+<div class="info">
+<p><b>Warum das genau so in der Prüfung steht.</b> Die Leistungsbeurteilung hat <b>48 Punkte</b> und dauert <b>3.5 Stunden</b>. Sie besteht aus sieben Aufgaben.</p>
+<table>
+<tr><th class="num">Nr</th><th>Aufgabe</th><th class="num">Min</th><th class="num">P</th><th>Wo geübt</th></tr>
+<tr><td class="num">1</td><td><b>Drei</b> valide User Stories inkl. Akzeptanzkriterien</td><td class="num">15</td><td class="num">6</td><td>04C, <b>heute</b></td></tr>
+<tr><td class="num">2</td><td>Datenmodell, Klassendiagramm oder ERD</td><td class="num">8</td><td class="num">3</td><td>06A, <b>heute</b></td></tr>
+<tr><td class="num">3</td><td>Zwei Persistenz-Möglichkeiten, eine wählen, begründen</td><td class="num">8</td><td class="num">3</td><td>06A, <b>heute</b></td></tr>
+<tr><td class="num">4</td><td>GUI-Mockups für die benötigten Activities</td><td class="num">15</td><td class="num">4</td><td>04D, <b>Hausaufgabe</b></td></tr>
+<tr><td class="num">5</td><td>Testplan mit vier Testfällen</td><td class="num">15</td><td class="num">4</td><td>08D</td></tr>
+<tr><td class="num">6</td><td>Die App implementieren</td><td class="num">150</td><td class="num">26</td><td>der ganze Kurs</td></tr>
+<tr><td class="num">7</td><td>Testen und dokumentieren</td><td class="num">10</td><td class="num">2</td><td>08D</td></tr>
+</table>
+<p><b>Die Zahl, um die es geht: 22 der 48 Punkte gibt es ohne eine einzige Zeile Code.</b> Fast die Hälfte, handschriftlich auf dem Prüfungsblatt.</p>
+<p>Und die Ausbeute pro Minute: <b>der Papierteil gibt 22 Punkte in 71 Minuten, das sind 0.31 pro Minute. Die Implementierung gibt 26 Punkte in 150 Minuten, das sind 0.17.</b> Der Papierteil ist fast doppelt so ertragreich, er braucht kein Gerät, keinen Compiler und kein Glück. Und er geht am häufigsten verloren, weil niemand geübt hat.</p>
+</div>
+
+<div class="warn">
+<p><b>Die grösste Einzelposition der ganzen Prüfung sind die drei User Stories mit 6 Punkten.</b> Keine andere Zeile im Bewertungsraster gibt so viel, weder in der Dokumentation noch in der Funktionalität.</p>
+<p>Darum stehen sie heute als Erstes auf dem Blatt, und darum ist Aufgabe 1 die, bei der du die Zeit nicht verlieren darfst.</p>
+</div>
+
+<h2>02 Auftrag</h2>
+
+<h3>Ausgangslage</h3>
+
+<p>Du hast die Aufgaben schon einmal gemacht. User Stories in 04C, Mockups in 04D, Datenmodell und Persistenz in 06A. Jedes Mal ging es um <b>deine eigene Quiz-App</b>, und jedes Mal hattest du so viel Zeit, wie das Thema brauchte.</p>
+
+<p>Heute ändern sich zwei Dinge, und beide sind der Punkt dieses Auftrags.</p>
+
+<table>
+<tr><th>Bisher</th><th>Heute</th></tr>
+<tr><td>Eine App, die du seit vier Tagen kennst</td><td>Eine Beschreibung, die du zum ersten Mal liest</td></tr>
+<tr><td>Ein Thema nach dem anderen, je 25 bis 50 Minuten</td><td>Drei Themen hintereinander, zusammen 31 Minuten</td></tr>
+</table>
+
+<div class="warn">
+<p><b>Das Szenario ist nicht die Prüfung.</b> Am Freitag baust du etwas anderes als heute. Die Aufgaben sind dieselben, die App ist eine andere.</p>
+<p>Das ist Absicht. Wer heute eine Musterlösung auswendig lernt, hat am Prüfungstag nichts davon. Wer heute lernt, aus einer Beschreibung ein Modell abzuleiten, hat alles davon.</p>
+</div>
+
+<p>Es gibt aber einen Faden. <b>Am Tag 5 Vormittag in 09A programmierst du genau die App, die du heute planst.</b> Dein Blatt von heute ist dann deine Vorlage. Wer heute sauber plant, spart am Tag 5 die halbe Zeit.</p>
+
+<h3>Deine Fundstellen</h3>
+
+<p>Heute gibt es keinen Werkzeugkasten mit neuen Bausteinen. Alles, was du brauchst, hast du schon. Was du brauchst, ist die <b>Stelle</b>, an der es steht.</p>
+
+<p>Das ist selbst eine Prüfungskompetenz. Auf dem Prüfungsblatt steht wörtlich <i>Diese Prüfung ist eine Open-Book-Prüfung und eine Einzelarbeit. Du darfst das Internet nutzen.</i> Und Open Book nützt nur dem, der weiss, wo er nachschlägt.</p>
+
+<p><b>Der Engpass ist nicht der Zugang, sondern die Zeit.</b> Du hast pro Aufgabe acht bis fünfzehn Minuten. Wer in dieser Zeit erst sucht, wo etwas steht, schreibt nichts mehr auf. Wer die Stelle kennt, schaut zehn Sekunden nach und schreibt.</p>
+
+<table>
+<tr><th>Aufgabe</th><th>Wo es steht</th><th>Was du dort findest</th></tr>
+<tr><td class="pre">1</td><td>Auftrag <b>04C</b>, Abschnitt <i>Der Teil, um den es heute geht</i></td><td>Das Format Rolle, Wunsch, Nutzen. Die Prüffrage für messbar. Die neun Wörter, die allein zu wenig sind</td></tr>
+<tr><td class="pre">2</td><td>Auftrag <b>06A</b>, Abschnitt <i>Werkzeugkasten</i></td><td>Die drei Kastenregeln. Die vier Datentypen. Wozu ein Schlüsselfeld da ist</td></tr>
+<tr><td class="pre">3</td><td>Auftrag <b>06A</b>, Teil B</td><td>Die drei Möglichkeiten. Die drei Prüffragen. Der Prüfsatz für die Begründung</td></tr>
+<tr><td class="pre">3</td><td>Blatt <b>Wo deine App ihre Daten ablegt</b></td><td>Wo die Möglichkeiten auf dem Gerät wirklich liegen</td></tr>
+<tr><td class="pre">4</td><td>Auftrag <b>04D</b>, Abschnitte <i>Vier Dinge, die auf dem Desktop nicht vorkommen</i> und <i>Die Notation, die genügt</i></td><td>Die fünf Zeichen. Die zwei fremden Ränder oben und unten. Für die Hausaufgabe</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Übung 1 macht daraus dein eigenes Blatt.</b> Eine Seite, vier Zeilen. Die nimmst du an den Prüfungstag mit. Ob auf Papier oder als Datei ist egal, Hauptsache du findest die Zeile in zehn Sekunden.</p>
+</div>
+
+<h3>KI ist erlaubt, und trotzdem sind die Punkte nicht geschenkt</h3>
+
+<p>Das Prüfungsblatt verbietet <i>fertigte Github-Projekte oder Chat-Tools mit deinen Kollegen</i>. Gemeint ist der Austausch untereinander. <b>Eine KI zu fragen ist nicht verboten</b>, und die Schulleitung hat das ausdrücklich bestätigt.</p>
+
+<p>Die Frage, die dann sofort kommt, ist berechtigt: wofür gibt es die Punkte überhaupt noch?</p>
+
+<p>Drei Antworten, und alle drei kannst du heute selbst prüfen.</p>
+
+<p><b>Erstens, die Zeit.</b> 31 Minuten für drei Aufgaben. Eine brauchbare Frage stellen, die Antwort lesen, sie beurteilen und von Hand abschreiben dauert länger als selbst hinschreiben, wenn du weisst, was hingehört.</p>
+
+<p><b>Zweitens, von Hand.</b> Was auf dem Blatt steht, hast du geschrieben. Eine KI kann dir keine Zeile abnehmen, sie kann dir nur sagen, was du schreiben sollst.</p>
+
+<p><b>Drittens, und das ist der eigentliche Punkt: die KI gibt hier zuverlässig eine Antwort, die richtig aussieht und Punkte kostet.</b> Bei Aufgabe 2 ist es fast immer derselbe Fehler. Sie liest die Beschreibung Satz für Satz und macht aus jedem Satz ein Feld. Der Satz über den Betrag, der in der Zeile angezeigt wird, wird dann auch zu einem Feld. Genau das bestraft das Raster.</p>
+
+<div class="warn">
+<p><b>Die Prüffrage bei jeder KI-Antwort:</b> kann ich zu jeder Zeile sagen, warum sie dasteht?</p>
+<p>Wenn nein, streich sie. Ein Feld, das du nicht erklären kannst, ist im günstigen Fall überflüssig und im ungünstigen der Abzug.</p>
+</div>
+
+<div class="info">
+<p><b>Auf der letzten Seite der Prüfung unterschreibst du</b> eine Eidesstattliche Erklärung. Darin steht, dass Stellen aus fremden Quellen <i>(inkl. ChatGPT)</i> als solche kenntlich gemacht sind. Das heisst nicht, dass du keine benutzen darfst. Es heisst, dass du sagst wo.</p>
+</div>
+
+<div class="tip">
+<p><b>Im Lösungsmaterial steht eine Liste mit möglichen falschen KI-Rückmeldungen zu genau diesen Aufgaben.</b> Nach dem Block ist das keine Warnung mehr, sondern deine Prüfliste für den Prüfungstag. Übung 1 baut sie dir in dein eigenes Blatt ein.</p>
+</div>
+
+<h3>Pflichtangaben</h3>
+
+<p>Das gilt in den 31 Minuten, und es ist dasselbe, was am Freitag gilt. Jede Zeile steht so auf dem Prüfungsblatt, nichts davon ist eine Hausregel.</p>
+
+<table>
+<tr><th>Was</th><th>Pflicht</th><th>Bemerkung, wörtlich vom Prüfungsblatt</th></tr>
+<tr><td>Handschriftlich schreiben</td><td>ja</td><td><i>Die Projektdokumentation erfolgt handschriftlich an den vorgesehenen Stellen in diesem Dokument. Nicht lesbar bedeutet keine Punkte</i></td></tr>
+<tr><td>Nachschlagen, Internet, KI</td><td>erlaubt</td><td><i>Open-Book-Prüfung. Du darfst das Internet nutzen</i></td></tr>
+<tr><td>Einzelarbeit</td><td>ja</td><td><i>jedoch keine fertigten Github-Projekte oder Chat-Tools mit deinen Kollegen.</i> Nachschlagen ja, den Sitznachbarn fragen nein</td></tr>
+<tr><td>Drei User Stories</td><td>ja</td><td><i>Erstelle anhand der Auftragsbeschreibung drei valide User-Stories inkl. Akzeptanzkriterien.</i> Zwei geben nicht sechs Punkte</td></tr>
+<tr><td>Datentypen im Datenmodell</td><td>ja</td><td>Ein Modell ohne Datentypen ist die Hälfte wert</td></tr>
+<tr><td>Zwei Möglichkeiten bei Aufgabe 3</td><td>ja</td><td><i>alternative Persistenzmethode genannt</i> ist eine eigene Zeile im Raster mit einem eigenen Punkt</td></tr>
+<tr><td>Normalisierung</td><td>nein</td><td>Das Prüfungsblatt sagt wörtlich <i>KISS, ohne Normalisierung</i></td></tr>
+</table>
+
+<h3>Denkfragen</h3>
+<ol>
+<li>Auf der Startseite wird ein berechneter Wert angezeigt. Warum gehört er trotzdem nicht ins Datenmodell?</li>
+<li>Eine Beschreibung sagt <i>Mindestlänge 4 Zeichen</i> und nicht <i>ein sinnvoller Name</i>. Welche der beiden Formulierungen kannst du als Akzeptanzkriterium brauchen, und warum die andere nicht?</li>
+<li>22 der 48 Punkte gibt es ohne eine Zeile Code. Was folgt daraus für die Reihenfolge, in der du am Prüfungstag arbeitest?</li>
+<li>KI ist in der Prüfung erlaubt. Wofür gibt dir das Bewertungsraster dann überhaupt noch Punkte?</li>
+</ol>
+
+<div class="tip">
+<p><b>Diese vier Fragen gibst du nicht ab.</b> Denk kurz darüber nach und notier dir ein Stichwort. Genau danach fragt der Wissenscheck, und die Antworten stehen im Lösungsmaterial.</p>
+</div>
+
+<h3>Teil A, die 31 Minuten <span class="time">31 Minuten</span></h3>
+
+<p>Die Lehrperson startet die Zeit. Ab jetzt arbeitest du allein. Nachschlagen und fragen darfst du, den Sitznachbarn nicht. Was in den drei Schritten hier steht, ist keine Hilfe zur Aufgabe, sondern die Falle, in die man ohne Übung läuft.</p>
+
+<div class="step">
+<p><span class="n">1</span><b>Drei User Stories inkl. Akzeptanzkriterien.</b> <span class="time">15 Min</span></p>
+<p>Drei Stories im Format Rolle, Wunsch, Nutzen. Jede mit Akzeptanzkriterien.</p>
+<p><b>Die erste Falle ist die Anzahl.</b> Es sind drei, nicht zwei. Wer zwei schreibt, verliert ein Drittel der grössten Einzelposition der Prüfung.</p>
+<p><b>Die zweite Falle:</b> Punkte gehen hier fast nie am Format verloren. Sie gehen am Wort <b>messbar</b> verloren.</p>
+<p>Nimm dir drei Dinge aus der Beschreibung, die klar getrennt sind. Die Beschreibung sagt an mehreren Stellen selbst, woran man etwas erkennt. Diese Stellen sind deine Kriterien, du musst sie nur als Kriterium schreiben.</p>
+</div>
+
+<div class="step">
+<p><span class="n">2</span><b>Das Datenmodell.</b> <span class="time">8 Min</span></p>
+<p>Klassendiagramm oder ERD, beides ist erlaubt. Pro Zeile ein Feld mit Datentyp. Schlüsselfeld markieren.</p>
+<p><b>Die Falle:</b> ein Feld zu viel. Alles, was sich aus anderen Feldern <b>ausrechnen</b> lässt, gehört nicht hinein. Und alles, was in der Beschreibung gar nicht steht, ebenso wenig.</p>
+<p>Zweite Falle: ein Feld darf leer bleiben. Überleg dir, was das für den Datentyp bedeutet, und schreib deine Entscheidung mit einem Halbsatz dazu.</p>
+<p><b>Acht Minuten sind sehr wenig.</b> Kasten, Feldnamen, Datentypen, fertig. Wer zeichnet, verliert.</p>
+</div>
+
+<div class="step">
+<p><span class="n">3</span><b>Die Persistenz.</b> <span class="time">8 Min</span></p>
+<p>Mindestens zwei Möglichkeiten nennen. Eine wählen. Die Entscheidung begründen.</p>
+<p><b>Die Falle:</b> wer nur seine Wahl begründet, verliert einen ganzen Punkt. Im Raster stehen zwei getrennte Zeilen, <i>Persistenz-Methoden dokumentiert und begründet</i> mit 2 Punkten und <i>alternative Persistenzmethode genannt</i> mit 1 Punkt.</p>
+<p><b>Zweite Falle:</b> der Prüfsatz aus 06A. Nenne ich eine <b>Eigenschaft meiner Daten</b>, oder ein Urteil über die Technik? Nur das Erste gibt Punkte.</p>
+</div>
+
+<div class="note">
+<p><b>Nach 31 Minuten ist Schluss, auch wenn du nicht fertig bist. Und die meisten sind nicht fertig.</b></p>
+<p>Das ist kein Fehler und kein schlechtes Zeichen. Es ist der Befund, für den dieser Auftrag gebaut ist. Trag unten auf dem Blatt ein, welche Aufgabe die Uhr abgeschnitten hat.</p>
+<p>Am Prüfungstag weisst du dann, womit du anfängst und wo du dich kurz halten musst.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil A.</b></p>
+<ul>
+<li>Es sind <b>drei</b> Stories. Zähl nach.</li>
+<li>Jede hat alle drei Teile. Das <i>damit</i> ist der, den alle weglassen.</li>
+<li>Deine Rolle ist ein Mensch. Nicht das System, nicht der Entwickler.</li>
+<li>Zu jedem Kriterium kannst du sagen, was du antippst und was danach auf dem Bildschirm steht.</li>
+<li>Jede Zeile im Datenmodell hat einen Feldnamen <b>und</b> einen Datentyp.</li>
+<li>Das Modell hat höchstens fünf oder sechs Zeilen. Hat es mehr, schau jede nochmals an.</li>
+<li>Bei Aufgabe 3 stehen zwei Möglichkeiten da, nicht nur deine Wahl.</li>
+<li>Deine Begründung enthält mindestens eine Zahl oder eine Tätigkeit, also ändern, suchen, nachtragen.</li>
+<li>Alles ist lesbar. Halt das Blatt eine Armlänge weg und prüf es.</li>
+</ul>
+</div>
+
+<h3>Teil B, tauschen und bewerten <span class="time">7 Minuten</span></h3>
+
+<p>Die Uhr ist aus. Jetzt kommt der Teil mit dem Ertrag.</p>
+
+<div class="step">
+<p><span class="n">B1</span><b>Dein eigenes Blatt bewerten.</b> <span class="time">2 Min</span></p>
+<p>Unten auf dem Arbeitsblatt steht das Bewertungsraster. Der Wortlaut der vier Zeilen ist genau der aus der Leistungsbeurteilung.</p>
+<p>Trag in die Spalte <b>Selbst</b> ein, wie viele Punkte du dir gibst. Sei streng. Ein Kriterium, bei dem du zögerst, ist keines.</p>
+</div>
+
+<div class="step">
+<p><span class="n">B2</span><b>Tauschen und ein zweites Mal bewerten.</b> <span class="time">5 Min</span></p>
+<p>Gib dein Blatt deiner Sitznachbarin und nimm ihres. Bewerte ihr Blatt mit demselben Raster und trag es in die Spalte <b>Nachbarin</b> ein.</p>
+<p>Du gibst nicht einfach Punkte. Zu jedem Abzug sagst du einen Satz, warum. Wenn du keinen Satz findest, gibt es auch keinen Abzug.</p>
+<div class="tip">
+<p><b>Wer fremd bewertet, versteht das Raster schneller.</b> Am eigenen Blatt weisst du, was du gemeint hast. Am fremden Blatt siehst du nur, was dasteht, und genau so liest es die Lehrperson am Prüfungstag.</p>
+</div>
+<div class="warn">
+<p><b>Wenn du allein sitzt:</b> lies dein eigenes Blatt laut vor, Zeile für Zeile, und bewerte nur das, was du wirklich vorgelesen hast. Was du im Kopf ergänzen musst, steht nicht auf dem Blatt.</p>
+</div>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil B.</b></p>
+<ul>
+<li>Beide Spalten des Rasters sind ausgefüllt, Selbst und Nachbarin.</li>
+<li>Zu jedem Abzug auf dem fremden Blatt hast du einen Satz gesagt.</li>
+<li>Die Zeile, bei der ihr euch nicht einig wart, steht unten auf dem Blatt.</li>
+<li>Gibt es keine solche Zeile, hat vermutlich eine von euch beiden zu wenig genau hingeschaut.</li>
+</ul>
+</div>
+
+<h3>Teil C, die Auswertung im Plenum <span class="time">5 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">C1</span><b>Die zwei teuersten Stellen durchgehen.</b> <span class="time">5 Min</span></p>
+<p>Fünf Minuten reichen nicht für drei Aufgaben. Darum geht die Lehrperson nur die zwei Stellen durch, an denen erfahrungsgemäss die meisten Punkte liegen bleiben: das Feld zu viel im Datenmodell, und die fehlende Alternative bei der Persistenz.</p>
+<p>Deine Aufgabe dabei ist nicht zuhören, sondern zwei Dinge notieren:</p>
+<ol>
+<li>Die Stelle, an der du zu grosszügig warst. Also dort, wo du dir Punkte gegeben hast, die dir das Raster nicht gibt.</li>
+<li>Die Aufgabe, die dich am meisten Zeit gekostet hat.</li>
+</ol>
+<p>Alles Übrige steht im Lösungsmaterial, und zwar ausführlicher als es hier hineinpasst.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil C.</b></p>
+<ul>
+<li>Du kannst in einem Satz sagen, wo dein Blatt und das Raster auseinandergingen.</li>
+<li>Du weisst, welche der Aufgaben du am Prüfungstag zuerst machst.</li>
+<li>Du weisst, welche du kurz hältst, wenn die Zeit knapp wird.</li>
+</ul>
+</div>
+
+<h3>Übungen</h3>
+
+<div class="note">
+<p><b>Die Übungen laufen nicht im Block.</b> Die 45 Minuten sind mit der Generalprobe und der Auswertung voll. Sie sind deine Prüfungsvorbereitung und laufen daheim.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 1, dein eigenes Fundstellenblatt</div>
+<p>Bau dir eine Seite mit vier Zeilen, eine je Aufgabe. Pro Zeile vier Dinge: die Aufgabe, wo es steht, in drei bis fünf Wörtern das, woran du dich erinnern musst, und <b>was eine KI bei dieser Aufgabe erfahrungsgemäss falsch macht</b>. Die letzte Spalte füllst du aus dem Lösungsmaterial.</p>
+<p>Schreib es selbst, statt es dir erzeugen zu lassen. Was du selbst geschrieben hast, findest du unter Zeitdruck wieder.</p>
+<p><b>So prüfst du:</b> Lass dir von jemandem eine Aufgabe nennen. Du musst in unter dreissig Sekunden sagen können, was verlangt ist, wo es steht, und worauf du bei einer KI-Antwort schaust.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 2, die Mockups. Das ist Aufgabe 4 der Prüfung</div>
+<p>Auf dem Arbeitsblatt ganz unten stehen zwei leere Felder. Skizziere die Startseite mit der Liste und das Formular zum Anlegen und Ändern.</p>
+<p><b>Nimm einen Wecker auf 15 Minuten</b>, sonst ist es keine Übung. Genau so viel Zeit hast du am Prüfungstag für diese Aufgabe, und sie gibt 4 Punkte.</p>
+<p><b>So prüfst du:</b> Die zwei fremden Ränder oben und unten sind eingezeichnet. Jedes Kästchen hat einen Text darin oder daneben. Bei jedem steht ein Kürzel. Und eine Zeile der Liste ist einmal ausgefüllt gezeichnet, sonst sieht niemand, was drinsteht. Die volle Selbstkontrolle steht im Lösungsmaterial.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 3, erklären</div>
+<p>Erklär einem Lerngspänli in zwei Sätzen, warum ein Wert, der in der Listenzeile angezeigt wird, trotzdem nicht ins Datenmodell gehört.</p>
+<p><b>So prüfst du:</b> Wenn dein Gegenüber nachfragen muss "und was passiert dann mit dem Wert", war dein zweiter Satz zu kurz. Er muss sagen, wo der Wert stattdessen entsteht.</p>
+</div>
+
+<h3>Zusatzaufgabe für Schnelle</h3>
+
+<div class="ue">
+<div class="t">Das Raster von der anderen Seite lesen</div>
+<p>Nimm die vier Zeilen des Bewertungsrasters. Schreib zu jeder auf, was ein Blatt mit der <b>vollen</b> Punktzahl enthalten müsste. Nicht was du geschrieben hast, sondern was verlangt ist.</p>
+<p>Vergleich das danach mit der Bewertung deiner Nachbarin.</p>
+<p><b>Für Sehrschnelle:</b> Die Zeile <i>drei User Stories mit Akzeptanzkriterien korrekt</i> gibt 6 Punkte. Wie viele Punkte gibt eine einzelne Story, wenn du drei schreiben sollst? Und was heisst das für jemanden, der nur zwei schafft?</p>
+</div>
+
+<h3>Wenn du feststeckst</h3>
+<table>
+<tr><th>Problem</th><th>Das hilft</th></tr>
+<tr><td>Mir fallen keine drei Stories ein</td><td>Die Beschreibung nennt mehrere getrennte Dinge: erfassen, nachtragen, ändern, die Übersicht sehen. Jedes davon trägt eine Story</td></tr>
+<tr><td>Ich weiss nicht, was ich als Rolle schreiben soll</td><td>Nimm einen Menschen, der die App benutzt. Nie das System, nie der Entwickler. Ein Halbsatz reicht</td></tr>
+<tr><td>Mein Kriterium klingt schwammig</td><td>Frag dich, was du antippen würdest und was danach auf dem Bildschirm stehen müsste. Genau das schreibst du hin</td></tr>
+<tr><td>Mir fällt kein Nutzen ein</td><td>Frag "und dann?". Die Antwort auf "und dann?" ist der Nutzen</td></tr>
+<tr><td>Ich weiss nicht, welchen Datentyp ich nehmen soll</td><td>Willst du damit rechnen? Dann <code>int</code> oder <code>double</code>. Nur anzeigen? Dann <code>String</code></td></tr>
+<tr><td>Ein Feld darf leer bleiben, und mein Datentyp kann nicht leer sein</td><td>Es gehen zwei Wege. Schreib den, den du wählst, und einen Halbsatz dazu, woran die App erkennt, dass nichts eingetragen ist</td></tr>
+<tr><td>Ich habe zu viele Felder im Modell</td><td>Streich jedes, das sich aus anderen ausrechnen lässt. Streich jedes, das in der Beschreibung nicht vorkommt</td></tr>
+<tr><td>Bei Aufgabe 3 fällt mir nur eine Möglichkeit ein</td><td>Du kennst drei aus 06A. Die kleine Ablage für einzelne Werte, die eigene Datei, die Datenbank. Zwei nennen genügt</td></tr>
+<tr><td>Meine Begründung klingt nach Werbung</td><td>Streich jedes Adjektiv. Was übrig bleibt, muss eine Zahl oder eine Tätigkeit sein</td></tr>
+<tr><td>Die Zeit ist um und ich bin bei Aufgabe 2</td><td>Genau das ist der Befund. Schreib unten auf, wo du warst, und nimm es in die Auswertung mit</td></tr>
+<tr><td>Ich sitze allein und kann nicht tauschen</td><td>Lies dein Blatt laut vor und bewerte nur das, was du vorgelesen hast. Was du im Kopf ergänzt, steht nicht auf dem Blatt</td></tr>
+<tr><td>Meine Nachbarin gibt mir weniger Punkte als ich mir selbst</td><td>Das ist der Normalfall und die nützlichste Information des Tages. Frag sie, an welcher Stelle sie hängen geblieben ist</td></tr>
+</table>
+
+<h3>Abgabe</h3>
+<p>Du gibst das ausgefüllte Arbeitsblatt ab. Darauf müssen stehen:</p>
+<ul>
+<li>Drei User Stories mit Akzeptanzkriterien.</li>
+<li>Das Datenmodell, mit Feldnamen und Datentypen.</li>
+<li>Zwei Persistenz-Möglichkeiten, deine Wahl und die Begründung.</li>
+<li>Das Bewertungsraster, beide Spalten ausgefüllt.</li>
+<li>Die Zeile, bei der ihr euch nicht einig wart, und wie weit du nach 31 Minuten warst.</li>
+<li><b>Nach der Hausaufgabe:</b> die zwei Mockups.</li>
+</ul>
+
+<div class="tip">
+<p><b>Heb dieses Blatt auf.</b> Am Tag 5 Vormittag baust du in 09A genau diese App. Dein Datenmodell von heute ist dann deine Vorlage, und deine Mockups sagen dir, was auf den Bildschirm kommt.</p>
+</div>
+
+<h2>03 Guide</h2>
+
+<table>
+<tr><th>Punkt</th><th>Angabe</th></tr>
+<tr><td>Sozialform</td><td>Teil A Einzelarbeit. Teil B zu zweit. Teil C im Plenum</td></tr>
+<tr><td>Aufgabenart</td><td>Papier-Auftrag. Es wird kein Code geschrieben und nichts gestartet</td></tr>
+<tr><td>Zeitbudget</td><td>45 Minuten. Einstieg 2, Teil A 31, Teil B 7, Teil C 5</td></tr>
+<tr><td>Hilfsmittel</td><td>Dieselben wie an der Prüfung. Open Book, Internet, eigene Unterlagen und KI. Nicht erlaubt ist der Austausch mit deinen Kollegen</td></tr>
+<tr><td>Abgabe</td><td>Das Arbeitsblatt in Google Classroom, nach der Hausaufgabe mit den Mockups</td></tr>
+</table>
+
+<h3>Die Beiträge in Google Classroom</h3>
+<ul>
+<li><b>07A Auftrag, Generalprobe Planungsteil.</b> Material, dieses Dokument. Darfst du vorher lesen.</li>
+<li><b>07A Arbeitsblatt, Generalprobe Planungsteil.</b> Aufgabe, für jeden eine Kopie. Das gibst du ab.</li>
+<li><b>07A Loesung, Generalprobe Planungsteil.</b> Material. Erst öffnen, wenn der Block vorbei ist.</li>
+</ul>
+
+<h2>04 Unterrichtsmittel</h2>
+<ul>
+<li>Auftrag <b>04C User Stories</b>, für Aufgabe 1. Format, die Prüffrage für messbar, die neun Wörter.</li>
+<li>Auftrag <b>06A Datenmodell zeichnen</b>, für Aufgabe 2 und 3. Die drei Kastenregeln und die drei Prüffragen.</li>
+<li>Das Blatt <b>Wo deine App ihre Daten ablegt</b>, für Aufgabe 3.</li>
+<li>Auftrag <b>04D Mockups</b>, für die Hausaufgabe. Die fünf Zeichen und die zwei fremden Ränder.</li>
+<li>Das Formular der Leistungsbeurteilung, Aufgaben 1 bis 4 und das Bewertungsraster.</li>
+</ul>
+
+<p class="foot">Modul 335 | Tag 4 Vormittag | Auftrag 07A | Version 2 | 19.08.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>
