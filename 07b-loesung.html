@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>07B Lösung Wert rechts und Filter</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>07B Lösungsmaterial: Wert rechts und Filter</h1>
+<p class="sub">Modul 335 Mobile Applikationen. Zum Auftrag 07B. Zum Durchlesen brauchst du etwa 12 Minuten. Version 1 vom 19.08.2026.</p>
+<p class="sub">Schau erst hinein, wenn dein Filter läuft. Der ganze Code steht hier, aber er nützt dir nur, wenn du vorher selbst gebaut hast.</p>
+
+<h2>Die Vergleichsliste, dein eigener Code</h2>
+
+<p>Geh diese vierzehn Punkte an deinen eigenen Dateien durch. Sie treffen genau das, was in der Leistungsbeurteilung Punkte gibt.</p>
+
+<table>
+<tr><th class="num">Nr</th><th>Das prüfst du</th><th>Warum es zählt</th></tr>
+<tr><td class="num">1</td><td>Der mittlere Block hat <code>layout_width="0dp"</code> <b>und</b> <code>layout_weight="1"</code>, und am <code>tvEntryScore</code> steht <code>layout_marginStart="12dp"</code></td><td>Die ersten beiden wirken nur zusammen, sie sind der ganze Grund für die Ausrichtung. Der Rand ist Kosmetik, geht aber am leichtesten vergessen, weil ohne ihn nichts kaputt ist</td></tr>
+<tr><td class="num">2</td><td>Am Namen stehen <code>maxLines="1"</code> <b>und</b> <code>ellipsize="end"</code></td><td>Ohne <code>maxLines</code> tut <code>ellipsize</code> nichts. Die Zeile würde bei einem langen Namen höher als die anderen</td></tr>
+<tr><td class="num">3</td><td><code>tvEntryName</code> steht in <code>item_highscore.xml</code> genau <b>einmal</b></td><td>Sie ist umgezogen, nicht dazugekommen. Eine id zweimal in einer Datei geht nicht</td></tr>
+<tr><td class="num">4</td><td>Der Anker oben am <code>rvHighscore</code> zeigt auf <code>@id/spnFilter</code></td><td>Sonst liegen Filter und erste Zeile übereinander. Fällt bei vier Einträgen kaum auf</td></tr>
+<tr><td class="num">5</td><td><b>Das <code>if</code> mit <code>CATEGORY_ALL</code> steht im Adapter</b>, und gespeichert wird weiterhin <code>Alle</code></td><td>Ein Wert und seine Beschriftung sind zwei Dinge. Wer den gespeicherten Wert ändert, macht alle bestehenden Einträge ungültig</td></tr>
+<tr><td class="num">6</td><td><code>allEntries</code> ist ein <b>Feld</b> und gleich mit <code>new ArrayList&lt;&gt;()</code> belegt</td><td>Als lokale Variable wäre der Bestand weg, sobald <code>onResume</code> fertig ist. Und ohne die leere Liste kann es beim Start knallen</td></tr>
+<tr><td class="num">7</td><td><b><code>applyFilter</code> baut eine zweite Liste und lässt <code>allEntries</code> in Ruhe</b></td><td><b>Der wichtigste Punkt heute.</b> Wer den Bestand filtert, kann nicht mehr zurückschalten. Und beim Nachprüfen sieht es gut aus, weil <code>onResume</code> neu lädt</td></tr>
+<tr><td class="num">8</td><td><code>onResume</code> endet mit <code>applyFilter()</code>, nicht mit <code>adapter.setEntries(...)</code></td><td>Sonst steht nach jedem Zurückkommen wieder alles da, obwohl der Filter etwas anderes anzeigt</td></tr>
+<tr><td class="num">9</td><td><code>buildFilterLabels</code> leitet aus <code>QuestionBank.categories()</code> ab</td><td>Sonst steht dieselbe Liste an zwei Orten, und der zweite Ort wird beim Ändern vergessen</td></tr>
+<tr><td class="num">10</td><td>Der Listener hat <b>beide</b> Methoden, und <code>onNothingSelected</code> hat einen Kommentar</td><td>Ein leerer Rumpf ohne Erklärung sieht aus wie vergessen. Mit einem Satz ist es eine Entscheidung</td></tr>
+<tr><td class="num">11</td><td>Die Position rechnet mit <code>- 1</code>, und die <code>0</code> steht als <code>FILTER_POSITION_ALL</code> da</td><td>Eine nackte <code>0</code> im Code sagt niemandem, was sie bedeutet. Ohne das <code>- 1</code> gibt es eine <code>IndexOutOfBoundsException</code></td></tr>
+<tr><td class="num">12</td><td><b>Javadoc an den zwei neuen Methoden und den zwei neuen Feldern</b></td><td>Wird in der LB bewertet. Nachträglich dauert es zehnmal so lang</td></tr>
+<tr><td class="num">13</td><td><b>Der Klassenkommentar der <code>HighscoreActivity</code> spricht von zwei Listen</b></td><td>Seit heute hält sie zwei. Ein falscher Kommentar ist schlimmer als gar keiner, denn wer ihn liest, glaubt ihm</td></tr>
+<tr><td class="num">14</td><td><b>Im <code>HighscoreAdapter</code> steht nirgends mehr das Wort <i>drei</i></b></td><td>Zwei Kommentare aus 06C sagen <i>"Sucht die drei TextViews"</i> und <i>"mit den drei TextViews darin"</i>. Es sind vier. Ein Kommentar mit einer Zahl darin veraltet als Erstes</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Wenn du nur zwei Punkte prüfst, dann Nummer 7 und Nummer 8.</b> Beide stürzen nicht ab und melden nichts. Nummer 7 heilt sich beim Nachprüfen sogar selbst, weil du den Bildschirm verlässt und <code>onResume</code> alles neu lädt. Genau darum ist er so zäh.</p>
+</div>
+
+<p>Wenn ein Punkt bei dir anders ist und trotzdem funktioniert, entscheide selbst. Aber du solltest sagen können, warum. Genau das wird in der Leistungsbeurteilung gefragt.</p>
+
+<h2>Antworten zu den Denkfragen</h2>
+
+<p><b>1. Die Punktzahl steht rechts, und nirgends steht das Wort rechts. Wer sorgt dafür?</b></p>
+
+<p>Der mittlere Block. Er hat <code>layout_width="0dp"</code> und <code>layout_weight="1"</code>. Das heisst wörtlich: rechne meine Breite nicht aus meinem Inhalt aus, sondern gib mir allen Platz, der übrig bleibt. Was im <code>LinearLayout</code> danach kommt, wird dadurch an den Rand geschoben.</p>
+
+<p>Das ist ein anderes Denken als eine Ausrichtungsangabe. Du sagst nicht, wo etwas hin soll. Du sagst, wer den Platz nimmt, und der Rest ergibt sich. Dieselbe Technik hältst du im Spielbildschirm die Punktzahl neben <code>Frage 1 von 5</code>.</p>
+
+<div class="info">
+<p><b>Warum <code>gravity="end"</code> hier nicht reicht.</b> <code>gravity</code> schiebt den Inhalt <b>innerhalb</b> einer View. Wenn die View selbst nur so breit ist wie ihr Text, gibt es innen nichts zu schieben. Erst wenn jemand Platz freigibt, kann etwas nach rechts rutschen.</p>
+</div>
+
+<p><b>2. Warum baut <code>applyFilter</code> eine zweite Liste?</b></p>
+
+<p>Weil <code>allEntries</code> der Bestand ist. Filterst du ihn selbst, sind die anderen Einträge weg. Beim Zurückschalten auf <b>Alle Kategorien</b> gibt es nichts mehr, das zurückkommen könnte. Du siehst dann für immer nur noch die Sport-Einträge.</p>
+
+<p><b>Und der zweite Teil der Frage ist der interessante.</b> Du würdest es beim Nachprüfen wahrscheinlich nicht merken. Sobald du den Bildschirm verlässt und wieder öffnest, läuft <code>onResume</code>, lädt alles neu, und der Fehler ist scheinbar weg. Er kommt beim nächsten Filtern wieder.</p>
+
+<div class="warn">
+<p><b>Das ist die unangenehmste Sorte Fehler.</b> Er verschwindet genau dann, wenn du ihn anschauen willst. Wer so etwas sucht, muss den Fehler <b>ohne Verlassen des Bildschirms</b> nachstellen, also Sport, dann sofort Alle Kategorien.</p>
+</div>
+
+<p><b>3. Nach dem Filtern auf Sport steht dein bester Sport-Eintrag auf Rang 1. Ist das ein Fehler?</b></p>
+
+<p><b>Nein.</b> Und du hast es selbst so gebaut, in 06C. In <code>onBindViewHolder</code> steht <code>position + 1</code>. Die Position ist die Stelle in der Liste, die der Adapter gerade hat. Filterst du, ist das eine andere Liste, also sind es andere Positionen.</p>
+
+<table>
+<tr><th></th><th>Woher es kommt</th><th>Beim Filtern</th></tr>
+<tr><td>Name, Punkte, Kategorie</td><td>aus dem Eintrag</td><td>bleiben gleich</td></tr>
+<tr><td>Die Rangnummer</td><td>aus der Position in der angezeigten Liste</td><td>zählt neu bei 1 an</td></tr>
+</table>
+
+<p>Für eine Rangliste ist das genau richtig. <code>Rang 1 in Sport</code> ist eine sinnvolle Auskunft, und niemand erwartet in einer Sport-Rangliste die Nummer aus der Gesamtwertung.</p>
+
+<p><b>Und der Merksatz:</b> der Rang gehört nicht zum Eintrag, er gehört zu der Liste, in der er steht. Das ist dieselbe Entscheidung wie in 06A, wo ihr den Rang bewusst nicht ins Datenmodell aufgenommen habt. Was sich aus der Reihenfolge ergibt, wird nicht gespeichert.</p>
+
+<h2>Teil A, die Zeile</h2>
+
+<h3>res/layout/item_highscore.xml</h3>
+
+<pre>&lt;?xml version=<span class="s">"1.0"</span> encoding=<span class="s">"utf-8"</span>?&gt;
+<span class="c">&lt;!--
+  Eine Zeile der Rangliste.
+
+  Seit 07B hat die Zeile drei Blöcke. Links die Rangnummer mit fester
+  Breite. In der Mitte Name und Kategorie untereinander. Rechts die
+  Punktzahl.
+
+  Die Punktzahl steht rechts, weil der mittlere Block layout_weight="1"
+  hat und allen freien Platz nimmt. Es steht nirgends das Wort rechts.
+--&gt;</span>
+&lt;<span class="t">LinearLayout</span> xmlns:android=<span class="s">"http://schemas.android.com/apk/res/android"</span>
+    xmlns:tools=<span class="s">"http://schemas.android.com/tools"</span>
+    android:layout_width=<span class="s">"match_parent"</span>
+    android:layout_height=<span class="s">"wrap_content"</span>
+    android:gravity=<span class="s">"center_vertical"</span>
+    android:orientation=<span class="s">"horizontal"</span>
+    android:paddingTop=<span class="s">"12dp"</span>
+    android:paddingBottom=<span class="s">"12dp"</span>&gt;
+
+    &lt;<span class="t">TextView</span>
+        android:id=<span class="s">"@+id/tvRank"</span>
+        android:layout_width=<span class="s">"36dp"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:textSize=<span class="s">"16sp"</span>
+        android:textStyle=<span class="s">"bold"</span>
+        tools:text=<span class="s">"1."</span> /&gt;
+
+    <span class="c">&lt;!--
+      Der mittlere Block. 0dp Breite plus weight 1 heisst: nimm allen
+      Platz, der übrig bleibt. Genau dieser Block schiebt die Punktzahl
+      nach rechts.
+    --&gt;</span>
+    &lt;<span class="t">LinearLayout</span>
+        android:layout_width=<span class="s">"0dp"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:orientation=<span class="s">"vertical"</span>
+        android:layout_weight=<span class="s">"1"</span>&gt;
+
+        &lt;<span class="t">TextView</span>
+            android:id=<span class="s">"@+id/tvEntryName"</span>
+            android:layout_width=<span class="s">"match_parent"</span>
+            android:layout_height=<span class="s">"wrap_content"</span>
+            android:ellipsize=<span class="s">"end"</span>
+            android:maxLines=<span class="s">"1"</span>
+            android:textSize=<span class="s">"16sp"</span>
+            tools:text=<span class="s">"Sara"</span> /&gt;
+
+        &lt;<span class="t">TextView</span>
+            android:id=<span class="s">"@+id/tvEntryCategory"</span>
+            android:layout_width=<span class="s">"match_parent"</span>
+            android:layout_height=<span class="s">"wrap_content"</span>
+            android:textSize=<span class="s">"12sp"</span>
+            tools:text=<span class="s">"Geographie"</span> /&gt;
+
+    &lt;/<span class="t">LinearLayout</span>&gt;
+
+    &lt;<span class="t">TextView</span>
+        android:id=<span class="s">"@+id/tvEntryScore"</span>
+        android:layout_width=<span class="s">"wrap_content"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:layout_marginStart=<span class="s">"12dp"</span>
+        android:textSize=<span class="s">"16sp"</span>
+        android:textStyle=<span class="s">"bold"</span>
+        tools:text=<span class="s">"4 Punkte"</span> /&gt;
+
+&lt;/<span class="t">LinearLayout</span>&gt;</pre>
+
+<h3>Die zwei neuen Strings</h3>
+
+<pre>&lt;<span class="c">!-- Filter in der Rangliste, ab 07B --</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"filter_all"</span>&gt;Alle Kategorien&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"category_mixed"</span>&gt;Gemischt&lt;/<span class="t">string</span>&gt;</pre>
+
+<h3>Was sich im HighscoreAdapter geändert hat</h3>
+
+<p>Die Struktur der Klasse bleibt genau gleich. Es sind drei Stellen.</p>
+
+<p><b>Erstens im ViewHolder</b>, ein Feld und eine Zeile im Konstruktor:</p>
+
+<pre><span class="c">/** Die gespielte Kategorie, unter dem Namen. Neu seit 07B. */</span>
+<span class="k">final</span> <span class="t">TextView</span> tvEntryCategory;
+
+<span class="c">// im Konstruktor, bei den anderen drei</span>
+tvEntryCategory = itemView.findViewById(<span class="t">R</span>.id.tvEntryCategory);</pre>
+
+<p><b>Zweitens in <code>onBindViewHolder</code></b>, ganz am Schluss:</p>
+
+<pre><span class="c">// Eine Runde über alle Kategorien ist gespeichert als "Alle". In
+// der Rangliste heisst sie "Gemischt". Sonst stünde dort dasselbe
+// Wort wie im Filtereintrag "Alle Kategorien", und die zwei
+// bedeuten nicht dasselbe.</span>
+<span class="k">if</span> (<span class="t">QuestionBank</span>.CATEGORY_ALL.equals(entry.getCategory())) {
+    holder.tvEntryCategory.setText(<span class="t">R</span>.string.category_mixed);
+} <span class="k">else</span> {
+    holder.tvEntryCategory.setText(entry.getCategory());
+}</pre>
+
+<p><b>Drittens der Import</b> von <code>ch.wiss.m335.quiz.model.QuestionBank</code>.</p>
+
+<div class="info">
+<p><b>Was der Adapter bewusst nicht tut: filtern.</b> Er bekommt eine Liste und zeigt sie an. Welche Einträge in dieser Liste stehen, entscheidet die Activity.</p>
+<p>Das ist derselbe Grund, aus dem der Adapter in 06C nicht lädt. <b>Ein Adapter, der auch noch entscheidet, was er zeigt, lässt sich nirgends wiederverwenden.</b> In 07C hängst du denselben Bau an die Fragenliste, und dann bist du froh darum.</p>
+</div>
+
+<h2>Teil B, der Filter</h2>
+
+<h3>res/layout/activity_highscore.xml</h3>
+
+<p>Zwei Änderungen. Der Spinner kommt dazu, und der Anker des <code>RecyclerView</code> wandert von <code>tvHighscoreTitle</code> auf <code>spnFilter</code>.</p>
+
+<pre>    <span class="c">&lt;!--
+      Der Filter. Derselbe Baustein wie die Kategoriewahl im
+      Spielbildschirm, nur mit einem Eintrag mehr.
+    --&gt;</span>
+    &lt;<span class="t">Spinner</span>
+        android:id=<span class="s">"@+id/spnFilter"</span>
+        android:layout_width=<span class="s">"0dp"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:layout_marginTop=<span class="s">"12dp"</span>
+        app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span>
+        app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
+        app:layout_constraintTop_toBottomOf=<span class="s">"@id/tvHighscoreTitle"</span> /&gt;
+
+    &lt;<span class="t">androidx.recyclerview.widget.RecyclerView</span>
+        android:id=<span class="s">"@+id/rvHighscore"</span>
+        android:layout_width=<span class="s">"0dp"</span>
+        android:layout_height=<span class="s">"0dp"</span>
+        android:layout_marginTop=<span class="s">"16dp"</span>
+        app:layout_constraintBottom_toBottomOf=<span class="s">"parent"</span>
+        app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span>
+        app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
+        app:layout_constraintTop_toBottomOf=<span class="s">"@id/spnFilter"</span>
+        tools:itemCount=<span class="s">"4"</span>
+        tools:listitem=<span class="s">"@layout/item_highscore"</span> /&gt;</pre>
+
+<h3>HighscoreActivity.java, die ganze Klasse</h3>
+
+<pre><span class="k">package</span> ch.wiss.m335.quiz;
+
+<span class="k">import</span> android.os.Bundle;
+<span class="k">import</span> android.util.Log;
+<span class="k">import</span> android.view.View;
+<span class="k">import</span> android.widget.AdapterView;
+<span class="k">import</span> android.widget.ArrayAdapter;
+<span class="k">import</span> android.widget.Spinner;
+
+<span class="k">import</span> androidx.activity.EdgeToEdge;
+<span class="k">import</span> androidx.appcompat.app.AppCompatActivity;
+<span class="k">import</span> androidx.core.graphics.Insets;
+<span class="k">import</span> androidx.core.view.ViewCompat;
+<span class="k">import</span> androidx.core.view.WindowInsetsCompat;
+<span class="k">import</span> androidx.recyclerview.widget.LinearLayoutManager;
+<span class="k">import</span> androidx.recyclerview.widget.RecyclerView;
+
+<span class="k">import</span> java.util.ArrayList;
+<span class="k">import</span> java.util.Collections;
+<span class="k">import</span> java.util.List;
+
+<span class="k">import</span> ch.wiss.m335.quiz.data.HighscoreStorage;
+<span class="k">import</span> ch.wiss.m335.quiz.model.HighscoreEntry;
+<span class="k">import</span> ch.wiss.m335.quiz.model.QuestionBank;
+
+<span class="c">/**
+ * Zeigt die Rangliste, seit 07B mit einem Filter nach Kategorie.
+ *
+ * Drei Bausteine gehören zusammen, und alle drei sind nötig: das
+ * Zeilenlayout, der Adapter und der LayoutManager. Wer einen davon
+ * vergisst, sieht eine leere Fläche.
+ *
+ * Seit 07B hält diese Klasse zwei Listen. allEntries ist der ganze
+ * Bestand und bleibt vollständig. Der Adapter bekommt nur den
+ * Ausschnitt, der zum Filter passt. Eine Liste zum Behalten, eine zum
+ * Zeigen.
+ */</span>
+<span class="k">public class</span> <span class="t">HighscoreActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span> {
+
+    <span class="c">/** Log-Tag für das ganze Modul 335. */</span>
+    <span class="k">private static final</span> <span class="t">String</span> TAG = <span class="s">"Modul335"</span>;
+
+    <span class="c">/**
+     * Der erste Eintrag im Filter, "Alle Kategorien".
+     *
+     * Er schränkt nichts ein. Alle weiteren Einträge stehen in
+     * derselben Reihenfolge wie QuestionBank.categories(), nur um eine
+     * Stelle verschoben.
+     */</span>
+    <span class="k">private static final int</span> FILTER_POSITION_ALL = <span class="s">0</span>;
+
+    <span class="c">/** Der Adapter, der die Zeilen füllt. */</span>
+    <span class="k">private</span> <span class="t">HighscoreAdapter</span> adapter;
+
+    <span class="c">/** Die Auswahl oben. Sechs Einträge. */</span>
+    <span class="k">private</span> <span class="t">Spinner</span> spnFilter;
+
+    <span class="c">/**
+     * Der ganze Bestand, sortiert. Die Liste zum Behalten.
+     *
+     * Sie wird nie gefiltert. Gefiltert wird nur, was der Adapter
+     * bekommt. Wer diese Liste selbst filtert, kann danach nicht mehr
+     * auf "Alle Kategorien" zurückschalten.
+     *
+     * Gleich hier mit einer leeren Liste belegt, denn der Filter meldet
+     * sich schon, bevor onResume zum ersten Mal geladen hat.
+     */</span>
+    <span class="k">private</span> <span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; allEntries = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;();
+
+    <span class="k">@Override</span>
+    <span class="k">protected void</span> onCreate(<span class="t">Bundle</span> savedInstanceState) {
+        <span class="k">super</span>.onCreate(savedInstanceState);
+        <span class="t">EdgeToEdge</span>.enable(<span class="k">this</span>);
+        setContentView(<span class="t">R</span>.layout.activity_highscore);
+
+        <span class="c">// 16dp eigener Rand, in Pixel umgerechnet über die Dichte.</span>
+        <span class="k">final int</span> extraPadding = <span class="t">Math</span>.round(<span class="s">16</span> * getResources().getDisplayMetrics().density);
+
+        <span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(<span class="t">R</span>.id.clHighscore), (v, insets) -&gt; {
+            <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.<span class="t">Type</span>.systemBars());
+            v.setPadding(
+                    systemBars.left + extraPadding,
+                    systemBars.top + extraPadding,
+                    systemBars.right + extraPadding,
+                    systemBars.bottom + extraPadding);
+            <span class="k">return</span> insets;
+        });
+
+        <span class="t">RecyclerView</span> rvHighscore = findViewById(<span class="t">R</span>.id.rvHighscore);
+        rvHighscore.setLayoutManager(<span class="k">new</span> <span class="t">LinearLayoutManager</span>(<span class="k">this</span>));
+
+        adapter = <span class="k">new</span> <span class="t">HighscoreAdapter</span>();
+        rvHighscore.setAdapter(adapter);
+
+        <span class="c">// Derselbe Baustein wie die Kategoriewahl in der GameActivity.</span>
+        spnFilter = findViewById(<span class="t">R</span>.id.spnFilter);
+        spnFilter.setAdapter(<span class="k">new</span> <span class="t">ArrayAdapter</span>&lt;&gt;(<span class="k">this</span>,
+                android.<span class="t">R</span>.layout.simple_spinner_dropdown_item, buildFilterLabels()));
+
+        <span class="c">// Ohne diesen Listener passiert beim Auswählen nichts. Kein
+        // Absturz, keine Meldung, die Liste bleibt einfach stehen.</span>
+        spnFilter.setOnItemSelectedListener(<span class="k">new</span> <span class="t">AdapterView</span>.<span class="t">OnItemSelectedListener</span>() {
+
+            <span class="k">@Override</span>
+            <span class="k">public void</span> onItemSelected(<span class="t">AdapterView</span>&lt;?&gt; parent, <span class="t">View</span> view, <span class="k">int</span> position, <span class="k">long</span> id) {
+                applyFilter();
+            }
+
+            <span class="k">@Override</span>
+            <span class="k">public void</span> onNothingSelected(<span class="t">AdapterView</span>&lt;?&gt; parent) {
+                <span class="c">// Kommt bei einem Spinner nicht vor. Eine Auswahl ist
+                // immer gesetzt, notfalls die erste.</span>
+            }
+        });
+
+        <span class="t">Log</span>.d(TAG, <span class="s">"HighscoreActivity onCreate"</span>);
+    }
+
+    <span class="c">/**
+     * Lädt die Rangliste jedes Mal neu, wenn der Bildschirm erscheint.
+     *
+     * Geladen wird der ganze Bestand. Was davon zu sehen ist,
+     * entscheidet danach applyFilter.
+     */</span>
+    <span class="k">@Override</span>
+    <span class="k">protected void</span> onResume() {
+        <span class="k">super</span>.onResume();
+
+        allEntries = <span class="t">HighscoreStorage</span>.getAll(<span class="k">this</span>);
+
+        <span class="c">// Die beste Punktzahl zuoberst. Integer.compare(b, a) sortiert
+        // absteigend.</span>
+        <span class="t">Collections</span>.sort(allEntries, (a, b) -&gt; <span class="t">Integer</span>.compare(b.getScore(), a.getScore()));
+
+        <span class="t">Log</span>.d(TAG, <span class="s">"highscores loaded, total="</span> + allEntries.size());
+
+        applyFilter();
+    }
+
+    <span class="c">/**
+     * Baut die Beschriftungen für den Filter.
+     *
+     * Zuoberst "Alle Kategorien", danach dieselben Einträge wie bei der
+     * Kategoriewahl im Spiel. Der Eintrag "Alle" heisst hier
+     * "Gemischt", weil er etwas anderes bedeutet.
+     *
+     * Die Liste wird abgeleitet und nicht abgeschrieben. Kommt eine
+     * Kategorie dazu, steht sie automatisch auch im Filter.
+     *
+     * @return die sechs Beschriftungen in Anzeigereihenfolge
+     */</span>
+    <span class="k">private</span> <span class="t">List</span>&lt;<span class="t">String</span>&gt; buildFilterLabels() {
+        <span class="t">List</span>&lt;<span class="t">String</span>&gt; labels = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;();
+        labels.add(getString(<span class="t">R</span>.string.filter_all));
+
+        <span class="k">for</span> (<span class="t">String</span> category : <span class="t">QuestionBank</span>.categories()) {
+            <span class="k">if</span> (<span class="t">QuestionBank</span>.CATEGORY_ALL.equals(category)) {
+                labels.add(getString(<span class="t">R</span>.string.category_mixed));
+            } <span class="k">else</span> {
+                labels.add(category);
+            }
+        }
+
+        <span class="k">return</span> labels;
+    }
+
+    <span class="c">/**
+     * Zeigt nur die Einträge, die zum gewählten Filter passen.
+     *
+     * Gefiltert wird die Anzeige, nicht der Bestand. allEntries bleibt
+     * vollständig, sonst wäre nach dem ersten Filtern alles andere weg.
+     *
+     * Die Schleife ist dieselbe wie in QuestionBank.byCategory. Dort
+     * wird ein Fragenbestand nach Kategorie durchsucht, hier eine
+     * Rangliste.
+     */</span>
+    <span class="k">private void</span> applyFilter() {
+        <span class="k">int</span> position = spnFilter.getSelectedItemPosition();
+
+        <span class="k">if</span> (position == FILTER_POSITION_ALL) {
+            adapter.setEntries(allEntries);
+            <span class="t">Log</span>.d(TAG, <span class="s">"filter=all, shown="</span> + allEntries.size());
+            <span class="k">return</span>;
+        }
+
+        <span class="c">// Position 0 ist "Alle Kategorien" und steht nicht im Bestand.
+        // Darum liegt die gesuchte Kategorie eine Stelle weiter vorne.</span>
+        <span class="t">String</span> category = <span class="t">QuestionBank</span>.categories().get(position - <span class="s">1</span>);
+
+        <span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; shown = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;();
+        <span class="k">for</span> (<span class="t">HighscoreEntry</span> entry : allEntries) {
+            <span class="k">if</span> (entry.getCategory().equals(category)) {
+                shown.add(entry);
+            }
+        }
+
+        adapter.setEntries(shown);
+        <span class="t">Log</span>.d(TAG, <span class="s">"filter="</span> + category + <span class="s">", shown="</span> + shown.size());
+    }
+}</pre>
+
+<h3>Der Vergleich mit deiner byCategory aus 05C</h3>
+
+<p>Das war die Aufgabe in B3. Leg die zwei nebeneinander:</p>
+
+<table>
+<tr><th><code>QuestionBank.byCategory</code></th><th>deine <code>applyFilter</code></th></tr>
+<tr><td><code>List&lt;Question&gt; result = new ArrayList&lt;&gt;();</code></td><td><code>List&lt;HighscoreEntry&gt; shown = new ArrayList&lt;&gt;();</code></td></tr>
+<tr><td><code>for (Question question : createAll())</code></td><td><code>for (HighscoreEntry entry : allEntries)</code></td></tr>
+<tr><td><code>if (question.getCategory().equals(category))</code></td><td><code>if (entry.getCategory().equals(category))</code></td></tr>
+<tr><td><code>result.add(question);</code></td><td><code>shown.add(entry);</code></td></tr>
+<tr><td><code>return result;</code></td><td><b><code>adapter.setEntries(shown);</code></b></td></tr>
+</table>
+
+<p>Vier Zeilen sind dieselben. <b>Nur die letzte ist anders.</b> <code>byCategory</code> gibt die Liste zurück, deine Methode gibt sie weiter.</p>
+
+<div class="tip">
+<p><b>Das ist der Punkt der ganzen Übung.</b> Du hast diese Schleife nicht gelernt, du hast sie übertragen. Und genau das verlangt die Leistungsbeurteilung: nicht einen Baustein auswendig können, sondern ein Muster aus dem eigenen Code auf einen neuen Fall anwenden.</p>
+</div>
+
+<h2>Die Stelle aus B4, aufgelöst</h2>
+
+<p>Du hast auf Sport gefiltert und gesehen, dass die Ränge wieder bei 1 anfangen. Die Auflösung steht bei Denkfrage 3.</p>
+
+<p><b>Die Frage, die im Unterricht meistens kommt:</b> wie würde man denn den Gesamtrang anzeigen?</p>
+
+<p>Man müsste für jeden angezeigten Eintrag seine Position in <code>allEntries</code> suchen. Also etwa so:</p>
+
+<pre><span class="c">// So NICHT bauen. Nur zum Anschauen.</span>
+<span class="k">int</span> gesamtRang = allEntries.indexOf(entry) + <span class="s">1</span>;</pre>
+
+<p>Drei Gründe, warum das hier nicht gebaut wird:</p>
+
+<ul>
+<li><b>Der Adapter kennt <code>allEntries</code> nicht</b>, und das ist Absicht. Er müsste die Liste bekommen, und dann kennt er zwei Listen statt einer.</li>
+<li><code>indexOf</code> ist eine <b>Suche</b>. Sie läuft in <code>onBindViewHolder</code>, also bei jedem Scrollen. Genau das, was dort nicht hingehört.</li>
+<li><b>Es beantwortet die falsche Frage.</b> Wer auf Sport filtert, will die Sport-Rangliste sehen.</li>
+</ul>
+
+<h2>Lösungen zu den Übungen</h2>
+
+<p><b>Kommentare nachziehen.</b> Eine mögliche Version des Klassenkommentars steht oben im Code. Wichtig ist nicht der Wortlaut, sondern dass drei Dinge darin vorkommen: dass es zwei Listen gibt, welche davon vollständig bleibt, und wer den Ausschnitt bekommt.</p>
+
+<p><b>Und die zwei Zahlwörter im Adapter.</b> Der Konstruktor des ViewHolder sucht seit heute vier TextViews, nicht drei. Dasselbe im <code>@return</code> von <code>onCreateViewHolder</code>. Beides sind Kommentare, die gestern noch stimmten. <b>Genau daran erkennst du die teure Sorte:</b> sie werden nicht falsch, weil jemand sie falsch geschrieben hat, sondern weil der Code darunter weitergewachsen ist.</p>
+
+<p><b>Übung 1a, das Gewicht wegnehmen.</b> Ohne <code>weight</code> ist der mittlere Block nur so breit wie sein längster Text. Die Punktzahl klebt direkt daneben und steht bei jeder Zeile an einer anderen Stelle. Das Wort <code>rechts</code> kommt trotzdem nirgends vor, weil die Ausrichtung nicht angegeben, sondern <b>erzeugt</b> wird. Wer den Platz nimmt, bestimmt, wo der Rest landet.</p>
+
+<p><b>Übung 1b, die drei Punkte wegnehmen.</b> Ohne <code>maxLines="1"</code> darf der Name umbrechen. Er wird zweizeilig, und die ganze Zeile wird höher als die anderen. <code>ellipsize</code> allein nützt nichts, weil es erst greift, wenn der Text <b>nicht</b> umbrechen darf. Die zwei Angaben gehören zusammen.</p>
+
+<p><b>Übung 2, der leere Filter.</b> Wer eine leere Fläche sieht, denkt in den allermeisten Fällen, die App sei kaputt. Kein Mensch kommt darauf, dass er selbst gefiltert hat und dort einfach nichts ist. Ein leerer Zustand braucht immer einen Text. In 07C bauen wir ihn, dort bei der Fragenliste.</p>
+
+<p><b>Übung 3, erklären.</b> Die kürzeste richtige Antwort lautet: eine Liste hält alles, die andere hält das, was gerade zu sehen ist. Ohne die zweite müsste man die erste kaputtmachen, um zu filtern, und danach gibt es kein Zurück mehr.</p>
+
+<p>Zur Zusatzaufgabe steht hier bewusst nichts. Ein Hinweis trotzdem, weil die Schätzung mehr wert ist als der Code: mit einem <code>TabLayout</code> allein ersetzt du den Spinner fast eins zu eins. Sobald du zusätzlich wischen willst, kommen <code>ViewPager2</code> und ein Fragment pro Reiter dazu, und das ist ein deutlich grösserer Schritt.</p>
+
+<h2>Mögliche falsche KI-Rückmeldungen</h2>
+
+<p>Das sind Antworten, die uns bei diesem Thema schon begegnet sind. Nicht jede KI macht jeden dieser Fehler. Die Liste ist eine Prüfliste, keine Anklage.</p>
+
+<table>
+<tr><th>Die KI schlägt vor</th><th>Warum das hier falsch ist</th></tr>
+<tr><td class="pre">spnFilter.setOnItemClickListener(...)</td><td><b>Die Falle dieses Auftrags.</b> Das gibt es beim <code>Spinner</code> nicht. Er wirft zur Laufzeit eine Ausnahme mit dem Text, dass sich das nicht mit einem Spinner verwenden lässt. Der richtige Baustein heisst <code>setOnItemSelectedListener</code></td></tr>
+<tr><td><code>android:gravity="end"</code> oder <code>layout_gravity="right"</code> an der Punktzahl</td><td>Schiebt den Inhalt innerhalb der View. Wenn die View selbst nur so breit ist wie ihr Text, gibt es innen nichts zu schieben. Es braucht das <code>weight</code> beim Nachbarn</td></tr>
+<tr><td>Die Zeile als <code>ConstraintLayout</code> neu bauen</td><td>Nicht falsch, aber mehr Aufwand für dasselbe Ergebnis. Und du sollst heute genau die <code>weight</code>-Technik sehen, sie kommt in jeder Listenzeile wieder</td></tr>
+<tr><td>Den Spinner mit einem <code>string-array</code> in <code>strings.xml</code> füllen</td><td>Dann steht die Kategorieliste an zwei Orten. Kommt eine Kategorie dazu, wird der zweite Ort vergessen</td></tr>
+<tr><td class="pre">allEntries.removeIf(...)</td><td>Kürzer und zerstört genau das, worum es heute geht. Danach ist der Bestand weg</td></tr>
+<tr><td>Die Filterlogik in den Adapter, über <code>Filterable</code> und <code>getFilter()</code></td><td>Erbe aus der <code>ListView</code>-Zeit. Der <code>RecyclerView</code> hat das absichtlich nicht. Der Adapter zeigt an, er entscheidet nicht</td></tr>
+<tr><td><code>notifyDataSetChanged()</code> zusätzlich in <code>applyFilter</code></td><td>Steht schon in <code>setEntries</code>. Zweimal schadet nicht, aber es verteilt eine Verantwortung auf zwei Stellen, und dann wird sie irgendwann an beiden vergessen</td></tr>
+<tr><td>Die Schleife durch einen Java-Stream ersetzen</td><td>Läuft bei uns, ist aber nicht der Punkt. Du sollst sehen, dass es dieselbe Schleife ist wie in deiner <code>byCategory</code></td></tr>
+<tr><td>Den gespeicherten Wert von <code>Alle</code> auf <code>Gemischt</code> ändern</td><td>Macht jeden bestehenden Eintrag auf jedem Gerät ungültig. Übersetzt wird beim Anzeigen, nie beim Speichern</td></tr>
+<tr><td>Den Filter im <code>onCreate</code> setzen und <code>onResume</code> weglassen</td><td>Dann siehst du einen frisch eingetragenen Wert erst nach einem Neustart der App. Dieselbe Frage wie in 06C</td></tr>
+<tr><td>Den Rang als Feld in <code>HighscoreEntry</code> speichern, damit er beim Filtern gleich bleibt</td><td>Widerspricht der Entscheidung aus 06A. Und der Gesamtrang ist beim Filtern gar nicht das, was man sehen will</td></tr>
+</table>
+
+<h2>So prüfst du das Ganze</h2>
+
+<ol>
+<li>Vier Einträge, zwei verschiedene Kategorien, eine gemischte Runde.</li>
+<li>Rang links, Name mit Kategorie darunter, Punktzahl am rechten Rand.</li>
+<li><b>Die Punktzahl steht bei jeder Zeile an derselben Stelle</b>, auch bei der Zeile mit dem langen Namen.</li>
+<li>Der lange Name endet mit drei Punkten, seine Zeile ist gleich hoch wie die anderen.</li>
+<li>Bei der gemischten Runde steht <code>Gemischt</code>.</li>
+<li>Sechs Einträge im Filter, in der Reihenfolge Alle Kategorien, Gemischt, Sport, Technologie, Geographie, Geschichte.</li>
+<li>Filter auf Sport. Nur Sport-Einträge, Ränge zählen bei 1 an.</li>
+<li><b>Zurück auf Alle Kategorien. Alles ist wieder da.</b></li>
+<li>Filter auf Gemischt. Nur die Runden über alle Kategorien.</li>
+<li>Neue Runde spielen, eintragen, Rangliste öffnen. Der neue Eintrag ist da, der Filter steht wieder auf Alle Kategorien.</li>
+<li>Gerät drehen. Auswahl und Liste bleiben.</li>
+<li>Logcat unter <code>tag:Modul335</code>: bei jedem Wechsel eine Zeile <code>filter=Sport, shown=2</code>.</li>
+</ol>
+
+<div class="info">
+<p><b>Punkt 8 ist der einzige, der wirklich etwas Neues prüft.</b> Alles andere sieht man sofort. Dass der Bestand heil geblieben ist, sieht man nur, wenn man zurückschaltet, ohne den Bildschirm zu verlassen.</p>
+</div>
+
+<h2>Was noch nicht gut ist, und das mit Absicht</h2>
+
+<ul>
+<li><b>Der leere Filter zeigt eine leere Fläche.</b> Kommt in 07C bei der Fragenliste, dort wird der leere Zustand richtig gebaut.</li>
+<li><b>Die Filterauswahl wird nicht gemerkt.</b> Beim nächsten Öffnen steht wieder Alle Kategorien. Das ist für eine Rangliste in Ordnung, und es zu merken wäre eine eigene kleine Lektion über Zustand.</li>
+<li><b>Kein Klick auf eine Zeile.</b> Der Listener im ViewHolder kommt in 08C, wenn eine Frage zum Bearbeiten geöffnet wird.</li>
+<li><b>Die Rangliste bleibt in den SharedPreferences.</b> Nur die Fragen bekommen in 07C eine Datenbank. Die Begründung dafür hast du in 06A selbst hergeleitet.</li>
+<li><b>Kein DiffUtil.</b> Bei jedem Filterwechsel wird die ganze Liste neu gezeichnet. Bei fünf Einträgen sieht das niemand.</li>
+</ul>
+
+<h2>Was als Nächstes kommt</h2>
+
+<p><b>07C, Room.</b> Der Fragenbestand zieht aus dem Code in eine Datenbank um. Das ist der grosse Block des Tages, 90 Minuten am Stück, und es ist die erste Abhängigkeit, die wirklich in den Versionskatalog eingetragen werden muss.</p>
+
+<p>Was du heute gebaut hast, kommt dort sofort wieder: eine Liste, ein Adapter, und die Trennung zwischen dem Bestand und dem, was gerade zu sehen ist. Nur kommen die Daten dann nicht mehr aus einer Datei, sondern aus einer Abfrage.</p>
+
+<p class="foot">Modul 335 | Tag 4 Vormittag | Lösungsmaterial 07B | Version 1 | 19.08.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>
