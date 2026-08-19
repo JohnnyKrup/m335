@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>06C RecyclerView und Rangliste</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>06C RecyclerView und Rangliste</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 3 Nachmittag. Zeitbudget 90 Minuten. Version 1 vom 19.08.2026.</p>
+<p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
+<p class="sub">Heute wird sichtbar, was du in 06A gezeichnet und in 06B gebaut hast. Und du baust dieselbe Liste wie in 04B nochmals, diesmal so, wie Android es vorsieht.</p>
+
+<h2>01 Einführung</h2>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>1.1</td><td>Ergonomische Standards und Prinzipien der Interaktion kennen und anwenden</td></tr>
+<tr><td>2.3</td><td>Kennt gängige App-Architekturen und kann sie einsetzen</td></tr>
+<tr><td>3.2</td><td>Kennt das Framework und seine APIs und kann sie anwenden</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du legst einen vierten Bildschirm an und schaltest ihn im Menü frei.</li>
+<li>Du beschreibst eine Listenzeile in einer eigenen Layoutdatei.</li>
+<li>Du schreibst einen Adapter mit ViewHolder für einen <code>RecyclerView</code>.</li>
+<li>Du erklärst, warum Erzeugen und Füllen zwei getrennte Methoden sind.</li>
+<li>Du sortierst eine Liste absteigend und erklärst, woher die Rangnummer kommt.</li>
+<li>Du findest einen Fehler, der nichts anzeigt und nichts abstürzt.</li>
+</ul>
+
+<h3>Das brauchst du vorher</h3>
+<ul>
+<li>Dein Projekt <b>WissQuiz</b> nach 06B. Der Ergebnisbereich hat ein Namensfeld, und das Eintragen funktioniert.</li>
+<li>Deine Methode <code>buildQuestionList</code> aus 04B. Du brauchst sie zum <b>Vergleichen</b>, nicht zum Ändern.</li>
+</ul>
+
+<div class="note">
+<p><b>Der wichtigste Vorbereitungsschritt, und er dauert vier Minuten.</b> Spiel jetzt <b>vier Runden</b> zu Ende und trag dich jedes Mal ein. Nimm jedes Mal einen anderen Namen und versuch, verschiedene Punktzahlen zu bekommen.</p>
+<p>Warum das nicht optional ist: du baust heute eine Liste. Mit null Einträgen siehst du eine leere Fläche, und du kannst nicht unterscheiden, ob deine Liste leer ist oder dein Code nicht läuft. Mit einem Eintrag merkst du nicht, wenn du falsch herum sortierst.</p>
+</div>
+
+<h3>Das gibst du ab</h3>
+<ul>
+<li>Einen Screenshot deiner Rangliste mit <b>mindestens vier Einträgen</b>, beste Punktzahl zuoberst.</li>
+<li>Den Wissenscheck.</li>
+</ul>
+
+<div class="info">
+<p><b>Warum das genau so in der Prüfung steht.</b> Teil B der Leistungsbeurteilung, Schritt 2, 15 Minuten, 4 Punkte:</p>
+<p><i>"Liste auf der Startseite anzeigen. Rechts in der Zeile der Durchschnitt, sobald beide Noten vorhanden sind."</i></p>
+<p>Im Bewertungsraster steht dieselbe Sache nochmals: <i>"Liste zeigt alle Module, Durchschnitt erscheint rechts sobald beide Noten da sind."</i></p>
+<p><b>Heute baust du die Liste.</b> Den Wert rechts baust du am Tag 4 Vormittag in 07B, zusammen mit dem Filter. Die zwei Aufträge zusammen sind genau diese 4 Punkte.</p>
+</div>
+
+<h2>02 Auftrag</h2>
+
+<h3>Ausgangslage</h3>
+
+<p>Deine Rangliste gibt es seit 06B. Sie liegt in einer Datei auf dem Gerät, und sehen kann man sie nur, wenn man diese Datei über <code>adb</code> öffnet. Der Knopf <b>Rangliste</b> im Menü ist seit 05A grau. Heute wird er freigeschaltet.</p>
+
+<p>Und noch etwas kommt zurück. In 04B hast du eine Liste <b>zu Fuss</b> gebaut: eine Schleife, pro Eintrag eine neue <code>TextView</code>, dazu <code>addView</code>. Heute baust du dieselbe Sache nochmals, diesmal mit dem Baustein, den Android dafür vorsieht.</p>
+
+<h4>Der Vergleich, um den es geht</h4>
+
+<table>
+<tr><th></th><th>Liste zu Fuss, 04B</th><th>RecyclerView, heute</th></tr>
+<tr><td>Wie viele Zeilen entstehen</td><td>eine pro Eintrag, alle gleichzeitig</td><td>nur so viele, wie auf den Bildschirm passen, etwa fünfzehn</td></tr>
+<tr><td>Bei 500 Einträgen</td><td>500 View-Objekte im Speicher, 485 davon unsichtbar</td><td>immer noch etwa fünfzehn</td></tr>
+<tr><td>Beim Scrollen</td><td>alles ist schon da</td><td>die oberste Zeile wandert nach unten und wird neu gefüllt</td></tr>
+<tr><td><code>findViewById</code></td><td>entfällt, die TextView wurde ja gerade erzeugt</td><td>einmal pro Zeile im ViewHolder, nicht bei jedem Scrollen</td></tr>
+<tr><td>Zeilenaufbau</td><td>im Java-Code zusammengebaut</td><td>als eigene Layoutdatei <code>item_highscore.xml</code></td></tr>
+<tr><td>Aufwand</td><td>zehn Zeilen Code</td><td>ein Layout, eine Adapter-Klasse, drei Zeilen in der Activity</td></tr>
+</table>
+
+<div class="info">
+<p><b>Der Aufwand ist der Punkt, nicht das Problem.</b> Bei sieben Fragen war die Liste zu Fuss richtig. Bei fünfhundert Einträgen ist sie falsch.</p>
+<p>Wer nur den <code>RecyclerView</code> kennt, hält ihn für Bürokratie. Wer beides gebaut hat, weiss, wofür die drei Teile da sind. Genau darum kam 04B zuerst.</p>
+</div>
+
+<h4>Die drei Teile, und alle drei sind nötig</h4>
+
+<table>
+<tr><th>Teil</th><th>Was er tut</th><th>Was passiert, wenn er fehlt</th></tr>
+<tr><td class="pre">item_highscore.xml</td><td>beschreibt <b>eine</b> Zeile</td><td>Compiler-Fehler, das Layout gibt es nicht</td></tr>
+<tr><td class="pre">HighscoreAdapter</td><td>füllt die Zeilen mit Daten</td><td>leere Fläche, kein Absturz</td></tr>
+<tr><td class="pre">LinearLayoutManager</td><td>ordnet die Zeilen an</td><td>leere Fläche, kein Absturz</td></tr>
+</table>
+
+<div class="warn">
+<p><b>Zwei von drei Fehlern stürzen nicht ab.</b> Du siehst eine leere Fläche, sonst nichts. Das macht diese Stufe zäh, wenn man drauflosbaut.</p>
+<p>Darum die Reihenfolge im Auftrag: erst das Layout, dann der Adapter, dann die Activity. <b>Und nach jedem Teil einmal starten</b>, auch wenn du weisst, dass sich noch nichts ändert.</p>
+</div>
+
+<p>Der Auftrag hat drei Teile. Teil A baut den Bildschirm und die Zeile. Teil B baut den Adapter. Teil C verbindet beides und lädt die Daten.</p>
+
+<h3>Werkzeugkasten</h3>
+
+<table>
+<tr><th>Baustein</th><th>Wofür</th></tr>
+<tr><td class="pre">RecyclerView</td><td>Die Liste selbst. Steht im Layout wie jede andere View. Präfix <code>rv</code></td></tr>
+<tr><td class="pre">item_highscore.xml</td><td>Eine eigene Layoutdatei für <b>genau eine</b> Zeile</td></tr>
+<tr><td class="pre">RecyclerView.Adapter</td><td>Die Klasse, die aus deinen Daten Zeilen macht</td></tr>
+<tr><td class="pre">RecyclerView.ViewHolder</td><td>Merkt sich die Views einer Zeile, damit <code>findViewById</code> nur einmal läuft</td></tr>
+<tr><td class="pre">LayoutInflater.inflate(...)</td><td>Macht aus einer XML-Datei echte Views. <b>Das kennst du schon</b>, <code>setContentView</code> macht dasselbe für den ganzen Bildschirm</td></tr>
+<tr><td class="pre">LinearLayoutManager</td><td>Ordnet die Zeilen untereinander an. Das ist der Normalfall</td></tr>
+<tr><td class="pre">notifyDataSetChanged()</td><td>Sagt dem <code>RecyclerView</code>, dass er neu zeichnen soll</td></tr>
+<tr><td class="pre">Collections.sort(liste, ...)</td><td>Sortiert eine Liste. <b>Die Nachbarmethode von <code>Collections.shuffle</code></b>, das du in 05C benutzt hast</td></tr>
+<tr><td class="pre">Integer.compare(a, b)</td><td>Liefert eine negative Zahl, null oder eine positive. Damit sagst du, was zuerst kommt</td></tr>
+<tr><td class="pre">tools:listitem</td><td>Nur für die Vorschau im Editor. Ohne sie siehst du dort eine leere graue Fläche</td></tr>
+<tr><td class="pre">startActivity(new Intent(...))</td><td>Öffnet einen Bildschirm ohne Rückgabe. <b>Kennst du aus 05A</b>, Knopf Über die App</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Keine neue Abhängigkeit nötig.</b> Der <code>RecyclerView</code> steckt in einer eigenen Bibliothek <code>androidx.recyclerview</code>. Wir haben sie nie eingetragen, und trotzdem läuft sie, weil <code>material</code> sie mitbringt.</p>
+<p>In einem echten Projekt trägt man ein, was man direkt benutzt, auch wenn es schon da ist. Hier bleibt es aus einem Grund weg: <b>in 07C kommt Room</b>, und das ist die erste Abhängigkeit, die zwingend eingetragen werden muss. Dort lernst du den Versionskatalog an einem Fall, wo es nicht anders geht.</p>
+</div>
+
+<h3>Pflichtangaben</h3>
+
+<table>
+<tr><th>Wo</th><th>Was Pflicht ist</th><th>Warum</th></tr>
+<tr><td>Am Root-Element von <code>item_highscore.xml</code></td><td><code>layout_height="wrap_content"</code></td><td>Eine Zeile ist so hoch wie ihr Inhalt. Mit <code>match_parent</code> siehst du einen Eintrag pro Bildschirm</td></tr>
+<tr><td>Am <code>RecyclerView</code> im Layout</td><td><code>0dp</code> Höhe plus Anker oben <b>und</b> unten</td><td>Nur so kennt er seine Grösse und kann scrollen</td></tr>
+<tr><td>Beim <code>inflate</code> im Adapter</td><td>Das dritte Argument ist <code>false</code></td><td>Mit <code>true</code> stürzt die App ab</td></tr>
+<tr><td>Bei einer neuen Activity</td><td>Eintrag im <code>AndroidManifest.xml</code></td><td>Sonst <code>ActivityNotFoundException</code>, genau wie in 05A</td></tr>
+<tr><td>Bei jeder neuen Methode und jedem neuen Feld</td><td>Javadoc</td><td>Wird in der Leistungsbeurteilung bewertet</td></tr>
+</table>
+
+<h3>Namen im Code</h3>
+
+<table>
+<tr><th>Name</th><th>Was es ist</th></tr>
+<tr><td class="pre">HighscoreActivity</td><td>Der neue Bildschirm</td></tr>
+<tr><td class="pre">activity_highscore.xml</td><td>Sein Layout</td></tr>
+<tr><td class="pre">item_highscore.xml</td><td>Das Layout <b>einer Zeile</b></td></tr>
+<tr><td class="pre">HighscoreAdapter</td><td>Die neue Klasse neben den Activities</td></tr>
+<tr><td class="pre">HighscoreViewHolder</td><td>Die Klasse <b>in</b> der Klasse</td></tr>
+<tr><td class="pre">clHighscore</td><td>Das Root-Element von <code>activity_highscore.xml</code></td></tr>
+<tr><td class="pre">rvHighscore</td><td>Der RecyclerView</td></tr>
+<tr><td class="pre">tvHighscoreTitle</td><td>Der Titel oben</td></tr>
+<tr><td class="pre">tvRank, tvEntryName, tvEntryScore</td><td>Die drei TextViews <b>in der Zeile</b></td></tr>
+<tr><td class="pre">title_highscore, rank_format, entry_score_format</td><td>Die drei neuen Strings</td></tr>
+</table>
+
+<h3>Denkfragen</h3>
+<ol>
+<li>In 04B hat deine Schleife für jede Frage eine <code>TextView</code> erzeugt <b>und</b> gefüllt. Der Adapter trennt das in zwei Methoden. Warum lohnt sich diese Trennung erst bei einer langen Liste?</li>
+<li>Der Rang links steht nirgends in deinen Daten. Woher kommt er, und was passiert mit ihm, wenn du anders sortierst?</li>
+<li>Die Liste wird in <code>onResume</code> geladen und nicht in <code>onCreate</code>. Heute würde <code>onCreate</code> auch funktionieren. <b>Wann würde es aufhören zu funktionieren?</b></li>
+</ol>
+
+<div class="tip">
+<p><b>Diese drei Fragen gibst du nicht ab.</b> Denk kurz darüber nach und notier dir ein Stichwort. Genau danach fragt der Wissenscheck, und die Antworten stehen im Lösungsmaterial.</p>
+</div>
+
+<h3>Teil A, der Bildschirm und die Zeile <span class="time">18 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">A1</span><b>Die vierte Activity.</b> <span class="time">10 Min</span></p>
+
+<p>Das hast du in 05A schon einmal gemacht. Vier Handgriffe, und keiner davon ist neu:</p>
+
+<p><b>Erstens das Layout.</b> Neue Datei <code>res/layout/activity_highscore.xml</code>:</p>
+
+<pre>&lt;?xml version=<span class="s">"1.0"</span> encoding=<span class="s">"utf-8"</span>?&gt;
+&lt;<span class="t">androidx.constraintlayout.widget.ConstraintLayout</span>
+    xmlns:android=<span class="s">"http://schemas.android.com/apk/res/android"</span>
+    xmlns:app=<span class="s">"http://schemas.android.com/apk/res-auto"</span>
+    xmlns:tools=<span class="s">"http://schemas.android.com/tools"</span>
+    android:id=<span class="s">"@+id/clHighscore"</span>
+    android:layout_width=<span class="s">"match_parent"</span>
+    android:layout_height=<span class="s">"match_parent"</span>
+    tools:context=<span class="s">".HighscoreActivity"</span>&gt;
+
+    &lt;<span class="t">TextView</span>
+        android:id=<span class="s">"@+id/tvHighscoreTitle"</span>
+        android:layout_width=<span class="s">"0dp"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:text=<span class="s">"@string/title_highscore"</span>
+        android:textSize=<span class="s">"26sp"</span>
+        android:textStyle=<span class="s">"bold"</span>
+        app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span>
+        app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
+        app:layout_constraintTop_toTopOf=<span class="s">"parent"</span> /&gt;
+
+    &lt;<span class="t">androidx.recyclerview.widget.RecyclerView</span>
+        android:id=<span class="s">"@+id/rvHighscore"</span>
+        android:layout_width=<span class="s">"0dp"</span>
+        android:layout_height=<span class="s">"0dp"</span>
+        android:layout_marginTop=<span class="s">"16dp"</span>
+        app:layout_constraintBottom_toBottomOf=<span class="s">"parent"</span>
+        app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span>
+        app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
+        app:layout_constraintTop_toBottomOf=<span class="s">"@id/tvHighscoreTitle"</span>
+        tools:itemCount=<span class="s">"4"</span>
+        tools:listitem=<span class="s">"@layout/item_highscore"</span> /&gt;
+
+&lt;/<span class="t">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</pre>
+
+<div class="warn">
+<p><b>Der Editor wird jetzt rot.</b> <code>@layout/item_highscore</code> gibt es noch nicht, die Datei baust du in A2. <b>Das ist richtig so.</b> Die zwei <code>tools:</code>-Zeilen wirken nur in der Vorschau, du kannst sie auch erst nach A2 eintragen.</p>
+</div>
+
+<p><b>Zweitens der String</b> in <code>strings.xml</code>:</p>
+<pre>&lt;string name=<span class="s">"title_highscore"</span>&gt;Rangliste&lt;/string&gt;</pre>
+
+<p><b>Drittens die Java-Klasse.</b> Neue Klasse <code>HighscoreActivity</code> im Paket <code>ch.wiss.m335.quiz</code>, neben den anderen Activities. Sie erbt von <code>AppCompatActivity</code>.</p>
+
+<div class="tip">
+<p><b>Deine <code>AboutActivity</code> ist die Vorlage.</b> Öffne sie, kopier ihre <code>onCreate</code> und ändere <b>genau drei Dinge</b>:</p>
+<table>
+<tr><th>Aus</th><th>Wird</th></tr>
+<tr><td class="pre">R.layout.activity_about</td><td class="pre">R.layout.activity_highscore</td></tr>
+<tr><td class="pre">R.id.clAbout</td><td class="pre">R.id.clHighscore</td></tr>
+<tr><td class="pre">Log.d(TAG, "AboutActivity onCreate")</td><td class="pre">Log.d(TAG, "HighscoreActivity onCreate")</td></tr>
+</table>
+<p>Den <code>TAG</code> selbst brauchst du auch, den kopierst du gleich mit.</p>
+</div>
+<div class="warn">
+<p><b>Die dritte Zeile wird am häufigsten vergessen, und sie rächt sich in Teil C.</b> Der Compiler sagt nichts, die App läuft, und im Logcat steht bei jedem Öffnen der Rangliste <code>AboutActivity onCreate</code>.</p>
+<p>In C3 suchst du einen Fehler <b>im Logcat</b>. Wer dort den falschen Bildschirmnamen liest, sucht zehn Minuten an der falschen Stelle.</p>
+<p><b>Die Regel:</b> wenn du eine Klasse als Vorlage kopierst, geh jede Zeichenkette darin einmal durch. Ein Log-Text ist keine Nebensache, er ist deine einzige Auskunft, wenn nichts abstürzt.</p>
+</div>
+<div class="info">
+<p><b>Und was du <i>nicht</i> aus der <code>GameActivity</code> übernehmen musst:</b> das <code>| WindowInsetsCompat.Type.ime()</code> aus 06B. Es fragt nach dem Platz für die Tastatur, und dieser Bildschirm hat kein Eingabefeld.</p>
+<p>Es schadet nicht, wenn es trotzdem dasteht. Aber es sagt dem nächsten Leser etwas Falsches, nämlich dass hier getippt wird. <b>Nimm die <code>AboutActivity</code> als Vorlage und nicht die <code>GameActivity</code>.</b></p>
+</div>
+
+<p><b>Viertens der Eintrag im Manifest.</b> In <code>AndroidManifest.xml</code>, bei den anderen Activities:</p>
+<pre>&lt;<span class="t">activity</span>
+    android:name=<span class="s">".HighscoreActivity"</span>
+    android:exported=<span class="s">"false"</span> /&gt;</pre>
+
+<p><b>Und der Knopf im Menü.</b> In <code>activity_main.xml</code> steht beim <code>btnRanking</code> noch die Zeile <code>android:enabled="false"</code>. Die kommt weg.</p>
+
+<p>Dazu die Verkabelung in der <code>onCreate</code> deiner <code>MainActivity</code>, bei den anderen zwei Knöpfen:</p>
+<pre><span class="t">Button</span> btnRanking = findViewById(R.id.btnRanking);
+...
+btnRanking.setOnClickListener(v -&gt; startActivity(<span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">HighscoreActivity</span>.class)));</pre>
+
+<p>Und der Hinweistext unten im Menü stimmt nicht mehr. In <code>strings.xml</code>:</p>
+<pre><span class="c">// vorher</span>
+&lt;string name=<span class="s">"menu_hint"</span>&gt;Rangliste und Fragen verwalten kommen später.&lt;/string&gt;
+<span class="c">// nachher</span>
+&lt;string name=<span class="s">"menu_hint"</span>&gt;Fragen verwalten kommt später.&lt;/string&gt;</pre>
+
+<div class="chk">
+<p><b>So prüfst du A1.</b> Erst nach A2 vollständig, denn das Zeilenlayout fehlt noch.</p>
+<ul>
+<li>Der Knopf <b>Rangliste</b> im Menü ist nicht mehr grau.</li>
+<li>Antippen öffnet einen Bildschirm mit dem Titel <b>Rangliste</b>.</li>
+<li>Die System-Zurück-Taste führt ins Menü zurück. Dafür hast du nichts geschrieben.</li>
+<li><b>Im Logcat steht <code>HighscoreActivity onCreate</code></b>, nicht <code>AboutActivity onCreate</code>. Prüf das wirklich, du brauchst es in C3.</li>
+</ul>
+</div>
+
+<div class="note">
+<p><b>Unter dem Titel ist nichts, und das ist nach A1 der richtige Zustand.</b> Der <code>RecyclerView</code> steht im Layout, aber niemand hat ihm bisher gesagt, was er zeigen soll. Das passiert erst in Teil C.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">A2</span><b>Die Zeile.</b> <span class="time">8 Min</span></p>
+
+<p>Neue Datei <code>res/layout/item_highscore.xml</code>. Beim Anlegen wählst du als Root-Element <code>LinearLayout</code>.</p>
+
+<pre>&lt;?xml version=<span class="s">"1.0"</span> encoding=<span class="s">"utf-8"</span>?&gt;
+&lt;<span class="t">LinearLayout</span> xmlns:android=<span class="s">"http://schemas.android.com/apk/res/android"</span>
+    xmlns:tools=<span class="s">"http://schemas.android.com/tools"</span>
+    android:layout_width=<span class="s">"match_parent"</span>
+    android:layout_height=<span class="s">"wrap_content"</span>
+    android:gravity=<span class="s">"center_vertical"</span>
+    android:orientation=<span class="s">"horizontal"</span>
+    android:paddingTop=<span class="s">"12dp"</span>
+    android:paddingBottom=<span class="s">"12dp"</span>&gt;
+
+    &lt;<span class="t">TextView</span>
+        android:id=<span class="s">"@+id/tvRank"</span>
+        android:layout_width=<span class="s">"36dp"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:textSize=<span class="s">"16sp"</span>
+        android:textStyle=<span class="s">"bold"</span>
+        tools:text=<span class="s">"1."</span> /&gt;
+
+    &lt;<span class="t">TextView</span>
+        android:id=<span class="s">"@+id/tvEntryName"</span>
+        android:layout_width=<span class="s">"wrap_content"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:layout_marginEnd=<span class="s">"12dp"</span>
+        android:maxLines=<span class="s">"1"</span>
+        android:textSize=<span class="s">"16sp"</span>
+        tools:text=<span class="s">"Sara"</span> /&gt;
+
+    &lt;<span class="t">TextView</span>
+        android:id=<span class="s">"@+id/tvEntryScore"</span>
+        android:layout_width=<span class="s">"wrap_content"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:textSize=<span class="s">"16sp"</span>
+        android:textStyle=<span class="s">"bold"</span>
+        tools:text=<span class="s">"4 Punkte"</span> /&gt;
+
+&lt;/<span class="t">LinearLayout</span>&gt;</pre>
+
+<p>Dazu zwei neue Strings:</p>
+<pre>&lt;string name=<span class="s">"rank_format"</span>&gt;%1$d.&lt;/string&gt;
+&lt;string name=<span class="s">"entry_score_format"</span>&gt;%1$d Punkte&lt;/string&gt;</pre>
+
+<div class="warn">
+<p><b>Das Root-Element ist <code>wrap_content</code> hoch.</b> Nicht <code>match_parent</code>. Eine Zeile ist so hoch wie ihr Inhalt.</p>
+<p>Wer dort <code>match_parent</code> schreibt, bekommt eine Zeile, die den ganzen Bildschirm füllt. Man sieht genau einen Eintrag und muss für jeden weiteren eine ganze Bildschirmhöhe wischen. <b>Der Fehler sieht aus wie ein Datenproblem und ist eine Zeile im XML.</b> Du probierst ihn in Übung 1a selbst aus.</p>
+</div>
+
+<div class="info">
+<p><b>Warum eine eigene Datei und nicht wie in 04B im Java-Code?</b></p>
+<p>Weil sie <b>einmal beschrieben und hundertmal benutzt</b> wird. In 04B stand der Zeilenaufbau mitten in einer Schleife, verteilt über fünf Java-Zeilen. Hier steht er an einem Ort, in der Sprache, die für Layouts da ist, und du siehst ihn im Editor.</p>
+<p>Das ist dieselbe Trennung wie zwischen <code>activity_game.xml</code> und <code>GameActivity.java</code>: das Aussehen ins XML, das Verhalten ins Java.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du A2.</b></p>
+<ul>
+<li>Die Datei liegt in <code>res/layout/</code> und heisst genau <code>item_highscore.xml</code>.</li>
+<li>Drei <code>TextView</code> mit den ids <code>tvRank</code>, <code>tvEntryName</code>, <code>tvEntryScore</code>.</li>
+<li>Das Root-Element ist <code>match_parent</code> breit und <code>wrap_content</code> hoch.</li>
+<li>In <code>activity_highscore.xml</code> ist das Rot verschwunden, und die Vorschau zeigt jetzt vier Musterzeilen.</li>
+<li>Die App startet. <b>Auf dem Bildschirm ändert sich nichts, die Zeile benutzt noch niemand.</b></li>
+</ul>
+</div>
+</div>
+
+<h3>Teil B, der Adapter <span class="time">30 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">B1</span><b>Die Klasse und der ViewHolder.</b> <span class="time">10 Min</span></p>
+
+<p>Neue Java-Klasse <code>HighscoreAdapter</code> im Paket <code>ch.wiss.m335.quiz</code>, also <b>neben den Activities</b>. Nicht in <code>model</code> und nicht in <code>data</code>: der Adapter gehört zur Darstellung, nicht zu den Daten.</p>
+
+<pre><span class="k">public class</span> <span class="t">HighscoreAdapter</span>
+        <span class="k">extends</span> <span class="t">RecyclerView</span>.<span class="t">Adapter</span>&lt;<span class="t">HighscoreAdapter</span>.<span class="t">HighscoreViewHolder</span>&gt; {
+
+    <span class="c">/** Die Einträge, die gerade angezeigt werden. */</span>
+    <span class="k">private final</span> <span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; entries = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;();
+
+    <span class="k">static class</span> <span class="t">HighscoreViewHolder</span> <span class="k">extends</span> <span class="t">RecyclerView</span>.<span class="t">ViewHolder</span> {
+
+        <span class="k">final</span> <span class="t">TextView</span> tvRank;
+        <span class="k">final</span> <span class="t">TextView</span> tvEntryName;
+        <span class="k">final</span> <span class="t">TextView</span> tvEntryScore;
+
+        <span class="t">HighscoreViewHolder</span>(<span class="t">@NonNull View</span> itemView) {
+            <span class="k">super</span>(itemView);
+            tvRank = itemView.findViewById(R.id.tvRank);
+            tvEntryName = itemView.findViewById(R.id.tvEntryName);
+            tvEntryScore = itemView.findViewById(R.id.tvEntryScore);
+        }
+    }
+}</pre>
+
+<h4>Was hier steht, Zeile für Zeile</h4>
+
+<table>
+<tr><th>Stelle</th><th>Was sie bedeutet</th></tr>
+<tr><td><code>extends RecyclerView.Adapter&lt;...&gt;</code></td><td>Du erbst von einer Android-Klasse und sagst in der spitzen Klammer, <b>welche Art von ViewHolder</b> du benutzt</td></tr>
+<tr><td><code>static class HighscoreViewHolder</code></td><td>Eine Klasse <b>in</b> einer Klasse. Sie gehört nur zu diesem Adapter und wird nirgends sonst gebraucht</td></tr>
+<tr><td>Die drei <code>final TextView</code></td><td>Der ViewHolder hält die Views einer Zeile fest</td></tr>
+<tr><td>Die drei <code>findViewById</code></td><td>Laufen <b>einmal pro Zeile</b>, im Konstruktor. Nicht bei jedem Scrollen</td></tr>
+</table>
+
+<div class="info">
+<p><b>Das ist der ganze Sinn des ViewHolder.</b> <code>findViewById</code> durchsucht den Baum. Bei einer Liste, die scrollt, würde das dutzende Male pro Sekunde passieren.</p>
+<p>In 04B gab es das Problem nicht: dort wurde jede <code>TextView</code> gerade erst erzeugt, du hattest sie schon in der Hand. Genau diese Bequemlichkeit bezahlst du dort mit fünfhundert Objekten im Speicher.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du B1.</b></p>
+<ul>
+<li><b>Der Klassenname ist rot unterkringelt.</b> Das ist richtig so: drei Methoden fehlen noch.</li>
+<li>Android Studio bietet dir <b>Implement methods</b> an. Nimm das Angebot an, dann stehen die drei leeren Rümpfe schon da.</li>
+<li>Die Importe: <code>RecyclerView</code> und <code>NonNull</code> kommen aus <code>androidx</code>, <code>TextView</code> und <code>View</code> aus <code>android</code>.</li>
+</ul>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">B2</span><b>Eine Zeile erzeugen.</b> <span class="time">6 Min</span></p>
+
+<p>Die erste der drei Methoden. Sie ist neu, darum steht sie hier vollständig:</p>
+
+<pre><span class="t">@NonNull</span>
+<span class="t">@Override</span>
+<span class="k">public</span> <span class="t">HighscoreViewHolder</span> onCreateViewHolder(<span class="t">@NonNull ViewGroup</span> parent, <span class="k">int</span> viewType) {
+    <span class="t">View</span> row = <span class="t">LayoutInflater</span>.from(parent.getContext())
+            .inflate(R.layout.item_highscore, parent, <span class="k">false</span>);
+    <span class="k">return new</span> <span class="t">HighscoreViewHolder</span>(row);
+}</pre>
+
+<div class="info">
+<p><b><code>LayoutInflater</code> ist der Übersetzer von XML nach Views.</b> Er liest eine Layoutdatei und baut daraus echte Objekte im Speicher.</p>
+<p>Du benutzt ihn seit 01B, ohne es zu wissen: <code>setContentView(R.layout.activity_main)</code> macht genau das für einen ganzen Bildschirm. Hier machst du es für eine Zeile, und darum musst du es selbst hinschreiben.</p>
+</div>
+
+<div class="warn">
+<p><b>Das dritte Argument ist <code>false</code>.</b> Es beantwortet die Frage: soll die neue Zeile gleich an den Parent gehängt werden?</p>
+<p>Mit <code>true</code> hängt sie sofort am <code>RecyclerView</code>, und der will sie danach selbst einhängen. Ergebnis ist ein Absturz mit der Meldung <code>IllegalStateException: The specified child already has a parent</code>.</p>
+<p>An anderen Stellen ist <code>true</code> richtig. <b>Die Faustregel für dich: in einem Adapter immer <code>false</code>, denn dort hängt jemand anders ein.</b></p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">B3</span><b>Eine Zeile füllen. Das schreibst du selbst.</b> <span class="time">9 Min</span></p>
+
+<p>Erzeugen hast du bekommen. Füllen baust du. Und das ist keine Schikane, denn <b>du hast es schon einmal gemacht</b>. So sah es in 04B aus:</p>
+
+<pre><span class="t">TextView</span> row = <span class="k">new</span> <span class="t">TextView</span>(<span class="k">this</span>);          <span class="c">// erzeugen</span>
+row.setText((i + <span class="k">1</span>) + <span class="s">". "</span> + question.getText());  <span class="c">// füllen</span>
+llQuestionList.addView(row);                    <span class="c">// anhängen</span></pre>
+
+<p>Drei Dinge in drei Zeilen. Der Adapter macht das <b>Erzeugen</b> in <code>onCreateViewHolder</code>, und das <b>Anhängen</b> übernimmt der <code>RecyclerView</code> selbst. Übrig bleibt für dich genau die mittlere Zeile.</p>
+
+<pre><span class="t">@Override</span>
+<span class="k">public void</span> onBindViewHolder(<span class="t">@NonNull HighscoreViewHolder</span> holder, <span class="k">int</span> position) {
+    <span class="t">HighscoreEntry</span> entry = entries.get(position);
+    <span class="t">Context</span> context = holder.itemView.getContext();
+
+    ... hier setzt du den Text der drei TextViews im holder ...
+    ... den Rang aus position plus 1, über getString mit R.string.rank_format ...
+    ... den Namen aus entry ...
+    ... die Punkte aus entry, über getString mit R.string.entry_score_format ...
+}
+
+<span class="t">@Override</span>
+<span class="k">public int</span> getItemCount() {
+    ... hier gibst du zurück, wie viele Zeilen die Liste hat ...
+}</pre>
+
+<div class="warn">
+<p><b>Warum <code>holder.itemView.getContext()</code> und nicht einfach <code>this</code>?</b></p>
+<p>Weil der Adapter keine Activity ist. Er hat keinen <code>Context</code>, und <code>getString</code> braucht einen. Er holt ihn sich über die Zeile, die er gerade in der Hand hat.</p>
+<p>Man könnte dem Adapter im Konstruktor eine Activity mitgeben. Man tut es nicht: ein Adapter, der eine Activity festhält, hält sie auch dann fest, wenn sie längst weg sein sollte.</p>
+</div>
+
+<div class="tip">
+<p><b>Der Rang kommt aus <code>position</code>, nicht aus deinen Daten.</b> In 04B war es <code>(i + 1)</code>, hier ist es <code>position + 1</code>. Dieselbe Sache.</p>
+<p>Und das ist genau die Entscheidung aus 06A: ein Rang ist kein Feld, das man speichert. Er ergibt sich aus der Reihenfolge. Wer ihn speichert, muss ihn bei jedem neuen Eintrag überall neu setzen.</p>
+</div>
+
+<div class="note">
+<p><b>Zähl nach, jetzt wo es geschrieben ist.</b> Wie viele Zeilen hat deine <code>onBindViewHolder</code>? Vier oder fünf.</p>
+<p>Und jetzt die zweite Frage: <b>wie oft läuft sie?</b> Bei jedem Scrollen, für jede Zeile, die neu ins Bild kommt. Viele Male pro Sekunde.</p>
+<p>Daraus folgt die wichtigste Regel dieser Stufe: <b>in <code>onBindViewHolder</code> gehört nichts, was Zeit kostet.</b> Kein <code>findViewById</code>, keine Datei, keine Datenbank. Wer das missachtet, bekommt eine ruckelnde Liste und findet den Grund nicht.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">B4</span><b>Die Daten hineingeben.</b> <span class="time">5 Min</span></p>
+
+<p>Eine vierte Methode, die es in der Vorlage nicht gibt. Sie ist deine eigene, und über sie kommen die Daten in den Adapter:</p>
+
+<pre><span class="t">@SuppressWarnings</span>(<span class="s">"NotifyDataSetChanged"</span>)
+<span class="k">public void</span> setEntries(<span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; newEntries) {
+    entries.clear();
+    entries.addAll(newEntries);
+    notifyDataSetChanged();
+}</pre>
+
+<div class="warn">
+<p><b>Ohne <code>notifyDataSetChanged()</code> passiert gar nichts.</b> Die Liste im Adapter ist voll, und der Bildschirm bleibt leer. Kein Absturz, keine Meldung.</p>
+<p>Der Grund: der <code>RecyclerView</code> fragt nicht dauernd nach. Er zeichnet einmal und wartet, bis jemand ihm sagt, dass sich etwas geändert hat.</p>
+</div>
+
+<div class="info">
+<p><b>Warum <code>clear</code> und <code>addAll</code> statt einfach <code>entries = newEntries</code>?</b> Weil das Feld <code>final</code> ist. Der Adapter behält seine eigene Liste und tauscht nur den Inhalt aus. So kann von aussen niemand ohne sein Wissen daran herumändern.</p>
+<p><b>Und das <code>clear()</code> ist ein alter Bekannter.</b> In deiner <code>buildQuestionList</code> aus 04B steht ganz oben <code>llQuestionList.removeAllViews()</code>. Genau derselbe Grund: ohne diese Zeile hängt beim zweiten Mal alles ein zweites Mal darunter.</p>
+<p>Die Zeile <code>@SuppressWarnings</code> nimmt eine Warnung von Android Studio weg. Es schlägt <code>DiffUtil</code> vor, das nur die geänderten Zeilen neu zeichnet. Für fünf Einträge ist das unnötig.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Teil B.</b></p>
+<ul>
+<li>Die Klasse kompiliert, nichts ist mehr rot.</li>
+<li>Sie hat vier Methoden: <code>onCreateViewHolder</code>, <code>onBindViewHolder</code>, <code>getItemCount</code>, <code>setEntries</code>.</li>
+<li>Die innere Klasse <code>HighscoreViewHolder</code> hat drei Felder und einen Konstruktor.</li>
+<li>Die App startet, und die Rangliste ist immer noch leer.</li>
+<li><b>Das ist nach Teil B der richtige Zustand.</b> Der Adapter existiert, aber niemand benutzt ihn. Das verbindest du in Teil C.</li>
+</ul>
+</div>
+</div>
+
+<h3>Der Überblick, bevor Teil C anfängt <span class="time">4 Minuten</span></h3>
+
+<p>Eine Frage entscheidet, ob du Teil C verstehst oder nur abtippst: <b>wer ruft eigentlich <code>onCreateViewHolder</code> und <code>onBindViewHolder</code> auf?</b></p>
+
+<p>Du nicht. Und das ist neu.</p>
+
+<pre>Du, in der onCreate der Activity
+   ├─ rvHighscore.setLayoutManager(...)   <span class="c">// wie sollen die Zeilen liegen</span>
+   └─ rvHighscore.setAdapter(adapter)     <span class="c">// wer füllt sie</span>
+
+Du, in der onResume der Activity
+   └─ adapter.setEntries(liste)           <span class="c">// womit</span>
+          └─ notifyDataSetChanged()       <span class="c">// jetzt bist du fertig</span>
+                    │
+                    ▼
+Ab hier ruft der RecyclerView, wann er will
+   ├─ getItemCount()           <span class="c">// wie viele Zeilen gibt es?</span>
+   ├─ onCreateViewHolder()     <span class="c">// selten, nur für neue Zeilen</span>
+   └─ onBindViewHolder(pos)    <span class="c">// oft, bei jedem Scrollen</span></pre>
+
+<div class="tip">
+<p><b>Das nennt man eine Rückrufmethode.</b> Du schreibst eine Methode und rufst sie nicht selbst auf. Ein fremdes Stück Android ruft sie, wann es sie braucht.</p>
+<p>Du kennst das schon, nur kleiner: <code>setOnClickListener</code> seit 01C, <code>onCreate</code> und <code>onResume</code> seit 05D. Auch die rufst du nie selbst auf.</p>
+</div>
+
+<div class="warn">
+<p><b>Und daraus folgt der unangenehme Teil.</b> Wenn du eine der drei Verbindungen oben vergisst, ruft dich niemand an, und niemand beschwert sich. Du siehst eine leere Fläche.</p>
+<p>Genau das passiert dir gleich in C3. Es ist Absicht.</p>
+</div>
+
+<h3>Teil C, die Activity <span class="time">25 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">C1</span><b>Adapter erzeugen und anhängen.</b> <span class="time">5 Min</span></p>
+
+<p>Ein neues Feld in der <code>HighscoreActivity</code>, oben bei der Konstante:</p>
+<pre><span class="c">/** Der Adapter, der die Zeilen füllt. */</span>
+<span class="k">private</span> <span class="t">HighscoreAdapter</span> adapter;</pre>
+
+<p>Und in <code>onCreate</code>, nach dem Insets-Block:</p>
+<pre><span class="t">RecyclerView</span> rvHighscore = findViewById(R.id.rvHighscore);
+
+<span class="c">// C3 kommt hier nochmals her.</span>
+
+adapter = <span class="k">new</span> <span class="t">HighscoreAdapter</span>();
+rvHighscore.setAdapter(adapter);</pre>
+
+<div class="info">
+<p><b>Warum ist <code>rvHighscore</code> eine lokale Variable und <code>adapter</code> ein Feld?</b> Weil du den <code>RecyclerView</code> nach dieser Stelle nie wieder brauchst. Den Adapter dagegen brauchst du gleich in <code>onResume</code>.</p>
+<p>Die Regel dahinter kennst du aus dem Blatt <b>Die Activity von innen</b>: ein Feld nur dann, wenn mehr als eine Methode es braucht.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">C2</span><b>Laden und sortieren.</b> <span class="time">7 Min</span></p>
+
+<p>Eine neue Methode in der <code>HighscoreActivity</code>:</p>
+
+<pre><span class="t">@Override</span>
+<span class="k">protected void</span> onResume() {
+    <span class="k">super</span>.onResume();
+
+    <span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; entries = <span class="t">HighscoreStorage</span>.getAll(<span class="k">this</span>);
+
+    <span class="t">Collections</span>.sort(entries, (a, b) -&gt; <span class="t">Integer</span>.compare(b.getScore(), a.getScore()));
+
+    adapter.setEntries(entries);
+
+    <span class="t">Log</span>.d(TAG, <span class="s">"highscores loaded, total="</span> + entries.size());
+}</pre>
+
+<p>Vier Zeilen, und jede macht genau eine Sache: holen, ordnen, weitergeben, protokollieren.</p>
+
+<div class="warn">
+<p><b>Achte auf die Reihenfolge im Vergleich.</b> <code>Integer.compare(b, a)</code> sortiert <b>absteigend</b>, also die beste Punktzahl zuoberst. <code>compare(a, b)</code> wäre aufsteigend.</p>
+<p>Wer die zwei vertauscht, hat die schlechteste Punktzahl zuoberst und merkt es nicht. <b>Denn beim Testen hat man meistens genau einen Eintrag, und bei einem Eintrag sieht jede Sortierung gleich aus.</b> Darum die vier Runden vorher.</p>
+</div>
+
+<div class="info">
+<p><b>Warum <code>onResume</code> und nicht <code>onCreate</code>?</b> Ehrliche Antwort: <b>heute würde <code>onCreate</code> auch funktionieren.</b> Du verlässt diesen Bildschirm mit der Zurück-Taste, damit wird er abgeräumt, und beim nächsten Öffnen läuft <code>onCreate</code> ohnehin neu.</p>
+<p>Es hört in dem Moment auf zu funktionieren, in dem dieser Bildschirm <b>selbst</b> einen zweiten startet und danach wieder in den Vordergrund kommt. Dann bleibt er im Speicher, <code>onCreate</code> läuft nicht, und die Liste zeigt den alten Stand.</p>
+<p>Genau das kommt am Tag 4 in 08B, und genau das steht in der Leistungsbeurteilung: <i>"Neues Modul über die zweite Activity anlegen. Die Liste ist danach aktuell."</i> Wir bauen es heute schon richtig, damit es dort keine Baustelle mehr ist.</p>
+</div>
+
+<div class="tip">
+<p><b><code>Collections.shuffle</code> kennst du aus 05C.</b> <code>Collections.sort</code> ist die Nachbarmethode. Der zweite Parameter sagt, was zuerst kommt: eine kleine Funktion, die zwei Einträge vergleicht und eine Zahl zurückgibt.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">C3</span><b>Schau genau hin.</b> <span class="time">8 Min</span></p>
+
+<p>Starte die App und öffne die Rangliste.</p>
+
+<div class="note">
+<p><b>Die Fläche unter dem Titel bleibt leer.</b> Kein Absturz, keine Fehlermeldung, kein roter Text. Nicht reparieren, erst suchen.</p>
+</div>
+
+<p>Geh vor wie bei jedem stillen Fehler. Drei Schritte:</p>
+
+<ol>
+<li><b>Sind die Daten überhaupt da?</b> Logcat öffnen, Filter <code>tag:Modul335</code>. Dort steht <code>highscores loaded, total=4</code>. Also ja, die Daten sind geladen.</li>
+<li><b>Kommt der Adapter zum Zug?</b> Unter deinem Tag steht dazu nichts, und dort wird auch nie etwas stehen. <b>Nimm den Filter weg.</b> Lösch <code>tag:Modul335</code> aus dem Suchfeld und schau dir alles an, was deine App meldet.</li>
+<li><b>Lies, was dort steht.</b> Eine Zeile in Rot sagt dir wörtlich, was fehlt.</li>
+</ol>
+
+<div class="tip">
+<p><b>Der Satz, den du dir merkst:</b> wenn unter deinem eigenen Log-Tag nichts steht, heisst das nicht, dass nichts los ist. Es heisst, dass du dich selbst ausgefiltert hast.</p>
+<p>Der Filter, der dir seit 01B geholfen hat, hat dir heute die Antwort verdeckt. <b>Bei einem stillen Fehler ist der erste Handgriff darum immer: Filter weg.</b></p>
+</div>
+
+<p>Die Reparatur ist eine Zeile. Sie gehört in <code>onCreate</code>, genau an die Stelle mit dem Kommentar aus C1:</p>
+
+<pre>rvHighscore.setLayoutManager(<span class="k">new</span> <span class="t">LinearLayoutManager</span>(<span class="k">this</span>));</pre>
+
+<p>Starte nochmals. Jetzt stehen deine vier Einträge da.</p>
+
+<h4>Die drei Bausteine und wie laut sie sind</h4>
+
+<table>
+<tr><th>Was fehlt</th><th>Was du siehst</th><th>Was im Logcat steht</th></tr>
+<tr><td><code>item_highscore.xml</code></td><td>rot im Editor</td><td>Compiler-Fehler, du kommst gar nicht so weit</td></tr>
+<tr><td><code>setLayoutManager</code></td><td>leere Fläche</td><td><code>No layout manager attached; skipping layout</code></td></tr>
+<tr><td><code>setAdapter</code></td><td>leere Fläche</td><td><code>No adapter attached; skipping layout</code></td></tr>
+<tr><td><code>notifyDataSetChanged</code></td><td>leere Fläche</td><td><b>gar nichts</b></td></tr>
+</table>
+
+<div class="info">
+<p><b>Die letzte Zeile ist die unangenehmste.</b> Wer <code>notifyDataSetChanged</code> vergisst, bekommt nirgends einen Hinweis. Der <code>RecyclerView</code> hat alles, was er braucht, und wartet nur darauf, dass ihm jemand Bescheid gibt.</p>
+<p>Darum steht der Aufruf in <code>setEntries</code> und nicht in der Activity: <b>an genau einer Stelle, zusammen mit dem Austausch der Daten.</b> Dieselbe Bauart wie <code>showState</code> in 05C und <code>updateSaveArea</code> in 06B.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">C4</span><b>Kommentare nachziehen.</b> <span class="time">5 Min</span></p>
+
+<p>Heute sind zwei Klassen ganz neu und eine hat sich verändert. Geh alle drei durch.</p>
+
+<p><b>Erstens die zwei neuen Klassen.</b> Beide brauchen einen Klassenkommentar, jede Methode ein Javadoc, jedes Feld eine Zeile. Rahmen für die <code>HighscoreActivity</code>, in eigenen Worten füllen:</p>
+
+<pre>/**
+ * Zeigt die Rangliste.
+ *
+ * ... hier zwei bis drei Zeilen, was hier anders ist als
+ * bei der Liste zu Fuss aus 04B ...
+ *
+ * ... hier die drei Bausteine und was passiert,
+ * wenn einer davon fehlt ...
+ */</pre>
+
+<p>Für den <code>HighscoreAdapter</code> lohnt sich ein Satz zu der Frage, warum es zwei getrennte Methoden gibt. Du hast sie in B3 beantwortet.</p>
+
+<div class="warn">
+<p><b>Zweitens der Klassenkommentar deiner <code>MainActivity</code>.</b> Dort steht seit 05A der Satz <i>"Zwei Einträge sind gesperrt und stehen trotzdem schon da."</i></p>
+<p>Seit heute ist es einer. <b>Ein falscher Kommentar ist schlimmer als gar keiner</b>, denn wer ihn liest, glaubt ihm.</p>
+</div>
+
+<div class="tip">
+<p><b>Das Argument ist Aufwand, nicht Note.</b> Zwei frische Klassen jetzt zu kommentieren dauert fünf Minuten, solange du noch weisst, warum du was gebaut hast. Am Tag 5 dauert dasselbe eine Stunde, und du musst dich zuerst wieder hineindenken.</p>
+</div>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du das Ganze.</b></p>
+<ol>
+<li>Vorbereitung: du hast mindestens vier Runden gespielt und dich jedes Mal eingetragen, mit verschiedenen Namen und verschiedenen Punktzahlen.</li>
+<li>Auf dem Startbildschirm ist <b>Rangliste</b> anklickbar. <b>Fragen verwalten</b> ist immer noch grau, das kommt am Tag 4.</li>
+<li>Rangliste öffnen. Deine Einträge stehen da, einer pro Zeile.</li>
+<li><b>Die beste Punktzahl steht zuoberst.</b> Prüf das wirklich, nicht nur ob überhaupt etwas dasteht.</li>
+<li>Der Rang links zählt <code>1.</code>, <code>2.</code>, <code>3.</code>, <code>4.</code> durch.</li>
+<li>Zurück ins Menü, noch eine Runde spielen, eintragen, Rangliste wieder öffnen. <b>Der neue Eintrag ist da, an der richtigen Stelle, und die alten stehen genau einmal da.</b></li>
+<li>Trag genug Einträge ein, dass die Liste länger als der Bildschirm ist. Sie lässt sich wischen.</li>
+<li>Dreh das Gerät. Die Liste ist immer noch da.</li>
+<li>Im Menü unten steht nicht mehr, dass die Rangliste später kommt.</li>
+<li>Logcat unter <code>tag:Modul335</code>: <code>HighscoreActivity onCreate</code> und <code>highscores loaded, total=5</code>.</li>
+</ol>
+</div>
+
+<div class="info">
+<p><b>Punkt 6 hat zwei Hälften, und die zweite ist die wichtige.</b> Dass der neue Eintrag da ist, prüft das Laden. Dass die alten <b>genau einmal</b> dastehen, prüft das <code>clear()</code> in deiner <code>setEntries</code>.</p>
+<p>Dieselbe Falle wie das <code>removeAllViews()</code> in deiner <code>buildQuestionList</code> aus 04B. Wer es vergisst, sieht bei der zweiten Runde alles doppelt.</p>
+</div>
+
+<h3>Übungen <span class="time">10 Minuten</span></h3>
+
+<div class="ue">
+<div class="t">Übung 1a, die Zeilenhöhe</div>
+<p>Setz in <code>item_highscore.xml</code> das Root-Element auf <code>android:layout_height="match_parent"</code>. Starte und schau dir die Rangliste an. Stell es danach wieder auf <code>wrap_content</code>.</p>
+<p><b>So prüfst du:</b> Du siehst genau einen Eintrag, und für den zweiten musst du eine ganze Bildschirmhöhe wischen. Schreib dir in einem Satz auf, warum <code>match_parent</code> in einem Zeilenlayout für die Höhe immer falsch ist und für die Breite richtig.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 1b, der lange Name</div>
+<p>Spiel eine Runde und trag dich mit einem sehr langen Namen ein. Zwanzig Zeichen sind erlaubt, nutz sie aus. Öffne die Rangliste.</p>
+<p><b>So prüfst du:</b> Schau, was mit der Punktzahl dieser Zeile passiert. Schreib in einem Satz auf, was du am Zeilenlayout ändern würdest, damit die Punktzahl aller Zeilen an derselben Stelle steht.</p>
+<p>Genau das baust du in 07B.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 2, erklären</div>
+<p>Erklär einem Lerngspänli in zwei Sätzen den Unterschied zwischen <code>onCreateViewHolder</code> und <code>onBindViewHolder</code>.</p>
+<p><b>So prüfst du:</b> Wenn dein Gegenüber danach nicht sagen kann, <b>welche von beiden öfter läuft</b> und was daraus folgt, war es zu allgemein.</p>
+</div>
+
+<h3>Zusatzaufgabe für Schnelle</h3>
+
+<div class="ue">
+<div class="t">Der leere Zustand</div>
+<p>Zuerst die Pflichtaufgabe fertig und lauffähig. Dann erst hier weiter.</p>
+<p><b>Auftrag:</b> Wer die App frisch installiert und die Rangliste öffnet, sieht eine leere Fläche ohne Erklärung. Die meisten halten das für einen Fehler in der App. Bau einen Text ein, der erscheint, solange es keine Einträge gibt, und wieder verschwindet, sobald es welche gibt.</p>
+<p><b>Und die Frage, die dazugehört:</b> Wer soll entscheiden, ob dieser Text sichtbar ist, die Activity oder der Adapter? Beide Wege funktionieren. <b>Deine Begründung ist die Aufgabe, nicht der Code.</b></p>
+<p>Keine Musterlösung. KI darfst du benutzen, aber du musst deine Lösung erklären können.</p>
+</div>
+
+<h3>Wenn etwas nicht funktioniert</h3>
+
+<table>
+<tr><th>Symptom</th><th>Wahrscheinliche Ursache</th><th>Was du machst</th></tr>
+<tr><td>Der Knopf <b>Rangliste</b> bleibt grau</td><td><code>android:enabled="false"</code> steht noch im <code>activity_main.xml</code></td><td>Die Zeile entfernen. Siehe A1</td></tr>
+<tr><td><code>ActivityNotFoundException</code> beim Antippen</td><td>Der Eintrag im <code>AndroidManifest.xml</code> fehlt</td><td>Stacktrace lesen, er nennt die Klasse. Genau wie in 05A</td></tr>
+<tr><td>Der Editor ist rot bei <code>@layout/item_highscore</code></td><td>Die Datei gibt es noch nicht</td><td><b>Nach A1 ist das richtig so.</b> Nach A2 muss es weg sein</td></tr>
+<tr><td><b>Leere Fläche, im Logcat <code>No layout manager attached</code></b></td><td><code>setLayoutManager</code> fehlt</td><td>Das ist die Stelle aus C3. Eine Zeile in <code>onCreate</code></td></tr>
+<tr><td>Leere Fläche, im Logcat <code>No adapter attached</code></td><td><code>setAdapter</code> fehlt</td><td>In <code>onCreate</code> ergänzen, direkt nach dem Erzeugen des Adapters</td></tr>
+<tr><td>Leere Fläche, und im Logcat steht <b>gar nichts</b></td><td><code>notifyDataSetChanged()</code> fehlt in <code>setEntries</code>, oder <code>getItemCount</code> gibt 0 zurück</td><td>Zuerst <code>getItemCount</code> lesen, dann <code>setEntries</code></td></tr>
+<tr><td><code>IllegalStateException: The specified child already has a parent</code></td><td>Das dritte Argument von <code>inflate</code> ist <code>true</code></td><td>Auf <code>false</code> stellen. Siehe B2</td></tr>
+<tr><td>Du siehst genau einen Eintrag pro Bildschirm</td><td>Das Root-Element von <code>item_highscore.xml</code> ist <code>match_parent</code> hoch</td><td>Auf <code>wrap_content</code>. Siehe A2 und Übung 1a</td></tr>
+<tr><td>Die Liste steht da, aber die schlechteste Punktzahl zuoberst</td><td><code>Integer.compare(a, b)</code> statt <code>(b, a)</code></td><td>Die beiden tauschen. Siehe C2</td></tr>
+<tr><td>Beim zweiten Öffnen steht jeder Eintrag doppelt da</td><td>In <code>setEntries</code> fehlt das <code>entries.clear()</code></td><td>Ergänzen. Dieselbe Falle wie das <code>removeAllViews()</code> in 04B. Siehe B4</td></tr>
+<tr><td><code>NullPointerException</code> auf <code>adapter</code> beim Öffnen</td><td>Das Feld <code>adapter</code> wird in <code>onCreate</code> nie gefüllt</td><td><code>adapter = new HighscoreAdapter();</code> ergänzen. Siehe C1</td></tr>
+<tr><td>Die Liste scrollt nicht, obwohl sie zu lang ist</td><td>Der <code>RecyclerView</code> hat <code>wrap_content</code> Höhe statt <code>0dp</code> plus Anker unten</td><td>Beides im Layout ändern. Siehe A1</td></tr>
+<tr><td>Die Zeilen kleben aneinander</td><td>Das <code>padding</code> im Zeilenlayout fehlt</td><td><code>paddingTop</code> und <code>paddingBottom</code>. Siehe A2</td></tr>
+<tr><td>Im Logcat steht <code>AboutActivity onCreate</code>, obwohl die Rangliste offen ist</td><td>Die Log-Zeile ist beim Kopieren der Vorlage stehen geblieben</td><td>Den Text ändern. Siehe A1. <b>Erledige das vor C3</b>, sonst suchst du dort im Falschen</td></tr>
+<tr><td><b>Nach Teil A und nach Teil B ist die Fläche leer</b></td><td>Kein Fehler</td><td>Nichts tun. Gefüllt wird sie erst in Teil C</td></tr>
+</table>
+
+<h3>Abgabe</h3>
+<ul>
+<li><b>Ein Screenshot</b> deiner Rangliste mit mindestens vier Einträgen, beste Punktzahl zuoberst.</li>
+<li>Der <b>Wissenscheck</b> des Halbtags. Er deckt 06A, 06B und 06C zusammen ab.</li>
+</ul>
+<p>Kein ZIP, keine einzelnen Dateien. Deinen Code prüfst du selbst an der Vergleichsliste im Lösungsmaterial.</p>
+
+<h2>03 Guide</h2>
+
+<table>
+<tr><th>Punkt</th><th>Angabe</th></tr>
+<tr><td>Sozialform</td><td>Einzelarbeit</td></tr>
+<tr><td>Aufgabenart</td><td>Code-Auftrag. Kein Arbeitsblatt, das Produkt entsteht in der IDE</td></tr>
+<tr><td>Zeitbudget</td><td>90 Minuten. Einstieg 3, Teil A 18, Teil B 30, Überblick 4, Teil C 25, Übungen 10</td></tr>
+<tr><td>Hilfsmittel</td><td>Dein Code, die Nachschlageblätter, deine eigene <code>buildQuestionList</code> aus 04B. KI erlaubt, du musst jede Zeile erklären können</td></tr>
+<tr><td>Abgabe</td><td>Screenshot in Google Classroom</td></tr>
+</table>
+
+<h3>Die Beiträge in Google Classroom</h3>
+<ul>
+<li><b>06C Auftrag, RecyclerView und Rangliste.</b> Aufgabe, dieses Dokument. Hier gibst du den Screenshot ab.</li>
+<li><b>06C Loesung, RecyclerView und Rangliste.</b> Material. Erst öffnen, wenn du fertig bist.</li>
+<li><b>Wissenscheck 06ABC.</b> Unbenotet, beliebig wiederholbar, kein Fälligkeitsdatum.</li>
+</ul>
+
+<h2>04 Unterrichtsmittel</h2>
+<ul>
+<li><b>Deine eigene <code>buildQuestionList</code> aus 04B</b>, für den Vergleich in B3. Ohne sie fehlt der halbe Auftrag.</li>
+<li><b>Die Activity von innen</b>, für die Frage Feld gegen lokale Variable in C1.</li>
+<li><b>Layouts verstehen</b>, für <code>gravity</code>, <code>padding</code> und die Ausrichtung in der Zeile.</li>
+<li><b>Emulator streikt</b>, falls das Gerät nicht startet.</li>
+<li>Das Formular der Leistungsbeurteilung, Teil B Schritt 2.</li>
+</ul>
+
+<p class="foot">Modul 335 | Tag 3 Nachmittag | Auftrag 06C | Version 1 | 19.08.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>

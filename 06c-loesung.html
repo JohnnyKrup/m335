@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>06C Lösung, RecyclerView und Rangliste</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>06C Lösungsmaterial: RecyclerView und Rangliste</h1>
+<p class="sub">Modul 335 Mobile Applikationen. Zum Auftrag 06C. Zum Durchlesen brauchst du etwa 25 Minuten. Version 1 vom 19.08.2026.</p>
+<p class="sub">Schau erst hinein, wenn deine Liste läuft. Der ganze Code steht hier, aber er nützt dir nur, wenn du vorher selbst gesucht hast.</p>
+
+<h2>Die Vergleichsliste, dein eigener Code</h2>
+
+<p>Geh diese vierzehn Punkte an deinen eigenen Dateien durch. Sie treffen genau das, was in der Leistungsbeurteilung Punkte gibt.</p>
+
+<table>
+<tr><th class="num">Nr</th><th>Das prüfst du</th><th>Warum es zählt</th></tr>
+<tr><td class="num">1</td><td>Das Root-Element von <code>item_highscore.xml</code> ist <code>wrap_content</code> hoch</td><td>Mit <code>match_parent</code> siehst du einen Eintrag pro Bildschirm. Sieht aus wie ein Datenproblem, ist eine Zeile im XML</td></tr>
+<tr><td class="num">2</td><td>Der <code>RecyclerView</code> hat <code>0dp</code> Höhe und Anker oben <b>und</b> unten</td><td>Nur so kennt er seine Grösse. Mit <code>wrap_content</code> wächst er mit dem Inhalt und scrollt nicht</td></tr>
+<tr><td class="num">3</td><td>Das dritte Argument von <code>inflate</code> ist <code>false</code></td><td>Mit <code>true</code> stürzt die App beim Öffnen ab</td></tr>
+<tr><td class="num">4</td><td><b>Die drei <code>findViewById</code> stehen im Konstruktor des ViewHolder</b>, nicht in <code>onBindViewHolder</code></td><td>Das ist der ganze Sinn des ViewHolder. In <code>onBindViewHolder</code> würden sie bei jedem Scrollen laufen</td></tr>
+<tr><td class="num">5</td><td>In <code>onBindViewHolder</code> steht nur Zuweisen, sonst nichts</td><td>Die Methode läuft viele Male pro Sekunde. Was dort teuer ist, ruckelt</td></tr>
+<tr><td class="num">6</td><td>Der Rang kommt aus <code>position + 1</code>, nicht aus einem Feld deiner Daten</td><td>Genau die Entscheidung aus 06A. Was sich ausrechnen lässt, wird nicht gespeichert</td></tr>
+<tr><td class="num">7</td><td><b><code>setEntries</code> ruft <code>notifyDataSetChanged()</code> auf, und davor steht <code>clear()</code></b></td><td><b>Der stillste Fehler.</b> Ohne den Aufruf bleibt der Bildschirm leer, ohne das <code>clear</code> steht beim zweiten Mal alles doppelt</td></tr>
+<tr><td class="num">8</td><td><code>setLayoutManager</code> steht in <code>onCreate</code>, vor oder nach <code>setAdapter</code></td><td>Das ist die Stelle aus C3. Ohne LayoutManager zeichnet der RecyclerView gar nichts</td></tr>
+<tr><td class="num">9</td><td>Das Laden steht in <code>onResume</code>, nicht in <code>onCreate</code></td><td>Heute merkst du keinen Unterschied. In 08B und in der Leistungsbeurteilung schon</td></tr>
+<tr><td class="num">10</td><td><code>Integer.compare(b, a)</code>, also absteigend</td><td>Beste Punktzahl zuoberst. Mit einem einzigen Eintrag sieht man den Fehler nie</td></tr>
+<tr><td class="num">11</td><td>Der Adapter holt den Context über <code>holder.itemView.getContext()</code> und hält <b>keine</b> Activity fest</td><td>Ein Adapter, der eine Activity speichert, hält sie auch fest, wenn sie längst weg sein sollte</td></tr>
+<tr><td class="num">12</td><td><b>Javadoc an allen Methoden und allen Feldern der zwei neuen Klassen</b></td><td>Wird in der LB bewertet. Nachträglich dauert es zehnmal so lang</td></tr>
+<tr><td class="num">13</td><td><b>Der Klassenkommentar der <code>MainActivity</code> sagt nicht mehr, zwei Einträge seien gesperrt</b></td><td>Seit heute ist es einer. Ein falscher Kommentar ist schlimmer als gar keiner</td></tr>
+<tr><td class="num">14</td><td><b>Im Logcat steht <code>HighscoreActivity onCreate</code>, nicht <code>AboutActivity onCreate</code></b></td><td>Rest vom Kopieren der Vorlage. Kein Compiler-Fehler, und er führt dich in C3 in die Irre</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Wenn du nur zwei Punkte prüfst, dann Nummer 4 und Nummer 7.</b> Beide laufen ohne Absturz und ohne Meldung. Bei Nummer 4 sieht man sogar das richtige Bild, es ruckelt nur bei einer langen Liste. Bei Nummer 7 bleibt der Bildschirm leer, und im Logcat steht nichts.</p>
+</div>
+
+<p>Wenn ein Punkt bei dir anders ist und trotzdem funktioniert, entscheide selbst. Aber du solltest sagen können, warum. Genau das wird in der Leistungsbeurteilung gefragt.</p>
+
+<h2>Antworten zu den Denkfragen</h2>
+
+<p><b>1. Warum lohnt sich die Trennung von Erzeugen und Füllen erst bei einer langen Liste?</b></p>
+
+<p>Weil bei einer kurzen Liste jede Zeile genau einmal erzeugt und genau einmal gefüllt wird. Rechne es aus:</p>
+
+<table>
+<tr><th></th><th>5 Einträge, alle sichtbar</th><th>500 Einträge, 15 sichtbar</th></tr>
+<tr><td>Zeilen erzeugt</td><td>5</td><td><b>etwa 15</b></td></tr>
+<tr><td>Zeilen gefüllt</td><td>5</td><td>ein paar hundert, beim Scrollen</td></tr>
+<tr><td>Objekte im Speicher</td><td>5</td><td><b>etwa 15</b></td></tr>
+</table>
+
+<p>Bei fünf Einträgen ist die Trennung reiner Aufwand. Bei fünfhundert ist sie der Unterschied zwischen 15 und 500 Objekten im Speicher. Und sie ist der Grund, warum überhaupt gefüllt werden <b>muss</b>: eine Zeile, die von Platz 1 nach Platz 16 wandert, trägt noch den alten Text.</p>
+
+<div class="info">
+<p><b>Genau darum kam 04B vor 06C.</b> Wer den <code>RecyclerView</code> als Erstes lernt, hält die drei Teile für Bürokratie. Wer die Liste zu Fuss gebaut hat, sieht die Rechnung.</p>
+</div>
+
+<p><b>2. Woher kommt der Rang, und was passiert mit ihm, wenn du anders sortierst?</b></p>
+
+<p>Er kommt aus <code>position</code>, also aus dem Platz in der Liste, die der Adapter gerade hält. In deinen Daten steht er nirgends.</p>
+
+<p>Sortierst du anders, sind die Ränge andere, und zwar sofort und ohne dass sich ein einziges gespeichertes Feld ändert. Filterst du in 07B auf eine Kategorie, zählt die Liste wieder bei <code>1.</code> an. Auch das kostet keine Zeile Code.</p>
+
+<div class="note">
+<p><b>Das ist die Entscheidung aus 06A, in Aktion.</b> Dort hattest du in A4 die Wahl, ein Feld <code>rank</code> in den Kasten zu schreiben. Wer es getan hat, müsste es jetzt bei jedem neuen Eintrag in <b>allen anderen</b> Einträgen neu setzen, und bei jedem Filterwechsel nochmals.</p>
+<p><b>Der Merksatz:</b> was sich aus dem Bestand ausrechnen lässt, wird nicht gespeichert. Sonst hast du dieselbe Information zweimal, und zwei Kopien laufen irgendwann auseinander.</p>
+</div>
+
+<p><b>3. Wann würde <code>onCreate</code> aufhören zu funktionieren?</b></p>
+
+<p>In dem Moment, in dem die Rangliste <b>selbst</b> einen zweiten Bildschirm startet und danach wieder in den Vordergrund kommt.</p>
+
+<table>
+<tr><th>Weg</th><th>Läuft <code>onCreate</code>?</th><th>Läuft <code>onResume</code>?</th></tr>
+<tr><td>Menü, dann Rangliste öffnen</td><td>ja, der Bildschirm entsteht neu</td><td>ja</td></tr>
+<tr><td>Zurück-Taste, dann wieder öffnen</td><td>ja, er wurde abgeräumt</td><td>ja</td></tr>
+<tr><td>Gerät drehen</td><td>ja, Neubau</td><td>ja</td></tr>
+<tr><td><b>Von der Rangliste aus einen zweiten Bildschirm öffnen und zurückkommen</b></td><td><b>nein</b></td><td>ja</td></tr>
+</table>
+
+<p>Heute gibt es diesen vierten Fall noch nicht. Am Tag 4 gibt es ihn: die Fragenverwaltung zeigt eine Liste, öffnet ein Formular und kommt zurück. Und in der Leistungsbeurteilung steht er wörtlich: <i>"Neues Modul über die zweite Activity anlegen. Die Liste ist danach aktuell."</i></p>
+
+<div class="tip">
+<p><b>Die Regel, die daraus wird:</b> was du beim Erscheinen des Bildschirms neu wissen musst, liest du in <code>onResume</code>. Was du einmal aufbaust, baust du in <code>onCreate</code> auf.</p>
+<p>Der Adapter wird einmal gebaut, also <code>onCreate</code>. Die Daten ändern sich, also <code>onResume</code>. Dieselbe Aufteilung wie beim besten Wert in deiner <code>MainActivity</code> seit 05D.</p>
+</div>
+
+<h2>Teil A, der Bildschirm und die Zeile</h2>
+
+<h3>res/layout/activity_highscore.xml</h3>
+
+<pre>&lt;?xml version=<span class="s">"1.0"</span> encoding=<span class="s">"utf-8"</span>?&gt;
+&lt;<span class="t">androidx.constraintlayout.widget.ConstraintLayout</span>
+    xmlns:android=<span class="s">"http://schemas.android.com/apk/res/android"</span>
+    xmlns:app=<span class="s">"http://schemas.android.com/apk/res-auto"</span>
+    xmlns:tools=<span class="s">"http://schemas.android.com/tools"</span>
+    android:id=<span class="s">"@+id/clHighscore"</span>
+    android:layout_width=<span class="s">"match_parent"</span>
+    android:layout_height=<span class="s">"match_parent"</span>
+    tools:context=<span class="s">".HighscoreActivity"</span>&gt;
+
+    &lt;<span class="t">TextView</span>
+        android:id=<span class="s">"@+id/tvHighscoreTitle"</span>
+        android:layout_width=<span class="s">"0dp"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:text=<span class="s">"@string/title_highscore"</span>
+        android:textSize=<span class="s">"26sp"</span>
+        android:textStyle=<span class="s">"bold"</span>
+        app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span>
+        app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
+        app:layout_constraintTop_toTopOf=<span class="s">"parent"</span> /&gt;
+
+    <span class="c">&lt;!--
+      Der RecyclerView bekommt 0dp Höhe und Anker oben und unten. Nur so
+      kennt er seine Grösse und kann scrollen. Mit wrap_content wächst er
+      mit dem Inhalt, und die Wiederverwendung der Zeilen fällt weg.
+
+      tools:listitem und tools:itemCount sind nur für die Vorschau im
+      Editor. Zur Laufzeit haben sie keine Wirkung.
+    --&gt;</span>
+    &lt;<span class="t">androidx.recyclerview.widget.RecyclerView</span>
+        android:id=<span class="s">"@+id/rvHighscore"</span>
+        android:layout_width=<span class="s">"0dp"</span>
+        android:layout_height=<span class="s">"0dp"</span>
+        android:layout_marginTop=<span class="s">"16dp"</span>
+        app:layout_constraintBottom_toBottomOf=<span class="s">"parent"</span>
+        app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span>
+        app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
+        app:layout_constraintTop_toBottomOf=<span class="s">"@id/tvHighscoreTitle"</span>
+        tools:itemCount=<span class="s">"4"</span>
+        tools:listitem=<span class="s">"@layout/item_highscore"</span> /&gt;
+
+&lt;/<span class="t">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</pre>
+
+<h3>res/layout/item_highscore.xml</h3>
+
+<pre>&lt;?xml version=<span class="s">"1.0"</span> encoding=<span class="s">"utf-8"</span>?&gt;
+<span class="c">&lt;!--
+  Eine Zeile der Rangliste.
+
+  Diese Datei beschreibt genau EINE Zeile. Der RecyclerView baut daraus so
+  viele, wie auf den Bildschirm passen, und verwendet sie beim Scrollen
+  wieder. Darum ist das Root-Element hier match_parent breit und
+  wrap_content hoch, nie match_parent hoch.
+
+  In 07B wird diese Zeile umgebaut: die Punktzahl wandert an den rechten
+  Rand und die Kategorie kommt unter den Namen.
+--&gt;</span>
+&lt;<span class="t">LinearLayout</span> xmlns:android=<span class="s">"http://schemas.android.com/apk/res/android"</span>
+    xmlns:tools=<span class="s">"http://schemas.android.com/tools"</span>
+    android:layout_width=<span class="s">"match_parent"</span>
+    android:layout_height=<span class="s">"wrap_content"</span>
+    android:gravity=<span class="s">"center_vertical"</span>
+    android:orientation=<span class="s">"horizontal"</span>
+    android:paddingTop=<span class="s">"12dp"</span>
+    android:paddingBottom=<span class="s">"12dp"</span>&gt;
+
+    &lt;<span class="t">TextView</span>
+        android:id=<span class="s">"@+id/tvRank"</span>
+        android:layout_width=<span class="s">"36dp"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:textSize=<span class="s">"16sp"</span>
+        android:textStyle=<span class="s">"bold"</span>
+        tools:text=<span class="s">"1."</span> /&gt;
+
+    &lt;<span class="t">TextView</span>
+        android:id=<span class="s">"@+id/tvEntryName"</span>
+        android:layout_width=<span class="s">"wrap_content"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:layout_marginEnd=<span class="s">"12dp"</span>
+        android:maxLines=<span class="s">"1"</span>
+        android:textSize=<span class="s">"16sp"</span>
+        tools:text=<span class="s">"Sara"</span> /&gt;
+
+    &lt;<span class="t">TextView</span>
+        android:id=<span class="s">"@+id/tvEntryScore"</span>
+        android:layout_width=<span class="s">"wrap_content"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:textSize=<span class="s">"16sp"</span>
+        android:textStyle=<span class="s">"bold"</span>
+        tools:text=<span class="s">"4 Punkte"</span> /&gt;
+
+&lt;/<span class="t">LinearLayout</span>&gt;</pre>
+
+<div class="tip">
+<p><b>Deine Zeile darf anders aussehen</b>, solange die drei ids stimmen und das Root-Element <code>wrap_content</code> hoch ist. Andere Textgrössen, mehr Abstand, eine andere Breite für den Rang: alles in Ordnung.</p>
+</div>
+
+<h3>Die drei neuen Strings</h3>
+
+<pre>&lt;string name=<span class="s">"title_highscore"</span>&gt;Rangliste&lt;/string&gt;
+&lt;string name=<span class="s">"rank_format"</span>&gt;%1$d.&lt;/string&gt;
+&lt;string name=<span class="s">"entry_score_format"</span>&gt;%1$d Punkte&lt;/string&gt;</pre>
+
+<p>Und der geänderte:</p>
+
+<pre><span class="c">// vorher</span>
+&lt;string name=<span class="s">"menu_hint"</span>&gt;Rangliste und Fragen verwalten kommen später.&lt;/string&gt;
+<span class="c">// nachher</span>
+&lt;string name=<span class="s">"menu_hint"</span>&gt;Fragen verwalten kommt später.&lt;/string&gt;</pre>
+
+<h3>Der Eintrag im Manifest</h3>
+
+<pre>&lt;<span class="t">activity</span>
+    android:name=<span class="s">".HighscoreActivity"</span>
+    android:exported=<span class="s">"false"</span> /&gt;</pre>
+
+<p><code>exported="false"</code>, weil dieser Bildschirm nur aus der eigenen App gestartet wird. Dieselbe Überlegung wie bei der <code>GameActivity</code> in 05A.</p>
+
+<h3>Die zwei Stellen in der MainActivity</h3>
+
+<pre><span class="c">// activity_main.xml, die Zeile fällt weg</span>
+android:enabled=<span class="s">"false"</span>
+
+<span class="c">// MainActivity.onCreate, bei den anderen Knöpfen</span>
+<span class="t">Button</span> btnRanking = findViewById(R.id.btnRanking);
+...
+btnRanking.setOnClickListener(v -&gt; startActivity(<span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">HighscoreActivity</span>.class)));</pre>
+
+<div class="info">
+<p><b>Warum <code>startActivity</code> und nicht der Launcher aus 05B?</b> Weil die Rangliste nichts zurückgibt. Der Launcher ist für den Fall da, dass ein Bildschirm ein Ergebnis liefert, und das tut nur die <code>GameActivity</code>.</p>
+<p>Die Regel: nimm den einfachsten Weg, der reicht. Ein Launcher für einen Bildschirm ohne Ergebnis ist Ballast, den später jemand für nötig hält.</p>
+</div>
+
+<h2>Teil B, der Adapter</h2>
+
+<h3>HighscoreAdapter.java, die ganze Klasse</h3>
+
+<pre><span class="k">package</span> ch.wiss.m335.quiz;
+
+<span class="k">import</span> android.content.<span class="t">Context</span>;
+<span class="k">import</span> android.view.<span class="t">LayoutInflater</span>;
+<span class="k">import</span> android.view.<span class="t">View</span>;
+<span class="k">import</span> android.view.<span class="t">ViewGroup</span>;
+<span class="k">import</span> android.widget.<span class="t">TextView</span>;
+
+<span class="k">import</span> androidx.annotation.<span class="t">NonNull</span>;
+<span class="k">import</span> androidx.recyclerview.widget.<span class="t">RecyclerView</span>;
+
+<span class="k">import</span> java.util.<span class="t">ArrayList</span>;
+<span class="k">import</span> java.util.<span class="t">List</span>;
+
+<span class="k">import</span> ch.wiss.m335.quiz.model.<span class="t">HighscoreEntry</span>;
+
+<span class="c">/**
+ * Füllt den RecyclerView mit den Zeilen der Rangliste.
+ *
+ * Der Vergleich mit 04B ist der Kern dieses Auftrags. Dort hat eine
+ * Schleife für jede Frage eine TextView erzeugt und mit addView
+ * angehängt. Bei sieben Zeilen war das richtig. Bei fünfhundert Einträgen
+ * wären fünfhundert View-Objekte gleichzeitig im Speicher, auch die
+ * vierhundertachtzig, die niemand sieht.
+ *
+ * Der RecyclerView baut nur so viele Zeilen, wie auf den Bildschirm
+ * passen, also etwa fünfzehn. Beim Scrollen wandert die oberste Zeile
+ * nach unten und wird mit neuen Daten gefüllt. Genau dafür gibt es die
+ * zwei getrennten Methoden:
+ *
+ * onCreateViewHolder baut eine leere Zeile. Das passiert selten.
+ * onBindViewHolder füllt eine vorhandene Zeile. Das passiert bei jedem
+ * Scrollen, viele Male pro Sekunde.
+ *
+ * Daraus folgt die wichtigste Regel dieser Stufe: in onBindViewHolder
+ * gehört nichts, was Zeit kostet. Kein findViewById, keine Abfrage, kein
+ * Aufbau von Objekten.
+ *
+ * In 07B kommt die Kategorie unter den Namen und die Punktzahl an den
+ * rechten Rand. Die Struktur dieser Klasse bleibt dabei gleich.
+ */</span>
+<span class="k">public</span> <span class="k">class</span> <span class="t">HighscoreAdapter</span> <span class="k">extends</span> <span class="t">RecyclerView</span>.<span class="t">Adapter</span>&lt;<span class="t">HighscoreAdapter</span>.<span class="t">HighscoreViewHolder</span>&gt; {
+
+    <span class="c">/**
+     * Die Einträge, die gerade angezeigt werden.
+     *
+     * Die Liste gehört dem Adapter. Ausgetauscht wird ihr Inhalt nur über
+     * setEntries, damit das notifyDataSetChanged nie vergessen geht.
+     */</span>
+    <span class="k">private</span> <span class="k">final</span> <span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; entries = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;();
+
+    <span class="c">/**
+     * Hält die Views einer Zeile fest.
+     *
+     * Das ist der Sinn des ViewHolder: findViewById läuft einmal pro
+     * Zeile und nicht bei jedem Scrollen. In 04B gab es das nicht, dort
+     * wurde jede TextView neu erzeugt.
+     */</span>
+    <span class="k">static</span> <span class="k">class</span> <span class="t">HighscoreViewHolder</span> <span class="k">extends</span> <span class="t">RecyclerView</span>.<span class="t">ViewHolder</span> {
+
+        <span class="c">/** Die Rangnummer links. */</span>
+        <span class="k">final</span> <span class="t">TextView</span> tvRank;
+
+        <span class="c">/** Der Name des Spielers. */</span>
+        <span class="k">final</span> <span class="t">TextView</span> tvEntryName;
+
+        <span class="c">/** Die erreichten Punkte. */</span>
+        <span class="k">final</span> <span class="t">TextView</span> tvEntryScore;
+
+        <span class="c">/**
+         * Sucht die drei TextViews einmal und merkt sie sich.
+         *
+         * @param itemView die frisch gebaute Zeile
+         */</span>
+        <span class="t">HighscoreViewHolder</span>(<span class="t">@NonNull</span> <span class="t">View</span> itemView) {
+            <span class="k">super</span>(itemView);
+            tvRank = itemView.findViewById(<span class="t">R</span>.id.tvRank);
+            tvEntryName = itemView.findViewById(<span class="t">R</span>.id.tvEntryName);
+            tvEntryScore = itemView.findViewById(<span class="t">R</span>.id.tvEntryScore);
+        }
+    }
+
+    <span class="c">/**
+     * Baut eine neue, leere Zeile aus item_highscore.xml.
+     *
+     * Das dritte Argument von inflate ist false. Mit true würde die Zeile
+     * sofort an den Parent gehängt, und der RecyclerView bekäme eine
+     * IllegalStateException mit dem Text "The specified child already has
+     * a parent". Das ist der häufigste Absturz dieser Stufe.
+     *
+     * @param parent   der RecyclerView, der die Zeile später einhängt
+     * @param viewType wird hier nicht gebraucht, es gibt nur eine Zeilenart
+     * @return ein ViewHolder mit den drei TextViews darin
+     */</span>
+    <span class="t">@NonNull</span>
+    <span class="t">@Override</span>
+    <span class="k">public</span> <span class="t">HighscoreViewHolder</span> onCreateViewHolder(<span class="t">@NonNull</span> <span class="t">ViewGroup</span> parent, <span class="k">int</span> viewType) {
+        <span class="t">View</span> row = <span class="t">LayoutInflater</span>.from(parent.getContext())
+                .inflate(<span class="t">R</span>.layout.item_highscore, parent, <span class="k">false</span>);
+        <span class="k">return</span> <span class="k">new</span> <span class="t">HighscoreViewHolder</span>(row);
+    }
+
+    <span class="c">/**
+     * Füllt eine vorhandene Zeile mit den Daten eines Eintrags.
+     *
+     * Die Rangnummer kommt aus der Position und nicht aus den Daten. Ein
+     * Rang ist nichts, was man speichert, sondern etwas, was sich aus der
+     * Reihenfolge ergibt. Sortiert man anders, sind die Ränge andere.
+     *
+     * @param holder   die Zeile, die gefüllt wird
+     * @param position der Platz in der Liste, beginnend bei 0
+     */</span>
+    <span class="t">@Override</span>
+    <span class="k">public</span> <span class="k">void</span> onBindViewHolder(<span class="t">@NonNull</span> <span class="t">HighscoreViewHolder</span> holder, <span class="k">int</span> position) {
+        <span class="t">HighscoreEntry</span> entry = entries.get(position);
+        <span class="t">Context</span> context = holder.itemView.getContext();
+
+        holder.tvRank.setText(context.getString(<span class="t">R</span>.string.rank_format, position + 1));
+        holder.tvEntryName.setText(entry.getName());
+        holder.tvEntryScore.setText(context.getString(<span class="t">R</span>.string.entry_score_format, entry.getScore()));
+    }
+
+    <span class="c">/** @return wie viele Zeilen die Liste hat */</span>
+    <span class="t">@Override</span>
+    <span class="k">public</span> <span class="k">int</span> getItemCount() {
+        <span class="k">return</span> entries.size();
+    }
+
+    <span class="c">/**
+     * Tauscht die angezeigten Einträge aus.
+     *
+     * notifyDataSetChanged zeichnet die ganze Liste neu. Das ist grob,
+     * aber verständlich und für unsere Datenmengen völlig ausreichend.
+     * Wer es feiner will, schaut sich später DiffUtil an.
+     *
+     * @param newEntries die Einträge, die angezeigt werden sollen
+     */</span>
+    <span class="t">@SuppressWarnings</span>(<span class="s">"NotifyDataSetChanged"</span>)
+    <span class="k">public</span> <span class="k">void</span> setEntries(<span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; newEntries) {
+        entries.clear();
+        entries.addAll(newEntries);
+        notifyDataSetChanged();
+    }
+}</pre>
+
+<h3>Die zwei Teile, die du selbst geschrieben hast</h3>
+
+<p>Wenn deine Version anders aussieht und funktioniert, ist sie richtig. Wichtig sind vier Dinge: die drei Texte werden gesetzt, der Rang kommt aus <code>position</code>, der Context kommt aus der Zeile, und <code>getItemCount</code> gibt die Grösse der Liste zurück.</p>
+
+<pre><span class="t">@Override</span>
+<span class="k">public void</span> onBindViewHolder(<span class="t">@NonNull HighscoreViewHolder</span> holder, <span class="k">int</span> position) {
+    <span class="t">HighscoreEntry</span> entry = entries.get(position);
+    <span class="t">Context</span> context = holder.itemView.getContext();
+
+    holder.tvRank.setText(context.getString(R.string.rank_format, position + <span class="k">1</span>));
+    holder.tvEntryName.setText(entry.getName());
+    holder.tvEntryScore.setText(context.getString(R.string.entry_score_format, entry.getScore()));
+}
+
+<span class="t">@Override</span>
+<span class="k">public int</span> getItemCount() {
+    <span class="k">return</span> entries.size();
+}</pre>
+
+<h3>Der Vergleich mit deiner Liste aus 04B</h3>
+
+<p>Stell die zwei nebeneinander. Es ist dieselbe Arbeit, nur anders verteilt.</p>
+
+<pre><span class="c">// 04B, buildQuestionList, alles in einer Schleife</span>
+llQuestionList.removeAllViews();                     <span class="c">// aufräumen</span>
+<span class="k">for</span> (<span class="k">int</span> i = <span class="k">0</span>; i &lt; categoryQuestions.size(); i++) {
+    <span class="t">TextView</span> row = <span class="k">new</span> <span class="t">TextView</span>(<span class="k">this</span>);           <span class="c">// erzeugen</span>
+    row.setText((i + <span class="k">1</span>) + <span class="s">". "</span> + question.getText()); <span class="c">// füllen</span>
+    llQuestionList.addView(row);                     <span class="c">// anhängen</span>
+}
+
+<span class="c">// 06C, verteilt auf drei Stellen</span>
+setEntries()            <span class="c">// aufräumen, clear() plus notifyDataSetChanged()</span>
+onCreateViewHolder()    <span class="c">// erzeugen, aus item_highscore.xml</span>
+onBindViewHolder()      <span class="c">// füllen</span>
+                        <span class="c">// anhängen macht der RecyclerView selbst</span></pre>
+
+<div class="tip">
+<p><b>Vier Aufgaben, viermal dieselben vier Aufgaben.</b> In 04B stehen sie untereinander in einer Methode. In 06C stehen sie in getrennten Methoden, weil sie <b>verschieden oft</b> laufen.</p>
+<p>Wenn du das siehst, hast du den <code>RecyclerView</code> verstanden. Alles andere ist Schreibarbeit.</p>
+</div>
+
+<h2>Teil C, die Activity</h2>
+
+<h3>HighscoreActivity.java, die ganze Klasse</h3>
+
+<pre><span class="k">package</span> ch.wiss.m335.quiz;
+
+<span class="k">import</span> android.os.<span class="t">Bundle</span>;
+<span class="k">import</span> android.util.<span class="t">Log</span>;
+
+<span class="k">import</span> androidx.activity.<span class="t">EdgeToEdge</span>;
+<span class="k">import</span> androidx.appcompat.app.<span class="t">AppCompatActivity</span>;
+<span class="k">import</span> androidx.core.graphics.<span class="t">Insets</span>;
+<span class="k">import</span> androidx.core.view.<span class="t">ViewCompat</span>;
+<span class="k">import</span> androidx.core.view.<span class="t">WindowInsetsCompat</span>;
+<span class="k">import</span> androidx.recyclerview.widget.<span class="t">LinearLayoutManager</span>;
+<span class="k">import</span> androidx.recyclerview.widget.<span class="t">RecyclerView</span>;
+
+<span class="k">import</span> java.util.<span class="t">Collections</span>;
+<span class="k">import</span> java.util.<span class="t">List</span>;
+
+<span class="k">import</span> ch.wiss.m335.quiz.data.<span class="t">HighscoreStorage</span>;
+<span class="k">import</span> ch.wiss.m335.quiz.model.<span class="t">HighscoreEntry</span>;
+
+<span class="c">/**
+ * Zeigt die Rangliste.
+ *
+ * Derselbe Inhalt wie die Liste zu Fuss aus 04B, aber richtig gebaut. In
+ * 04B hat eine Schleife pro Eintrag eine TextView erzeugt und angehängt.
+ * Hier macht das ein RecyclerView, und der baut nur so viele Zeilen, wie
+ * auf den Bildschirm passen.
+ *
+ * Drei Bausteine gehören zusammen, und alle drei sind nötig:
+ *
+ * Das Zeilenlayout item_highscore.xml beschreibt eine Zeile.
+ * Der HighscoreAdapter füllt die Zeilen mit Daten.
+ * Der LayoutManager entscheidet, wie die Zeilen angeordnet werden.
+ *
+ * Wer einen davon vergisst, sieht eine leere Fläche. Unter dem eigenen
+ * Log-Tag Modul335 steht dann nichts. Der RecyclerView meldet den
+ * fehlenden LayoutManager selbst, aber unter seinem eigenen Tag.
+ *
+ * In 07B kommt ein Filter nach Kategorie dazu. Erst dann braucht diese
+ * Klasse zwei Listen, eine zum Behalten und eine zum Zeigen.
+ */</span>
+<span class="k">public</span> <span class="k">class</span> <span class="t">HighscoreActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span> {
+
+    <span class="c">/**
+     * Log-Tag für das ganze Modul 335.
+     *
+     * Bewusst nicht "M335". Diese Zeichenfolge steckt auch im Paketnamen
+     * ch.wiss.m335.quiz. Das Suchfeld im Logcat sucht im Freitext über
+     * alle Spalten, und damit träfe "M335" jede Zeile unserer App statt
+     * nur die selbst geschriebenen.
+     */</span>
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="t">TAG</span> = <span class="s">"Modul335"</span>;
+
+    <span class="c">/** Der Adapter, der die Zeilen füllt. */</span>
+    <span class="k">private</span> <span class="t">HighscoreAdapter</span> adapter;
+
+    <span class="t">@Override</span>
+    <span class="k">protected</span> <span class="k">void</span> onCreate(<span class="t">Bundle</span> savedInstanceState) {
+        <span class="k">super</span>.onCreate(savedInstanceState);
+        <span class="t">EdgeToEdge</span>.enable(<span class="k">this</span>);
+        setContentView(<span class="t">R</span>.layout.activity_highscore);
+
+        <span class="c">// 16dp eigener Rand, in Pixel umgerechnet über die Dichte des Geräts.</span>
+        <span class="k">final</span> <span class="k">int</span> extraPadding = <span class="t">Math</span>.round(16 * getResources().getDisplayMetrics().density);
+
+        <span class="c">// Wichtig: der eigene Rand wird zu den System-Insets dazugerechnet.</span>
+        <span class="c">// Type.ime() braucht es hier nicht, dieser Bildschirm hat kein</span>
+        <span class="c">// Eingabefeld.</span>
+        <span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(<span class="t">R</span>.id.clHighscore), (v, insets) -&gt; {
+            <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.<span class="t">Type</span>.systemBars());
+            v.setPadding(
+                    systemBars.left + extraPadding,
+                    systemBars.top + extraPadding,
+                    systemBars.right + extraPadding,
+                    systemBars.bottom + extraPadding);
+            <span class="k">return</span> insets;
+        });
+
+        <span class="t">RecyclerView</span> rvHighscore = findViewById(<span class="t">R</span>.id.rvHighscore);
+
+        <span class="c">// Ohne LayoutManager bleibt die Liste leer. Keine Exception, kein</span>
+        <span class="c">// Eintrag im Logcat, nur eine leere Fläche. Der LinearLayoutManager</span>
+        <span class="c">// ordnet die Zeilen untereinander an, das ist der Normalfall.</span>
+        rvHighscore.setLayoutManager(<span class="k">new</span> <span class="t">LinearLayoutManager</span>(<span class="k">this</span>));
+
+        adapter = <span class="k">new</span> <span class="t">HighscoreAdapter</span>();
+        rvHighscore.setAdapter(adapter);
+
+        <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"HighscoreActivity onCreate"</span>);
+    }
+
+    <span class="c">/**
+     * Lädt die Rangliste jedes Mal neu, wenn der Bildschirm erscheint.
+     *
+     * Dieselbe Überlegung wie beim besten Wert in der MainActivity:
+     * onCreate läuft nur einmal, onResume bei jeder Rückkehr. Wer hier
+     * onCreate nimmt, sieht einen frisch eingetragenen Wert erst nach dem
+     * nächsten Start der App.
+     */</span>
+    <span class="t">@Override</span>
+    <span class="k">protected</span> <span class="k">void</span> onResume() {
+        <span class="k">super</span>.onResume();
+
+        <span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; entries = <span class="t">HighscoreStorage</span>.getAll(<span class="k">this</span>);
+
+        <span class="c">// Die beste Punktzahl zuoberst. Integer.compare(b, a) sortiert</span>
+        <span class="c">// absteigend, compare(a, b) wäre aufsteigend. Bei Gleichstand</span>
+        <span class="c">// entscheidet die Reihenfolge des Eintragens, weil sort stabil ist.</span>
+        <span class="t">Collections</span>.sort(entries, (a, b) -&gt; <span class="t">Integer</span>.compare(b.getScore(), a.getScore()));
+
+        adapter.setEntries(entries);
+
+        <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"highscores loaded, total="</span> + entries.size());
+    }
+}</pre>
+
+<h3>Die drei Zeilen, um die es geht</h3>
+
+<pre>rvHighscore.setLayoutManager(<span class="k">new</span> <span class="t">LinearLayoutManager</span>(<span class="k">this</span>));  <span class="c">// wie anordnen</span>
+rvHighscore.setAdapter(adapter);                              <span class="c">// wer füllt</span>
+adapter.setEntries(entries);                                  <span class="c">// womit</span></pre>
+
+<p>Mehr hat die Activity mit dem <code>RecyclerView</code> nicht zu tun. Der Rest ist Laden und Sortieren, und das hat mit der Anzeige nichts zu tun.</p>
+
+<div class="info">
+<p><b>Das ist die Architektur, um die es in Lernziel 2.3 geht.</b> Drei Rollen, sauber getrennt:</p>
+<ul>
+<li><code>HighscoreStorage</code> weiss, <b>wo</b> die Daten liegen. Von der Anzeige weiss es nichts.</li>
+<li><code>HighscoreAdapter</code> weiss, <b>wie</b> ein Eintrag aussieht. Woher er kommt, weiss er nicht.</li>
+<li><code>HighscoreActivity</code> bringt beide zusammen und entscheidet, <b>wann</b>.</li>
+</ul>
+<p>Der Beweis, dass die Trennung hält: in 07C wechselt der Speicher von SharedPreferences auf eine Datenbank. Der Adapter wird dabei nicht angefasst.</p>
+</div>
+
+<h2>Die Stelle aus C3, aufgelöst</h2>
+
+<p><b>Was passiert ist:</b> die Fläche unter dem Titel bleibt leer. Kein Absturz, keine Fehlermeldung, und unter deinem Log-Tag <code>Modul335</code> steht die beruhigende Zeile <code>highscores loaded, total=4</code>.</p>
+
+<p><b>Was im Logcat steht, sobald du den Filter wegnimmst:</b></p>
+
+<pre>E/RecyclerView: No layout manager attached; skipping layout</pre>
+
+<p><b>Warum du sie nicht gesehen hast:</b> sie kommt nicht von dir. Dein Filter <code>tag:Modul335</code> zeigt genau die Zeilen, die du selbst geschrieben hast. Diese hier hat der <code>RecyclerView</code> geschrieben, unter seinem eigenen Tag.</p>
+
+<p><b>Die Reparatur, eine Zeile in <code>onCreate</code>:</b></p>
+
+<pre>rvHighscore.setLayoutManager(<span class="k">new</span> <span class="t">LinearLayoutManager</span>(<span class="k">this</span>));</pre>
+
+<div class="tip">
+<p><b>Der Satz zum Mitnehmen:</b> wenn unter deinem eigenen Log-Tag nichts steht, heisst das nicht, dass nichts los ist. Es heisst, dass du dich selbst ausgefiltert hast.</p>
+<p><b>Der erste Handgriff bei einem stillen Fehler ist darum: Filter weg.</b> Erst alles anschauen, dann wieder einschränken. Das gilt für den Rest deines Berufslebens und kostet fünf Sekunden.</p>
+</div>
+
+<div class="warn">
+<p><b>Ein Fehler, der genau hier besonders teuer ist.</b> Wer beim Kopieren der <code>AboutActivity</code> die Log-Zeile stehen lässt, liest in diesem Moment <code>AboutActivity onCreate</code> und darunter <code>highscores loaded, total=4</code>.</p>
+<p>Zwei Zeilen, die sich widersprechen, mitten in einer Fehlersuche. Man beginnt dann zu prüfen, ob überhaupt der richtige Bildschirm offen ist, und das ist eine halbe Stunde in die falsche Richtung.</p>
+<p><b>Der Satz dazu:</b> ein Log-Text ist keine Zierde. Er ist deine einzige Auskunft, wenn nichts abstürzt, und darum muss er stimmen.</p>
+</div>
+
+<h3>Warum es überhaupt einen LayoutManager gibt</h3>
+
+<p>Weil untereinander nicht die einzige Möglichkeit ist. Derselbe <code>RecyclerView</code>, derselbe Adapter, dieselben Daten:</p>
+
+<table>
+<tr><th>LayoutManager</th><th>Was du siehst</th></tr>
+<tr><td class="pre">LinearLayoutManager</td><td>Zeilen untereinander. Der Normalfall</td></tr>
+<tr><td class="pre">LinearLayoutManager(this, HORIZONTAL, false)</td><td>Dieselben Zeilen nebeneinander, zum seitlichen Wischen</td></tr>
+<tr><td class="pre">GridLayoutManager(this, 2)</td><td>Zwei Spalten, wie eine Fotogalerie</td></tr>
+</table>
+
+<p>Darum ist er nicht eingebaut, sondern eine eigene Zeile. Android kann nicht raten, wie deine Liste liegen soll. <b>Und weil es keinen sinnvollen Standard gibt, gibt es auch keinen.</b> Der Preis dafür ist die leere Fläche, wenn man es vergisst.</p>
+
+<h2>Lösungen zu den Übungen</h2>
+
+<div class="ue">
+<p class="t">Übung 1a, die Zeilenhöhe</p>
+<p>Mit <code>android:layout_height="match_parent"</code> ist jede Zeile so hoch wie der ganze <code>RecyclerView</code>. Du siehst genau einen Eintrag und musst für den nächsten eine ganze Bildschirmhöhe wischen.</p>
+<p><b>Der Satz, der es trifft:</b> die Breite gehört dem Parent, die Höhe gehört dem Inhalt. Eine Zeile soll so breit sein wie die Liste und so hoch wie ihr Text.</p>
+<div class="note">
+<p><b>Und die Falle dahinter:</b> die App stürzt nicht ab, es gibt keine Warnung, und im Editor sieht die Datei völlig normal aus. Wer den Fehler hat, sucht ihn zuerst bei den Daten, weil ja nur ein Eintrag zu sehen ist.</p>
+<p><b>In einem Zeilenlayout ist <code>match_parent</code> für die Höhe immer falsch.</b> Merk dir diesen einen Satz, er spart dir eine halbe Stunde.</p>
+</div>
+</div>
+
+<div class="ue">
+<p class="t">Übung 1b, der lange Name</p>
+<p>Der Name schiebt die Punktzahl nach rechts aus dem Bild. Und weil jede Zeile einen anderen Namen hat, steht die Punktzahl in jeder Zeile woanders. Die Liste wird unlesbar.</p>
+<p><b>Was du ändern würdest:</b> der Name soll allen freien Platz nehmen und dort aufhören, die Punktzahl soll rechts am Rand kleben.</p>
+<pre><span class="c">// so sieht es in 07B aus</span>
+&lt;<span class="t">TextView</span> android:id=<span class="s">"@+id/tvEntryName"</span>
+    android:layout_width=<span class="s">"0dp"</span>
+    android:layout_weight=<span class="s">"1"</span>
+    android:ellipsize=<span class="s">"end"</span>
+    android:maxLines=<span class="s">"1"</span> ... /&gt;</pre>
+<div class="tip">
+<p><b>Die Punktzahl kommt nicht durch <code>gravity</code> nach rechts.</b> Sie kommt durch die Reihenfolge: das Element davor hat <code>weight="1"</code> und frisst allen freien Platz, und was danach kommt, wird an den Rand gedrückt.</p>
+<p><b>Diese Technik kennst du schon.</b> Genau so stehen <code>Frage 1 von 5</code> links und <code>Punkte 0</code> rechts in deinem Spielbildschirm, seit 03B.</p>
+</div>
+</div>
+
+<div class="ue">
+<p class="t">Übung 2, erklären</p>
+<p>Eine gute Erklärung nennt beide Methoden <b>und</b> wie oft sie laufen.</p>
+<p>"<code>onCreateViewHolder</code> baut eine leere Zeile aus der Layoutdatei. Das passiert nur so oft, wie Zeilen auf den Bildschirm passen, also etwa fünfzehn Mal. <code>onBindViewHolder</code> schreibt Daten in eine Zeile, die es schon gibt. Das passiert bei jedem Scrollen, für jede Zeile, die ins Bild kommt."</p>
+<p>Und der Satz, der es rund macht: "Darum darf in <code>onBindViewHolder</code> nichts stehen, was Zeit kostet, und in <code>onCreateViewHolder</code> schon."</p>
+<p>Wer nur sagt "die eine erzeugt, die andere füllt", hat die Beobachtung. Wer sagt, welche öfter läuft und was daraus folgt, hat die Regel.</p>
+</div>
+
+<p>Zur Zusatzaufgabe steht hier bewusst nichts. Zwei Hinweise trotzdem, weil die Diskussion mehr wert ist als der Code: der einfachere Weg ist eine <code>TextView</code> im <code>activity_highscore.xml</code>, die die Activity ein- und ausblendet. Der andere Weg wäre ein zweiter Zeilentyp im Adapter über <code>getItemViewType</code>. Und das Argument gegen den Adapter lautet: <b>ein leerer Zustand ist keine Zeile.</b> Er gehört dem Bildschirm, nicht der Liste.</p>
+
+<h2>Mögliche falsche KI-Rückmeldungen</h2>
+
+<p>Das sind Antworten, die uns bei diesem Thema schon begegnet sind. Nicht jede KI macht jeden dieser Fehler. Die Liste ist eine Prüfliste, keine Anklage.</p>
+
+<table>
+<tr><th>Die KI schlägt vor</th><th>Warum das hier falsch ist</th></tr>
+<tr><td>Einen <code>ListView</code> mit <code>ArrayAdapter</code> oder <code>BaseAdapter</code></td><td><b>Die Falle dieses Auftrags.</b> Antwort aus zehn Jahre alten Quellen. Der <code>ListView</code> verwendet Zeilen nicht wieder und hat kein ViewHolder-Muster eingebaut. Google empfiehlt seit 2014 den <code>RecyclerView</code></td></tr>
+<tr><td class="pre">convertView und if (convertView == null)</td><td>Das ist das ViewHolder-Muster von Hand, wie man es für den <code>ListView</code> schreiben musste. Beim <code>RecyclerView</code> macht das Framework es für dich</td></tr>
+<tr><td class="pre">inflate(layout, parent)</td><td>Die Kurzform mit zwei Argumenten hängt automatisch an. Führt zur <code>IllegalStateException</code>. <b>In einem Adapter immer die Version mit drei Argumenten und <code>false</code></b></td></tr>
+<tr><td class="pre">android:layout_height="match_parent"</td><td>Im Zeilenlayout. Siehe Übung 1a</td></tr>
+<tr><td>Den Adapter mit der Activity im Konstruktor</td><td>Der Adapter braucht keinen Context. Er bekommt ihn über <code>parent.getContext()</code> oder <code>holder.itemView.getContext()</code>. Eine gespeicherte Activity-Referenz kann Speicher festhalten</td></tr>
+<tr><td>Die Daten im Adapter laden</td><td>Der Adapter zeigt an, er lädt nicht. Laden ist Sache der Activity. Sonst lässt er sich nicht wiederverwenden, und genau das passiert am Tag 4 mit der Fragenliste</td></tr>
+<tr><td><code>notifyDataSetChanged()</code> durch <code>DiffUtil</code> ersetzen</td><td>Nicht falsch, aber für fünf Einträge unnötig. Es verdeckt, was <code>notifyDataSetChanged</code> überhaupt tut, und das musst du zuerst gesehen haben</td></tr>
+<tr><td>Eine Abhängigkeit für <code>androidx.recyclerview</code> eintragen</td><td>Sie ist über <code>material</code> schon da. Eine zweite Zeile dafür bringt einen Versionskonflikt. Die erste Abhängigkeit, die wir wirklich eintragen, kommt in 07C</td></tr>
+<tr><td>Bei "die Liste bleibt leer" gleich den Adapter umschreiben</td><td>Der Adapter ist meist richtig. <b>Zuerst den Logcat-Filter wegnehmen und lesen</b>, dann den Code anschauen</td></tr>
+<tr><td>Den <code>RecyclerView</code> mit <code>wrap_content</code> Höhe ins Layout</td><td>Dann kennt er seine Grösse nicht und scrollt nicht. In einem <code>ConstraintLayout</code> gehört <code>0dp</code> plus Anker oben und unten hin</td></tr>
+<tr><td>Den Rang als Feld in <code>HighscoreEntry</code></td><td>Widerspricht deiner eigenen Entscheidung aus 06A. Der Rang ergibt sich aus der Reihenfolge und müsste sonst bei jedem neuen Eintrag überall neu gesetzt werden</td></tr>
+<tr><td><code>onBindViewHolder</code> mit <code>findViewById</code> statt über den <code>holder</code></td><td>Kompiliert, läuft, sieht richtig aus. Und nimmt dem ViewHolder genau den Sinn, für den es ihn gibt</td></tr>
+</table>
+
+<h2>So prüfst du das Ganze</h2>
+
+<ol>
+<li>Vorbereitung: mindestens vier Runden gespielt, jedes Mal eingetragen, verschiedene Namen und verschiedene Punktzahlen.</li>
+<li>Auf dem Startbildschirm ist <b>Rangliste</b> anklickbar, <b>Fragen verwalten</b> immer noch grau.</li>
+<li>Rangliste öffnen. Die Einträge stehen da, einer pro Zeile.</li>
+<li><b>Die beste Punktzahl steht zuoberst.</b> Nicht nur schauen, ob überhaupt etwas dasteht.</li>
+<li>Der Rang links zählt <code>1.</code>, <code>2.</code>, <code>3.</code>, <code>4.</code> durch.</li>
+<li>Zurück ins Menü, eine Runde spielen, eintragen, Rangliste wieder öffnen. Der neue Eintrag ist da, an der richtigen Stelle. <b>Und jeder alte Eintrag steht genau einmal da.</b></li>
+<li>So viele Einträge, dass die Liste länger als der Bildschirm ist. Sie lässt sich wischen, und beim Wischen ruckelt nichts.</li>
+<li>Gerät drehen. Die Liste ist immer noch da, und der Rang stimmt.</li>
+<li>Zurück-Taste führt ins Menü.</li>
+<li>Im Menü unten steht nicht mehr, dass die Rangliste später kommt.</li>
+<li>Logcat unter <code>tag:Modul335</code>: <code>HighscoreActivity onCreate</code> und <code>highscores loaded, total=5</code>.</li>
+<li>Ein Eintrag mit einem sehr langen Namen. Die Punktzahl rutscht aus dem Bild. <b>Das ist der heutige Stand und kein Fehler</b>, 07B räumt es auf.</li>
+</ol>
+
+<div class="tip">
+<p><b>Punkt 6 ist der wertvollste.</b> Er prüft zwei Dinge auf einmal: dass neu geladen wird und dass vorher aufgeräumt wird. Wer ihn überspringt, findet das fehlende <code>clear()</code> erst im Unterricht.</p>
+</div>
+
+<div class="info">
+<p><b>Und ein Blick in den Emulator lohnt sich hier nicht.</b> Anders als in 06B gibt es heute keine Emulator-Eigenheit. Wenn die Liste im Emulator läuft, läuft sie auf dem Gerät genauso.</p>
+</div>
+
+<h2>Was noch nicht gut ist, und das mit Absicht</h2>
+
+<ul>
+<li><b>Die Punktzahl steht nicht ausgerichtet.</b> Sie klebt am Namen, und weil Namen verschieden lang sind, steht sie in jeder Zeile woanders. Das räumt 07B auf, mit dem <code>weight</code>-Trick aus Übung 1b.</li>
+<li><b>Man sieht nicht, aus welcher Kategorie ein Ergebnis stammt.</b> Das Feld <code>category</code> steckt seit 06A im Datenmodell und wird bis jetzt nirgends angezeigt. Auch das kommt in 07B, zusammen mit dem Filter.</li>
+<li><b>Eine leere Rangliste zeigt eine leere Fläche</b> ohne jede Erklärung. Wer die App frisch installiert, hält sie für kaputt. Das ist die Zusatzaufgabe von heute und wird am Tag 4 richtig gelöst.</li>
+<li><b>Die Drehung mitten in einer Runde ist immer noch kaputt.</b> Das ist das bekannte Loch aus 05C und hat mit heute nichts zu tun.</li>
+</ul>
+
+<h2>Was als Nächstes kommt</h2>
+
+<p>Der nächste Auftrag ist <b>07A Generalprobe Teil A</b> auf Papier, am Tag 4 Vormittag. Direkt danach kommt <b>07B</b>, und das ist die Fortsetzung von heute: die Punktzahl wandert an den rechten Rand, die Kategorie kommt unter den Namen, und oben kommt ein Filter dazu.</p>
+
+<p>Drei Dinge von heute zahlen dort ein:</p>
+<ul>
+<li>Der Adapter bleibt, wie er ist. Nur <code>onBindViewHolder</code> bekommt zwei Zeilen dazu.</li>
+<li>Das Zeilenlayout wird umgebaut, und du hast in Übung 1b schon aufgeschrieben, wie.</li>
+<li>Das Feld <code>category</code>, das du in 06A entworfen hast, wird endlich benutzt.</li>
+</ul>
+
+<p>Und am Tag 4 Vormittag kommt in 07C die Datenbank. <b>Der <code>RecyclerView</code> von heute wird dort wiederverwendet, nicht neu gebaut.</b> Die Fragenverwaltung zeigt dieselbe Art von Liste, nur mit anderen Daten dahinter. Genau darum lohnt es sich, ihn heute richtig zu verstehen.</p>
+
+<p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 06C RecyclerView und Rangliste &middot; Version 1 vom 19.08.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>

@@ -219,8 +219,8 @@ a.put(o);                        <span class="c">// Objekt in die Liste</span>
     <span class="t">JSONArray</span> array = <span class="k">new</span> <span class="t">JSONArray</span>();
 
     <span class="k">try</span> {
-        ... hier laeufst du ueber entries und baust pro Eintrag
-            ein JSONObject mit drei Feldern, das du ans array haengst ...
+        ... hier läufst du über entries und baust pro Eintrag
+            ein JSONObject mit drei Feldern, das du ans array hängst ...
     } <span class="k">catch</span> (<span class="t">JSONException</span> e) {
         <span class="t">Log</span>.e(TAG, <span class="s">"highscores not writable"</span>, e);
         <span class="k">return</span>;
@@ -234,8 +234,8 @@ a.put(o);                        <span class="c">// Objekt in die Liste</span>
 
 <pre><span class="k">public static void</span> add(<span class="t">Context</span> context, <span class="t">HighscoreEntry</span> entry) {
     ... hol die ganze Liste ...
-    ... haeng den neuen Eintrag an ...
-    ... schreib die ganze Liste zurueck ...
+    ... häng den neuen Eintrag an ...
+    ... schreib die ganze Liste zurück ...
     <span class="t">Log</span>.d(TAG, <span class="s">"highscore added, total="</span> + entries.size());
 }</pre>
 
@@ -400,7 +400,7 @@ ScrollView svResult            <span class="c">// 0dp mal 0dp, an allen vier Ank
                │      └─ currentName()          <span class="c">// liest und trimmt</span>
                │      └─ tilPlayerName.setError(...)  <span class="c">// bei Fehler</span>
                │
-               ├─ HighscoreStorage.add(...)     <span class="c">// nur wenn gueltig</span>
+               ├─ HighscoreStorage.add(...)     <span class="c">// nur wenn gültig</span>
                └─ updateSaveArea()              <span class="c">// sperrt Feld und Knopf</span>
 
 Klick auf btnStart
@@ -437,7 +437,7 @@ tvSaved = findViewById(R.id.tvSaved);</pre>
 <p><b>Ein Knopf ohne Listener ist ein Bild von einem Knopf.</b> Wer eine neue Methode schreibt, die auf einen Klick reagieren soll, prüft sofort: ruft sie überhaupt jemand auf?</p>
 </div>
 <p>Und die Aktionstaste, <b>freiwillig, wenn du Zeit hast</b>. Sie ist neu, darum hier vollständig:</p>
-<pre><span class="c">// Die Aktionstaste unten rechts auf der Tastatur loest dasselbe aus</span>
+<pre><span class="c">// Die Aktionstaste unten rechts auf der Tastatur löst dasselbe aus</span>
 <span class="c">// wie der Knopf. Wer tippt, will nicht zur Maus greifen.</span>
 etPlayerName.setOnEditorActionListener((v, actionId, event) -&gt; {
     <span class="k">if</span> (actionId == <span class="t">EditorInfo</span>.IME_ACTION_DONE) {
