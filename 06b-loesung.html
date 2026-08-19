@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>06B Lösung, Validierung und inputType</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>06B Lösung, Validierung und inputType</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 3 Nachmittag. Version 1 vom 19.08.2026.</p>
+<p class="sub">Zum Durchlesen brauchst du etwa 18 Minuten. Such dir die Stelle, die du brauchst, du musst nicht alles lesen.</p>
+<p class="sub">Schau erst hinein, wenn deine App läuft. Der ganze Code steht hier, aber er nützt dir nur, wenn du vorher selbst gesucht hast.</p>
+
+<h2>Die Vergleichsliste, dein eigener Code</h2>
+
+<p>Geh diese dreizehn Punkte an deinen eigenen Dateien durch. Sie treffen genau das, was in der Leistungsbeurteilung Punkte gibt.</p>
+
+<table>
+<tr><th class="num">Nr</th><th>Das prüfst du</th><th>Warum es zählt</th></tr>
+<tr><td class="num">1</td><td><code>setError</code> steht auf <code>tilPlayerName</code>, nicht auf <code>etPlayerName</code></td><td><b>Der wichtigste Punkt.</b> Beide kompilieren, beide zeigen etwas. Die LB verlangt die Meldung am Feld</td></tr>
+<tr><td class="num">2</td><td><code>setError(null)</code> steht im gültigen Fall, am Ende von <code>isNameValid</code></td><td>Ohne die Zeile bleibt die rote Meldung stehen. Kein Compiler warnt</td></tr>
+<tr><td class="num">3</td><td><code>app:errorEnabled="true"</code> steht am <code>TextInputLayout</code></td><td>Sonst springt das Layout beim ersten Fehler, und wer im Sprung tippt, trifft den falschen Knopf</td></tr>
+<tr><td class="num">4</td><td><code>.trim()</code> steht in <code>currentName</code>, also an <b>einer</b> Stelle</td><td>Geprüft und gespeichert wird derselbe Wert. Zweimal trimmen wäre zwei Stellen zum Vergessen</td></tr>
+<tr><td class="num">5</td><td>Die drei Felder von <code>HighscoreEntry</code> sind <code>private final</code>, es gibt keine Setter</td><td>Ein Ergebnis in der Rangliste ändert sich nicht mehr. Der Datentyp trägt die Regel</td></tr>
+<tr><td class="num">6</td><td><code>showState</code> schaltet <code>svResult</code>, und <code>llResult</code> kommt darin nicht mehr vor</td><td>Ein Container, der etwas versteckt, muss sich selbst verstecken</td></tr>
+<tr><td class="num">7</td><td>Es gibt <b>keine</b> zweite ScrollView im Ergebnisbereich</td><td>Zwei ineinander streiten sich um die Wischgeste</td></tr>
+<tr><td class="num">8</td><td><code>updateSaveArea</code> ist die einzige Stelle, die Knopf, Feld und Bestätigung setzt</td><td>Dieselbe Bauart wie <code>showState</code>. Verteilte Zeilen vergisst man einzeln</td></tr>
+<tr><td class="num">9</td><td><code>onStartClicked</code> setzt <code>scoreSaved</code> zurück und leert das Feld</td><td>Sonst ist der Knopf ab der zweiten Runde für immer gesperrt</td></tr>
+<tr><td class="num">10</td><td><b>Javadoc an allen vier neuen Methoden und allen fünf neuen Feldern</b></td><td>Wird in der LB bewertet. Nachträglich dauert es zehnmal so lang</td></tr>
+<tr><td class="num">11</td><td><b>Der Klassenkommentar der <code>GameActivity</code> nennt <code>svResult</code> und hat einen Absatz zu 06B</b></td><td>Er sagte bis heute <code>llResult</code>. Ein falscher Kommentar ist schlimmer als gar keiner</td></tr>
+<tr><td class="num">12</td><td>Im Insets-Block der <code>onCreate</code> steht <code>Type.systemBars() | Type.ime()</code></td><td>Ohne <code>ime()</code> legt sich die Tastatur über den Inhalt, obwohl im Manifest <code>adjustResize</code> steht. Siehe B3</td></tr>
+<tr><td class="num">13</td><td><code>btnSaveScore.setOnClickListener(v -&gt; onSaveScoreClicked());</code> steht in <code>onCreate</code></td><td><b>Der zweite stille Fehler.</b> Ohne die Zeile passiert beim Antippen gar nichts, ohne Absturz und ohne Logcat-Eintrag</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Wenn du nur zwei Punkte prüfst, dann Nummer 1 und Nummer 13.</b> Das sind die beiden, bei denen die App völlig normal läuft und trotzdem das Falsche tut. Nummer 1 zeigt die Meldung am falschen Ort, bei Nummer 13 passiert gar nichts. Alle anderen fallen dir beim Ausprobieren auf.</p>
+</div>
+
+<p>Wenn ein Punkt bei dir anders ist und trotzdem funktioniert, entscheide selbst. Aber du solltest sagen können, warum. Genau das wird in der Leistungsbeurteilung gefragt.</p>
+
+<h2>Antworten zu den Denkfragen</h2>
+
+<p><b>1. Warum stecken zwei Elemente ineinander, ein Rahmen und ein Feld?</b></p>
+<p>Weil sie zwei verschiedene Aufgaben haben. Das <code>TextInputEditText</code> nimmt Text entgegen, mehr nicht. Das <code>TextInputLayout</code> darum herum kümmert sich um alles, was man <b>über</b> dem Text sieht: den Hinweistext, der beim Tippen nach oben wandert und klein wird, den Rahmen, die Fehlermeldung darunter, und den Platz dafür.</p>
+<p>Gäbe es nur ein Element, müsste es beides können. Genau das war die alte Lösung, und die sieht man noch: <code>EditText.setError</code> zeigt eine kleine Sprechblase, weil ein <code>EditText</code> keinen Platz unter sich hat, in den es schreiben könnte.</p>
+<p>Das Muster heisst Container und Child und begegnet dir in Material Design an mehreren Stellen. Merksatz: <b>der Container übernimmt die Darstellung, das Child die Funktion.</b></p>
+
+<p><b>2. <code>HighscoreEntry</code> hat drei <code>final</code>-Felder, <code>Question</code> hat Setter. Woran liegt das?</b></p>
+<p>Daran, was mit den Daten geschieht, nachdem sie entstanden sind.</p>
+<table>
+<tr><th></th><th><code>HighscoreEntry</code></th><th><code>Question</code></th></tr>
+<tr><td>Entsteht</td><td>am Ende einer Runde</td><td>beim Anlegen einer Frage</td></tr>
+<tr><td>Wird danach</td><td>nur gelesen und angezeigt</td><td>ab Tag 4 <b>bearbeitet</b></td></tr>
+<tr><td>Also</td><td><code>final</code>, keine Setter</td><td>Setter nötig</td></tr>
+</table>
+<p>Und der Grund, warum das mehr ist als Geschmack: <code>final</code> macht aus einer Absicht eine Zusage, die der Compiler durchsetzt. Wer versucht, einen Eintrag nachträglich zu ändern, bekommt einen Fehler statt eines stillen Bugs.</p>
+<p><b>Das ist dieselbe Entscheidung wie in 06A A4</b>, nur von der anderen Seite. Dort hast du entschieden, dass der Eintrag keine <code>id</code> braucht, weil man ihn nie einzeln ändert. Hier setzt der Code diese Entscheidung durch.</p>
+
+<p><b>3. Was müsstest du tun, um genau einen Eintrag zu löschen?</b></p>
+<p>Die ganze Liste lesen, in Objekte verwandeln, den einen herausnehmen, alles zurück in Text verwandeln, alles zurückschreiben.</p>
+<p>Und du müsstest zuerst eine Frage beantworten, die du gar nicht beantworten kannst: <b>welcher ist der eine?</b> Es gibt kein Feld, das einen Eintrag eindeutig macht. Zwei Spieler können <code>Sara</code> heissen und beide 4 Punkte in Sport haben.</p>
+<div class="info">
+<p><b>Das ist genau die Frage aus dem Ausblick von 05D, und heute hast du den Code dazu vor dir.</b> Schau in <code>add</code>: dort steht wörtlich <code>getAll</code>, dann <code>entries.add</code>, dann <code>saveAll</code>. Die ganze Liste, für einen einzelnen Eintrag.</p>
+<p>Beim Anhängen ist das harmlos. Beim Löschen bräuchtest du zusätzlich einen Schlüssel. Ab Tag 4 hat die Datenbank beides, und <code>dao.delete(entity)</code> ist eine Zeile.</p>
+</div>
+
+<h2>Teil A, die zwei neuen Klassen</h2>
+
+<h3>model/HighscoreEntry.java</h3>
+
+<pre><span class="k">package</span> ch.wiss.m335.quiz.model;
+
+<span class="c">/**
+ * Ein Eintrag in der Rangliste.
+ *
+ * Genau drei Felder, mehr braucht es nicht. Die Kategorie ist von Anfang
+ * an dabei, damit in 06C getrennte Ranglisten möglich sind, ohne dass die
+ * Datenhaltung nochmals umgebaut werden muss.
+ *
+ * Diese Klasse ist das Ergebnis des Datenmodells, das du in 06A auf Papier
+ * gezeichnet hast.
+ */</span>
+<span class="k">public class</span> <span class="t">HighscoreEntry</span> {
+
+    <span class="c">/** Der eingegebene Name. Pflichtfeld, mindestens drei Zeichen. */</span>
+    <span class="k">private final</span> <span class="t">String</span> name;
+
+    <span class="c">/** Die erreichten Punkte. */</span>
+    <span class="k">private final int</span> score;
+
+    <span class="c">/** "Alle" oder eine der vier Kategorien. Bestimmt die Rangliste. */</span>
+    <span class="k">private final</span> <span class="t">String</span> category;
+
+    <span class="c">/**
+     * Erzeugt einen neuen Eintrag.
+     *
+     * @param name     der Name des Spielers
+     * @param score    die erreichten Punkte
+     * @param category die gespielte Kategorie
+     */</span>
+    <span class="k">public</span> <span class="t">HighscoreEntry</span>(<span class="t">String</span> name, <span class="k">int</span> score, <span class="t">String</span> category) {
+        <span class="k">this</span>.name = name;
+        <span class="k">this</span>.score = score;
+        <span class="k">this</span>.category = category;
+    }
+
+    <span class="c">/** @return der Name des Spielers */</span>
+    <span class="k">public</span> <span class="t">String</span> getName() {
+        <span class="k">return</span> name;
+    }
+
+    <span class="c">/** @return die erreichten Punkte */</span>
+    <span class="k">public int</span> getScore() {
+        <span class="k">return</span> score;
+    }
+
+    <span class="c">/** @return die gespielte Kategorie */</span>
+    <span class="k">public</span> <span class="t">String</span> getCategory() {
+        <span class="k">return</span> category;
+    }
+}</pre>
+
+<div class="tip">
+<p><b>Deine Feldnamen dürfen abweichen</b>, solange sie englisch sind und zu deiner Zeichnung aus 06A passen. <code>playerName</code> statt <code>name</code> ist völlig in Ordnung.</p>
+<p>Was nicht abweichen darf: drei Felder, alle <code>final</code>, keine Setter, Javadoc überall.</p>
+</div>
+
+<h3>data/HighscoreStorage.java, die ganze Klasse</h3>
+
+<p>Gebaut wie <code>ScoreStorage</code>: privater Konstruktor, nur statische Methoden, dieselbe Ablage. <code>getAll</code> stand im Auftrag, <code>saveAll</code> und <code>add</code> hast du selbst geschrieben. Hier ist alles zusammen.</p>
+
+<pre><span class="k">package</span> ch.wiss.m335.quiz.data;
+
+<span class="k">import</span> android.content.Context;
+<span class="k">import</span> android.content.SharedPreferences;
+<span class="k">import</span> android.util.Log;
+
+<span class="k">import</span> org.json.JSONArray;
+<span class="k">import</span> org.json.JSONException;
+<span class="k">import</span> org.json.JSONObject;
+
+<span class="k">import</span> java.util.ArrayList;
+<span class="k">import</span> java.util.List;
+
+<span class="k">import</span> ch.wiss.m335.quiz.model.HighscoreEntry;
+
+<span class="c">/**
+ * Speichert die Rangliste in SharedPreferences.
+ *
+ * SharedPreferences kennen nur einfache Werte. Eine Liste passt dort nicht
+ * hinein. Also verwandeln wir sie in einen JSON-Text und wieder zurück.
+ *
+ * Dieser Umweg ist mit Absicht sichtbar. Zähl die Zeilen: rund vierzig, um
+ * eine Liste mit drei Feldern abzulegen und zu holen. Jedes Feld steht
+ * viermal da, in der Klasse, beim Schreiben, beim Lesen und als Schlüssel.
+ * Ein neues Feld heisst vier Änderungen an vier Orten.
+ *
+ * Und jetzt die Frage, die alles entscheidet: was tust du, wenn du nur den
+ * Eintrag von Sara ändern willst? Antwort: die ganze Liste lesen, im
+ * Speicher ändern, die ganze Liste zurückschreiben.
+ *
+ * Genau darum bekommen die Fragen am Tag 4 eine Datenbank und die
+ * Rangliste nicht. Die Regel: ganze kleine Liste am Stück gleich
+ * SharedPreferences, einzeln bearbeitbare Datensätze gleich Datenbank.
+ */</span>
+<span class="k">public final class</span> <span class="t">HighscoreStorage</span> {
+
+    <span class="k">private static final</span> <span class="t">String</span> TAG = <span class="s">"Modul335"</span>;
+
+    <span class="c">/** Dieselbe Ablage wie beim besten Wert. */</span>
+    <span class="k">private static final</span> <span class="t">String</span> PREFS_NAME = <span class="s">"m335_quiz"</span>;
+
+    <span class="c">/** Der Schlüssel, unter dem der ganze JSON-Text liegt. */</span>
+    <span class="k">private static final</span> <span class="t">String</span> KEY_HIGHSCORES = <span class="s">"highscores"</span>;
+
+    <span class="c">// Die Namen der Felder im JSON. Beim Schreiben und beim Lesen
+    // dieselben, darum als Konstante.</span>
+    <span class="k">private static final</span> <span class="t">String</span> FIELD_NAME = <span class="s">"name"</span>;
+    <span class="k">private static final</span> <span class="t">String</span> FIELD_SCORE = <span class="s">"score"</span>;
+    <span class="k">private static final</span> <span class="t">String</span> FIELD_CATEGORY = <span class="s">"category"</span>;
+
+    <span class="c">/** Diese Klasse wird nie erzeugt, sie hat nur statische Methoden. */</span>
+    <span class="k">private</span> <span class="t">HighscoreStorage</span>() {
+    }
+
+    <span class="k">private static</span> <span class="t">SharedPreferences</span> prefs(<span class="t">Context</span> context) {
+        <span class="k">return</span> context.getSharedPreferences(PREFS_NAME, <span class="t">Context</span>.MODE_PRIVATE);
+    }
+
+    <span class="c">/**
+     * Liest die ganze Rangliste.
+     *
+     * @param context irgendein Context
+     * @return alle Einträge in der Reihenfolge des Speicherns, nie null
+     */</span>
+    <span class="k">public static</span> <span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; getAll(<span class="t">Context</span> context) {
+        <span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; entries = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;();
+        <span class="t">String</span> text = prefs(context).getString(KEY_HIGHSCORES, <span class="s">"[]"</span>);
+
+        <span class="k">try</span> {
+            <span class="t">JSONArray</span> array = <span class="k">new</span> <span class="t">JSONArray</span>(text);
+            <span class="k">for</span> (<span class="k">int</span> i = <span class="k">0</span>; i &lt; array.length(); i++) {
+                <span class="t">JSONObject</span> object = array.getJSONObject(i);
+                entries.add(<span class="k">new</span> <span class="t">HighscoreEntry</span>(
+                        object.getString(FIELD_NAME),
+                        object.getInt(FIELD_SCORE),
+                        object.getString(FIELD_CATEGORY)));
+            }
+        } <span class="k">catch</span> (<span class="t">JSONException</span> e) {
+            <span class="c">// Kaputter Text, zum Beispiel nach einem misslungenen Umbau.
+            // Lieber eine leere Liste als ein Absturz beim Start.</span>
+            <span class="t">Log</span>.e(TAG, <span class="s">"highscores unreadable, starting empty"</span>, e);
+        }
+
+        <span class="k">return</span> entries;
+    }
+
+    <span class="c">/**
+     * Hängt einen Eintrag an die Rangliste an.
+     *
+     * Beachte, was hier passiert: es wird die ganze Liste gelesen, ein
+     * Eintrag ergänzt und die ganze Liste zurückgeschrieben. Einen
+     * einzelnen Eintrag anzufügen geht mit SharedPreferences nicht.
+     *
+     * @param context irgendein Context
+     * @param entry   der neue Eintrag
+     */</span>
+    <span class="k">public static void</span> add(<span class="t">Context</span> context, <span class="t">HighscoreEntry</span> entry) {
+        <span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; entries = getAll(context);
+        entries.add(entry);
+        saveAll(context, entries);
+        <span class="t">Log</span>.d(TAG, <span class="s">"highscore added, total="</span> + entries.size());
+    }
+
+    <span class="c">/**
+     * Schreibt die ganze Rangliste zurück.
+     *
+     * @param context irgendein Context
+     * @param entries die vollständige Liste
+     */</span>
+    <span class="k">private static void</span> saveAll(<span class="t">Context</span> context, <span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; entries) {
+        <span class="t">JSONArray</span> array = <span class="k">new</span> <span class="t">JSONArray</span>();
+
+        <span class="k">try</span> {
+            <span class="k">for</span> (<span class="t">HighscoreEntry</span> entry : entries) {
+                <span class="t">JSONObject</span> object = <span class="k">new</span> <span class="t">JSONObject</span>();
+                object.put(FIELD_NAME, entry.getName());
+                object.put(FIELD_SCORE, entry.getScore());
+                object.put(FIELD_CATEGORY, entry.getCategory());
+                array.put(object);
+            }
+        } <span class="k">catch</span> (<span class="t">JSONException</span> e) {
+            <span class="t">Log</span>.e(TAG, <span class="s">"highscores not writable"</span>, e);
+            <span class="k">return</span>;
+        }
+
+        prefs(context).edit().putString(KEY_HIGHSCORES, array.toString()).apply();
+    }
+}</pre>
+
+<h3>Die zwei Teile, die du selbst geschrieben hast</h3>
+
+<p><code>saveAll</code> ist die Umkehrung von <code>getAll</code>. Wenn deine Version anders aussieht und funktioniert, ist sie richtig.</p>
+
+<pre><span class="k">private static void</span> saveAll(<span class="t">Context</span> context, <span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; entries) {
+    <span class="t">JSONArray</span> array = <span class="k">new</span> <span class="t">JSONArray</span>();
+
+    <span class="k">try</span> {
+        <span class="k">for</span> (<span class="t">HighscoreEntry</span> entry : entries) {
+            <span class="t">JSONObject</span> object = <span class="k">new</span> <span class="t">JSONObject</span>();
+            object.put(FIELD_NAME, entry.getName());
+            object.put(FIELD_SCORE, entry.getScore());
+            object.put(FIELD_CATEGORY, entry.getCategory());
+            array.put(object);
+        }
+    } <span class="k">catch</span> (<span class="t">JSONException</span> e) {
+        <span class="t">Log</span>.e(TAG, <span class="s">"highscores not writable"</span>, e);
+        <span class="k">return</span>;
+    }
+
+    prefs(context).edit().putString(KEY_HIGHSCORES, array.toString()).apply();
+}
+
+<span class="k">public static void</span> add(<span class="t">Context</span> context, <span class="t">HighscoreEntry</span> entry) {
+    <span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; entries = getAll(context);
+    entries.add(entry);
+    saveAll(context, entries);
+    <span class="t">Log</span>.d(TAG, <span class="s">"highscore added, total="</span> + entries.size());
+}</pre>
+
+<div class="tip">
+<p><b>Stell die zwei Schleifen nebeneinander.</b> In <code>getAll</code> steht <code>object.getString(FIELD_NAME)</code>, in <code>saveAll</code> steht <code>object.put(FIELD_NAME, ...)</code>. Dieselbe Konstante, entgegengesetzte Richtung.</p>
+<p>Wenn du das siehst, hast du das Muster. Es ist überall dasselbe, egal ob JSON, XML oder eine Datei: <b>lesen und schreiben sind Spiegelbilder, und beide müssen dieselben Namen benutzen.</b></p>
+</div>
+
+<h3>Deine Zählung</h3>
+
+<p>Die Frage war, wie oft du das Wort <code>name</code> hingeschrieben hast.</p>
+
+<table>
+<tr><th class="num">Nr</th><th>Wo</th><th>Als was</th></tr>
+<tr><td class="num">1</td><td><code>HighscoreEntry</code></td><td>das Feld selbst, plus Konstruktor und Getter</td></tr>
+<tr><td class="num">2</td><td><code>HighscoreStorage</code></td><td>die Konstante <code>FIELD_NAME</code></td></tr>
+<tr><td class="num">3</td><td><code>getAll</code></td><td>beim Lesen aus dem JSONObject</td></tr>
+<tr><td class="num">4</td><td><code>saveAll</code></td><td>beim Schreiben ins JSONObject</td></tr>
+</table>
+
+<p><b>Viermal, an vier Orten.</b> Und dasselbe gilt für <code>score</code> und für <code>category</code>.</p>
+
+<div class="note">
+<p><b>Und jetzt die Frage nach dem vierten Feld.</b> Du willst ein Datum dazu. Was musst du anfassen?</p>
+<p>Das Feld in <code>HighscoreEntry</code>, den Konstruktor, einen Getter, eine neue Konstante, eine Zeile in <code>getAll</code>, eine Zeile in <code>saveAll</code>. <b>Sechs Stellen für ein Feld.</b></p>
+<p>Vergisst du die Zeile in <code>saveAll</code>, kompiliert alles. Das Datum wird nie geschrieben, beim Lesen kommt eine <code>JSONException</code>, und die fängst du selbst ab. Deine Rangliste ist danach still leer.</p>
+</div>
+
+<h3>Was <code>add</code> wirklich tut</h3>
+
+<p>Vier Zeilen, und drei davon sind der ganze Punkt dieses Auftrags.</p>
+
+<pre>entries = getAll(context);      <span class="c">// ALLE lesen</span>
+entries.add(entry);             <span class="c">// einen aendern</span>
+saveAll(context, entries);      <span class="c">// ALLE zurueckschreiben</span></pre>
+
+<p>Es gibt keinen anderen Weg. SharedPreferences kennen einen Schlüssel und einen Wert. Der Wert ist hier der ganze Text mit der ganzen Liste darin. Man kann nicht einen Teil davon anfassen.</p>
+
+<div class="info">
+<p><b>Bei drei Einträgen ist das egal. Bei dreitausend nicht.</b> Und beim Ändern oder Löschen eines einzelnen Eintrags käme dazu, dass du gar nicht sagen kannst, welcher gemeint ist. Es gibt kein eindeutiges Feld.</p>
+<p><b>Genau das hast du in 06A auf Papier entschieden.</b> Dort stand: eine kurze Liste, die immer als Ganzes gelesen und geschrieben wird, passt in SharedPreferences. Heute hast du gesehen, was "als Ganzes" im Code bedeutet.</p>
+</div>
+
+<h2>Teil B, das Layout</h2>
+
+<h3>Der Ergebnisbereich, vorher und nachher</h3>
+
+<pre><span class="c">// vorher, nach 05D</span>
+LinearLayout llResult          <span class="c">// 0dp mal 0dp, vier Anker, visibility gone</span>
+  ├─ TextView tvResult
+  ├─ Button btnRestart
+  ├─ Button btnBackToMain
+  ├─ TextView tvListTitle
+  └─ ScrollView svQuestionList
+       └─ LinearLayout llQuestionList
+
+<span class="c">// nachher, 06B</span>
+ScrollView svResult            <span class="c">// 0dp mal 0dp, vier Anker, visibility gone</span>
+  └─ LinearLayout llResult     <span class="c">// match_parent mal wrap_content</span>
+       ├─ TextView tvResult
+       ├─ TextInputLayout tilPlayerName      <span class="c">// NEU</span>
+       │    └─ TextInputEditText etPlayerName  <span class="c">// NEU</span>
+       ├─ Button btnSaveScore                <span class="c">// NEU</span>
+       ├─ TextView tvSaved                   <span class="c">// NEU, gone</span>
+       ├─ Button btnRestart
+       ├─ Button btnBackToMain
+       ├─ TextView tvListTitle
+       └─ LinearLayout llQuestionList        <span class="c">// ohne eigene ScrollView</span></pre>
+
+<div class="tip">
+<p><b>Der Trick beim Umbau:</b> die vier Anker, <code>0dp</code> mal <code>0dp</code> und <code>visibility="gone"</code> wandern von <code>llResult</code> auf <code>svResult</code>. Das <code>llResult</code> behält nur noch <code>match_parent</code>, <code>wrap_content</code> und <code>orientation</code>.</p>
+<p>Wer die Anker am <code>llResult</code> stehen lässt, bekommt einen Fehler im Layout-Editor. Anker sind eine Nachricht an den Parent, und der Parent ist jetzt die ScrollView.</p>
+</div>
+
+<h3>Die fünf neuen Strings</h3>
+
+<pre>&lt;string name=<span class="s">"hint_player_name"</span>&gt;Dein Name&lt;/string&gt;
+&lt;string name=<span class="s">"btn_save_score"</span>&gt;In die Rangliste eintragen&lt;/string&gt;
+&lt;string name=<span class="s">"error_name_required"</span>&gt;Bitte gib deinen Namen ein.&lt;/string&gt;
+&lt;string name=<span class="s">"error_name_too_short"</span>&gt;Mindestens drei Zeichen.&lt;/string&gt;
+&lt;string name=<span class="s">"score_saved"</span>&gt;Eingetragen. Du stehst jetzt in der Rangliste.&lt;/string&gt;</pre>
+
+<p>Beachte die zwei Fehlermeldungen: sie sagen, <b>was zu tun ist</b>, nicht was falsch war. Nicht "Ungültige Eingabe", sondern "Mindestens drei Zeichen". Das ist der Unterschied zwischen einer Meldung und einer Hilfe.</p>
+
+<div class="info">
+<p><b>Der Zustand nach Teil B: der Knopf tut nichts.</b> Kein Absturz, keine Meldung, nichts im Logcat. Das ist richtig so.</p>
+<p>Teil B baut das Layout, Teil C baut das Verhalten. <b>Dieselbe Trennung wie in 03B</b>, wo der Spielbildschirm zuerst dasteht und erst in 03C auf Klicks reagiert.</p>
+<p>Der Knopf bekommt sein Verhalten in C1, mit einer einzigen Zeile: <code>btnSaveScore.setOnClickListener(v -&gt; onSaveScoreClicked());</code></p>
+</div>
+
+<h3>B3, die Tastatur und der Insets-Block</h3>
+
+<p>Das ist die Stelle, an der zwei Dinge zusammenkommen, die seit dem ersten Tag im Projekt stehen und sich bis heute nie in die Quere kamen.</p>
+
+<pre><span class="c">// AndroidManifest.xml, bei der GameActivity, seit 01B</span>
+android:windowSoftInputMode=<span class="s">"adjustResize"</span>
+
+<span class="c">// GameActivity.onCreate, aus der Projektvorlage, bis heute nie angefasst</span>
+<span class="t">EdgeToEdge</span>.enable(<span class="k">this</span>);
+<span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(R.id.clGame), (v, insets) -&gt; {
+    <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.Type.systemBars());
+    v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+    <span class="k">return</span> insets;
+});</pre>
+
+<p><code>adjustResize</code> sagt dem System: mach das Fenster kleiner, wenn die Tastatur kommt. Solange die App den Platz vom System zugeteilt bekommt, genügt das.</p>
+
+<p><b>Mit <code>EdgeToEdge.enable</code> gilt das nicht mehr.</b> Die App zeichnet ab da bis an den Bildschirmrand, unter die Statusleiste und unter die Navigationsleiste. Wer das tut, bekommt keinen Platz mehr geschenkt, sondern muss ihn selbst freilassen. Der Insets-Block ist genau diese Stelle. Er fragt, wie viel Rand gebraucht wird, und setzt so viel Innenabstand.</p>
+
+<p>Gefragt wird bisher nur nach <code>systemBars()</code>. Das sind Statusleiste und Navigationsleiste. Die Tastatur ist ein eigener Typ und kommt in der Frage nicht vor. Also lässt die App keinen Platz für sie frei, und die Tastatur legt sich über den Inhalt.</p>
+
+<p>Die Reparatur ist eine Zeile:</p>
+
+<pre><span class="t">Insets</span> systemBars = insets.getInsets(
+        <span class="t">WindowInsetsCompat</span>.Type.systemBars() | <span class="t">WindowInsetsCompat</span>.Type.ime());</pre>
+
+<p>Der senkrechte Strich verbindet zwei Typen zu einer Frage. Gelesen wird er hier als <b>und</b>: gib mir den Rand für die Systemleisten <b>und</b> für die Tastatur.</p>
+
+<div class="tip">
+<p><b>Der Merksatz:</b> wer selbst bis an den Rand zeichnet, muss sich auch selbst um die Ränder kümmern.</p>
+<p><code>adjustResize</code> bleibt trotzdem stehen. Es ist die Ansage, was passieren soll. Der Insets-Block ist die Stelle, an der es passiert. Fehlt die Ansage, hilft auch der Block nichts.</p>
+</div>
+
+<div class="warn">
+<p><b>Auf dem Emulator ist dieser Unterschied kaum zu sehen.</b> Der Emulator meldet bei der Tastatur oft gar keine Insets, weil er im Hintergrund eine Hardware-Tastatur mitführt. Der Code ist dann richtig und die Wirkung bleibt aus.</p>
+<p>Auf einem echten Gerät ist der Unterschied sofort sichtbar. Wenn es im Emulator nicht wirkt, ist das kein Grund, die Zeile wieder herauszunehmen.</p>
+</div>
+
+<h2>Teil C, der Code in der GameActivity</h2>
+
+<h3>Was dazukommt</h3>
+
+<pre><span class="c">// Importe</span>
+<span class="k">import</span> android.view.inputmethod.EditorInfo;
+<span class="k">import</span> com.google.android.material.textfield.TextInputEditText;
+<span class="k">import</span> com.google.android.material.textfield.TextInputLayout;
+<span class="k">import</span> ch.wiss.m335.quiz.data.HighscoreStorage;
+<span class="k">import</span> ch.wiss.m335.quiz.model.HighscoreEntry;
+
+<span class="c">// Konstante</span>
+<span class="c">/** So viele Zeichen braucht ein Name mindestens. */</span>
+<span class="k">private static final int</span> MIN_NAME_LENGTH = <span class="k">3</span>;
+
+<span class="c">// Felder, llResult wird zu svResult und wechselt den Typ</span>
+<span class="k">private</span> <span class="t">ScrollView</span> svResult;
+<span class="k">private</span> <span class="t">TextInputLayout</span> tilPlayerName;
+<span class="k">private</span> <span class="t">TextInputEditText</span> etPlayerName;
+<span class="k">private</span> <span class="t">Button</span> btnSaveScore;
+<span class="k">private</span> <span class="t">TextView</span> tvSaved;
+<span class="k">private boolean</span> scoreSaved = <span class="k">false</span>;</pre>
+
+<h4>Die Verkabelung in onCreate</h4>
+
+<p>Die erste Zeile <b>ersetzt</b> die bestehende, die vier darunter sind neu. Sie stehen bei den anderen <code>findViewById</code>-Aufrufen.</p>
+
+<pre><span class="c">// war vorher: llResult = findViewById(R.id.llResult);</span>
+svResult = findViewById(R.id.svResult);
+tilPlayerName = findViewById(R.id.tilPlayerName);
+etPlayerName = findViewById(R.id.etPlayerName);
+btnSaveScore = findViewById(R.id.btnSaveScore);
+tvSaved = findViewById(R.id.tvSaved);</pre>
+
+<p>Und weiter unten, direkt nach <code>btnStart.setOnClickListener</code>:</p>
+
+<pre>btnSaveScore.setOnClickListener(v -&gt; onSaveScoreClicked());
+
+<span class="c">// freiwillig, die Aktionstaste unten rechts auf der Tastatur</span>
+etPlayerName.setOnEditorActionListener((v, actionId, event) -&gt; {
+    <span class="k">if</span> (actionId == <span class="t">EditorInfo</span>.IME_ACTION_DONE) {
+        onSaveScoreClicked();
+        <span class="k">return true</span>;
+    }
+    <span class="k">return false</span>;
+});</pre>
+
+<div class="note">
+<p><b>Die Zeile mit <code>btnSaveScore.setOnClickListener</code> ist der stillste Fehler des Auftrags.</b> Fehlt sie, kompiliert alles, die App läuft, das Feld nimmt Text an, und beim Antippen des Knopfs passiert nichts. Kein Absturz, nichts im Logcat.</p>
+<p><b>Und sie sieht genau gleich aus wie der richtige Zustand nach Teil B.</b> Prüf darum erst, wenn Teil C fertig ist.</p>
+<p>Der Grund ist unangenehm einfach: <code>onSaveScoreClicked</code> ist eine private Methode wie jede andere. Sie heisst nur so, als würde sie von selbst laufen. <b>Ein Knopf ohne Listener ist ein Bild von einem Knopf.</b></p>
+<p><b>Die Prüffrage für jede neue Methode, die auf einen Klick reagieren soll:</b> ruft sie überhaupt jemand auf? Greppe ihren Namen. Kommt er nur bei der eigenen Deklaration vor, ist sie tot.</p>
+</div>
+
+<h3>Die vier Methoden</h3>
+
+<pre><span class="c">/**
+ * Trägt das Ergebnis der Runde in die Rangliste ein.
+ *
+ * Zwei Wächter am Anfang. Der erste verhindert den zweiten Eintrag, der
+ * zweite bricht ab, wenn der Name nicht taugt.
+ */</span>
+<span class="k">private void</span> onSaveScoreClicked() {
+    <span class="k">if</span> (scoreSaved) {
+        <span class="k">return</span>;
+    }
+    <span class="k">if</span> (!isNameValid()) {
+        <span class="k">return</span>;
+    }
+
+    <span class="t">String</span> name = currentName();
+    <span class="t">HighscoreStorage</span>.add(<span class="k">this</span>, <span class="k">new</span> <span class="t">HighscoreEntry</span>(name, score, selectedCategory));
+
+    scoreSaved = <span class="k">true</span>;
+    updateSaveArea();
+
+    <span class="t">Log</span>.d(TAG, <span class="s">"highscore saved for "</span> + name);
+}
+
+<span class="c">/**
+ * Prüft das Namensfeld und zeigt bei einem Fehler die Meldung an.
+ *
+ * setError gehört auf das TextInputLayout, nicht auf das EditText darin.
+ * Nur so erscheint die Meldung unter dem Feld.
+ *
+ * @return true, wenn der Name brauchbar ist
+ */</span>
+<span class="k">private boolean</span> isNameValid() {
+    <span class="t">String</span> name = currentName();
+
+    <span class="k">if</span> (name.isEmpty()) {
+        tilPlayerName.setError(getString(R.string.error_name_required));
+        <span class="k">return false</span>;
+    }
+    <span class="k">if</span> (name.length() &lt; MIN_NAME_LENGTH) {
+        tilPlayerName.setError(getString(R.string.error_name_too_short));
+        <span class="k">return false</span>;
+    }
+
+    <span class="c">// Ohne diese Zeile bleibt die alte Fehlermeldung stehen, auch wenn
+    // die Eingabe inzwischen stimmt.</span>
+    tilPlayerName.setError(<span class="k">null</span>);
+    <span class="k">return true</span>;
+}
+
+<span class="c">/**
+ * Liest den Namen aus dem Feld.
+ *
+ * getText kann null liefern, darum die Prüfung. Und trim entfernt
+ * Leerzeichen am Rand. Drei Leerschläge sind kein Name, sehen aber für
+ * length genau so aus wie drei Buchstaben.
+ *
+ * @return der eingegebene Name ohne Leerzeichen am Rand
+ */</span>
+<span class="k">private</span> <span class="t">String</span> currentName() {
+    <span class="k">return</span> etPlayerName.getText() == <span class="k">null</span> ? <span class="s">""</span> : etPlayerName.getText().toString().trim();
+}
+
+<span class="c">/**
+ * Schaltet den Speicherbereich je nachdem, ob schon eingetragen wurde.
+ *
+ * Genau eine Methode entscheidet darüber, wie beim showState. Wer die
+ * Sperre an drei Stellen einzeln setzt, vergisst eine davon.
+ */</span>
+<span class="k">private void</span> updateSaveArea() {
+    btnSaveScore.setEnabled(!scoreSaved);
+    etPlayerName.setEnabled(!scoreSaved);
+    tvSaved.setVisibility(scoreSaved ? <span class="t">View</span>.VISIBLE : <span class="t">View</span>.GONE);
+    <span class="k">if</span> (scoreSaved) {
+        tilPlayerName.setError(<span class="k">null</span>);
+    }
+}</pre>
+
+<h3>Die drei Zeilen in onStartClicked</h3>
+
+<pre>selectedCategory = (<span class="t">String</span>) spnCategory.getSelectedItem();
+categoryQuestions = <span class="t">QuestionBank</span>.byCategory(selectedCategory);
+
+<span class="c">// Neue Runde, neuer Eintrag. Ohne diese drei Zeilen bliebe der
+// Speichern-Knopf ab der zweiten Runde für immer gesperrt.</span>
+scoreSaved = <span class="k">false</span>;
+etPlayerName.setText(<span class="s">""</span>);
+updateSaveArea();</pre>
+
+<h3>Die eine Zeile in showState</h3>
+
+<pre><span class="c">// vorher</span>
+llResult.setVisibility(state == <span class="t">GameState</span>.RESULT ? <span class="t">View</span>.VISIBLE : <span class="t">View</span>.GONE);
+<span class="c">// nachher</span>
+svResult.setVisibility(state == <span class="t">GameState</span>.RESULT ? <span class="t">View</span>.VISIBLE : <span class="t">View</span>.GONE);</pre>
+
+<h2>Die Stelle aus C4, aufgelöst</h2>
+
+<p><b>Was passiert ist:</b> drei Leerzeichen kommen durch die Prüfung. In der Rangliste steht ein Eintrag mit einem Namen aus Leerzeichen, also faktisch ohne Namen.</p>
+
+<p><b>Warum:</b> für <code>length()</code> ist ein Leerzeichen ein Zeichen wie jedes andere. <code>"   ".length()</code> ist 3, und 3 ist nicht kleiner als <code>MIN_NAME_LENGTH</code>. Die Prüfung hat genau das getan, was dasteht.</p>
+
+<p><b>Die Reparatur, eine Zeile:</b></p>
+<pre><span class="c">// vorher</span>
+<span class="k">return</span> etPlayerName.getText() == <span class="k">null</span> ? <span class="s">""</span> : etPlayerName.getText().toString();
+<span class="c">// nachher</span>
+<span class="k">return</span> etPlayerName.getText() == <span class="k">null</span> ? <span class="s">""</span> : etPlayerName.getText().toString().trim();</pre>
+
+<div class="warn">
+<p><b>Warum die Reparatur in <code>currentName</code> gehört und nicht in <code>isNameValid</code>.</b> Beide Stellen brauchen den Namen: die Prüfung und das Speichern. Steht das <code>trim</code> in der Prüfung, wird geprüft was getrimmt ist und gespeichert was nicht getrimmt ist.</p>
+<p>Das Ergebnis wäre ein Eintrag <code>"  Sara  "</code> in der Rangliste, der beim Sortieren und beim Suchen anders behandelt wird als <code>"Sara"</code>. Und niemand sieht es an, denn Leerzeichen sind unsichtbar.</p>
+<p><b>Die Regel:</b> eine Eingabe wird an genau einer Stelle in ihre gültige Form gebracht, und alle benutzen diese Stelle.</p>
+</div>
+
+<div class="tip">
+<p><b>Merke fürs ganze Berufsleben:</b> jede Texteingabe eines Benutzers wird getrimmt. Ausnahmslos. In der Leistungsbeurteilung gilt das für Modulnummer und Modultitel genauso.</p>
+</div>
+
+<h2>Lösungen zu den Übungen</h2>
+
+<div class="ue">
+<p class="t">Übung 1, eine dritte Prüfung</p>
+<p>Ein neuer String:</p>
+<pre>&lt;string name=<span class="s">"error_name_only_digits"</span>&gt;Ein Name besteht nicht nur aus Ziffern.&lt;/string&gt;</pre>
+<p>Und ein dritter Block in <code>isNameValid</code>, <b>vor</b> dem <code>setError(null)</code>:</p>
+<pre><span class="k">if</span> (name.matches(<span class="s">"\\d+"</span>)) {
+    tilPlayerName.setError(getString(R.string.error_name_only_digits));
+    <span class="k">return false</span>;
+}</pre>
+<p>Ohne regulären Ausdruck geht es genauso:</p>
+<pre><span class="k">boolean</span> onlyDigits = <span class="k">true</span>;
+<span class="k">for</span> (<span class="k">int</span> i = <span class="k">0</span>; i &lt; name.length(); i++) {
+    <span class="k">if</span> (!<span class="t">Character</span>.isDigit(name.charAt(i))) {
+        onlyDigits = <span class="k">false</span>;
+        <span class="k">break</span>;
+    }
+}</pre>
+<div class="tip">
+<p><b>Die Reihenfolge der drei Prüfungen ist nicht beliebig.</b> Erst leer, dann zu kurz, dann nur Ziffern. Wer mit der Ziffernprüfung anfängt, meldet bei einem leeren Feld eine Meldung, die nicht passt.</p>
+<p><b>Regel:</b> von der gröbsten Bedingung zur feinsten. Dieselbe Reihenfolge brauchst du in der Prüfung bei Nummer und Titel.</p>
+</div>
+<div class="note">
+<p><b>Und die Grenze, die du kennen musst:</b> für Personennamen gibt es keinen gültigen regulären Ausdruck. Umlaute, Apostrophe, Bindestriche, chinesische Zeichen, alles kommt vor. Man prüft die Länge und schliesst offensichtlichen Unsinn aus, mehr nicht.</p>
+<p>Wer versucht, "richtige" Namen zu erzwingen, sperrt echte Menschen aus.</p>
+</div>
+</div>
+
+<div class="ue">
+<p class="t">Übung 2, erklären</p>
+<p>Eine gute Erklärung nennt beide Orte.</p>
+<p>"<code>setError</code> auf dem <code>TextInputLayout</code> schreibt die Meldung als rote Zeile <b>unter das Feld</b>, wo sie stehen bleibt, bis der Code sie wegräumt. Auf dem <code>TextInputEditText</code> gibt es eine kleine Sprechblase neben dem Feld, die beim ersten Antippen verschwindet."</p>
+<p>Und der Satz, der es rund macht: "Der Rahmen ist das Element, das Platz unter dem Feld hat. Das Feld selbst hat keinen, darum muss es sich mit einem schwebenden Fenster behelfen."</p>
+<p>Wer nur sagt "das eine ist neuer", hat die Beobachtung. Wer sagt, wo die Meldung jeweils steht und wie lange, hat die Regel.</p>
+</div>
+
+<p>Zur Zusatzaufgabe steht hier bewusst nichts. Zwei Hinweise trotzdem, weil die Diskussion mehr wert ist als der Code: wer den Knopf sperrt, braucht einen <code>TextWatcher</code> oder <code>doOnTextChanged</code>. Und das beste Gegenargument gegen die Sperre lautet: <b>ein gesperrter Knopf sagt nicht, warum er gesperrt ist.</b></p>
+
+<h2>Mögliche falsche KI-Rückmeldungen</h2>
+
+<p>Das sind Antworten, die uns bei diesem Thema schon begegnet sind. Nicht jede KI macht jeden dieser Fehler. Die Liste ist eine Prüfliste, keine Anklage.</p>
+
+<table>
+<tr><th>Die KI schlägt vor</th><th>Warum das hier falsch ist</th></tr>
+<tr><td class="pre">etPlayerName.setError("...")</td><td><b>Die Falle dieses Auftrags.</b> Funktioniert, sieht aber aus wie vor Material Design. Der Fehler gehört auf das <code>TextInputLayout</code></td></tr>
+<tr><td>Einen <code>Toast</code> für die Fehlermeldung</td><td>Verschwindet nach zwei Sekunden und sagt nicht, welches Feld gemeint ist. Bei einem Formular mit fünf Feldern unbrauchbar. <b>Die LB verlangt den Fehler am Feld</b></td></tr>
+<tr><td>Einen <code>AlertDialog</code> mit "Bitte Namen eingeben"</td><td>Unterbricht den Benutzer und verlangt einen zusätzlichen Klick zum Wegklicken. Für eine Eingabeprüfung immer zu viel</td></tr>
+<tr><td class="pre">android.support.design.widget.TextInputLayout</td><td>Das alte Support-Package. Seit 2018 heisst es <code>com.google.android.material.textfield</code></td></tr>
+<tr><td>Ein <code>EditText</code> statt eines <code>TextInputEditText</code> im Rahmen</td><td>Läuft, aber der wandernde Hinweistext funktioniert nicht richtig. Android Studio warnt sogar davor</td></tr>
+<tr><td>Prüfen mit einem regulären Ausdruck für Namen</td><td>Es gibt keinen gültigen regulären Ausdruck für Personennamen. Länge prüfen genügt</td></tr>
+<tr><td class="pre">getText().toString()</td><td>Bei einem <code>TextInputEditText</code> kann <code>getText()</code> null sein. Android Studio warnt, die KI oft nicht</td></tr>
+<tr><td>Beim Nachfragen "der Knopf reagiert nicht" gleich <code>onSaveScoreClicked</code> umschreiben</td><td>Die Methode ist meist richtig. Sie wird nur nie aufgerufen. <b>Erst prüfen, ob es einen Listener gibt</b>, dann den Inhalt anschauen</td></tr>
+<tr><td>Eine neue Abhängigkeit für Material Components eintragen</td><td><code>material</code> ist seit dem ersten Tag eingebunden. Eine zweite Zeile dafür bringt einen Versionskonflikt</td></tr>
+<tr><td>Die Rangliste als serialisiertes Objekt in die Preferences</td><td>SharedPreferences kennen nur einfache Typen. Der Umweg über Text ist genau das, was <code>HighscoreStorage</code> macht</td></tr>
+<tr><td>Gleich eine Datenbank für die Rangliste</td><td>Funktioniert, nimmt aber dem Tag 4 den Anlass weg. Und deine Entscheidung aus 06A Teil B sagt etwas anderes</td></tr>
+<tr><td>Eine <code>Gson</code>-Abhängigkeit für das JSON</td><td>Bequemer, aber eine zusätzliche Bibliothek für vierzig Zeilen. <code>org.json</code> steckt schon in Android</td></tr>
+</table>
+
+<h2>So prüfst du das Ganze</h2>
+
+<ol>
+<li>Vorbereitung: <b>Clear storage</b> im Emulator unter Settings, Apps, WissQuiz, Storage. Nicht Wipe Data.</li>
+<li>Spiel eine Runde zu Ende. Im Ergebnisbereich steht ein Feld <b>Dein Name</b>.</li>
+<li>Tipp ins Feld. Der Hinweistext wandert nach oben, die Tastatur zeigt unten rechts einen Haken, der erste Buchstabe wird gross.</li>
+<li>Bei offener Tastatur muss der Speichern-Knopf erreichbar bleiben, notfalls durch Wischen. Er darf nicht unter der Tastatur verschwinden.</li>
+<li>Ohne Eingabe auf den Knopf. Unter dem Feld erscheint <b>Bitte gib deinen Namen ein.</b> Nichts springt.<br><b>Kommt hier gar keine Meldung, fehlt der Listener am Knopf.</b> Das ist nicht dasselbe wie Schritt 9.</li>
+<li><code>Jo</code> eintippen, nochmals drücken. Jetzt steht dort <b>Mindestens drei Zeichen.</b></li>
+<li>Drei Leerzeichen eintippen und drücken. Es muss immer noch eine Fehlermeldung kommen.</li>
+<li><code>Sara</code> eintippen und drücken. Die Meldung verschwindet, die Bestätigung erscheint, Feld und Knopf sind gesperrt.</li>
+<li>Nochmals auf den Knopf. Es passiert nichts.</li>
+<li>Zweite Runde spielen und mit dem Haken auf der Tastatur eintragen, ohne den Knopf zu berühren. Dasselbe muss passieren, und das Feld war zu Beginn leer.</li>
+<li>Im Querformat ins Feld tippen. Der Bereich lässt sich wischen, Feld und Knopf bleiben über der Tastatur erreichbar.</li>
+<li>Logcat unter <code>tag:Modul335</code>: <code>highscore saved for Sara</code> und <code>highscore added, total=2</code>.</li>
+<li>Die Datei: <code>&amp; $adb shell run-as ch.wiss.m335.quiz cat shared_prefs/m335_quiz.xml</code>. Dort steht neben <code>bestScore</code> jetzt ein <code>string</code> namens <code>highscores</code>.</li>
+</ol>
+
+<div class="info">
+<p><b>Wenn im Emulator beim Antippen keine Tastatur erscheint,</b> sondern nur eine kleine schwebende Leiste am Bildschirmrand: öffne deren Menü und wähle <b>Show on-screen keyboard</b>. Der Emulator benutzt sonst die Tastatur deines Computers. Das ist eine Emulator-Eigenheit und kein Fehler in deiner App.</p>
+</div>
+
+<div class="info">
+<p><b>Auf einem echten Gerät im Dunkelmodus ist alles dunkel.</b> Weisse Schrift auf dunklem Grund, das Namensfeld mit hellem Rahmen. Auch das ist kein Fehler. Das Projekt benutzt seit dem ersten Tag <code>Theme.Material3.DayNight</code>, und <code>DayNight</code> heisst genau das: das Thema folgt der Systemeinstellung.</p>
+<p>Du hast dafür nichts getan. Das ist der Punkt. Wer eigene Farben fest verdrahtet statt die Farben des Themas zu benutzen, verliert diese Eigenschaft wieder.</p>
+</div>
+
+<div class="tip">
+<p><b>Punkt 6 ist die Stelle aus C4.</b> Wer sie überspringt, merkt den Unterschied zwischen "geprüft" und "richtig geprüft" nicht.</p>
+<p><b>Punkt 12 lohnt sich im Unterricht.</b> Zwei Einträge stehen jetzt in derselben Datei nebeneinander, ein schlichter <code>int</code> und ein langer JSON-Text. Der Unterschied zwischen einem Wert und einer Liste zu Fuss ist damit sichtbar.</p>
+</div>
+
+<div class="warn">
+<p><b>Was noch nicht funktioniert, und das ist kein Fehler von dir.</b> Dreh das Gerät mitten in einer Runde. Der Bildschirm springt zurück zur Kategoriewahl, die Runde ist weg.</p>
+<p>Das ist das bekannte Loch aus 05C, es steht dort als Zusatzaufgabe. 06B macht es weder besser noch schlimmer. Wer es geschlossen hat, sieht heute zusätzlich, dass ein <code>EditText</code> seinen getippten Text von sich aus rettet.</p>
+</div>
+
+<h2>Was als Nächstes kommt</h2>
+
+<p>Direkt danach kommt <b>06C</b>, die Rangliste als sichtbare Liste. Der Knopf auf dem Startbildschirm wird endlich freigeschaltet.</p>
+
+<p>Drei Dinge von heute zahlen dort ein:</p>
+<ul>
+<li><code>HighscoreStorage.getAll</code> ist schon da. 06C muss nur noch anzeigen.</li>
+<li>Das Feld <code>category</code>, das du in 06A entworfen hast, wird zum Filter.</li>
+<li>Und die Liste wird nicht mehr zu Fuss gebaut wie in 04B, sondern mit einem <b>RecyclerView</b>. Den Vergleich zwischen beiden Wegen ziehen wir dort ausdrücklich.</li>
+</ul>
+
+<p>Am Tag 4 kommt dann der Gegenbeweis zu heute. Dieselbe Aufgabe, aber mit einer Datenbank: was heute vierzig Zeilen braucht, kostet dort eine.</p>
+
+<p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 06B Validierung und inputType &middot; Version 1 vom 19.08.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>
