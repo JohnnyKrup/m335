@@ -37,23 +37,24 @@
 <ul>
 <li>Du liest die Felder einer Datenklasse aus deinem eigenen Code ab und schreibst sie mit Datentyp auf.</li>
 <li>Du zeichnest ein Datenmodell als Klassendiagramm, mit Feldnamen und Datentypen.</li>
-<li>Du erklärst, wozu ein Datensatz einen Schlüssel braucht.</li>
+<li>Du erklärst, wozu ein Datensatz einen Schlüssel braucht und wann er keinen braucht.</li>
+<li>Du entwirfst das Modell für eine Funktion, die es in deiner App noch gar nicht gibt.</li>
 <li>Du nennst drei Möglichkeiten, Daten lokal zu speichern, und entscheidest dich für eine.</li>
 <li>Du begründest deine Wahl mit einer Rechnung und nicht mit einem Gefühl.</li>
 </ul>
 
 <h3>Das brauchst du vorher</h3>
 <ul>
-<li>Deine Quiz-App aus 05D. Du schaust nur hinein, du änderst nichts.</li>
-<li>Deine Datei <code>Question.java</code> aus 03D.</li>
-<li>Deine Datei <code>ScoreStorage.java</code> aus 05D.</li>
+<li>Dein Projekt <b>WissQuiz</b> nach 05D. Der beste Wert bleibt jetzt erhalten. Du schaust heute nur hinein, du änderst nichts daran.</li>
+<li>Darin zwei Klassen, die du selbst geschrieben hast. <code>Question</code> hast du in 03D angelegt, <code>ScoreStorage</code> in 05D. Beide liegen noch genau dort, wo du sie erstellt hast.</li>
 <li>Das Arbeitsblatt <b>06A Datenmodell zeichnen</b> aus Google Classroom.</li>
 <li>Etwas zum Zeichnen. Papier und Stift gehen, das Arbeitsblatt geht auch.</li>
 </ul>
 
 <h3>Das gibst du ab</h3>
 <ul>
-<li>Das Datenmodell deiner Quiz-App als Klassendiagramm, mit Feldnamen und Datentypen.</li>
+<li>Den Kasten <code>Question</code>, abgelesen aus deinem eigenen Code, mit Datentypen und Schlüsselfeld.</li>
+<li>Den Kasten für den Ranglisten-Eintrag. Den gibt es in deiner App noch nicht, du entwirfst ihn.</li>
 <li>Die Tabelle mit der Persistenzwahl für vier Datenarten.</li>
 <li>Die zwei Sätze zur Begründung, im Format der Prüfung.</li>
 </ul>
@@ -81,6 +82,12 @@
 <p>Ab Tag 4 verwaltet deine App dreissig Fragen. Anlegen, ändern, löschen, nach Kategorie filtern. Dafür brauchst du eine Datenbank. Bevor du eine Datenbank baust, musst du wissen, was hineingehört. Genau das machst du heute.</p>
 
 <p>Heute entscheidest du also zweimal. Erst <b>welche Felder</b> ein Datensatz hat. Dann <b>wohin</b> er kommt.</p>
+
+<div class="info">
+<p><b>Ein Teil von heute betrifft etwas, das du noch nicht gebaut hast.</b> Deine App hat bisher keine Rangliste. Nach einer Runde siehst du deine Punkte und die zwei Knöpfe, mehr nicht. Kein Namensfeld, keine Bestenliste.</p>
+<p>Genau deshalb ist heute der richtige Moment. In <b>06B</b> baust du gleich anschliessend das Eingabefeld für den Namen, in <b>06C</b> die Liste dazu. Wer vorher weiss, welche Felder ein Eintrag hat, baut beides in einem Zug.</p>
+<p>Und es ist genau die Übung der Prüfung. Dort zeichnest du das Modell einer App, die du erst danach programmierst.</p>
+</div>
 
 <h3>Werkzeugkasten</h3>
 
@@ -127,7 +134,7 @@
 
 <h3>Denkfragen</h3>
 <ol>
-<li>Dein Highscore-Eintrag hat kein Schlüsselfeld, deine Frage bekommt gleich eines. Woran liegt das?</li>
+<li>Deine Frage bekommt gleich ein Schlüsselfeld. Der Ranglisten-Eintrag braucht keines. Woran liegt das?</li>
 <li>Warum steht bei <code>score</code> der Typ <code>int</code> und nicht <code>String</code>? Was ginge kaputt, wenn du <code>String</code> nimmst?</li>
 <li>Der beste Punktestand ist eine einzige Zahl. Warum baust du dafür keine Datenbank, obwohl du ab Tag 4 sowieso eine hast?</li>
 </ol>
@@ -136,13 +143,12 @@
 <p><b>Diese drei Fragen gibst du nicht ab.</b> Denk kurz darüber nach und notier dir ein Stichwort. Genau danach fragt der Wissenscheck, und die Antworten stehen im Lösungsmaterial.</p>
 </div>
 
-<h3>Teil A, das Datenmodell deiner Quiz-App <span class="time">18 Minuten</span></h3>
+<h3>Teil A, das Datenmodell deiner Quiz-App <span class="time">20 Minuten</span></h3>
 
 <div class="step">
-<p><span class="n">A1</span><b>Die Felder ablesen.</b> <span class="time">6 Min</span></p>
-<p>Öffne deine Datei <code>Question.java</code> aus 03D. Schau dir nur den oberen Teil an, dort wo die Felder stehen.</p>
-<p>Trag jedes Feld in die erste Tabelle deines Arbeitsblatts ein: Feldname, Datentyp, ein Beispielwert.</p>
-<p>Mach dasselbe mit dem Highscore-Eintrag. Wenn du ihn noch nicht als Klasse hast, nimm die drei Angaben, die du im Ergebnisbereich brauchst: der Name, die Punkte, die Kategorie.</p>
+<p><span class="n">A1</span><b>Die Felder ablesen.</b> <span class="time">5 Min</span></p>
+<p>Öffne in deinem Projekt die Datei <code>Question.java</code>. Du hast sie in 03D angelegt und seither nicht mehr angefasst. Schau dir nur den oberen Teil an, dort wo die Felder stehen.</p>
+<p>Trag jedes Feld in die Tabelle deines Arbeitsblatts ein: Feldname, Datentyp, ein Beispielwert.</p>
 <div class="warn">
 <p><b>Schreib ab, was wirklich dasteht.</b> Nicht, was du erwartest. Wenn dein Feld <code>correctAnswer</code> heisst und vom Typ <code>String</code> ist, dann steht das so im Modell. Wenn du es damals anders benannt hast, ist das auch richtig, es ist dein Code.</p>
 <p>Das ist keine Formsache. In der Prüfung liest du dein Modell später beim Programmieren wieder. Wenn es nicht zu deinem Code passt, hast du zwei Wahrheiten.</p>
@@ -150,8 +156,8 @@
 </div>
 
 <div class="step">
-<p><span class="n">A2</span><b>Die zwei Kästen zeichnen.</b> <span class="time">7 Min</span></p>
-<p>Zeichne auf dem Arbeitsblatt zwei Kästen, einen für die Frage und einen für den Highscore-Eintrag. Halte dich an die drei Regeln aus dem Werkzeugkasten.</p>
+<p><span class="n">A2</span><b>Den Kasten zeichnen.</b> <span class="time">5 Min</span></p>
+<p>Zeichne auf dem Arbeitsblatt den Kasten <code>Question</code>. Halte dich an die drei Regeln aus dem Werkzeugkasten.</p>
 <p>Zeichne von Hand. Kein Werkzeug, keine App. In der Prüfung hast du auch nur einen Stift.</p>
 <p>Wenn du fertig bist, stell dir diese Frage: könnte jemand, der deine App nicht kennt, aus deinem Kasten die Klasse schreiben, ohne dich zu fragen?</p>
 </div>
@@ -178,21 +184,44 @@
 </div>
 </div>
 
+<div class="step">
+<p><span class="n">A4</span><b>Der Kasten, den es noch nicht gibt.</b> <span class="time">5 Min</span></p>
+<p>Bis jetzt hast du abgelesen. Jetzt entwirfst du.</p>
+<p>In 06C bekommt deine App eine <b>Rangliste</b>. So soll sie sich verhalten:</p>
+<ul>
+<li>Nach einer Runde trägst du deinen Namen ein und dein Ergebnis landet in der Liste.</li>
+<li>Die Liste zeigt die besten Ergebnisse, das beste zuoberst.</li>
+<li>Du kannst sie <b>pro Kategorie</b> anschauen, also nur Sport oder nur Geschichte.</li>
+</ul>
+<p>Zeichne den Kasten für <b>einen</b> Eintrag dieser Liste. Feldname und Datentyp, wie gehabt. Gib ihm einen Namen in der Einzahl.</p>
+<div class="warn">
+<p><b>Es gibt hier nichts abzulesen.</b> Die Klasse existiert nicht, das Namensfeld auch nicht. Du leitest die Felder aus den drei Sätzen oben ab.</p>
+<p>Frag dich bei jedem Feld: <b>steht dieser Wert in einer Zeile der Liste, oder brauche ich ihn, um die richtigen Zeilen zu finden?</b> Beides gehört hinein. Alles andere nicht.</p>
+</div>
+<p>Und dann die Frage, die den Unterschied macht:</p>
+<div class="tip">
+<p><b>Braucht dieser Kasten auch ein Feld <code>id</code>?</b></p>
+<p>Entscheide dich und schreib <b>einen Satz</b> dazu. Denk an A3: wozu war die <code>id</code> bei der Frage da? Machst du dasselbe mit einem Ranglisten-Eintrag?</p>
+</div>
+</div>
+
 <div class="chk">
 <p><b>So prüfst du Teil A.</b></p>
 <ul>
-<li>Jeder Kasten hat einen Namen in der Einzahl.</li>
+<li>Beide Kästen haben einen Namen in der Einzahl und mit grossem Anfangsbuchstaben.</li>
 <li>Jede Zeile hat einen Feldnamen <b>und</b> einen Datentyp.</li>
 <li>Der Kasten der Frage hat ein Feld <code>id</code>, und es ist als Schlüssel markiert.</li>
 <li>Die vier Antworten sind sichtbar, entweder als vier Felder oder als zweiter Kasten mit Pfeil.</li>
-<li>Es steht keine einzige Methode im Kasten.</li>
-<li>Du kannst zu jedem Feld sagen, wo es in deiner App vorkommt.</li>
+<li>Der Ranglisten-Eintrag hat höchstens vier Zeilen. Wenn er mehr hat, schau jede nochmals an.</li>
+<li>Zu deiner Entscheidung über die <code>id</code> steht ein Satz da.</li>
+<li>Es steht keine einzige Methode in einem Kasten.</li>
+<li>Zu jedem Feld der Frage kannst du sagen, wo es in deiner App vorkommt. Zu jedem Feld der Rangliste, warum es dort steht.</li>
 </ul>
 </div>
 
-<h3>Teil B, wohin die Daten gehören <span class="time">12 Minuten</span></h3>
+<h3>Teil B, wohin die Daten gehören <span class="time">11 Minuten</span></h3>
 
-<p>Deine App bewahrt vier ganz verschiedene Dinge auf. Sie gehören nicht alle an denselben Ort.</p>
+<p>Am Ende des Moduls bewahrt deine App vier ganz verschiedene Dinge auf. Zwei davon gibt es schon, zwei kommen noch. Sie gehören nicht alle an denselben Ort.</p>
 
 <h4>Die drei Möglichkeiten</h4>
 
@@ -225,17 +254,18 @@
 </div>
 
 <div class="step">
-<p><span class="n">B1</span><b>Die vier Datenarten einordnen.</b> <span class="time">7 Min</span></p>
+<p><span class="n">B1</span><b>Die vier Datenarten einordnen.</b> <span class="time">6 Min</span></p>
 <p>Auf dem Arbeitsblatt steht eine Tabelle mit vier Zeilen. Stell an jede Zeile die drei Prüffragen und trag die Antworten ein. Danach entscheidest du und schreibst <b>einen</b> Satz Begründung dazu.</p>
 <table>
-<tr><th class="num">Nr</th><th>Datenart</th><th>Woher du sie kennst</th></tr>
-<tr><td class="num">1</td><td>Der beste Punktestand, eine Zahl</td><td>05D, liegt schon in den SharedPreferences</td></tr>
-<tr><td class="num">2</td><td>Die Rangliste, rund zehn Einträge mit Name, Punkten und Kategorie</td><td>Der Ausblick in der Lösung von 05D</td></tr>
-<tr><td class="num">3</td><td>Die Fragen, rund dreissig Stück, anlegen, ändern, löschen, filtern</td><td>Kommt ab Tag 4</td></tr>
-<tr><td class="num">4</td><td>Die zuletzt gewählte Kategorie, ein Wort</td><td>05C, die Kategoriewahl beim Start</td></tr>
+<tr><th class="num">Nr</th><th>Datenart</th><th>Schon gebaut?</th></tr>
+<tr><td class="num">1</td><td>Der beste Punktestand, eine Zahl</td><td><b>ja</b>, seit 05D. Liegt in den SharedPreferences</td></tr>
+<tr><td class="num">2</td><td>Die Rangliste, rund zehn Einträge. Genau der Kasten aus A4</td><td>nein, kommt in 06C</td></tr>
+<tr><td class="num">3</td><td>Die Fragen, rund dreissig Stück, anlegen, ändern, löschen, filtern</td><td>nein, kommt am Tag 4</td></tr>
+<tr><td class="num">4</td><td>Die zuletzt gewählte Kategorie, ein Wort. Damit beim nächsten Start deine letzte Wahl schon dasteht</td><td>nein, gäbe es aber leicht</td></tr>
 </table>
 <div class="warn">
 <p><b>Zeile 2 ist die interessante.</b> Sie ist der einzige Grenzfall. Egal wie du entscheidest, dein Satz muss die Frage beantworten, warum du dich <b>gegen</b> die andere Möglichkeit entschieden hast.</p>
+<p>Und beachte: <b>drei von vier Zeilen gibt es noch nicht.</b> Das ist kein Mangel. Genau so entscheidet man in einem Projekt, nämlich bevor gebaut wird und nicht danach.</p>
 </div>
 </div>
 
@@ -269,21 +299,15 @@
 <h3>Übungen <span class="time">5 Minuten</span></h3>
 
 <div class="ue">
-<div class="t">Übung 1, ein fremdes Modell</div>
+<div class="t">Übung 1, ein fremdes Modell und ein Feld zu viel</div>
 <p>Eine App verwaltet Ausleihen in einer Bibliothek. Ein Eintrag hat einen Buchtitel, einen Namen, ein Ausleihdatum und die Angabe, ob das Buch zurück ist.</p>
-<p>Zeichne den Kasten mit Feldnamen und Datentypen. Er hat fünf Zeilen, nicht vier.</p>
-<p><b>So prüfst du:</b> Die fünfte Zeile ist die id. Wenn sie fehlt, frag dich, wie die App die Ausleihe wiederfindet, wenn das Buch zurückkommt.</p>
+<p><b>a)</b> Zeichne den Kasten mit Feldnamen und Datentypen. Er hat fünf Zeilen, nicht vier.</p>
+<p><b>b)</b> Jemand will zusätzlich ein Feld <code>isOverdue: boolean</code> hineinschreiben. Begründe in zwei Sätzen, warum es nicht ins Datenmodell gehört und was stattdessen passiert.</p>
+<p><b>So prüfst du:</b> Die fünfte Zeile ist die <code>id</code>. Fehlt sie, frag dich, wie die App die Ausleihe wiederfindet, wenn das Buch zurückkommt. Und deine Antwort zu b) muss das Wort "berechnen" oder "ausrechnen" enthalten.</p>
 </div>
 
 <div class="ue">
-<div class="t">Übung 2, ein Feld zu viel</div>
-<p>Jemand zeichnet für die Bibliothek zusätzlich ein Feld <code>isOverdue: boolean</code>.</p>
-<p>Schreib in zwei Sätzen, warum dieses Feld nicht ins Datenmodell gehört und was stattdessen passiert.</p>
-<p><b>So prüfst du:</b> Deine Antwort muss das Wort "berechnen" oder "ausrechnen" enthalten.</p>
-</div>
-
-<div class="ue">
-<div class="t">Übung 3, erklären</div>
+<div class="t">Übung 2, erklären</div>
 <p>Erklär einem Lerngspänli in zwei Sätzen, warum die dreissig Fragen in eine Datenbank gehören und der beste Punktestand nicht. Ohne die Wörter "besser", "moderner" und "professioneller".</p>
 <p><b>So prüfst du:</b> Wenn dein Gegenüber nachfragen muss "und warum genau", war es zu allgemein.</p>
 </div>
@@ -306,18 +330,21 @@
 <tr><td>Ich weiss nicht, welcher Datentyp</td><td>Frag dich, ob du damit rechnen willst. Rechnen heisst <code>int</code> oder <code>double</code>. Anzeigen heisst <code>String</code></td></tr>
 <tr><td>Mein Kasten hat kein Feld, das eindeutig ist</td><td>Genau darum gibt es die <code>id</code>. Sie ist eine Nummer ohne Bedeutung, und das ist ihre Stärke</td></tr>
 <tr><td>Meine Begründung klingt nach Werbung</td><td>Streich jedes Adjektiv. Was übrig bleibt, muss eine Zahl oder eine Tätigkeit sein</td></tr>
-<tr><td>Ich finde <code>Question.java</code> nicht</td><td>Im Projektbaum unter <code>app</code>, <code>java</code>, dein Paket, Ordner <code>model</code></td></tr>
+<tr><td>Bei A4 finde ich die Klasse für die Rangliste nicht</td><td>Es gibt sie nicht, und das ist der Auftrag. Du entwirfst sie aus den drei Sätzen im Schritt A4</td></tr>
+<tr><td>Ich weiss bei A4 nicht, ob ein Feld hineingehört</td><td>Zwei Fragen. Steht der Wert in einer Zeile der Liste? Oder brauche ich ihn, um die richtigen Zeilen zu finden? Zweimal nein heisst raus</td></tr>
+<tr><td>Ich finde <code>Question.java</code> nicht</td><td>Sie ist noch da, du hast sie nie gelöscht. Im Projektbaum unter <code>app</code>, <code>java</code>, dein Paket, Ordner <code>model</code></td></tr>
 </table>
 
 <h3>Abgabe</h3>
 <p>Du gibst das ausgefüllte Arbeitsblatt ab. Darauf müssen stehen:</p>
 <ul>
-<li>Die Feldtabelle zu Frage und Highscore-Eintrag.</li>
-<li>Die zwei gezeichneten Kästen, mit Datentypen und markiertem Schlüssel.</li>
-<li>Dein Satz, warum du die Antworten so gezeichnet hast, wie du sie gezeichnet hast.</li>
+<li>Die Feldtabelle zu deiner Klasse <code>Question</code>.</li>
+<li>Der gezeichnete Kasten <code>Question</code>, mit Datentypen und markiertem Schlüssel.</li>
+<li>Dein Satz, warum du die vier Antworten so gezeichnet hast, wie du sie gezeichnet hast.</li>
+<li>Der entworfene Kasten für den Ranglisten-Eintrag, dazu dein Satz zur <code>id</code>.</li>
 <li>Die Tabelle mit den vier Datenarten und je einer Begründung.</li>
 <li>Die zwei Sätze im Prüfungsformat.</li>
-<li>Die Lösungen zu den drei Übungen.</li>
+<li>Die Lösungen zu den zwei Übungen.</li>
 </ul>
 
 <div class="tip">
@@ -330,7 +357,7 @@
 <tr><th>Punkt</th><th>Angabe</th></tr>
 <tr><td>Sozialform</td><td>Einzelarbeit. Der harte Test in Teil B läuft zu zweit</td></tr>
 <tr><td>Aufgabenart</td><td>Papier-Auftrag. Es wird kein Code geschrieben und nichts gestartet</td></tr>
-<tr><td>Zeitbudget</td><td>40 Minuten. Teil A 18, Teil B 12, Übungen 5, Einstieg 5</td></tr>
+<tr><td>Zeitbudget</td><td>40 Minuten. Einstieg 4, Teil A 20, Teil B 11, Übungen 5</td></tr>
 <tr><td>Hilfsmittel</td><td>Dein eigener Code, die Nachschlageblätter. Eine KI darfst du benutzen, du musst aber jedes Feld erklären können</td></tr>
 <tr><td>Abgabe</td><td>Das Arbeitsblatt in Google Classroom</td></tr>
 </table>
@@ -345,8 +372,8 @@
 <h2>04 Unterrichtsmittel</h2>
 <ul>
 <li><b>Wo deine App ihre Daten ablegt</b>, für Teil B. Dort steht, wo die drei Möglichkeiten auf dem Gerät liegen.</li>
-<li>Deine eigene <code>Question.java</code> aus 03D, für Teil A.</li>
-<li>Deine eigene <code>ScoreStorage.java</code> aus 05D, für Teil B Zeile 1.</li>
+<li>Deine eigene Klasse <code>Question</code> im Projekt, angelegt in 03D. Für Teil A.</li>
+<li>Deine eigene Klasse <code>ScoreStorage</code> im Projekt, angelegt in 05D. Für Teil B Zeile 1.</li>
 <li>Das Lösungsmaterial von 05D, Abschnitt <b>Der Ausblick</b>. Dort steht der Anlass für diesen Auftrag.</li>
 <li>Das Formular der Leistungsbeurteilung, Teil A2 und A3.</li>
 </ul>

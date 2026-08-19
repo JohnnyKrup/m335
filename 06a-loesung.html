@@ -26,7 +26,7 @@
 
 <h2>Die Vergleichsliste, dein eigenes Blatt</h2>
 
-<p>Geh diese zehn Punkte an deiner eigenen Abgabe durch, bevor du weiterliest. Sie treffen genau das, was in der Leistungsbeurteilung Punkte gibt.</p>
+<p>Geh diese zwölf Punkte an deiner eigenen Abgabe durch, bevor du weiterliest. Sie treffen genau das, was in der Leistungsbeurteilung Punkte gibt.</p>
 
 <table>
 <tr><th class="num">Nr</th><th>Das prüfst du</th><th>Warum es zählt</th></tr>
@@ -37,6 +37,8 @@
 <tr><td class="num">5</td><td>Die vier Antworten stehen nicht als Array im Kasten</td><td>Eine Spalte hält einen Wert. Das ist der Punkt, an dem sich Java-Klasse und Datenbanktabelle unterscheiden</td></tr>
 <tr><td class="num">6</td><td>Es steht keine Methode und kein Plus- oder Minuszeichen im Kasten</td><td>Kostet Zeit, gibt keinen Punkt. In sieben Minuten ist das entscheidend</td></tr>
 <tr><td class="num">7</td><td>Es steht kein Feld im Modell, das nur für die Anzeige da ist</td><td>Ein Modell zeigt, was den Neustart überlebt. Alles andere wird gerechnet oder gelesen</td></tr>
+<tr><td class="num">7b</td><td>Dein Ranglisten-Eintrag hat höchstens vier Zeilen, und zu jeder steht ein Grund</td><td>Bei A4 gab es nichts abzuschreiben. Wer hier viel hat, hat geraten statt abgeleitet</td></tr>
+<tr><td class="num">7c</td><td>Zu deiner Entscheidung über die <code>id</code> im Ranglisten-Eintrag steht ein Satz</td><td>Der Satz ist die eigentliche Aufgabe. Beide Entscheidungen gelten, die Begründung nicht</td></tr>
 <tr><td class="num">8</td><td>Alle vier Zeilen der Persistenztabelle haben eine Begründung, nicht nur eine Wahl</td><td>Die Prüfung gibt den Punkt für die Begründung, nicht für die Wahl</td></tr>
 <tr><td class="num">9</td><td>In deinen zwei Sätzen steht eine Zahl oder eine Tätigkeit</td><td>"Besser" und "moderner" sind Urteile über Technik, keine Eigenschaften deiner Daten</td></tr>
 <tr><td class="num">10</td><td>Der zweite Satz sagt, was gegen die andere Möglichkeit spricht</td><td>Die Prüfung verlangt ausdrücklich, dass eine Alternative genannt wird</td></tr>
@@ -50,15 +52,17 @@
 
 <h2>Teil A, das Datenmodell</h2>
 
-<h3>So könnte dein Modell aussehen</h3>
+<h3>Teil A1 bis A3, der Kasten Question</h3>
 
-<pre>+---------------------------------+          +--------------------------+
-|            Question             |          |      HighscoreEntry      |
-+---------------------------------+          +--------------------------+
-| PK id: int                      |          | name: String             |
-| text: String                    |          | score: int               |
-| answer1: String                 |          | category: String         |
-| answer2: String                 |          +--------------------------+
+<p>Diesen Kasten hast du abgelesen. Er muss also zu deinem Code passen, sonst hast du dich verschrieben.</p>
+
+<pre>+---------------------------------+
+|            Question             |
++---------------------------------+
+| PK id: int                      |
+| text: String                    |
+| answer1: String                 |
+| answer2: String                 |
 | answer3: String                 |
 | answer4: String                 |
 | correctAnswer: String           |
@@ -66,12 +70,50 @@
 | difficulty: String              |
 +---------------------------------+</pre>
 
-<p>Neun Zeilen im einen Kasten, drei im anderen. Wenn dein Kasten genau so aussieht, hast du beide Ergänzungen aus A3 gemacht.</p>
+<p>Neun Zeilen. Wenn dein Kasten genau so aussieht, hast du beide Ergänzungen aus A3 gemacht.</p>
 
-<div class="info">
-<p><b>Warum die zwei Kästen keinen Pfeil zwischen sich haben.</b> Ein Highscore-Eintrag kennt keine Frage, und eine Frage kennt keinen Highscore. Es sind zwei getrennte Dinge in derselben App.</p>
-<p>Ein Pfeil ohne Beziehung ist ein Fehler, kein Schmuck. Zeichne nur, was es wirklich gibt.</p>
+<h3>Teil A4, der Kasten für die Rangliste</h3>
+
+<p>Diesen hast du <b>entworfen</b>. Es gab nichts abzulesen, die Klasse gibt es in deiner App nicht. Genau darum ist er der interessantere von beiden.</p>
+
+<pre>+--------------------------+
+|      HighscoreEntry      |
++--------------------------+
+| name: String             |
+| score: int               |
+| category: String         |
++--------------------------+</pre>
+
+<p>Drei Felder, und jedes kommt aus genau einem der drei Sätze im Auftrag.</p>
+
+<table>
+<tr><th>Feld</th><th>Kommt aus dem Satz</th><th>Welche Prüffrage es besteht</th></tr>
+<tr><td class="pre">name</td><td>"Du trägst deinen Namen ein"</td><td>Steht in der Zeile. Ohne ihn findet sich niemand wieder</td></tr>
+<tr><td class="pre">score</td><td>"Die besten Ergebnisse, das beste zuoberst"</td><td>Steht in der Zeile <b>und</b> bestimmt die Reihenfolge</td></tr>
+<tr><td class="pre">category</td><td>"Du kannst sie pro Kategorie anschauen"</td><td>Steht nicht unbedingt in der Zeile, aber ohne sie kann man nicht filtern</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Das Feld <code>category</code> ist das, das am häufigsten fehlt.</b> Es ist auch das interessanteste.</p>
+<p>Die anderen zwei sieht man auf dem Bildschirm. Die Kategorie braucht man vielleicht nicht einmal anzuzeigen, aber ohne sie ist die dritte Anforderung nicht erfüllbar. <b>Ein Datenmodell enthält auch das, was man zum Suchen braucht, nicht nur das, was man sieht.</b></p>
+<p>Und es ist kein akademischer Punkt. Wer die Kategorie hier vergisst, merkt es in 06C, wenn der Filter gebaut wird. Dann ist die Klasse schon geschrieben, die Einträge sind schon gespeichert, und die alten haben keine Kategorie mehr.</p>
 </div>
+
+<div class="warn">
+<p><b>Der Name der Klasse ist deine Sache.</b> <code>HighscoreEntry</code>, <code>ScoreEntry</code>, <code>RankingEntry</code>, alle gehen. Wichtig sind drei Dinge: Einzahl, gross, englisch.</p>
+<p><b>Nicht in Ordnung ist <code>Highscores</code> oder <code>Rangliste</code>.</b> Der Kasten beschreibt einen Eintrag, nicht die ganze Liste.</p>
+</div>
+
+<h4>Was in den Ranglisten-Eintrag nicht gehört</h4>
+
+<table>
+<tr><th>Feld</th><th>Warum es draussen bleibt</th></tr>
+<tr><td class="pre">rank</td><td>Der Rang ist die Position in der sortierten Liste. Er wird beim Anzeigen gerechnet. Gespeichert wäre er nach dem nächsten besseren Ergebnis falsch</td></tr>
+<tr><td class="pre">questionCount</td><td>Fünf Fragen pro Runde, immer. Ein Wert, der nie variiert, ist kein Feld</td></tr>
+<tr><td class="pre">percentage</td><td>Ergibt sich aus <code>score</code> und der Rundenlänge. Siehe Übung 1b</td></tr>
+<tr><td class="pre">isBest</td><td>Ergibt sich daraus, ob es der oberste Eintrag ist</td></tr>
+<tr><td>ein Zeitstempel</td><td>Kein Fehler und auch kein Muss. Er wird gebraucht, sobald zwei Einträge gleich viele Punkte haben. Wer ihn gezeichnet und begründet hat, war weiter als der Auftrag verlangt</td></tr>
+</table>
 
 <h3>Der Schlüssel, und warum nur die Frage einen hat</h3>
 
@@ -79,10 +121,16 @@
 
 <p>Warum nicht der Fragetext als Schlüssel? Weil der Text genau das ist, was du beim Bearbeiten änderst. Ein Schlüssel, der sich ändert, ist keiner. Deshalb nimmt man eine Nummer ohne Bedeutung.</p>
 
-<p>Der Highscore-Eintrag hat keinen, weil du nie einen einzelnen Eintrag änderst. Du hängst einen an und du liest die ganze Liste. Ein Schlüssel wäre da toter Ballast.</p>
+<p><b>Und die Antwort auf die Frage aus A4:</b> der Ranglisten-Eintrag braucht keinen. Du hängst einen Eintrag an und du liest die ganze Liste. Du änderst nie einen einzelnen und du löschst nie einen einzelnen. Ein Schlüssel wäre da toter Ballast.</p>
 
 <div class="tip">
-<p><b>Das ist übrigens die kürzeste Fassung der ganzen heutigen Lektion.</b> Wer einen Schlüssel braucht, braucht meistens auch eine Datenbank. Wer keinen braucht, meistens nicht.</p>
+<p><b>Das ist die kürzeste Fassung der ganzen heutigen Lektion.</b> Wer einen Schlüssel braucht, braucht meistens auch eine Datenbank. Wer keinen braucht, meistens nicht.</p>
+<p>Deine zwei Kästen sind genau dieses Paar. Die Frage bekommt eine <code>id</code> und landet in der Datenbank. Der Ranglisten-Eintrag bekommt keine und bleibt in den SharedPreferences. <b>Die Entscheidung aus Teil A und die aus Teil B sind dieselbe Entscheidung.</b></p>
+</div>
+
+<div class="info">
+<p><b>Wer eine <code>id</code> gezeichnet und gut begründet hat, liegt nicht falsch.</b> Eine brauchbare Begründung wäre: "damit man einen Eintrag später löschen kann, wenn jemand einen unpassenden Namen eingetragen hat."</p>
+<p>Das ist eine echte Anforderung, sie steht nur nicht in unseren drei Sätzen. Wer sie erfindet und benennt, hat verstanden, worum es geht. Wer die <code>id</code> ohne Satz hinschreibt, hat sie aus Gewohnheit gezeichnet.</p>
 </div>
 
 <h3>Die vier Antworten, beide Wege im Vergleich</h3>
@@ -122,7 +170,7 @@
 
 <h2>Antworten zu den Denkfragen</h2>
 
-<p><b>1. Dein Highscore-Eintrag hat kein Schlüsselfeld, deine Frage bekommt gleich eines. Woran liegt das?</b></p>
+<p><b>1. Deine Frage bekommt ein Schlüsselfeld, der Ranglisten-Eintrag braucht keines. Woran liegt das?</b></p>
 <p>An dem, was du damit machst. Die Rangliste wird angehängt und als Ganzes gelesen. Es gibt keinen Moment, in dem die App sagen muss "genau diesen Eintrag".</p>
 <p>Bei den Fragen gibt es diesen Moment ab Tag 4 dauernd: antippen zum Bearbeiten, wischen zum Löschen. Beides braucht eine eindeutige Angabe, und die Position in der Liste taugt dafür nicht, weil sie sich beim Filtern verschiebt.</p>
 
@@ -146,7 +194,7 @@
 <table>
 <tr><th>Datenart</th><th>Wie viele</th><th>Einzeln ändern</th><th>Suchen oder filtern</th><th>Wahl</th></tr>
 <tr><td>Der beste Punktestand</td><td>1</td><td>nein</td><td>nein</td><td>SharedPreferences</td></tr>
-<tr><td>Die Rangliste</td><td>rund 10</td><td>nein</td><td>nach Kategorie, aber im Speicher</td><td>SharedPreferences als Text</td></tr>
+<tr><td>Die Rangliste, dein Kasten aus A4</td><td>rund 10</td><td>nein</td><td>nach Kategorie, aber im Speicher</td><td>SharedPreferences als Text</td></tr>
 <tr><td>Die Fragen</td><td>30 und wachsend</td><td><b>ja</b></td><td><b>ja</b></td><td>Datenbank</td></tr>
 <tr><td>Die zuletzt gewählte Kategorie</td><td>1</td><td>nein</td><td>nein</td><td>SharedPreferences</td></tr>
 </table>
@@ -205,7 +253,7 @@
 <h2>Lösungen zu den Übungen</h2>
 
 <div class="ue">
-<p class="t">Übung 1, die Bibliotheks-Ausleihe</p>
+<p class="t">Übung 1a, die Bibliotheks-Ausleihe</p>
 <pre>+------------------------------+
 |            Loan              |
 +------------------------------+
@@ -216,31 +264,35 @@
 | returned: boolean            |
 +------------------------------+</pre>
 <p>Die fünfte Zeile ist die <code>id</code>. Ohne sie findet die App die Ausleihe nicht wieder, wenn das Buch zurückkommt, denn dieselbe Person kann dasselbe Buch zweimal ausleihen.</p>
-<p>Das Datum steht als <code>String</code>. Für dieses Modul reicht das. Wer es später sortieren will, schreibt es als <code>2026-08-17</code> und nicht als <code>17.08.2026</code>, denn nur die erste Form sortiert als Text richtig.</p>
+<p>Das Datum steht als <code>String</code>. Für dieses Modul reicht das. Wer es später sortieren will, schreibt es als <code>2026-08-19</code> und nicht als <code>19.08.2026</code>, denn nur die erste Form sortiert als Text richtig.</p>
 <div class="tip">
+<p><b>Beachte den Unterschied zu A4.</b> Hier braucht es eine <code>id</code>, dort nicht. Der Grund ist derselbe wie immer: eine Ausleihe wird <b>geändert</b>, wenn das Buch zurückkommt. Ein Ranglisten-Eintrag wird nur angehängt.</p>
+<p>Wenn du das an diesen zwei Beispielen sagen kannst, hast du den ganzen Auftrag verstanden.</p>
+</div>
+<div class="warn">
 <p><b>Warum <code>returned</code> und nicht <code>istZurueck</code>.</b> Bezeichner sind im ganzen Modul englisch, sichtbare Texte deutsch. Das gilt auch im Datenmodell, denn aus dem Modell wird eine Klasse.</p>
 </div>
 </div>
 
 <div class="ue">
-<p class="t">Übung 2, das Feld isOverdue</p>
+<p class="t">Übung 1b, das Feld isOverdue</p>
 <p>Es gehört nicht ins Modell, weil es sich aus dem Ausleihdatum und dem heutigen Datum ausrechnen lässt. Stattdessen berechnet die App den Wert im Moment der Anzeige.</p>
 <div class="warn">
 <p><b>Der Grund, warum das mehr ist als Ordnungsliebe.</b> Ein gespeicherter Wert wird falsch, sobald sich die Grundlage ändert. Eine Ausleihe, die heute nicht überfällig ist, ist es in drei Wochen. Wer den Wert speichert, müsste jede Nacht jeden Datensatz nachführen.</p>
-<p><b>Dieselbe Frage kommt in der Zusatzaufgabe wieder</b>, dort beim Durchschnitt der zwei Noten. Die Antwort ist dieselbe.</p>
 </div>
 <p><b>Die allgemeine Regel:</b> was sich aus anderen Feldern ausrechnen lässt, wird gerechnet und nicht gespeichert. Sonst hast du dieselbe Information an zwei Orten, und einer davon ist irgendwann falsch.</p>
+<p>Dieselbe Frage steckt in A4 beim Feld <code>rank</code> und in der Zusatzaufgabe beim Durchschnitt der zwei Noten. Dreimal dieselbe Antwort.</p>
 </div>
 
 <div class="ue">
-<p class="t">Übung 3, erklären</p>
+<p class="t">Übung 2, erklären</p>
 <p>Eine gute Erklärung nennt die Bedingung und die Folge.</p>
 <p>"Die Fragen sind dreissig Datensätze, die ich einzeln anlegen, ändern, löschen und nach Kategorie filtern will. Genau das kann eine Datenbank ohne Umweg, und in einer Textablage müsste ich für jede einzelne Änderung alle dreissig lesen und zurückschreiben."</p>
 <p>"Der beste Punktestand ist eine einzige Zahl, die nur überschrieben wird. Da gibt es nichts zu suchen und nichts einzeln zu ändern, also reicht eine Ablage für einzelne Werte."</p>
 <p>Wer nur sagt "viele Daten gehören in eine Datenbank", hat die halbe Antwort. Die Menge allein entscheidet nicht. Tausend Zeilen, die nur am Stück gelesen werden, gehen auch in eine Datei.</p>
 </div>
 
-<p>Zur Zusatzaufgabe steht hier bewusst nichts. Die Frage danach ist der eigentliche Inhalt: gehört der Durchschnitt als Feld in den Kasten? Denk an Übung 2, dort steckt dieselbe Frage.</p>
+<p>Zur Zusatzaufgabe steht hier bewusst nichts. Die Frage danach ist der eigentliche Inhalt: gehört der Durchschnitt als Feld in den Kasten? Denk an Übung 1b, dort steckt dieselbe Frage.</p>
 
 <h2>Mögliche falsche KI-Rückmeldungen</h2>
 
@@ -257,12 +309,15 @@
 <tr><td>Gleich Room, Entity und Dao im Datenmodell mit aufzeichnen</td><td>Das Modell ist unabhängig von der Technik. Es soll auch dann noch stimmen, wenn du morgen etwas anderes als Room nimmst</td></tr>
 <tr><td>Ein Datum als <code>Date</code> oder <code>LocalDate</code> im Modell</td><td>Beides gibt es, beides braucht in Room einen Converter. Für dieses Modul ist <code>String</code> die Vorgabe, und die Prüfung verlangt nichts anderes</td></tr>
 <tr><td>DataStore statt SharedPreferences, das sei der Nachfolger</td><td>Stimmt als Aussage. Es bringt aber eine Abhängigkeit und ein neues Konzept mit, und im Unterricht bauen wir auf dem auf, was in 05D schon läuft</td></tr>
-<tr><td>Eine Beziehung zwischen <code>Question</code> und <code>HighscoreEntry</code></td><td>Es gibt keine. Ein Highscore gehört zu einer Runde, nicht zu einer Frage. Ein Pfeil ohne Beziehung ist ein Fehler</td></tr>
+<tr><td>Eine Beziehung zwischen <code>Question</code> und dem Ranglisten-Eintrag</td><td>Es gibt keine. Ein Ergebnis gehört zu einer Runde, nicht zu einer Frage. Ein Pfeil ohne Beziehung ist ein Fehler</td></tr>
+<tr><td>Ein Feld <code>rank</code> im Ranglisten-Eintrag</td><td>Der Rang ist die Position in der sortierten Liste, also ein gerechneter Wert. Nach dem nächsten besseren Ergebnis wäre der gespeicherte Rang falsch</td></tr>
+<tr><td>Beim Modell für die Rangliste gleich eine <code>id</code>, "das gehört immer dazu"</td><td>Es gehört dann dazu, wenn du einen einzelnen Datensatz meinen musst. Hier hängst du an und liest die ganze Liste. Eine KI kennt deine drei Anforderungen nicht</td></tr>
 </table>
 
 <h2>Was als Nächstes kommt</h2>
 
-<p>Direkt danach kommt <b>06B Validierung und inputType</b>. Dort baust du das Formular, das die Felder aus deinem Modell entgegennimmt, und lernst, wie es unbrauchbare Eingaben abfängt.</p>
+<p>Direkt danach kommt <b>06B Validierung und inputType</b>. Dort bekommt dein Ergebnisbereich das Namensfeld, das es bisher nicht gibt. Es nimmt genau das Feld entgegen, das du in A4 zuoberst gezeichnet hast, und du lernst, wie es unbrauchbare Eingaben abfängt.</p>
+<p>In <b>06C</b> kommt die Liste dazu. Dein Kasten aus A4 wird dort zur Klasse und zur Zeile in der Rangliste.</p>
 
 <p>Am Tag 4 in <b>07C</b> wird aus deinem Kasten eine Tabelle. Die neun Zeilen deines Modells werden neun Spalten, das Feld <code>id</code> wird der Primärschlüssel, und die vier Antwortfelder sind genau der Grund, warum du dort keinen Converter schreiben musst.</p>
 
