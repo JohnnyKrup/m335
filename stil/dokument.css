@@ -1,6 +1,6 @@
 /* Erzeugt von web-bau/bauen.js aus den Quelldokumenten.
    Nicht von Hand aendern, sondern die Regel im Auftrag selbst.
-   53 Regeln aus 46 Dokumenten. */
+   56 Regeln aus 60 Dokumenten. */
 
 :root{--bg:#f9f9f7; --surface:#fcfcfb; --fg:#0b0b0b; --ink2:#52514e; --muted:#898781;
     --line:#e1e0d9; --rule:#c3c2b7;
@@ -66,3 +66,6 @@ li{margin:0 0 7px}
 .foot{margin-top:50px;padding-top:16px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
 td.pre{font-family:ui-monospace,Menlo,monospace;font-weight:600;color:#3a2d86;white-space:nowrap}
 pre .a{color:#d8bd7a}
+.warte{border-left:3px solid #b1701c;background:#fbf0df;padding:14px 18px;border-radius:0 8px 8px 0;margin:0 0 18px}
+.warte b{color:#b1701c}
+a{color:#2a78d6}

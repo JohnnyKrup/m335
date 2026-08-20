@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>08D Lösung, Testplan</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="/" class="back">&larr; &Uuml;bersicht</a>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>08D Lösung, Testplan</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Block 16. Fassung 1 vom 13.08.2026.</p>
+<p class="sub">Schau erst hinein, wenn du deine eigenen Testfälle geschrieben hast. Sonst schreibst du meine ab und lernst nichts.</p>
+
+<h2>Antworten zu den Denkfragen</h2>
+
+<p><b>1. Warum genügt es nicht, den Testfall erst nach dem Ausprobieren aufzuschreiben?</b></p>
+<p>Weil du dann nichts prüfst, sondern beschreibst. Ein Test vergleicht zwei Dinge: was passieren soll und was passiert. Fehlt das erste, gibt es keinen Vergleich.</p>
+<p>Dazu kommt ein menschlicher Grund. Sobald du ein Ergebnis gesehen hast, hältst du es für plausibel. Das nennt sich Rückschaufehler. Ein Testfall, der vorher geschrieben ist, hält dagegen.</p>
+
+<p><b>2. Was ist an "die App stürzt nicht ab" unbrauchbar?</b></p>
+<p>Es beschreibt, was <b>nicht</b> passieren soll. Damit besteht der Test auch dann, wenn die App gar nichts tut. Ein leerer Bildschirm stürzt nämlich auch nicht ab.</p>
+<p>Ein erwartetes Ergebnis nennt etwas Positives und Sichtbares. Nicht "kein Absturz", sondern "die Liste zeigt 31 Einträge, der neue steht in der Kategorie Sport".</p>
+
+<p><b>3. Warum ist ein fehlgeschlagener Test wertvoller?</b></p>
+<p>Ein Test, der besteht, sagt dir nur, dass du das schon Bekannte noch immer kannst. Ein Test, der fehlschlägt, zeigt dir etwas, das du nicht wusstest. Nur der zweite verändert dein Produkt.</p>
+<p>Darum steht in der Leistungsbeurteilung ausdrücklich: ein fehlgeschlagener Test ist kein Punkteverlust.</p>
+
+<h2>Testfall 1, der gemeinsame</h2>
+
+<p>So sieht er vollständig ausgefüllt aus. Deine Formulierungen dürfen abweichen. Was zählt, ist, dass jedes Feld seine Aufgabe erfüllt.</p>
+
+<table>
+<tr><th style="width:26%">Feld</th><th>Inhalt</th></tr>
+<tr><td><b>Testfall-Nr</b></td><td>1</td></tr>
+<tr><td><b>Titel</b></td><td>Ein zweiter Tipp auf eine Antwort verändert den Punktestand nicht</td></tr>
+<tr><td><b>Vorbedingungen</b></td><td>Die App ist installiert und läuft im Emulator. In der Datenbank stehen mindestens fünf Fragen der Kategorie Sport. Es läuft keine Runde.</td></tr>
+<tr><td><b>Testablauf</b></td><td>
+1. Auf dem Startbildschirm "Spielen" antippen.<br>
+2. Im Auswahlfeld "Sport" wählen und "Runde starten" antippen.<br>
+3. Den angezeigten Punktestand notieren, er ist 0.<br>
+4. Die richtige Antwort antippen.<br>
+5. Den Punktestand notieren.<br>
+6. Dieselbe Antwort ein zweites Mal antippen.<br>
+7. Den Punktestand erneut ablesen.
+</td></tr>
+<tr><td><b>Erwartetes Ergebnis</b></td><td>Nach Schritt 4 steht der Punktestand auf 1, die angetippte Antwort ist grün. Nach Schritt 6 steht der Punktestand weiterhin auf 1. Die Farbe ändert sich nicht. Der Knopf "Weiter" ist sichtbar.</td></tr>
+<tr><td><b>Tatsächliches Ergebnis</b></td><td>Nach Schritt 4 stand der Punktestand auf 1 und der Knopf war grün. Der zweite Tipp in Schritt 6 löste nichts aus, der Punktestand blieb auf 1. Alle vier Knöpfe waren nach dem ersten Tipp ausgegraut.</td></tr>
+<tr><td><b>Befund</b></td><td>Bestanden. Die Antworten werden nach dem ersten Tipp gesperrt, darum kann kein zweiter Punkt entstehen. Die Sperre ist zusätzlich sichtbar, weil die Knöpfe ausgegraut sind. Das ist besser als eine unsichtbare Sperre, denn der Benutzer sieht, dass die Frage erledigt ist.</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Beachte Schritt 3 und Schritt 5.</b> Der Punktestand wird dreimal abgelesen, nicht nur am Schluss. Sonst könntest du nicht unterscheiden, ob der zweite Tipp nichts getan hat oder ob der erste schon nichts getan hat.</p>
+<p><b>Und beachte den letzten Satz im Befund.</b> Er geht über bestanden hinaus. Er sagt, warum das Verhalten gut ist. Solche Sätze unterscheiden einen Testfall von einer Abhakliste.</p>
+</div>
+
+<h2>Testfall 2, ein zweites Beispiel</h2>
+
+<p>Dieser prüft das Bearbeiten. Er ist der zweite Testfall, den die Leistungsbeurteilung ausdrücklich verlangt.</p>
+
+<table>
+<tr><th style="width:26%">Feld</th><th>Inhalt</th></tr>
+<tr><td><b>Testfall-Nr</b></td><td>2</td></tr>
+<tr><td><b>Titel</b></td><td>Eine geänderte Frage wird überschrieben und nicht ein zweites Mal angelegt</td></tr>
+<tr><td><b>Vorbedingungen</b></td><td>Die App läuft. Unter "Fragen verwalten" steht in der Überschrift "Fragen (30)".</td></tr>
+<tr><td><b>Testablauf</b></td><td>
+1. "Fragen verwalten" öffnen und die Zahl in der Überschrift notieren.<br>
+2. Die erste Zeile der Liste antippen.<br>
+3. Im Fragetext das Wort "Kantone" durch "Bezirke" ersetzen.<br>
+4. "Speichern" antippen.<br>
+5. Die Überschrift und die erste Zeile ablesen.<br>
+6. Die App über die Zurück-Taste verlassen und neu starten.<br>
+7. "Fragen verwalten" erneut öffnen.
+</td></tr>
+<tr><td><b>Erwartetes Ergebnis</b></td><td>Nach Schritt 4 schliesst sich das Formular. Die Überschrift zeigt weiterhin "Fragen (30)". In der ersten Zeile steht der geänderte Text mit "Bezirke". Nach dem Neustart in Schritt 7 steht der geänderte Text immer noch dort.</td></tr>
+<tr><td><b>Tatsächliches Ergebnis</b></td><td>Alles wie erwartet. Überschrift blieb "Fragen (30)", der Text lautete "Bezirke", auch nach dem Neustart.</td></tr>
+<tr><td><b>Befund</b></td><td>Bestanden. Die Zahl in der Überschrift ist der entscheidende Punkt. Wäre sie auf 31 gestiegen, hätte die App eine zweite Frage angelegt statt die erste zu ändern. Schritt 6 beweist zusätzlich, dass die Änderung in der Datenbank steht und nicht nur in der Anzeige.</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Zwei Dinge machen diesen Testfall gut.</b></p>
+<p>Erstens misst er etwas Eindeutiges. Die Zahl in der Überschrift unterscheidet "geändert" von "neu angelegt". Ohne sie sähen beide Fälle gleich aus, denn der neue Eintrag stünde direkt neben dem alten.</p>
+<p>Zweitens hört er nicht beim Speichern auf. Schritt 6 mit dem Neustart trennt die Anzeige von den Daten. Sehr viele Testfälle prüfen nur, was auf dem Bildschirm steht, und übersehen damit die halbe Aufgabe.</p>
+</div>
+
+<h2>Ein Testfall, der fehlgeschlagen ist</h2>
+
+<p>Dieser stammt aus der Entwicklung der Referenz-App, am 13.08.2026. Er hat einen echten Fehler gefunden. So sieht das im Formular aus.</p>
+
+<table>
+<tr><th style="width:26%">Feld</th><th>Inhalt</th></tr>
+<tr><td><b>Testfall-Nr</b></td><td>3</td></tr>
+<tr><td><b>Titel</b></td><td>Zwei verletzte Regeln erzeugen gleichzeitig zwei Fehlermeldungen</td></tr>
+<tr><td><b>Vorbedingungen</b></td><td>Die App läuft. Das Formular für eine neue Frage ist offen und leer.</td></tr>
+<tr><td><b>Testablauf</b></td><td>
+1. Als Fragetext "Test" eingeben, also weniger als zehn Zeichen.<br>
+2. In alle vier Antwortfelder dasselbe Wort "ja" eintippen.<br>
+3. "Speichern" antippen.<br>
+4. Alle Fehlermeldungen ablesen.
+</td></tr>
+<tr><td><b>Erwartetes Ergebnis</b></td><td>Unter dem Fragetext steht "Mindestens zehn Zeichen". Unter allen vier Antwortfeldern steht "Die Antworten müssen verschieden sein". Also fünf Meldungen gleichzeitig.</td></tr>
+<tr><td><b>Tatsächliches Ergebnis</b></td><td>Nur eine Meldung erschien, unter dem Fragetext. Die vier Antwortfelder blieben ohne Meldung, obwohl alle vier denselben Text hatten. Erst nachdem der Fragetext verlängert und erneut gespeichert wurde, erschienen die vier Meldungen.</td></tr>
+<tr><td><b>Befund</b></td><td><b>Nicht bestanden.</b> Die Prüfung auf doppelte Antworten läuft nur, wenn vorher keine andere Regel gegriffen hat. Damit versteckt ein zu kurzer Fragetext einen zweiten Fehler. Der Benutzer bekommt die Meldungen nacheinander statt gleichzeitig, also genau das Verhalten, das die Prüfung vermeiden soll. Ursache vermutlich eine gemeinsame Variable, an der beide Regeln hängen. Muss behoben werden.</td></tr>
+</table>
+
+<div class="note">
+<p><b>Das ist ein sehr guter Testfall, obwohl er fehlgeschlagen ist.</b> Genauer: <b>weil</b> er fehlgeschlagen ist.</p>
+<p>Er hat einen Fehler gefunden, den niemand vermutet hatte. Die App wurde daraufhin korrigiert. Ein Testfall, der nur den geraden Weg prüft, hätte diesen Fehler nie berührt.</p>
+<p>Schau dir den Befund genau an. Er sagt drei Dinge: was nicht stimmt, welche Folge das für den Benutzer hat, und eine Vermutung zur Ursache. Mehr braucht es nicht. Die Ursache muss nicht sicher sein, es genügt, dass die nächste Person eine Spur hat.</p>
+</div>
+
+<h2>Lösungen der Übungen</h2>
+
+<h3>Übung 1, drei kaputte Felder</h3>
+
+<table>
+<tr><th>Feld</th><th>Vorher</th><th>Der Fehler</th><th>Nachher</th></tr>
+<tr><td>Titel</td><td>Test Formular</td><td>Sagt nicht, was geprüft wird. Bei zehn Testfällen heissen dann alle so</td><td>Ein leeres Formular zeigt bei allen Pflichtfeldern eine Meldung</td></tr>
+<tr><td>Testablauf</td><td>Ich teste, ob das Speichern geht</td><td>Eine Absicht, kein Ablauf. Niemand kann das nachmachen</td><td>1. "Fragen verwalten" öffnen. 2. Plus-Knopf antippen. 3. Ohne Eingabe auf "Speichern" tippen</td></tr>
+<tr><td>Erwartetes Ergebnis</td><td>Es sollte eigentlich funktionieren</td><td>Nicht überprüfbar. "Eigentlich" heisst, du bist dir selbst nicht sicher</td><td>Unter dem Fragetext und unter allen vier Antwortfeldern steht je eine rote Meldung. Das Formular bleibt offen</td></tr>
+</table>
+
+<h3>Übung 2, Vorbedingung gegen Ablauf</h3>
+
+<table>
+<tr><th>Vorbedingungen</th><th>Testablauf</th></tr>
+<tr><td>Der Emulator läuft</td><td>1. Tippe auf "Fragen verwalten"</td></tr>
+<tr><td>In der Liste stehen 30 Fragen</td><td>2. Tippe auf die erste Zeile</td></tr>
+<tr><td>Die App ist frisch installiert und wurde noch nie geöffnet</td><td></td></tr>
+</table>
+
+<div class="warn">
+<p><b>Die dritte Vorbedingung widerspricht der zweiten.</b> Eine frisch installierte App, die noch nie geöffnet wurde, hat eine leere Datenbank. Die 30 Fragen entstehen erst beim ersten Start.</p>
+<p>Wer das bemerkt hat, hat die Übung wirklich verstanden. Widersprüchliche Vorbedingungen sind ein häufiger Fehler, und sie fallen erst bei der Durchführung auf, wenn man schon Zeit verloren hat.</p>
+</div>
+
+<h3>Übung 3, das erwartete Ergebnis schärfen</h3>
+
+<p>Vorher: "Es kommt eine Fehlermeldung."</p>
+
+<p>Nachher, eine mögliche Fassung:</p>
+
+<p><b>"Es erscheinen fünf rote Meldungen gleichzeitig, je eine unter dem Fragetext und unter jedem der vier Antwortfelder. Unter dem Fragetext steht 'Mindestens zehn Zeichen', unter den Antwortfeldern 'Bitte ausfüllen'. Das Formular bleibt offen, es wird nichts gespeichert, und die Liste zeigt danach dieselbe Anzahl Fragen wie vorher."</b></p>
+
+<p>Was dazugekommen ist:</p>
+<ul>
+<li><b>Wie viele.</b> Fünf, nicht "eine". Damit fällt auf, wenn nur die erste erscheint.</li>
+<li><b>Wo.</b> Direkt unter dem betroffenen Feld, nicht irgendwo auf dem Bildschirm.</li>
+<li><b>Was.</b> Der Wortlaut. Damit fällt auf, wenn die falsche Meldung am falschen Feld hängt.</li>
+<li><b>Was nicht passiert.</b> Nichts gespeichert, Anzahl unverändert. Eine Fehlermeldung nützt wenig, wenn nebenbei trotzdem gespeichert wird.</li>
+</ul>
+
+<div class="tip">
+<p><b>Der letzte Punkt wird fast immer vergessen.</b> Ein guter Testfall prüft nicht nur, dass das Richtige passiert, sondern auch, dass das Falsche unterbleibt.</p>
+</div>
+
+<h3>Übung 4, dein eigener Testfall 2</h3>
+<p>Dafür gibt es keine Musterlösung, weil du ein eigenes Thema gewählt hast. Nimm stattdessen diese Prüfliste.</p>
+
+<div class="chk">
+<p><b>Ein Testfall taugt, wenn alle sechs Punkte stimmen.</b></p>
+<ul>
+<li>Der Titel nennt das geprüfte Verhalten, nicht nur den Bildschirm.</li>
+<li>Die Vorbedingungen widersprechen sich nicht und enthalten keinen Schritt des Ablaufs.</li>
+<li>Jeder Schritt im Ablauf ist eine einzelne Handlung, nummeriert.</li>
+<li>Das erwartete Ergebnis nennt etwas Sichtbares, mit Anzahl, Ort und Wortlaut.</li>
+<li>Das tatsächliche Ergebnis ist nach der Durchführung entstanden und nicht abgeschrieben.</li>
+<li>Der Befund sagt bestanden oder nicht bestanden und zieht einen Schluss daraus.</li>
+</ul>
+</div>
+
+<h2>Zur Zusatzaufgabe</h2>
+
+<p>Ein Testfall zu einer nicht-funktionalen Anforderung, also HANOK 5.2. Er sieht anders aus, weil das erwartete Ergebnis keine Zahl ist.</p>
+
+<table>
+<tr><th style="width:26%">Feld</th><th>Inhalt</th></tr>
+<tr><td><b>Titel</b></td><td>Der Löschen-Knopf ist optisch nicht mit Speichern zu verwechseln</td></tr>
+<tr><td><b>Vorbedingungen</b></td><td>Das Formular ist mit einer bestehenden Frage geöffnet. Alle drei Knöpfe sind sichtbar.</td></tr>
+<tr><td><b>Testablauf</b></td><td>
+1. Das Formular öffnen und ans untere Ende scrollen.<br>
+2. Eine Person, die die App nicht kennt, bitten, den Knopf zu zeigen, mit dem man die Frage entfernt.<br>
+3. Notieren, welchen Knopf sie zeigt und wie lange sie dafür braucht.
+</td></tr>
+<tr><td><b>Erwartetes Ergebnis</b></td><td>Die Person zeigt auf "Diese Frage löschen" und braucht dafür weniger als fünf Sekunden. Sie zeigt nicht auf "Speichern" oder "Abbrechen".</td></tr>
+<tr><td><b>Befund</b></td><td>Der Knopf unterscheidet sich in Farbe und Form von den zwei darüber. Rot und ohne Fläche gegen die gefüllten Standardknöpfe.</td></tr>
+</table>
+
+<div class="info">
+<p><b>Warum das auch ein Test ist.</b> Funktional ist der Knopf in Ordnung, er löscht. Trotzdem kann er falsch sein, wenn Leute ihn verwechseln. Genau das prüft HANOK 5.2.</p>
+<p>Der Unterschied zu einem funktionalen Test: Du brauchst eine zweite Person und misst eine Beobachtung statt eines Zustands. Das erwartete Ergebnis ist trotzdem überprüfbar, weil es eine Zeit und eine eindeutige Handlung nennt.</p>
+</div>
+
+<h2>Die zwei Sätze, die zählen</h2>
+
+<p><b>Das erwartete Ergebnis wird vor der Durchführung geschrieben.</b> Alles andere ist eine Beschreibung, keine Prüfung.</p>
+
+<p><b>Ein fehlgeschlagener Test ist ein Erfolg.</b> Er hat etwas gefunden. Der einzige wertlose Test ist der, den niemand durchgeführt hat.</p>
+
+<p class="foot">Modul 335 | Block 16 | Lösung 08D | Fassung 1 | 13.08.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>
