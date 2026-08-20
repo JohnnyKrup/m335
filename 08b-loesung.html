@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>08B Lösung Neue Frage anlegen</title>
+<title>08B Loesung Neue Frage anlegen</title>
 <!--M335:STIL-->
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/stil/rahmen.css">
@@ -18,21 +18,837 @@
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
 <div class="wrap">
-<h1>08B Lösungsmaterial: Neue Frage anlegen</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Tag 4, Nachmittag. Zum Durchlesen brauchst du etwa 12 Minuten.</p>
 
-<div class="warte">
-<p><b>Dieses Lösungsmaterial ist noch nicht freigeschaltet.</b></p>
-<p>Es gehört zum Auftrag 08B, der am <b>Tag 4, Nachmittag</b> läuft.</p>
+<h1>08B Lösungsmaterial: Neue Frage anlegen</h1>
+<p class="sub">Modul 335 Mobile Applikationen. Zum Auftrag 08B. Zum Durchlesen brauchst du etwa 14 Minuten. Version 1 vom 20.08.2026.</p>
+<p class="sub">Schau erst hinein, wenn dein Formular läuft. Der ganze Code steht hier, aber er nützt dir nur, wenn du vorher selbst gebaut hast.</p>
+
+<h2>Die Vergleichsliste, dein eigener Code</h2>
+
+<p>Geh sie an deinen eigenen Dateien durch, Punkt für Punkt. Sie ist der Ersatz für eine Korrektur.</p>
+
+<table>
+<tr><th class="num">Nr</th><th>Das prüfst du</th><th>Warum es zählt</th></tr>
+<tr><td class="num">1</td><td>Die vier Antwortfelder heissen im Formular <b>Antwort 1</b> bis <b>Antwort 4</b></td><td>Beim Kopieren des Blocks geht die Beschriftung als Erstes verloren. Eine doppelte id ist sofort rot, eine doppelte Beschriftung meldet niemand</td></tr>
+<tr><td class="num">2</td><td>Am ersten <code>RadioButton</code> steht <code>android:checked="true"</code>, an den anderen drei nicht</td><td>Ohne Vorauswahl liefert <code>getCheckedRadioButtonId()</code> den Wert <code>-1</code>. Deine Methode gibt dann stumm 0 zurück, und die richtige Antwort ist zufällig die erste</td></tr>
+<tr><td class="num">3</td><td>Der ganze Inhalt steckt in einer <code>ScrollView</code>, und die hat <b>genau ein</b> Child</td><td>Ohne sie ist der Speichern-Knopf auf einem kleinen Gerät nicht erreichbar. Mit zwei Children gibt es eine <code>IllegalStateException</code></td></tr>
+<tr><td class="num">4</td><td>Im Insets-Block steht <code>| WindowInsetsCompat.Type.ime()</code>, und im Manifest steht <code>adjustResize</code></td><td>Es braucht beides. <code>adjustResize</code> allein wirkt nicht, weil <code>EdgeToEdge</code> die App bis an den Rand zeichnen lässt. Dasselbe wie in 06B</td></tr>
+<tr><td class="num">5</td><td>Am runden Knopf steht <code>android:contentDescription</code></td><td>Der Knopf trägt nur ein Bild. Ohne Beschreibung liest die Vorlesefunktion nur <i>Schaltfläche</i> vor, und der Benutzer weiss nicht, was passiert</td></tr>
+<tr><td class="num">6</td><td>Die Kategorieauswahl im Formular hat <b>vier</b> Einträge, nicht fünf</td><td><code>Alle</code> ist eine Angabe für eine Runde und keine Eigenschaft einer Frage. Eine Frage mit der Kategorie <code>Alle</code> taucht danach in keiner echten Kategorie auf</td></tr>
+<tr><td class="num">7</td><td>In <code>onSaveClicked</code> steht <b>kein</b> <code>question.setId(...)</code></td><td>Room vergibt die <code>id</code> selbst. Wer sie setzt, überschreibt eine bestehende Frage, und zwar ohne jede Meldung</td></tr>
+<tr><td class="num">8</td><td><code>isFormValid</code> setzt <code>valid = false</code> und prüft <b>weiter</b>, statt mit <code>return false</code> auszusteigen</td><td>Sonst sieht der Benutzer fünf Fehler nacheinander statt gleichzeitig. Das ist der Punkt, an dem sich dieser Auftrag von 06B unterscheidet</td></tr>
+<tr><td class="num">9</td><td>Jede Regel in <code>isFormValid</code> hat ein <code>else</code> mit <code>setError(null)</code></td><td>Sonst bleibt die alte rote Meldung stehen, obwohl das Feld inzwischen stimmt. Der Benutzer sucht dann einen Fehler, den er längst behoben hat</td></tr>
+<tr><td class="num">10</td><td><code>setError</code> steht auf dem <code>TextInputLayout</code>, nie auf dem <code>TextInputEditText</code></td><td>Auf dem Feld erscheint eine kleine Blase, die beim ersten Antippen wieder verschwindet. Dieselbe Falle wie in 06B</td></tr>
+<tr><td class="num">11</td><td><code>if (!isFormValid()) { return; }</code> steht ganz <b>oben</b> in <code>onSaveClicked</code></td><td>Erst prüfen, dann bauen, dann speichern. Wer zuerst baut, wirft ein halbes Objekt wieder weg. Dasselbe Wächter-Muster wie <code>if (scoreSaved)</code> aus 06B</td></tr>
+<tr><td class="num">12</td><td><b>Javadoc</b> an allen fünf neuen Methoden und an allen neuen Feldern, auch an <code>fabAddQuestion</code> in der <code>AdminActivity</code></td><td>Steht wörtlich im Prüfungsblatt: <i>"Alle selbst erstellten Klassen und Methoden sind Javadoc-kompatibel zu dokumentieren."</i></td></tr>
+<tr><td class="num">13</td><td>Der <b>Klassenkommentar</b> der <code>QuestionEditActivity</code> steht. Und in deinem ganzen Projekt beschreibt kein Satz mehr <code>08B</code> als etwas Zukünftiges</td><td>Ein Kommentar mit einer Auftragsnummer darin veraltet als Erstes, und niemand sucht ihn von selbst. Such nach <code>08B</code>, dann findest du ihn</td></tr>
+</table>
+
+<h2>Antworten zu den Denkfragen</h2>
+
+<div class="step">
+<p><b>1. In der Kategorieauswahl des Formulars fehlt <code>Alle</code>. Was ginge kaputt, und wann würdest du es merken?</b></p>
+<p>Du bekämst Fragen mit der Kategorie <code>Alle</code>. In der Fragenliste sehen sie völlig normal aus, denn dort steht die Kategorie einfach als Text.</p>
+<p><b>Merken würdest du es erst beim Spielen</b>, und auch dann nur, wenn du danach suchst. Wer eine Runde <b>Sport</b> spielt, bekommt die Frage nicht. Wer eine Runde über alle Kategorien spielt, bekommt sie. Also verhält sie sich fast richtig, und genau darum ist der Fehler teuer.</p>
+<p><b>Die Regel dahinter:</b> eine Auswahl im Formular beschreibt <b>ein Objekt</b>. Eine Auswahl über einer Liste beschreibt einen <b>Ausschnitt</b>. Das sind zwei verschiedene Dinge, auch wenn beide Male ein <code>Spinner</code> dasteht. Dieselbe Unterscheidung hast du in 07B beim Filter getroffen.</p>
 </div>
 
-<p>Die Adresse bleibt dieselbe. Sobald die Lösung da ist, findest du sie genau hier.</p>
+<div class="step">
+<p><b>2. Warum war <code>return false</code> in 06B richtig und ist hier falsch?</b></p>
+<p>In 06B gab es ein einziges Feld. Es kann nur einen Fehler auf einmal haben, also ist es egal, ob die Methode weiterprüft oder nicht.</p>
+<p>Heute sind es fünf Felder. Mit <code>return false</code> sieht der Benutzer eine rote Meldung, füllt das Feld, tippt auf Speichern, sieht die nächste. Bei fünf leeren Feldern sind das fünf Runden.</p>
+<p><b>Das Muster hat einen Namen:</b> alles prüfen, dann berichten. Es kommt überall vor, wo mehrere Regeln gleichzeitig gelten. Ein Compiler macht es genauso, sonst müsstest du dein Programm für jeden Fehler einzeln neu bauen.</p>
+</div>
 
-<p>Und wenn es soweit ist, gilt wie immer: erst selbst bauen, dann hier hineinschauen. Der ganze Code steht dann hier, aber er nützt dir nur, wenn du vorher selbst gesucht hast.</p>
+<div class="step">
+<p><b>3. Welche Methode der <code>AdminActivity</code> sorgt dafür, dass die neue Frage sofort in der Liste steht?</b></p>
+<p><code>onResume</code>.</p>
+<p><code>finish()</code> im Formular schliesst nur das Formular. Die <code>AdminActivity</code> darunter war die ganze Zeit da, sie war nur verdeckt. Sie wird nicht neu gebaut, also läuft <code>onCreate</code> nicht. Was läuft, ist <code>onResume</code>, und dort steht dein <code>getAll()</code>.</p>
+<p><b>Der Satz zum Merken:</b> <code>onCreate</code> ist die Geburt, <code>onResume</code> ist jedes Wiedersehen.</p>
+<p>In 08A stand ausdrücklich dazu, dass <code>onCreate</code> an dieser Stelle heute auch reichen würde. Das stimmte bis gestern. <b>Seit 08B stimmt es nicht mehr</b>, und das ist der Moment, für den der Satz aufgehoben wurde.</p>
+</div>
 
-<p><a href="/">Zurück zur Übersicht</a></p>
+<div class="step">
+<p><b>4. Warum kommt deine neue Frage im Spiel nie dran?</b></p>
+<p>Weil deine <code>GameActivity</code> ihre Fragen aus <code>QuestionBank</code> holt, also fest aus dem Code. Sie fragt die Datenbank gar nicht.</p>
+<p>Das ist kein Versehen, sondern der Stand nach 08B. Der Umbau ist die Zusatzaufgabe, und er ist kleiner, als er aussieht: <code>Question</code> und <code>QuestionEntity</code> haben von aussen dieselben Methoden, <code>getText</code>, <code>getAnswers</code>, <code>isCorrect</code>. Es ist im Wesentlichen ein Austausch des Typnamens.</p>
+</div>
 
-<p class="foot">Modul 335 Mobile Applikationen | Tag 4, Nachmittag | Lösung 08B | Platzhalter</p>
+<h2>Teil A, der neue Bildschirm</h2>
+
+<h3>Die neuen Texte in res/values/strings.xml</h3>
+
+<pre>&lt;<span class="c">!-- Formular für eine neue Frage, ab 08B --</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"fab_add_question"</span>&gt;Neue Frage anlegen&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"title_question_new"</span>&gt;Neue Frage&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"hint_question_text"</span>&gt;Fragetext&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"hint_answer1"</span>&gt;Antwort 1&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"hint_answer2"</span>&gt;Antwort 2&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"hint_answer3"</span>&gt;Antwort 3&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"hint_answer4"</span>&gt;Antwort 4&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"label_correct_answer"</span>&gt;Welche Antwort ist richtig?&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"radio_1"</span>&gt;1&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"radio_2"</span>&gt;2&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"radio_3"</span>&gt;3&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"radio_4"</span>&gt;4&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"label_category"</span>&gt;Kategorie&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"label_difficulty"</span>&gt;Schwierigkeit&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"btn_save_question"</span>&gt;Frage speichern&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"btn_cancel"</span>&gt;Abbrechen&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"error_question_text"</span>&gt;Mindestens 10 Zeichen.&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"error_answer_required"</span>&gt;Diese Antwort ist Pflicht.&lt;/<span class="t">string</span>&gt;</pre>
+
+<div class="info">
+<p><b>Warum <code>radio_1</code> bis <code>radio_4</code> überhaupt Strings sind</b>, obwohl dort nur eine Ziffer steht. Weil jeder sichtbare Text in <code>strings.xml</code> gehört. Der Editor warnt sonst mit <i>Hardcoded text</i>, und die Regel gilt ohne Ausnahme. Sonst diskutiert man bei jedem kurzen Text neu.</p>
+</div>
+
+<h3>Der Eintrag in AndroidManifest.xml</h3>
+
+<pre>&lt;<span class="t">activity</span>
+    android:name=<span class="s">".QuestionEditActivity"</span>
+    android:exported=<span class="s">"false"</span>
+    android:windowSoftInputMode=<span class="s">"adjustResize"</span> /&gt;</pre>
+
+<h3>Was in res/layout/activity_admin.xml dazugekommen ist</h3>
+
+<p>Genau ein Element, und es liegt direkt im <code>ConstraintLayout</code>:</p>
+
+<pre>&lt;<span class="c">!--
+  Der runde Knopf unten rechts. Er schwebt über der Liste, darum ein
+  FloatingActionButton und nicht ein gewöhnlicher Button am Ende der
+  Liste. Ein Button am Ende wäre bei dreissig Zeilen erst nach dem
+  Scrollen erreichbar.
+
+  contentDescription ist hier keine Kür. Der Knopf trägt nur ein Bild
+  und keinen Text. Ohne die Beschreibung liest die Vorlesefunktion
+  "Schaltfläche" vor und sonst nichts.
+--</span>&gt;
+&lt;<span class="t">com.google.android.material.floatingactionbutton.FloatingActionButton</span>
+    android:id=<span class="s">"@+id/fabAddQuestion"</span>
+    android:layout_width=<span class="s">"wrap_content"</span>
+    android:layout_height=<span class="s">"wrap_content"</span>
+    android:layout_marginEnd=<span class="s">"8dp"</span>
+    android:layout_marginBottom=<span class="s">"8dp"</span>
+    android:contentDescription=<span class="s">"@string/fab_add_question"</span>
+    android:src=<span class="s">"@android:drawable/ic_input_add"</span>
+    app:layout_constraintBottom_toBottomOf=<span class="s">"parent"</span>
+    app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span> /&gt;</pre>
+
+<h3>Was sich in AdminActivity.java geändert hat</h3>
+
+<p>Drei Stellen, plus zwei Importe.</p>
+
+<p><b>Das neue Feld:</b></p>
+
+<pre><span class="c">/** Der runde Knopf unten rechts. Er öffnet das leere Formular. */</span>
+<span class="k">private</span> <span class="t">FloatingActionButton</span> fabAddQuestion;</pre>
+
+<p><b>In <code>onCreate</code>, nach dem Adapter:</b></p>
+
+<pre>fabAddQuestion = findViewById(<span class="t">R</span>.id.fabAddQuestion);
+
+<span class="c">// Ohne Extra im Intent. Das Formular weiss damit, dass es eine neue
+// Frage anlegen soll. In 08C kommt hier eine id dazu, und derselbe
+// Bildschirm ändert dann eine bestehende Frage.</span>
+fabAddQuestion.setOnClickListener(v -&gt;
+        startActivity(<span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">QuestionEditActivity</span>.<span class="k">class</span>)));</pre>
+
+<p><b>Und der Satz über <code>onResume</code>, der seit heute anders lautet.</b> Vorher stand dort, dass es <b>ab</b> 08B wichtig wird. Jetzt steht dort, warum es wichtig <b>ist</b>:</p>
+
+<pre><span class="c">/**
+ * Lädt die Fragen jedes Mal neu, wenn der Bildschirm erscheint.
+ *
+ * Dieselbe Überlegung wie bei der Rangliste: onCreate läuft nur einmal,
+ * onResume bei jeder Rückkehr. Seit 08B ist das keine Vorsichtsmassnahme
+ * mehr, sondern nötig. Wer aus dem Formular zurückkommt, hat die Liste
+ * nicht neu gebaut, sondern nur wieder aufgedeckt. Mit onCreate stünde
+ * die frisch angelegte Frage nicht darin.
+ */</span></pre>
+
+<h3>res/layout/activity_question_edit.xml, die ganze Datei</h3>
+<pre>&lt;?xml version=<span class="s">&quot;1.0&quot;</span> encoding=<span class="s">&quot;utf-8&quot;</span>?&gt;
+<span class="c">&lt;!--
+  Das Formular für eine neue Frage.
+
+  Der Root ist ein ConstraintLayout mit der id clQuestionEdit. Nur er
+  bekommt den Insets-Block in der Activity. Darin liegt eine ScrollView,
+  denn elf Felder plus Tastatur passen auf kein Handy.
+
+  Innerhalb der ScrollView ist ein LinearLayout richtig. Die Felder stehen
+  streng untereinander, da braucht es keine Anker.
+--&gt;</span>
+&lt;<span class="t">androidx.constraintlayout.widget.ConstraintLayout</span>
+    xmlns:android=<span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span>
+    xmlns:app=<span class="s">&quot;http://schemas.android.com/apk/res-auto&quot;</span>
+    xmlns:tools=<span class="s">&quot;http://schemas.android.com/tools&quot;</span>
+    android:id=<span class="s">&quot;@+id/clQuestionEdit&quot;</span>
+    android:layout_width=<span class="s">&quot;match_parent&quot;</span>
+    android:layout_height=<span class="s">&quot;match_parent&quot;</span>
+    tools:context=<span class="s">&quot;.QuestionEditActivity&quot;</span>&gt;
+
+    &lt;<span class="t">ScrollView</span>
+        android:id=<span class="s">&quot;@+id/svQuestionEdit&quot;</span>
+        android:layout_width=<span class="s">&quot;0dp&quot;</span>
+        android:layout_height=<span class="s">&quot;0dp&quot;</span>
+        app:layout_constraintBottom_toBottomOf=<span class="s">&quot;parent&quot;</span>
+        app:layout_constraintEnd_toEndOf=<span class="s">&quot;parent&quot;</span>
+        app:layout_constraintStart_toStartOf=<span class="s">&quot;parent&quot;</span>
+        app:layout_constraintTop_toTopOf=<span class="s">&quot;parent&quot;</span>&gt;
+
+        &lt;<span class="t">LinearLayout</span>
+            android:layout_width=<span class="s">&quot;match_parent&quot;</span>
+            android:layout_height=<span class="s">&quot;wrap_content&quot;</span>
+            android:orientation=<span class="s">&quot;vertical&quot;</span>&gt;
+
+            &lt;<span class="t">TextView</span>
+                android:id=<span class="s">&quot;@+id/tvEditTitle&quot;</span>
+                android:layout_width=<span class="s">&quot;match_parent&quot;</span>
+                android:layout_height=<span class="s">&quot;wrap_content&quot;</span>
+                android:text=<span class="s">&quot;@string/title_question_new&quot;</span>
+                android:textSize=<span class="s">&quot;26sp&quot;</span>
+                android:textStyle=<span class="s">&quot;bold&quot;</span> /&gt;
+
+            &lt;<span class="t">com.google.android.material.textfield.TextInputLayout</span>
+                android:id=<span class="s">&quot;@+id/tilQuestionText&quot;</span>
+                style=<span class="s">&quot;@style/Widget.Material3.TextInputLayout.OutlinedBox&quot;</span>
+                android:layout_width=<span class="s">&quot;match_parent&quot;</span>
+                android:layout_height=<span class="s">&quot;wrap_content&quot;</span>
+                android:layout_marginTop=<span class="s">&quot;20dp&quot;</span>
+                android:hint=<span class="s">&quot;@string/hint_question_text&quot;</span>
+                app:errorEnabled=<span class="s">&quot;true&quot;</span>&gt;
+
+                &lt;<span class="t">com.google.android.material.textfield.TextInputEditText</span>
+                    android:id=<span class="s">&quot;@+id/etQuestionText&quot;</span>
+                    android:layout_width=<span class="s">&quot;match_parent&quot;</span>
+                    android:layout_height=<span class="s">&quot;wrap_content&quot;</span>
+                    android:inputType=<span class="s">&quot;textCapSentences|textMultiLine&quot;</span>
+                    android:maxLines=<span class="s">&quot;3&quot;</span> /&gt;
+
+            &lt;/<span class="t">com.google.android.material.textfield.TextInputLayout</span>&gt;
+
+            &lt;<span class="t">com.google.android.material.textfield.TextInputLayout</span>
+                android:id=<span class="s">&quot;@+id/tilAnswer1&quot;</span>
+                style=<span class="s">&quot;@style/Widget.Material3.TextInputLayout.OutlinedBox&quot;</span>
+                android:layout_width=<span class="s">&quot;match_parent&quot;</span>
+                android:layout_height=<span class="s">&quot;wrap_content&quot;</span>
+                android:hint=<span class="s">&quot;@string/hint_answer1&quot;</span>
+                app:errorEnabled=<span class="s">&quot;true&quot;</span>&gt;
+
+                &lt;<span class="t">com.google.android.material.textfield.TextInputEditText</span>
+                    android:id=<span class="s">&quot;@+id/etAnswer1&quot;</span>
+                    android:layout_width=<span class="s">&quot;match_parent&quot;</span>
+                    android:layout_height=<span class="s">&quot;wrap_content&quot;</span>
+                    android:inputType=<span class="s">&quot;textCapSentences&quot;</span>
+                    android:maxLines=<span class="s">&quot;1&quot;</span> /&gt;
+
+            &lt;/<span class="t">com.google.android.material.textfield.TextInputLayout</span>&gt;
+
+            &lt;<span class="t">com.google.android.material.textfield.TextInputLayout</span>
+                android:id=<span class="s">&quot;@+id/tilAnswer2&quot;</span>
+                style=<span class="s">&quot;@style/Widget.Material3.TextInputLayout.OutlinedBox&quot;</span>
+                android:layout_width=<span class="s">&quot;match_parent&quot;</span>
+                android:layout_height=<span class="s">&quot;wrap_content&quot;</span>
+                android:hint=<span class="s">&quot;@string/hint_answer2&quot;</span>
+                app:errorEnabled=<span class="s">&quot;true&quot;</span>&gt;
+
+                &lt;<span class="t">com.google.android.material.textfield.TextInputEditText</span>
+                    android:id=<span class="s">&quot;@+id/etAnswer2&quot;</span>
+                    android:layout_width=<span class="s">&quot;match_parent&quot;</span>
+                    android:layout_height=<span class="s">&quot;wrap_content&quot;</span>
+                    android:inputType=<span class="s">&quot;textCapSentences&quot;</span>
+                    android:maxLines=<span class="s">&quot;1&quot;</span> /&gt;
+
+            &lt;/<span class="t">com.google.android.material.textfield.TextInputLayout</span>&gt;
+
+            &lt;<span class="t">com.google.android.material.textfield.TextInputLayout</span>
+                android:id=<span class="s">&quot;@+id/tilAnswer3&quot;</span>
+                style=<span class="s">&quot;@style/Widget.Material3.TextInputLayout.OutlinedBox&quot;</span>
+                android:layout_width=<span class="s">&quot;match_parent&quot;</span>
+                android:layout_height=<span class="s">&quot;wrap_content&quot;</span>
+                android:hint=<span class="s">&quot;@string/hint_answer3&quot;</span>
+                app:errorEnabled=<span class="s">&quot;true&quot;</span>&gt;
+
+                &lt;<span class="t">com.google.android.material.textfield.TextInputEditText</span>
+                    android:id=<span class="s">&quot;@+id/etAnswer3&quot;</span>
+                    android:layout_width=<span class="s">&quot;match_parent&quot;</span>
+                    android:layout_height=<span class="s">&quot;wrap_content&quot;</span>
+                    android:inputType=<span class="s">&quot;textCapSentences&quot;</span>
+                    android:maxLines=<span class="s">&quot;1&quot;</span> /&gt;
+
+            &lt;/<span class="t">com.google.android.material.textfield.TextInputLayout</span>&gt;
+
+            &lt;<span class="t">com.google.android.material.textfield.TextInputLayout</span>
+                android:id=<span class="s">&quot;@+id/tilAnswer4&quot;</span>
+                style=<span class="s">&quot;@style/Widget.Material3.TextInputLayout.OutlinedBox&quot;</span>
+                android:layout_width=<span class="s">&quot;match_parent&quot;</span>
+                android:layout_height=<span class="s">&quot;wrap_content&quot;</span>
+                android:hint=<span class="s">&quot;@string/hint_answer4&quot;</span>
+                app:errorEnabled=<span class="s">&quot;true&quot;</span>&gt;
+
+                &lt;<span class="t">com.google.android.material.textfield.TextInputEditText</span>
+                    android:id=<span class="s">&quot;@+id/etAnswer4&quot;</span>
+                    android:layout_width=<span class="s">&quot;match_parent&quot;</span>
+                    android:layout_height=<span class="s">&quot;wrap_content&quot;</span>
+                    android:inputType=<span class="s">&quot;textCapSentences&quot;</span>
+                    android:maxLines=<span class="s">&quot;1&quot;</span> /&gt;
+
+            &lt;/<span class="t">com.google.android.material.textfield.TextInputLayout</span>&gt;
+
+            &lt;<span class="t">TextView</span>
+                android:id=<span class="s">&quot;@+id/tvCorrectLabel&quot;</span>
+                android:layout_width=<span class="s">&quot;match_parent&quot;</span>
+                android:layout_height=<span class="s">&quot;wrap_content&quot;</span>
+                android:layout_marginTop=<span class="s">&quot;8dp&quot;</span>
+                android:text=<span class="s">&quot;@string/label_correct_answer&quot;</span>
+                android:textSize=<span class="s">&quot;15sp&quot;</span>
+                android:textStyle=<span class="s">&quot;bold&quot;</span> /&gt;
+
+            <span class="c">&lt;!--
+              Eine RadioGroup sorgt dafür, dass genau ein Knopf gewählt
+              ist. Ohne die Gruppe liessen sich alle vier gleichzeitig
+              anwählen, denn ein RadioButton allein weiss nichts von den
+              anderen.
+
+              Der erste Knopf steht auf checked true. Ohne Vorauswahl
+              liefert getCheckedRadioButtonId den Wert -1.
+            --&gt;</span>
+            &lt;<span class="t">RadioGroup</span>
+                android:id=<span class="s">&quot;@+id/rgCorrect&quot;</span>
+                android:layout_width=<span class="s">&quot;match_parent&quot;</span>
+                android:layout_height=<span class="s">&quot;wrap_content&quot;</span>
+                android:layout_marginTop=<span class="s">&quot;4dp&quot;</span>
+                android:orientation=<span class="s">&quot;horizontal&quot;</span>&gt;
+
+                &lt;<span class="t">RadioButton</span>
+                    android:id=<span class="s">&quot;@+id/rbCorrect1&quot;</span>
+                    android:layout_width=<span class="s">&quot;0dp&quot;</span>
+                    android:layout_height=<span class="s">&quot;wrap_content&quot;</span>
+                    android:layout_weight=<span class="s">&quot;1&quot;</span>
+                    android:checked=<span class="s">&quot;true&quot;</span>
+                    android:text=<span class="s">&quot;@string/radio_1&quot;</span> /&gt;
+
+                &lt;<span class="t">RadioButton</span>
+                    android:id=<span class="s">&quot;@+id/rbCorrect2&quot;</span>
+                    android:layout_width=<span class="s">&quot;0dp&quot;</span>
+                    android:layout_height=<span class="s">&quot;wrap_content&quot;</span>
+                    android:layout_weight=<span class="s">&quot;1&quot;</span>
+                    android:text=<span class="s">&quot;@string/radio_2&quot;</span> /&gt;
+
+                &lt;<span class="t">RadioButton</span>
+                    android:id=<span class="s">&quot;@+id/rbCorrect3&quot;</span>
+                    android:layout_width=<span class="s">&quot;0dp&quot;</span>
+                    android:layout_height=<span class="s">&quot;wrap_content&quot;</span>
+                    android:layout_weight=<span class="s">&quot;1&quot;</span>
+                    android:text=<span class="s">&quot;@string/radio_3&quot;</span> /&gt;
+
+                &lt;<span class="t">RadioButton</span>
+                    android:id=<span class="s">&quot;@+id/rbCorrect4&quot;</span>
+                    android:layout_width=<span class="s">&quot;0dp&quot;</span>
+                    android:layout_height=<span class="s">&quot;wrap_content&quot;</span>
+                    android:layout_weight=<span class="s">&quot;1&quot;</span>
+                    android:text=<span class="s">&quot;@string/radio_4&quot;</span> /&gt;
+
+            &lt;/<span class="t">RadioGroup</span>&gt;
+
+            &lt;<span class="t">TextView</span>
+                android:id=<span class="s">&quot;@+id/tvCategoryLabel&quot;</span>
+                android:layout_width=<span class="s">&quot;match_parent&quot;</span>
+                android:layout_height=<span class="s">&quot;wrap_content&quot;</span>
+                android:layout_marginTop=<span class="s">&quot;16dp&quot;</span>
+                android:text=<span class="s">&quot;@string/label_category&quot;</span>
+                android:textSize=<span class="s">&quot;15sp&quot;</span>
+                android:textStyle=<span class="s">&quot;bold&quot;</span> /&gt;
+
+            &lt;<span class="t">Spinner</span>
+                android:id=<span class="s">&quot;@+id/spnEditCategory&quot;</span>
+                android:layout_width=<span class="s">&quot;match_parent&quot;</span>
+                android:layout_height=<span class="s">&quot;wrap_content&quot;</span>
+                android:layout_marginTop=<span class="s">&quot;4dp&quot;</span> /&gt;
+
+            &lt;<span class="t">TextView</span>
+                android:id=<span class="s">&quot;@+id/tvDifficultyLabel&quot;</span>
+                android:layout_width=<span class="s">&quot;match_parent&quot;</span>
+                android:layout_height=<span class="s">&quot;wrap_content&quot;</span>
+                android:layout_marginTop=<span class="s">&quot;16dp&quot;</span>
+                android:text=<span class="s">&quot;@string/label_difficulty&quot;</span>
+                android:textSize=<span class="s">&quot;15sp&quot;</span>
+                android:textStyle=<span class="s">&quot;bold&quot;</span> /&gt;
+
+            &lt;<span class="t">Spinner</span>
+                android:id=<span class="s">&quot;@+id/spnEditDifficulty&quot;</span>
+                android:layout_width=<span class="s">&quot;match_parent&quot;</span>
+                android:layout_height=<span class="s">&quot;wrap_content&quot;</span>
+                android:layout_marginTop=<span class="s">&quot;4dp&quot;</span> /&gt;
+
+            &lt;<span class="t">Button</span>
+                android:id=<span class="s">&quot;@+id/btnSaveQuestion&quot;</span>
+                android:layout_width=<span class="s">&quot;match_parent&quot;</span>
+                android:layout_height=<span class="s">&quot;wrap_content&quot;</span>
+                android:layout_marginTop=<span class="s">&quot;28dp&quot;</span>
+                android:text=<span class="s">&quot;@string/btn_save_question&quot;</span> /&gt;
+
+            &lt;<span class="t">Button</span>
+                android:id=<span class="s">&quot;@+id/btnCancelQuestion&quot;</span>
+                style=<span class="s">&quot;@style/Widget.Material3.Button.TextButton&quot;</span>
+                android:layout_width=<span class="s">&quot;match_parent&quot;</span>
+                android:layout_height=<span class="s">&quot;wrap_content&quot;</span>
+                android:layout_marginTop=<span class="s">&quot;4dp&quot;</span>
+                android:layout_marginBottom=<span class="s">&quot;16dp&quot;</span>
+                android:text=<span class="s">&quot;@string/btn_cancel&quot;</span> /&gt;
+
+        &lt;/<span class="t">LinearLayout</span>&gt;
+
+    &lt;/<span class="t">ScrollView</span>&gt;
+
+&lt;/<span class="t">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</pre>
+<h2>Teil B, das Formular arbeitet</h2>
+
+<h3>Der Vergleich mit deiner isNameValid aus 06B</h3>
+
+<p>Leg die zwei Methoden nebeneinander. Sie lösen dieselbe Aufgabe, und der eine Unterschied ist der ganze Ertrag von heute.</p>
+
+<table>
+<tr><th></th><th><code>isNameValid</code>, 06B</th><th><code>isFormValid</code>, 08B</th></tr>
+<tr><td>Wie viele Felder</td><td>eines</td><td>fünf</td></tr>
+<tr><td>Feld auslesen</td><td><code>currentName()</code>, festes Feld</td><td><code>textOf(field)</code>, Feld als Parameter</td></tr>
+<tr><td>Leerzeichen am Rand</td><td><code>trim()</code></td><td><b>gleich</b></td></tr>
+<tr><td>Fehler anzeigen</td><td><code>tilPlayerName.setError("...")</code></td><td><b>gleich</b>, nur an mehreren Rahmen</td></tr>
+<tr><td>Meldung wegräumen</td><td><code>setError(null)</code>, einmal am Ende</td><td><code>setError(null)</code> <b>im <code>else</code> jeder Regel</b></td></tr>
+<tr><td>Beim ersten Fehler</td><td><code>return false</code></td><td><b><code>valid = false</code> und weiterprüfen</b></td></tr>
+<tr><td>Rückgabe</td><td><code>true</code> oder <code>false</code></td><td><b>gleich</b></td></tr>
+</table>
+
+<div class="tip">
+<p><b>Sechs von sieben Zeilen sind dieselbe Idee.</b> Nur die vorletzte ist anders, und sie ist es, weil aus einem Feld fünf geworden sind.</p>
+<p><b>Und die zweitletzte Zeile hängt daran.</b> In 06B reichte ein <code>setError(null)</code> ganz am Ende, denn dorthin kam man nur, wenn alles stimmte. Heute läuft die Methode immer bis zum Schluss, also muss jede Regel ihre eigene Meldung selbst wegräumen.</p>
+</div>
+
+<h3>Deine Schleife, eine mögliche Form</h3>
+
+<pre><span class="k">for</span> (<span class="k">int</span> i = <span class="s">0</span>; i &lt; answerFields.length; i++) {
+    <span class="k">if</span> (textOf(answerFields[i]).isEmpty()) {
+        answerLayouts[i].setError(getString(<span class="t">R</span>.string.error_answer_required));
+        valid = <span class="k">false</span>;
+    } <span class="k">else</span> {
+        answerLayouts[i].setError(<span class="k">null</span>);
+    }
+}</pre>
+
+<div class="info">
+<p><b>Sieht deine anders aus? Das ist in Ordnung.</b> Eine <code>for</code>-Schleife über den Index ist hier nötig, weil du zwei Arrays gleichzeitig brauchst, die Felder und die Rahmen. Eine <code>for each</code>-Schleife über <code>answerFields</code> gäbe dir das Feld, aber nicht den passenden Rahmen.</p>
+<p><b>Die Antwort auf die Zählfrage:</b> ohne Schleife wären es sechs Zeilen mal vier, also <b>vierundzwanzig</b> statt sieben. Und vierundzwanzig Zeilen mit Nummern darin sind vierundzwanzig Gelegenheiten, eine Nummer falsch zu tippen. Genau darum sind die Felder in B1 in ein Array gewandert. Dieselbe Überlegung wie bei den vier Antwort-Buttons in deiner <code>GameActivity</code>.</p>
+</div>
+
+<h3>QuestionEditActivity.java, die ganze Klasse</h3>
+<pre><span class="k">package</span> ch.wiss.m335.quiz;
+
+<span class="k">import</span> android.os.<span class="t">Bundle</span>;
+<span class="k">import</span> android.util.<span class="t">Log</span>;
+<span class="k">import</span> android.widget.<span class="t">ArrayAdapter</span>;
+<span class="k">import</span> android.widget.<span class="t">RadioGroup</span>;
+<span class="k">import</span> android.widget.<span class="t">Spinner</span>;
+
+<span class="k">import</span> androidx.activity.<span class="t">EdgeToEdge</span>;
+<span class="k">import</span> androidx.appcompat.app.<span class="t">AppCompatActivity</span>;
+<span class="k">import</span> androidx.core.graphics.<span class="t">Insets</span>;
+<span class="k">import</span> androidx.core.view.<span class="t">ViewCompat</span>;
+<span class="k">import</span> androidx.core.view.<span class="t">WindowInsetsCompat</span>;
+
+<span class="k">import</span> com.google.android.material.textfield.<span class="t">TextInputEditText</span>;
+<span class="k">import</span> com.google.android.material.textfield.<span class="t">TextInputLayout</span>;
+
+<span class="k">import</span> java.util.<span class="t">Arrays</span>;
+<span class="k">import</span> java.util.<span class="t">List</span>;
+
+<span class="k">import</span> ch.wiss.m335.quiz.data.<span class="t">QuestionEntity</span>;
+<span class="k">import</span> ch.wiss.m335.quiz.data.<span class="t">QuizDatabase</span>;
+<span class="k">import</span> ch.wiss.m335.quiz.model.<span class="t">QuestionBank</span>;
+
+<span class="c">/**
+ * Das Formular für eine neue Frage.
+ *
+ * Bis hierher hat die App Daten nur gelesen. Der Startbestand kam aus
+ * assets, die Liste zeigt ihn an. Ab jetzt entstehen Daten im Betrieb, und
+ * das ist der Schritt, den die Leistungsbeurteilung verlangt.
+ *
+ * Der Bildschirm macht genau drei Dinge. Er sammelt Eingaben ein, er prüft
+ * sie, und er schreibt eine Zeile in die Tabelle. Danach schliesst er sich.
+ *
+ * Die Prüfung ist dieselbe Idee wie beim Namensfeld in 06B. setError
+ * gehört auf das TextInputLayout und nicht auf das TextInputEditText. Auf
+ * dem Feld selbst erscheint die Meldung in einer Blase, die beim nächsten
+ * Tippen verschwindet.
+ *
+ * In 08C bekommt derselbe Bildschirm eine zweite Aufgabe. Dann kommt eine
+ * id im Intent mit, und aus dem Anlegen wird ein Ändern. Darum heisst die
+ * Klasse QuestionEditActivity und nicht QuestionNewActivity.
+ */</span>
+<span class="k">public</span> <span class="k">class</span> <span class="t">QuestionEditActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span> {
+
+    <span class="c">/**
+     * Log-Tag für das ganze Modul 335.
+     *
+     * Bewusst nicht &quot;M335&quot;. Diese Zeichenfolge steckt auch im Paketnamen
+     * ch.wiss.m335.quiz. Das Suchfeld im Logcat sucht im Freitext über alle
+     * Spalten, und damit träfe &quot;M335&quot; jede Zeile unserer App statt nur die
+     * selbst geschriebenen.
+     */</span>
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="k"><span class="k">String</span></span> <span class="t">TAG</span> = <span class="s">&quot;Modul335&quot;</span>;
+
+    <span class="c">/** So viele Zeichen muss ein Fragetext mindestens haben. */</span>
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="k">int</span> <span class="t">MIN_TEXT_LENGTH</span> = 10;
+
+    <span class="c">/**
+     * Die drei Schwierigkeitsstufen, genau so wie sie in den Daten stehen.
+     *
+     * Der Text aus dem Spinner wandert unverändert in die Spalte
+     * difficulty. Ein grosses L in &quot;Leicht&quot; würde eine zweite Schreibweise
+     * in die Tabelle bringen, und danach passt kein Vergleich mehr.
+     */</span>
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">List</span>&lt;<span class="k"><span class="k">String</span></span>&gt; <span class="t">DIFFICULTIES</span> = <span class="t">Arrays</span>.asList(<span class="s">&quot;leicht&quot;</span>, <span class="s">&quot;mittel&quot;</span>, <span class="s">&quot;schwer&quot;</span>);
+
+    <span class="c">/** Das Eingabefeld für den Fragetext, mit seinem Rahmen. */</span>
+    <span class="k">private</span> <span class="t">TextInputLayout</span> tilQuestionText;
+
+    <span class="c">/** Das Eingabefeld für den Fragetext. */</span>
+    <span class="k">private</span> <span class="t">TextInputEditText</span> etQuestionText;
+
+    <span class="c">/** Die vier Rahmen der Antwortfelder, in der Reihenfolge 1 bis 4. */</span>
+    <span class="k">private</span> <span class="t">TextInputLayout</span>[] answerLayouts;
+
+    <span class="c">/** Die vier Antwortfelder, in derselben Reihenfolge. */</span>
+    <span class="k">private</span> <span class="t">TextInputEditText</span>[] answerFields;
+
+    <span class="c">/** Die Auswahl, welche der vier Antworten die richtige ist. */</span>
+    <span class="k">private</span> <span class="t">RadioGroup</span> rgCorrect;
+
+    <span class="c">/** Die Kategorie der Frage. Ohne den Eintrag Alle. */</span>
+    <span class="k">private</span> <span class="t">Spinner</span> spnEditCategory;
+
+    <span class="c">/** Die Schwierigkeit der Frage. */</span>
+    <span class="k">private</span> <span class="t">Spinner</span> spnEditDifficulty;
+
+    @<span class="t">Override</span>
+    <span class="k">protected</span> <span class="k">void</span> onCreate(<span class="t">Bundle</span> savedInstanceState) {
+        <span class="k">super</span>.onCreate(savedInstanceState);
+        <span class="t">EdgeToEdge</span>.enable(<span class="k">this</span>);
+        setContentView(<span class="t">R</span>.layout.activity_question_edit);
+
+        <span class="c">// 16dp eigener Rand, in Pixel umgerechnet über die Dichte des Geräts.</span>
+        <span class="k">final</span> <span class="k">int</span> extraPadding = <span class="t">Math</span>.round(16 * getResources().getDisplayMetrics().density);
+
+        <span class="c">// Type.ime() ist die Tastatur. Dieser Bildschirm ist nach der</span>
+        <span class="c">// GameActivity der zweite mit Eingabefeldern, und hier sind es</span>
+        <span class="c">// gleich fünf. Ohne Type.ime() legt sich die Tastatur über das</span>
+        <span class="c">// Feld, in das gerade getippt wird.</span>
+        <span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(<span class="t">R</span>.id.clQuestionEdit), (v, insets) -&gt; {
+            <span class="t">Insets</span> systemBars = insets.getInsets(
+                    <span class="t">WindowInsetsCompat</span>.<span class="t">Type</span>.systemBars() | <span class="t">WindowInsetsCompat</span>.<span class="t">Type</span>.ime());
+            v.setPadding(
+                    systemBars.left + extraPadding,
+                    systemBars.top + extraPadding,
+                    systemBars.right + extraPadding,
+                    systemBars.bottom + extraPadding);
+            <span class="k">return</span> insets;
+        });
+
+        tilQuestionText = findViewById(<span class="t">R</span>.id.tilQuestionText);
+        etQuestionText = findViewById(<span class="t">R</span>.id.etQuestionText);
+        rgCorrect = findViewById(<span class="t">R</span>.id.rgCorrect);
+        spnEditCategory = findViewById(<span class="t">R</span>.id.spnEditCategory);
+        spnEditDifficulty = findViewById(<span class="t">R</span>.id.spnEditDifficulty);
+
+        <span class="c">// Die vier Antwortfelder in ein Array. Danach läuft jede Prüfung</span>
+        <span class="c">// in einer Schleife statt vier Mal untereinander. Dasselbe Muster</span>
+        <span class="c">// wie bei den vier Antwort-Buttons in der GameActivity.</span>
+        answerLayouts = <span class="k">new</span> <span class="t">TextInputLayout</span>[]{
+                findViewById(<span class="t">R</span>.id.tilAnswer1),
+                findViewById(<span class="t">R</span>.id.tilAnswer2),
+                findViewById(<span class="t">R</span>.id.tilAnswer3),
+                findViewById(<span class="t">R</span>.id.tilAnswer4)
+        };
+        answerFields = <span class="k">new</span> <span class="t">TextInputEditText</span>[]{
+                findViewById(<span class="t">R</span>.id.etAnswer1),
+                findViewById(<span class="t">R</span>.id.etAnswer2),
+                findViewById(<span class="t">R</span>.id.etAnswer3),
+                findViewById(<span class="t">R</span>.id.etAnswer4)
+        };
+
+        spnEditCategory.setAdapter(<span class="k">new</span> <span class="t">ArrayAdapter</span>&lt;&gt;(<span class="k">this</span>,
+                android.<span class="t">R</span>.layout.simple_spinner_dropdown_item, realCategories()));
+        spnEditDifficulty.setAdapter(<span class="k">new</span> <span class="t">ArrayAdapter</span>&lt;&gt;(<span class="k">this</span>,
+                android.<span class="t">R</span>.layout.simple_spinner_dropdown_item, <span class="t">DIFFICULTIES</span>));
+
+        findViewById(<span class="t">R</span>.id.btnSaveQuestion).setOnClickListener(v -&gt; onSaveClicked());
+        findViewById(<span class="t">R</span>.id.btnCancelQuestion).setOnClickListener(v -&gt; finish());
+
+        <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">&quot;QuestionEditActivity onCreate&quot;</span>);
+    }
+
+    <span class="c">/**
+     * Liefert die Kategorien ohne den Eintrag Alle.
+     *
+     * Alle ist eine Angabe für eine Spielrunde und keine Eigenschaft einer
+     * einzelnen Frage. Wer es hier anbieten würde, bekäme Fragen mit der
+     * Kategorie Alle. Die tauchen danach in keiner echten Kategorie auf und
+     * sind praktisch verloren.
+     *
+     * @return die vier echten Kategorien
+     */</span>
+    <span class="k">private</span> <span class="t">List</span>&lt;<span class="k"><span class="k">String</span></span>&gt; realCategories() {
+        <span class="t">List</span>&lt;<span class="k"><span class="k">String</span></span>&gt; all = <span class="t">QuestionBank</span>.categories();
+        <span class="k">return</span> all.subList(1, all.size());
+    }
+
+    <span class="c">/**
+     * Prüft die Eingaben und schreibt die Frage in die Datenbank.
+     *
+     * Erst prüfen, dann bauen, dann speichern. Wer in der anderen
+     * Reihenfolge arbeitet, hat halbe Objekte im Speicher und muss sie
+     * wieder wegwerfen.
+     */</span>
+    <span class="k">private</span> <span class="k">void</span> onSaveClicked() {
+        <span class="k">if</span> (!isFormValid()) {
+            <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">&quot;save rejected, form not valid&quot;</span>);
+            <span class="k">return</span>;
+        }
+
+        <span class="t">QuestionEntity</span> question = <span class="k">new</span> <span class="t">QuestionEntity</span>();
+        question.setText(textOf(etQuestionText));
+        question.setAnswer1(textOf(answerFields[0]));
+        question.setAnswer2(textOf(answerFields[1]));
+        question.setAnswer3(textOf(answerFields[2]));
+        question.setAnswer4(textOf(answerFields[3]));
+
+        <span class="c">// Die richtige Antwort wird als Text gespeichert und nicht als</span>
+        <span class="c">// Nummer. So bleibt QuestionEntity von aussen gleich wie Question,</span>
+        <span class="c">// und isCorrect vergleicht weiterhin zwei Texte.</span>
+        question.setCorrectAnswer(textOf(answerFields[selectedAnswerIndex()]));
+
+        question.setCategory((<span class="k"><span class="k">String</span></span>) spnEditCategory.getSelectedItem());
+        question.setDifficulty((<span class="k"><span class="k">String</span></span>) spnEditDifficulty.getSelectedItem());
+
+        <span class="c">// Die id wird nicht gesetzt. Room vergibt sie und gibt sie zurück.</span>
+        <span class="k">long</span> newId = <span class="t">QuizDatabase</span>.getInstance(<span class="k">this</span>).questionDao().insert(question);
+        <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">&quot;question inserted, id=&quot;</span> + newId);
+
+        <span class="c">// Zurück zur Liste. finish schliesst nur diesen Bildschirm, die</span>
+        <span class="c">// AdminActivity darunter lebt weiter und bekommt onResume.</span>
+        finish();
+    }
+
+    <span class="c">/**
+     * Prüft alle Felder und zeigt die Fehler dort an, wo sie entstehen.
+     *
+     * Wichtig ist die Bauart: die Methode setzt valid auf false und prüft
+     * weiter. Sie steigt nicht mit return aus. Wer nach dem ersten Fehler
+     * aussteigt, zwingt den Benutzer, fünf Mal auf Speichern zu tippen, um
+     * fünf Fehler zu sehen.
+     *
+     * Und jede Regel räumt ihre eigene Meldung wieder weg. Ohne das else
+     * mit setError(null) bleibt eine rote Meldung stehen, obwohl das Feld
+     * inzwischen stimmt.
+     *
+     * @return true, wenn alle Eingaben brauchbar sind
+     */</span>
+    <span class="k">private</span> <span class="k">boolean</span> isFormValid() {
+        <span class="k">boolean</span> valid = <span class="k">true</span>;
+
+        <span class="k">if</span> (textOf(etQuestionText).length() &lt; <span class="t">MIN_TEXT_LENGTH</span>) {
+            tilQuestionText.setError(getString(<span class="t">R</span>.string.error_question_text));
+            valid = <span class="k">false</span>;
+        } <span class="k">else</span> {
+            tilQuestionText.setError(<span class="k">null</span>);
+        }
+
+        <span class="k">for</span> (<span class="k">int</span> i = 0; i &lt; answerFields.length; i++) {
+            <span class="k">if</span> (textOf(answerFields[i]).isEmpty()) {
+                answerLayouts[i].setError(getString(<span class="t">R</span>.string.error_answer_required));
+                valid = <span class="k">false</span>;
+            } <span class="k">else</span> {
+                answerLayouts[i].setError(<span class="k">null</span>);
+            }
+        }
+
+        <span class="k">return</span> valid;
+    }
+
+    <span class="c">/**
+     * Liest ein Feld aus, ohne Leerzeichen am Rand.
+     *
+     * getText kann null liefern, darum die Abfrage. trim entfernt
+     * Leerzeichen. Ohne trim wäre ein Feld mit einem Leerschlag darin
+     * gefüllt, und die Pflichtprüfung liesse es durch.
+     *
+     * @param field das Eingabefeld
+     * @return der Inhalt, nie null
+     */</span>
+    <span class="k">private</span> <span class="k"><span class="k">String</span></span> textOf(<span class="t">TextInputEditText</span> field) {
+        <span class="k">return</span> field.getText() == <span class="k">null</span> ? <span class="s">&quot;&quot;</span> : field.getText().toString().trim();
+    }
+
+    <span class="c">/**
+     * Findet heraus, welcher RadioButton gewählt ist.
+     *
+     * if und else statt switch. Seit 01C sind die R-Nummern keine
+     * Konstanten mehr, und ein switch braucht Konstanten.
+     *
+     * @return 0 bis 3 für die vier Antworten
+     */</span>
+    <span class="k">private</span> <span class="k">int</span> selectedAnswerIndex() {
+        <span class="k">int</span> checkedId = rgCorrect.getCheckedRadioButtonId();
+
+        <span class="k">if</span> (checkedId == <span class="t">R</span>.id.rbCorrect2) {
+            <span class="k">return</span> 1;
+        }
+        <span class="k">if</span> (checkedId == <span class="t">R</span>.id.rbCorrect3) {
+            <span class="k">return</span> 2;
+        }
+        <span class="k">if</span> (checkedId == <span class="t">R</span>.id.rbCorrect4) {
+            <span class="k">return</span> 3;
+        }
+        <span class="c">// Auch der Fall nichts gewählt landet hier. Im Layout ist der</span>
+        <span class="c">// erste Knopf vorausgewählt, also kann das nicht vorkommen.</span>
+        <span class="k">return</span> 0;
+    }
+}</pre>
+<h2>Die Stelle am Ende von B2, aufgelöst</h2>
+
+<p>Du speicherst, der Bildschirm schliesst sich, und deine Frage steht sofort in der Liste. Niemand hat der Liste gesagt, dass sie neu laden soll.</p>
+
+<table>
+<tr><th>Was passiert</th><th>Welche Methode läuft</th></tr>
+<tr><td>Du tippst den runden Knopf an</td><td><code>QuestionEditActivity.onCreate</code>, dann <code>onResume</code>. Der Bildschirm ist neu</td></tr>
+<tr><td>Die <code>AdminActivity</code> verschwindet dahinter</td><td>Sie wird <b>nicht</b> abgeräumt. Sie ist nur verdeckt</td></tr>
+<tr><td>Du tippst auf Speichern, <code>finish()</code> läuft</td><td>Das Formular endet. Die <code>AdminActivity</code> kommt wieder zum Vorschein</td></tr>
+<tr><td><b>Und jetzt</b></td><td><b><code>AdminActivity.onResume</code>.</b> Nicht <code>onCreate</code>, denn die Activity war nie weg</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Der Satz zum Merken:</b> <code>onCreate</code> ist die Geburt, <code>onResume</code> ist jedes Wiedersehen.</p>
+<p>Alles, was beim <b>Wiedersehen</b> aktuell sein muss, gehört in <code>onResume</code>. Alles, was nur einmal eingerichtet wird, gehört in <code>onCreate</code>. <code>findViewById</code>, <code>setContentView</code> und die Listener gehören darum nach wie vor nach <code>onCreate</code>.</p>
+</div>
+
+<div class="info">
+<p><b>Warum dieser Punkt in 05D und in 08A schon einmal vorkam, und heute trotzdem neu ist.</b></p>
+<p>In 05D hast du <code>onResume</code> zum ersten Mal gesehen, beim besten Wert im Menü. In 08A hast du es bei der Fragenliste wieder geschrieben, mit dem ehrlichen Zusatz, dass <code>onCreate</code> dort auch gereicht hätte.</p>
+<p><b>Heute reicht es zum ersten Mal wirklich nicht mehr</b>, weil du zum ersten Mal von einem Bildschirm zurückkommst, der die Daten darunter verändert hat. Das ist der Fall, für den <code>onResume</code> gebaut ist.</p>
+<p>Probier es in Übung 1 selbst aus. Eine Begründung, die du am eigenen Gerät nachprüfen kannst, hält länger als eine, die du glaubst.</p>
+</div>
+
+<h2>Lösungen zu den Übungen</h2>
+
+<div class="step">
+<p><b>Übung 1, onCreate statt onResume.</b></p>
+<p>Du legst eine Frage an, kommst zurück, und sie steht <b>nicht</b> in der Liste. Der Zähler oben zeigt die alte Zahl. Gehst du mit der Zurück-Taste ganz aus der Liste heraus und öffnest sie neu, ist deine Frage da.</p>
+<p><b>Der Grund:</b> beim Zurückkommen aus dem Formular wird die <code>AdminActivity</code> nicht neu gebaut, also läuft <code>onCreate</code> nicht. Erst wenn du sie ganz verlässt und neu öffnest, entsteht sie wirklich neu.</p>
+<p><b>Und das ist die tückische Sorte Fehler:</b> beim Nachprüfen sieht alles richtig aus, weil man den Bildschirm zwischendurch ohnehin einmal verlässt. Genau derselbe Effekt wie beim Filter in 07B, der sich in <code>onResume</code> selbst heilt.</p>
+</div>
+
+<div class="step">
+<p><b>Übung 2, zwei gleiche Antworten.</b></p>
+<pre><span class="c">/**
+ * Prüft, ob zwei der Antworten gleich sind.
+ *
+ * Der Vergleich läuft ohne Rücksicht auf Gross- und Kleinschreibung.
+ * Bern und bern sind für den Spieler dieselbe Antwort, auch wenn sie
+ * für equals zwei verschiedene Texte sind.
+ *
+ * Die innere Schleife beginnt bei j = i + 1. Jedes Paar wird damit
+ * genau einmal verglichen, und kein Feld mit sich selbst.
+ *
+ * @return true, wenn es eine Dublette gibt
+ */</span>
+<span class="k">private boolean</span> hasDuplicateAnswers() {
+    <span class="k">for</span> (<span class="k">int</span> i = <span class="s">0</span>; i &lt; answerFields.length; i++) {
+        <span class="k">String</span> left = textOf(answerFields[i]);
+        <span class="k">for</span> (<span class="k">int</span> j = i + <span class="s">1</span>; j &lt; answerFields.length; j++) {
+            <span class="k">if</span> (left.equalsIgnoreCase(textOf(answerFields[j]))) {
+                <span class="k">return</span> <span class="k">true</span>;
+            }
+        }
+    }
+    <span class="k">return false</span>;
+}</pre>
+<p>Der Aufruf in <code>isFormValid</code>, nach der Schleife über die Antwortfelder:</p>
+<pre><span class="k">if</span> (valid &amp;&amp; hasDuplicateAnswers()) {
+    <span class="k">for</span> (<span class="t">TextInputLayout</span> layout : answerLayouts) {
+        layout.setError(getString(<span class="t">R</span>.string.error_answers_duplicate));
+    }
+    valid = <span class="k">false</span>;
+}</pre>
+<div class="warn">
+<p><b>Das <code>valid &amp;&amp;</code> davor ist kein Schönheitsfehler.</b> Solange Felder leer sind, sind zwei leere Felder zwei gleiche Texte. Ohne die Bedingung meldest du bei einem frisch geöffneten Formular sofort eine Dublette, und das versteht niemand.</p>
+<p>Dazu brauchst du einen neuen String, zum Beispiel <code>error_answers_duplicate</code> mit dem Text <i>Zwei Antworten sind gleich.</i></p>
+</div>
+<p><b>Diese Frage kommt in 08D als Testfall wieder</b>, und dort ist sie ein gutes Beispiel: der Compiler sagt nichts, die App stürzt nicht ab, und trotzdem ist die Frage kaputt. Genau solche Fälle findet nur ein Test.</p>
+</div>
+
+<div class="step">
+<p><b>Übung 3, erklären.</b> Eine brauchbare Antwort klingt etwa so:</p>
+<p><i>"Die Methode prüft alle fünf Felder durch und merkt sich unterwegs nur, dass etwas nicht stimmt. Sie steigt nicht beim ersten Fehler aus. Der Benutzer sieht darum alle Fehler auf einmal und muss nicht fünfmal auf Speichern tippen, um sie nacheinander zu entdecken."</i></p>
+<p><b>Zu allgemein wäre:</b> <i>"damit man alle Fehler sieht"</i>. Da fehlt, was der Benutzer sonst tun müsste.</p>
+</div>
+
+<h2>Mögliche falsche KI-Rückmeldungen</h2>
+
+<p>Diese Liste ist eine Prüfliste und keine Anklage. Nicht jede KI macht jeden dieser Fehler. Aber wenn du eine dieser Antworten bekommst, weisst du, wo du nachschauen musst.</p>
+
+<table>
+<tr><th>Was vorgeschlagen wird</th><th>Warum es hier nicht passt</th></tr>
+<tr><td><code>startActivityForResult</code> oder ein <code>ActivityResultLauncher</code>, damit die Liste nach dem Speichern aktualisiert</td><td>Braucht es nicht. Dein <code>onResume</code> erledigt das. Ein Ergebnis zurückzugeben wäre nötig, wenn die Liste einen <b>Wert</b> bräuchte, nicht nur ein neues Laden</td></tr>
+<tr><td><code>setError</code> auf dem <code>TextInputEditText</code></td><td>Dann erscheint eine kleine Blase statt der Meldung unter dem Feld, und sie verschwindet beim ersten Antippen. Dieselbe Falle wie in 06B</td></tr>
+<tr><td>Ein <code>switch</code> über <code>R.id</code> in <code>selectedAnswerIndex</code></td><td>Die <code>R</code>-Nummern sind in einer Bibliothek keine Konstanten mehr, und ein <code>switch</code> braucht Konstanten. Dieselbe Falle wie in 01C</td></tr>
+<tr><td>Ein <code>Executor</code>, ein Thread oder Coroutines für den Datenbankzugriff</td><td>Für eine echte App richtig. Wir haben in 07C <code>allowMainThreadQueries</code> bewusst gewählt, mit der Rechnung dazu. Hier bringt es nur zusätzliche Zeilen und eine neue Fehlerquelle</td></tr>
+<tr><td><code>question.setId(0)</code> als ausdrückliche Zeile</td><td>Überflüssig, ein <code>int</code> ist von sich aus 0. Und gefährlich in der Nähe: wer die Zahl später auf etwas anderes ändert, überschreibt eine bestehende Frage</td></tr>
+<tr><td>Ein <code>TextWatcher</code> an jedem Feld, damit die Prüfung schon beim Tippen läuft</td><td>Klingt besser und ist es hier nicht. Der Benutzer bekäme eine rote Meldung, während er noch tippt. Und die Prüfung vor dem Speichern bräuchte es trotzdem</td></tr>
+<tr><td>Die vier Antworten als <code>List&lt;String&gt;</code> in einer Spalte speichern</td><td>Bräuchte einen <code>TypeConverter</code>. Deine <code>QuestionEntity</code> hat aus gutem Grund vier Spalten, das steht seit 07C so fest</td></tr>
+</table>
+
+<h2>So prüfst du das Ganze</h2>
+
+<ol>
+<li>Runder Knopf unten rechts, er scrollt nicht mit.</li>
+<li>Formular geht auf, Titel <b>Neue Frage</b>.</li>
+<li>Antwortfelder heissen <b>Antwort 1</b> bis <b>Antwort 4</b>.</li>
+<li>Kategorieauswahl: <b>vier</b> Einträge. Schwierigkeit: <b>drei</b>, klein geschrieben.</li>
+<li>Tastatur verdeckt das Feld nicht, in das getippt wird.</li>
+<li>Leer speichern: <b>fünf</b> rote Meldungen gleichzeitig, der Bildschirm bleibt offen.</li>
+<li>Ein Feld richtig ausfüllen und nochmals speichern: <b>diese eine Meldung ist weg</b>, die anderen stehen noch.</li>
+<li>Nur ein Leerzeichen in ein Antwortfeld: die Meldung kommt trotzdem.</li>
+<li>Vollständig ausfüllen und speichern: Bildschirm schliesst sich, Frage steht in der Liste, Zähler oben stimmt.</li>
+<li>Abbrechen: zurück zur Liste, <b>nichts ist dazugekommen</b>.</li>
+<li>App ganz schliessen und neu starten: die Frage ist noch da, im Logcat steht <code>seed skipped</code>.</li>
+<li>Logcat unter <code>tag:Modul335</code>: <code>question inserted, id=</code>, danach <code>questions loaded, total=</code>.</li>
+</ol>
+
+<div class="info">
+<p><b>Punkt 7 und Punkt 10 sind die, die man überspringt.</b> Punkt 7 prüft das <code>else</code> mit <code>setError(null)</code>. Punkt 10 prüft, dass am Abbrechen-Knopf wirklich nur <code>finish()</code> hängt und nicht versehentlich <code>onSaveClicked</code>.</p>
+</div>
+
+<h2>Was noch nicht gut ist, und das mit Absicht</h2>
+
+<ul>
+<li><b>Beim Drehen ist das Getippte weg.</b> Die Felder retten ihren Text zwar selbst, aber der Bildschirm wird neu gebaut, und die Auswahl in den Spinnern stellt sich zurück. In 08C kommt das zur Sprache, weil dort eine <code>id</code> mitwandert, die gerettet werden muss.</li>
+<li><b>Nach dem Speichern gibt es keine Rückmeldung</b> ausser dem Schliessen. Ein kurzer Hinweis wäre möglich. Wir lassen ihn weg, weil das Ergebnis in der Liste sofort sichtbar ist.</li>
+<li><b>Antwort 3 und Antwort 4 sind Pflicht.</b> Nicht jede Frage hat vier Möglichkeiten. In 08C werden die zwei optional, und dann kommt eine neue Regel dazu: eine Antwort 4 ohne Antwort 3 ergäbe eine Lücke.</li>
+<li><b>Zwei gleiche Antworten sind erlaubt.</b> Das ist Übung 2.</li>
+<li><b>Ändern und Löschen fehlen.</b> Beides kommt in 08C, im selben Bildschirm.</li>
+<li><b>Ein Klick auf eine Zeile meldet sich weiterhin nur im Logcat.</b> Das Interface dafür hast du in 08A gebaut. Sichtbar wird der Klick in 08C, und dort ist es genau eine Zeile mehr.</li>
+<li><b>Das Spiel liest weiter aus <code>QuestionBank</code>.</b> Deine neue Frage kommt darum nie dran. Das ist die Zusatzaufgabe.</li>
+</ul>
+
+<h2>Was als Nächstes kommt</h2>
+
+<p><b>08C, Bearbeiten und löschen.</b> Derselbe Bildschirm bekommt eine <code>id</code> im Intent mit. Ist sie da, lädt er die bestehende Frage ins Formular und schreibt sie mit <code>update</code> zurück statt mit <code>insert</code>. Dazu ein Löschen-Knopf mit Rückfrage, sichtbar nur beim Bearbeiten.</p>
+
+<p>Damit ist CRUD vollständig: create, read, update, delete. Alle vier laufen über dein <code>QuestionDao</code>, und alle vier stehen im Bewertungsraster der Leistungsbeurteilung.</p>
+
+<div class="tip">
+<p><b>Was du heute gebaut hast, ist die grössere Hälfte davon.</b> Das Formular, die Prüfung und der Weg in die Datenbank stehen. 08C fügt eine einzige Verzweigung hinzu: hat der Intent eine <code>id</code> oder nicht.</p>
+</div>
+
+<p class="foot">Modul 335 | Tag 4 Nachmittag | Lösungsmaterial 08B | Version 1 | 20.08.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->

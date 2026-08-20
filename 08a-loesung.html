@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>08A Lösung assets einlesen, AdminActivity</title>
+<title>08A Loesung Startbestand und Fragenliste</title>
 <!--M335:STIL-->
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/stil/rahmen.css">
@@ -18,21 +18,603 @@
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
 <div class="wrap">
-<h1>08A Lösungsmaterial: assets einlesen, AdminActivity</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Tag 4, Nachmittag. Zum Durchlesen brauchst du etwa 12 Minuten.</p>
 
-<div class="warte">
-<p><b>Dieses Lösungsmaterial ist noch nicht freigeschaltet.</b></p>
-<p>Es gehört zum Auftrag 08A, der am <b>Tag 4, Nachmittag</b> läuft.</p>
+<h1>08A Lösungsmaterial: Startbestand und Fragenliste</h1>
+<p class="sub">Modul 335 Mobile Applikationen. Zum Auftrag 08A. Zum Durchlesen brauchst du etwa 14 Minuten. Version 1 vom 20.08.2026.</p>
+<p class="sub">Schau erst hinein, wenn deine Liste dreissig Fragen zeigt. Der ganze Code steht hier, aber er nützt dir nur, wenn du vorher selbst gebaut hast.</p>
+
+<h2>Die Vergleichsliste, dein eigener Code</h2>
+
+<p>Geh diese dreizehn Punkte an deinen eigenen Dateien durch. Sie treffen genau das, was in der Leistungsbeurteilung Punkte gibt.</p>
+
+<table>
+<tr><th class="num">Nr</th><th>Das prüfst du</th><th>Warum es zählt</th></tr>
+<tr><td class="num">1</td><td><b>In <code>seedIfEmpty</code> steht ganz oben die Prüfung auf <code>dao.count()</code> mit einem <code>return</code></b></td><td><b>Der wichtigste Punkt heute.</b> Ohne die Prüfung wächst der Bestand bei jedem Start um dreissig. Nichts stürzt ab, nichts wird rot</td></tr>
+<tr><td class="num">2</td><td>Der Aufruf <code>seedIfEmpty(appContext)</code> steht <b>innerhalb</b> des <code>if (instance == null)</code></td><td>Sonst läuft er bei jedem Zugriff auf die Datenbank. Mit Punkt 1 ist er dann harmlos, aber er kostet bei jedem Aufruf eine Abfrage</td></tr>
+<tr><td class="num">3</td><td>In deiner Schleife steht <b>kein <code>setId</code></b></td><td>Room vergibt die id selbst. Wer die aus der Datei übernimmt, überschreibt später selbst angelegte Fragen</td></tr>
+<tr><td class="num">4</td><td>Der Dateiname steht als Konstante <code>ASSET_NAME</code> an <b>einer</b> Stelle</td><td>Der Compiler prüft ihn nicht. An zwei Stellen ist einer davon irgendwann falsch, und niemand meldet es</td></tr>
+<tr><td class="num">5</td><td>Der <code>catch</code>-Block <b>loggt</b> und ist nicht leer</td><td>Ein leerer catch macht aus einem Fehler eine leere Liste ohne Grund. Das ist die teuerste Art zu scheitern</td></tr>
+<tr><td class="num">6</td><td><code>StandardCharsets.UTF_8</code> steht beim Lesen dabei</td><td>Ohne die Angabe entscheidet das Gerät. Auf einem läuft es, auf einem anderen stehen Fragezeichen statt Umlaute</td></tr>
+<tr><td class="num">7</td><td>Am <code>rvQuestions</code> hängen <b>alle drei</b>, LayoutManager, Adapter und ein Zeilenlayout</td><td>Fehlt einer, siehst du eine weisse Fläche. Dieselben drei wie in 06C</td></tr>
+<tr><td class="num">8</td><td><b>Der Zähler wird in <code>onResume</code> gesetzt, aus derselben Liste wie der Adapter</b></td><td>Zwei Quellen für dieselbe Zahl gehen irgendwann auseinander. Aus einer Liste kann sie gar nicht falsch sein</td></tr>
+<tr><td class="num">9</td><td>Das Umschalten steht in <b>einer</b> Methode <code>showEmptyState</code> und nicht an zwei Stellen</td><td>Es ist immer genau eines von beiden zu sehen. Zwei Orte für eine Entscheidung gehen irgendwann auseinander</td></tr>
+<tr><td class="num">10</td><td>Der <code>QuestionAdapter</code> baut <b>keinen Intent</b> und entscheidet nichts</td><td>Er zeigt an und meldet einen Klick weiter. Ein Adapter, der auch entscheidet, lässt sich nirgends wiederverwenden</td></tr>
+<tr><td class="num">11</td><td><b>Im <code>QuestionAdapter</code> steht nirgends mehr <i>vier</i>, <i>drei</i> oder <i>Rangliste</i></b></td><td>Alles kommt aus der Vorlage. Ein Kommentar mit einer Zahl darin veraltet als Erstes, und ein falscher Kommentar ist schlimmer als gar keiner</td></tr>
+<tr><td class="num">12</td><td><b>Javadoc an allem Neuen</b>, also an den vier Feldern der <code>AdminActivity</code>, an <code>onQuestionClick</code> und <code>showEmptyState</code>, an <code>ASSET_NAME</code> und <code>seedIfEmpty</code></td><td>Wird in der LB bewertet. Nachträglich dauert es zehnmal so lang</td></tr>
+<tr><td class="num">13</td><td><b>Die Klassenkommentare der <code>AdminActivity</code> und des <code>QuestionAdapter</code> beschreiben die Fragen</b>, nicht Über die App und nicht die Rangliste</td><td>Beide Klassen sind aus einer Vorlage entstanden. Der kopierte Text ist kein Fehler, den ein Werkzeug meldet</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Wenn du nur zwei Punkte prüfst, dann Nummer 1 und Nummer 3.</b> Beide melden sich nie. Nummer 1 siehst du nur, wenn du zweimal startest und auf eine Zahl schaust. Nummer 3 siehst du erst in 08B, wenn deine erste selbst angelegte Frage eine bestehende überschreibt.</p>
 </div>
 
-<p>Die Adresse bleibt dieselbe. Sobald die Lösung da ist, findest du sie genau hier.</p>
+<p>Wenn ein Punkt bei dir anders ist und trotzdem funktioniert, entscheide selbst. Aber du solltest sagen können, warum. Genau das wird in der Leistungsbeurteilung gefragt.</p>
 
-<p>Und wenn es soweit ist, gilt wie immer: erst selbst bauen, dann hier hineinschauen. Der ganze Code steht dann hier, aber er nützt dir nur, wenn du vorher selbst gesucht hast.</p>
+<h2>Antworten zu den Denkfragen</h2>
 
-<p><a href="/">Zurück zur Übersicht</a></p>
+<p><b>1. Die Datei liegt in <code>assets</code> und nicht in <code>res</code>. Was verlierst du, was gewinnst du?</b></p>
 
-<p class="foot">Modul 335 Mobile Applikationen | Tag 4, Nachmittag | Lösung 08A | Platzhalter</p>
+<p>Du verlierst die Prüfung durch den Compiler. Bei <code>R.layout.activity_admin</code> ist ein Tippfehler rot, noch bevor du startest. Bei <code>getAssets().open("questions_m335.json")</code> ist der Name nur ein Text, und ein Tippfehler fällt erst zur Laufzeit auf. Deshalb steht er als Konstante da und deshalb wird der Fehlerfall geloggt.</p>
+
+<p>Du gewinnst dafür eine Datei, die unverändert bleibt. <code>res</code> ist ein System aus Kategorien, Sprachen und Bildschirmgrössen, und Android sucht dort selbst aus, was es nimmt. Eine JSON-Datei will genau so ankommen, wie sie hineingelegt wurde, mit ihrem Namen und ihrem Inhalt. <b>Die Faustregel: <code>res</code> für alles, was die App darstellt, <code>assets</code> für alles, was die App liest.</b></p>
+
+<p><b>2. Was passiert, wenn du die <code>id</code> aus der Datei übernimmst?</b></p>
+
+<p>Deine dreissig Fragen bekommen die Nummern 1 bis 30. Room merkt sich dabei nicht, dass es schon eine 30 gibt, denn du hast die Nummern ja selbst gesetzt und den Zähler nie benutzt. Die erste Frage, die jemand in 08B selbst anlegt, bekommt darum wieder die 1.</p>
+
+<p>Und dann passiert genau das, was <code>@Insert</code> in dieser Lage tut: die bestehende Frage mit der 1 wird ersetzt. Der Benutzer legt eine Frage an, und eine andere verschwindet. <b>Nichts stürzt ab, und der Zähler bleibt bei 30.</b> Das ist die schwierigste Sorte Fehler, weil das Symptom an einer ganz anderen Stelle auftaucht als die Ursache.</p>
+
+<p>Die Regel dahinter: <b>eine id aus einer fremden Datei ist die id des anderen Systems, nicht deine.</b> Wer sie übernimmt, übernimmt auch die Verantwortung dafür, dass sie eindeutig bleibt.</p>
+
+<p><b>3. Wann hört <code>onCreate</code> auf zu reichen?</b></p>
+
+<p>Heute reicht es, weil niemand die Fragen ändern kann. Du öffnest die Liste, sie lädt einmal, und solange du drin bist, ändert sich nichts.</p>
+
+<p><b>In 08B ändert sich das.</b> Dort tippst du auf den Plus-Knopf, legst eine Frage an und kommst zurück. Die <code>AdminActivity</code> wurde dabei nicht neu gebaut, sie war nur im Hintergrund. <code>onCreate</code> läuft also nicht nochmals, <code>onResume</code> schon. Mit <code>onCreate</code> würdest du deine neue Frage erst nach einem Neustart der App sehen.</p>
+
+<p>Das ist der dritte Fall derselben Sache. Der erste war der Bestwert in 05D, der zweite die Rangliste in 06C. <b>Der Unterschied: dort war es Vorsorge, in 08B ist es zum ersten Mal wirklich nötig.</b></p>
+
+<h2>Teil A, die Fragenliste</h2>
+
+<h3>res/layout/activity_admin.xml und res/layout/item_question.xml</h3>
+
+<p>Beide stehen vollständig im Auftrag, A1 und A2.</p>
+
+<p>Der einzige Punkt, der zum Nachdenken einlädt: <b><code>tvEmpty</code> und <code>rvQuestions</code> haben dieselben vier Anker</b> und liegen damit genau übereinander. Das geht, weil nie beide gleichzeitig sichtbar sind. Wer stattdessen den leeren Zustand unter die Liste hängt, hat ihn bei dreissig Zeilen unterhalb des Bildschirms.</p>
+
+<h3>Die drei neuen Strings</h3>
+
+<pre>&lt;<span class="c">!-- Fragenverwaltung, ab 08A --</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"title_admin_format"</span>&gt;Fragen (%1$d)&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"question_meta_format"</span>&gt;%1$s, %2$s&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"empty_questions"</span>&gt;Noch keine Frage da. Der Startbestand wurde nicht geladen. Der Grund steht im Logcat unter Modul335.&lt;/<span class="t">string</span>&gt;</pre>
+
+<p><b>Der <code>empty_questions</code> steht hier schon in der Version aus der Hausaufgabe.</b> Im Block hattest du den kurzen Satz.</p>
+
+<p>Und <code>menu_hint</code> ist weg, samt der TextView <code>tvMenuHint</code> in <code>activity_main.xml</code>.</p>
+
+<h3>QuestionAdapter.java, die ganze Klasse</h3>
+
+<pre><span class="k">package</span> ch.wiss.m335.quiz;
+
+<span class="k">import</span> android.content.Context;
+<span class="k">import</span> android.view.LayoutInflater;
+<span class="k">import</span> android.view.View;
+<span class="k">import</span> android.view.ViewGroup;
+<span class="k">import</span> android.widget.TextView;
+
+<span class="k">import</span> androidx.annotation.NonNull;
+<span class="k">import</span> androidx.recyclerview.widget.RecyclerView;
+
+<span class="k">import</span> java.util.ArrayList;
+<span class="k">import</span> java.util.List;
+
+<span class="k">import</span> ch.wiss.m335.quiz.data.QuestionEntity;
+
+<span class="c">/**
+ * Füllt den RecyclerView mit den Zeilen der Fragenliste.
+ *
+ * Die Vorlage ist der HighscoreAdapter aus 06C und 07B. Der Aufbau ist
+ * derselbe, nur die Daten sind andere. Das ist der Punkt: ein Adapter ist
+ * immer gleich gebaut, egal was in der Liste steht.
+ *
+ * onCreateViewHolder baut eine leere Zeile. Das passiert selten.
+ * onBindViewHolder füllt eine vorhandene Zeile. Das passiert bei jedem
+ * Scrollen, viele Male pro Sekunde.
+ *
+ * Daraus folgt dieselbe Regel wie in 06C: in onBindViewHolder gehört
+ * nichts, was Zeit kostet. Kein findViewById, keine Abfrage, kein Aufbau
+ * von Objekten. Und vor allem kein Zugriff auf die Datenbank.
+ *
+ * Der Adapter zeigt nur an. Woher die Fragen kommen, entscheidet die
+ * AdminActivity. Was beim Antippen geschehen soll, auch. Darum meldet der
+ * Adapter den Klick weiter, statt ihn selbst zu behandeln.
+ */</span>
+<span class="k">public class</span> <span class="t">QuestionAdapter</span> <span class="k">extends</span> <span class="t">RecyclerView</span>.<span class="t">Adapter</span>&lt;<span class="t">QuestionAdapter</span>.<span class="t">QuestionViewHolder</span>&gt; {
+
+    <span class="c">/**
+     * Wird gerufen, wenn jemand eine Zeile antippt.
+     *
+     * Ein eigenes Interface mit genau einer Methode. Die Activity sagt
+     * damit: gib mir Bescheid, den Rest mache ich selbst.
+     */</span>
+    <span class="k">public interface</span> <span class="t">OnQuestionClickListener</span> {
+        <span class="k">void</span> onQuestionClick(<span class="t">QuestionEntity</span> question);
+    }
+
+    <span class="c">/**
+     * Die Fragen, die gerade angezeigt werden.
+     *
+     * Die Liste gehört dem Adapter. Ausgetauscht wird ihr Inhalt nur über
+     * setQuestions, damit das notifyDataSetChanged nie vergessen geht.
+     */</span>
+    <span class="k">private final</span> <span class="t">List</span>&lt;<span class="t">QuestionEntity</span>&gt; questions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;();
+
+    <span class="c">/** Wer über Klicks informiert werden will. */</span>
+    <span class="k">private final</span> <span class="t">OnQuestionClickListener</span> listener;
+
+    <span class="c">/**
+     * @param listener die Activity, die auf Klicks reagiert
+     */</span>
+    <span class="k">public</span> <span class="t">QuestionAdapter</span>(<span class="t">OnQuestionClickListener</span> listener) {
+        <span class="k">this</span>.listener = listener;
+    }
+
+    <span class="c">/**
+     * Hält die Views einer Zeile fest.
+     *
+     * Das ist der Sinn des ViewHolder: findViewById läuft einmal pro Zeile
+     * und nicht bei jedem Scrollen.
+     */</span>
+    <span class="k">static class</span> <span class="t">QuestionViewHolder</span> <span class="k">extends</span> <span class="t">RecyclerView</span>.<span class="t">ViewHolder</span> {
+
+        <span class="c">/** Der Fragetext, oben in der Zeile. */</span>
+        <span class="k">final</span> <span class="t">TextView</span> tvQuestionText;
+
+        <span class="c">/** Kategorie und Schwierigkeit, kleiner darunter. */</span>
+        <span class="k">final</span> <span class="t">TextView</span> tvQuestionMeta;
+
+        <span class="c">/**
+         * Sucht die zwei TextViews einmal und merkt sie sich.
+         *
+         * @param itemView die frisch gebaute Zeile
+         */</span>
+        <span class="t">QuestionViewHolder</span>(<span class="t">@NonNull View</span> itemView) {
+            <span class="k">super</span>(itemView);
+            tvQuestionText = itemView.findViewById(R.id.tvQuestionText);
+            tvQuestionMeta = itemView.findViewById(R.id.tvQuestionMeta);
+        }
+    }
+
+    <span class="c">/**
+     * Baut eine neue, leere Zeile aus item_question.xml.
+     *
+     * Das dritte Argument von inflate ist false. Mit true würde die Zeile
+     * sofort an den Parent gehängt, und der RecyclerView bekäme eine
+     * IllegalStateException mit dem Text "The specified child already has a
+     * parent".
+     *
+     * @param parent   der RecyclerView, der die Zeile später einhängt
+     * @param viewType wird hier nicht gebraucht, es gibt nur eine Zeilenart
+     * @return ein ViewHolder mit den zwei TextViews darin
+     */</span>
+    <span class="t">@NonNull</span>
+    <span class="t">@Override</span>
+    <span class="k">public</span> <span class="t">QuestionViewHolder</span> onCreateViewHolder(<span class="t">@NonNull ViewGroup</span> parent, <span class="k">int</span> viewType) {
+        <span class="t">View</span> row = <span class="t">LayoutInflater</span>.from(parent.getContext())
+                .inflate(R.layout.item_question, parent, <span class="k">false</span>);
+        <span class="k">return new</span> <span class="t">QuestionViewHolder</span>(row);
+    }
+
+    <span class="c">/**
+     * Füllt eine vorhandene Zeile mit den Daten einer Frage.
+     *
+     * @param holder   die Zeile, die gefüllt wird
+     * @param position der Platz in der angezeigten Liste, beginnend bei 0
+     */</span>
+    <span class="t">@Override</span>
+    <span class="k">public void</span> onBindViewHolder(<span class="t">@NonNull QuestionViewHolder</span> holder, <span class="k">int</span> position) {
+        <span class="t">QuestionEntity</span> question = questions.get(position);
+        <span class="t">Context</span> context = holder.itemView.getContext();
+
+        holder.tvQuestionText.setText(question.getText());
+        holder.tvQuestionMeta.setText(context.getString(R.string.question_meta_format,
+                question.getCategory(), question.getDifficulty()));
+
+        <span class="c">// Der Listener wird bei jedem Binden neu gesetzt, und das ist
+        // richtig so. Die Zeile wird beim Scrollen wiederverwendet und
+        // zeigt danach eine andere Frage.</span>
+        holder.itemView.setOnClickListener(v -&gt; listener.onQuestionClick(question));
+    }
+
+    <span class="c">/** @return wie viele Zeilen die Liste hat */</span>
+    <span class="t">@Override</span>
+    <span class="k">public int</span> getItemCount() {
+        <span class="k">return</span> questions.size();
+    }
+
+    <span class="c">/**
+     * Tauscht die angezeigten Fragen aus.
+     *
+     * notifyDataSetChanged zeichnet die ganze Liste neu. Das ist grob, aber
+     * verständlich und für dreissig Zeilen völlig ausreichend.
+     *
+     * @param newQuestions die Fragen, die angezeigt werden sollen
+     */</span>
+    <span class="t">@SuppressWarnings</span>(<span class="s">"NotifyDataSetChanged"</span>)
+    <span class="k">public void</span> setQuestions(<span class="t">List</span>&lt;<span class="t">QuestionEntity</span>&gt; newQuestions) {
+        questions.clear();
+        questions.addAll(newQuestions);
+        notifyDataSetChanged();
+    }
+}</pre>
+
+<div class="info">
+<p><b>Das <code>question</code> im Listener ist eine lokale Variable, und das geht nur, weil sie sich nicht mehr ändert.</b> Java verlangt für einen Lambda-Ausdruck, dass die benutzte Variable effektiv final ist. Sie wird einmal gesetzt und nie wieder, also passt es.</p>
+<p>Wer stattdessen <code>questions.get(position)</code> in den Listener schreibt, baut sich einen Fehler ein: <code>position</code> ist die Position von jetzt, und der Klick kommt später, wenn die Zeile vielleicht schon eine andere Frage zeigt.</p>
+</div>
+
+<div class="info">
+<p><b>Das <code>@SuppressWarnings("NotifyDataSetChanged")</code> ist kein Muss.</b> Android Studio schlägt vor, statt <code>notifyDataSetChanged</code> die feineren Methoden zu benutzen, die nur einzelne Zeilen melden. Bei dreissig Zeilen bringt das nichts, und die Zeile sagt ehrlich: wir wissen davon und nehmen den groben Weg.</p>
+</div>
+
+<h3>AdminActivity.java, die ganze Klasse</h3>
+
+<pre><span class="k">package</span> ch.wiss.m335.quiz;
+
+<span class="k">import</span> android.os.Bundle;
+<span class="k">import</span> android.util.Log;
+<span class="k">import</span> android.view.View;
+<span class="k">import</span> android.widget.TextView;
+
+<span class="k">import</span> androidx.activity.EdgeToEdge;
+<span class="k">import</span> androidx.appcompat.app.AppCompatActivity;
+<span class="k">import</span> androidx.core.graphics.Insets;
+<span class="k">import</span> androidx.core.view.ViewCompat;
+<span class="k">import</span> androidx.core.view.WindowInsetsCompat;
+<span class="k">import</span> androidx.recyclerview.widget.LinearLayoutManager;
+<span class="k">import</span> androidx.recyclerview.widget.RecyclerView;
+
+<span class="k">import</span> java.util.List;
+
+<span class="k">import</span> ch.wiss.m335.quiz.data.QuestionEntity;
+<span class="k">import</span> ch.wiss.m335.quiz.data.QuizDatabase;
+
+<span class="c">/**
+ * Zeigt alle Fragen, die in der Datenbank stehen.
+ *
+ * Die Vorlage ist die AboutActivity, der Aufbau der Liste kommt aus der
+ * HighscoreActivity von 06C und 07B. Dieselben drei Bausteine:
+ * Zeilenlayout, Adapter, LayoutManager. Neu sind zwei Dinge.
+ *
+ * Erstens kommen die Daten aus der Datenbank statt aus SharedPreferences.
+ * Der Weg dahin ist immer derselbe: QuizDatabase.getInstance, dann
+ * questionDao, dann die Abfrage.
+ *
+ * Zweitens gibt es einen leeren Zustand. Eine leere Fläche sagt dem
+ * Benutzer nichts. Sie sieht gleich aus, wenn keine Daten da sind, und
+ * wenn etwas kaputt ist. Ein Text, der den Unterschied benennt, kostet
+ * zwei Zeilen und spart viel Sucherei.
+ *
+ * Sortiert wird hier nicht. Das erledigt schon das ORDER BY im Dao. In der
+ * HighscoreActivity steht ein Collections.sort, das gehört hier bewusst
+ * nicht hin.
+ */</span>
+<span class="k">public class</span> <span class="t">AdminActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span>
+        <span class="k">implements</span> <span class="t">QuestionAdapter</span>.<span class="t">OnQuestionClickListener</span> {
+
+    <span class="c">/** Log-Tag für das ganze Modul 335. */</span>
+    <span class="k">private static final</span> <span class="t">String</span> TAG = <span class="s">"Modul335"</span>;
+
+    <span class="c">/** Der Titel oben. Er trägt die Anzahl Fragen. */</span>
+    <span class="k">private</span> <span class="t">TextView</span> tvAdminTitle;
+
+    <span class="c">/** Der Text, der erscheint, wenn keine Frage da ist. */</span>
+    <span class="k">private</span> <span class="t">TextView</span> tvEmpty;
+
+    <span class="c">/** Die Liste der Fragen. */</span>
+    <span class="k">private</span> <span class="t">RecyclerView</span> rvQuestions;
+
+    <span class="c">/** Der Adapter, der die Zeilen füllt. */</span>
+    <span class="k">private</span> <span class="t">QuestionAdapter</span> adapter;
+
+    <span class="t">@Override</span>
+    <span class="k">protected void</span> onCreate(<span class="t">Bundle</span> savedInstanceState) {
+        <span class="k">super</span>.onCreate(savedInstanceState);
+        <span class="t">EdgeToEdge</span>.enable(<span class="k">this</span>);
+        setContentView(R.layout.activity_admin);
+
+        <span class="c">// 16dp eigener Rand, in Pixel umgerechnet über die Dichte des Geräts.</span>
+        <span class="k">final int</span> extraPadding = <span class="t">Math</span>.round(<span class="s">16</span> * getResources().getDisplayMetrics().density);
+
+        <span class="c">// Wichtig: der eigene Rand wird zu den System-Insets dazugerechnet.
+        // Type.ime() braucht es hier nicht, dieser Bildschirm hat kein
+        // Eingabefeld.</span>
+        <span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(R.id.clAdmin), (v, insets) -&gt; {
+            <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.Type.systemBars());
+            v.setPadding(
+                    systemBars.left + extraPadding,
+                    systemBars.top + extraPadding,
+                    systemBars.right + extraPadding,
+                    systemBars.bottom + extraPadding);
+            <span class="k">return</span> insets;
+        });
+
+        tvAdminTitle = findViewById(R.id.tvAdminTitle);
+        tvEmpty = findViewById(R.id.tvEmpty);
+        rvQuestions = findViewById(R.id.rvQuestions);
+
+        <span class="c">// Ohne LayoutManager bleibt die Liste leer. Keine Exception, kein
+        // Eintrag unter unserem Tag, nur eine leere Fläche.</span>
+        rvQuestions.setLayoutManager(<span class="k">new</span> <span class="t">LinearLayoutManager</span>(<span class="k">this</span>));
+
+        adapter = <span class="k">new</span> <span class="t">QuestionAdapter</span>(<span class="k">this</span>);
+        rvQuestions.setAdapter(adapter);
+
+        <span class="t">Log</span>.d(TAG, <span class="s">"AdminActivity onCreate"</span>);
+    }
+
+    <span class="c">/**
+     * Lädt die Fragen jedes Mal neu, wenn der Bildschirm erscheint.
+     *
+     * Dieselbe Überlegung wie bei der Rangliste: onCreate läuft nur einmal,
+     * onResume bei jeder Rückkehr. Ab 08B wird das wichtig, denn dann kommt
+     * man von einem Formular hierher zurück.
+     */</span>
+    <span class="t">@Override</span>
+    <span class="k">protected void</span> onResume() {
+        <span class="k">super</span>.onResume();
+
+        <span class="t">List</span>&lt;<span class="t">QuestionEntity</span>&gt; questions = <span class="t">QuizDatabase</span>.getInstance(<span class="k">this</span>).questionDao().getAll();
+
+        adapter.setQuestions(questions);
+        tvAdminTitle.setText(getString(R.string.title_admin_format, questions.size()));
+        showEmptyState(questions.isEmpty());
+
+        <span class="t">Log</span>.d(TAG, <span class="s">"questions loaded, total="</span> + questions.size());
+    }
+
+    <span class="c">/**
+     * Reagiert auf einen Klick in der Liste.
+     *
+     * Heute nur ein Log-Eintrag. In 08C öffnet diese Methode das Formular
+     * zum Bearbeiten.
+     *
+     * @param question die angetippte Frage
+     */</span>
+    <span class="t">@Override</span>
+    <span class="k">public void</span> onQuestionClick(<span class="t">QuestionEntity</span> question) {
+        <span class="t">Log</span>.d(TAG, <span class="s">"question clicked, id="</span> + question.getId());
+    }
+
+    <span class="c">/**
+     * Schaltet zwischen Liste und leerem Zustand um.
+     *
+     * Es ist immer genau eines von beiden zu sehen. Darum steht das
+     * Umschalten in einer einzigen Methode und nicht an zwei Stellen.
+     *
+     * @param empty true, wenn keine Frage da ist
+     */</span>
+    <span class="k">private void</span> showEmptyState(<span class="k">boolean</span> empty) {
+        tvEmpty.setVisibility(empty ? <span class="t">View</span>.VISIBLE : <span class="t">View</span>.GONE);
+        rvQuestions.setVisibility(empty ? <span class="t">View</span>.GONE : <span class="t">View</span>.VISIBLE);
+    }
+}</pre>
+
+<div class="info">
+<p><b>Der <code>rvQuestions</code> ist hier ein Feld, in der <code>HighscoreActivity</code> ist er eine lokale Variable.</b> Der Unterschied hat einen Grund: dort spricht ihn nach <code>onCreate</code> niemand mehr an, hier braucht ihn <code>showEmptyState</code>.</p>
+<p><b>Die Regel: ein Feld nur für das, was mehr als eine Methode braucht.</b> Ein Feld, das nur an einer Stelle vorkommt, behauptet etwas, das nicht stimmt.</p>
+</div>
+
+<h2>Teil B, der Startbestand</h2>
+
+<h3>Was in der QuizDatabase dazukommt</h3>
+
+<p>Der Rest deiner <code>QuizDatabase</code> steht im Lösungsmaterial von 07C. Hier stehen nur die neuen Teile.</p>
+
+<p><b>Die Konstante:</b></p>
+
+<pre><span class="c">/** Der Startbestand, liegt unter app/src/main/assets. */</span>
+<span class="k">private static final</span> <span class="t">String</span> ASSET_NAME = <span class="s">"questions_m335.json"</span>;</pre>
+
+<p><b>Der Aufruf in <code>getInstance</code>:</b></p>
+
+<pre><span class="k">public static synchronized</span> <span class="t">QuizDatabase</span> getInstance(<span class="t">Context</span> context) {
+    <span class="k">if</span> (instance == <span class="k">null</span>) {
+        <span class="t">Context</span> appContext = context.getApplicationContext();
+
+        instance = <span class="t">Room</span>.databaseBuilder(appContext, <span class="t">QuizDatabase</span>.class, DB_NAME)
+                .allowMainThreadQueries()
+                .build();
+
+        <span class="t">Log</span>.d(TAG, <span class="s">"database opened, name="</span> + DB_NAME);
+
+        seedIfEmpty(appContext);
+    }
+    <span class="k">return</span> instance;
+}</pre>
+
+<p><b>Das Lesen aus assets:</b> steht vollständig im Auftrag, B2.</p>
+
+<p><b>Und die Methode, die du selbst geschrieben hast:</b></p>
+
+<pre><span class="c">/**
+ * Füllt die Tabelle beim allerersten Start mit dem Startbestand.
+ *
+ * Die Bedingung count() &gt; 0 ist der Kern dieser Methode. Ohne sie kämen
+ * bei jedem Start dreissig Fragen dazu, und nach fünf Starts stünden
+ * hundertfünfzig in der Liste.
+ *
+ * Die id aus der Datei wird nicht gelesen. Room vergibt eine eigene. Sonst
+ * würde die erste selbst angelegte Frage mit der Frage Nummer 1 aus der
+ * Datei zusammenstossen.
+ *
+ * @param appContext der Context der App, für den Zugriff auf assets
+ */</span>
+<span class="k">private static void</span> seedIfEmpty(<span class="t">Context</span> appContext) {
+    <span class="t">QuestionDao</span> dao = instance.questionDao();
+
+    <span class="k">int</span> existing = dao.count();
+    <span class="k">if</span> (existing &gt; <span class="s">0</span>) {
+        <span class="t">Log</span>.d(TAG, <span class="s">"seed skipped, count="</span> + existing);
+        <span class="k">return</span>;
+    }
+
+    <span class="k">try</span> {
+        <span class="t">JSONArray</span> array = <span class="k">new</span> <span class="t">JSONArray</span>(readAsset(appContext));
+
+        <span class="k">for</span> (<span class="k">int</span> i = <span class="s">0</span>; i &lt; array.length(); i++) {
+            <span class="t">JSONObject</span> object = array.getJSONObject(i);
+            <span class="t">JSONArray</span> answers = object.getJSONArray(<span class="s">"answers"</span>);
+
+            <span class="t">QuestionEntity</span> question = <span class="k">new</span> <span class="t">QuestionEntity</span>();
+            question.setText(object.getString(<span class="s">"text"</span>));
+            question.setAnswer1(answers.getString(<span class="s">0</span>));
+            question.setAnswer2(answers.getString(<span class="s">1</span>));
+            question.setAnswer3(answers.getString(<span class="s">2</span>));
+            question.setAnswer4(answers.getString(<span class="s">3</span>));
+            question.setCorrectAnswer(object.getString(<span class="s">"correctAnswer"</span>));
+            question.setCategory(object.getString(<span class="s">"category"</span>));
+            question.setDifficulty(object.getString(<span class="s">"difficulty"</span>));
+
+            dao.insert(question);
+        }
+
+        <span class="t">Log</span>.d(TAG, <span class="s">"seed done, count="</span> + dao.count());
+
+    } <span class="k">catch</span> (<span class="t">JSONException</span> e) {
+        <span class="c">// Die Datei ist da, aber sie passt nicht zum erwarteten Aufbau.</span>
+        <span class="t">Log</span>.e(TAG, <span class="s">"seed failed, json not readable"</span>, e);
+    }
+}</pre>
+
+<div class="info">
+<p><b>Deine Version darf anders aussehen.</b> Eine Schleife mit <code>for (int i ...)</code> über <code>array.length()</code> ist der übliche Weg, weil <code>JSONArray</code> kein <code>Iterable</code> ist. Wer die Schlüsselnamen als Konstanten führt, wie du es in 06B in der <code>HighscoreStorage</code> gemacht hast, macht es sogar besser.</p>
+<p>Was nicht abweichen darf: die Prüfung ganz oben, kein <code>setId</code>, und ein <code>catch</code>, der loggt.</p>
+</div>
+
+<div class="info">
+<p><b>Warum <code>dao.count()</code> am Schluss nochmals gefragt wird, statt mitzuzählen.</b> Eine eigene Zählvariable sagt aus, wie oft <code>insert</code> aufgerufen wurde. <code>count()</code> sagt aus, wie viele Zeilen wirklich in der Tabelle stehen. Die zwei sind fast immer gleich, und wenn nicht, willst du genau das wissen.</p>
+</div>
+
+<h3>Der Vergleich mit deiner getAll aus 06B</h3>
+
+<table>
+<tr><th><code>HighscoreStorage.getAll</code>, 06B</th><th><code>seedIfEmpty</code>, heute</th><th></th></tr>
+<tr><td class="pre">new JSONArray(text)</td><td class="pre">new JSONArray(readAsset(appContext))</td><td>dasselbe</td></tr>
+<tr><td class="pre">for (int i = 0; i &lt; array.length(); i++)</td><td class="pre">for (int i = 0; i &lt; array.length(); i++)</td><td>dasselbe</td></tr>
+<tr><td class="pre">array.getJSONObject(i)</td><td class="pre">array.getJSONObject(i)</td><td>dasselbe</td></tr>
+<tr><td class="pre">catch (JSONException e) { Log.e(...) }</td><td class="pre">catch (JSONException e) { Log.e(...) }</td><td>dasselbe</td></tr>
+<tr><td>keine</td><td class="pre">object.getJSONArray("answers")</td><td><b>neu</b>, ein Array im Array</td></tr>
+<tr><td class="pre">entries.add(...)</td><td class="pre">dao.insert(question)</td><td><b>neu</b>, das Ziel ist die Tabelle</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Vier von sechs Zeilen sind dieselben.</b> Wenn du das ohne Nachschlagen sagen konntest, hast du übertragen und nicht abgetippt.</p>
+<p>Und der Unterschied, der zählt, ist nicht die JSON-Seite. Es ist das Ziel. In 06B hast du eine Liste im Speicher gefüllt, heute schreibst du in eine Tabelle, die den Neustart überlebt.</p>
+</div>
+
+<h2>Die Stelle aus B3, aufgelöst</h2>
+
+<p><b>Nach dem zweiten Start stehen sechzig Fragen da, nach dem dritten neunzig.</b></p>
+
+<p>Die Ursache ist eine fehlende Bedingung. <code>getInstance</code> baut die Datenbank auf, wenn <code>instance</code> noch <code>null</code> ist. Beim Beenden der App verschwindet der ganze Prozess, also auch das statische Feld. Beim nächsten Start ist es wieder <code>null</code>, die Datenbank wird neu aufgebaut, und <code>seedIfEmpty</code> läuft erneut.</p>
+
+<p><b>Die Datei ist dabei nie das Problem.</b> Sie enthält immer dieselben dreissig Fragen. Was fehlt, ist die Frage, ob sie schon einmal gelesen wurde.</p>
+
+<div class="info">
+<p><b>Warum ausgerechnet <code>count()</code> und nicht ein Merker in den SharedPreferences.</b> Ein Merker sagt aus, was die App einmal getan hat. <code>count()</code> sagt aus, wie die Daten gerade wirklich aussehen.</p>
+<p>Die zwei gehen auseinander, sobald jemand die App-Daten löscht oder ein Backup zurückspielt. Dann steht im Merker <i>schon gemacht</i> und in der Tabelle nichts. <b>Frag die Daten, nicht dein Gedächtnis.</b> Das ist übrigens genau der Fehler, der in diesem Modul beim Planen auch schon passiert ist.</p>
+</div>
+
+<p><b>Und warum die Methode trotzdem so heissen darf.</b> Nach der Reparatur hält der Name sein Versprechen: sie füllt, wenn leer. Vorher war er eine Behauptung. <b>Ein Name, der mehr verspricht als der Rumpf hält, ist die teuerste Art von Kommentar</b>, denn man liest ihn hundertmal und den Rumpf einmal.</p>
+
+<h2>Lösungen zu den Übungen</h2>
+
+<p><b>Der leere Zustand bekommt seinen Grund.</b> Eine mögliche Version steht oben bei den Strings. Wichtig sind drei Dinge im Satz: dass keine Frage da ist, dass der Startbestand der Grund dafür ist, und wo man nachschauen kann.</p>
+
+<p>Der kurze Satz aus dem Block war nicht falsch, er war nur unvollständig. <b>Ein leerer Zustand, der den wahrscheinlichsten Grund kennt, soll ihn nennen.</b> Und wenn du die Datei zum Prüfen umbenennst, siehst du deinen eigenen Satz genau in der Lage, für die er geschrieben ist.</p>
+
+<p><b>Kommentare nachziehen.</b> Eine mögliche Version steht oben im Code. Wichtig ist nicht der Wortlaut, sondern dass drei Dinge im Klassenkommentar der <code>AdminActivity</code> vorkommen: dass der Bildschirm zwei Gesichter hat, woher die Daten kommen, und warum in <code>onResume</code> geladen wird.</p>
+
+<p><b>Und die Zahlwörter im Adapter.</b> Sie stehen an zwei Stellen, im Konstruktor des ViewHolder und im <code>@return</code> von <code>onCreateViewHolder</code>. Dort steht <i>vier</i>, wenn du die Hausaufgabe aus 07B gemacht hast, und sonst noch <i>drei</i>. Beide Sätze stammen aus dem <code>HighscoreAdapter</code> und waren dort richtig. <b>Genau daran erkennst du die teure Sorte:</b> sie werden nicht falsch, weil jemand sie falsch geschrieben hat, sondern weil sie in eine andere Klasse gewandert sind.</p>
+
+<p><b>Übung 1, der leere Zustand in der Rangliste.</b> Dieselben zwei Zeilen wie hier, nur an einer anderen Stelle. In <code>activity_highscore.xml</code> kommt eine TextView dazu, in <code>applyFilter</code> die Umschaltung am Ende:</p>
+
+<pre><span class="k">boolean</span> empty = shown.isEmpty();
+tvHighscoreEmpty.setVisibility(empty ? <span class="t">View</span>.VISIBLE : <span class="t">View</span>.GONE);</pre>
+
+<p>Der Satz darf hier konkreter sein als bei den Fragen, denn du weisst, warum nichts da ist: <i>In dieser Kategorie hast du noch nicht gespielt.</i> <b>Ein leerer Zustand, der den Grund kennt, soll ihn auch nennen.</b></p>
+
+<p><b>Übung 2, den Startbestand verändern.</b> Der Zähler bleibt bei 30, weil <code>seedIfEmpty</code> die Datei gar nicht mehr liest. Die Tabelle ist nicht leer, also steigt die Methode nach der ersten Zeile aus.</p>
+
+<p>Damit deine Frage erscheint, musst du die App-Daten löschen. Danach ist die Tabelle leer, die Datei wird gelesen, und es sind einunddreissig.</p>
+
+<p><b>Der Punkt der Übung liegt aber woanders:</b> so verhält sich jede App mit einem Startbestand. Die Datei in <code>assets</code> ist eine <b>Erstausstattung</b> und keine laufende Quelle. Wer sie ändert, erreicht damit nur Geräte, auf denen die App noch nie lief. Alle anderen brauchen einen anderen Weg, und der heisst in echten Apps Migration.</p>
+
+<p><b>Übung 3, erklären.</b> Die kürzeste richtige Antwort: Leeren und neu schreiben würde funktionieren, aber es würde alles wegwerfen, was der Benutzer selbst angelegt oder geändert hat. Zählen und aussteigen fasst Bestehendes nicht an.</p>
+
+<p>Ab 08B ist das nicht mehr theoretisch. Dort legt jemand eigene Fragen an, und die stehen in derselben Tabelle.</p>
+
+<p>Zur Zusatzaufgabe steht hier bewusst nichts. Ein Hinweis trotzdem, weil die Begründung mehr wert ist als der Code: du hast die Liste in <code>onResume</code> ohnehin schon vollständig geladen. Eine zweite Abfrage holt dieselben Daten ein zweites Mal aus derselben Tabelle. Bei dreissig Zeilen ist beides schnell, aber nur eines von beiden ist ehrlich.</p>
+
+<h2>Mögliche falsche KI-Rückmeldungen</h2>
+
+<p>Das sind Antworten, die uns bei diesem Thema schon begegnet sind. Nicht jede KI macht jeden dieser Fehler. Die Liste ist eine Prüfliste, keine Anklage.</p>
+
+<table>
+<tr><th>Die KI schlägt vor</th><th>Warum das hier falsch ist</th></tr>
+<tr><td class="pre">R.raw.questions_m335 statt getAssets()</td><td><b>Die Falle dieses Auftrags.</b> <code>res/raw</code> gibt es wirklich, und dort prüft der Compiler den Namen sogar. Aber der Auftrag lautet <code>assets</code>, und der Unterschied zwischen den zwei Orten ist genau das, was du heute lernst</td></tr>
+<tr><td>Den Startbestand mit <code>RoomDatabase.Callback</code> und <code>onCreate</code> füllen</td><td>Nicht falsch, sogar eleganter. Aber der Callback läuft in einem anderen Thread, und du siehst dann nicht, wann dein Code läuft. Der Punkt heute ist die Bedingung, nicht der Einstiegspunkt</td></tr>
+<tr><td class="pre">createFromAsset("questions.db")</td><td>Room kann eine fertige Datenbankdatei mitliefern. Dann übst du aber genau das nicht, worum es geht, nämlich ein fremdes Format in deine Objekte zu übersetzen</td></tr>
+<tr><td>Die Prüfung weglassen, weil <code>@Insert</code> ja Dubletten erkennt</td><td>Tut es nicht. Ohne id sind zwei gleiche Fragen für die Tabelle zwei verschiedene Zeilen. Genau das siehst du in B3</td></tr>
+<tr><td class="pre">entity.setId(object.getInt("id"))</td><td>Sieht ordentlich aus und ist die gefährlichste Zeile in diesem Auftrag. Siehe Denkfrage 2</td></tr>
+<tr><td>Ein <code>TypeConverter</code>, damit die vier Antworten als Liste in eine Spalte passen</td><td>Ein Konzept mehr für nichts. Vier Antworten sind immer vier. Und in einer Spalte mit vier Werten kann man nachher nicht suchen</td></tr>
+<tr><td class="pre">catch (Exception e) { }</td><td>Ein leerer catch macht aus einem Fehler eine leere Liste ohne Grund. Wenn es schiefgeht, willst du es im Logcat lesen können</td></tr>
+<tr><td>Den Adapter den Klick selbst behandeln lassen, mit einem <code>Intent</code> darin</td><td>Dann weiss der Adapter, welche Bildschirme es gibt. Er lässt sich danach nirgends sonst verwenden. Derselbe Grund, aus dem er in 07B nicht filtert</td></tr>
+<tr><td class="pre">notifyDataSetChanged()</td><td>zusätzlich in <code>onResume</code>. Steht schon in <code>setQuestions</code>. Zweimal schadet nicht, aber es verteilt eine Verantwortung auf zwei Stellen</td></tr>
+<tr><td>Den leeren Zustand über <code>setText("")</code> lösen</td><td>Eine TextView mit leerem Text ist immer noch da und belegt Platz. <code>GONE</code> nimmt sie ganz aus dem Layout</td></tr>
+<tr><td>In <code>onCreate</code> laden statt in <code>onResume</code></td><td>Läuft heute. Ab 08B siehst du deine frisch angelegte Frage dann erst nach einem Neustart. Dieselbe Frage wie in 06C</td></tr>
+<tr><td>Die <code>QuestionBank</code> löschen, weil sie jetzt überflüssig ist</td><td>Sie bleibt liegen. Ihre Kategorienliste brauchst du weiterhin, und der Vergleich zwischen <code>Question</code> und <code>QuestionEntity</code> ist Unterrichtsstoff</td></tr>
+</table>
+
+<h2>So prüfst du das Ganze</h2>
+
+<ol>
+<li>App-Daten löschen, dann starten. <b>Fragen verwalten</b> öffnen.</li>
+<li>Titel <code>Fragen (30)</code>, dreissig Zeilen, kein Hinweistext.</li>
+<li>Jede Zeile hat oben den Fragetext und darunter Kategorie und Schwierigkeit.</li>
+<li><b>Eine sehr lange Frage endet nach zwei Zeilen mit drei Punkten</b>, und ihre Zeile ist gleich hoch wie die anderen mit zwei Zeilen.</li>
+<li>Ganz nach unten scrollen. Die letzte Frage ist vollständig sichtbar.</li>
+<li>Eine Zeile antippen. Im Logcat <code>question clicked, id=</code> mit einer Zahl. Auf dem Bildschirm passiert nichts.</li>
+<li>Zurück ins Menü und wieder hinein. Immer noch dreissig, und im Logcat steht <b>kein</b> zweites <code>seed done</code>.</li>
+<li><b>Nochmals auf Run drücken. Immer noch dreissig</b>, und im Logcat steht <code>seed skipped, count=30</code>.</li>
+<li>Das Gerät drehen. Die Liste bleibt, der Zähler bleibt.</li>
+<li>Eine Runde spielen. <b>Die Fragen kommen weiterhin aus der <code>QuestionBank</code></b>, das ist heute noch richtig so.</li>
+</ol>
+
+<div class="info">
+<p><b>Punkt 8 ist der einzige, der wirklich etwas Neues prüft.</b> Alles andere siehst du sofort. Dass der Startbestand nur einmal läuft, siehst du nur, wenn du zweimal startest und auf eine Zahl schaust.</p>
+</div>
+
+<h2>Was noch nicht gut ist, und das mit Absicht</h2>
+
+<ul>
+<li><b>Das Spiel benutzt die Datenbank noch nicht.</b> Eine Runde holt ihre Fragen weiterhin aus der <code>QuestionBank</code> im Code. Der Umbau kommt in 08B, sobald es etwas gibt, das man selbst anlegen kann.</li>
+<li><b>Ein Klick tut nur etwas im Logcat.</b> Das Bearbeiten kommt in 08C. Das Interface steht heute schon, damit dort eine Zeile reicht.</li>
+<li><b>Es gibt keinen Knopf zum Anlegen.</b> Darum ist der Satz beim leeren Zustand noch halb. In 08B kommt beides.</li>
+<li><b>Die Liste ist nicht sortierbar und nicht filterbar.</b> Deine <code>getAll</code> aus 07C sortiert nach Kategorie und id, mehr gibt es nicht. Filtern könntest du heute schon, du hast es in 07B gebaut.</li>
+<li><b>Alles läuft auf dem Haupt-Thread.</b> Das <code>allowMainThreadQueries()</code> aus 07C ist eine Vereinfachung mit Ansage. Bei dreissig Zeilen merkt es niemand.</li>
+<li><b>Kein <code>DiffUtil</code>.</b> Bei jedem Anzeigen wird die ganze Liste neu gezeichnet.</li>
+</ul>
+
+<h2>Was als Nächstes kommt</h2>
+
+<p><b>08B, eine neue Frage anlegen.</b> Der Plus-Knopf, ein Formular mit fünf Feldern und einer Prüfung, die alle Felder gleichzeitig anschaut. Und der Moment, in dem <code>onResume</code> zum ersten Mal wirklich nötig wird.</p>
+
+<p>Was du heute gebaut hast, ist die Hälfte des Musters, das in der Leistungsbeurteilung wiederkommt: <b>eine Liste, die zeigt was in der Datenbank steht.</b> Die andere Hälfte ist das Formular, das etwas hineinschreibt.</p>
+
+<p class="foot">Modul 335 | Tag 4 Nachmittag | Lösungsmaterial 08A | Version 1 | 20.08.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->

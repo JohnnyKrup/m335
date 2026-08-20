@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>07C Room, Entity, Dao</title>
+<title>07C Room, Entity und Dao</title>
 <!--M335:STIL-->
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/stil/rahmen.css">
@@ -18,21 +18,818 @@
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
 <div class="wrap">
-<h1>07C Room, Entity, Dao</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Tag 4, Vormittag. Zeitbudget 90 Minuten.</p>
 
-<div class="warte">
-<p><b>Dieser Auftrag ist noch nicht freigeschaltet.</b></p>
-<p>Er läuft am <b>Tag 4, Vormittag</b>. Bis dahin steht hier nur diese Seite.</p>
+<h1>07C Room, Entity und Dao</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 4 Vormittag. Zeitbudget 90 Minuten. Version 2 vom 20.08.2026.</p>
+<p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
+<p class="sub">Heute bekommt deine App eine Datenbank. Auf dem Bildschirm wirst du nichts davon sehen, und trotzdem ist es der wichtigste Block der Woche.</p>
+
+<h2>01 Einführung</h2>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>2.3</td><td>Kennt gängige App-Architekturen und kann sie einsetzen, hier die Trennung von Daten und Anzeige</td></tr>
+<tr><td>2.4</td><td>Persistenzlösungen einsetzen, hier eine lokale Datenbank mit Room</td></tr>
+<tr><td>3.2</td><td>Kennt das Framework und seine APIs und kann sie anwenden, hier Room und der Annotation Processor</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du trägst eine Abhängigkeit selbst in dein Projekt ein und weisst, warum es dafür zwei Dateien braucht.</li>
+<li>Du machst aus einer gewöhnlichen Java-Klasse eine Tabelle.</li>
+<li>Du schreibst ein Dao mit allen vier Grundoperationen und erklärst, wer den Code dahinter schreibt.</li>
+<li>Du baust eine Datenbank-Klasse, die es genau einmal gibt.</li>
+<li>Du erklärst, wann du eine Datenbank nimmst und wann <code>SharedPreferences</code> reicht.</li>
+</ul>
+
+<h3>Das brauchst du vorher</h3>
+<ul>
+<li>Dein Projekt <b>WissQuiz</b> nach 07B. Die Rangliste läuft, sie hat einen Filter, die Punktzahl steht rechts.</li>
+<li>Deine Klasse <code>model/Question.java</code> aus 03D. Du brauchst sie heute als <b>Vorlage</b>. Geändert wird sie nicht.</li>
+<li>Dein <b>Datenmodell aus 06A</b>. Du hast dort auf Papier hergeleitet, welche Felder eine Frage braucht. Heute wird genau daraus eine Tabelle. Leg das Blatt neben die Tastatur.</li>
+</ul>
+
+<h3>Das gibst du ab</h3>
+<ul>
+<li>Einen Screenshot deines <b>Logcat</b>, gefiltert auf <code>tag:Modul335</code>, mit der Zeile <code>database opened, name=quiz.db, questions=0</code>.</li>
+<li>Einen Screenshot deiner <b>Tabelle im Database Inspector</b>. Sie ist leer, und die neun Spalten sind zu sehen.</li>
+<li>Den <b>Wissenscheck</b> des Halbtags. Er deckt 07A, 07B und 07C zusammen ab.</li>
+</ul>
+
+<div class="note">
+<p><b>Heute gibst du keinen Bildschirm ab, und das ist richtig so.</b></p>
+<p>Deine App sieht am Ende dieses Blocks genau gleich aus wie am Anfang. Kein neuer Knopf, keine neue Zeile, nichts. <b>Und trotzdem ist der grösste Teil der Arbeit getan</b>, denn die ganze Datenschicht steht.</p>
+<p><b>Sehen wirst du sie trotzdem.</b> Am Schluss öffnest du deine Tabelle in Android Studio und schaust sie an. Sie ist leer, aber die Spalten sind da, mit den Namen, die du selbst vergeben hast. Das ist dein Ergebnis, und es steht nicht auf dem Handy, sondern daneben.</p>
+<p>Am Nachmittag füllst du die Tabelle und baust den Bildschirm dazu.</p>
 </div>
 
-<p>Die Adresse bleibt dieselbe. Sobald der Auftrag da ist, findest du ihn genau hier, ohne dass sich der Link in Google Classroom ändert.</p>
+<div class="info">
+<p><b>Warum das der wichtigste Block der Woche ist.</b> Auf dem Prüfungsblatt der Leistungsbeurteilung steht der Satz <i>"Die Datenhaltung soll nur lokal erfolgen."</i> Und im Bewertungsraster steht die Zeile <i>"Datenmodell korrekt, Persistenz korrekt implementiert"</i> mit 4 Punkten.</p>
+<p>Was du heute baust, ist genau das. Ein Datenmodell als Tabelle und ein sauberer Zugriff darauf. In der Prüfung heisst es Modul statt Frage, und der Rest ist derselbe Handgriff.</p>
+<p>Zwei weitere Zeilen im Raster heissen <i>"Persistenz-Methoden dokumentiert und begründet"</i> und <i>"alternative Persistenzmethode genannt"</i>. Die Alternative kennst du seit 05D und 06B, das ist <code>SharedPreferences</code>. Ab heute kennst du beide und kannst sie gegeneinander begründen.</p>
+</div>
 
-<p>Wenn du früher dran bist als der Kurs: nimm die Zusatzaufgabe des letzten Auftrags. Sie steht am Schluss jedes Auftragsdokuments und hat nie eine Musterlösung.</p>
+<h2>02 Auftrag</h2>
 
-<p><a href="/">Zurück zur Übersicht</a></p>
+<h3>Ausgangslage</h3>
 
-<p class="foot">Modul 335 Mobile Applikationen | Tag 4, Vormittag | Auftrag 07C | Platzhalter</p>
+<p>Deine App hat dreissig Fragen, und sie stehen alle fest im Code. In <code>QuestionBank.createAll()</code> steht dreissig Mal <code>questions.add(new Question(...))</code>. Das war bis heute in Ordnung, denn es war der einfachste Weg.</p>
+
+<p><b>Jetzt ist es der Weg, der nicht mehr weitergeht.</b> Wer eine Frage ändern will, muss den Code ändern und die App neu bauen. Wer eine Frage dazu will, ebenso. Und der Benutzer der App kann gar nichts.</p>
+
+<p><b>In 06A hast du das schon aufgeschrieben.</b> Du hast auf Papier ein Datenmodell für die Fragen gezeichnet, mit Feldern, Typen und einem Schlüssel. Heute wird daraus eine echte Tabelle, und du wirst sehen, wie wenig dazwischen liegt.</p>
+
+<h4>Was sich heute ändert</h4>
+
+<table>
+<tr><th></th><th>07B, dein Stand</th><th>07C, heute</th></tr>
+<tr><td>Wo die Fragen liegen</td><td>fest im Code, in <code>QuestionBank</code></td><td><b>noch immer dort.</b> Der Umzug beginnt am Nachmittag</td></tr>
+<tr><td>Eine Datenbank</td><td>gibt es nicht</td><td>gibt es, und sie ist leer</td></tr>
+<tr><td>Eine Frage ist</td><td>ein Java-Objekt</td><td>zusätzlich eine <b>Zeile in einer Tabelle</b></td></tr>
+<tr><td>Die vier Antworten</td><td>ein <code>String[]</code></td><td>in der Tabelle <b>vier einzelne Spalten</b></td></tr>
+<tr><td>Eine Frage hat eine Nummer</td><td>nein</td><td>ja, eine <code>id</code>, und die vergibt die Datenbank</td></tr>
+<tr><td>Fremde Bibliotheken</td><td>alle kamen mit dem Template</td><td><b>eine trägst du selbst ein</b></td></tr>
+<tr><td>Auf dem Bildschirm</td><td></td><td><b>gar nichts Neues</b></td></tr>
+</table>
+
+<h4>Das kennst du schon, und zwar aus Modul 294</h4>
+
+<p>In Modul 294 hast du mit <code>json-server</code> gearbeitet. Dort lag eine Datei <code>db.json</code>, und du hast über HTTP darauf zugegriffen. <code>GET</code> holte Daten, <code>POST</code> legte etwas an.</p>
+
+<table>
+<tr><th>Modul 294, <code>json-server</code></th><th>Modul 335, Room</th><th>Was gleich bleibt</th></tr>
+<tr><td>eine Datei auf einem Server</td><td>eine Datei auf dem Gerät</td><td>die Daten überleben den Neustart</td></tr>
+<tr><td><code>GET /questions</code></td><td><code>SELECT * FROM questions</code></td><td>du sagst was du willst, nicht wie</td></tr>
+<tr><td><code>POST /questions</code></td><td><code>@Insert</code></td><td>der Server vergibt die id, hier die Datenbank</td></tr>
+<tr><td><code>PUT</code> und <code>DELETE</code></td><td><code>@Update</code> und <code>@Delete</code></td><td>dieselben vier Grundoperationen</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Diese vier heissen zusammen CRUD.</b> Create, Read, Update, Delete. Du kennst sie aus 294, du brauchst sie heute, und du brauchst sie in der Prüfung. Es sind immer dieselben vier, egal ob die Daten auf einem Server liegen oder auf dem Gerät.</p>
+<p><b>Der Unterschied, auf den es ankommt:</b> in 294 lief der Server auf einem anderen Rechner, und du musstest damit rechnen, dass er antwortet oder eben nicht. Room läuft auf demselben Gerät wie deine App. Es gibt keine Verbindung, die abreissen kann.</p>
+</div>
+
+<h3>Werkzeugkasten</h3>
+
+<table>
+<tr><th>Baustein</th><th>Wofür</th></tr>
+<tr><td class="pre">annotationProcessor</td><td><b>Neu.</b> Ein Programm, das beim Bauen der App läuft und Java-Code schreibt. Es landet nicht in der fertigen App</td></tr>
+<tr><td class="pre">@Entity(tableName = "...")</td><td><b>Neu.</b> Aus dieser Klasse wird eine Tabelle</td></tr>
+<tr><td class="pre">@PrimaryKey(autoGenerate = true)</td><td><b>Neu.</b> Dieses Feld ist die Nummer der Zeile, und die Datenbank vergibt sie</td></tr>
+<tr><td class="pre">@ColumnInfo(name = "...")</td><td><b>Neu.</b> So heisst die Spalte in der Tabelle</td></tr>
+<tr><td class="pre">@Dao</td><td><b>Neu.</b> Dieses Interface beschreibt die Zugriffe. Data Access Object</td></tr>
+<tr><td class="pre">@Insert, @Update, @Delete</td><td><b>Neu.</b> Drei der vier Grundoperationen. Sie brauchen kein SQL</td></tr>
+<tr><td class="pre">@Query("...")</td><td><b>Neu.</b> Die vierte, und alles Weitere. Hier schreibst du SQL</td></tr>
+<tr><td class="pre">@Database(entities = {...})</td><td><b>Neu.</b> Welche Tabellen es gibt und welche Version die Datenbank hat</td></tr>
+<tr><td class="pre">Room.databaseBuilder(...)</td><td><b>Neu.</b> Baut die Datenbank oder öffnet die vorhandene</td></tr>
+<tr><td class="pre">allowMainThreadQueries()</td><td><b>Neu.</b> Erlaubt Abfragen im Haupt-Thread. Für uns richtig, mit Begründung in C1</td></tr>
+<tr><td class="pre">synchronized</td><td><b>Neu in diesem Zusammenhang.</b> Nur einer darf gleichzeitig hinein</td></tr>
+<tr><td class="pre">SELECT, COUNT(*), ORDER BY, WHERE</td><td><b>Kennst du aus 294 und 223.</b> Dasselbe SQL, nur an einem anderen Ort</td></tr>
+<tr><td class="pre">Log.d</td><td><b>Kennst du seit 01B.</b> Heute ist es dein einziger Beleg</td></tr>
+</table>
+
+<div class="warn">
+<p><b>Zwölf von dreizehn Bausteinen sind neu. Das ist der dichteste Auftrag des Kurses.</b> Dafür ist es der einzige, der keinen einzigen Bildschirm baut. Du hast also die ganzen neunzig Minuten für eine Sache.</p>
+</div>
+
+<h3>Pflichtangaben</h3>
+
+<table>
+<tr><th>Wo</th><th>Was Pflicht ist</th><th>Warum</th></tr>
+<tr><td>In <code>@Entity</code></td><td><code>tableName = "questions"</code></td><td>Vorgabe. Die Tabelle steht auch im SQL deiner Abfragen. Wer sie anders nennt, hat überall etwas anderes stehen</td></tr>
+<tr><td>Paket der drei neuen Klassen</td><td><code>data</code></td><td>Dort liegen schon <code>ScoreStorage</code> und <code>HighscoreStorage</code>. Alles was Daten hält, liegt beieinander</td></tr>
+<tr><td>Klassennamen</td><td><code>QuestionEntity</code>, <code>QuestionDao</code>, <code>QuizDatabase</code></td><td>Vorgabe. Am Nachmittag greifen alle Aufträge darauf zu</td></tr>
+<tr><td>Im Dao</td><td><b>Alle sechs Methoden</b>, auch die, die heute niemand aufruft</td><td>Ein Dao ist der Vertrag mit der Tabelle. Den schreibt man einmal ganz. Begründung in B2</td></tr>
+<tr><td>In <code>getInstance</code></td><td><code>context.getApplicationContext()</code></td><td>Die Datenbank lebt so lange wie die App. Eine Activity nicht. Siehe C1</td></tr>
+<tr><td>In <code>getInstance</code></td><td><code>synchronized</code> in der Signatur</td><td>Sonst können zwei Aufrufe gleichzeitig je eine Datenbank bauen</td></tr>
+<tr><td>Bei jeder neuen Klasse, jedem neuen Feld, jeder neuen Methode</td><td>Javadoc, und zwar <b>beim Schreiben</b> und nicht danach</td><td>Auf dem Prüfungsblatt steht: <i>"Alle selbst erstellten Klassen und Methoden sind Javadoc-kompatibel zu dokumentieren."</i></td></tr>
+</table>
+
+<h3>Namen im Code</h3>
+
+<table>
+<tr><th>Name</th><th>Was es ist</th></tr>
+<tr><td class="pre">data/QuestionEntity</td><td>Die Frage als Tabellenzeile. Vorlage ist <code>model/Question</code></td></tr>
+<tr><td class="pre">data/QuestionDao</td><td>Das Interface mit den sechs Zugriffen</td></tr>
+<tr><td class="pre">data/QuizDatabase</td><td>Die Datenbank selbst</td></tr>
+<tr><td class="pre">questions</td><td>Der Name der Tabelle. Steht in <code>@Entity</code> und in jedem <code>@Query</code></td></tr>
+<tr><td class="pre">quiz.db</td><td>Der Dateiname auf dem Gerät, als Konstante <code>DB_NAME</code></td></tr>
+<tr><td class="pre">instance</td><td>Das statische Feld, das die eine Datenbank hält</td></tr>
+<tr><td class="pre">getInstance</td><td>Die Methode, über die alle an die Datenbank kommen</td></tr>
+<tr><td class="pre">questionDao()</td><td>Die abstrakte Methode, die das Dao liefert</td></tr>
+</table>
+
+<h3>Denkfragen</h3>
+<ol>
+<li><code>allowMainThreadQueries()</code> ist für unsere dreissig Fragen richtig. <b>Ab wann wäre es falsch</b>, und woran würdest du es als Erstes merken?</li>
+<li>Dein Dao hat sechs Methoden, und heute läuft genau eine davon. <b>Wäre es besser gewesen, die anderen fünf erst zu schreiben, wenn man sie braucht?</b> Argumentier für beide Seiten.</li>
+<li>Deine Rangliste liegt seit 06B in <code>SharedPreferences</code>, deine Fragen ab heute in einer Datenbank. <b>Woran entscheidest du, welches von beiden du nimmst?</b></li>
+</ol>
+
+<div class="tip">
+<p><b>Diese drei Fragen gibst du nicht ab.</b> Denk kurz nach und notier dir ein Stichwort. Genau danach fragt der Wissenscheck, und die Antworten stehen im Lösungsmaterial.</p>
+</div>
+
+<div class="info">
+<p><b>Der Auftrag hat drei Teile, und sie bauen aufeinander auf.</b></p>
+<p><b>Teil A</b> macht Room in deinem Projekt bekannt und baut die Tabelle als Klasse.</p>
+<p><b>Teil B</b> schreibt die Zugriffe. Sechs Methoden, keine einzige mit einem Rumpf.</p>
+<p><b>Teil C</b> baut die Datenbank selbst und öffnet sie ein einziges Mal.</p>
+<p><b>Und heute gilt der Satz für alle drei Teile:</b> auf dem Bildschirm passiert nichts. Dein Beleg ist der Logcat, und den siehst du erst ganz am Schluss.</p>
+</div>
+
+<h3>Teil A, die Abhängigkeit und die Tabelle <span class="time">26 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">A1</span><b>Die Abhängigkeit eintragen.</b> <span class="time">10 Min</span></p>
+
+<p>Room gehört nicht zu Android. Es ist eine Bibliothek, und die musst du deinem Projekt zuerst bekannt machen. <b>Das ist heute das erste Mal, dass du das wirklich selbst tust.</b> Der <code>RecyclerView</code> aus 06C kam als Beigabe von <code>material</code> mit, ohne dass du etwas eintragen musstest. Bei Room geht das nicht.</p>
+
+<p>Dafür braucht es zwei Dateien, und die Aufteilung hat einen Grund.</p>
+
+<table>
+<tr><th>Datei</th><th>Was dort steht</th></tr>
+<tr><td><code>gradle/libs.versions.toml</code></td><td>Der <b>Katalog</b>. Hier steht einmal, welche Bibliothek es in welcher Version gibt</td></tr>
+<tr><td><code>app/build.gradle.kts</code></td><td>Die <b>Bestellung</b>. Hier steht, welche davon dieses Modul wirklich benutzt</td></tr>
+</table>
+
+<p>Beide findest du im Projektbaum unter <b>Gradle Scripts</b>. Du musst die Ansicht nicht umstellen.</p>
+
+<p><b>Zuerst der Katalog. Ganz unten im Abschnitt <code>[versions]</code>:</b></p>
+
+<pre>room = <span class="s">"2.8.4"</span></pre>
+
+<p><b>Dann, ganz unten im Abschnitt <code>[libraries]</code>:</b></p>
+
+<pre>room-runtime = { group = <span class="s">"androidx.room"</span>, name = <span class="s">"room-runtime"</span>, version.ref = <span class="s">"room"</span> }
+room-compiler = { group = <span class="s">"androidx.room"</span>, name = <span class="s">"room-compiler"</span>, version.ref = <span class="s">"room"</span> }</pre>
+
+<div class="warn">
+<p><b>Eine gelbe Wellenlinie unter der Versionsnummer ist kein Fehler.</b> Sie ist ein Vorschlag. Android Studio kennt vielleicht eine neuere Version und bietet sie an. Steh mit dem Cursor darauf und drück <b>Alt+Shift+Enter</b>, dann übernimmt es die neuere. Notier dir kurz, welche es geworden ist.</p>
+<p><b>Rot ist etwas anderes.</b> Rot heisst, es geht so nicht. Gelb heisst, es geht, aber es ginge besser. Diesen Unterschied wirst du in Android Studio ständig sehen, und er ist der Grund, warum man nicht jede Wellenlinie wegklicken muss.</p>
+<p>Siehst du gar keine Wellenlinie, ist auch das in Ordnung. Dann ist die Version schon die aktuelle.</p>
+</div>
+
+<p><b>Dann die Bestellung. In <code>app/build.gradle.kts</code>, im Block <code>dependencies</code>, zu den anderen Zeilen dazu:</b></p>
+
+<pre>implementation(libs.room.runtime)
+annotationProcessor(libs.room.compiler)</pre>
+
+<div class="info">
+<p><b>Zweimal Room, und die zwei Zeilen tun etwas ganz Verschiedenes.</b></p>
+<p><code>implementation</code> heisst: dieser Code läuft später in deiner App mit. <code>room-runtime</code> ist das, was zur Laufzeit die Datenbank öffnet und die Abfragen ausführt.</p>
+<p><code>annotationProcessor</code> heisst: dieses Programm läuft <b>beim Bauen</b> und schreibt Java-Code. In der fertigen App ist es nicht mehr drin. <code>room-compiler</code> liest deine Annotationen und schreibt daraus die Klassen, die du sonst von Hand tippen müsstest.</p>
+<p><b>Merk dir das jetzt schon</b>, denn gleich in Teil B schreibst du ein Interface ohne einen einzigen Rumpf, und du wirst dich fragen, wer die Arbeit macht.</p>
+</div>
+
+<div class="tip">
+<p><b>Aus dem Bindestrich wird ein Punkt.</b> Im Katalog heisst der Eintrag <code>room-runtime</code>, in der Bestellung schreibst du <code>libs.room.runtime</code>. Das gilt für alle Einträge. Schau dir <code>activity-ktx</code> und <code>libs.activity.ktx</code> in deinem Projekt an, dort steht es schon so.</p>
+</div>
+
+<p>Oben rechts erscheint jetzt ein Balken mit <b>Sync Now</b>. Klick ihn an und warte, bis unten <i>Sync finished</i> steht. Das dauert beim ersten Mal eine Weile, denn Room wird heruntergeladen.</p>
+
+<div class="chk">
+<p><b>So prüfst du A1.</b></p>
+<ol>
+<li>Der Sync läuft ohne roten Fehler durch.</li>
+<li>Tipp in einer beliebigen Java-Datei probeweise <code>import androidx.room.</code> und schau, ob die Vorschlagsliste <code>Entity</code>, <code>Dao</code> und <code>Query</code> anbietet. <b>Danach die Zeile wieder löschen.</b></li>
+<li>Starte die App. Sie sieht genau gleich aus wie vorher. <b>Das ist richtig so.</b> Du hast eine Bibliothek dazugelegt und noch nichts damit gemacht.</li>
+</ol>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">A2</span><b>Aus <code>Question</code> wird <code>QuestionEntity</code>.</b> <span class="time">16 Min</span></p>
+
+<p>Deine Klasse <code>model/Question.java</code> hat schon fast alles, was eine Tabellenzeile braucht. Darum tippst du sie nicht neu, sondern kopierst sie.</p>
+
+<p>Rechtsklick auf <code>Question.java</code> im Projektbaum, dann <b>Copy</b>. Rechtsklick auf das Paket <code>data</code>, dann <b>Paste</b>. Im Dialog gibst du als Namen <code>QuestionEntity</code> ein.</p>
+
+<div class="note">
+<p><b><code>Question.java</code> bleibt, wie sie ist.</b> Sie wird heute nicht gelöscht und nicht geändert. Dein Spielbildschirm benutzt sie weiter. Und am Schluss kannst du die zwei Dateien nebeneinanderlegen und siehst genau, was Room dazubringt.</p>
+</div>
+
+<p>Jetzt änderst du in der Kopie <b>sechs</b> Dinge. Nicht mehr und nicht weniger.</p>
+
+<table>
+<tr><th>Nr</th><th>Aus</th><th>Wird</th></tr>
+<tr><td>1</td><td><code>package ch.wiss.m335.quiz.model;</code></td><td><code>package ch.wiss.m335.quiz.data;</code>. Beim Einfügen hat Android Studio das schon erledigt, prüf es nur</td></tr>
+<tr><td>2</td><td>Der Klassenkommentar von <code>Question</code></td><td>Ein eigener. Er steht in der Kopie noch wörtlich drin und ist ab jetzt falsch</td></tr>
+<tr><td>3</td><td>kein <code>id</code>-Feld</td><td>Ein Feld <code>id</code> mit <code>@PrimaryKey(autoGenerate = true)</code></td></tr>
+<tr><td>4</td><td><code>private String[] answers;</code></td><td>Vier Felder <code>answer1</code> bis <code>answer4</code></td></tr>
+<tr><td>5</td><td>Der Konstruktor mit fünf Werten</td><td><b>Weg.</b> Dafür ein Setter pro Feld</td></tr>
+<tr><td>6</td><td>An jedem Feld nichts</td><td><code>@ColumnInfo(name = "...")</code> und <code>@NonNull</code></td></tr>
+</table>
+
+<div class="tip">
+<p><b>Halt hier kurz an und leg dein Blatt aus 06A daneben.</b> Die Felder, die du dort auf Papier hergeleitet hast, sind genau diese. Und der Schlüssel, den du dort eingezeichnet hast, ist die <code>id</code>. Der Weg von einem Datenmodell auf Papier zu einer Tabelle im Code ist kürzer, als er aussieht.</p>
+</div>
+
+<p><b>Die Klassenzeile, mit der Annotation darüber:</b></p>
+
+<pre><span class="k">@Entity</span>(tableName = <span class="s">"questions"</span>)
+<span class="k">public class</span> <span class="t">QuestionEntity</span> {</pre>
+
+<p><b>Die Felder. Sie ersetzen den ganzen bisherigen Feldblock:</b></p>
+
+<pre><span class="c">/** Die Nummer der Zeile. Room vergibt sie beim Einfügen selbst. */</span>
+<span class="k">@PrimaryKey</span>(autoGenerate = <span class="k">true</span>)
+<span class="k">private int</span> id;
+
+<span class="c">/** Der Fragetext. */</span>
+<span class="k">@NonNull</span>
+<span class="k">@ColumnInfo</span>(name = <span class="s">"text"</span>)
+<span class="k">private</span> <span class="t">String</span> text = <span class="s">""</span>;
+
+<span class="c">/** Erste Antwortmöglichkeit. */</span>
+<span class="k">@NonNull</span>
+<span class="k">@ColumnInfo</span>(name = <span class="s">"answer1"</span>)
+<span class="k">private</span> <span class="t">String</span> answer1 = <span class="s">""</span>;
+
+<span class="c">/** Zweite Antwortmöglichkeit. */</span>
+<span class="k">@NonNull</span>
+<span class="k">@ColumnInfo</span>(name = <span class="s">"answer2"</span>)
+<span class="k">private</span> <span class="t">String</span> answer2 = <span class="s">""</span>;
+
+<span class="c">/** Dritte Antwortmöglichkeit. */</span>
+<span class="k">@NonNull</span>
+<span class="k">@ColumnInfo</span>(name = <span class="s">"answer3"</span>)
+<span class="k">private</span> <span class="t">String</span> answer3 = <span class="s">""</span>;
+
+<span class="c">/** Vierte Antwortmöglichkeit. */</span>
+<span class="k">@NonNull</span>
+<span class="k">@ColumnInfo</span>(name = <span class="s">"answer4"</span>)
+<span class="k">private</span> <span class="t">String</span> answer4 = <span class="s">""</span>;
+
+<span class="c">/** Die richtige Antwort als Text. Muss einer der vier Antworten entsprechen. */</span>
+<span class="k">@NonNull</span>
+<span class="k">@ColumnInfo</span>(name = <span class="s">"correct_answer"</span>)
+<span class="k">private</span> <span class="t">String</span> correctAnswer = <span class="s">""</span>;
+
+<span class="c">/** Kategorie: Sport, Technologie, Geographie oder Geschichte. */</span>
+<span class="k">@NonNull</span>
+<span class="k">@ColumnInfo</span>(name = <span class="s">"category"</span>)
+<span class="k">private</span> <span class="t">String</span> category = <span class="s">""</span>;
+
+<span class="c">/** Schwierigkeit: leicht, mittel oder schwer. */</span>
+<span class="k">@NonNull</span>
+<span class="k">@ColumnInfo</span>(name = <span class="s">"difficulty"</span>)
+<span class="k">private</span> <span class="t">String</span> difficulty = <span class="s">"leicht"</span>;</pre>
+
+<div class="info">
+<p><b>Warum vier Spalten statt einem Array.</b> Eine Spalte in einer Tabelle hält genau einen Wert. Ein Array ist mehreres auf einmal, und Room weiss nicht von selbst, wie es das in eine Spalte quetschen soll. Es gäbe dafür einen <code>TypeConverter</code>, aber der ist ein eigenes Thema, und du brauchst ihn hier nicht.</p>
+<p><b>Und es ist ohnehin die ehrlichere Lösung.</b> Vier Antworten sind vier Angaben. In einer Tabelle sieht man sie dann auch als vier, und du könntest später nach einer einzelnen davon suchen.</p>
+</div>
+
+<p><b>Der Konstruktor fliegt raus.</b> Markier ihn ganz und lösch ihn. Room baut die Objekte selbst, wenn es eine Zeile aus der Tabelle liest, und dafür braucht es einen leeren Konstruktor. Den bekommst du von Java geschenkt, sobald kein anderer mehr dasteht.</p>
+
+<p><b>Die Methode <code>getAnswers</code> bleibt, aber sie baut das Array jetzt selbst zusammen:</b></p>
+
+<pre><span class="k">public</span> <span class="t">String</span>[] getAnswers() {
+    <span class="k">return new</span> <span class="t">String</span>[]{answer1, answer2, answer3, answer4};
+}</pre>
+
+<div class="tip">
+<p><b>Diese eine Zeile spart dir später viel Arbeit.</b> Von aussen sieht <code>QuestionEntity</code> damit genauso aus wie <code>Question</code>. Wenn dein Spielbildschirm irgendwann seine Fragen aus der Datenbank holt, muss dort fast nichts geändert werden.</p>
+</div>
+
+<p><b>Zum Schluss die Setter.</b> Die tippst du nicht. Klick irgendwo in die Klasse und drück <b>Alt+Insert</b>, dann <b>Getter and Setter</b>. Im Menü heisst der Weg <b>Code</b> und dann <b>Generate</b>. Wähl alle neun Felder aus.</p>
+
+<p>Getter, die du danach doppelt hast, löschst du. <code>getText</code> gab es zum Beispiel schon.</p>
+
+<div class="warn">
+<p><b>Die erzeugten Setter haben kein Javadoc, und das Prüfungsblatt verlangt eines.</b> Eine Zeile pro Setter genügt, im Stil von <code>/** @param text der Fragetext */</code>. Mach es jetzt und nicht später. Zu neun Feldern nachträglich achtzehn Kommentare zu schreiben, dauert dreimal so lang wie jetzt.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du A2.</b></p>
+<ol>
+<li>Die Datei liegt unter <code>data</code>, nicht unter <code>model</code>.</li>
+<li>Der Editor ist nicht rot. Fehlt ein Import, hol ihn mit <b>Alt+Enter</b>.</li>
+<li>Es gibt <b>keinen</b> Konstruktor mit Werten mehr.</li>
+<li>Es gibt genau neun Felder, zu jedem einen Setter, und zu jedem ein Javadoc.</li>
+<li><b>Schau auf die Zeile <code>@ColumnInfo(name = "correct_answer")</code>.</b> Der Name hat einen Unterstrich, das Feld nicht. Das ist Absicht. Und diese Zeile ist die einzige der sechs Änderungen, deren Fehlen <b>nichts kaputt macht</b>. Room würde die Spalte einfach anders nennen, und du merkst es erst viel später.</li>
+<li><b>Lies deinen Klassenkommentar.</b> Steht dort noch der Text von <code>Question</code>? Dann stimmt er seit dem Kopieren nicht mehr. Schreib ihn jetzt neu, und schreib hinein, was diese Klasse von <code>Question</code> unterscheidet.</li>
+</ol>
+</div>
+</div>
+
+<h3>Der Überblick, bevor Teil B anfängt <span class="time">3 Minuten</span></h3>
+
+<p>Halt hier kurz an. Room braucht drei Klassen, und jede beantwortet genau eine Frage.</p>
+
+<pre><span class="c">QuestionEntity   Was steht in einer Zeile?          hast du
+QuestionDao      Was kann ich mit den Zeilen tun?   Teil B
+QuizDatabase     Wo liegen die Tabellen?            Teil C</span></pre>
+
+<table>
+<tr><th>Klasse</th><th>Ist bei dir ein</th><th>Room macht daraus</th></tr>
+<tr><td><code>QuestionEntity</code></td><td>Klasse mit Feldern</td><td>eine Tabelle mit Spalten</td></tr>
+<tr><td><code>QuestionDao</code></td><td>Interface ohne Rümpfe</td><td>eine Klasse mit fertigen Abfragen</td></tr>
+<tr><td><code>QuizDatabase</code></td><td>abstrakte Klasse</td><td><code>QuizDatabase_Impl</code>, das Objekt, das du wirklich benutzt</td></tr>
+</table>
+
+<p><b>Dreimal dasselbe Muster: du beschreibst, Room baut.</b> Genau darum stand die Zeile <code>annotationProcessor</code> ganz am Anfang.</p>
+
+<h3>Teil B, das Dao <span class="time">26 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">B1</span><b>Anlegen, lesen, zählen.</b> <span class="time">15 Min</span></p>
+
+<p>Rechtsklick auf das Paket <code>data</code>, dann <b>New</b> und <b>Java Class</b>. Als Name <code>QuestionDao</code>, und in der Liste darunter wählst du <b>Interface</b>, nicht Class.</p>
+
+<div class="warn">
+<p><b>Der Dialog steht auf Class voreingestellt.</b> Wer zu schnell auf Enter drückt, hat eine Klasse und wundert sich gleich über zwanzig rote Zeilen. Schau einmal hin.</p>
+</div>
+
+<p><b>Die Klassenzeile mit der Annotation:</b></p>
+
+<pre><span class="k">@Dao</span>
+<span class="k">public interface</span> <span class="t">QuestionDao</span> {</pre>
+
+<p><b>Die erste Methode, anlegen:</b></p>
+
+<pre><span class="c">/**
+ * Legt eine neue Frage an.
+ *
+ * Die id im übergebenen Objekt wird nicht beachtet. Room vergibt eine
+ * eigene und gibt sie zurück.
+ *
+ * @param question die neue Frage
+ * @return die id, die Room vergeben hat
+ */</span>
+<span class="k">@Insert</span>
+<span class="k">long</span> insert(<span class="t">QuestionEntity</span> question);</pre>
+
+<div class="info">
+<p><b>Drei Dinge an diesen zwei Zeilen sind ungewohnt.</b></p>
+<p><b>Erstens gibt es keinen Rumpf.</b> Kein <code>{</code>, kein <code>}</code>, nur ein Strichpunkt. So sieht jede Methode in einem Interface aus.</p>
+<p><b>Zweitens steht kein SQL da.</b> Bei <code>@Insert</code>, <code>@Update</code> und <code>@Delete</code> weiss Room selbst, was zu tun ist. Es kennt deine Tabelle aus <code>@Entity</code>.</p>
+<p><b>Drittens ist der Rückgabewert <code>long</code> und nicht <code>void</code>.</b> Room gibt dir die Nummer zurück, die es vergeben hat. Die brauchst du, sobald du nach dem Anlegen noch etwas mit der neuen Zeile machen willst.</p>
+</div>
+
+<p><b>Die zweite Methode, alle lesen:</b></p>
+
+<pre><span class="c">/**
+ * Liefert alle Fragen, nach Kategorie und dann nach id sortiert.
+ *
+ * Die Sortierung steht im SQL und nicht in Java. Die Datenbank kann das
+ * besser, und die Liste kommt schon fertig geordnet an.
+ *
+ * @return alle Fragen, nie null
+ */</span>
+<span class="k">@Query</span>(<span class="s">"SELECT * FROM questions ORDER BY category, id"</span>)
+<span class="t">List</span>&lt;<span class="t">QuestionEntity</span>&gt; getAll();</pre>
+
+<p><b>Die dritte Methode, zählen. Sie ist heute die einzige, die wirklich läuft:</b></p>
+
+<pre><span class="c">/**
+ * Zählt alle Fragen.
+ *
+ * Beantwortet die Frage, ob überhaupt etwas in der Tabelle steht. Beim
+ * Start entscheidet sich daran, ob der Startbestand geladen werden muss.
+ *
+ * @return Anzahl Fragen in der Tabelle
+ */</span>
+<span class="k">@Query</span>(<span class="s">"SELECT COUNT(*) FROM questions"</span>)
+<span class="k">int</span> count();</pre>
+
+<div class="info">
+<p><b>Hier steht SQL, und zwar als Text in Anführungszeichen. Einen Tippfehler in einem Text merkt sonst niemand.</b></p>
+<p>Room schon. <code>room-compiler</code> liest deinen Text, kennt deine Tabelle aus <code>@Entity</code> und vergleicht beides. Schreibst du <code>FROM question</code> ohne s, bekommst du <b>beim Bauen</b> einen roten Fehler mit dem Satz <i>no such table</i>. Nicht erst beim Start, nicht erst beim Kunden.</p>
+<p>Das probierst du daheim in Übung 1a einmal selbst aus.</p>
+</div>
+
+<div class="tip">
+<p><b>Das SQL selbst kennst du.</b> <code>SELECT</code>, <code>COUNT(*)</code> und <code>ORDER BY</code> hattest du in 294 und in 223. Neu ist nur der Ort, an dem es steht.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du B1.</b></p>
+<ol>
+<li>In der Klassenzeile steht <code>public interface</code> und nicht <code>public class</code>.</li>
+<li>Keine der drei Methoden hat geschweifte Klammern.</li>
+<li>Der Import für <code>List</code> ist da. Alt+Enter, dann <code>java.util.List</code>.</li>
+<li><b>Build</b> und dann <b>Make Project</b>, oder <b>Ctrl+F9</b>. Es läuft ohne Fehler durch.</li>
+<li><b>Erzeugt wurde noch nichts.</b> Room weiss noch nicht, zu welcher Datenbank dein Dao gehört. Das sagst du ihm in Teil C.</li>
+</ol>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">B2</span><b>Ändern, löschen, einzeln holen.</b> <span class="time">11 Min</span></p>
+
+<p>Drei Methoden fehlen noch. <b>Keine davon wird heute aufgerufen.</b> Trotzdem schreibst du sie jetzt, und der Grund steht gleich unten.</p>
+
+<pre><span class="c">/**
+ * Speichert Änderungen an einer bestehenden Frage.
+ *
+ * Room erkennt die Frage an ihrer id. Ist die id 0, findet Room keine
+ * passende Zeile, und es passiert gar nichts. Das ist der häufigste
+ * Fehler beim Bearbeiten.
+ *
+ * @param question die geänderte Frage, inklusive ihrer id
+ */</span>
+<span class="k">@Update</span>
+<span class="k">void</span> update(<span class="t">QuestionEntity</span> question);</pre>
+
+<pre><span class="c">/**
+ * Löscht eine Frage.
+ *
+ * Auch hier zählt nur die id. Die anderen Felder darf Room ignorieren.
+ *
+ * @param question die zu löschende Frage
+ */</span>
+<span class="k">@Delete</span>
+<span class="k">void</span> delete(<span class="t">QuestionEntity</span> question);</pre>
+
+<pre><span class="c">/**
+ * Liefert eine einzelne Frage.
+ *
+ * Wird beim Bearbeiten gebraucht, um das Formular zu füllen.
+ *
+ * @param id die Nummer der Frage
+ * @return die Frage, oder null wenn es sie nicht gibt
+ */</span>
+<span class="k">@Query</span>(<span class="s">"SELECT * FROM questions WHERE id = :id"</span>)
+<span class="t">QuestionEntity</span> findById(<span class="k">int</span> id);</pre>
+
+<div class="info">
+<p><b>Der Doppelpunkt in <code>:id</code> ist neu und wichtig.</b> Er sagt Room: hier kommt der Wert des Parameters hinein, der genauso heisst. Room prüft beim Bauen, ob es diesen Parameter gibt. Schreibst du <code>:questionId</code>, der Parameter heisst aber <code>id</code>, gibt es einen roten Fehler.</p>
+<p><b>Und niemals den Wert selbst in den Text hineinschreiben.</b> Also nie <code>"... WHERE id = " + id</code>. Das ist die Tür, durch die SQL-Injection kommt. Room lässt es hier gar nicht erst zu, aber ausserhalb von Room ist es der klassische Fehler.</p>
+</div>
+
+<div class="warn">
+<p><b>Sechs Methoden, und heute läuft genau eine. Das ist Absicht, und du sollst dich daran stören.</b></p>
+<p>Sonst gilt in diesem Kurs die Regel: schreib nichts, was niemand aufruft. Eine tote Methode sieht aus, als würde sie gebraucht, und beim nächsten Umbau traut sich niemand, sie zu löschen.</p>
+<p><b>Ein Dao ist die Ausnahme, und zwar aus zwei Gründen.</b> Es ist kein Code, es ist ein <b>Vertrag</b> mit der Tabelle. Und die vier Grundoperationen gehören zusammen. Wer nur die Hälfte hinschreibt, muss beim nächsten Bildschirm wieder hierher zurück und den Vertrag aufmachen.</p>
+<p><b>Denk beim Schreiben trotzdem über Denkfrage 2 nach.</b> Es gibt gute Argumente für die andere Seite, und im Lösungsmaterial stehen beide.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du B2.</b></p>
+<ol>
+<li>Es sind genau sechs Methoden.</li>
+<li>Drei tragen <code>@Insert</code>, <code>@Update</code> oder <code>@Delete</code> und haben kein SQL. Drei tragen <code>@Query</code> und haben welches.</li>
+<li>Jede hat ein Javadoc mit <code>@param</code> und, wo es einen Rückgabewert gibt, mit <code>@return</code>.</li>
+<li><b>Make Project</b> läuft durch.</li>
+<li>Android Studio malt vielleicht fünf der sechs Methoden grau und sagt, sie würden nicht benutzt. <b>Richtig so.</b> Ab heute Nachmittag stimmt das nicht mehr.</li>
+</ol>
+</div>
+</div>
+
+<h3>Teil C, die Datenbank <span class="time">27 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">C1</span><b>Die Klasse <code>QuizDatabase</code>.</b> <span class="time">16 Min</span></p>
+
+<p>Rechtsklick auf <code>data</code>, dann <b>New</b> und <b>Java Class</b>. Als Name <code>QuizDatabase</code>, diesmal als <b>Class</b>.</p>
+
+<p><b>Die Annotation, die Klassenzeile und die drei Sachen, die oben hineingehören:</b></p>
+
+<pre><span class="k">@Database</span>(entities = {<span class="t">QuestionEntity</span>.<span class="k">class</span>}, version = <span class="s">1</span>, exportSchema = <span class="k">false</span>)
+<span class="k">public abstract class</span> <span class="t">QuizDatabase</span> <span class="k">extends</span> <span class="t">RoomDatabase</span> {
+
+<span class="c">    /** Log-Tag für das ganze Modul 335. */</span>
+    <span class="k">private static final</span> <span class="t">String</span> TAG = <span class="s">"Modul335"</span>;
+
+<span class="c">    /** Der Dateiname der Datenbank auf dem Gerät. */</span>
+    <span class="k">private static final</span> <span class="t">String</span> DB_NAME = <span class="s">"quiz.db"</span>;
+
+<span class="c">    /** Die eine Datenbank. Wird beim ersten Zugriff gebaut. */</span>
+    <span class="k">private static</span> <span class="t">QuizDatabase</span> instance;
+}</pre>
+
+<p><b>Und die abstrakte Methode, die das Dao liefert. Als erste Methode in der Klasse:</b></p>
+
+<pre><span class="c">/**
+ * Der Zugriff auf die Tabelle questions.
+ *
+ * Auch diese Methode ist abstract. Room baut sie selbst.
+ *
+ * @return das Dao, über das alle Abfragen laufen
+ */</span>
+<span class="k">public abstract</span> <span class="t">QuestionDao</span> questionDao();</pre>
+
+<div class="info">
+<p><b>Eine abstrakte Klasse, und trotzdem entsteht daraus ein Objekt.</b> Room schreibt beim Bauen eine Klasse dazu und nennt sie <code>QuizDatabase_Impl</code>. Dort stehen die Rümpfe, die bei dir fehlen.</p>
+<p><b>Die drei Angaben in <code>@Database</code>:</b> <code>entities</code> zählt alle Tabellen auf, bei uns eine. <code>version</code> ist die Nummer des Aufbaus, und die zählt man hoch, wenn man später eine Spalte dazunimmt. <code>exportSchema = false</code> heisst nur, dass Room keine Beschreibungsdatei ablegen soll. Ohne die Angabe warnt es beim Bauen.</p>
+</div>
+
+<p><b>Die Methode, über die alle an die Datenbank kommen. Als zweite Methode in der Klasse:</b></p>
+
+<pre><span class="c">/**
+ * Liefert die Datenbank und baut sie beim ersten Aufruf.
+ *
+ * @param context irgendein Context, zum Beispiel eine Activity
+ * @return die eine Datenbank der App
+ */</span>
+<span class="k">public static synchronized</span> <span class="t">QuizDatabase</span> getInstance(<span class="t">Context</span> context) {
+    <span class="k">if</span> (instance == <span class="k">null</span>) {
+        <span class="t">Context</span> appContext = context.getApplicationContext();
+
+        instance = <span class="t">Room</span>.databaseBuilder(appContext, <span class="t">QuizDatabase</span>.<span class="k">class</span>, DB_NAME)
+                .allowMainThreadQueries()
+                .build();
+
+        <span class="c">// build() legt die Datei noch nicht an. Das passiert erst beim
+        // ersten Zugriff, also bei count() gleich hier darunter.</span>
+        <span class="t">Log</span>.d(TAG, <span class="s">"database opened, name="</span> + DB_NAME
+                + <span class="s">", questions="</span> + instance.questionDao().count());
+    }
+    <span class="k">return</span> instance;
+}</pre>
+
+<div class="warn">
+<p><b><code>getApplicationContext()</code> ist Pflicht, und der Grund ist ein echter Fehler, den man sonst macht.</b></p>
+<p>Eine Activity ist ein kurzlebiges Ding. Sie entsteht und verschwindet, unter anderem bei jedem Drehen. Die Datenbank dagegen lebt so lange wie die App.</p>
+<p>Würdest du hier die Activity festhalten, bliebe sie im Speicher, obwohl der Bildschirm längst zu ist. Und weil <code>instance</code> statisch ist, käme sie nie wieder weg. <code>getApplicationContext()</code> liefert dir stattdessen den Context der App selbst, und der lebt sowieso so lange.</p>
+</div>
+
+<div class="info">
+<p><b><code>synchronized</code> steht dort aus einem ähnlichen Grund.</b> Es heisst: nur einer darf gleichzeitig in diese Methode hinein. Ohne das Wort könnten zwei Stellen deiner App gleichzeitig feststellen, dass <code>instance</code> noch <code>null</code> ist, und beide bauen dann eine Datenbank. Danach gäbe es zwei, und die zweite überschreibt still die Arbeit der ersten.</p>
+<p>In deiner App wird das heute nicht passieren, denn du hast nur einen Thread. <b>Aber das Muster heisst so, und es heisst überall so.</b></p>
+</div>
+
+<div class="info">
+<p><b><code>allowMainThreadQueries()</code> ist hier eine bewusste Entscheidung, und du sollst wissen warum.</b></p>
+<p>Room verbietet Abfragen im Haupt-Thread von sich aus. Der Haupt-Thread zeichnet den Bildschirm, und eine langsame Abfrage lässt die App einfrieren. Das ist eine gute Regel.</p>
+<p><b>Die Rechnung für unseren Fall:</b> dreissig Zeilen, die Datei liegt auf dem Gerät, eine Abfrage dauert deutlich unter einer Millisekunde. Der Bildschirm zeichnet alle sechzehn Millisekunden. Das merkt niemand.</p>
+<p><b>Der Preis der sauberen Lösung:</b> jeder einzelne Zugriff bräuchte vier zusätzliche Zeilen, und an jeder Stelle könntest du vergessen, das Ergebnis zurück auf den Haupt-Thread zu holen. Bei acht Zugriffen sind das acht Gelegenheiten für einen Fehler, den du nur manchmal siehst.</p>
+<p><b>Bei einer echten App mit vielen Daten machst du es anders.</b> Für heute gilt: die einfache Lösung, und du kannst sie begründen. Genau das verlangt das Bewertungsraster mit der Zeile <i>"Persistenz-Methoden dokumentiert und begründet"</i>.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du C1.</b></p>
+<ol>
+<li>In der Klassenzeile steht <code>public abstract class</code> und <code>extends RoomDatabase</code>.</li>
+<li><code>questionDao()</code> hat keinen Rumpf und trägt <code>abstract</code>.</li>
+<li><b>Build</b> und dann <b>Make Project</b>. Es läuft ohne Fehler durch. <b>Das dauert länger als sonst</b>, denn jetzt läuft der Annotation Processor zum ersten Mal richtig.</li>
+<li><b>Jetzt der schönste Teil.</b> Drück zweimal <b>Shift</b> und tipp <code>QuizDatabase_Impl</code>. Die Datei gibt es jetzt. Öffne sie und such darin nach <code>CREATE TABLE</code>.</li>
+<li><b>Lies diese Zeile.</b> Dort stehen deine neun Spalten, in SQL, mit Typen. Du hast sie nie geschrieben. Room hat sie aus deiner <code>QuestionEntity</code> abgeleitet. <b>Schliess die Datei danach wieder</b>, sie wird bei jedem Bauen neu erzeugt und darf nie von Hand geändert werden.</li>
+</ol>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">C2</span><b>Öffnen, zählen, hineinschauen.</b> <span class="time">11 Min</span></p>
+
+<p>Deine Datenbank existiert als Code, und niemand hat sie je aufgerufen. Das änderst du mit zwei Zeilen.</p>
+
+<p><b>In <code>MainActivity.onCreate</code>, direkt vor der letzten Zeile mit <code>Log.d(TAG, "MainActivity onCreate")</code>:</b></p>
+
+<pre><span class="c">// Öffnet die Datenbank ein einziges Mal beim Start der App. Die
+// Meldung dazu schreibt QuizDatabase selbst.</span>
+<span class="t">QuizDatabase</span>.getInstance(<span class="k">this</span>);</pre>
+
+<div class="tip">
+<p><b>Der Import fehlt noch.</b> Alt+Enter auf dem roten Namen, dann <code>ch.wiss.m335.quiz.data.QuizDatabase</code>.</p>
+</div>
+
+<div class="note">
+<p><b>Bevor du startest, beantworte diese Frage. Entscheide dich, bevor du hinschaust.</b></p>
+<p>Du hast nirgends ein <code>CREATE TABLE</code> ausgeführt. Du hast keine Datei angelegt. Auf dem Gerät gibt es noch keine Datenbank. <b>Was passiert also gleich beim <code>count()</code>?</b></p>
+<ol>
+<li>Ein Absturz. <code>no such table: questions</code></li>
+<li>Die Zahl <code>0</code></li>
+<li>Die Zahl <code>-1</code>, weil es nichts zu zählen gibt</li>
+</ol>
+<p>Jetzt starte die App und schau im Logcat nach, gefiltert auf <code>tag:Modul335</code>.</p>
+</div>
+
+<div class="info">
+<p><b>Es ist Nummer 2, die Zahl <code>0</code>.</b></p>
+<p><code>Room.databaseBuilder(...).build()</code> hat die Datei noch gar nicht angelegt. Es hat nur alles vorbereitet. <b>Erst dein <code>count()</code> greift wirklich zu</b>, und in diesem Moment stellt Room fest, dass es die Datei <code>quiz.db</code> noch nicht gibt. Also legt es sie an, führt das <code>CREATE TABLE</code> aus, das du eben in <code>QuizDatabase_Impl</code> gelesen hast, und zählt dann. In einer frisch angelegten Tabelle stehen null Zeilen.</p>
+<p><b>Der Merksatz:</b> deine Tabelle entsteht beim ersten Zugriff, nicht beim Bauen und nicht beim Öffnen. Und sie entsteht aus deiner Entity, nicht aus SQL, das du geschrieben hast.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du C2, und das ist zugleich die Prüfung des ganzen Auftrags.</b></p>
+<ol>
+<li>Die App startet und sieht aus wie vorher. <b>Kein neuer Knopf, kein neuer Bildschirm.</b></li>
+<li>Im Logcat, gefiltert auf <code>tag:Modul335</code>, steht <code>database opened, name=quiz.db, questions=0</code>.</li>
+<li>Darunter steht wie immer <code>MainActivity onCreate</code>.</li>
+<li>Geh in die Rangliste und wieder zurück. <b>Die Zeile <code>database opened</code> kommt kein zweites Mal.</b> Das ist das <code>if (instance == null)</code>.</li>
+<li>Beende die App und starte sie neu. Jetzt kommt sie wieder, und es steht wieder <code>questions=0</code>.</li>
+<li>Spiel eine Runde. Alles läuft wie vorher.</li>
+<li><b>Mach den Screenshot des Logcat.</b> Das ist deine Abgabe.</li>
+</ol>
+</div>
+
+<div class="tip">
+<p><b>Punkt 4 ist der, den man übersieht.</b> Er belegt, dass es wirklich nur eine Datenbank gibt. Wenn bei dir die Zeile mehrmals kommt, steht dein <code>Log.d</code> ausserhalb des <code>if</code>.</p>
+</div>
+
+<p><b>Und jetzt schaust du dir an, was du gebaut hast.</b> Bisher hast du dafür nur eine Null im Logcat. Deine Tabelle gibt es aber wirklich, und Android Studio kann sie dir zeigen.</p>
+
+<p><b>Die App muss dabei laufen.</b> Öffne den <b>Database Inspector</b>. Im Menü steht er unter <b>View</b>, dann <b>Tool Windows</b>, dann <b>App Inspection</b>. Findest du ihn dort nicht, drück zweimal <b>Shift</b> und tipp <code>Database Inspector</code>.</p>
+
+<p>Klick dich durch: dein Gerät, dann <code>quiz.db</code>, dann die Tabelle <code>questions</code>. Doppelklick darauf.</p>
+
+<div class="info">
+<p><b>Schau dir drei Dinge an, bevor du das Fenster wieder zumachst.</b></p>
+<ol>
+<li><b>Die Tabelle heisst <code>questions</code>.</b> Nicht <code>QuestionEntity</code>. Das ist dein <code>tableName</code>.</li>
+<li><b>Es sind neun Spalten</b>, und sie stehen in derselben Reihenfolge wie deine Felder.</li>
+<li><b>Eine Spalte heisst <code>correct_answer</code>, mit Unterstrich.</b> Dein Feld heisst <code>correctAnswer</code>. Das ist die einzige Stelle, an der du diesen Unterschied je zu Gesicht bekommst. Genau darum war die Zeile <code>@ColumnInfo</code> in A2 die, deren Fehlen nichts kaputt macht.</li>
+</ol>
+<p>Darunter steht keine einzige Zeile. <b>Das ist der Zustand, in dem 07C endet.</b></p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du den Rundgang.</b></p>
+<ol>
+<li>Die Tabelle <code>questions</code> ist da und leer.</li>
+<li>Du kannst die neun Spaltennamen vorlesen und in deiner <code>QuestionEntity</code> wiederfinden.</li>
+<li><b>Mach den zweiten Screenshot.</b> Sichtbar sein müssen der Tabellenname und die Spalten.</li>
+</ol>
+</div>
+
+<div class="warn">
+<p><b>Findest du den Database Inspector nicht, ist der Auftrag trotzdem erfüllt.</b> Er wandert in Android Studio von Version zu Version. Gib dann nur den Logcat-Screenshot ab und melde dich, dann schauen wir gemeinsam nach.</p>
+</div>
+</div>
+
+<div class="step">
+<p><span class="n">C3</span><b>Javadoc und Kommentare nachziehen.</b> <span class="time">5 Min</span></p>
+
+<p>Auf dem Prüfungsblatt der Leistungsbeurteilung steht: <i>"Alle selbst erstellten Klassen und Methoden sind Javadoc-kompatibel zu dokumentieren."</i> Das ist eine Zeile im Bewertungsraster, und sie ist die am leichtesten verdiente.</p>
+
+<p><b>Geh die drei neuen Klassen durch:</b></p>
+
+<table>
+<tr><th>Klasse</th><th>Was ein Kommentar braucht</th></tr>
+<tr><td><code>QuestionEntity</code></td><td>Der Klassenkommentar, neun Felder, neun Setter, die Getter, <code>getAnswers</code> und <code>isCorrect</code></td></tr>
+<tr><td><code>QuestionDao</code></td><td>Der Klassenkommentar und alle sechs Methoden</td></tr>
+<tr><td><code>QuizDatabase</code></td><td>Der Klassenkommentar, drei Felder, <code>questionDao()</code> und <code>getInstance</code></td></tr>
+</table>
+
+<p><b>Und dann eine Suche im ganzen Projekt.</b> Ein Kommentar veraltet still, und niemand meldet ihn.</p>
+
+<table>
+<tr><th>Such nach</th><th>Wo es steht</th><th>Was jetzt gilt</th></tr>
+<tr><td><code>Stufe 7</code></td><td>Klassenkommentar von <code>QuestionBank</code>. Dort steht <i>"Genau darum kommt in Stufe 7 eine Datenbank dazu."</i></td><td>Sie ist da. Schreib den Satz um</td></tr>
+<tr><td><code>Datenbank</code></td><td>Klassenkommentar der <code>MainActivity</code></td><td>Diese Klasse öffnet ab heute die Datenbank beim Start. Das gehört in den Kommentar</td></tr>
+</table>
+
+<div class="warn">
+<p><b>Der Klassenkommentar von <code>QuestionBank</code> darf noch nicht sagen, die Fragen lägen in der Datenbank.</b> Sie liegen dort noch nicht. Die Tabelle ist leer, und das Spiel holt seine Fragen weiterhin von hier. Schreib hin, was stimmt: es gibt jetzt eine Datenbank, und der Umzug beginnt am Nachmittag.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du C3.</b></p>
+<ol>
+<li>Keine neue Klasse, kein neues Feld und keine neue Methode ist ohne Kommentar.</li>
+<li>Lies den Klassenkommentar von <code>QuizDatabase</code> so, als hättest du den Code nie gesehen. Steht dort, warum es die Klasse nur einmal gibt?</li>
+<li>Die Suche nach <code>Stufe 7</code> liefert keinen Treffer mehr, der falsch ist.</li>
+</ol>
+</div>
+</div>
+
+<h3>Das machst du daheim <span class="time">etwa 20 Minuten</span></h3>
+
+<p>Der Block ist voll. Diese vier Sachen laufen darum als Hausaufgabe. Alle vier sind Versuche, bei denen du etwas kaputt machst und wieder zurückstellst. <b>Notier dir vorher, was du erwartest.</b></p>
+
+<div class="ue">
+<div class="t">Übung 1a, ein Tippfehler im SQL <span class="time">4 Min</span></div>
+<p>Ändere in <code>QuestionDao</code> im <code>@Query</code> von <code>getAll</code> das Wort <code>questions</code> auf <code>question</code>, also ohne s. Dann <b>Build</b> und <b>Make Project</b>. Stell es danach wieder zurück.</p>
+<p><b>So prüfst du:</b> Schreib auf, <b>wann</b> du den Fehler bekommen hast und was genau dort stand. Und schreib dazu, wann du ihn bekommen hättest, wenn das SQL erst beim Start geprüft würde.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 1b, die harmlose Zeile wegnehmen <span class="time">6 Min</span></div>
+<p>Nimm bei <code>correctAnswer</code> die Zeile <code>@ColumnInfo(name = "correct_answer")</code> weg. Bau das Projekt neu, öffne <code>QuizDatabase_Impl</code> und such das <code>CREATE TABLE</code>. Stell es danach wieder zurück.</p>
+<p><b>So prüfst du:</b> Wie heisst die Spalte jetzt? Schreib in einem Satz auf, warum dieser Fehler keiner ist, den ein Werkzeug meldet, und wann er trotzdem teuer wird.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 2, die Bremse wieder einbauen <span class="time">5 Min</span></div>
+<p>Nimm in <code>getInstance</code> das <code>.allowMainThreadQueries()</code> weg. Starte die App. Stell es danach wieder zurück.</p>
+<p><b>So prüfst du:</b> Die App stürzt beim Start ab. Such im Logcat die Zeile mit <code>IllegalStateException</code> und lies den ganzen Satz. Schreib auf, was Room dir damit sagen will, und warum wir es trotzdem erlaubt haben.</p>
+</div>
+
+<div class="ue">
+<div class="t">Übung 3, erklären <span class="time">5 Min</span></div>
+<p>Erklär einem Lerngspänli in zwei Sätzen, warum <code>QuestionDao</code> ein Interface ohne Rümpfe ist und trotzdem funktioniert.</p>
+<p><b>So prüfst du:</b> Wenn dein Gegenüber danach nicht sagen kann, <b>wann</b> der fehlende Code entsteht, war es zu allgemein.</p>
+</div>
+
+<h3>Zusatzaufgabe für Schnelle</h3>
+
+<div class="ue">
+<div class="t">Zwei Abfragen, die der Compiler für dich prüft</div>
+<p>Zuerst die Pflichtaufgabe fertig und lauffähig. Dann erst hier weiter.</p>
+<p><b>Auftrag:</b> Schreib zwei weitere Methoden ins <code>QuestionDao</code>, beide mit <code>@Query</code> und beide mit Javadoc.</p>
+<ul>
+<li><code>countByCategory(String category)</code> zählt die Fragen einer Kategorie.</li>
+<li><code>getRandom(int limit)</code> liefert eine zufällige Auswahl. Der SQL-Baustein dafür heisst <code>ORDER BY RANDOM() LIMIT :limit</code>.</li>
+</ul>
+<p><b>Ausprobieren kannst du sie heute nicht</b>, denn deine Tabelle ist leer. Beide würden 0 und eine leere Liste liefern. <b>Das ist kein Problem, und es ist der eigentliche Punkt der Aufgabe.</b></p>
+<p><b>So prüfst du:</b> <b>Make Project</b>. Läuft es durch, ist dein SQL richtig. Läuft es nicht durch, sagt dir Room genau, was daran nicht stimmt. Du hast also eine Rückmeldung zu deiner Abfrage, ohne einen einzigen Datensatz zu haben.</p>
+<p><b>Und dann der Gegenversuch:</b> schreib in einer der beiden absichtlich <code>categorie</code> statt <code>category</code> und bau nochmals. Lies die Meldung. Stell es danach zurück.</p>
+<p>Keine Musterlösung. KI darfst du benutzen, aber du musst deine Abfrage erklären können.</p>
+</div>
+
+<h3>Wenn etwas nicht funktioniert</h3>
+
+<table>
+<tr><th>Symptom</th><th>Wahrscheinliche Ursache</th><th>Was du machst</th></tr>
+<tr><td>Sync schlägt fehl, <code>Could not find androidx.room:room-runtime</code></td><td>Im Katalog fehlt der Eintrag, oder er heisst anders als in der Bestellung</td><td>Beide Dateien vergleichen. Aus <code>room-runtime</code> im Katalog wird <code>libs.room.runtime</code> im Skript. Siehe A1</td></tr>
+<tr><td>Sync schlägt fehl, <code>Cannot resolve external dependency</code></td><td>Kein Netz, oder die Versionsnummer gibt es nicht</td><td>Netz prüfen, danach die Versionsnummer. Siehe A1</td></tr>
+<tr><td><b>Beim Bauen: <code>Cannot find implementation for QuizDatabase. QuizDatabase_Impl does not exist</code></b></td><td>Die Zeile <code>annotationProcessor</code> fehlt, oder dort steht <code>implementation</code></td><td>Es braucht <b>beide</b> Zeilen, und die zweite muss <code>annotationProcessor</code> heissen. Siehe A1</td></tr>
+<tr><td>Beim Bauen: <code>Entities and Pojos must have a usable public constructor</code></td><td>Der Konstruktor mit fünf Werten steht noch in <code>QuestionEntity</code></td><td>Löschen. Room braucht einen leeren Konstruktor, und den bekommst du automatisch, sobald kein anderer dasteht. Siehe A2</td></tr>
+<tr><td>Beim Bauen: <code>Cannot figure out how to save this field into database</code></td><td>Ein Feld ist noch ein <code>String[]</code></td><td>Vier einzelne Felder <code>answer1</code> bis <code>answer4</code>. Siehe A2</td></tr>
+<tr><td>Beim Bauen: <code>no such table: questions</code></td><td><code>tableName</code> in <code>@Entity</code> und die Tabelle im <code>@Query</code> sind nicht gleich geschrieben</td><td>Beide auf <code>questions</code> setzen. Genau das übst du in Übung 1a</td></tr>
+<tr><td>Beim Bauen: <code>... is not annotated with @Entity</code></td><td>In <code>@Database</code> fehlt <code>QuestionEntity.class</code> in der Liste <code>entities</code></td><td>Ergänzen. Siehe C1</td></tr>
+<tr><td>Beim Bauen: <code>Not sure how to convert a Cursor to this method's return type</code></td><td>Der Rückgabetyp passt nicht zur Abfrage, zum Beispiel <code>QuestionEntity</code> bei <code>SELECT COUNT(*)</code></td><td>Abfrage und Rückgabetyp nebeneinander lesen. Siehe B1</td></tr>
+<tr><td>Beim Bauen: <code>Unused parameter: id</code> oder <code>Cannot find parameter</code></td><td>Der Name nach dem Doppelpunkt passt nicht zum Parameter</td><td><code>:id</code> und <code>int id</code> müssen gleich heissen. Siehe B2</td></tr>
+<tr><td>Beim Bauen: eine Warnung über <code>exportSchema</code></td><td><code>exportSchema = false</code> fehlt in <code>@Database</code></td><td>Ergänzen. Es ist nur eine Warnung, aber sie kommt bei jedem Bauen. Siehe C1</td></tr>
+<tr><td><b>Absturz beim Start: <code>IllegalStateException</code>, <code>Cannot access database on the main thread</code></b></td><td><code>allowMainThreadQueries()</code> fehlt im <code>databaseBuilder</code></td><td>Ergänzen. Genau das probierst du in Übung 2 absichtlich aus. Siehe C1</td></tr>
+<tr><td>Absturz beim Start: <code>NullPointerException</code> in <code>getInstance</code></td><td>Das <code>Log.d</code> mit <code>instance.questionDao()</code> steht vor dem <code>build()</code></td><td>Reihenfolge prüfen. Erst bauen, dann zugreifen. Siehe C1</td></tr>
+<tr><td><b>Im Logcat steht gar nichts</b></td><td>Der Aufruf <code>QuizDatabase.getInstance(this)</code> fehlt in <code>MainActivity.onCreate</code></td><td>Ergänzen. <b>Dieser Fehler meldet sich nirgends</b>, denn eine Methode, die niemand aufruft, beschwert sich nicht. Siehe C2</td></tr>
+<tr><td>Die Zeile <code>database opened</code> kommt bei jedem Bildschirmwechsel</td><td>Das <code>Log.d</code> steht ausserhalb des <code>if (instance == null)</code></td><td>Hineinschieben. Siehe C1</td></tr>
+<tr><td>Nach A1 und nach A2 sieht die App gleich aus wie vorher</td><td><b>Kein Fehler</b></td><td>Nichts tun. Sichtbar wird heute überhaupt nichts</td></tr>
+<tr><td>Fünf der sechs Dao-Methoden sind grau</td><td><b>Kein Fehler</b></td><td>Nichts tun. Sie werden am Nachmittag und morgen gebraucht. Siehe B2</td></tr>
+<tr><td>Im Logcat steht <code>questions=0</code></td><td><b>Kein Fehler</b></td><td>Nichts tun. Genau das ist die Abgabe</td></tr>
+</table>
+
+<h3>Abgabe</h3>
+<ul>
+<li><b>Ein Screenshot deines Logcat</b>, gefiltert auf <code>tag:Modul335</code>, mit der Zeile <code>database opened, name=quiz.db, questions=0</code>.</li>
+<li><b>Ein Screenshot deiner Tabelle im Database Inspector.</b> Sichtbar sein müssen der Name <code>questions</code> und die neun Spalten. Findest du den Inspector nicht, lass ihn weg und melde dich.</li>
+<li>Der <b>Wissenscheck</b> des Halbtags. Er deckt 07A, 07B und 07C zusammen ab.</li>
+</ul>
+<p>Kein ZIP, keine einzelnen Dateien. Deinen Code prüfst du selbst an der Vergleichsliste im Lösungsmaterial.</p>
+
+<h2>03 Guide</h2>
+
+<table>
+<tr><th>Punkt</th><th>Angabe</th></tr>
+<tr><td>Sozialform</td><td>Einzelarbeit</td></tr>
+<tr><td>Aufgabenart</td><td>Code-Auftrag. Kein Arbeitsblatt, das Produkt entsteht in der IDE</td></tr>
+<tr><td>Zeitbudget</td><td>90 Minuten. Einstieg 3, Teil A 26, Überblick 3, Teil B 26, Teil C 27, Nachziehen 5. <b>Die Übungen laufen daheim</b>, etwa 20 Minuten</td></tr>
+<tr><td>Hilfsmittel</td><td>Dein Code, die Nachschlageblätter, deine eigene <code>Question</code>, dein Datenmodell aus 06A. KI erlaubt, du musst jede Zeile erklären können</td></tr>
+<tr><td>Abgabe</td><td>Zwei Screenshots in Google Classroom, Logcat und Database Inspector</td></tr>
+</table>
+
+<h3>Die Beiträge in Google Classroom</h3>
+<ul>
+<li><b>07C Auftrag, Room, Entity und Dao.</b> Aufgabe, dieses Dokument. Hier gibst du den Screenshot ab.</li>
+<li><b>07C Loesung, Room, Entity und Dao.</b> Material. Erst öffnen, wenn du fertig bist.</li>
+<li><b>Wissenscheck 07ABC.</b> Unbenotet, beliebig wiederholbar, kein Fälligkeitsdatum.</li>
+</ul>
+
+<h2>04 Unterrichtsmittel</h2>
+<ul>
+<li><b>Deine eigene <code>model/Question.java</code></b>, als Vorlage für A2. Ohne sie ist A2 nur Abtippen.</li>
+<li><b>Dein Datenmodell aus 06A</b>, auf Papier. Es ist die Vorlage für die Felder.</li>
+<li><b>Der Fragenbestand</b>, das Nachschlageblatt zu den dreissig Fragen.</li>
+<li><b>Die Activity von innen</b>, für die Frage, warum <code>getInstance</code> in <code>onCreate</code> steht.</li>
+<li><b>Emulator streikt</b>, falls das Gerät nicht startet.</li>
+</ul>
+
+<p class="foot">Modul 335 | Tag 4 Vormittag | Auftrag 07C | Version 2 | 20.08.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->
