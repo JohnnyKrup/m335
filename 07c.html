@@ -53,7 +53,7 @@
 <h3>Das gibst du ab</h3>
 <ul>
 <li>Einen Screenshot deines <b>Logcat</b>, gefiltert auf <code>tag:Modul335</code>, mit der Zeile <code>database opened, name=quiz.db, questions=0</code>.</li>
-<li>Einen Screenshot deiner <b>Tabelle im Database Inspector</b>. Sie ist leer, und die neun Spalten sind zu sehen.</li>
+<li>Einen Screenshot deiner <b>Tabelle im Database Inspector</b>, aufgeklappt. Zu sehen sind die neun Spalten mit ihren Typen.</li>
 <li>Den <b>Wissenscheck</b> des Halbtags. Er deckt 07A, 07B und 07C zusammen ab.</li>
 </ul>
 
@@ -106,7 +106,7 @@
 </table>
 
 <div class="tip">
-<p><b>Diese vier heissen zusammen CRUD.</b> Create, Read, Update, Delete. Du kennst sie aus 294, du brauchst sie heute, und du brauchst sie in der Prüfung. Es sind immer dieselben vier, egal ob die Daten auf einem Server liegen oder auf dem Gerät.</p>
+<p><b>Diese vier heissen zusammen CRUD.</b> Create, Read, Update, Delete. In 294 sind sie dir als HTTP-Methoden begegnet, heute begegnen sie dir als Annotationen. Es sind immer dieselben vier, egal ob die Daten auf einem Server liegen oder auf dem Gerät. Und du brauchst sie in der Prüfung.</p>
 <p><b>Der Unterschied, auf den es ankommt:</b> in 294 lief der Server auf einem anderen Rechner, und du musstest damit rechnen, dass er antwortet oder eben nicht. Room läuft auf demselben Gerät wie deine App. Es gibt keine Verbindung, die abreissen kann.</p>
 </div>
 
@@ -125,7 +125,7 @@
 <tr><td class="pre">Room.databaseBuilder(...)</td><td><b>Neu.</b> Baut die Datenbank oder öffnet die vorhandene</td></tr>
 <tr><td class="pre">allowMainThreadQueries()</td><td><b>Neu.</b> Erlaubt Abfragen im Haupt-Thread. Für uns richtig, mit Begründung in C1</td></tr>
 <tr><td class="pre">synchronized</td><td><b>Neu in diesem Zusammenhang.</b> Nur einer darf gleichzeitig hinein</td></tr>
-<tr><td class="pre">SELECT, COUNT(*), ORDER BY, WHERE</td><td><b>Kennst du aus 294 und 223.</b> Dasselbe SQL, nur an einem anderen Ort</td></tr>
+<tr><td class="pre">SELECT, COUNT(*), ORDER BY, WHERE</td><td><b>Kennst du aus 295.</b> Dasselbe SQL, nur an einem anderen Ort</td></tr>
 <tr><td class="pre">Log.d</td><td><b>Kennst du seit 01B.</b> Heute ist es dein einziger Beleg</td></tr>
 </table>
 
@@ -194,7 +194,7 @@
 <tr><td><code>app/build.gradle.kts</code></td><td>Die <b>Bestellung</b>. Hier steht, welche davon dieses Modul wirklich benutzt</td></tr>
 </table>
 
-<p>Beide findest du im Projektbaum unter <b>Gradle Scripts</b>. Du musst die Ansicht nicht umstellen.</p>
+<p>Beide findest du im Projektbaum unter <b>Gradle Scripts</b>. Du musst die Ansicht nicht umstellen. <b>Achtung, dort stehen zwei Dateien mit genau demselben Namen.</b> Welche davon du brauchst, steht gleich unten.</p>
 
 <p><b>Zuerst der Katalog. Ganz unten im Abschnitt <code>[versions]</code>:</b></p>
 
@@ -209,6 +209,17 @@ room-compiler = { group = <span class="s">"androidx.room"</span>, name = <span c
 <p><b>Eine gelbe Wellenlinie unter der Versionsnummer ist kein Fehler.</b> Sie ist ein Vorschlag. Android Studio kennt vielleicht eine neuere Version und bietet sie an. Steh mit dem Cursor darauf und drück <b>Alt+Shift+Enter</b>, dann übernimmt es die neuere. Notier dir kurz, welche es geworden ist.</p>
 <p><b>Rot ist etwas anderes.</b> Rot heisst, es geht so nicht. Gelb heisst, es geht, aber es ginge besser. Diesen Unterschied wirst du in Android Studio ständig sehen, und er ist der Grund, warum man nicht jede Wellenlinie wegklicken muss.</p>
 <p>Siehst du gar keine Wellenlinie, ist auch das in Ordnung. Dann ist die Version schon die aktuelle.</p>
+</div>
+
+<div class="warn">
+<p><b>Es gibt zwei Dateien mit dem Namen <code>build.gradle.kts</code>, und sie stehen direkt untereinander.</b> Der ganze Unterschied steht in der Klammer dahinter.</p>
+<table>
+<tr><th>Was in der Klammer steht</th><th>Wofür die Datei da ist</th><th>Heute</th></tr>
+<tr><td><code>(Project: WissQuiz)</code></td><td>Gilt für das ganze Projekt. Sie ist vier Zeilen lang und enthält nur einen <code>plugins</code>-Block mit <code>apply false</code></td><td><b>nicht anfassen</b></td></tr>
+<tr><td><code>(Module :app)</code></td><td>Gilt nur für das App-Modul. Sie enthält <code>android { ... }</code> und <code>dependencies { ... }</code></td><td><b>hier trägst du ein</b></td></tr>
+</table>
+<p><b>So erkennst du die richtige auch ohne die Klammer:</b> sie ist die längere, und in ihr steht ein Block <code>dependencies</code>. Findest du diesen Block nicht, hast du die falsche offen.</p>
+<p><b>Und der Grund für die Zweiteilung:</b> ein Projekt kann mehrere Module haben. Die obere Datei sagt, was für alle gilt, die untere, was nur für dieses eine Modul gilt. Unser Projekt hat genau ein Modul, und es heisst <code>app</code>.</p>
 </div>
 
 <p><b>Dann die Bestellung. In <code>app/build.gradle.kts</code>, im Block <code>dependencies</code>, zu den anderen Zeilen dazu:</b></p>
@@ -322,6 +333,23 @@ annotationProcessor(libs.room.compiler)</pre>
 <p><b>Und es ist ohnehin die ehrlichere Lösung.</b> Vier Antworten sind vier Angaben. In einer Tabelle sieht man sie dann auch als vier, und du könntest später nach einer einzelnen davon suchen.</p>
 </div>
 
+<div class="info">
+<p><b>Warum die <code>id</code> ein <code>int</code> ist und kein <code>long</code>.</b></p>
+<p>Aus Spring Boot kennst du <code>Long</code> als Typ für eine id. Dort ist das die Regel, und der Griff sitzt schnell. <b>Bei uns ist es ein <code>int</code></b>, und der Grund ist die Menge: dreissig Fragen, und selbst wenn eine Klasse jahrelang welche dazulegt, bleibt es weit unter zwei Milliarden.</p>
+<p><b>Wichtig ist nur, dass du es überall gleich machst.</b> Feld, Getter und Setter tragen denselben Typ. Ein <code>long getId()</code> über einem <code>private int id</code> sieht harmlos aus, und Room findet den Getter dann nicht mehr.</p>
+</div>
+
+<div class="info">
+<p><b>Und wo <code>@NonNull</code> hingehört.</b> An drei Stellen könnte es stehen, und nur an zweien gehört es hin.</p>
+<table>
+<tr><th>Wo</th><th>Steht es dort</th><th>Warum</th></tr>
+<tr><td>Am <b>Feld</b></td><td><b>ja</b></td><td>Room macht daraus in der Tabelle ein <code>NOT NULL</code>. Ohne die Zeile darf die Spalte leer bleiben, und dann kann eine Frage ohne Text in der Datenbank stehen</td></tr>
+<tr><td>Am <b>Parameter des Setters</b></td><td><b>ja</b></td><td>Es warnt dich, wenn du <code>null</code> übergibst. <b>Alt+Insert schreibt es von selbst hin</b>, weil es beim Feld nachschaut</td></tr>
+<tr><td>Am <b>Getter</b></td><td>nein</td><td>Room liest das Feld und nicht den Getter. Und Alt+Insert schreibt dort auch keines hin</td></tr>
+</table>
+<p><b>Der Merksatz:</b> die Annotation gehört an die Stelle, an der ein <code>null</code> hereinkommen könnte. Beim Getter kommt nichts herein, dort geht nur etwas heraus.</p>
+</div>
+
 <p><b>Der Konstruktor fliegt raus.</b> Markier ihn ganz und lösch ihn. Room baut die Objekte selbst, wenn es eine Zeile aus der Tabelle liest, und dafür braucht es einen leeren Konstruktor. Den bekommst du von Java geschenkt, sobald kein anderer mehr dasteht.</p>
 
 <p><b>Die Methode <code>getAnswers</code> bleibt, aber sie baut das Array jetzt selbst zusammen:</b></p>
@@ -336,7 +364,13 @@ annotationProcessor(libs.room.compiler)</pre>
 
 <p><b>Zum Schluss die Setter.</b> Die tippst du nicht. Klick irgendwo in die Klasse und drück <b>Alt+Insert</b>, dann <b>Getter and Setter</b>. Im Menü heisst der Weg <b>Code</b> und dann <b>Generate</b>. Wähl alle neun Felder aus.</p>
 
-<p>Getter, die du danach doppelt hast, löschst du. <code>getText</code> gab es zum Beispiel schon.</p>
+<p>Fünf Getter gab es schon, sie kamen mit der Kopie mit. <code>getAnswer1</code> bis <code>getAnswer4</code> und <code>getId</code> fehlen noch, und genau die brauchst du gleich.</p>
+
+<div class="warn">
+<p><b>Room prüft die Getter, und es prüft sie streng. Zwei Fehler kosten hier am meisten Zeit.</b></p>
+<p><b>Ein Feld ohne Getter.</b> Room liest die Zeilen aus der Tabelle und muss sie ins Objekt bekommen, und es liest sie auch wieder heraus. Fehlt zu einem Feld der Getter, bricht der Bau ab.</p>
+<p><b>Ein Getter mit dem falschen Rückgabetyp.</b> <code>id</code> ist ein <code>int</code>, also muss <code>getId()</code> einen <code>int</code> liefern. Ein <code>long</code> sieht ähnlich aus und passt für Room nicht. Beide Fälle melden sich mit derselben Zeile: <code>Cannot find getter for property</code>.</p>
+</div>
 
 <div class="warn">
 <p><b>Die erzeugten Setter haben kein Javadoc, und das Prüfungsblatt verlangt eines.</b> Eine Zeile pro Setter genügt, im Stil von <code>/** @param text der Fragetext */</code>. Mach es jetzt und nicht später. Zu neun Feldern nachträglich achtzehn Kommentare zu schreiben, dauert dreimal so lang wie jetzt.</p>
@@ -348,7 +382,9 @@ annotationProcessor(libs.room.compiler)</pre>
 <li>Die Datei liegt unter <code>data</code>, nicht unter <code>model</code>.</li>
 <li>Der Editor ist nicht rot. Fehlt ein Import, hol ihn mit <b>Alt+Enter</b>.</li>
 <li>Es gibt <b>keinen</b> Konstruktor mit Werten mehr.</li>
-<li>Es gibt genau neun Felder, zu jedem einen Setter, und zu jedem ein Javadoc.</li>
+<li><b>Zähl nach: neun Felder, neun Getter, neun Setter.</b> Die Getter gehen am leichtesten vergessen, weil fünf davon schon dastanden.</li>
+<li><b>Vergleich bei jedem Getter den Rückgabetyp mit dem Feld darüber.</b> <code>int id</code> gehört zu <code>int getId()</code>, alle anderen sind <code>String</code>.</li>
+<li>Zu jedem Getter und jedem Setter ein Javadoc.</li>
 <li><b>Schau auf die Zeile <code>@ColumnInfo(name = "correct_answer")</code>.</b> Der Name hat einen Unterstrich, das Feld nicht. Das ist Absicht. Und diese Zeile ist die einzige der sechs Änderungen, deren Fehlen <b>nichts kaputt macht</b>. Room würde die Spalte einfach anders nennen, und du merkst es erst viel später.</li>
 <li><b>Lies deinen Klassenkommentar.</b> Steht dort noch der Text von <code>Question</code>? Dann stimmt er seit dem Kopieren nicht mehr. Schreib ihn jetzt neu, und schreib hinein, was diese Klasse von <code>Question</code> unterscheidet.</li>
 </ol>
@@ -427,8 +463,8 @@ QuizDatabase     Wo liegen die Tabellen?            Teil C</span></pre>
 <pre><span class="c">/**
  * Zählt alle Fragen.
  *
- * Beantwortet die Frage, ob überhaupt etwas in der Tabelle steht. Beim
- * Start entscheidet sich daran, ob der Startbestand geladen werden muss.
+ * Die einzige Methode, die in 07C schon läuft. Sie beantwortet die Frage,
+ * ob überhaupt etwas in der Tabelle steht.
  *
  * @return Anzahl Fragen in der Tabelle
  */</span>
@@ -442,7 +478,13 @@ QuizDatabase     Wo liegen die Tabellen?            Teil C</span></pre>
 </div>
 
 <div class="tip">
-<p><b>Das SQL selbst kennst du.</b> <code>SELECT</code>, <code>COUNT(*)</code> und <code>ORDER BY</code> hattest du in 294 und in 223. Neu ist nur der Ort, an dem es steht.</p>
+<p><b>Das SQL selbst kennst du.</b> <code>SELECT</code>, <code>COUNT(*)</code> und <code>ORDER BY</code> hattest du in 295. Neu ist nur der Ort, an dem es steht.</p>
+</div>
+
+<div class="tip">
+<p><b>Bauen ohne Starten geht mit <code>Ctrl+F9</code>.</b> Android Studio übersetzt dann dein Projekt, ohne die App auf den Emulator zu schieben. Genau das brauchst du heute oft, denn es gibt lange nichts zu sehen.</p>
+<p><b>Im Menü <code>Build</code> ist es der oberste Eintrag.</b> Wie er dort heisst, hat zwischen den Android-Studio-Versionen mehrmals gewechselt, von <i>Make Project</i> über <i>Assemble Project</i> bis <i>Assemble 'app' Run Configuration</i>. <b>Die Tastenkombination hat sich nie geändert</b>, und sie steht im Menü gleich daneben.</p>
+<p>Wenn im Blatt steht, du sollst bauen, ist immer <code>Ctrl+F9</code> gemeint.</p>
 </div>
 
 <div class="chk">
@@ -451,7 +493,7 @@ QuizDatabase     Wo liegen die Tabellen?            Teil C</span></pre>
 <li>In der Klassenzeile steht <code>public interface</code> und nicht <code>public class</code>.</li>
 <li>Keine der drei Methoden hat geschweifte Klammern.</li>
 <li>Der Import für <code>List</code> ist da. Alt+Enter, dann <code>java.util.List</code>.</li>
-<li><b>Build</b> und dann <b>Make Project</b>, oder <b>Ctrl+F9</b>. Es läuft ohne Fehler durch.</li>
+<li><b>Ctrl+F9</b>. Es läuft ohne Fehler durch.</li>
 <li><b>Erzeugt wurde noch nichts.</b> Room weiss noch nicht, zu welcher Datenbank dein Dao gehört. Das sagst du ihm in Teil C.</li>
 </ol>
 </div>
@@ -513,7 +555,7 @@ QuizDatabase     Wo liegen die Tabellen?            Teil C</span></pre>
 <li>Es sind genau sechs Methoden.</li>
 <li>Drei tragen <code>@Insert</code>, <code>@Update</code> oder <code>@Delete</code> und haben kein SQL. Drei tragen <code>@Query</code> und haben welches.</li>
 <li>Jede hat ein Javadoc mit <code>@param</code> und, wo es einen Rückgabewert gibt, mit <code>@return</code>.</li>
-<li><b>Make Project</b> läuft durch.</li>
+<li><b>Ctrl+F9</b> läuft durch.</li>
 <li>Android Studio malt vielleicht fünf der sechs Methoden grau und sagt, sie würden nicht benutzt. <b>Richtig so.</b> Ab heute Nachmittag stimmt das nicht mehr.</li>
 </ol>
 </div>
@@ -600,12 +642,23 @@ QuizDatabase     Wo liegen die Tabellen?            Teil C</span></pre>
 <p><b>Bei einer echten App mit vielen Daten machst du es anders.</b> Für heute gilt: die einfache Lösung, und du kannst sie begründen. Genau das verlangt das Bewertungsraster mit der Zeile <i>"Persistenz-Methoden dokumentiert und begründet"</i>.</p>
 </div>
 
+<div class="warn">
+<p><b>Im Logcat stehen rote Zeilen, die dich nichts angehen. Erschrick nicht.</b></p>
+<p>Der Emulator ist ein ganzes Android-System, und dieses System schreibt auch ins Logcat. Es meldet zum Beispiel, dass es keine Bluetooth-Hardware findet, denn ein Emulator hat keine. Das sieht dann so aus:</p>
+<pre><span class="c">Caused by: java.lang.RuntimeException: error: 11
+    at com.android.server.power.stats.BluetoothPowerStatsCollector...
+    at android.bluetooth.BluetoothAdapter...
+    at android.os.Binder.execTransact(Binder.java:1418)</span></pre>
+<p><b>So erkennst du, wem ein Stacktrace gehört.</b> Lies die erste Zeile, die mit <code>at</code> beginnt. Steht dort <code>ch.wiss.m335.quiz</code>, ist es deiner. Steht dort <code>com.android.server</code> oder <code>android.bluetooth</code>, gehört er dem System und du kannst ihn ignorieren.</p>
+<p><b>Genau darum filterst du.</b> Mit <code>tag:Modul335</code> siehst du nur die Zeilen, die du selbst geschrieben hast. Das ist der Grund, warum es diesen Tag seit 01B gibt, und heute ist er wichtiger als sonst. In diesem Block schaust du länger ins Logcat als in jedem anderen, weil es auf dem Bildschirm nichts zu sehen gibt.</p>
+</div>
+
 <div class="chk">
 <p><b>So prüfst du C1.</b></p>
 <ol>
 <li>In der Klassenzeile steht <code>public abstract class</code> und <code>extends RoomDatabase</code>.</li>
 <li><code>questionDao()</code> hat keinen Rumpf und trägt <code>abstract</code>.</li>
-<li><b>Build</b> und dann <b>Make Project</b>. Es läuft ohne Fehler durch. <b>Das dauert länger als sonst</b>, denn jetzt läuft der Annotation Processor zum ersten Mal richtig.</li>
+<li><b>Ctrl+F9</b>. Es läuft ohne Fehler durch. <b>Das dauert länger als sonst</b>, denn jetzt läuft der Annotation Processor zum ersten Mal richtig.</li>
 <li><b>Jetzt der schönste Teil.</b> Drück zweimal <b>Shift</b> und tipp <code>QuizDatabase_Impl</code>. Die Datei gibt es jetzt. Öffne sie und such darin nach <code>CREATE TABLE</code>.</li>
 <li><b>Lies diese Zeile.</b> Dort stehen deine neun Spalten, in SQL, mit Typen. Du hast sie nie geschrieben. Room hat sie aus deiner <code>QuestionEntity</code> abgeleitet. <b>Schliess die Datei danach wieder</b>, sie wird bei jedem Bauen neu erzeugt und darf nie von Hand geändert werden.</li>
 </ol>
@@ -665,24 +718,49 @@ QuizDatabase     Wo liegen die Tabellen?            Teil C</span></pre>
 
 <p><b>Die App muss dabei laufen.</b> Öffne den <b>Database Inspector</b>. Im Menü steht er unter <b>View</b>, dann <b>Tool Windows</b>, dann <b>App Inspection</b>. Findest du ihn dort nicht, drück zweimal <b>Shift</b> und tipp <code>Database Inspector</code>.</p>
 
-<p>Klick dich durch: dein Gerät, dann <code>quiz.db</code>, dann die Tabelle <code>questions</code>. Doppelklick darauf.</p>
+<p>Links im Baum steht dein Gerät, darunter <code>quiz.db</code>, darunter die Tabelle <code>questions</code>.</p>
+
+<div class="tip">
+<p><b>Klapp die Tabelle auf, statt sie zu öffnen.</b> Ein Doppelklick zeigt dir den Inhalt, und der ist heute leer. <b>Der aufgeklappte Baum zeigt dir die Spalten</b>, und um die geht es.</p>
+</div>
+
+<pre><span class="c">quiz.db  SQLiteDatabase
+  questions
+    id              : INTEGER, NOT NULL
+    text            : TEXT, NOT NULL
+    answer1         : TEXT, NOT NULL
+    answer2         : TEXT, NOT NULL
+    answer3         : TEXT, NOT NULL
+    answer4         : TEXT, NOT NULL
+    correct_answer  : TEXT, NOT NULL
+    category        : TEXT, NOT NULL
+    difficulty      : TEXT, NOT NULL
+  room_master_table</span></pre>
 
 <div class="info">
-<p><b>Schau dir drei Dinge an, bevor du das Fenster wieder zumachst.</b></p>
+<p><b>Vier Dinge stehen da, und jedes einzelne hast du selbst verursacht.</b></p>
 <ol>
 <li><b>Die Tabelle heisst <code>questions</code>.</b> Nicht <code>QuestionEntity</code>. Das ist dein <code>tableName</code>.</li>
-<li><b>Es sind neun Spalten</b>, und sie stehen in derselben Reihenfolge wie deine Felder.</li>
-<li><b>Eine Spalte heisst <code>correct_answer</code>, mit Unterstrich.</b> Dein Feld heisst <code>correctAnswer</code>. Das ist die einzige Stelle, an der du diesen Unterschied je zu Gesicht bekommst. Genau darum war die Zeile <code>@ColumnInfo</code> in A2 die, deren Fehlen nichts kaputt macht.</li>
+<li><b>Eine Spalte heisst <code>correct_answer</code>, mit Unterstrich.</b> Dein Feld heisst <code>correctAnswer</code>. <b>Das ist die einzige Stelle, an der du diesen Unterschied je zu Gesicht bekommst.</b> Genau darum war die Zeile <code>@ColumnInfo</code> in A2 die, deren Fehlen nichts kaputt macht.</li>
+<li><b>Hinter jeder Spalte steht ein Typ.</b> <code>id</code> ist <code>INTEGER</code>, alle anderen sind <code>TEXT</code>. Aus deinem <code>int</code> wurde ein <code>INTEGER</code>, aus jedem <code>String</code> ein <code>TEXT</code>. Room hat das übersetzt.</li>
+<li><b>Und hinter jedem Typ steht <code>NOT NULL</code>.</b> Das kommt von deinem <code>@NonNull</code> am Feld. Hättest du die Zeile weggelassen, stünde dort nichts, und die Spalte dürfte leer bleiben.</li>
 </ol>
-<p>Darunter steht keine einzige Zeile. <b>Das ist der Zustand, in dem 07C endet.</b></p>
+</div>
+
+<div class="tip">
+<p><b>Eine Tabelle hast du nicht gebaut, und sie ist trotzdem da: <code>room_master_table</code>.</b></p>
+<p>Die gehört Room selbst. Dort merkt es sich, wie deine Tabelle aussieht. Bei jedem Start vergleicht es den gemerkten Aufbau mit dem, was deine <code>@Entity</code> gerade sagt.</p>
+<p><b>Und daran hängt die <code>version = 1</code> aus C1.</b> Wenn du später eine Spalte dazunimmst, passen die zwei nicht mehr zusammen, und die App stürzt beim Start ab. Dann brauchst du entweder eine Migration oder du deinstallierst die App. In diesem Kurs bleibt die Tabelle, wie sie ist.</p>
 </div>
 
 <div class="chk">
 <p><b>So prüfst du den Rundgang.</b></p>
 <ol>
-<li>Die Tabelle <code>questions</code> ist da und leer.</li>
-<li>Du kannst die neun Spaltennamen vorlesen und in deiner <code>QuestionEntity</code> wiederfinden.</li>
-<li><b>Mach den zweiten Screenshot.</b> Sichtbar sein müssen der Tabellenname und die Spalten.</li>
+<li>Die Tabelle <code>questions</code> ist da, aufgeklappt, mit neun Spalten.</li>
+<li>Du kannst jeden Spaltennamen in deiner <code>QuestionEntity</code> wiederfinden.</li>
+<li>Bei <code>id</code> steht <code>INTEGER</code>, bei allen anderen <code>TEXT</code>.</li>
+<li>Hinter jeder Spalte steht <code>NOT NULL</code>. <b>Steht es bei einer nicht, fehlt dort das <code>@NonNull</code> am Feld.</b></li>
+<li><b>Mach den zweiten Screenshot vom aufgeklappten Baum.</b> Sichtbar sein müssen der Tabellenname, die neun Spalten und ihre Typen.</li>
 </ol>
 </div>
 
@@ -733,7 +811,7 @@ QuizDatabase     Wo liegen die Tabellen?            Teil C</span></pre>
 
 <div class="ue">
 <div class="t">Übung 1a, ein Tippfehler im SQL <span class="time">4 Min</span></div>
-<p>Ändere in <code>QuestionDao</code> im <code>@Query</code> von <code>getAll</code> das Wort <code>questions</code> auf <code>question</code>, also ohne s. Dann <b>Build</b> und <b>Make Project</b>. Stell es danach wieder zurück.</p>
+<p>Ändere in <code>QuestionDao</code> im <code>@Query</code> von <code>getAll</code> das Wort <code>questions</code> auf <code>question</code>, also ohne s. Dann <b>Ctrl+F9</b>. Stell es danach wieder zurück.</p>
 <p><b>So prüfst du:</b> Schreib auf, <b>wann</b> du den Fehler bekommen hast und was genau dort stand. Und schreib dazu, wann du ihn bekommen hättest, wenn das SQL erst beim Start geprüft würde.</p>
 </div>
 
@@ -766,7 +844,7 @@ QuizDatabase     Wo liegen die Tabellen?            Teil C</span></pre>
 <li><code>getRandom(int limit)</code> liefert eine zufällige Auswahl. Der SQL-Baustein dafür heisst <code>ORDER BY RANDOM() LIMIT :limit</code>.</li>
 </ul>
 <p><b>Ausprobieren kannst du sie heute nicht</b>, denn deine Tabelle ist leer. Beide würden 0 und eine leere Liste liefern. <b>Das ist kein Problem, und es ist der eigentliche Punkt der Aufgabe.</b></p>
-<p><b>So prüfst du:</b> <b>Make Project</b>. Läuft es durch, ist dein SQL richtig. Läuft es nicht durch, sagt dir Room genau, was daran nicht stimmt. Du hast also eine Rückmeldung zu deiner Abfrage, ohne einen einzigen Datensatz zu haben.</p>
+<p><b>So prüfst du:</b> <b>Ctrl+F9</b>. Läuft es durch, ist dein SQL richtig. Läuft es nicht durch, sagt dir Room genau, was daran nicht stimmt. Du hast also eine Rückmeldung zu deiner Abfrage, ohne einen einzigen Datensatz zu haben.</p>
 <p><b>Und dann der Gegenversuch:</b> schreib in einer der beiden absichtlich <code>categorie</code> statt <code>category</code> und bau nochmals. Lies die Meldung. Stell es danach zurück.</p>
 <p>Keine Musterlösung. KI darfst du benutzen, aber du musst deine Abfrage erklären können.</p>
 </div>
@@ -777,8 +855,10 @@ QuizDatabase     Wo liegen die Tabellen?            Teil C</span></pre>
 <tr><th>Symptom</th><th>Wahrscheinliche Ursache</th><th>Was du machst</th></tr>
 <tr><td>Sync schlägt fehl, <code>Could not find androidx.room:room-runtime</code></td><td>Im Katalog fehlt der Eintrag, oder er heisst anders als in der Bestellung</td><td>Beide Dateien vergleichen. Aus <code>room-runtime</code> im Katalog wird <code>libs.room.runtime</code> im Skript. Siehe A1</td></tr>
 <tr><td>Sync schlägt fehl, <code>Cannot resolve external dependency</code></td><td>Kein Netz, oder die Versionsnummer gibt es nicht</td><td>Netz prüfen, danach die Versionsnummer. Siehe A1</td></tr>
+<tr><td><b>Der Sync läuft durch, und Room ist trotzdem unbekannt</b></td><td>Die zwei Zeilen stehen in der falschen <code>build.gradle.kts</code>, nämlich in der mit <code>(Project: WissQuiz)</code></td><td>In die Datei mit <code>(Module :app)</code> verschieben. Das ist die mit dem Block <code>dependencies</code>. Siehe A1</td></tr>
 <tr><td><b>Beim Bauen: <code>Cannot find implementation for QuizDatabase. QuizDatabase_Impl does not exist</code></b></td><td>Die Zeile <code>annotationProcessor</code> fehlt, oder dort steht <code>implementation</code></td><td>Es braucht <b>beide</b> Zeilen, und die zweite muss <code>annotationProcessor</code> heissen. Siehe A1</td></tr>
 <tr><td>Beim Bauen: <code>Entities and Pojos must have a usable public constructor</code></td><td>Der Konstruktor mit fünf Werten steht noch in <code>QuestionEntity</code></td><td>Löschen. Room braucht einen leeren Konstruktor, und den bekommst du automatisch, sobald kein anderer dasteht. Siehe A2</td></tr>
+<tr><td><b>Beim Bauen: <code>Cannot find getter for property</code></b></td><td>Zu einem Feld fehlt der Getter, <b>oder</b> sein Rückgabetyp passt nicht zum Feld</td><td>Neun Felder, neun Getter. Und <code>getId()</code> liefert einen <code>int</code>, keinen <code>long</code>. Siehe A2</td></tr>
 <tr><td>Beim Bauen: <code>Cannot figure out how to save this field into database</code></td><td>Ein Feld ist noch ein <code>String[]</code></td><td>Vier einzelne Felder <code>answer1</code> bis <code>answer4</code>. Siehe A2</td></tr>
 <tr><td>Beim Bauen: <code>no such table: questions</code></td><td><code>tableName</code> in <code>@Entity</code> und die Tabelle im <code>@Query</code> sind nicht gleich geschrieben</td><td>Beide auf <code>questions</code> setzen. Genau das übst du in Übung 1a</td></tr>
 <tr><td>Beim Bauen: <code>... is not annotated with @Entity</code></td><td>In <code>@Database</code> fehlt <code>QuestionEntity.class</code> in der Liste <code>entities</code></td><td>Ergänzen. Siehe C1</td></tr>
@@ -789,6 +869,7 @@ QuizDatabase     Wo liegen die Tabellen?            Teil C</span></pre>
 <tr><td>Absturz beim Start: <code>NullPointerException</code> in <code>getInstance</code></td><td>Das <code>Log.d</code> mit <code>instance.questionDao()</code> steht vor dem <code>build()</code></td><td>Reihenfolge prüfen. Erst bauen, dann zugreifen. Siehe C1</td></tr>
 <tr><td><b>Im Logcat steht gar nichts</b></td><td>Der Aufruf <code>QuizDatabase.getInstance(this)</code> fehlt in <code>MainActivity.onCreate</code></td><td>Ergänzen. <b>Dieser Fehler meldet sich nirgends</b>, denn eine Methode, die niemand aufruft, beschwert sich nicht. Siehe C2</td></tr>
 <tr><td>Die Zeile <code>database opened</code> kommt bei jedem Bildschirmwechsel</td><td>Das <code>Log.d</code> steht ausserhalb des <code>if (instance == null)</code></td><td>Hineinschieben. Siehe C1</td></tr>
+<tr><td><b>Ein langer roter Stacktrace im Logcat, und du hast gar nichts geändert</b></td><td>Er kommt vom Emulator und nicht von deiner App. Oft ist es Bluetooth oder eine andere Hardware, die es nicht gibt</td><td>Lies die <code>at</code>-Zeilen. Steht dort <code>com.android.server</code>, ignorier ihn. Filter auf <code>tag:Modul335</code>. Siehe C1</td></tr>
 <tr><td>Nach A1 und nach A2 sieht die App gleich aus wie vorher</td><td><b>Kein Fehler</b></td><td>Nichts tun. Sichtbar wird heute überhaupt nichts</td></tr>
 <tr><td>Fünf der sechs Dao-Methoden sind grau</td><td><b>Kein Fehler</b></td><td>Nichts tun. Sie werden am Nachmittag und morgen gebraucht. Siehe B2</td></tr>
 <tr><td>Im Logcat steht <code>questions=0</code></td><td><b>Kein Fehler</b></td><td>Nichts tun. Genau das ist die Abgabe</td></tr>
@@ -797,7 +878,7 @@ QuizDatabase     Wo liegen die Tabellen?            Teil C</span></pre>
 <h3>Abgabe</h3>
 <ul>
 <li><b>Ein Screenshot deines Logcat</b>, gefiltert auf <code>tag:Modul335</code>, mit der Zeile <code>database opened, name=quiz.db, questions=0</code>.</li>
-<li><b>Ein Screenshot deiner Tabelle im Database Inspector.</b> Sichtbar sein müssen der Name <code>questions</code> und die neun Spalten. Findest du den Inspector nicht, lass ihn weg und melde dich.</li>
+<li><b>Ein Screenshot aus dem Database Inspector, vom aufgeklappten Baum.</b> Sichtbar sein müssen der Name <code>questions</code>, die neun Spalten und ihre Typen. Findest du den Inspector nicht, lass ihn weg und melde dich.</li>
 <li>Der <b>Wissenscheck</b> des Halbtags. Er deckt 07A, 07B und 07C zusammen ab.</li>
 </ul>
 <p>Kein ZIP, keine einzelnen Dateien. Deinen Code prüfst du selbst an der Vergleichsliste im Lösungsmaterial.</p>
@@ -822,6 +903,7 @@ QuizDatabase     Wo liegen die Tabellen?            Teil C</span></pre>
 
 <h2>04 Unterrichtsmittel</h2>
 <ul>
+<li><b>Room verstehen</b>, das Grundlagenblatt. <b>Welche drei Klassen Room braucht und warum</b>, der Vergleich mit Spring Boot und JPA, und wo du weiterliest. Es beantwortet auch die Frage, warum <code>Question</code> und <code>QuestionEntity</code> nebeneinander liegen</li>
 <li><b>Deine eigene <code>model/Question.java</code></b>, als Vorlage für A2. Ohne sie ist A2 nur Abtippen.</li>
 <li><b>Dein Datenmodell aus 06A</b>, auf Papier. Es ist die Vorlage für die Felder.</li>
 <li><b>Der Fragenbestand</b>, das Nachschlageblatt zu den dreissig Fragen.</li>
