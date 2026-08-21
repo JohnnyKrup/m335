@@ -51,13 +51,22 @@
 <li>Das Material <b>Der Fragenbestand</b> aus dem Thema Nachschlagen. Du brauchst es in Teil B.</li>
 </ul>
 
-<h3>Das gibst du ab</h3>
+<h3>Woran du merkst, dass du fertig bist</h3>
+
+<div class="tip">
+<p><b>Du gibst nichts ab. Das Blatt gehört dir.</b> Prüf deine Arbeit an der Vergleichsliste im Lösungsmaterial. Am Prüfungstag hilft dir nur, was du selbst gebaut hast.</p>
+</div>
+
+<p>Fertig bist du, wenn das stimmt:</p>
 <ul>
-<li>Screenshot der Kategoriewahl, mit aufgeklappter Auswahlliste.</li>
-<li>Screenshot des Ergebnisbildschirms nach einer Runde in <b>Geschichte</b>. Unter dem Ergebnis stehen sieben Zeilen.</li>
-<li>Screenshot deines Logcat, gefiltert auf <code>tag:Modul335</code>, mit den <code>showState</code>-Zeilen einer ganzen Runde.</li>
+<li>Die Kategoriewahl klappt ihre Auswahlliste auf.</li>
+<li>Nach einer Runde in <b>Geschichte</b> stehen unter dem Ergebnis <b>sieben</b> Zeilen, nicht dreissig.</li>
+<li>Im Logcat stehen mit dem Filter <code>tag:Modul335</code> die <code>showState</code>-Zeilen einer ganzen Runde.</li>
 </ul>
-<p>Mehr nicht. Kein Arbeitsblatt und <b>kein Projekt als ZIP</b>. Ob dein Code sauber ist, prüfst du selbst mit der Vergleichsliste im Lösungsmaterial.</p>
+
+<p><b>Der zweite Punkt ist der eigentliche.</b> Sieben Zeilen bei Geschichte heisst: die Liste zeigt den Bestand deiner Kategorie und nicht mehr alles. Mach von allen dreien einen Screenshot für dich selbst.</p>
+
+<p>Dazu der <b>05CD Wissenscheck</b>. Er kommt nach 05D und deckt 05C und 05D zusammen ab.</p>
 
 <div class="info">
 <p><b>Der zweite Screenshot ist der eigentliche.</b> Sieben Zeilen bei Geschichte heisst: die Liste zeigt den Bestand deiner Kategorie und nicht mehr alles. Wer dort dreissig Zeilen hat, filtert nicht.</p>
@@ -198,7 +207,7 @@ alle übereinander. Genau einer ist sichtbar.</pre>
 
 <div class="step">
 <p><span class="n">A3</span><b>Starten und eine Runde ganz durchspielen. Schau genau hin.</b></p>
-<p>Run. Die Runde läuft wie gestern. Beantworte alle fünf Fragen und drück auf Weiter, bis das Ergebnis erscheint.</p>
+<p>Run. Die Runde läuft wie vorher. Beantworte alle fünf Fragen und drück auf Weiter, bis das Ergebnis erscheint.</p>
 <p><b>Was siehst du auf dem Ergebnisbildschirm, das dort nicht hingehört?</b> Scroll ruhig ein Stück.</p>
 <p><b>Sag in einem Satz, was <code>showState</code> vergessen hat.</b> Genau danach fragt der Wissenscheck.</p>
 <div class="warn">
@@ -233,7 +242,7 @@ svQuestion.setVisibility(state == <span class="t">GameState</span>.QUESTION ? <s
 <div class="chk">
 <p><b>So prüfst du Teil A.</b></p>
 <ul>
-<li>Die App verhält sich wieder genau wie gestern. Frage, Ergebnis, Liste, alles am richtigen Ort.</li>
+<li>Die App verhält sich wieder genau wie vorher. Frage, Ergebnis, Liste, alles am richtigen Ort.</li>
 <li>In deiner ganzen <code>GameActivity</code> gibt es <b>keinen einzigen</b> <code>setVisibility</code>-Aufruf mehr auf <code>svQuestion</code> oder <code>llResult</code> ausserhalb von <code>showState</code>.</li>
 <li>Die zwei Zeilen mit <code>btnNext</code> stehen unverändert da.</li>
 <li>Im Logcat steht bei einer Runde zuerst <code>showState QUESTION</code> und am Schluss <code>showState RESULT</code>.</li>
@@ -518,15 +527,6 @@ spnCategory.setAdapter(<span class="k">new</span> <span class="t">ArrayAdapter</
 <tr><td>Der Weiter-Knopf ist plötzlich immer sichtbar</td><td><code>btnNext</code> wurde in <code>showState</code> mit hineingenommen</td><td>Siehe den Überblick. Er gehört nicht dazu</td></tr>
 </table>
 
-<h3>Abgabe</h3>
-<p>Alles läuft über die Aufgabe <b>05C Auftrag - Drei Zustände und die Kategoriewahl</b> in Google Classroom.</p>
-<ol>
-<li>Screenshot der Kategoriewahl mit aufgeklappter Auswahlliste.</li>
-<li>Screenshot des Ergebnisbildschirms nach einer Runde in <b>Geschichte</b>, mit den sieben Zeilen.</li>
-<li>Screenshot des Logcat mit den <code>showState</code>-Zeilen einer ganzen Runde.</li>
-</ol>
-
-
 <h2>03 Guide</h2>
 <table>
 <tr><td>Zeitbudget</td><td>45 Minuten. Teil A 16, Teil B 20, Teil C 4, Übungen 5</td></tr>
@@ -534,13 +534,13 @@ spnCategory.setAdapter(<span class="k">new</span> <span class="t">ArrayAdapter</
 <tr><td>Aufgabenart</td><td>Umbau mit einer Entdeckungsstelle (A3, zwei Bereiche gleichzeitig sichtbar). Endet mit Kommentare nachziehen</td></tr>
 <tr><td>Voraussetzung</td><td>05B. Dazu das Material <b>Der Fragenbestand</b></td></tr>
 <tr><td>KI</td><td>In Teil A und B <b>nicht</b> erlaubt. Die Kurzwege von Android Studio schon</td></tr>
-<tr><td>Abgabe</td><td>Drei Screenshots. <b>Kein Arbeitsblatt und kein ZIP</b>. Der Wissenscheck 05CD folgt nach 05D</td></tr>
+<tr><td>Abgabe</td><td><b>keine.</b> Der Wissenscheck des Halbtags genügt</td></tr>
 </table>
 
 <h3>Die zwei Beiträge in Google Classroom</h3>
 <table>
 <tr><th>Name</th><th>Typ</th><th>Einstellung</th></tr>
-<tr><td>05C Auftrag - Drei Zustände und die Kategoriewahl</td><td>Aufgabe</td><td>Dieses Dokument liegt als Anhang bei, nur zum Ansehen. Abgegeben werden drei Screenshots</td></tr>
+<tr><td>05C Auftrag - Drei Zustände und die Kategoriewahl</td><td>Material</td><td>Schüler können Datei ansehen. Das ist dieses Dokument</td></tr>
 <tr><td>05C Lösung - Drei Zustände und die Kategoriewahl</td><td>Material</td><td>Schüler können Datei ansehen. Enthält den vollständigen Code als Text und die Vergleichsliste</td></tr>
 </table>
 <p>Der <b>05CD Wissenscheck</b> gehört zum Beitrag von 05D, nicht hierher.</p>

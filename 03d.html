@@ -49,16 +49,24 @@
 <li>Du kennst Klassen, Felder, Konstruktor und Getter aus dem Java-Unterricht.</li>
 </ul>
 
-<h3>Das gibst du ab</h3>
+<h3>Woran du merkst, dass du fertig bist</h3>
+
+<div class="tip">
+<p><b>Du gibst nichts ab. Das Blatt gehört dir.</b> Prüf deine Arbeit an der Vergleichsliste im Lösungsmaterial. Am Prüfungstag hilft dir nur, was du selbst gebaut hast.</p>
+</div>
+
+<p>Fertig bist du, wenn das stimmt:</p>
 <ul>
-<li>Screenshot deiner App mit der Frage <b>aus dem Objekt</b>, nach einer beantworteten Frage.</li>
-<li>Screenshot deiner Datei <code>Question.java</code>, ganz oder der obere Teil.</li>
-<li>Den ausgefüllten <b>03CD Wissenscheck</b>. Er deckt 03C und 03D zusammen ab.</li>
+<li>Deine App zeigt die Frage <b>aus dem Objekt</b>, und sie verhält sich genau wie vorher.</li>
+<li>Deine Datei <code>Question.java</code> steht im Projekt und trägt alle Felder.</li>
 </ul>
-<p>Mehr nicht. Kein Arbeitsblatt und <b>kein Projekt als ZIP</b>. Ob dein Code sauber ist, prüfst du selbst mit der Vergleichsliste im Lösungsmaterial.</p>
+
+<p><b>Mach von beidem einen Screenshot für dich selbst.</b></p>
+
+<p>Dazu der <b>03CD Wissenscheck</b>. Er deckt 03C und 03D zusammen ab.</p>
 
 <div class="info">
-<p><b>Am Ende sieht deine App genau gleich aus wie jetzt.</b> Dieselbe Frage, dieselben vier Antworten, dasselbe Verhalten. Trotzdem ist es der wichtigste Umbau der ganzen Woche.</p>
+<p><b>Am Ende sieht deine App genau gleich aus wie jetzt.</b> Dieselbe Frage, dieselben vier Antworten, dasselbe Verhalten. Trotzdem ist es der wichtigste Umbau im ganzen Modul.</p>
 <p>Denn danach ist eine <b>andere</b> Frage eine einzige geänderte Zeile. Heute sind es sechs Stellen. Genau das rechnest du am Schluss selbst nach.</p>
 </div>
 
@@ -330,7 +338,7 @@ Log.d(TAG, <span class="s">"MainActivity onCreate, Frage aus dem Objekt"</span>)
 <ul>
 <li><code>strings.xml</code> hat noch genau zwei Einträge, <code>app_name</code> und <code>score_format</code>.</li>
 <li>Nichts ist rot.</li>
-<li>Die App startet und sieht aus wie gestern. Kategorie, Frage, vier Antworten.</li>
+<li>Die App startet und sieht aus wie vor dem Umbau. Kategorie, Frage, vier Antworten.</li>
 <li>Richtig antworten färbt grün und zählt einen Punkt, falsch antworten färbt rot und grün.</li>
 <li>Im Layout steht nirgends mehr <code>android:text</code>, ausser du hast eine View, die der Code nicht anfasst.</li>
 <li>Der Vergleich <code>equals</code> steht im ganzen Projekt nur noch <b>einmal</b>, nämlich in <code>Question.isCorrect</code>.</li>
@@ -351,7 +359,7 @@ Log.d(TAG, <span class="s">"MainActivity onCreate, Frage aus dem Objekt"</span>)
 <tr><td>Kategorie</td><td>Technologie</td></tr>
 <tr><td>Schwierigkeit</td><td>leicht</td></tr>
 </table>
-<p><b>Zähl, wie viele Stellen im Projekt du dafür anfassen musst.</b> Und zähl daneben, wie viele es gestern gewesen wären.</p>
+<p><b>Zähl, wie viele Stellen im Projekt du dafür anfassen musst.</b> Und zähl daneben, wie viele es vor dem Umbau gewesen wären.</p>
 <p>Sag dir das Ergebnis in einem Satz. Auch danach fragt der Wissenscheck.</p>
 </div>
 
@@ -410,15 +418,6 @@ Log.d(TAG, <span class="s">"MainActivity onCreate, Frage aus dem Objekt"</span>)
 <tr><td>Gelb: <code>Field can be converted to a local variable</code></td><td>Ein Feld wird nur in einer Methode gebraucht</td><td>Prüfen, ob es wirklich ein Feld sein muss. Bei <code>currentQuestion</code> ja, es wird beim Klick gebraucht</td></tr>
 </table>
 
-<h3>Abgabe</h3>
-<p>Alles läuft über die Aufgabe <b>03D Auftrag - Die Datenklasse</b> in Google Classroom.</p>
-<ol>
-<li>Screenshot der laufenden App.</li>
-<li>Screenshot von <code>Question.java</code>.</li>
-<li>Danach den <b>03CD Wissenscheck</b> ausfüllen. Er deckt 03C und 03D zusammen ab.</li>
-</ol>
-
-
 <h2>03 Guide</h2>
 <table>
 <tr><td>Zeitbudget</td><td>45 Minuten. Teil A 18, Teil B 17, Teil C 5, Übungen 5</td></tr>
@@ -426,13 +425,13 @@ Log.d(TAG, <span class="s">"MainActivity onCreate, Frage aus dem Objekt"</span>)
 <tr><td>Aufgabenart</td><td>Umbau mit zwei Entdeckungsstellen (B2 wie weit ein Text streut, C1 wie viele Stellen eine Änderung kostet)</td></tr>
 <tr><td>Voraussetzung</td><td>03C, dazu Klassen und Getter aus dem Java-Unterricht</td></tr>
 <tr><td>KI</td><td>In Teil A bis C <b>nicht</b> erlaubt. Die Kurzwege von Android Studio schon</td></tr>
-<tr><td>Abgabe</td><td>Zwei Screenshots, dazu der 03CD Wissenscheck über beide Aufträge. <b>Kein Arbeitsblatt und kein ZIP</b></td></tr>
+<tr><td>Abgabe</td><td><b>keine.</b> Der Wissenscheck des Halbtags genügt</td></tr>
 </table>
 
 <h3>Die drei Beiträge in Google Classroom</h3>
 <table>
 <tr><th>Name</th><th>Typ</th><th>Einstellung</th></tr>
-<tr><td>03D Auftrag - Die Datenklasse</td><td>Aufgabe</td><td>Dieses Dokument liegt als Anhang bei, nur zum Ansehen. Abgegeben werden zwei Screenshots</td></tr>
+<tr><td>03D Auftrag - Die Datenklasse</td><td>Material</td><td>Schüler können Datei ansehen. Das ist dieses Dokument</td></tr>
 <tr><td>03CD Wissenscheck - Klick auswerten und Datenklasse</td><td>Aufgabe mit Quiz</td><td>Unbenotet, beliebig oft wiederholbar, kein Fälligkeitsdatum. Neun Fragen. <b>Deckt 03C und 03D ab</b>, wird nach 03D ausgefüllt</td></tr>
 <tr><td>03D Lösung - Die Datenklasse</td><td>Material</td><td>Schüler können Datei ansehen. Enthält den vollständigen Code als Text und die Vergleichsliste</td></tr>
 </table>
@@ -448,7 +447,7 @@ Log.d(TAG, <span class="s">"MainActivity onCreate, Frage aus dem Objekt"</span>)
 </table>
 
 
-<p class="foot">Modul 335 | Tag 2 Vormittag | Auftrag 03D | Fassung 2 | 14.08.2026</p>
+<p class="foot">Modul 335 | Tag 2 Vormittag | Auftrag 03D | Version 2 | 14.08.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->

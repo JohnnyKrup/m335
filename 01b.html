@@ -20,7 +20,7 @@
 <div class="wrap">
 
 <h1>01B Android Studio und erster Code</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Block 01. Zeitbudget 30 Minuten, dazu 10 Minuten Einführung durch die Lehrperson.</p>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 1 Vormittag. Zeitbudget 30 Minuten, dazu 10 Minuten Einführung durch die Lehrperson.</p>
 <p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
 
 
@@ -48,12 +48,23 @@
 <li>Java aus den früheren Modulen. Mehr nicht.</li>
 </ul>
 
-<h3>Das gibst du ab</h3>
+<h3>Woran du merkst, dass du fertig bist</h3>
+
+<div class="tip">
+<p><b>Du gibst nichts ab. Deine Notizen gehören dir.</b> Du führst sie in deinem eigenen Heft oder in einer Datei. Vergleich sie danach mit dem Lösungsmaterial.</p>
+</div>
+
+<p>Fertig bist du, wenn das stimmt:</p>
 <ul>
-<li>Dein ausgefülltes <b>Arbeitsblatt</b>. Das ist die Aufgabe <b>01B Arbeitsblatt - Android Studio und erster Code</b> in Google Classroom.</li>
-<li>Zwei Screenshots als Anhang zur selben Aufgabe. Einer vom Emulator mit deinem eigenen Namen, einer vom Logcat mit dem Absturz.</li>
-<li>Den ausgefüllten <b>01B Wissenscheck - Android Studio und erster Code</b>.</li>
+<li>Zu allen fünf Dateien steht bei dir ein Stichwort.</li>
+<li>Beide Fragen zu Teil A sind mit einem Dateinamen beantwortet.</li>
+<li>Die Zeile nach <b>Caused by</b> ist aus deinem eigenen Logcat abgeschrieben, mit deiner Datei und deiner Zeilennummer.</li>
+<li>Deine App läuft wieder und zeigt deinen eigenen Namen.</li>
 </ul>
+
+<p><b>Mach zwei Screenshots für dich selbst.</b> Einen vom Emulator mit deinem Namen, einen vom Logcat mit der Zeile <b>Caused by</b>.</p>
+
+<p>Dazu der <b>01B Wissenscheck</b>. Er ist unbenotet und beliebig wiederholbar.</p>
 
 <div class="info">
 <p><b>Warum du absichtlich etwas kaputt machst.</b> Teil C ist der wichtigste Teil dieses Auftrags. Du wirst in den nächsten fünf Tagen viele Abstürze sehen. Wer den Stacktrace lesen kann, findet die Ursache in dreissig Sekunden. Wer es nicht kann, sitzt zwanzig Minuten fest und ruft nach Hilfe. Die drei Schritte, die du heute lernst, gelten für jeden Absturz im ganzen Modul.</p>
@@ -115,7 +126,7 @@
 </div>
 
 <h3>Denkfragen <span class="time">2 Minuten</span></h3>
-<p>Denk kurz darüber nach, bevor du anfängst. Abgeben musst du hier nichts. Die drei Fragen kommen im Wissenscheck wieder, dort bekommst du sofort eine Rückmeldung.</p>
+<p>Denk kurz darüber nach, bevor du anfängst. Aufschreiben musst du nichts davon. Die drei Fragen kommen im Wissenscheck wieder, dort bekommst du sofort eine Rückmeldung.</p>
 <ol>
 <li>Was macht die Zeile <code>setContentView(R.layout.activity_main)</code> genau? Was gibt es vorher noch nicht, das es nachher gibt?</li>
 <li>Woher kommt <code>R.id.tvGreeting</code>? Wer erzeugt die R-Klasse und wann?</li>
@@ -147,7 +158,7 @@
 <tr><td class="pre">app / res / values / strings.xml</td><td>Alle Texte der App</td></tr>
 <tr><td class="pre">Gradle Scripts / build.gradle.kts (Module :app)</td><td>Die Bauanleitung</td></tr>
 </table>
-<p>Trag auf deinem Arbeitsblatt zu jeder Datei ein, was dir beim Hineinschauen aufgefallen ist. Ein Stichwort genügt.</p>
+<p>Trag auf deinem Notizblatt zu jeder Datei ein, was dir beim Hineinschauen aufgefallen ist. Ein Stichwort genügt.</p>
 </div>
 
 <div class="chk">
@@ -156,7 +167,7 @@
 <li>Du hast alle fünf Dateien gefunden und geöffnet.</li>
 <li>Du kannst sagen, in welcher Datei der sichtbare Text Hello World steht.</li>
 <li>Du kannst sagen, in welcher Datei steht, ab welcher Android-Version deine App läuft.</li>
-<li>Auf deinem Arbeitsblatt steht zu jeder der fünf Dateien ein Stichwort.</li>
+<li>Auf deinem Notizblatt steht zu jeder der fünf Dateien ein Stichwort.</li>
 </ul>
 </div>
 
@@ -226,7 +237,7 @@ tvGreeting.setText(<span class="s">"Hallo DEIN NAME!"</span>);</pre>
 <tr><td>2</td><td>Suche das Wort <code>Caused by</code>. Der Satz direkt dahinter ist die echte Ursache. Die allererste Zeile ganz oben sagt nur, dass etwas abgestürzt ist, nicht warum</td></tr>
 <tr><td>3</td><td>Suche unterhalb von <code>Caused by</code> die erste Zeile mit deinem <b>eigenen Paketnamen</b>. Dort stehen Datei und Zeilennummer. Das ist die Stelle in deinem Code</td></tr>
 </table>
-<p>Schreib die drei Ergebnisse auf dein Arbeitsblatt. Mach einen Screenshot vom Logcat.</p>
+<p>Schreib die drei Ergebnisse auf dein Notizblatt. Mach einen Screenshot vom Logcat.</p>
 </div>
 
 <div class="tip">
@@ -241,7 +252,7 @@ tvGreeting.setText(<span class="s">"Hallo DEIN NAME!"</span>);</pre>
 <div class="chk">
 <p><b>So prüfst du Teil C.</b></p>
 <ul>
-<li>Auf deinem Arbeitsblatt steht die <code>Caused by</code>-Zeile, abgeschrieben aus deinem eigenen Logcat.</li>
+<li>Auf deinem Notizblatt steht die <code>Caused by</code>-Zeile, abgeschrieben aus deinem eigenen Logcat.</li>
 <li>Daneben stehen deine Datei und deine Zeilennummer.</li>
 <li>Du kannst in einem Satz sagen, warum die App abgestürzt ist.</li>
 <li>Der Screenshot vom Logcat liegt bereit.</li>
@@ -293,15 +304,66 @@ tvGreeting.setText(<span class="s">"Hallo DEIN NAME!"</span>);</pre>
 </table>
 
 
-<h3>Abgabe</h3>
-<p>Alles läuft über die Aufgabe <b>01B Arbeitsblatt - Android Studio und erster Code</b> in Google Classroom.</p>
-<ol>
-<li>Dein ausgefülltes Arbeitsblatt. Die Kopie liegt schon in deinem Drive, am Schluss auf Abgeben klicken.</li>
-<li>Screenshot vom Emulator mit deinem eigenen Namen.</li>
-<li>Screenshot vom Logcat mit dem Absturz aus Teil C.</li>
-<li>Danach den <b>01B Wissenscheck</b> ausfüllen.</li>
-</ol>
+<h3>Dein Notizblatt</h3>
 
+<div class="note">
+<p><b>Das hier ersetzt das frühere Arbeitsblatt.</b> Du füllst es nicht in Google Classroom aus, sondern in deinem eigenen Heft, in einer Textdatei oder auf einem Ausdruck dieser Seite. Es gehört dir, und es wird nicht eingesammelt.</p>
+<p><b>Warum du es trotzdem führst.</b> Was du selbst aufschreibst, bleibt. Und am Prüfungstag hast du keine Anleitung, sondern nur das, was du geübt hast.</p>
+</div>
+
+<h4>Teil A, die fünf Dateien</h4>
+<p>Schau jede Datei kurz an. Trag in die letzte Spalte ein Stichwort ein, das dir aufgefallen ist. Zum Beispiel etwas, das du wiedererkannt hast, oder etwas, das dich überrascht hat.</p>
+
+<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;font-size:14px">
+<tr>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left;width:36%">Datei</th>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left;width:24%">Wofür sie da ist</th>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left">Was mir aufgefallen ist</th>
+</tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">app / manifests / AndroidManifest.xml</td><td style="border:1px solid #c3c2b7;padding:9px">Der Steckbrief der App</td><td style="border:1px solid #c3c2b7;padding:11px">&nbsp;</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">app / java / ... / MainActivity.java</td><td style="border:1px solid #c3c2b7;padding:9px">Dein Code</td><td style="border:1px solid #c3c2b7;padding:11px">&nbsp;</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">app / res / layout / activity_main.xml</td><td style="border:1px solid #c3c2b7;padding:9px">Dein Bildschirm</td><td style="border:1px solid #c3c2b7;padding:11px">&nbsp;</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">app / res / values / strings.xml</td><td style="border:1px solid #c3c2b7;padding:9px">Alle Texte der App</td><td style="border:1px solid #c3c2b7;padding:11px">&nbsp;</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">Gradle Scripts / build.gradle.kts (Module :app)</td><td style="border:1px solid #c3c2b7;padding:9px">Die Bauanleitung</td><td style="border:1px solid #c3c2b7;padding:11px">&nbsp;</td></tr>
+</table>
+
+<p>Zwei Fragen dazu. Antworte mit dem Dateinamen.</p>
+<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;font-size:14px">
+<tr>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left;width:62%">Frage</th>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left">Deine Antwort</th>
+</tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">In welcher Datei steht der sichtbare Text Hello World?</td><td style="border:1px solid #c3c2b7;padding:11px">&nbsp;</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">In welcher Datei steht, ab welcher Android-Version deine App läuft?</td><td style="border:1px solid #c3c2b7;padding:11px">&nbsp;</td></tr>
+</table>
+
+<h4>Teil C, dein Stacktrace</h4>
+<p>Nach dem Absturz in Teil C. Schreib ab, was in <b>deinem</b> Logcat steht. Nicht das aus dem Beispiel und nicht das vom Sitznachbarn. Die Zeilennummer ist bei jedem anders.</p>
+
+<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;font-size:14px">
+<tr>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left;width:34%">Was du suchst</th>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left">Was bei dir steht</th>
+</tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">Die ganze Zeile nach <b>Caused by</b></td><td style="border:1px solid #c3c2b7;padding:14px">&nbsp;</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">Die erste Zeile darunter mit deinem eigenen Paketnamen</td><td style="border:1px solid #c3c2b7;padding:14px">&nbsp;</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">Deine Datei und deine Zeilennummer</td><td style="border:1px solid #c3c2b7;padding:14px">&nbsp;</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">In einem Satz: warum ist die App abgestürzt?</td><td style="border:1px solid #c3c2b7;padding:14px">&nbsp;</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">Ungefähr wie viele Zeilen des roten Blocks konntest du nach Schritt 1 überspringen?</td><td style="border:1px solid #c3c2b7;padding:14px">&nbsp;</td></tr>
+</table>
+
+<h4>Deine Screenshots</h4>
+<p>Trag hier ein, was jeder Screenshot zeigt. Die Bilddateien behältst du bei dir.</p>
+
+<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;font-size:14px">
+<tr>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left;width:10%">Nr.</th>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left;width:38%">Was das Bild zeigen muss</th>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left">Dateiname deines Screenshots</th>
+</tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">1</td><td style="border:1px solid #c3c2b7;padding:9px">Der Emulator mit deinem eigenen Namen. Der Emulator-Rahmen muss sichtbar sein</td><td style="border:1px solid #c3c2b7;padding:11px">&nbsp;</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">2</td><td style="border:1px solid #c3c2b7;padding:9px">Der Logcat mit dem Absturz aus Teil C. Die Zeile mit Caused by muss zu sehen sein</td><td style="border:1px solid #c3c2b7;padding:11px">&nbsp;</td></tr>
+</table>
 
 <h2>03 Guide</h2>
 <table>
@@ -310,18 +372,17 @@ tvGreeting.setText(<span class="s">"Hallo DEIN NAME!"</span>);</pre>
 <tr><th>Aufgabenart</th><td>Geführter Aufbau mit einer Entdeckungsstelle (C1 gegen C4)</td></tr>
 <tr><th>Voraussetzung</th><td>Vorbereitungsauftrag erledigt, Projekt läuft</td></tr>
 <tr><th>KI</th><td>In Teil A bis C <b>nicht</b> erlaubt. Bei den Übungen und der Zusatzaufgabe erlaubt</td></tr>
-<tr><th>Abgabe</th><td>Ein Arbeitsblatt plus zwei Screenshots, dazu der Wissenscheck</td></tr>
+<tr><th>Abgabe</th><td><b>keine.</b> Der Wissenscheck des Halbtags genügt</td></tr>
 </table>
 
 <div class="warn">
 <p><b>Achtung beim Blockschnitt.</b> Teil A und B liegen im Block 1 vor der Pause, Teil C im Block 2 danach. Der Schnitt liegt gut: Teil B endet damit, dass der eigene Name auf dem Emulator steht. Lass niemanden vor der Pause mit einer abstürzenden App sitzen.</p>
 </div>
 
-<h3>Die vier Beiträge in Google Classroom</h3>
+<h3>Die Beiträge in Google Classroom</h3>
 <table>
 <tr><th>Name</th><th>Typ</th><th>Einstellung</th></tr>
-<tr><td>01B Auftrag - Android Studio und erster Code</td><td>Material</td><td>Schüler können Datei ansehen. Das ist dieses Dokument</td></tr>
-<tr><td>01B Arbeitsblatt - Android Studio und erster Code</td><td>Aufgabe</td><td><b>Für jeden Schüler eine Kopie erstellen.</b> Das ist die Abgabe</td></tr>
+<tr><td>01B Auftrag - Android Studio und erster Code</td><td>Material</td><td>Schüler können Datei ansehen. Das ist dieses Dokument. Das Notizblatt steht darin</td></tr>
 <tr><td>01B Wissenscheck - Android Studio und erster Code</td><td>Aufgabe mit Quiz</td><td>Unbenotet, beliebig oft wiederholbar. Sieben Fragen</td></tr>
 <tr><td>01B Lösung - Android Studio und erster Code</td><td>Material</td><td>Schüler können Datei ansehen</td></tr>
 </table>
@@ -332,7 +393,7 @@ tvGreeting.setText(<span class="s">"Hallo DEIN NAME!"</span>);</pre>
 <tr><th>Art</th><th>Was</th></tr>
 <tr><td>Hardware</td><td>Eigenes Notebook, laufender Emulator Medium Phone API 36.1</td></tr>
 <tr><td>Software und Tools</td><td>Android Studio Quail 2 Patch 1, Google Classroom</td></tr>
-<tr><td>Dokumente</td><td>Arbeitsblatt 01B, als Kopie pro Schüler in Classroom</td></tr>
+<tr><td>Dokumente</td><td>Dieses Dokument, mit dem Notizblatt am Schluss von Abschnitt 02</td></tr>
 <tr><td>Buch</td><td>Android-Apps entwickeln für Einsteiger (Rheinwerk), <b>Kapitel 3.6</b></td></tr>
 </table>
 
@@ -341,7 +402,7 @@ tvGreeting.setText(<span class="s">"Hallo DEIN NAME!"</span>);</pre>
 </div>
 
 
-<p class="foot">Modul 335 | Block 01 | Auftrag 01B | Fassung 2 | 11.08.2026</p>
+<p class="foot">Modul 335 | Tag 1 Vormittag | Auftrag 01B | Version 2 | 11.08.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->

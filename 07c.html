@@ -22,7 +22,7 @@
 <h1>07C Room, Entity und Dao</h1>
 <p class="sub">Modul 335 Mobile Applikationen, Tag 4 Vormittag. Zeitbudget 90 Minuten. Version 2 vom 20.08.2026.</p>
 <p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
-<p class="sub">Heute bekommt deine App eine Datenbank. Auf dem Bildschirm wirst du nichts davon sehen, und trotzdem ist es der wichtigste Block der Woche.</p>
+<p class="sub">Heute bekommt deine App eine Datenbank. Auf dem Bildschirm wirst du nichts davon sehen, und trotzdem ist es der wichtigste Block im Modul.</p>
 
 <h2>01 Einführung</h2>
 
@@ -50,22 +50,31 @@
 <li>Dein <b>Datenmodell aus 06A</b>. Du hast dort auf Papier hergeleitet, welche Felder eine Frage braucht. Heute wird genau daraus eine Tabelle. Leg das Blatt neben die Tastatur.</li>
 </ul>
 
-<h3>Das gibst du ab</h3>
+<h3>Woran du merkst, dass du fertig bist</h3>
+
+<div class="tip">
+<p><b>Du gibst nichts ab. Das Blatt gehört dir.</b> Prüf deine Arbeit an der Vergleichsliste im Lösungsmaterial. Am Prüfungstag hilft dir nur, was du selbst gebaut hast.</p>
+</div>
+
+<p>Fertig bist du, wenn das stimmt:</p>
 <ul>
-<li>Einen Screenshot deines <b>Logcat</b>, gefiltert auf <code>tag:Modul335</code>, mit der Zeile <code>database opened, name=quiz.db, questions=0</code>.</li>
-<li>Einen Screenshot deiner <b>Tabelle im Database Inspector</b>, aufgeklappt. Zu sehen sind die neun Spalten mit ihren Typen.</li>
-<li>Den <b>Wissenscheck</b> des Halbtags. Er deckt 07A, 07B und 07C zusammen ab.</li>
+<li>Im <b>Logcat</b> steht mit dem Filter <code>tag:Modul335</code> die Zeile <code>database opened, name=quiz.db, questions=0</code>.</li>
+<li>Im <b>Database Inspector</b> lässt sich deine Tabelle <code>questions</code> aufklappen. Zu sehen sind die neun Spalten mit ihren Typen. Findest du den Inspector nicht, meld dich.</li>
 </ul>
 
+<p><b>Mach von beidem einen Screenshot für dich selbst.</b> Das ist der einzige Ort, an dem dein Ergebnis heute sichtbar wird.</p>
+
+<p>Dazu der <b>Wissenscheck 07ABC</b>. Er deckt 07A, 07B und 07C zusammen ab.</p>
+
 <div class="note">
-<p><b>Heute gibst du keinen Bildschirm ab, und das ist richtig so.</b></p>
+<p><b>Heute entsteht kein neuer Bildschirm, und das ist richtig so.</b></p>
 <p>Deine App sieht am Ende dieses Blocks genau gleich aus wie am Anfang. Kein neuer Knopf, keine neue Zeile, nichts. <b>Und trotzdem ist der grösste Teil der Arbeit getan</b>, denn die ganze Datenschicht steht.</p>
 <p><b>Sehen wirst du sie trotzdem.</b> Am Schluss öffnest du deine Tabelle in Android Studio und schaust sie an. Sie ist leer, aber die Spalten sind da, mit den Namen, die du selbst vergeben hast. Das ist dein Ergebnis, und es steht nicht auf dem Handy, sondern daneben.</p>
 <p>Am Nachmittag füllst du die Tabelle und baust den Bildschirm dazu.</p>
 </div>
 
 <div class="info">
-<p><b>Warum das der wichtigste Block der Woche ist.</b> Auf dem Prüfungsblatt der Leistungsbeurteilung steht der Satz <i>"Die Datenhaltung soll nur lokal erfolgen."</i> Und im Bewertungsraster steht die Zeile <i>"Datenmodell korrekt, Persistenz korrekt implementiert"</i> mit 4 Punkten.</p>
+<p><b>Warum das der wichtigste Block im Modul ist.</b> Auf dem Prüfungsblatt der Leistungsbeurteilung steht der Satz <i>"Die Datenhaltung soll nur lokal erfolgen."</i> Und im Bewertungsraster steht die Zeile <i>"Datenmodell korrekt, Persistenz korrekt implementiert"</i> mit 4 Punkten.</p>
 <p>Was du heute baust, ist genau das. Ein Datenmodell als Tabelle und ein sauberer Zugriff darauf. In der Prüfung heisst es Modul statt Frage, und der Rest ist derselbe Handgriff.</p>
 <p>Zwei weitere Zeilen im Raster heissen <i>"Persistenz-Methoden dokumentiert und begründet"</i> und <i>"alternative Persistenzmethode genannt"</i>. Die Alternative kennst du seit 05D und 06B, das ist <code>SharedPreferences</code>. Ab heute kennst du beide und kannst sie gegeneinander begründen.</p>
 </div>
@@ -706,7 +715,7 @@ QuizDatabase     Wo liegen die Tabellen?            Teil C</span></pre>
 <li>Geh in die Rangliste und wieder zurück. <b>Die Zeile <code>database opened</code> kommt kein zweites Mal.</b> Das ist das <code>if (instance == null)</code>.</li>
 <li>Beende die App und starte sie neu. Jetzt kommt sie wieder, und es steht wieder <code>questions=0</code>.</li>
 <li>Spiel eine Runde. Alles läuft wie vorher.</li>
-<li><b>Mach den Screenshot des Logcat.</b> Das ist deine Abgabe.</li>
+<li><b>Mach den Screenshot des Logcat.</b> Das Blatt gehört dir, es wird nicht eingesammelt.</li>
 </ol>
 </div>
 
@@ -871,17 +880,9 @@ QuizDatabase     Wo liegen die Tabellen?            Teil C</span></pre>
 <tr><td>Die Zeile <code>database opened</code> kommt bei jedem Bildschirmwechsel</td><td>Das <code>Log.d</code> steht ausserhalb des <code>if (instance == null)</code></td><td>Hineinschieben. Siehe C1</td></tr>
 <tr><td><b>Ein langer roter Stacktrace im Logcat, und du hast gar nichts geändert</b></td><td>Er kommt vom Emulator und nicht von deiner App. Oft ist es Bluetooth oder eine andere Hardware, die es nicht gibt</td><td>Lies die <code>at</code>-Zeilen. Steht dort <code>com.android.server</code>, ignorier ihn. Filter auf <code>tag:Modul335</code>. Siehe C1</td></tr>
 <tr><td>Nach A1 und nach A2 sieht die App gleich aus wie vorher</td><td><b>Kein Fehler</b></td><td>Nichts tun. Sichtbar wird heute überhaupt nichts</td></tr>
-<tr><td>Fünf der sechs Dao-Methoden sind grau</td><td><b>Kein Fehler</b></td><td>Nichts tun. Sie werden am Nachmittag und morgen gebraucht. Siehe B2</td></tr>
-<tr><td>Im Logcat steht <code>questions=0</code></td><td><b>Kein Fehler</b></td><td>Nichts tun. Genau das ist die Abgabe</td></tr>
+<tr><td>Fünf der sechs Dao-Methoden sind grau</td><td><b>Kein Fehler</b></td><td>Nichts tun. Sie werden am Nachmittag und am letzten Kurstag gebraucht. Siehe B2</td></tr>
+<tr><td>Im Logcat steht <code>questions=0</code></td><td><b>Kein Fehler</b></td><td>Nichts tun. Genau das ist das erwartete Ergebnis</td></tr>
 </table>
-
-<h3>Abgabe</h3>
-<ul>
-<li><b>Ein Screenshot deines Logcat</b>, gefiltert auf <code>tag:Modul335</code>, mit der Zeile <code>database opened, name=quiz.db, questions=0</code>.</li>
-<li><b>Ein Screenshot aus dem Database Inspector, vom aufgeklappten Baum.</b> Sichtbar sein müssen der Name <code>questions</code>, die neun Spalten und ihre Typen. Findest du den Inspector nicht, lass ihn weg und melde dich.</li>
-<li>Der <b>Wissenscheck</b> des Halbtags. Er deckt 07A, 07B und 07C zusammen ab.</li>
-</ul>
-<p>Kein ZIP, keine einzelnen Dateien. Deinen Code prüfst du selbst an der Vergleichsliste im Lösungsmaterial.</p>
 
 <h2>03 Guide</h2>
 
@@ -891,12 +892,12 @@ QuizDatabase     Wo liegen die Tabellen?            Teil C</span></pre>
 <tr><td>Aufgabenart</td><td>Code-Auftrag. Kein Arbeitsblatt, das Produkt entsteht in der IDE</td></tr>
 <tr><td>Zeitbudget</td><td>90 Minuten. Einstieg 3, Teil A 26, Überblick 3, Teil B 26, Teil C 27, Nachziehen 5. <b>Die Übungen laufen daheim</b>, etwa 20 Minuten</td></tr>
 <tr><td>Hilfsmittel</td><td>Dein Code, die Nachschlageblätter, deine eigene <code>Question</code>, dein Datenmodell aus 06A. KI erlaubt, du musst jede Zeile erklären können</td></tr>
-<tr><td>Abgabe</td><td>Zwei Screenshots in Google Classroom, Logcat und Database Inspector</td></tr>
+<tr><td>Abgabe</td><td><b>keine.</b> Der Wissenscheck des Halbtags genügt</td></tr>
 </table>
 
 <h3>Die Beiträge in Google Classroom</h3>
 <ul>
-<li><b>07C Auftrag, Room, Entity und Dao.</b> Aufgabe, dieses Dokument. Hier gibst du den Screenshot ab.</li>
+<li><b>07C Auftrag, Room, Entity und Dao.</b> Material, dieses Dokument.</li>
 <li><b>07C Loesung, Room, Entity und Dao.</b> Material. Erst öffnen, wenn du fertig bist.</li>
 <li><b>Wissenscheck 07ABC.</b> Unbenotet, beliebig wiederholbar, kein Fälligkeitsdatum.</li>
 </ul>

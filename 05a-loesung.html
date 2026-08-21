@@ -40,7 +40,7 @@
 <tr><td>6</td><td>Ist deine <code>MainActivity</code> wirklich leer bis auf <code>TAG</code> und <code>onCreate</code>?</td><td>Ein zurückgebliebenes Feld oder eine tote Methode stürzt nicht ab und fällt nie auf. In der Leistungsbeurteilung schon</td></tr>
 <tr><td>7</td><td>Sind <code>btnPlay</code> und <code>btnAbout</code> <b>lokale Variablen</b> und keine Felder?</td><td>Ein Feld bekommt nur, was der Code auch nach <code>onCreate</code> noch anfasst</td></tr>
 <tr><td>8</td><td>Steht jeder sichtbare Text in <code>strings.xml</code>, auch die Hinweiszeile und die fünf Zeilen von Über die App?</td><td>Sichtbarer Text im Java-Code lässt sich nicht übersetzen und nicht ändern, ohne den Code anzufassen</td></tr>
-<tr><td>9</td><td>Hat die <code>GameActivity</code> dieselben elf Methoden wie deine MainActivity gestern, keine mehr und keine weniger?</td><td>Beim Kopieren geht schnell etwas verloren, oder es bleibt in der alten Klasse eine Kopie liegen</td></tr>
+<tr><td>9</td><td>Hat die <code>GameActivity</code> dieselben elf Methoden wie deine MainActivity vor dem Umzug, keine mehr und keine weniger?</td><td>Beim Kopieren geht schnell etwas verloren, oder es bleibt in der alten Klasse eine Kopie liegen</td></tr>
 <tr><td>10</td><td>Haben beide neuen Klassen ihre Javadoc-Blöcke, auch das Feld <code>TAG</code> in der <code>AboutActivity</code>?</td><td>Genau das verlangt die Leistungsbeurteilung. Ein Feld ohne Kommentar kostet Punkte</td></tr>
 <tr><td>11</td><td>Beschreibt der Klassenkommentar der <code>MainActivity</code> ein Menü, und weiss der der <code>GameActivity</code>, dass sie eine eigene Activity ist?</td><td>Ein falscher Kommentar ist schlimmer als gar keiner, denn wer ihn liest, glaubt ihm</td></tr>
 </table>
@@ -256,7 +256,7 @@ activity in your AndroidManifest.xml?</pre>
 <span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(R.id.clGame), (v, insets) -&gt; {
 ...
 Log.d(TAG, <span class="s">"GameActivity onCreate, question bank size="</span> + allQuestions.size());</pre>
-<p>Sonst nichts. Die elf Methoden, die zwanzig Felder und das ganze Verhalten sind Zeile für Zeile dieselben wie gestern.</p>
+<p>Sonst nichts. Die elf Methoden, die zwanzig Felder und das ganze Verhalten sind Zeile für Zeile dieselben wie vor dem Umzug.</p>
 
 <div class="tip">
 <p><b>Das ist der Beleg dafür, dass der Umzug sauber war.</b> Wenn beim Verschieben einer Klasse mehr als die Adresse geändert werden muss, war die Klasse vorher zu eng mit ihrer Umgebung verwachsen.</p>
@@ -340,7 +340,7 @@ Log.d(TAG, <span class="s">"GameActivity onCreate, question bank size="</span> +
 <p><b>Was du siehst:</b> Die App startet direkt mit Über die App. Es gibt keinen Weg ins Menü, denn dorthin führt kein Knopf. Und die Zurück-Taste beendet die App, statt irgendwohin zu führen.</p>
 <p><b>Das ist der Beleg zu Denkfrage 4.</b> Der Stapel hat nur einen Eintrag. Zurück nimmt ihn weg, und dann ist nichts mehr da.</p>
 <div class="warn">
-<p><b>Danach unbedingt zurückstellen.</b> Sonst startet deine App am falschen Ort, und dein Screenshot für die Abgabe stimmt nicht mehr.</p>
+<p><b>Danach unbedingt zurückstellen.</b> Sonst startet deine App am falschen Ort, und dein Screenshot stimmt nicht mehr.</p>
 <p>Wer <code>exported</code> beim Verschieben vergisst, kommt gar nicht erst zum Starten. Der Übersetzer bricht ab und sagt genau, was fehlt.</p>
 </div>
 </div>
@@ -380,7 +380,7 @@ Log.d(TAG, <span class="s">"GameActivity onCreate, question bank size="</span> +
 <li><b>Rangliste</b> und <b>Fragen verwalten</b> sind blass und reagieren auf keinen Tipp.</li>
 <li><b>Über die App</b> öffnet den Textbildschirm. Die Zurück-Taste bringt dich ins Menü.</li>
 <li><b>Spielen</b> öffnet den Spielbildschirm mit <b>Frage 1 von 5</b>.</li>
-<li>Spiel eine Runde ganz durch. Ergebnis, Knopf und Liste mit sieben Zeilen sind da wie gestern.</li>
+<li>Spiel eine Runde ganz durch. Ergebnis, Knopf und Liste mit sieben Zeilen sind da wie vor dem Umzug.</li>
 <li><b>Nochmals spielen</b> startet eine neue Runde. Die Liste hat weiterhin sieben Zeilen, nicht vierzehn.</li>
 <li>Die Zurück-Taste im Spiel bringt dich ins Menü, nicht aus der App heraus.</li>
 <li>Tipp nochmals auf <b>Spielen</b>. Die Runde beginnt von vorne, bei <b>Frage 1 von 5</b> und null Punkten.</li>
@@ -397,7 +397,7 @@ Log.d(TAG, <span class="s">"GameActivity onCreate, question bank size="</span> +
 <p>In <b>05B</b> bekommt das Menü seinen Rückkanal. Nach der Runde steht auf dem Startbildschirm, wie viele Punkte du hattest. Dabei lernst du zwei Dinge, die zusammengehören: wie eine Activity ein Ergebnis zurückgibt, und wann sie es tun muss.</p>
 <p>Danach der <b>05AB Wissenscheck</b> über beide Aufträge des Vormittags.</p>
 
-<p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 05A Zweite Activity und Intent &middot; Fassung 1 vom 16.08.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
+<p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 05A Zweite Activity und Intent &middot; Version 1 vom 16.08.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->

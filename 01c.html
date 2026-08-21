@@ -20,7 +20,7 @@
 <div class="wrap">
 
 <h1>01C Buttons und Events</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Block 01. Zeitbudget 65 Minuten, dazu 13 Minuten Einführung durch die Lehrperson.</p>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 1 Vormittag. Zeitbudget 65 Minuten, dazu 13 Minuten Einführung durch die Lehrperson.</p>
 <p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
 
 
@@ -49,12 +49,24 @@
 <li>Java aus den früheren Modulen, vor allem der Unterschied zwischen lokaler Variable und Attribut.</li>
 </ul>
 
-<h3>Das gibst du ab</h3>
+<h3>Woran du merkst, dass du fertig bist</h3>
+
+<div class="tip">
+<p><b>Du gibst nichts ab. Deine Notizen gehören dir.</b> Du führst sie in deinem eigenen Heft oder in einer Datei. Vergleich sie danach mit dem Lösungsmaterial.</p>
+</div>
+
+<p>Fertig bist du, wenn das stimmt:</p>
 <ul>
-<li>Dein ausgefülltes <b>Arbeitsblatt</b>. Das ist die Aufgabe <b>01C Arbeitsblatt - Buttons und Events</b> in Google Classroom.</li>
-<li>Einen Screenshot deiner laufenden App mit deinem eigenen Namen, als Anhang zur selben Aufgabe.</li>
-<li>Den ausgefüllten <b>01C Wissenscheck - Buttons und Events</b>.</li>
+<li>Deine Logcat-Zeile enthält deinen eigenen Namen.</li>
+<li>Deine Vermutung zu Schritt 4.2 steht bei dir, und du hast sie vor dem Weiterlesen geschrieben.</li>
+<li>Zu beiden Varianten steht je ein Vorteil und ein Nachteil, in deinen eigenen Worten.</li>
+<li>Deine Entscheidung bei zwanzig Buttons ist begründet, nicht nur genannt.</li>
+<li>Deine App läuft, und alle drei Buttons tun etwas.</li>
 </ul>
+
+<p><b>Mach einen Screenshot für dich selbst.</b> Deine laufende App, im Eingabefeld dein eigener Name, darunter die Ausgabe.</p>
+
+<p>Dazu der <b>01C Wissenscheck</b>. Er ist unbenotet und beliebig wiederholbar.</p>
 
 <div class="info">
 <p><b>Warum du dieselbe App zweimal baust.</b> Das ist keine Schikane. Beide Bauformen begegnen dir später wieder, in fremdem Code, in Anleitungen im Netz und in KI-Antworten. Wer nur eine kennt, versteht die andere nicht und baut sie im Zweifel falsch nach. Wer beide gebaut hat, entscheidet selbst und kann die Entscheidung begründen. Genau das wird in der Leistungsbeurteilung verlangt.</p>
@@ -108,7 +120,7 @@
 <p>Bezeichner und Log-Meldungen sind englisch, sichtbare Texte deutsch. Also <code>btnGreet</code> mit der Beschriftung "Begrüssen".</p>
 
 <h3>Denkfragen <span class="time">2 Minuten</span></h3>
-<p>Denk kurz darüber nach, bevor du anfängst. Abgeben musst du hier nichts. Die Fragen kommen im Wissenscheck wieder, dort bekommst du sofort eine Rückmeldung.</p>
+<p>Denk kurz darüber nach, bevor du anfängst. Aufschreiben musst du nichts davon. Die Fragen kommen im Wissenscheck wieder, dort bekommst du sofort eine Rückmeldung.</p>
 <ol>
 <li>Woher weiss ein Button, dass er angeklickt wurde? Wer sagt es ihm?</li>
 <li>Wenn du drei Buttons hast, brauchst du dann drei Zuhörer oder reicht einer?</li>
@@ -252,7 +264,7 @@ btnGreet.setOnClickListener(v -&gt; {
 <figcaption><b>Der Filter entscheidet.</b> Steht dein Tag nicht im Suchfeld, siehst du deine Meldung nicht, obwohl sie da ist.<span class="lupe">Zum Vergrössern anklicken</span></figcaption>
 </figure>
 
-<p>Schreib eine dieser Zeilen auf dein Arbeitsblatt ab.</p>
+<p>Schreib eine dieser Zeilen auf dein Notizblatt ab.</p>
 </div>
 
 <div class="tip">
@@ -265,7 +277,7 @@ btnGreet.setOnClickListener(v -&gt; {
 <li>Du tippst deinen Namen ein und drückst Begrüssen. Unter den Buttons erscheint "Hallo DEIN NAME!".</li>
 <li>Gleichzeitig blendet sich unten am Bildschirmrand kurz derselbe Text ein.</li>
 <li>Im Logcat steht bei jedem Klick eine neue Zeile mit deinem Namen.</li>
-<li>Auf deinem Arbeitsblatt steht eine Logcat-Zeile mit deinem eigenen Namen.</li>
+<li>Auf deinem Notizblatt steht eine Logcat-Zeile mit deinem eigenen Namen.</li>
 </ul>
 </div>
 
@@ -328,7 +340,7 @@ findViewById(R.id.btnClear).setOnClickListener(<span class="k">this</span>);</pr
 
 <div class="note">
 <p><b>Jetzt hast du ein Problem.</b> <code>etName</code> und <code>tvOutput</code> sind rot. <b>Finde selbst heraus warum, bevor du weiterliest.</b> Tipp: Wo stehen die beiden jetzt, und wo werden sie gleich gebraucht?</p>
-<p>Schreib deine Antwort auf das Arbeitsblatt, bevor du Schritt 4.3 liest. Auch dann, wenn du nicht sicher bist.</p>
+<p>Schreib deine Antwort auf das Notizblatt, bevor du Schritt 4.3 liest. Auch dann, wenn du nicht sicher bist.</p>
 </div>
 
 <div class="step">
@@ -379,7 +391,7 @@ findViewById(R.id.btnClear).setOnClickListener(<span class="k">this</span>);</pr
 <li>Alle drei Buttons tun dasselbe wie in Teil 3.</li>
 <li>In <code>onCreate</code> stehen nur noch fünf Zeilen für die Buttons.</li>
 <li>Die ganze Logik steht in <code>onClick</code>.</li>
-<li>Auf deinem Arbeitsblatt steht deine eigene Antwort aus 4.2, geschrieben bevor du 4.3 gelesen hast.</li>
+<li>Auf deinem Notizblatt steht deine eigene Antwort aus 4.2, geschrieben bevor du 4.3 gelesen hast.</li>
 </ul>
 </div>
 
@@ -393,7 +405,7 @@ findViewById(R.id.btnClear).setOnClickListener(<span class="k">this</span>);</pr
 </div>
 
 <div class="step">
-<p><span class="n">5.2</span><b>Die Tabelle auf dem Arbeitsblatt ausfüllen.</b></p>
+<p><span class="n">5.2</span><b>Die Tabelle auf dem Notizblatt ausfüllen.</b></p>
 <p>Trag für beide Varianten je einen Vorteil und einen Nachteil ein. In deinen eigenen Worten, nicht abgeschrieben.</p>
 <p>Und beantworte die eine Frage darunter: Welche Variante würdest du bei zwanzig Buttons wählen? Begründe in zwei Sätzen.</p>
 </div>
@@ -401,7 +413,7 @@ findViewById(R.id.btnClear).setOnClickListener(<span class="k">this</span>);</pr
 <div class="chk">
 <p><b>So prüfst du Teil 5.</b></p>
 <ul>
-<li>Auf deinem Arbeitsblatt steht zu beiden Varianten je ein Vorteil und ein Nachteil.</li>
+<li>Auf deinem Notizblatt steht zu beiden Varianten je ein Vorteil und ein Nachteil.</li>
 <li>Deine Entscheidung für zwanzig Buttons ist begründet, nicht nur genannt.</li>
 <li>Du hast in einem Satz notiert, was bei deinem Versuch aus 5.1 passiert ist.</li>
 </ul>
@@ -461,14 +473,65 @@ findViewById(R.id.btnClear).setOnClickListener(<span class="k">this</span>);</pr
 </table>
 
 
-<h3>Abgabe</h3>
-<p>Alles läuft über die Aufgabe <b>01C Arbeitsblatt - Buttons und Events</b> in Google Classroom.</p>
-<ol>
-<li>Dein ausgefülltes Arbeitsblatt. Die Kopie liegt schon in deinem Drive, am Schluss auf Abgeben klicken.</li>
-<li>Screenshot deiner laufenden App mit deinem eigenen Namen im Ausgabefeld.</li>
-<li>Danach den <b>01C Wissenscheck</b> ausfüllen.</li>
-</ol>
+<h3>Dein Notizblatt</h3>
 
+<div class="note">
+<p><b>Das hier ersetzt das frühere Arbeitsblatt.</b> Du füllst es nicht in Google Classroom aus, sondern in deinem eigenen Heft, in einer Textdatei oder auf einem Ausdruck dieser Seite. Es gehört dir, und es wird nicht eingesammelt.</p>
+<p><b>Warum du es trotzdem führst.</b> Was du selbst aufschreibst, bleibt. Und am Prüfungstag hast du keine Anleitung, sondern nur das, was du geübt hast.</p>
+</div>
+
+<h4>Teil 2, deine eigene Logcat-Zeile</h4>
+<p>Nach Schritt 2.4. Schreib eine Zeile aus deinem Logcat ab, so wie sie bei dir steht, mit deinem eigenen Namen darin.</p>
+<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;font-size:14px">
+<tr><td style="border:1px solid #c3c2b7;padding:16px 9px">&nbsp;</td></tr>
+</table>
+
+<h4>Teil 4, deine Entdeckung</h4>
+<p>Das hier ist der wichtigste Teil dieses Auftrags. Nach Schritt 4.2 werden <code>etName</code> und <code>tvOutput</code> rot.</p>
+<p><b>Schreib deine Antwort hier hin, bevor du Schritt 4.3 liest.</b> Auch dann, wenn du nicht sicher bist. Eine falsche eigene Antwort ist hier mehr wert als eine richtige abgeschriebene.</p>
+<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;font-size:14px">
+<tr><th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left;width:44%">Frage</th><th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left">Deine Antwort</th></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">Warum sind <code>etName</code> und <code>tvOutput</code> nach Schritt 4.2 rot? Meine Vermutung, vor dem Weiterlesen</td><td style="border:1px solid #c3c2b7;padding:18px 9px">&nbsp;</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">Nachdem ich 4.3 gelesen habe: was war an meiner Vermutung richtig, was nicht?</td><td style="border:1px solid #c3c2b7;padding:18px 9px">&nbsp;</td></tr>
+</table>
+
+<h4>Teil 5, der Vergleich</h4>
+<p>Du hast dieselbe App zweimal gebaut. Trag zu beiden Varianten je einen Vorteil und einen Nachteil ein, in deinen eigenen Worten.</p>
+
+<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;font-size:14px">
+<tr>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left;width:26%">Variante</th>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left;width:37%">Ein Vorteil</th>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left">Ein Nachteil</th>
+</tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">Variante 1, ein Listener pro Button mit Pfeil</td><td style="border:1px solid #c3c2b7;padding:18px 9px">&nbsp;</td><td style="border:1px solid #c3c2b7;padding:18px 9px">&nbsp;</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">Variante 2, die Activity ist selbst der Zuhörer</td><td style="border:1px solid #c3c2b7;padding:18px 9px">&nbsp;</td><td style="border:1px solid #c3c2b7;padding:18px 9px">&nbsp;</td></tr>
+</table>
+
+<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;font-size:14px">
+<tr><th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left;width:44%">Frage</th><th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left">Deine Antwort</th></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">Welche Variante würdest du bei zwanzig Buttons wählen? Begründe in zwei Sätzen</td><td style="border:1px solid #c3c2b7;padding:20px 9px">&nbsp;</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">Aus 5.1: du hast einen Button angemeldet und den Zweig in <code>onClick</code> weggelassen. Was ist passiert? Ein Satz</td><td style="border:1px solid #c3c2b7;padding:20px 9px">&nbsp;</td></tr>
+</table>
+
+<h4>Dein Screenshot</h4>
+<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;font-size:14px">
+<tr>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left;width:10%">Nr.</th>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left;width:52%">Was das Bild zeigen muss</th>
+<th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left">Dateiname</th>
+</tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">1</td><td style="border:1px solid #c3c2b7;padding:9px">Deine laufende App. Im Eingabefeld steht dein eigener Name, darunter die Ausgabe Hallo DEIN NAME</td><td style="border:1px solid #c3c2b7;padding:11px">&nbsp;</td></tr>
+</table>
+
+<h4>Übungen</h4>
+<p>Trag ein, was du geändert hast. Ein bis zwei Zeilen genügen.</p>
+<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%;font-size:14px">
+<tr><th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left;width:40%">Übung</th><th style="border:1px solid #c3c2b7;padding:7px 9px;background:#f3f1ec;text-align:left">Was ich geändert habe</th></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">1, eine Zeile mehr im Log</td><td style="border:1px solid #c3c2b7;padding:16px 9px">&nbsp;</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">2, der Toast wird kürzer. Wie viele Werte gibt es dafür?</td><td style="border:1px solid #c3c2b7;padding:16px 9px">&nbsp;</td></tr>
+<tr><td style="border:1px solid #c3c2b7;padding:9px">3, erklären. Wem hast du es erklärt?</td><td style="border:1px solid #c3c2b7;padding:16px 9px">&nbsp;</td></tr>
+</table>
 
 <h2>03 Guide</h2>
 <table>
@@ -477,14 +540,13 @@ findViewById(R.id.btnClear).setOnClickListener(<span class="k">this</span>);</pr
 <tr><th>Aufgabenart</th><td>Praktische Umsetzung mit einer Entdeckungsstelle (4.2 gegen 4.3)</td></tr>
 <tr><th>Voraussetzung</th><td>Block 01B abgeschlossen</td></tr>
 <tr><th>KI</th><td>In Teil 1 bis 5 <b>nicht</b> erlaubt. Bei den Übungen und der Zusatzaufgabe erlaubt</td></tr>
-<tr><th>Abgabe</th><td>Ein Arbeitsblatt plus ein Screenshot, dazu der Wissenscheck</td></tr>
+<tr><th>Abgabe</th><td><b>keine.</b> Der Wissenscheck des Halbtags genügt</td></tr>
 </table>
 
-<h3>Die vier Beiträge in Google Classroom</h3>
+<h3>Die Beiträge in Google Classroom</h3>
 <table>
 <tr><th>Name</th><th>Typ</th><th>Einstellung</th></tr>
-<tr><td>01C Auftrag - Buttons und Events</td><td>Material</td><td>Schüler können Datei ansehen. Das ist dieses Dokument</td></tr>
-<tr><td>01C Arbeitsblatt - Buttons und Events</td><td>Aufgabe</td><td><b>Für jeden Schüler eine Kopie erstellen.</b> Das ist die Abgabe</td></tr>
+<tr><td>01C Auftrag - Buttons und Events</td><td>Material</td><td>Schüler können Datei ansehen. Das ist dieses Dokument. Das Notizblatt steht darin</td></tr>
 <tr><td>01C Wissenscheck - Buttons und Events</td><td>Aufgabe mit Quiz</td><td>Unbenotet, beliebig oft wiederholbar. Sieben Fragen</td></tr>
 <tr><td>01C Lösung - Buttons und Events</td><td>Material</td><td>Schüler können Datei ansehen. Enthält den vollständigen Code als Text und die Vergleichsliste</td></tr>
 </table>
@@ -495,12 +557,12 @@ findViewById(R.id.btnClear).setOnClickListener(<span class="k">this</span>);</pr
 <tr><th>Art</th><th>Was</th></tr>
 <tr><td>Hardware</td><td>Eigenes Notebook, laufender Emulator Medium Phone API 36.1</td></tr>
 <tr><td>Software und Tools</td><td>Android Studio Quail 2 Patch 1, Google Classroom</td></tr>
-<tr><td>Dokumente</td><td>Arbeitsblatt 01C, als Kopie pro Schüler in Classroom</td></tr>
+<tr><td>Dokumente</td><td>Dieses Dokument, mit dem Notizblatt am Schluss von Abschnitt 02</td></tr>
 <tr><td>Buch</td><td>Android-Apps entwickeln für Einsteiger (Rheinwerk), Kapitel 4.4 Buttons</td></tr>
 </table>
 
 
-<p class="foot">Modul 335 | Block 01 | Auftrag 01C | Fassung 5 | 11.08.2026</p>
+<p class="foot">Modul 335 | Tag 1 Vormittag | Auftrag 01C | Version 5 | 11.08.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->

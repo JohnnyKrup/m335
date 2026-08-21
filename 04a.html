@@ -51,12 +51,19 @@
 <li>Du kennst Listen und Schleifen aus dem Java-Unterricht.</li>
 </ul>
 
-<h3>Das gibst du ab</h3>
+<h3>Woran du merkst, dass du fertig bist</h3>
+
+<div class="tip">
+<p><b>Du gibst nichts ab. Das Blatt gehört dir.</b> Prüf deine Arbeit an der Vergleichsliste im Lösungsmaterial. Am Prüfungstag hilft dir nur, was du selbst gebaut hast.</p>
+</div>
+
+<p>Fertig bist du, wenn das stimmt:</p>
 <ul>
-<li>Screenshot deiner App mitten in der Runde, mit der Zeile <b>Frage 3 von 5</b> sichtbar.</li>
-<li>Screenshot deines Ergebnisbildschirms nach der fünften Frage.</li>
+<li>Mitten in der Runde steht die Zeile <b>Frage 3 von 5</b>.</li>
+<li>Nach der fünften Frage erscheint dein Ergebnisbildschirm.</li>
 </ul>
-<p>Mehr nicht. Kein Arbeitsblatt und <b>kein Projekt als ZIP</b>. Ob dein Code sauber ist, prüfst du selbst mit der Vergleichsliste im Lösungsmaterial.</p>
+
+<p><b>Mach von beidem einen Screenshot für dich selbst.</b></p>
 
 <div class="tip">
 <p><b>Der Wissenscheck kommt erst nach 04B.</b> Er heisst <b>04AB Wissenscheck</b> und deckt beide Aufträge zusammen ab. Was du heute beobachtest, brauchst du dort.</p>
@@ -64,7 +71,7 @@
 
 <div class="info">
 <p><b>Heute wird deine App zum ersten Mal ein Spiel.</b> Bisher gab es eine Frage und danach war Schluss. Ab heute gibt es sieben Fragen im Bestand, eine Runde über fünf davon, einen Weiter-Knopf und am Schluss ein Ergebnis.</p>
-<p>Das ist der grösste Sprung der Woche, was das Verhalten angeht. Der Code dazu ist überschaubar. Der schwierige Teil ist etwas anderes: <b>alles, was dein Code setzt, musst du auch wieder zurücksetzen.</b></p>
+<p>Das ist der grösste Sprung im Modul, was das Verhalten angeht. Der Code dazu ist überschaubar. Der schwierige Teil ist etwas anderes: <b>alles, was dein Code setzt, musst du auch wieder zurücksetzen.</b></p>
 </div>
 
 
@@ -271,7 +278,7 @@ currentQuestion = allQuestions.get(<span class="k">0</span>);
 showQuestion();
 showScore();
 <span class="c">// ENDE KRUECKE</span></pre>
-<p>Der Block gehört ans Ende von <code>onCreate</code>, dorthin wo bisher <code>showQuestion()</code> und <code>showScore()</code> standen. Die zwei alten Aufrufe von gestern nimmst du damit in den Block auf, du schreibst sie nicht ein zweites Mal.</p>
+<p>Der Block gehört ans Ende von <code>onCreate</code>, dorthin wo bisher <code>showQuestion()</code> und <code>showScore()</code> standen. Die zwei bisherigen Aufrufe nimmst du damit in den Block auf, du schreibst sie nicht ein zweites Mal.</p>
 </div>
 </div>
 
@@ -708,15 +715,6 @@ defaultButtonTextColors = answerButtons[<span class="k">0</span>].getTextColors(
 <tr><td>Der Punktestand bleibt beim Start leer</td><td><code>showScore()</code> wird nicht mehr aufgerufen</td><td>Es steht ab jetzt in <code>showQuestion</code>. Siehe C1</td></tr>
 </table>
 
-<h3>Abgabe</h3>
-<p>Alles läuft über die Aufgabe <b>04A Auftrag - Die Fragenliste und die Runde</b> in Google Classroom.</p>
-<ol>
-<li>Screenshot mit der Zeile <b>Frage 3 von 5</b>.</li>
-<li>Screenshot des Ergebnisbildschirms.</li>
-</ol>
-<p>Der <b>04AB Wissenscheck</b> kommt nach 04B und deckt beide Aufträge zusammen ab.</p>
-
-
 <h2>03 Guide</h2>
 <table>
 <tr><td>Zeitbudget</td><td>55 Minuten. Teil A 12, Teil B 18, Teil C 20, Übungen 5</td></tr>
@@ -724,13 +722,13 @@ defaultButtonTextColors = answerButtons[<span class="k">0</span>].getTextColors(
 <tr><td>Aufgabenart</td><td>Ausbau mit zwei Entdeckungsstellen (B2 der Weiter-Knopf im Querformat, C2 der grüne Rest)</td></tr>
 <tr><td>Voraussetzung</td><td>03D, dazu Listen und Schleifen aus dem Java-Unterricht</td></tr>
 <tr><td>KI</td><td>In Teil A bis C <b>nicht</b> erlaubt. Die Kurzwege von Android Studio schon</td></tr>
-<tr><td>Abgabe</td><td>Zwei Screenshots. <b>Kein Arbeitsblatt und kein ZIP.</b> Der Wissenscheck folgt nach 04B</td></tr>
+<tr><td>Abgabe</td><td><b>keine.</b> Der Wissenscheck des Halbtags genügt</td></tr>
 </table>
 
 <h3>Die zwei Beiträge in Google Classroom</h3>
 <table>
 <tr><th>Name</th><th>Typ</th><th>Einstellung</th></tr>
-<tr><td>04A Auftrag - Die Fragenliste und die Runde</td><td>Aufgabe</td><td>Dieses Dokument liegt als Anhang bei, nur zum Ansehen. Abgegeben werden zwei Screenshots</td></tr>
+<tr><td>04A Auftrag - Die Fragenliste und die Runde</td><td>Material</td><td>Schüler können Datei ansehen. Das ist dieses Dokument</td></tr>
 <tr><td>04A Lösung - Die Fragenliste und die Runde</td><td>Material</td><td>Schüler können Datei ansehen. Enthält den vollständigen Code als Text und die Vergleichsliste</td></tr>
 </table>
 
@@ -745,7 +743,7 @@ defaultButtonTextColors = answerButtons[<span class="k">0</span>].getTextColors(
 </table>
 
 
-<p class="foot">Modul 335 | Tag 2 Nachmittag | Auftrag 04A | Fassung 3 | 15.08.2026</p>
+<p class="foot">Modul 335 | Tag 2 Nachmittag | Auftrag 04A | Version 3 | 15.08.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->

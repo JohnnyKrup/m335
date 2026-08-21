@@ -785,7 +785,7 @@ findViewById(<span class="t">R</span>.id.btnCancelQuestion).setOnClickListener(v
 <p><b>So prüfst du B2.</b></p>
 <ol>
 <li>Starte, öffne die Fragenliste, tipp den runden Knopf an.</li>
-<li>Füll das Formular vollständig aus. Nimm eine echte Frage, du brauchst sie für die Abgabe.</li>
+<li>Füll das Formular vollständig aus. Nimm eine echte Frage, du brauchst sie für die Prüfschritte.</li>
 <li>Tipp auf <b>Frage speichern</b>. Der Bildschirm schliesst sich.</li>
 <li><b>Deine Frage steht in der Liste, und oben steht <code>Fragen (31)</code>.</b></li>
 <li>Im Logcat unter <code>tag:Modul335</code> steht <code>question inserted, id=31</code>.</li>
@@ -798,7 +798,7 @@ findViewById(<span class="t">R</span>.id.btnCancelQuestion).setOnClickListener(v
 <p>Du hast deiner Fragenliste nirgends gesagt, dass sie neu laden soll. <code>finish()</code> schliesst nur das Formular. Trotzdem steht deine neue Frage sofort da.</p>
 <p>Das ist der Moment, den du in 08A vorhergesagt hast. Deine <code>AdminActivity</code> lädt in <code>onResume</code> und nicht in <code>onCreate</code>. <code>finish()</code> baut sie nicht neu auf, es deckt sie nur wieder auf. <code>onCreate</code> läuft dabei nicht, denn die Activity war nie weg.</p>
 <p><b>Der Satz zum Merken:</b> <code>onCreate</code> ist die Geburt, <code>onResume</code> ist jedes Wiedersehen.</p>
-<p><b>Hol jetzt deine Notiz von Denkfrage 3 aus 08A hervor und vergleich.</b> Bis gestern hätte <code>onCreate</code> hier auch funktioniert. Seit heute nicht mehr. Ausprobieren kannst du es in Übung 1.</p>
+<p><b>Hol jetzt deine Notiz von Denkfrage 3 aus 08A hervor und vergleich.</b> Bis 08A hätte <code>onCreate</code> hier auch funktioniert. Ab jetzt nicht mehr. Ausprobieren kannst du es in Übung 1.</p>
 </div>
 </div>
 

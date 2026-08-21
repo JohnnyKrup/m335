@@ -50,16 +50,23 @@
 <li>Du kennst <code>findViewById</code> und den Listener seit 01C, <code>setContentView</code> seit 01B.</li>
 </ul>
 
-<h3>Das gibst du ab</h3>
+<h3>Woran du merkst, dass du fertig bist</h3>
+
+<div class="tip">
+<p><b>Du gibst nichts ab. Das Blatt gehört dir.</b> Prüf deine Arbeit an der Vergleichsliste im Lösungsmaterial. Am Prüfungstag hilft dir nur, was du selbst gebaut hast.</p>
+</div>
+
+<p>Fertig bist du, wenn das stimmt:</p>
 <ul>
-<li>Screenshot deines Startbildschirms mit den vier Knöpfen, zwei davon blass.</li>
-<li>Screenshot des Bildschirms <b>Über die App</b>.</li>
-<li>Screenshot deines Logcat, gefiltert auf <code>tag:Modul335</code>, mit den drei Zeilen der drei Activities untereinander.</li>
+<li>Dein Startbildschirm zeigt vier Knöpfe, zwei davon blass.</li>
+<li>Der Bildschirm <b>Über die App</b> lässt sich öffnen.</li>
+<li>Im Logcat stehen mit dem Filter <code>tag:Modul335</code> die drei Zeilen der drei Activities untereinander.</li>
 </ul>
-<p>Mehr nicht. Kein Arbeitsblatt und <b>kein Projekt als ZIP</b>. Ob dein Code sauber ist, prüfst du selbst mit der Vergleichsliste im Lösungsmaterial.</p>
+
+<p><b>Mach von den drei Punkten je einen Screenshot für dich selbst.</b></p>
 
 <div class="info">
-<p><b>Warum heute Code umzieht statt neu entsteht.</b> Bis gestern war dein Spiel die ganze App. Ab heute ist es ein Teil davon. Du verschiebst laufenden Code in eine neue Activity und merkst dabei, was eine Activity eigentlich zusammenhält.</p>
+<p><b>Warum hier Code umzieht statt neu entsteht.</b> Bis 04B war dein Spiel die ganze App. Ab jetzt ist es ein Teil davon. Du verschiebst laufenden Code in eine neue Activity und merkst dabei, was eine Activity eigentlich zusammenhält.</p>
 <p>Wer stattdessen am Anfang sechs leere Activities anlegt, lernt das nie. Das Umziehen ist kein verlorener Aufwand, es ist die Lektion.</p>
 </div>
 
@@ -218,7 +225,7 @@
 <li>Im Projektbaum liegen <code>MainActivity.java</code> und <code>GameActivity.java</code> nebeneinander, beide im Paket <code>ch.wiss.m335.quiz</code>.</li>
 <li>Unter <code>res/layout</code> liegen <code>activity_main.xml</code> und <code>activity_game.xml</code>.</li>
 <li>In <code>activity_game.xml</code> heisst die Root-id <code>clGame</code>, in <code>activity_main.xml</code> steht weiterhin <code>clMain</code>.</li>
-<li><b>Run.</b> Die App läuft genau wie gestern. Du siehst noch keinen Unterschied, und das ist richtig so. Deine neue Klasse startet noch niemand.</li>
+<li><b>Run.</b> Die App läuft genau wie vorher. Du siehst noch keinen Unterschied, und das ist richtig so. Deine neue Klasse startet noch niemand.</li>
 </ul>
 </div>
 
@@ -382,7 +389,7 @@
 }</pre>
 <div class="note">
 <p><b><code>btnPlay</code> ist eine lokale Variable, kein Feld.</b> Der Code fasst den Knopf genau einmal an, nämlich hier, wenn er den Listener setzt. Danach nie wieder.</p>
-<p>Die Prüffrage aus <b>Die Activity von innen</b>: braucht das noch jemand ausser dieser Methode? Nein. Also lokal. Dieselbe Regel wie bei <code>tvListTitle</code> gestern.</p>
+<p>Die Prüffrage aus <b>Die Activity von innen</b>: braucht das noch jemand ausser dieser Methode? Nein. Also lokal. Dieselbe Regel wie bei <code>tvListTitle</code> in 04B.</p>
 </div>
 <h4>Was ein Intent eigentlich ist</h4>
 <p><code>new Intent(this, GameActivity.class)</code> ist ein Zettel mit zwei Angaben. Von wo aus, und wohin. <code>startActivity</code> gibt den Zettel an Android weiter.</p>
@@ -433,9 +440,9 @@
 <li>Beim Start siehst du oben den Titel, darunter vier Knöpfe und ganz unten die Hinweiszeile.</li>
 <li><b>Rangliste</b> und <b>Fragen verwalten</b> sind blass und reagieren nicht.</li>
 <li><b>Über die App</b> reagiert ebenfalls noch nicht. Das ist richtig so, der Knopf bekommt seine Aufgabe erst in Teil C.</li>
-<li><b>Spielen</b> öffnet den Spielbildschirm mit <b>Frage 1 von 5</b>. Er sieht aus wie gestern.</li>
+<li><b>Spielen</b> öffnet den Spielbildschirm mit <b>Frage 1 von 5</b>. Er sieht aus wie vorher.</li>
 <li>Die System-Zurück-Taste bringt dich ins Menü zurück, nicht aus der App heraus.</li>
-<li>Spiel eine Runde ganz durch. Ergebnis und Liste erscheinen wie gestern, die Liste hat sieben Zeilen.</li>
+<li>Spiel eine Runde ganz durch. Ergebnis und Liste erscheinen wie vorher, die Liste hat sieben Zeilen.</li>
 <li>Im Logcat unter <code>tag:Modul335</code> stehen untereinander <code>MainActivity onCreate</code> und <code>GameActivity onCreate, question bank size=7</code>.</li>
 </ul>
 </div>
@@ -677,16 +684,6 @@
 <tr><td>Die Knöpfe kleben in der Bildschirmmitte statt oben</td><td>Das <code>llMenu</code> hat auch unten einen Anker</td><td>Siehe B2. Nur oben, links und rechts</td></tr>
 </table>
 
-<h3>Abgabe</h3>
-<p>Alles läuft über die Aufgabe <b>05A Auftrag - Zweite Activity und Intent</b> in Google Classroom.</p>
-<ol>
-<li>Screenshot des Startbildschirms mit den vier Knöpfen.</li>
-<li>Screenshot des Bildschirms <b>Über die App</b>.</li>
-<li>Screenshot des Logcat mit den drei <code>onCreate</code>-Zeilen untereinander.</li>
-</ol>
-<p>Der <b>05AB Wissenscheck</b> kommt nach 05B und deckt beide Aufträge zusammen ab.</p>
-
-
 <h2>03 Guide</h2>
 <table>
 <tr><td>Zeitbudget</td><td>40 Minuten. Teil A 12, Teil B 15, Teil C 9, Übungen 4</td></tr>
@@ -694,13 +691,13 @@
 <tr><td>Aufgabenart</td><td>Umbau mit einer Entdeckungsstelle (B4, die <code>ActivityNotFoundException</code>)</td></tr>
 <tr><td>Voraussetzung</td><td>04B. Dazu <code>findViewById</code> und Listener aus 01C</td></tr>
 <tr><td>KI</td><td>In Teil A bis C <b>nicht</b> erlaubt. Die Kurzwege von Android Studio schon</td></tr>
-<tr><td>Abgabe</td><td>Drei Screenshots. <b>Kein Arbeitsblatt und kein ZIP</b>. Der Wissenscheck 05AB folgt nach 05B</td></tr>
+<tr><td>Abgabe</td><td><b>keine.</b> Der Wissenscheck des Halbtags genügt</td></tr>
 </table>
 
 <h3>Die zwei Beiträge in Google Classroom</h3>
 <table>
 <tr><th>Name</th><th>Typ</th><th>Einstellung</th></tr>
-<tr><td>05A Auftrag - Zweite Activity und Intent</td><td>Aufgabe</td><td>Dieses Dokument liegt als Anhang bei, nur zum Ansehen. Abgegeben werden drei Screenshots</td></tr>
+<tr><td>05A Auftrag - Zweite Activity und Intent</td><td>Material</td><td>Schüler können Datei ansehen. Das ist dieses Dokument</td></tr>
 <tr><td>05A Lösung - Zweite Activity und Intent</td><td>Material</td><td>Schüler können Datei ansehen. Enthält den vollständigen Code als Text und die Vergleichsliste</td></tr>
 </table>
 <p>Der <b>05AB Wissenscheck</b> gehört zum Beitrag von 05B, nicht hierher.</p>
@@ -716,7 +713,7 @@
 </table>
 
 
-<p class="foot">Modul 335 | Tag 3 Vormittag | Auftrag 05A | Fassung 1 | 16.08.2026</p>
+<p class="foot">Modul 335 | Tag 3 Vormittag | Auftrag 05A | Version 1 | 16.08.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->
