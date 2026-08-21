@@ -14,13 +14,14 @@
 <!--M335:RAHMEN-KOPF-->
 <header class="site-header"><div class="in">
 <a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
-<a href="/" class="back">&larr; &Uuml;bersicht</a>
+<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
 <div class="wrap">
 
 <h1>03B Lösung, Der Spielbildschirm</h1>
-<p class="sub">Lösungsmaterial zum Auftrag 03B. Modul 335, Tag 2 Vormittag. Fassung 2 vom 14.08.2026.</p>
+<p class="sub">Lösungsmaterial zum Auftrag 03B. Modul 335, Tag 2 Vormittag. Version 2 vom 14.08.2026.</p>
 <p class="sub"><b>Zum Durchlesen brauchst du etwa 15 Minuten.</b> Das ist ein Richtwert. Du musst nicht alles lesen, such dir die Stelle, die du brauchst.</p>
 
 <div class="info">
@@ -76,7 +77,7 @@
 <p>Drei Gründe, in der Reihenfolge ihrer Wichtigkeit für dieses Modul.</p>
 <ul>
 <li><b>Ein Ort pro Text.</b> Ändert sich eine Antwort, änderst du sie einmal statt an drei Stellen.</li>
-<li><b>Der Code kann darauf zugreifen.</b> Im nächsten Auftrag liest du <code>R.string.q1_answer3</code>, um die richtige Antwort zu vergleichen. Wäre der Text nur im Layout, müsstest du ihn im Java-Code nochmals hinschreiben, und dann stehen zwei Fassungen desselben Satzes im Projekt.</li>
+<li><b>Der Code kann darauf zugreifen.</b> Im nächsten Auftrag liest du <code>R.string.q1_answer3</code>, um die richtige Antwort zu vergleichen. Wäre der Text nur im Layout, müsstest du ihn im Java-Code nochmals hinschreiben, und dann stehen zwei Versionen desselben Satzes im Projekt.</li>
 <li><b>Mehrsprachigkeit.</b> Ein zweiter Ordner <code>values-fr</code> genügt, und die App spricht Französisch. Ohne Ressourcen müsstest du jedes Layout kopieren.</li>
 </ul>
 <p>Android Studio warnt bei festem Text mit einem gelben Dreieck. Das ist kein Schikane-Hinweis, das ist genau dieser Punkt.</p>
@@ -263,7 +264,7 @@
 <p class="t">Übung 1, der Punktestand wird sichtbar</p>
 <p>Eine Zeile am <code>tvScore</code>:</p>
 <pre>android:text=<span class="s">"Punkte 0"</span></pre>
-<p>Sauberer wäre ein Eintrag in <code>strings.xml</code> und ein Verweis darauf. Für eine Übung, die du gleich wieder zurückbaust, tut es die kurze Fassung.</p>
+<p>Sauberer wäre ein Eintrag in <code>strings.xml</code> und ein Verweis darauf. Für eine Übung, die du gleich wieder zurückbaust, tut es die kurze Version.</p>
 <p><b>Warum du zurückbaust:</b> Im nächsten Auftrag schreibt der Code diesen Text. Bleibt der Text im Layout stehen, siehst du beim Testen nie, ob dein Code wirklich läuft. Du schaust dann auf den alten Text und hältst ihn für dein Ergebnis. Solche Fehler kosten am meisten Zeit, weil alles richtig aussieht.</p>
 </div>
 

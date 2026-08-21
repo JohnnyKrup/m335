@@ -19,4 +19,91 @@
     font:13px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif;color:#898781}
   .site-footer .brand{display:flex;align-items:center;gap:8px}
   .site-footer svg{flex:0 0 auto;display:block;opacity:.65}
-  @media print{ .site-header{position:static} }
+
+  /* Der Knopf rechts im Kopfbereich */
+  .kopf-rechts{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .druck-knopf{font:600 13.5px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;
+    color:#2a78d6;background:none;border:0;padding:0;cursor:pointer}
+  .druck-knopf:hover{text-decoration:underline}
+
+/* ------------------------------------------------------------------
+   Druckansicht
+   Gilt fuer alle Seiten, auch fuer die Nachschlageblaetter mit eigenem CSS.
+   Ziel: eine Seite laesst sich als PDF speichern oder auf Papier drucken,
+   mit einem breiten Rand rechts fuer eigene Notizen.
+
+   Warum ueberall !important: bei den Auftraegen wird rahmen.css VOR
+   dokument.css geladen, sonst wuerde dokument.css jede Regel hier
+   ueberstimmen.
+
+   Warum keine Fuellfarben: der Browser druckt Hintergruende
+   standardmaessig nicht mit. Auf Papier traegt darum der Rahmen die
+   Bedeutung und nicht die Farbe.
+
+   Den Notizrand aendern: der dritte Wert in @page margin.
+   ------------------------------------------------------------------ */
+@media print{
+
+  @page{ size:A4; margin:15mm 35mm 15mm 18mm; }
+
+  html,body{background:#fff !important;color:#000 !important;
+    font-size:10.5pt !important;line-height:1.45 !important}
+  .wrap{max-width:none !important;margin:0 !important;padding:0 !important;
+    overflow:visible !important}
+
+  /* Rahmen und Bedienelemente weg */
+  .site-header,.site-footer,.druck-knopf,.kopf-rechts{display:none !important}
+
+  /* Eine Ueberschrift bleibt bei ihrem Text */
+  h1,h2,h3,h4{break-after:avoid;page-break-after:avoid;color:#000 !important}
+  h1{font-size:19pt !important}
+  h2{font-size:14pt !important;margin-top:20pt !important;
+    border-top:1.5pt solid #000 !important;break-before:auto}
+  h3{font-size:11.5pt !important}
+  h4{font-size:10.5pt !important;color:#000 !important}
+  p,li{orphans:3;widows:3;overflow-wrap:break-word}
+  .sub{color:#000 !important}
+
+  /* Code hell, mit Rahmen, und nichts faellt rechts heraus */
+  pre{background:#fff !important;color:#000 !important;
+    border:.7pt solid #666 !important;border-radius:0 !important;
+    font-size:8.4pt !important;line-height:1.4 !important;padding:6pt 8pt !important;
+    white-space:pre-wrap !important;word-break:break-word !important;
+    overflow:visible !important;margin:0 0 9pt !important}
+  pre .k,pre .t,pre .s,pre .a{color:#000 !important}
+  pre .c{color:#555 !important;font-style:italic !important}
+  code{background:#fff !important;border:.5pt solid #999 !important;
+    padding:0 2pt !important;font-size:8.8pt !important}
+  pre code{border:0 !important;padding:0 !important}
+
+  /* Die farbigen Kaesten */
+  .tip,.note,.warn,.info,.chk,.step,.ue{
+    background:#fff !important;border:.6pt solid #444 !important;
+    border-left:2.5pt solid #000 !important;border-radius:0 !important;
+    padding:7pt 9pt !important;margin:0 0 9pt !important;
+    break-inside:avoid;page-break-inside:avoid}
+  .tip b,.note b,.warn b,.info b,.chk b{color:#000 !important}
+  .step .n,.time{background:#fff !important;color:#000 !important;
+    border:.6pt solid #000 !important}
+
+  /* Tabellen: sichtbare Linien statt Fuellfarbe, Kopfzeile auf jeder Seite.
+     width und overflow-wrap zwingen breite Tabellen in die Seite, sonst
+     ragt zum Beispiel das Notizblatt von 01A ueber den Rand hinaus. */
+  table{background:#fff !important;font-size:9pt !important;
+    border:.6pt solid #666 !important;margin:0 0 9pt !important;
+    width:100% !important;max-width:100% !important}
+  th,td{border:.4pt solid #999 !important;padding:3pt 5pt !important;
+    color:#000 !important;overflow-wrap:anywhere !important;
+    word-break:normal !important;hyphens:auto}
+  th{background:#fff !important;border-bottom:1.2pt solid #000 !important}
+  /* Code-Zellen duerfen auf Papier umbrechen, am Bildschirm nicht.
+     Zahlenspalten bleiben auf einer Zeile, sie sind kurz. */
+  td.pre,th.pre{white-space:normal !important}
+  thead{display:table-header-group}
+  tr{break-inside:avoid;page-break-inside:avoid}
+
+  img,svg{max-width:100% !important;break-inside:avoid;page-break-inside:avoid}
+  a{color:#000 !important;text-decoration:none !important}
+  .foot{border-top:.7pt solid #000 !important;color:#000 !important;
+    font-size:8.5pt !important;margin-top:18pt !important}
+}
