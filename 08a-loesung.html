@@ -25,7 +25,7 @@
 
 <h2>Die Vergleichsliste, dein eigener Code</h2>
 
-<p>Geh diese dreizehn Punkte an deinen eigenen Dateien durch. Sie treffen genau das, was in der Leistungsbeurteilung Punkte gibt.</p>
+<p>Geh diese fünfzehn Punkte an deinen eigenen Dateien durch. Sie treffen genau das, was in der Leistungsbeurteilung Punkte gibt.</p>
 
 <table>
 <tr><th class="num">Nr</th><th>Das prüfst du</th><th>Warum es zählt</th></tr>
@@ -42,6 +42,8 @@
 <tr><td class="num">11</td><td><b>Im <code>QuestionAdapter</code> steht nirgends mehr <i>vier</i>, <i>drei</i> oder <i>Rangliste</i></b></td><td>Alles kommt aus der Vorlage. Ein Kommentar mit einer Zahl darin veraltet als Erstes, und ein falscher Kommentar ist schlimmer als gar keiner</td></tr>
 <tr><td class="num">12</td><td><b>Javadoc an allem Neuen</b>, also an den vier Feldern der <code>AdminActivity</code>, an <code>onQuestionClick</code> und <code>showEmptyState</code>, an <code>ASSET_NAME</code> und <code>seedIfEmpty</code></td><td>Wird in der LB bewertet. Nachträglich dauert es zehnmal so lang</td></tr>
 <tr><td class="num">13</td><td><b>Die Klassenkommentare der <code>AdminActivity</code> und des <code>QuestionAdapter</code> beschreiben die Fragen</b>, nicht Über die App und nicht die Rangliste</td><td>Beide Klassen sind aus einer Vorlage entstanden. Der kopierte Text ist kein Fehler, den ein Werkzeug meldet</td></tr>
+<tr><td class="num">14</td><td><b>Die Zeile <code>database opened</code> steht <b>nach</b> <code>seedIfEmpty</code> und meldet <code>questions=30</code></b></td><td>Oben stehend zählt sie, bevor etwas eingefügt ist, und meldet für immer null. Eine falsche Zahl auf dem Bildschirm ist schlimmer als gar keine</td></tr>
+<tr><td class="num">15</td><td><b>Die vier <code>setAnswer</code>-Zeilen tragen die Zahlen 1, 2, 3 und 4</b></td><td>Vier fast gleiche Zeilen, und keine Meldung, wenn eine Zahl doppelt steht. Die Antworten stehen heute auf keinem Bildschirm, der Fehler schläft bis 08C</td></tr>
 </table>
 
 <div class="tip">
@@ -412,6 +414,10 @@
 
 <p>Der Rest deiner <code>QuizDatabase</code> steht im Lösungsmaterial von 07C. Hier stehen nur die neuen Teile.</p>
 
+<div class="tip">
+<p><b>Wenn dir die Aufteilung auf drei Klassen immer noch unklar ist</b>, lies das Grundlagenblatt <b>Room verstehen</b> aus 07C. Es sagt in einem Abschnitt, warum <code>Question</code> und <code>QuestionEntity</code> nebeneinander liegen, und was <code>QuizDatabase</code> überhaupt tut.</p>
+</div>
+
 <p><b>Die Konstante:</b></p>
 
 <pre><span class="c">/** Der Startbestand, liegt unter app/src/main/assets. */</span>
@@ -427,12 +433,20 @@
                 .allowMainThreadQueries()
                 .build();
 
-        <span class="t">Log</span>.d(TAG, <span class="s">"database opened, name="</span> + DB_NAME);
-
         seedIfEmpty(appContext);
+
+        <span class="c">// Erst nach dem Seed, damit die Zahl den Endstand meldet. In 07C
+        // stand hier eine Null, ab jetzt sind es dreissig.</span>
+        <span class="t">Log</span>.d(TAG, <span class="s">"database opened, name="</span> + DB_NAME
+                + <span class="s">", questions="</span> + instance.questionDao().count());
     }
     <span class="k">return</span> instance;
 }</pre>
+
+<div class="info">
+<p><b>Die Log-Zeile ist gewandert, und das ist die einzige Änderung an bestehendem Code in diesem Auftrag.</b> In 07C stand sie direkt nach dem <code>build()</code> und meldete null. Dort war das die Aussage: die Tabelle entsteht erst beim ersten Zugriff.</p>
+<p>Ab heute ist der erste Zugriff der Startbestand. Bliebe die Zeile oben, würde sie für immer null melden, obwohl dreissig Zeilen darin stehen. <b>Und du hättest sie beim Prüfen der Entdeckungsstelle nicht als Kontrolle</b>, denn beim doppelten Seed meldet sie sechzig.</p>
+</div>
 
 <p><b>Das Lesen aus assets:</b> steht vollständig im Auftrag, B2.</p>
 
@@ -531,11 +545,17 @@
 
 <h2>Lösungen zu den Übungen</h2>
 
+<p><b>Die Texte nachziehen.</b> <code>about_tech</code> behauptete, die Fragen stünden fest im Code. Das war seit Teil B falsch, und es steht auf dem Bildschirm <i>Über die App</i>, den jeder anschaut. <b>Ein Text, den die App selbst zeigt, veraltet genauso wie ein Kommentar, nur sieht ihn jemand.</b></p>
+
 <p><b>Der leere Zustand bekommt seinen Grund.</b> Eine mögliche Version steht oben bei den Strings. Wichtig sind drei Dinge im Satz: dass keine Frage da ist, dass der Startbestand der Grund dafür ist, und wo man nachschauen kann.</p>
 
 <p>Der kurze Satz aus dem Block war nicht falsch, er war nur unvollständig. <b>Ein leerer Zustand, der den wahrscheinlichsten Grund kennt, soll ihn nennen.</b> Und wenn du die Datei zum Prüfen umbenennst, siehst du deinen eigenen Satz genau in der Lage, für die er geschrieben ist.</p>
 
 <p><b>Kommentare nachziehen.</b> Eine mögliche Version steht oben im Code. Wichtig ist nicht der Wortlaut, sondern dass drei Dinge im Klassenkommentar der <code>AdminActivity</code> vorkommen: dass der Bildschirm zwei Gesichter hat, woher die Daten kommen, und warum in <code>onResume</code> geladen wird.</p>
+
+<p><b>Und die zwei Klassen, die du nur nebenbei angefasst hast.</b> In der <code>MainActivity</code> stand, ein Eintrag sei noch gesperrt und die Tabelle werde erst in 08A gefüllt. In der <code>QuestionBank</code> stand, eine Datenbank komme erst noch. <b>Beides waren richtige Sätze, bis heute Nachmittag.</b></p>
+
+<p>Das ist die teuerste Sorte, und du hast sie heute an vier Stellen gesehen: ein Text wird nicht falsch, weil jemand ihn falsch geschrieben hat, sondern weil der Code darunter weitergewachsen ist. Kein Werkzeug meldet das.</p>
 
 <p><b>Und die Zahlwörter im Adapter.</b> Sie stehen an zwei Stellen, im Konstruktor des ViewHolder und im <code>@return</code> von <code>onCreateViewHolder</code>. Dort steht <i>vier</i>, wenn du die Hausaufgabe aus 07B gemacht hast, und sonst noch <i>drei</i>. Beide Sätze stammen aus dem <code>HighscoreAdapter</code> und waren dort richtig. <b>Genau daran erkennst du die teure Sorte:</b> sie werden nicht falsch, weil jemand sie falsch geschrieben hat, sondern weil sie in eine andere Klasse gewandert sind.</p>
 
