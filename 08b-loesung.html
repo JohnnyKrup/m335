@@ -20,12 +20,16 @@
 <div class="wrap">
 
 <h1>08B Lösungsmaterial: Neue Frage anlegen</h1>
-<p class="sub">Modul 335 Mobile Applikationen. Zum Auftrag 08B. Zum Durchlesen brauchst du etwa 14 Minuten. Version 1 vom 20.08.2026.</p>
+<p class="sub">Modul 335 Mobile Applikationen. Zum Auftrag 08B. Zum Durchlesen brauchst du etwa 15 Minuten. Version 1 vom 21.08.2026.</p>
 <p class="sub">Schau erst hinein, wenn dein Formular läuft. Der ganze Code steht hier, aber er nützt dir nur, wenn du vorher selbst gebaut hast.</p>
 
 <h2>Die Vergleichsliste, dein eigener Code</h2>
 
-<p>Geh sie an deinen eigenen Dateien durch, Punkt für Punkt. Sie ist der Ersatz für eine Korrektur.</p>
+<p>Geh sie an deinen eigenen Dateien durch, Punkt für Punkt. <b>Du gibst nichts ab, also ist diese Liste der einzige Massstab, den du hast.</b></p>
+
+<div class="tip">
+<p><b>Wenn du nur einen Punkt prüfst, dann Punkt 7.</b> Ein <code>setId</code> in <code>onSaveClicked</code> löscht eine bestehende Frage, ohne dass irgendetwas abstürzt oder eine Meldung erscheint. Du merkst es frühestens in 08C.</p>
+</div>
 
 <table>
 <tr><th class="num">Nr</th><th>Das prüfst du</th><th>Warum es zählt</th></tr>
@@ -37,12 +41,23 @@
 <tr><td class="num">6</td><td>Die Kategorieauswahl im Formular hat <b>vier</b> Einträge, nicht fünf</td><td><code>Alle</code> ist eine Angabe für eine Runde und keine Eigenschaft einer Frage. Eine Frage mit der Kategorie <code>Alle</code> taucht danach in keiner echten Kategorie auf</td></tr>
 <tr><td class="num">7</td><td>In <code>onSaveClicked</code> steht <b>kein</b> <code>question.setId(...)</code></td><td>Room vergibt die <code>id</code> selbst. Wer sie setzt, überschreibt eine bestehende Frage, und zwar ohne jede Meldung</td></tr>
 <tr><td class="num">8</td><td><code>isFormValid</code> setzt <code>valid = false</code> und prüft <b>weiter</b>, statt mit <code>return false</code> auszusteigen</td><td>Sonst sieht der Benutzer fünf Fehler nacheinander statt gleichzeitig. Das ist der Punkt, an dem sich dieser Auftrag von 06B unterscheidet</td></tr>
-<tr><td class="num">9</td><td>Jede Regel in <code>isFormValid</code> hat ein <code>else</code> mit <code>setError(null)</code></td><td>Sonst bleibt die alte rote Meldung stehen, obwohl das Feld inzwischen stimmt. Der Benutzer sucht dann einen Fehler, den er längst behoben hat</td></tr>
+<tr><td class="num">9</td><td>Jede Regel in <code>isFormValid</code> hat ein <code>else</code> mit <code>setError(null)</code></td><td>Gehört zu Punkt 8 und geht ohne ihn nicht. Sobald die Methode immer durchläuft, würde die nächste Regel die Meldung der vorherigen sofort löschen. Ohne <code>else</code> zeigt die Prüfung am Ende gar nichts an</td></tr>
 <tr><td class="num">10</td><td><code>setError</code> steht auf dem <code>TextInputLayout</code>, nie auf dem <code>TextInputEditText</code></td><td>Auf dem Feld erscheint eine kleine Blase, die beim ersten Antippen wieder verschwindet. Dieselbe Falle wie in 06B</td></tr>
 <tr><td class="num">11</td><td><code>if (!isFormValid()) { return; }</code> steht ganz <b>oben</b> in <code>onSaveClicked</code></td><td>Erst prüfen, dann bauen, dann speichern. Wer zuerst baut, wirft ein halbes Objekt wieder weg. Dasselbe Wächter-Muster wie <code>if (scoreSaved)</code> aus 06B</td></tr>
 <tr><td class="num">12</td><td><b>Javadoc</b> an allen fünf neuen Methoden und an allen neuen Feldern, auch an <code>fabAddQuestion</code> in der <code>AdminActivity</code></td><td>Steht wörtlich im Prüfungsblatt: <i>"Alle selbst erstellten Klassen und Methoden sind Javadoc-kompatibel zu dokumentieren."</i></td></tr>
 <tr><td class="num">13</td><td>Der <b>Klassenkommentar</b> der <code>QuestionEditActivity</code> steht. Und in deinem ganzen Projekt beschreibt kein Satz mehr <code>08B</code> als etwas Zukünftiges</td><td>Ein Kommentar mit einer Auftragsnummer darin veraltet als Erstes, und niemand sucht ihn von selbst. Such nach <code>08B</code>, dann findest du ihn</td></tr>
 </table>
+<p><b>Wenn ein Punkt bei dir anders ist und trotzdem funktioniert, entscheide selbst. Aber du solltest sagen können, warum.</b> Genau das wird in der Leistungsbeurteilung gefragt.</p>
+
+<div class="info">
+<p><b>Zwei Dinge, die anders aussehen dürfen und trotzdem richtig sind.</b></p>
+<ul>
+<li><b>Die Reihenfolge der Methoden im File.</b> Java ist sie egal. Im Code unten stehen <code>textOf</code> und <code>selectedAnswerIndex</code> ganz unten, nach dem Zeitungsprinzip aus 05A. Stehen sie bei dir weiter oben, läuft alles genauso.</li>
+<li><b>Die Reihenfolge der Importe.</b> Die sortiert Android Studio selbst, sobald du <code>Alt+Enter</code> benutzt.</li>
+</ul>
+<p><b>Was nicht anders sein darf:</b> die Reihenfolge <i>innerhalb</i> von <code>onSaveClicked</code>. Die Prüfung steht als Wächter zuoberst, danach wird gebaut, danach gespeichert.</p>
+</div>
+
 
 <h2>Antworten zu den Denkfragen</h2>
 
@@ -54,24 +69,26 @@
 </div>
 
 <div class="step">
-<p><b>2. Warum war <code>return false</code> in 06B richtig und ist hier falsch?</b></p>
-<p>In 06B gab es ein einziges Feld. Es kann nur einen Fehler auf einmal haben, also ist es egal, ob die Methode weiterprüft oder nicht.</p>
-<p>Heute sind es fünf Felder. Mit <code>return false</code> sieht der Benutzer eine rote Meldung, füllt das Feld, tippt auf Speichern, sieht die nächste. Bei fünf leeren Feldern sind das fünf Runden.</p>
+<p><b>2. Was heisst die Bauart von <code>isNameValid</code> auf einem Bildschirm mit fünf Feldern?</b></p>
+<p>Sie steigt beim ersten Fehler mit <code>return false</code> aus. Bei einem Feld ist das genau richtig, denn ein einziges Feld kann nur einen Fehler auf einmal haben.</p>
+<p>Bei fünf Feldern heisst es: der Benutzer sieht eine rote Meldung, füllt das Feld, tippt auf Speichern, sieht die nächste. <b>Bei fünf leeren Feldern sind das fünf Runden.</b> Genau das hast du in B3 selbst gebaut und dann gesehen.</p>
 <p><b>Das Muster hat einen Namen:</b> alles prüfen, dann berichten. Es kommt überall vor, wo mehrere Regeln gleichzeitig gelten. Ein Compiler macht es genauso, sonst müsstest du dein Programm für jeden Fehler einzeln neu bauen.</p>
+<p><b>Und der Preis dafür steht im <code>else</code>.</b> Solange die Methode beim ersten Fehler aussteigt, kommt sie nach einem <code>return</code> nicht mehr an der Aufräumzeile vorbei, also braucht sie kein <code>else</code>. Läuft sie immer durch, muss jede Regel ihre eigene Meldung selbst wegräumen. Die zwei Änderungen gehören zusammen, man kann nicht die eine ohne die andere machen.</p>
 </div>
 
 <div class="step">
-<p><b>3. Welche Methode der <code>AdminActivity</code> sorgt dafür, dass die neue Frage sofort in der Liste steht?</b></p>
-<p><code>onResume</code>.</p>
+<p><b>3. Deine Notiz aus 08A. Hat sie gestimmt?</b></p>
+<p>In 08A stand die Frage, wann <code>onCreate</code> aufhört zu reichen. Die Antwort ist B2 von heute.</p>
 <p><code>finish()</code> im Formular schliesst nur das Formular. Die <code>AdminActivity</code> darunter war die ganze Zeit da, sie war nur verdeckt. Sie wird nicht neu gebaut, also läuft <code>onCreate</code> nicht. Was läuft, ist <code>onResume</code>, und dort steht dein <code>getAll()</code>.</p>
 <p><b>Der Satz zum Merken:</b> <code>onCreate</code> ist die Geburt, <code>onResume</code> ist jedes Wiedersehen.</p>
-<p>In 08A stand ausdrücklich dazu, dass <code>onCreate</code> an dieser Stelle heute auch reichen würde. Das stimmte bis gestern. <b>Seit 08B stimmt es nicht mehr</b>, und das ist der Moment, für den der Satz aufgehoben wurde.</p>
+<p>Es ist der dritte Fall derselben Sache. Der Bestwert in 05D, die Rangliste in 06C, beide Male war es Vorsorge. <b>Heute ist es zum ersten Mal wirklich nötig.</b> Wer es selbst sehen will, macht Übung 1.</p>
 </div>
 
 <div class="step">
 <p><b>4. Warum kommt deine neue Frage im Spiel nie dran?</b></p>
 <p>Weil deine <code>GameActivity</code> ihre Fragen aus <code>QuestionBank</code> holt, also fest aus dem Code. Sie fragt die Datenbank gar nicht.</p>
-<p>Das ist kein Versehen, sondern der Stand nach 08B. Der Umbau ist die Zusatzaufgabe, und er ist kleiner, als er aussieht: <code>Question</code> und <code>QuestionEntity</code> haben von aussen dieselben Methoden, <code>getText</code>, <code>getAnswers</code>, <code>isCorrect</code>. Es ist im Wesentlichen ein Austausch des Typnamens.</p>
+<p>Das ist kein Versehen, sondern der Stand nach 08B. Der Umbau ist Pflicht in 08C, und dort wird er auch wirklich gebraucht. Die Zusatzaufgabe von heute ist die Vorarbeit dazu, mehr nicht.</p>
+<p>Ein Hinweis, weil er beim Aufschreiben hilft: <code>Question</code> und <code>QuestionEntity</code> haben von aussen dieselben Methoden, <code>getText</code>, <code>getAnswers</code>, <code>isCorrect</code>. Warum das so ist und was Room dazu braucht, steht im Nachschlageblatt <b>Room verstehen</b> aus 07C.</p>
 </div>
 
 <h2>Teil A, der neue Bildschirm</h2>
@@ -403,27 +420,55 @@ fabAddQuestion.setOnClickListener(v -&gt;
 &lt;/<span class="t">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</pre>
 <h2>Teil B, das Formular arbeitet</h2>
 
-<h3>Der Vergleich mit deiner isNameValid aus 06B</h3>
+<h3>Der Weg durch B3, in drei Schritten</h3>
 
-<p>Leg die zwei Methoden nebeneinander. Sie lösen dieselbe Aufgabe, und der eine Unterschied ist der ganze Ertrag von heute.</p>
+<p>B3 ist der einzige Teil des Auftrags, in dem du zweimal dieselbe Methode anfasst. Das ist Absicht, und die Reihenfolge ist der Lerninhalt.</p>
 
 <table>
-<tr><th></th><th><code>isNameValid</code>, 06B</th><th><code>isFormValid</code>, 08B</th></tr>
+<tr><th>Schritt</th><th>Was du gebaut hast</th><th>Was du dabei gesehen hast</th></tr>
+<tr><td>1</td><td>Die Schleife nach dem Muster von <code>isNameValid</code>, also mit <code>return false</code></td><td>Nichts Auffälliges. Die Prüfung greift, der Bildschirm bleibt offen</td></tr>
+<tr><td>2</td><td>Nichts. Nur leer gespeichert und gezählt</td><td><b>Eine</b> rote Meldung statt fünf</td></tr>
+<tr><td>3</td><td>Den Umbau auf <code>valid</code>, dazu das <code>else</code> an jeder Regel</td><td>Fünf rote Meldungen gleichzeitig</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Warum nicht gleich richtig?</b> Weil die richtige Bauart nur dann einleuchtet, wenn man die andere einmal in Betrieb gesehen hat. Die falsche Version ist nicht falsch geschrieben, sie ist aus deinem eigenen Code von 06B übertragen. Und dort war sie richtig.</p>
+<p><b>Der Ertrag ist nicht die Schleife, sondern die Frage:</b> passt die Bauart, die ich kenne, auf den Fall, den ich vor mir habe?</p>
+</div>
+
+<h3>Der Vergleich mit deiner isNameValid aus 06B</h3>
+
+<p>Leg die zwei Methoden nebeneinander. Sie lösen dieselbe Aufgabe, und die zwei Unterschiede sind der ganze Ertrag von heute.</p>
+
+<table>
+<tr><th></th><th><code>isNameValid</code>, 06B</th><th><code>isFormValid</code>, 08B fertig</th></tr>
 <tr><td>Wie viele Felder</td><td>eines</td><td>fünf</td></tr>
 <tr><td>Feld auslesen</td><td><code>currentName()</code>, festes Feld</td><td><code>textOf(field)</code>, Feld als Parameter</td></tr>
 <tr><td>Leerzeichen am Rand</td><td><code>trim()</code></td><td><b>gleich</b></td></tr>
 <tr><td>Fehler anzeigen</td><td><code>tilPlayerName.setError("...")</code></td><td><b>gleich</b>, nur an mehreren Rahmen</td></tr>
-<tr><td>Meldung wegräumen</td><td><code>setError(null)</code>, einmal am Ende</td><td><code>setError(null)</code> <b>im <code>else</code> jeder Regel</b></td></tr>
-<tr><td>Beim ersten Fehler</td><td><code>return false</code></td><td><b><code>valid = false</code> und weiterprüfen</b></td></tr>
 <tr><td>Rückgabe</td><td><code>true</code> oder <code>false</code></td><td><b>gleich</b></td></tr>
+<tr><td><b>Beim ersten Fehler</b></td><td><code>return false</code></td><td><b><code>valid = false</code> und weiterprüfen</b></td></tr>
+<tr><td><b>Meldung wegräumen</b></td><td><code>setError(null)</code>, einmal, ohne <code>else</code></td><td><b><code>setError(null)</code> im <code>else</code> jeder Regel</b></td></tr>
 </table>
 
 <div class="tip">
-<p><b>Sechs von sieben Zeilen sind dieselbe Idee.</b> Nur die vorletzte ist anders, und sie ist es, weil aus einem Feld fünf geworden sind.</p>
-<p><b>Und die zweitletzte Zeile hängt daran.</b> In 06B reichte ein <code>setError(null)</code> ganz am Ende, denn dorthin kam man nur, wenn alles stimmte. Heute läuft die Methode immer bis zum Schluss, also muss jede Regel ihre eigene Meldung selbst wegräumen.</p>
+<p><b>Fünf von sieben Zeilen sind dieselbe Idee.</b> Nur die zwei letzten sind anders, und die zweite folgt aus der ersten.</p>
+<p>Solange die Methode beim ersten Fehler aussteigt, kommt sie nach dem <code>return</code> nicht mehr an der Aufräumzeile vorbei. Sie braucht darum kein <code>else</code>. Läuft sie immer durch, würde die nächste Regel die Meldung der vorherigen sofort wieder löschen. <b>Wer nur die eine Änderung macht, bekommt eine Prüfung, die gar nichts mehr anzeigt.</b></p>
 </div>
 
-<h3>Deine Schleife, eine mögliche Form</h3>
+<h3>Deine Schleife, beide Formen</h3>
+
+<p><b>Die erste Version, nach dem Muster von 06B:</b></p>
+
+<pre><span class="k">for</span> (<span class="k">int</span> i = <span class="s">0</span>; i &lt; answerFields.length; i++) {
+    <span class="k">if</span> (textOf(answerFields[i]).isEmpty()) {
+        answerLayouts[i].setError(getString(<span class="t">R</span>.string.error_answer_required));
+        <span class="k">return false</span>;
+    }
+    answerLayouts[i].setError(<span class="k">null</span>);
+}</pre>
+
+<p><b>Und die Endfassung nach dem Umbau:</b></p>
 
 <pre><span class="k">for</span> (<span class="k">int</span> i = <span class="s">0</span>; i &lt; answerFields.length; i++) {
     <span class="k">if</span> (textOf(answerFields[i]).isEmpty()) {
@@ -440,6 +485,8 @@ fabAddQuestion.setOnClickListener(v -&gt;
 </div>
 
 <h3>QuestionEditActivity.java, die ganze Klasse</h3>
+
+
 <pre><span class="k">package</span> ch.wiss.m335.quiz;
 
 <span class="k">import</span> android.os.<span class="t">Bundle</span>;
@@ -712,7 +759,7 @@ fabAddQuestion.setOnClickListener(v -&gt;
         <span class="k">return</span> 0;
     }
 }</pre>
-<h2>Die Stelle am Ende von B2, aufgelöst</h2>
+<h2>Die Stelle aus B2, in einem Bild</h2>
 
 <p>Du speicherst, der Bildschirm schliesst sich, und deine Frage steht sofort in der Liste. Niemand hat der Liste gesagt, dass sie neu laden soll.</p>
 
@@ -725,15 +772,13 @@ fabAddQuestion.setOnClickListener(v -&gt;
 </table>
 
 <div class="tip">
-<p><b>Der Satz zum Merken:</b> <code>onCreate</code> ist die Geburt, <code>onResume</code> ist jedes Wiedersehen.</p>
-<p>Alles, was beim <b>Wiedersehen</b> aktuell sein muss, gehört in <code>onResume</code>. Alles, was nur einmal eingerichtet wird, gehört in <code>onCreate</code>. <code>findViewById</code>, <code>setContentView</code> und die Listener gehören darum nach wie vor nach <code>onCreate</code>.</p>
+<p>Alles, was beim <b>Wiedersehen</b> aktuell sein muss, gehört in <code>onResume</code>. Alles, was nur einmal eingerichtet wird, gehört in <code>onCreate</code>. <code>findViewById</code>, <code>setContentView</code> und die Listener bleiben darum, wo sie sind.</p>
 </div>
 
 <div class="info">
-<p><b>Warum dieser Punkt in 05D und in 08A schon einmal vorkam, und heute trotzdem neu ist.</b></p>
-<p>In 05D hast du <code>onResume</code> zum ersten Mal gesehen, beim besten Wert im Menü. In 08A hast du es bei der Fragenliste wieder geschrieben, mit dem ehrlichen Zusatz, dass <code>onCreate</code> dort auch gereicht hätte.</p>
-<p><b>Heute reicht es zum ersten Mal wirklich nicht mehr</b>, weil du zum ersten Mal von einem Bildschirm zurückkommst, der die Daten darunter verändert hat. Das ist der Fall, für den <code>onResume</code> gebaut ist.</p>
-<p>Probier es in Übung 1 selbst aus. Eine Begründung, die du am eigenen Gerät nachprüfen kannst, hält länger als eine, die du glaubst.</p>
+<p><b>Warum das in 05D, 06C und 08A schon vorkam und heute trotzdem zählt.</b></p>
+<p>In 05D hast du <code>onResume</code> zum ersten Mal gesehen, beim besten Wert im Menü. In 06C wieder, bei der Rangliste. In 08A hast du es bei der Fragenliste geschrieben, mit dem ehrlichen Zusatz, dass <code>onCreate</code> dort auch gereicht hätte, und mit der Frage, wann das aufhört.</p>
+<p><b>Heute ist es soweit</b>, weil du zum ersten Mal von einem Bildschirm zurückkommst, der die Daten darunter verändert hat. Das ist der Fall, für den <code>onResume</code> gebaut ist. Probier es in Übung 1 selbst aus. Eine Begründung, die du am eigenen Gerät nachprüfen kannst, hält länger als eine, die du glaubst.</p>
 </div>
 
 <h2>Lösungen zu den Übungen</h2>
@@ -781,6 +826,9 @@ fabAddQuestion.setOnClickListener(v -&gt;
 <p><b>Das <code>valid &amp;&amp;</code> davor ist kein Schönheitsfehler.</b> Solange Felder leer sind, sind zwei leere Felder zwei gleiche Texte. Ohne die Bedingung meldest du bei einem frisch geöffneten Formular sofort eine Dublette, und das versteht niemand.</p>
 <p>Dazu brauchst du einen neuen String, zum Beispiel <code>error_answers_duplicate</code> mit dem Text <i>Zwei Antworten sind gleich.</i></p>
 </div>
+<div class="info">
+<p><b>Und hier siehst du den Umbau aus B3 zum ersten Mal arbeiten.</b> Diese Regel ist die sechste, und sie kommt zu den fünf von vorher dazu. In der alten Version mit <code>return false</code> hättest du sie nie zusammen mit einem leeren Feld gesehen. Jetzt geht es, ohne dass du an den anderen Regeln etwas ändern musst. <b>Genau das ist der Wert einer Bauart, die durchläuft.</b></p>
+</div>
 <p><b>Diese Frage kommt in 08D als Testfall wieder</b>, und dort ist sie ein gutes Beispiel: der Compiler sagt nichts, die App stürzt nicht ab, und trotzdem ist die Frage kaputt. Genau solche Fälle findet nur ein Test.</p>
 </div>
 
@@ -797,12 +845,13 @@ fabAddQuestion.setOnClickListener(v -&gt;
 <table>
 <tr><th>Was vorgeschlagen wird</th><th>Warum es hier nicht passt</th></tr>
 <tr><td><code>startActivityForResult</code> oder ein <code>ActivityResultLauncher</code>, damit die Liste nach dem Speichern aktualisiert</td><td>Braucht es nicht. Dein <code>onResume</code> erledigt das. Ein Ergebnis zurückzugeben wäre nötig, wenn die Liste einen <b>Wert</b> bräuchte, nicht nur ein neues Laden</td></tr>
+<tr><td>In <code>isFormValid</code> beim ersten Fehler mit <code>return false</code> aussteigen</td><td>Die häufigste Antwort, und sie klingt sauber. Genau diese Bauart hast du in B3 gebaut und dann wieder verworfen. Bei mehreren Feldern sieht der Benutzer die Fehler nacheinander statt gleichzeitig</td></tr>
 <tr><td><code>setError</code> auf dem <code>TextInputEditText</code></td><td>Dann erscheint eine kleine Blase statt der Meldung unter dem Feld, und sie verschwindet beim ersten Antippen. Dieselbe Falle wie in 06B</td></tr>
 <tr><td>Ein <code>switch</code> über <code>R.id</code> in <code>selectedAnswerIndex</code></td><td>Die <code>R</code>-Nummern sind in einer Bibliothek keine Konstanten mehr, und ein <code>switch</code> braucht Konstanten. Dieselbe Falle wie in 01C</td></tr>
 <tr><td>Ein <code>Executor</code>, ein Thread oder Coroutines für den Datenbankzugriff</td><td>Für eine echte App richtig. Wir haben in 07C <code>allowMainThreadQueries</code> bewusst gewählt, mit der Rechnung dazu. Hier bringt es nur zusätzliche Zeilen und eine neue Fehlerquelle</td></tr>
 <tr><td><code>question.setId(0)</code> als ausdrückliche Zeile</td><td>Überflüssig, ein <code>int</code> ist von sich aus 0. Und gefährlich in der Nähe: wer die Zahl später auf etwas anderes ändert, überschreibt eine bestehende Frage</td></tr>
 <tr><td>Ein <code>TextWatcher</code> an jedem Feld, damit die Prüfung schon beim Tippen läuft</td><td>Klingt besser und ist es hier nicht. Der Benutzer bekäme eine rote Meldung, während er noch tippt. Und die Prüfung vor dem Speichern bräuchte es trotzdem</td></tr>
-<tr><td>Die vier Antworten als <code>List&lt;String&gt;</code> in einer Spalte speichern</td><td>Bräuchte einen <code>TypeConverter</code>. Deine <code>QuestionEntity</code> hat aus gutem Grund vier Spalten, das steht seit 07C so fest</td></tr>
+<tr><td>Die vier Antworten als <code>List&lt;String&gt;</code> in einer Spalte speichern</td><td>Bräuchte einen <code>TypeConverter</code>. Deine <code>QuestionEntity</code> hat aus gutem Grund vier Spalten, das steht seit 07C so fest. Warum, steht im Nachschlageblatt <b>Room verstehen</b></td></tr>
 </table>
 
 <h2>So prüfst du das Ganze</h2>
@@ -823,19 +872,19 @@ fabAddQuestion.setOnClickListener(v -&gt;
 </ol>
 
 <div class="info">
-<p><b>Punkt 7 und Punkt 10 sind die, die man überspringt.</b> Punkt 7 prüft das <code>else</code> mit <code>setError(null)</code>. Punkt 10 prüft, dass am Abbrechen-Knopf wirklich nur <code>finish()</code> hängt und nicht versehentlich <code>onSaveClicked</code>.</p>
+<p><b>Punkt 6, 7 und 10 sind die, die man überspringt.</b> Punkt 6 prüft den Umbau aus B3. Punkt 7 prüft das <code>else</code>. Punkt 10 prüft, dass am Abbrechen-Knopf wirklich nur <code>finish()</code> hängt und nicht versehentlich <code>onSaveClicked</code>.</p>
 </div>
 
 <h2>Was noch nicht gut ist, und das mit Absicht</h2>
 
 <ul>
-<li><b>Beim Drehen ist das Getippte weg.</b> Die Felder retten ihren Text zwar selbst, aber der Bildschirm wird neu gebaut, und die Auswahl in den Spinnern stellt sich zurück. In 08C kommt das zur Sprache, weil dort eine <code>id</code> mitwandert, die gerettet werden muss.</li>
-<li><b>Nach dem Speichern gibt es keine Rückmeldung</b> ausser dem Schliessen. Ein kurzer Hinweis wäre möglich. Wir lassen ihn weg, weil das Ergebnis in der Liste sofort sichtbar ist.</li>
-<li><b>Antwort 3 und Antwort 4 sind Pflicht.</b> Nicht jede Frage hat vier Möglichkeiten. In 08C werden die zwei optional, und dann kommt eine neue Regel dazu: eine Antwort 4 ohne Antwort 3 ergäbe eine Lücke.</li>
+<li><b>Antwort 3 und Antwort 4 sind Pflicht.</b> Nicht jede Frage hat vier Möglichkeiten. <b>Denk kurz darüber nach, bevor 08C anfängt:</b> wenn die zwei optional werden, welche zwei Regeln müsste deine Prüfung dann zusätzlich abfangen? Eine davon hat mit der Reihenfolge zu tun, die andere mit dem Knopf oben.</li>
 <li><b>Zwei gleiche Antworten sind erlaubt.</b> Das ist Übung 2.</li>
-<li><b>Ändern und Löschen fehlen.</b> Beides kommt in 08C, im selben Bildschirm.</li>
 <li><b>Ein Klick auf eine Zeile meldet sich weiterhin nur im Logcat.</b> Das Interface dafür hast du in 08A gebaut. Sichtbar wird der Klick in 08C, und dort ist es genau eine Zeile mehr.</li>
-<li><b>Das Spiel liest weiter aus <code>QuestionBank</code>.</b> Deine neue Frage kommt darum nie dran. Das ist die Zusatzaufgabe.</li>
+<li><b>Beim Drehen ist das Getippte weg.</b> Die Felder retten ihren Text zwar selbst, aber die Auswahl in den Spinnern stellt sich zurück. In 08C kommt das zur Sprache, weil dort eine <code>id</code> mitwandert, die gerettet werden muss.</li>
+<li><b>Nach dem Speichern gibt es keine Rückmeldung</b> ausser dem Schliessen. Ein kurzer Hinweis wäre möglich. Wir lassen ihn weg, weil das Ergebnis in der Liste sofort sichtbar ist.</li>
+<li><b>Ändern und Löschen fehlen.</b> Beides kommt in 08C, im selben Bildschirm.</li>
+<li><b>Das Spiel liest weiter aus <code>QuestionBank</code>.</b> Deine neue Frage kommt darum nie dran. Der Umbau ist Pflicht in 08C, die Zusatzaufgabe von heute ist die Vorarbeit dazu.</li>
 </ul>
 
 <h2>Was als Nächstes kommt</h2>
@@ -844,11 +893,21 @@ fabAddQuestion.setOnClickListener(v -&gt;
 
 <p>Damit ist CRUD vollständig: create, read, update, delete. Alle vier laufen über dein <code>QuestionDao</code>, und alle vier stehen im Bewertungsraster der Leistungsbeurteilung.</p>
 
+<table>
+<tr><th>Was du heute gebaut hast</th><th>Was 08C daraus macht</th></tr>
+<tr><td>Das Formular, leer geöffnet</td><td>Dasselbe Formular, mit einer bestehenden Frage gefüllt</td></tr>
+<tr><td><code>selectedAnswerIndex</code>, vom Knopf zum Text</td><td>Die Gegenrichtung, vom Text zurück zum Knopf</td></tr>
+<tr><td><code>insert</code></td><td><code>update</code> und <code>delete</code>, beide seit 07C im Dao</td></tr>
+<tr><td>Eine Prüfung, die durchläuft</td><td>Zwei Regeln mehr, die gleichzeitig gelten</td></tr>
+<tr><td>Der Klick, der nur loggt</td><td>Der Klick, der das Formular öffnet</td></tr>
+</table>
+
 <div class="tip">
 <p><b>Was du heute gebaut hast, ist die grössere Hälfte davon.</b> Das Formular, die Prüfung und der Weg in die Datenbank stehen. 08C fügt eine einzige Verzweigung hinzu: hat der Intent eine <code>id</code> oder nicht.</p>
+<p><b>Und der Umbau aus B3 zahlt sich dort zum ersten Mal aus.</b> Die zwei neuen Regeln lassen sich anhängen, ohne dass du an den alten etwas ändern musst.</p>
 </div>
 
-<p class="foot">Modul 335 | Tag 4 Nachmittag | Lösungsmaterial 08B | Version 1 | 20.08.2026</p>
+<p class="foot">Modul 335 | Tag 4 Nachmittag | Lösungsmaterial 08B | Version 1 | 21.08.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->

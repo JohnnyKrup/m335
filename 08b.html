@@ -20,7 +20,7 @@
 <div class="wrap">
 
 <h1>08B Neue Frage anlegen</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Tag 4 Nachmittag. Zeitbudget 45 Minuten. Version 1 vom 20.08.2026.</p>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 4 Nachmittag. Zeitbudget 45 Minuten. Version 1 vom 21.08.2026.</p>
 <p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
 <p class="sub">Heute baust du den ersten Bildschirm, mit dem jemand deiner App etwas hinzufügen kann. Bis jetzt hat deine App Daten nur gelesen.</p>
 
@@ -37,7 +37,7 @@
 <p>Nach diesem Auftrag kannst du:</p>
 <ul>
 <li>Du baust ein Formular aus mehreren Eingabefeldern und liest es vollständig aus.</li>
-<li>Du prüfst alle Felder auf einmal und zeigst jeden Fehler dort an, wo er entsteht.</li>
+<li>Du entscheidest begründet, wie eine Prüfung mit mehreren Regeln aufgebaut sein muss.</li>
 <li>Du schreibst mit <code>insert</code> eine neue Zeile in deine Datenbank.</li>
 <li>Du erklärst, warum die frisch angelegte Frage sofort in der Liste steht.</li>
 <li>Du benennst den Unterschied zwischen <code>onCreate</code> und <code>onResume</code> an einem Fall, in dem er wirklich zählt.</li>
@@ -55,11 +55,15 @@
 <p>Steht dort <code>Fragen (0)</code> und der leere Zustand, ist dein Startbestand nicht geladen. Dann fehlt heute die halbe Prüfmöglichkeit. Schau im Logcat unter <code>tag:Modul335</code> nach, der Grund steht dort.</p>
 </div>
 
-<h3>Das gibst du ab</h3>
-<ul>
-<li>Einen Screenshot deiner Fragenliste mit einer <b>selbst angelegten Frage</b>. Sichtbar sein müssen der Titel <code>Fragen (31)</code> und deine eigene Frage in der Liste.</li>
-<li>Den <b>Wissenscheck</b> des Halbtags.</li>
-</ul>
+<h3>Woran du merkst, dass du fertig bist</h3>
+
+<div class="tip">
+<p><b>Du gibst nichts ab. Das Blatt gehört dir.</b> Prüf deine Arbeit an der Vergleichsliste im Lösungsmaterial. Am Prüfungstag hilft dir nur, was du selbst gebaut hast.</p>
+</div>
+
+<p>Fertig bist du, wenn deine Fragenliste eine <b>selbst angelegte Frage</b> zeigt und der Titel oben <code>Fragen (31)</code> trägt. <b>Mach davon einen Screenshot für dich selbst</b>, dann kannst du am Tag 5 nachschauen, wie weit du warst.</p>
+
+<p>Dazu der <b>Wissenscheck 08ABC</b>. Er deckt 08A, 08B und 08C zusammen ab, ist unbenotet und beliebig wiederholbar.</p>
 
 <div class="info">
 <p><b>Warum dieser Auftrag zählt, und diesmal ganz wörtlich.</b> Das Prüfungsblatt der Leistungsbeurteilung verlangt genau das, was du heute baust. Nur mit Modulen statt mit Fragen.</p>
@@ -144,8 +148,8 @@
 <tr><td>Im Insets-Block</td><td><code>| WindowInsetsCompat.Type.ime()</code></td><td>Fünf Eingabefelder. Ohne die Tastatur in den Insets legt sie sich über das Feld, in das du gerade tippst</td></tr>
 <tr><td>Am ersten <code>RadioButton</code></td><td><code>android:checked="true"</code></td><td>Ohne Vorauswahl liefert <code>getCheckedRadioButtonId()</code> den Wert <code>-1</code>, und keine deiner vier Nummern passt darauf</td></tr>
 <tr><td>Am runden Knopf</td><td><code>android:contentDescription</code></td><td>Der Knopf trägt nur ein Bild und keinen Text. Ohne die Beschreibung liest die Vorlesefunktion nur <i>Schaltfläche</i> vor</td></tr>
-<tr><td>In <code>isFormValid</code></td><td>Jede Regel setzt <code>valid = false</code> und prüft <b>weiter</b></td><td>Mit <code>return false</code> sieht der Benutzer nur einen Fehler, tippt auf Speichern, sieht den nächsten. Fünfmal</td></tr>
-<tr><td>In <code>isFormValid</code></td><td>Jede Regel hat ein <code>else</code> mit <code>setError(null)</code></td><td>Sonst bleibt die alte rote Meldung stehen, auch wenn das Feld inzwischen stimmt</td></tr>
+<tr><td>In der Prüfung</td><td>Jede Regel meldet ihren Fehler <b>an ihrem eigenen Rahmen</b></td><td>Eine Sammelmeldung ganz oben sagt dem Benutzer nicht, welches der fünf Felder gemeint ist</td></tr>
+<tr><td>In der Prüfung</td><td>Jede Regel räumt ihre Meldung auch wieder <b>weg</b></td><td>Sonst bleibt die alte rote Meldung stehen, auch wenn das Feld inzwischen stimmt</td></tr>
 <tr><td>In der <code>QuestionEditActivity</code></td><td>Die <code>id</code> wird beim Speichern <b>nicht</b> gesetzt</td><td>Room vergibt sie selbst. Wer sie setzt, überschreibt eine bestehende Frage</td></tr>
 <tr><td>Im Manifest</td><td>Ein Eintrag für die neue Activity</td><td>Ohne ihn gibt es beim Öffnen eine <code>ActivityNotFoundException</code>. <b>Kennst du aus 05A</b></td></tr>
 <tr><td>Bei jeder neuen Methode und jedem neuen Feld</td><td>Javadoc</td><td>Steht im Prüfungsblatt: "Alle selbst erstellten Klassen und Methoden sind Javadoc-kompatibel zu dokumentieren."</td></tr>
@@ -173,8 +177,8 @@
 <h3>Denkfragen</h3>
 <ol>
 <li>In der Kategorieauswahl des Formulars fehlt der Eintrag <code>Alle</code>. Was ginge kaputt, wenn er dort stünde? Und <b>wann</b> würdest du es merken?</li>
-<li><code>isFormValid</code> prüft alle Felder und steigt nicht beim ersten Fehler aus. Deine <code>isNameValid</code> aus 06B macht es andersherum. Warum war das dort richtig und ist es hier falsch?</li>
-<li>Du speicherst eine neue Frage und kommst zurück. Sie steht sofort in der Liste, obwohl du der Liste nirgends gesagt hast, dass sie neu laden soll. <b>Welche Methode der <code>AdminActivity</code> sorgt dafür?</b></li>
+<li>Deine <code>isNameValid</code> aus 06B steigt beim ersten Fehler mit <code>return false</code> aus. Das war dort genau richtig. <b>Was heisst dieselbe Bauart auf einem Bildschirm mit fünf Feldern?</b></li>
+<li>In 08A hast du dir zu Denkfrage 3 notiert, wann <code>onCreate</code> aufhört zu reichen. <b>Hol diesen Satz heute hervor.</b> Nach B2 weisst du, ob er gestimmt hat.</li>
 <li>Deine neue Frage steht in der Liste. Spielst du eine Runde, kommt sie nie dran. Woran liegt das?</li>
 </ol>
 
@@ -268,6 +272,12 @@
     &lt;/<span class="t">ScrollView</span>&gt;
 
 &lt;/<span class="t">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</pre>
+
+<div class="note">
+<p><b>Jetzt wird ein Name rot, und das ist richtig so.</b> <code>.QuestionEditActivity</code> in der Zeile <code>tools:context</code> gibt es noch nicht. Die Klasse dazu legst du erst in A2 an.</p>
+<p><b>Das kennst du aus 08A</b>, dort war es dieselbe Zeile mit <code>.AdminActivity</code>. Und es ist nur halb rot: alles mit dem Präfix <code>tools:</code> ist eine Angabe für die <b>Vorschau im Editor</b> und wird beim Bauen weggeworfen. <b>Der Compiler sieht die Zeile nie, dein Projekt lässt sich trotzdem bauen.</b></p>
+<p>Der rote Name verschwindet am Ende von A2 von selbst. <b>Bis dahin ignorierst du ihn.</b></p>
+</div>
 
 <div class="info">
 <p><b>Warum die <code>ScrollView</code> genau eine Sache enthält.</b> Eine <code>ScrollView</code> darf nur ein einziges Child haben. Alles Weitere kommt darum in das <code>LinearLayout</code> hinein und nicht daneben.</p>
@@ -415,7 +425,7 @@
 <div class="chk">
 <p><b>So prüfst du A1.</b></p>
 <ol>
-<li>Der Editor ist nicht rot. Jede id kommt in der Datei genau einmal vor.</li>
+<li><b>Genau ein Name ist rot</b>, nämlich <code>.QuestionEditActivity</code> in der Zeile <code>tools:context</code>. Sonst nichts. Ist noch etwas anderes rot, fehlt ein String oder eine id kommt zweimal vor.</li>
 <li>Im Vorschaufenster stehen von oben nach unten: Titel, Fragetext, vier Antwortfelder, die Frage nach der richtigen Antwort mit vier Knöpfen, Kategorie, Schwierigkeit, zwei Knöpfe.</li>
 <li><b>Die vier Antwortfelder heissen Antwort 1, Antwort 2, Antwort 3 und Antwort 4.</b> Steht viermal Antwort 1 da, hast du beim Kopieren die Beschriftung vergessen.</li>
 <li>Im ersten Knopf der Reihe ist der Punkt gefüllt, in den anderen drei nicht.</li>
@@ -424,7 +434,7 @@
 </div>
 
 <div class="note">
-<p><b>Du kannst diesen Bildschirm noch nicht öffnen.</b> Es gibt bis jetzt nur eine Layout-Datei. Die Klasse dazu baust du in A2, den Weg dorthin in A3.</p>
+<p><b>Du kannst diesen Bildschirm noch nicht öffnen.</b> Es gibt bis jetzt nur eine Layout-Datei. Die Klasse dazu baust du in A2, den Weg dorthin in A3. <b>Und der rote Name im <code>tools:context</code> bleibt bis zum Ende von A2 stehen.</b></p>
 </div>
 </div>
 
@@ -489,6 +499,7 @@
 <p><b>So prüfst du A2.</b></p>
 <ol>
 <li>Die Klasse ist nicht rot, und alle Importe sind da.</li>
+<li><b>Geh nochmals in <code>activity_question_edit.xml</code>. Der rote Name im <code>tools:context</code> ist weg.</b> Er hat auf genau diese Klasse gewartet.</li>
 <li>Starte die App. Sie läuft wie vorher.</li>
 </ol>
 </div>
@@ -536,7 +547,12 @@ fabAddQuestion.setOnClickListener(v -&gt;
         startActivity(<span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">QuestionEditActivity</span>.<span class="k">class</span>)));</pre>
 
 <div class="tip">
-<p><b>Der Kommentar über dem <code>fabAddQuestion.setOnClickListener</code> gehört in deinen Code, die fetten Zeilen darüber nicht.</b> Der eine erklärt, warum kein Extra mitgeht. Die anderen sagen dir nur, wo die Zeilen hingehören, und das weiss dein Code nachher selbst.</p>
+<p><b>Was aus dem dunklen Block in deinen Code gehört, und was nicht.</b></p>
+<ul>
+<li><b>Der Kommentar <i>im</i> Block</b>, der mit <code>// Ohne Extra im Intent</code> anfängt: <b>der gehört mit.</b> Er erklärt, warum kein Extra mitgeht, und das willst du in einem Monat auch noch wissen.</li>
+<li><b>Die zwei Zeilen <i>vor</i> den Blöcken</b>, <i>Als Feld, zu <code>adapter</code> dazu</i> und <i>In <code>onCreate</code>, nach <code>rvQuestions.setAdapter(adapter)</code></i>: <b>die gehören nicht mit.</b> Sie sagen dir nur, an welche Stelle die Zeilen kommen. Stehen sie erst einmal dort, weiss dein Code das selbst.</li>
+</ul>
+<p><b>Die Regel dahinter:</b> ein Kommentar, der <b>warum</b> sagt, gehört in den Code. Einer, der <b>wohin</b> sagt, gehört ins Blatt.</p>
 </div>
 
 <div class="chk">
@@ -562,7 +578,7 @@ fabAddQuestion.setOnClickListener(v -&gt;
 
 <pre><span class="c">Jemand tippt auf Frage speichern</span>
 onSaveClicked()
-   <b>isFormValid()</b>            <span class="c">--&gt; prüft alle fünf Felder</span>
+   <b>isFormValid()</b>            <span class="c">--&gt; prüft die Eingaben</span>
       textOf(feld)          <span class="c">--&gt; liest ein Feld aus</span>
    <span class="c">stimmt etwas nicht: hier ist Schluss, die Meldungen stehen</span>
 
@@ -681,9 +697,14 @@ findViewById(<span class="t">R</span>.id.btnCancelQuestion).setOnClickListener(v
 </div>
 
 <div class="step">
-<p><span class="n">B2</span><b>Speichern und zurück.</b> <span class="time">7 Min</span></p>
+<p><span class="n">B2</span><b>Speichern und zurück.</b> <span class="time">6 Min</span></p>
 
 <p>Drei kleine Methoden und ein Listener. <b>Zuerst die zwei Helfer</b>, denn die nächste Methode braucht sie.</p>
+
+<div class="tip">
+<p><b>Wo die Methoden im File landen, ist etwas anderes als die Reihenfolge, in der du sie schreibst.</b> Java ist die Reihenfolge im File egal, eine Methode darf eine benutzen, die weiter unten steht.</p>
+<p><b>Wir halten uns ans Zeitungsprinzip aus 05A:</b> oben das Wichtige, unten die Helfer. Diese zwei kleinen Methoden kommen darum <b>ans Ende der Klasse</b>, unter alles andere. Geschrieben hast du sie zuerst, gelesen werden sie zuletzt.</p>
+</div>
 
 <pre><span class="c">/**
  * Liest ein Feld aus, ohne Leerzeichen am Rand.
@@ -772,22 +793,17 @@ findViewById(<span class="t">R</span>.id.btnCancelQuestion).setOnClickListener(v
 </ol>
 </div>
 
-<div class="info">
-<p><b>Halt hier kurz an, bevor du weitermachst.</b></p>
-<p>Du hast deiner Fragenliste nirgends gesagt, dass sie neu laden soll. <code>finish()</code> schliesst nur das Formular. Trotzdem steht deine neue Frage sofort da, und der Zähler oben stimmt.</p>
-<p><b>Woher weiss die Liste davon?</b> Überleg es dir, bevor du weiterliest.</p>
-</div>
-
 <div class="tip">
-<p><b>Die Auflösung, und du hast sie in 08A selbst gebaut.</b></p>
-<p>Deine <code>AdminActivity</code> lädt in <code>onResume</code> und nicht in <code>onCreate</code>. <code>finish()</code> baut die Liste nicht neu auf, es deckt sie nur wieder auf. <code>onCreate</code> läuft dabei nicht, denn die Activity war nie weg. <code>onResume</code> läuft bei jedem Wiedersehen.</p>
+<p><b>Und damit ist eine alte Frage beantwortet.</b></p>
+<p>Du hast deiner Fragenliste nirgends gesagt, dass sie neu laden soll. <code>finish()</code> schliesst nur das Formular. Trotzdem steht deine neue Frage sofort da.</p>
+<p>Das ist der Moment, den du in 08A vorhergesagt hast. Deine <code>AdminActivity</code> lädt in <code>onResume</code> und nicht in <code>onCreate</code>. <code>finish()</code> baut sie nicht neu auf, es deckt sie nur wieder auf. <code>onCreate</code> läuft dabei nicht, denn die Activity war nie weg.</p>
 <p><b>Der Satz zum Merken:</b> <code>onCreate</code> ist die Geburt, <code>onResume</code> ist jedes Wiedersehen.</p>
-<p>In 08A stand dazu, dass <code>onCreate</code> an dieser Stelle auch funktionieren würde. Bis heute stimmte das. <b>Seit heute nicht mehr.</b> Ausprobieren kannst du es in Übung 1.</p>
+<p><b>Hol jetzt deine Notiz von Denkfrage 3 aus 08A hervor und vergleich.</b> Bis gestern hätte <code>onCreate</code> hier auch funktioniert. Seit heute nicht mehr. Ausprobieren kannst du es in Übung 1.</p>
 </div>
 </div>
 
 <div class="step">
-<p><span class="n">B3</span><b>Die Prüfung. Diese Methode schreibst du selbst.</b> <span class="time">9 Min</span></p>
+<p><span class="n">B3</span><b>Die Prüfung. Diese Methode schreibst du selbst.</b> <span class="time">10 Min</span></p>
 
 <p><b>Mach zuerst den Gegentest.</b> Tipp den runden Knopf an und dann sofort auf <b>Frage speichern</b>, ohne irgendetwas einzutippen.</p>
 
@@ -799,50 +815,42 @@ findViewById(<span class="t">R</span>.id.btnCancelQuestion).setOnClickListener(v
 
 <h4>Deine Vorlage liegt in deinem eigenen Code</h4>
 
-<p>Mach deine <code>GameActivity</code> auf und schau dir <code>isNameValid</code> an. Du hast sie in 06B geschrieben. Sie macht fast dasselbe:</p>
+<p>Mach deine <code>GameActivity</code> auf und schau dir <code>isNameValid</code> an. Du hast sie in 06B geschrieben, und sie macht genau dasselbe: Feld auslesen, Regel prüfen, Meldung an den Rahmen hängen, wieder wegräumen.</p>
 
 <table>
 <tr><th></th><th><code>isNameValid</code>, 06B</th><th><code>isFormValid</code>, heute</th></tr>
 <tr><td>Wie viele Felder</td><td>eines</td><td><b>fünf</b></td></tr>
+<tr><td>Feld auslesen</td><td><code>currentName()</code></td><td><code>textOf(feld)</code></td></tr>
 <tr><td>Fehler anzeigen</td><td><code>setError</code> am <code>TextInputLayout</code></td><td>gleich</td></tr>
 <tr><td>Meldung wegräumen</td><td><code>setError(null)</code></td><td>gleich</td></tr>
-<tr><td>Beim ersten Fehler</td><td><code>return false</code>, fertig</td><td><b>anders.</b> Siehe unten</td></tr>
+<tr><td>Rückgabe</td><td><code>true</code> oder <code>false</code></td><td>gleich</td></tr>
 </table>
-
-<div class="warn">
-<p><b>Der <code>return false</code> aus 06B war dort richtig und ist hier falsch.</b></p>
-<p>Bei einem Feld gibt es nur einen Fehler. Bei fünf Feldern sieht der Benutzer eine rote Meldung, füllt das Feld, tippt auf Speichern, sieht die nächste. <b>Fünfmal hintereinander.</b></p>
-<p>Darum merkt sich die Methode heute in einer Variablen, dass etwas nicht stimmt, und <b>prüft weiter</b>. Am Ende sind alle Fehler gleichzeitig zu sehen.</p>
-</div>
 
 <h4>Was vorgegeben ist</h4>
 
-<p>Die Regel für den Fragetext steht hier vollständig. <b>Die Schleife über die vier Antwortfelder baust du selbst.</b></p>
+<p>Die Regel für den Fragetext steht hier vollständig, <b>im selben Aufbau wie deine <code>isNameValid</code></b>. Die Schleife über die vier Antwortfelder baust du selbst, nach demselben Muster.</p>
 
 <pre><span class="c">/**
- * Prüft alle Felder und zeigt die Fehler dort an, wo sie entstehen.
+ * Prüft die Eingaben und zeigt die Fehler dort an, wo sie entstehen.
  *
- * (HIER: warum die Methode weiterprüft, statt beim ersten Fehler
- *  auszusteigen, zwei bis drei Zeilen)
+ * (HIER: ein bis zwei Zeilen, was die Methode prüft)
  *
  * @return true, wenn alle Eingaben brauchbar sind
  */</span>
 <span class="k">private boolean</span> isFormValid() {
-    <span class="k">boolean</span> valid = <span class="k">true</span>;
 
     <span class="k">if</span> (textOf(etQuestionText).length() &lt; MIN_TEXT_LENGTH) {
         tilQuestionText.setError(getString(<span class="t">R</span>.string.error_question_text));
-        valid = <span class="k">false</span>;
-    } <span class="k">else</span> {
-        tilQuestionText.setError(<span class="k">null</span>);
+        <span class="k">return false</span>;
     }
+    tilQuestionText.setError(<span class="k">null</span>);
 
     <span class="c">... hier deine Schleife über answerFields ...
     ... ist ein Feld leer, dann die Meldung error_answer_required
-        am passenden answerLayouts, und valid auf false ...
+        am passenden answerLayouts ...
     ... ist es gefüllt, dann setError(null) am passenden answerLayouts ...</span>
 
-    <span class="k">return</span> valid;
+    <span class="k">return true</span>;
 }</pre>
 
 <div class="tip">
@@ -853,30 +861,82 @@ findViewById(<span class="t">R</span>.id.btnCancelQuestion).setOnClickListener(v
 </ul>
 </div>
 
-<p><b>Und zum Schluss der Wächter.</b> Die vier Zeilen kommen ganz an den Anfang von <code>onSaveClicked</code>, über das <code>new QuestionEntity()</code>:</p>
+<p><b>Und jetzt der Wächter.</b> Die vier Zeilen kommen ganz an den Anfang von <code>onSaveClicked</code>, über das <code>new QuestionEntity()</code>:</p>
 
 <pre><span class="k">if</span> (!isFormValid()) {
     <span class="t">Log</span>.d(TAG, <span class="s">"save rejected, form not valid"</span>);
     <span class="k">return</span>;
 }</pre>
 
+<h4>Jetzt schau genau hin</h4>
+
+<p>Starte, tipp den runden Knopf an und dann sofort auf <b>Frage speichern</b>. Wieder ohne irgendetwas einzutippen.</p>
+
+<div class="chk">
+<p><b>Zähl mit.</b></p>
+<ol>
+<li>Der Bildschirm schliesst sich <b>nicht</b> mehr. Im Logcat steht <code>save rejected, form not valid</code>. Deine Prüfung greift.</li>
+<li><b>Wie viele rote Meldungen siehst du?</b> Fünf Felder sind leer.</li>
+<li>Füll den Fragetext richtig aus, mindestens zehn Zeichen, und tipp nochmals auf Speichern. Was passiert jetzt?</li>
+</ol>
+</div>
+
+<div class="info">
+<p><b>Entscheide, bevor du weiterliest: ist das ein Fehler oder nicht?</b></p>
+<p>Notier dir in einem Stichwort, was der Benutzer tun müsste, um alle fünf Felder auszufüllen. Und wie oft er dafür auf Speichern tippt.</p>
+</div>
+
+<h4>Die Auflösung</h4>
+
+<p>Du siehst <b>eine</b> Meldung, nicht fünf. Deine Methode steigt beim ersten Fehler mit <code>return false</code> aus, und alles danach läuft nie. Der Benutzer füllt ein Feld, tippt auf Speichern, sieht die nächste Meldung. <b>Bei fünf leeren Feldern sind das fünf Runden.</b></p>
+
+<p><b>Das ist kein Fehler in deinem Code, sondern in der Bauart.</b> Und die Bauart war in 06B genau richtig: dort gab es ein einziges Feld, und ein einziges Feld kann nur einen Fehler auf einmal haben.</p>
+
+<div class="tip">
+<p><b>Die Regel, die daraus wird:</b> alles prüfen, dann berichten.</p>
+<p>Die Methode merkt sich in einer Variablen, dass etwas nicht stimmt, und <b>prüft weiter</b>. Ausgestiegen wird erst am Schluss. Ein Compiler macht es genauso, sonst müsstest du dein Programm für jeden Fehler einzeln neu bauen.</p>
+</div>
+
+<h4>Der Umbau</h4>
+
+<p>Die Fragetext-Regel sieht danach so aus. <b>Bau deine Schleife nach demselben Muster um</b>, und vergiss die zwei Zeilen um sie herum nicht:</p>
+
+<pre><span class="k">private boolean</span> isFormValid() {
+    <span class="k">boolean</span> valid = <span class="k">true</span>;
+
+    <span class="k">if</span> (textOf(etQuestionText).length() &lt; MIN_TEXT_LENGTH) {
+        tilQuestionText.setError(getString(<span class="t">R</span>.string.error_question_text));
+        valid = <span class="k">false</span>;
+    } <span class="k">else</span> {
+        tilQuestionText.setError(<span class="k">null</span>);
+    }
+
+    <span class="c">... deine Schleife, jetzt nach demselben Muster ...</span>
+
+    <span class="k">return</span> valid;
+}</pre>
+
+<div class="warn">
+<p><b>Das <code>else</code> ist neu, und es ist kein Schönheitsfehler.</b></p>
+<p>In deiner ersten Version stand <code>setError(null)</code> ohne <code>else</code>, und das war richtig: nach einem <code>return</code> kam man dort ohnehin nicht mehr vorbei. Jetzt läuft die Methode <b>immer</b> bis zum Schluss. Ohne <code>else</code> würde jede Regel ihre eigene Meldung sofort wieder löschen.</p>
+</div>
+
 <div class="chk">
 <p><b>So prüfst du B3.</b></p>
 <ol>
-<li>Runder Knopf, dann sofort auf <b>Frage speichern</b>, ohne etwas einzutippen.</li>
-<li><b>Fünf rote Meldungen auf einmal.</b> Eine am Fragetext, vier an den Antworten. Siehst du nur eine, steht in deiner Schleife ein <code>return false</code> statt <code>valid = false</code>.</li>
-<li>Der Bildschirm schliesst sich <b>nicht</b>. Im Logcat steht <code>save rejected, form not valid</code>.</li>
+<li>Leer speichern: <b>fünf rote Meldungen gleichzeitig.</b> Eine am Fragetext, vier an den Antworten. Siehst du nur eine, steht in deiner Schleife noch ein <code>return false</code>.</li>
+<li>Der Bildschirm schliesst sich nicht. Im Logcat steht <code>save rejected, form not valid</code>.</li>
 <li>Tipp nur <code>Hallo</code> in den Fragetext und speicher nochmals. Die Meldung am Fragetext ist immer noch da, denn fünf Zeichen sind weniger als zehn.</li>
-<li>Füll den Fragetext richtig aus und speicher nochmals. <b>Die rote Meldung am Fragetext ist weg</b>, die vier an den Antworten stehen noch. Bleibt sie stehen, fehlt dir das <code>else</code> mit <code>setError(null)</code>.</li>
+<li>Füll den Fragetext richtig aus und speicher nochmals. <b>Die rote Meldung am Fragetext ist weg</b>, die vier an den Antworten stehen noch. Bleibt sie stehen, fehlt dir das <code>else</code>.</li>
 <li>Füll alles aus und speicher. Der Bildschirm schliesst sich, die Frage steht in der Liste.</li>
 <li><b>Tipp in ein Antwortfeld nur ein Leerzeichen</b> und speicher. Die Meldung kommt trotzdem. Das ist das <code>trim</code> in <code>textOf</code>.</li>
 </ol>
 </div>
 
 <div class="info">
-<p><b>Jetzt die Frage, die zu dieser Aufgabe gehört, und beantworte sie erst nach dem Schreiben.</b></p>
-<p>Deine Schleife ist etwa sechs Zeilen lang. <b>Wie viele Zeilen hättest du gebraucht, wenn du die vier Felder einzeln geprüft hättest, so wie es <code>isNameValid</code> mit dem einen Feld macht?</b></p>
-<p>Zähl es nach. Die Zahl ist der Grund, warum die vier Felder in B1 in ein Array gewandert sind.</p>
+<p><b>Und ein Blick nach vorne, denn dieser Umbau war keine Kosmetik.</b></p>
+<p>In 08C kommen zwei weitere Regeln dazu. Sie gelten <b>gleichzeitig</b> mit den fünf von heute, und sie betreffen dieselben Felder. Mit <code>return false</code> würdest du davon immer nur eine sehen.</p>
+<p><b>Überleg dir schon jetzt:</b> was müsste eine Prüfung noch abfangen, wenn nicht jede Frage vier Antworten haben muss?</p>
 </div>
 </div>
 
@@ -965,6 +1025,7 @@ findViewById(<span class="t">R</span>.id.btnCancelQuestion).setOnClickListener(v
 
 <table>
 <tr><th>Symptom</th><th>Wahrscheinliche Ursache</th><th>Was du machst</th></tr>
+<tr><td><code>.QuestionEditActivity</code> im <code>tools:context</code> ist rot</td><td><b>Zwischen A1 und dem Ende von A2 kein Fehler</b></td><td>Nichts tun. Die Klasse kommt in A2, danach ist es weg. <b>Bauen lässt sich das Projekt trotzdem</b>, <code>tools:</code> wird beim Bauen weggeworfen. Dieselbe Stelle wie in 08A</td></tr>
 <tr><td>Der Editor ist rot, eine id gibt es zweimal</td><td>Beim Kopieren der Antwortfelder in A1 ist eine id nicht geändert worden</td><td>Alle acht ids durchgehen. <code>tilAnswer1</code> bis <code>tilAnswer4</code>, <code>etAnswer1</code> bis <code>etAnswer4</code></td></tr>
 <tr><td>Viermal steht <b>Antwort 1</b> im Formular</td><td>Beim Kopieren ist <code>android:hint</code> stehen geblieben</td><td>Die drei Beschriftungen ändern. Siehe die Tabelle in A1. <b>Nichts meldet diesen Fehler</b></td></tr>
 <tr><td><code>ActivityNotFoundException</code> beim Antippen des runden Knopfs</td><td>Der Eintrag im Manifest fehlt</td><td>Ergänzen. Siehe A2</td></tr>
@@ -978,20 +1039,17 @@ findViewById(<span class="t">R</span>.id.btnCancelQuestion).setOnClickListener(v
 <tr><td>Die neue Frage steht in der Liste, aber der Zähler oben stimmt nicht</td><td><code>tvAdminTitle.setText(...)</code> steht in <code>onCreate</code> statt in <code>onResume</code></td><td>In deiner <code>AdminActivity</code> gehören beide Zeilen zusammen in <code>onResume</code></td></tr>
 <tr><td><b>Die neue Frage steht gar nicht in der Liste</b></td><td>Deine <code>AdminActivity</code> lädt in <code>onCreate</code> statt in <code>onResume</code></td><td>Zurück nach 08A schauen. Siehe auch Übung 1</td></tr>
 <tr><td>Eine bestehende Frage ist verschwunden, dafür steht deine an ihrer Stelle</td><td>In <code>onSaveClicked</code> steht ein <code>question.setId(...)</code></td><td>Die Zeile löschen. Room vergibt die <code>id</code> selbst. Siehe B2</td></tr>
-<tr><td>Beim Speichern nur <b>eine</b> rote Meldung, obwohl fünf Felder leer sind</td><td>In deiner Schleife steht <code>return false</code> statt <code>valid = false</code></td><td>Umbauen. Siehe B3</td></tr>
-<tr><td>Eine rote Meldung bleibt stehen, obwohl das Feld jetzt stimmt</td><td>Das <code>else</code> mit <code>setError(null)</code> fehlt</td><td>Ergänzen. Jede Regel räumt ihre eigene Meldung wieder weg. Siehe B3</td></tr>
+<tr><td>Beim Speichern nur <b>eine</b> rote Meldung, obwohl fünf Felder leer sind</td><td><b>Vor dem Umbau in B3 kein Fehler.</b> Danach: in deiner Schleife steht noch ein <code>return false</code></td><td>Erst zu Ende lesen. Nach dem Umbau alle Regeln durchgehen, keine darf mehr mit <code>return</code> aussteigen. Siehe B3</td></tr>
+<tr><td>Eine rote Meldung bleibt stehen, obwohl das Feld jetzt stimmt</td><td><b>Ab dem Umbau in B3:</b> das <code>else</code> mit <code>setError(null)</code> fehlt</td><td>Ergänzen. Ohne <code>return</code> läuft die Methode immer durch, also braucht jede Regel ihr eigenes <code>else</code>. Siehe B3</td></tr>
 <tr><td>Die Meldung erscheint in einer kleinen Blase und verschwindet beim Tippen</td><td><code>setError</code> steht auf dem <code>TextInputEditText</code> statt auf dem <code>TextInputLayout</code></td><td>Auf <code>answerLayouts</code> und <code>tilQuestionText</code> umstellen. Dasselbe wie in 06B</td></tr>
 <tr><td>Eine leere Frage steht in der Liste</td><td>Der Gegentest aus B3</td><td>Nichts tun, sie darf bleiben. Löschen kommt in 08C</td></tr>
 <tr><td>Dreissig Fragen sind plötzlich sechzig</td><td>In der <code>QuizDatabase</code> fehlt die Bedingung <code>count() &gt; 0</code></td><td>Zurück nach 07C schauen. Danach einmal <b>Clear storage</b></td></tr>
 <tr><td>Die neue Frage kommt im Spiel nie dran</td><td><b>Kein Fehler</b></td><td>Nichts tun. Das Spiel liest noch aus <code>QuestionBank</code>. Siehe die Zusatzaufgabe</td></tr>
 </table>
 
-<h3>Abgabe</h3>
-<ul>
-<li><b>Ein Screenshot</b> deiner Fragenliste mit deiner selbst angelegten Frage. Sichtbar sein müssen der Titel mit der neuen Zahl und deine Frage.</li>
-<li>Der <b>Wissenscheck</b> des Halbtags.</li>
-</ul>
-<p>Kein ZIP, keine einzelnen Dateien. Deinen Code prüfst du selbst an der Vergleichsliste im Lösungsmaterial.</p>
+<h3>Zum Schluss</h3>
+<p><b>Du gibst nichts ab.</b> Kein ZIP, keine Dateien, kein Screenshot. <b>Deinen Code prüfst du selbst an der Vergleichsliste im Lösungsmaterial</b>, dreizehn Punkte an deinen eigenen Dateien.</p>
+<p>Was zählt, ist der <b>Wissenscheck 08ABC</b>. Er ist unbenotet, beliebig wiederholbar und hat kein Fälligkeitsdatum.</p>
 
 <h2>03 Guide</h2>
 
@@ -999,16 +1057,16 @@ findViewById(<span class="t">R</span>.id.btnCancelQuestion).setOnClickListener(v
 <tr><th>Punkt</th><th>Angabe</th></tr>
 <tr><td>Sozialform</td><td>Einzelarbeit</td></tr>
 <tr><td>Aufgabenart</td><td>Code-Auftrag. Kein Arbeitsblatt, das Produkt entsteht in der IDE</td></tr>
-<tr><td>Zeitbudget</td><td>45 Minuten. Einstieg 2, Teil A 18, Überblick 2, Teil B 23. <b>Die Übungen und das Nachziehen der Kommentare laufen daheim</b>, etwa 20 Minuten</td></tr>
+<tr><td>Zeitbudget</td><td>45 Minuten. Einstieg 2, Teil A 18, Überblick 2, Teil B 23, davon B1 7, B2 6, B3 10. <b>Die Übungen und das Nachziehen der Kommentare laufen daheim</b>, etwa 20 Minuten</td></tr>
 <tr><td>Hilfsmittel</td><td>Dein Code, die Nachschlageblätter, deine eigene <code>isNameValid</code> aus 06B. KI erlaubt, du musst jede Zeile erklären können</td></tr>
-<tr><td>Abgabe</td><td>Screenshot in Google Classroom</td></tr>
+<tr><td>Abgabe</td><td><b>keine.</b> Der Wissenscheck des Halbtags genügt</td></tr>
 </table>
 
 <h3>Die Beiträge in Google Classroom</h3>
 <ul>
-<li><b>08B Auftrag, Neue Frage anlegen.</b> Aufgabe, dieses Dokument. Hier gibst du den Screenshot ab.</li>
+<li><b>08B Auftrag, Neue Frage anlegen.</b> Material, dieses Dokument.</li>
 <li><b>08B Loesung, Neue Frage anlegen.</b> Material. Erst öffnen, wenn du fertig bist.</li>
-<li><b>Wissenscheck</b> des Halbtags. Unbenotet, beliebig wiederholbar, kein Fälligkeitsdatum.</li>
+<li><b>Wissenscheck 08ABC.</b> Unbenotet, beliebig wiederholbar, kein Fälligkeitsdatum.</li>
 </ul>
 
 <h2>04 Unterrichtsmittel</h2>
@@ -1021,7 +1079,7 @@ findViewById(<span class="t">R</span>.id.btnCancelQuestion).setOnClickListener(v
 <li><b>Emulator streikt</b>, falls das Gerät nicht startet.</li>
 </ul>
 
-<p class="foot">Modul 335 | Tag 4 Nachmittag | Auftrag 08B | Version 1 | 20.08.2026</p>
+<p class="foot">Modul 335 | Tag 4 Nachmittag | Auftrag 08B | Version 1 | 21.08.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->
