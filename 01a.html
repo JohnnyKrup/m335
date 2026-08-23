@@ -412,18 +412,17 @@
 </div></footer>
 <script>
 /* ------------------------------------------------------------------
-   M335: schwebendes Inhaltsverzeichnis und Legende.
+   M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
 
    Warum hier und nicht als eigene Datei: dieser Baustein geht ueber
    web-bau/rahmen/fuss.html in jede Seite. Inline heisst, dass bauen.js
    nichts Zusaetzliches kopieren muss.
 
-   Was das Skript tut:
-     1. markiert die Ueberschriften Teil A, Teil B, Teil C
-     2. vergibt jeder Ueberschrift eine id, die Quellen haben keine
-     3. baut oben die Auftragskarte: Zeit als Pille, darunter die
-        Teile mit ihren Minuten
-     4. baut das Verzeichnis und markiert den sichtbaren Abschnitt
+   Zwei Faelle:
+     Startseite   nimmt die sechs Links aus .schnellnav und baut daraus
+                  dasselbe schwebende Verzeichnis. Keine Auftragskarte.
+     Auftragsseite markiert Teil A bis C, vergibt jeder Ueberschrift eine
+                  id, baut oben die Auftragskarte und daneben das Verzeichnis.
 
    Das Aussehen steht in web-bau/stil/rahmen.css unter m335-nav.
    ------------------------------------------------------------------ */
@@ -431,98 +430,112 @@
   var wrap = document.querySelector('.wrap');
   if (!wrap) return;
 
-  // Die Startseite ist selbst ein Verzeichnis, sie bekommt keines.
-  // Sie ist daran zu erkennen, dass ihr der Rueckweg im Kopf fehlt.
-  if (!document.querySelector('.site-header .back')) return;
-
   var text = function (el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); };
+  var esc  = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
 
-  // ---------------------------------------------------------------- 1 und 2
-  var heads = [].slice.call(wrap.querySelectorAll('h2, h3'));
+  // Die Startseite ist daran zu erkennen, dass ihr der Rueckweg im Kopf fehlt.
+  var istStart = !document.querySelector('.site-header .back');
+  var eintraege = [];
 
-  var vergeben = {};
-  heads.forEach(function (h, i) {
-    if (h.tagName === 'H3' && /^Teil [A-Z]\b/.test(text(h))) h.classList.add('teil');
-    if (h.id) { vergeben[h.id] = true; return; }
-    var roh = text(h).toLowerCase()
-      .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
-      .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
-    var id = roh || ('abschnitt-' + i);
-    if (vergeben[id]) id = id + '-' + i;
-    vergeben[id] = true;
-    h.id = id;
-  });
+  if (istStart) {
+    // ------------------------------------------------------------ Startseite
+    var schnell = wrap.querySelector('.schnellnav');
+    if (!schnell) return;
+    [].slice.call(schnell.querySelectorAll('a')).forEach(function (a) {
+      var ziel = document.getElementById(a.getAttribute('href').slice(1));
+      if (ziel) eintraege.push({ el: ziel, text: text(a), stufe: 'n2' });
+    });
+    if (eintraege.length < 2) return;
 
-  // ---------------------------------------------------------------- 3
-  // Die Auftragskarte. Sie sagt in einem Bildschirm, wie lange der Auftrag
-  // dauert und aus welchen Teilen er besteht. Alles daran steht schon auf
-  // der Seite, die Karte stellt es nur neu zusammen. Darum muss kein
-  // Quelldokument dafuer angefasst werden.
-  var esc = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
-  var subs = [].slice.call(wrap.querySelectorAll('.sub'));
-  var bloecke = heads.filter(function (h) { return h.querySelector('.time'); });
-  var budget = '', zusatz = '';
+  } else {
+    // --------------------------------------------------------- Auftragsseite
+    var heads = [].slice.call(wrap.querySelectorAll('h2, h3'));
 
-  // Das Zeitbudget steht heute mitten im Untertitel. Es wandert in die Pille.
-  subs.forEach(function (p) {
-    if (budget) return;
-    var m = p.innerHTML.match(/Zeitbudget\s+([^.<]+)\./);
-    if (!m) return;
-    var stuecke = m[1].split(/,\s*dazu\s*/);
-    budget = stuecke[0].trim();
-    if (stuecke[1]) zusatz = 'dazu ' + stuecke[1].trim();
-    p.innerHTML = p.innerHTML.replace(m[0], '').replace(/\s{2,}/g, ' ').trim();
-  });
+    // 1 und 2: Teil A bis C markieren, jeder Ueberschrift eine id geben.
+    // Die Quellen haben keine.
+    var vergeben = {};
+    heads.forEach(function (h, i) {
+      if (h.tagName === 'H3' && /^Teil [A-Z]\b/.test(text(h))) h.classList.add('teil');
+      if (h.id) { vergeben[h.id] = true; return; }
+      var roh = text(h).toLowerCase()
+        .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+        .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+      var id = roh || ('abschnitt-' + i);
+      if (vergeben[id]) id = id + '-' + i;
+      vergeben[id] = true;
+      h.id = id;
+    });
 
-  if (budget || bloecke.length) {
-    var karte = document.createElement('div');
-    karte.className = 'karte';
-    var inhalt = '';
-    if (budget) {
-      inhalt += '<p class="zeit"><span class="pill">' + esc(budget) + '</span>';
-      if (zusatz) inhalt += '<span class="pill neben">' + esc(zusatz) + '</span>';
-      inhalt += '</p>';
+    // 3: Die Auftragskarte. Sie sagt in einem Bildschirm, wie lange der
+    // Auftrag dauert und aus welchen Teilen er besteht. Alles daran steht
+    // schon auf der Seite, die Karte stellt es nur neu zusammen.
+    var subs = [].slice.call(wrap.querySelectorAll('.sub'));
+    var bloecke = heads.filter(function (h) { return h.querySelector('.time'); });
+    var budget = '', zusatz = '';
+
+    subs.forEach(function (p) {
+      if (budget) return;
+      var m = p.innerHTML.match(/Zeitbudget\s+([^.<]+)\./);
+      if (!m) return;
+      var stuecke = m[1].split(/,\s*dazu\s*/);
+      budget = stuecke[0].trim();
+      if (stuecke[1]) zusatz = 'dazu ' + stuecke[1].trim();
+      p.innerHTML = p.innerHTML.replace(m[0], '').replace(/\s{2,}/g, ' ').trim();
+    });
+
+    if (budget || bloecke.length) {
+      var karte = document.createElement('div');
+      karte.className = 'karte';
+      var inhalt = '';
+      if (budget) {
+        inhalt += '<p class="zeit"><span class="pill">' + esc(budget) + '</span>';
+        if (zusatz) inhalt += '<span class="pill neben">' + esc(zusatz) + '</span>';
+        inhalt += '</p>';
+      }
+      if (bloecke.length) {
+        inhalt += '<p class="t">DAS MACHST DU</p><ol>';
+        bloecke.forEach(function (b) {
+          var uhr = b.querySelector('.time');
+          var min = uhr ? text(uhr) : '';
+          var t = text(b).replace(min, '').replace(/\s+/g, ' ').replace(/\s+,/g, ',').trim();
+          t = t.replace(/[,;]\s*$/, '');
+          var teil = t.match(/^([^,]+),\s*(.*)$/);
+          var wo = teil ? teil[1] : t;
+          var rest = teil ? teil[2] : '';
+          inhalt += '<li><a href="#' + b.id + '"><span class="wo">' + esc(wo) + '</span>'
+                  + (rest ? ' ' + esc(rest) : '') + '</a>'
+                  + '<span class="min">' + esc(min) + '</span></li>';
+        });
+        inhalt += '</ol>';
+      }
+      karte.innerHTML = inhalt;
+      // Steht oben ein Zielbild, gehoert die Karte darunter. Erst sehen, was
+      // entsteht, dann lesen, wie lange es dauert.
+      var anker = wrap.querySelector('figure.zielbild')
+                || (subs.length ? subs[subs.length - 1] : wrap.firstElementChild);
+      anker.parentNode.insertBefore(karte, anker.nextSibling);
     }
-    if (bloecke.length) {
-      inhalt += '<p class="t">DAS MACHST DU</p><ol>';
-      bloecke.forEach(function (b) {
-        var uhr = b.querySelector('.time');
-        var min = uhr ? text(uhr) : '';
-        var t = text(b).replace(min, '').replace(/\s+/g, ' ').replace(/\s+,/g, ',').trim();
-        t = t.replace(/[,;]\s*$/, '');
-        var teil = t.match(/^([^,]+),\s*(.*)$/);
-        var wo = teil ? teil[1] : t;
-        var rest = teil ? teil[2] : '';
-        inhalt += '<li><a href="#' + b.id + '"><span class="wo">' + esc(wo) + '</span>'
-                + (rest ? ' ' + esc(rest) : '') + '</a>'
-                + '<span class="min">' + esc(min) + '</span></li>';
+
+    // Unter vier Ueberschriften lohnt sich kein Verzeichnis.
+    if (heads.length < 4) return;
+    heads.forEach(function (h) {
+      eintraege.push({
+        el: h,
+        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
       });
-      inhalt += '</ol>';
-    }
-    karte.innerHTML = inhalt;
-    // Steht oben ein Zielbild, gehoert die Karte darunter. Erst sehen, was
-    // entsteht, dann lesen, wie lange es dauert.
-    var anker = wrap.querySelector('figure.zielbild')
-              || (subs.length ? subs[subs.length - 1] : wrap.firstElementChild);
-    anker.parentNode.insertBefore(karte, anker.nextSibling);
+    });
   }
 
   // ---------------------------------------------------------------- 4
-  // Unter vier Ueberschriften lohnt sich kein Verzeichnis. Die Legende
-  // steht dann trotzdem schon, sie haengt nicht an den Ueberschriften.
-  if (heads.length < 4) return;
-
   var nav = document.createElement('nav');
   nav.className = 'm335-nav';
   nav.setAttribute('aria-label', 'Inhalt dieser Seite');
 
   var html = '<p class="kopfzeile">AUF DIESER SEITE</p>'
            + '<button type="button" class="schliessen" aria-label="Verzeichnis schliessen">Schliessen</button><ol>';
-  heads.forEach(function (h) {
-    var stufe = h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3');
-    var t = text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, '');
-    html += '<li class="' + stufe + '"><a href="#' + h.id + '">'
-          + t.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</a></li>';
+  eintraege.forEach(function (e) {
+    html += '<li class="' + e.stufe + '"><a href="#' + e.el.id + '">' + esc(e.text) + '</a></li>';
   });
   nav.innerHTML = html + '</ol>';
 
@@ -537,7 +550,7 @@
   var links = [].slice.call(nav.querySelectorAll('a'));
 
   // Breit: die Leiste steht fest am Rand. Schmal: sie liegt hinter dem Knopf.
-  var breit = window.matchMedia('(min-width: 1320px)');
+  var breit = window.matchMedia('(min-width: 1380px)');
   function umschalten() {
     if (breit.matches) {
       nav.className = 'm335-nav seitlich';
@@ -559,15 +572,15 @@
     if (e.target.tagName === 'A' && !breit.matches) nav.hidden = true;
   });
 
-  // Welcher Abschnitt ist gerade dran. Gesucht ist die letzte Ueberschrift,
-  // die oberhalb der Lesekante liegt. Die Kante liegt knapp unter dem
-  // klebenden Kopfbereich.
+  // Welcher Abschnitt ist gerade dran. Gesucht ist der letzte Eintrag, der
+  // oberhalb der Lesekante liegt. Die Kante liegt knapp unter dem klebenden
+  // Kopfbereich.
   var laeuft = false;
   function markieren() {
     laeuft = false;
     var kante = 96, treffer = 0;
-    for (var i = 0; i < heads.length; i++) {
-      if (heads[i].getBoundingClientRect().top <= kante) treffer = i;
+    for (var i = 0; i < eintraege.length; i++) {
+      if (eintraege[i].el.getBoundingClientRect().top <= kante) treffer = i;
       else break;
     }
     for (var j = 0; j < links.length; j++) links[j].classList.toggle('hier', j === treffer);

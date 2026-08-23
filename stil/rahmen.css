@@ -36,12 +36,17 @@
    Gebaut vom Skript in web-bau/rahmen/fuss.html. Es sammelt die
    Ueberschriften der Seite und vergibt ihnen ids.
 
-   Ab 1320px steht sie fest am linken Rand. Der Textblock ist 800px
-   breit und mittig, es bleiben also rund 260px auf jeder Seite.
-   Darunter liegt sie hinter einem Knopf unten rechts.
+   Ab 1380px steht sie fest am linken Rand. Der breiteste Textblock ist
+   der der Startseite mit 860px, es bleiben also rund 260px auf jeder
+   Seite. Darunter liegt sie hinter einem Knopf unten rechts.
+   Wer die Breite hier aendert, aendert sie auch im Skript in
+   web-bau/rahmen/fuss.html, dort steht dieselbe Zahl.
    ------------------------------------------------------------------ */
   .m335-nav{position:fixed;z-index:30;font:13.5px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
   .m335-nav ol{list-style:none;margin:0;padding:0}
+  /* Die Startseite gibt jedem li einen Rahmen und flex mit. Das darf
+     nicht in das Verzeichnis durchschlagen, darum hier zuruecksetzen. */
+  .m335-nav li{display:block;margin:0;padding:0;border:0}
   .m335-nav a{display:block;padding:4px 10px;color:#52514e;text-decoration:none;
     border-left:2px solid transparent;border-radius:0 4px 4px 0}
   .m335-nav a:hover{background:#f0eee9;color:#0b0b0b}
