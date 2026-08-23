@@ -22,27 +22,9 @@
 
 <h1>02B Formular bauen</h1>
 <p class="sub">Modul 335 Mobile Applikationen, Block 02. Zeitbudget 65 Minuten. Version 3 vom 11.08.2026.</p>
-<p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
 
 
 <h2>01 Einführung</h2>
-
-<h3>Lernziele</h3>
-<table>
-<tr><th>HANOK</th><th>Ziel</th></tr>
-<tr><td>1.1</td><td>Ergonomische Standards und Prinzipien der Interaktion kennen und anwenden</td></tr>
-<tr><td>1.2</td><td>Design- und Benutzerführungs-Guidelines der Plattform anwenden</td></tr>
-<tr><td>3.2</td><td>Framework und APIs der Plattform einsetzen</td></tr>
-</table>
-
-<p>Nach diesem Auftrag kannst du:</p>
-<ul>
-<li>Du baust einen Formularbildschirm aus einem ConstraintLayout und zwei LinearLayouts.</li>
-<li>Du erklärst, warum <code>0dp</code> im ConstraintLayout etwas anderes bedeutet als im LinearLayout.</li>
-<li>Du verteilst mehrere Buttons gleichmässig über die Breite.</li>
-<li>Du setzt einen Rand um den ganzen Bildschirm und weisst, warum er im XML allein nicht wirkt.</li>
-<li>Du prüfst deinen Bildschirm im Querformat und benennst, was dort bricht.</li>
-</ul>
 
 <h3>Das brauchst du vorher</h3>
 <ul>
@@ -78,17 +60,8 @@
 <p>Du baust einen Bildschirm zur Erfassung einer Person. Oben stehen drei Eingabefelder mit Beschriftung. Unten kleben vier Buttons am unteren Rand, alle gleich breit. Dazwischen liegt ein Trennstreifen.</p>
 <p>Der Bildschirm macht noch nichts. Kein Klick tut etwas. Das ist Absicht. Heute geht es nur um das Layout.</p>
 
-<h3>Werkzeugkasten</h3>
 <p>Das sind alle Bausteine, die du für diesen Auftrag brauchst. Mehr nicht.</p>
-<table>
-<tr><th>Baustein</th><th>Wofür</th></tr>
-<tr><td class="pre">ConstraintLayout</td><td>Der Root-Container. Children werden mit Constraints an Kanten geheftet</td></tr>
-<tr><td class="pre">LinearLayout</td><td>Container, der seine Children stur untereinander oder nebeneinander stellt</td></tr>
-<tr><td class="pre">TextView</td><td>Beschriftung</td></tr>
-<tr><td class="pre">EditText</td><td>Eingabefeld</td></tr>
-<tr><td class="pre">View</td><td>Ein Rechteck ohne Inhalt. Hier der Trennstreifen</td></tr>
-<tr><td class="pre">Button</td><td>Schaltfläche</td></tr>
-</table>
+
 
 <p>Welche Angaben Pflicht sind:</p>
 <table>
@@ -125,6 +98,13 @@
 
 <h3>Teil A, Projekt und Formularbereich <span class="time">25 Minuten</span></h3>
 
+
+<h4 class="brauchst">Was du in A1 brauchst</h4>
+<table>
+<tr><th>Baustein</th><th>Wofür</th></tr>
+<tr><td class="pre">View</td><td>Ein Rechteck ohne Inhalt. Hier der Trennstreifen</td></tr>
+</table>
+
 <div class="step">
 <p><span class="n">A1</span><b>Neues Projekt anlegen.</b></p>
 <table>
@@ -146,11 +126,26 @@
 <p>Warte, bis der Gradle Sync unten fertig ist. Das dauert ein bis drei Minuten. Fang nicht vorher an zu tippen.</p>
 </div>
 
+
+<h4 class="brauchst">Was du in A2 brauchst</h4>
+<table>
+<tr><th>Baustein</th><th>Wofür</th></tr>
+<tr><td class="pre">ConstraintLayout</td><td>Der Root-Container. Children werden mit Constraints an Kanten geheftet</td></tr>
+<tr><td class="pre">TextView</td><td>Beschriftung</td></tr>
+</table>
+
 <div class="step">
 <p><span class="n">A2</span><b>Die Hello-World-TextView entfernen.</b></p>
 <p>Öffne <code>app/src/main/res/layout/activity_main.xml</code> und wechsle oben rechts auf <b>Code</b>. Lösche die ganze <code>&lt;TextView ... /&gt;</code>. Das Root-Element bleibt stehen. Es heisst <code>androidx.constraintlayout.widget.ConstraintLayout</code> und hat die id <code>main</code>.</p>
 <p>Diese id <code>main</code> brauchst du später noch. Merke sie dir.</p>
 </div>
+
+
+<h4 class="brauchst">Was du in A3 brauchst</h4>
+<table>
+<tr><th>Baustein</th><th>Wofür</th></tr>
+<tr><td class="pre">LinearLayout</td><td>Container, der seine Children stur untereinander oder nebeneinander stellt</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">A3</span><b>Den Formularbereich anlegen.</b></p>
@@ -169,6 +164,13 @@
 &lt;/<span class="t">LinearLayout</span>&gt;</pre>
 <p><b>Lies die Breite genau.</b> <code>0dp</code> heisst hier nicht "null breit". Im ConstraintLayout heisst <code>0dp</code>: spann dich zwischen deine beiden waagrechten Constraints. Die sind Start an Start und Ende an Ende des Parent. Also über die ganze Breite.</p>
 </div>
+
+
+<h4 class="brauchst">Was du in A4 brauchst</h4>
+<table>
+<tr><th>Baustein</th><th>Wofür</th></tr>
+<tr><td class="pre">EditText</td><td>Eingabefeld</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">A4</span><b>Das erste Feldpaar. Diesen Block bekommst du vorgegeben.</b></p>
@@ -211,6 +213,13 @@
 
 
 <h3>Teil B, Trennstreifen und Buttonreihe <span class="time">18 Minuten</span></h3>
+
+
+<h4 class="brauchst">Was du in B1 brauchst</h4>
+<table>
+<tr><th>Baustein</th><th>Wofür</th></tr>
+<tr><td class="pre">Button</td><td>Schaltfläche</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">B1</span><b>Die Buttonreihe unten anheften.</b></p>
@@ -452,7 +461,29 @@
 <tr><td>Beim Start: <code>Unable to start activity</code> mit <code>InflateException</code></td><td>Das XML ist kaputt, meist ein fehlender schliessender Tag</td><td>Stacktrace lesen, drei Schritte aus 01B. Die Zeilennummer steht in der Meldung</td></tr>
 </table>
 
-<h2>03 Guide</h2>
+
+<h2>03 Recap</h2>
+
+<p>Das Wichtigste aus diesem Auftrag, zum Nachschlagen.</p>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>1.1</td><td>Ergonomische Standards und Prinzipien der Interaktion kennen und anwenden</td></tr>
+<tr><td>1.2</td><td>Design- und Benutzerführungs-Guidelines der Plattform anwenden</td></tr>
+<tr><td>3.2</td><td>Framework und APIs der Plattform einsetzen</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du baust einen Formularbildschirm aus einem ConstraintLayout und zwei LinearLayouts.</li>
+<li>Du erklärst, warum <code>0dp</code> im ConstraintLayout etwas anderes bedeutet als im LinearLayout.</li>
+<li>Du verteilst mehrere Buttons gleichmässig über die Breite.</li>
+<li>Du setzt einen Rand um den ganzen Bildschirm und weisst, warum er im XML allein nicht wirkt.</li>
+<li>Du prüfst deinen Bildschirm im Querformat und benennst, was dort bricht.</li>
+</ul>
+
+<h2>04 Guide</h2>
 <table>
 <tr><td>Zeitbudget</td><td>65 Minuten. Teil A 25, Teil B 18, Teil C 12, Übungen 10</td></tr>
 <tr><td>Sozialform</td><td>Einzelarbeit. Bei den Denkfragen und Übung 4 zu zweit</td></tr>
@@ -475,7 +506,7 @@
 </div>
 
 
-<h2>04 Unterrichtsmittel</h2>
+<h2>05 Unterrichtsmittel</h2>
 <table>
 <tr><th>Art</th><th>Was</th></tr>
 <tr><td>Hardware</td><td>Eigenes Notebook, laufender Emulator Medium Phone API 36.1</td></tr>
@@ -492,6 +523,180 @@
 <footer class="site-footer"><div class="in">
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
+<script>
+/* ------------------------------------------------------------------
+   M335: schwebendes Inhaltsverzeichnis und Legende.
+
+   Warum hier und nicht als eigene Datei: dieser Baustein geht ueber
+   web-bau/rahmen/fuss.html in jede Seite. Inline heisst, dass bauen.js
+   nichts Zusaetzliches kopieren muss.
+
+   Was das Skript tut:
+     1. markiert die Ueberschriften Teil A, Teil B, Teil C
+     2. vergibt jeder Ueberschrift eine id, die Quellen haben keine
+     3. baut oben die Auftragskarte: Zeit als Pille, darunter die
+        Teile mit ihren Minuten
+     4. baut das Verzeichnis und markiert den sichtbaren Abschnitt
+
+   Das Aussehen steht in web-bau/stil/rahmen.css unter m335-nav.
+   ------------------------------------------------------------------ */
+(function () {
+  var wrap = document.querySelector('.wrap');
+  if (!wrap) return;
+
+  // Die Startseite ist selbst ein Verzeichnis, sie bekommt keines.
+  // Sie ist daran zu erkennen, dass ihr der Rueckweg im Kopf fehlt.
+  if (!document.querySelector('.site-header .back')) return;
+
+  var text = function (el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); };
+
+  // ---------------------------------------------------------------- 1 und 2
+  var heads = [].slice.call(wrap.querySelectorAll('h2, h3'));
+
+  var vergeben = {};
+  heads.forEach(function (h, i) {
+    if (h.tagName === 'H3' && /^Teil [A-Z]\b/.test(text(h))) h.classList.add('teil');
+    if (h.id) { vergeben[h.id] = true; return; }
+    var roh = text(h).toLowerCase()
+      .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+    var id = roh || ('abschnitt-' + i);
+    if (vergeben[id]) id = id + '-' + i;
+    vergeben[id] = true;
+    h.id = id;
+  });
+
+  // ---------------------------------------------------------------- 3
+  // Die Auftragskarte. Sie sagt in einem Bildschirm, wie lange der Auftrag
+  // dauert und aus welchen Teilen er besteht. Alles daran steht schon auf
+  // der Seite, die Karte stellt es nur neu zusammen. Darum muss kein
+  // Quelldokument dafuer angefasst werden.
+  var esc = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+  var subs = [].slice.call(wrap.querySelectorAll('.sub'));
+  var bloecke = heads.filter(function (h) { return h.querySelector('.time'); });
+  var budget = '', zusatz = '';
+
+  // Das Zeitbudget steht heute mitten im Untertitel. Es wandert in die Pille.
+  subs.forEach(function (p) {
+    if (budget) return;
+    var m = p.innerHTML.match(/Zeitbudget\s+([^.<]+)\./);
+    if (!m) return;
+    var stuecke = m[1].split(/,\s*dazu\s*/);
+    budget = stuecke[0].trim();
+    if (stuecke[1]) zusatz = 'dazu ' + stuecke[1].trim();
+    p.innerHTML = p.innerHTML.replace(m[0], '').replace(/\s{2,}/g, ' ').trim();
+  });
+
+  if (budget || bloecke.length) {
+    var karte = document.createElement('div');
+    karte.className = 'karte';
+    var inhalt = '';
+    if (budget) {
+      inhalt += '<p class="zeit"><span class="pill">' + esc(budget) + '</span>';
+      if (zusatz) inhalt += '<span class="pill neben">' + esc(zusatz) + '</span>';
+      inhalt += '</p>';
+    }
+    if (bloecke.length) {
+      inhalt += '<p class="t">DAS MACHST DU</p><ol>';
+      bloecke.forEach(function (b) {
+        var uhr = b.querySelector('.time');
+        var min = uhr ? text(uhr) : '';
+        var t = text(b).replace(min, '').replace(/\s+/g, ' ').replace(/\s+,/g, ',').trim();
+        t = t.replace(/[,;]\s*$/, '');
+        var teil = t.match(/^([^,]+),\s*(.*)$/);
+        var wo = teil ? teil[1] : t;
+        var rest = teil ? teil[2] : '';
+        inhalt += '<li><a href="#' + b.id + '"><span class="wo">' + esc(wo) + '</span>'
+                + (rest ? ' ' + esc(rest) : '') + '</a>'
+                + '<span class="min">' + esc(min) + '</span></li>';
+      });
+      inhalt += '</ol>';
+    }
+    karte.innerHTML = inhalt;
+    var anker = subs.length ? subs[subs.length - 1] : wrap.firstElementChild;
+    anker.parentNode.insertBefore(karte, anker.nextSibling);
+  }
+
+  // ---------------------------------------------------------------- 4
+  // Unter vier Ueberschriften lohnt sich kein Verzeichnis. Die Legende
+  // steht dann trotzdem schon, sie haengt nicht an den Ueberschriften.
+  if (heads.length < 4) return;
+
+  var nav = document.createElement('nav');
+  nav.className = 'm335-nav';
+  nav.setAttribute('aria-label', 'Inhalt dieser Seite');
+
+  var html = '<p class="kopfzeile">AUF DIESER SEITE</p>'
+           + '<button type="button" class="schliessen" aria-label="Verzeichnis schliessen">Schliessen</button><ol>';
+  heads.forEach(function (h) {
+    var stufe = h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3');
+    var t = text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, '');
+    html += '<li class="' + stufe + '"><a href="#' + h.id + '">'
+          + t.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</a></li>';
+  });
+  nav.innerHTML = html + '</ol>';
+
+  var knopf = document.createElement('button');
+  knopf.type = 'button';
+  knopf.className = 'm335-nav-knopf';
+  knopf.textContent = 'Inhalt';
+
+  document.body.appendChild(nav);
+  document.body.appendChild(knopf);
+
+  var links = [].slice.call(nav.querySelectorAll('a'));
+
+  // Breit: die Leiste steht fest am Rand. Schmal: sie liegt hinter dem Knopf.
+  var breit = window.matchMedia('(min-width: 1320px)');
+  function umschalten() {
+    if (breit.matches) {
+      nav.className = 'm335-nav seitlich';
+      nav.hidden = false;
+      knopf.style.display = 'none';
+    } else {
+      nav.className = 'm335-nav klappe';
+      nav.hidden = true;
+      knopf.style.display = '';
+    }
+  }
+  umschalten();
+  if (breit.addEventListener) breit.addEventListener('change', umschalten);
+  else if (breit.addListener) breit.addListener(umschalten);
+
+  knopf.addEventListener('click', function () { nav.hidden = !nav.hidden; });
+  nav.querySelector('.schliessen').addEventListener('click', function () { nav.hidden = true; });
+  nav.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && !breit.matches) nav.hidden = true;
+  });
+
+  // Welcher Abschnitt ist gerade dran. Gesucht ist die letzte Ueberschrift,
+  // die oberhalb der Lesekante liegt. Die Kante liegt knapp unter dem
+  // klebenden Kopfbereich.
+  var laeuft = false;
+  function markieren() {
+    laeuft = false;
+    var kante = 96, treffer = 0;
+    for (var i = 0; i < heads.length; i++) {
+      if (heads[i].getBoundingClientRect().top <= kante) treffer = i;
+      else break;
+    }
+    for (var j = 0; j < links.length; j++) links[j].classList.toggle('hier', j === treffer);
+    var a = links[treffer];
+    if (a && breit.matches) {
+      var r = a.getBoundingClientRect(), n = nav.getBoundingClientRect();
+      if (r.top < n.top + 8 || r.bottom > n.bottom - 8) a.scrollIntoView({ block: 'nearest' });
+    }
+  }
+  function anstossen() {
+    if (laeuft) return;
+    laeuft = true;
+    window.requestAnimationFrame(markieren);
+  }
+  window.addEventListener('scroll', anstossen, { passive: true });
+  window.addEventListener('resize', anstossen);
+  markieren();
+})();
+</script>
 <!--/M335:RAHMEN-FUSS-->
 </body>
 </html>

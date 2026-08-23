@@ -22,28 +22,9 @@
 
 <h1>05A Zweite Activity und Intent</h1>
 <p class="sub">Modul 335 Mobile Applikationen, Tag 3 Vormittag. Zeitbudget 40 Minuten. Version 1 vom 16.08.2026.</p>
-<p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
 
 
 <h2>01 Einführung</h2>
-
-<h3>Lernziele</h3>
-<table>
-<tr><th>HANOK</th><th>Ziel</th></tr>
-<tr><td>2.3</td><td>App-Architekturen kennen, hier die Aufteilung einer App auf mehrere Activities</td></tr>
-<tr><td>3.1</td><td>Entwicklungsumgebung einsetzen, hier das Kopieren einer Klasse ohne Handarbeit</td></tr>
-<tr><td>3.2</td><td>Framework und APIs der Plattform einsetzen, hier Intent und Manifest</td></tr>
-</table>
-
-<p>Nach diesem Auftrag kannst du:</p>
-<ul>
-<li>Du legst eine zweite und eine dritte Activity an und trägst sie im Manifest ein.</li>
-<li>Du startest einen anderen Bildschirm mit einem Intent.</li>
-<li>Du erklärst, warum eine fehlerfreie Java-Klasse allein nicht genügt, damit Android sie starten kann.</li>
-<li>Du liest eine <code>ActivityNotFoundException</code> und findest die Ursache in der Meldung selbst.</li>
-<li>Du begründest, warum das ganze Spiel eine Activity ist und nicht jede Ansicht eine eigene bekommt.</li>
-<li>Du erkennst, dass die System-Zurück-Taste ohne eine einzige Zeile Code funktioniert.</li>
-</ul>
 
 <h3>Das brauchst du vorher</h3>
 <ul>
@@ -82,43 +63,6 @@
 <p>Deine App hat genau einen Bildschirm. Du startest sie, und du bist sofort mitten in einer Runde. Es gibt keinen Anfang und kein Menü.</p>
 <p>Am Ende von heute hat deine App drei Bildschirme. Ein Menü, das Spiel und eine Seite <b>Über die App</b>. Das Spiel selbst ändert sich dabei kein bisschen. Es zieht nur um.</p>
 
-<h3>Werkzeugkasten</h3>
-<table>
-<tr><th>Baustein</th><th>Wofür</th></tr>
-<tr><td class="pre">Intent</td><td>Der Zettel, auf dem steht, welcher Bildschirm als Nächstes dran ist</td></tr>
-<tr><td class="pre">startActivity</td><td>Startet den Bildschirm, den der Intent nennt</td></tr>
-<tr><td class="pre">AndroidManifest.xml</td><td>Das Verzeichnis aller Bildschirme. Was nicht darin steht, gibt es für Android nicht</td></tr>
-<tr><td class="pre">&lt;activity&gt;</td><td>Ein Eintrag darin, einer pro Activity</td></tr>
-<tr><td class="pre">android:exported</td><td>Sagt, ob andere Apps diese Activity starten dürfen</td></tr>
-<tr><td class="pre">intent-filter</td><td>Steht nur bei der Startactivity. Er macht sie zum Einstiegspunkt</td></tr>
-<tr><td class="pre">android:enabled="false"</td><td>Sperrt einen Knopf im XML. Er ist sichtbar und reagiert nicht</td></tr>
-<tr><td>Refactor, dann Copy Class</td><td>Kopiert eine ganze Klasse samt Paket und neuem Namen</td></tr>
-<tr><td class="pre">setContentView</td><td>Sagt einer Activity, welches Layout sie zeigt. Kennst du aus 01B</td></tr>
-<tr><td>System-Zurück-Taste</td><td>Beendet den obersten Bildschirm. Ohne eine Zeile Code</td></tr>
-</table>
-
-<h3>Pflichtangaben</h3>
-<table>
-<tr><th>Angabe</th><th>Pflicht, weil</th></tr>
-<tr><td class="pre">android:name</td><td>Bei jedem <code>&lt;activity&gt;</code>. Der Punkt am Anfang steht für dein Paket, also <code>.GameActivity</code></td></tr>
-<tr><td class="pre">android:exported</td><td>Seit Android 12 bei jeder Activity Pflicht. <code>true</code> nur bei der Startactivity, sonst <code>false</code></td></tr>
-<tr><td>Eine eigene Root-id pro Layout</td><td>Der Insets-Block holt sie mit <code>findViewById</code>. Zwei Layouts mit derselben Root-id gehen zwar, aber dann weisst du nie, welches du gerade meinst</td></tr>
-</table>
-
-<h3>Namen im Code</h3>
-<table>
-<tr><th>Name</th><th>Was es ist</th></tr>
-<tr><td class="pre">GameActivity</td><td>Der Spielbildschirm, ab heute eine eigene Klasse</td></tr>
-<tr><td class="pre">AboutActivity</td><td>Der Bildschirm Über die App</td></tr>
-<tr><td class="pre">activity_game.xml</td><td>Das Layout des Spielbildschirms</td></tr>
-<tr><td class="pre">activity_about.xml</td><td>Das Layout von Über die App</td></tr>
-<tr><td class="pre">clGame, clAbout</td><td>Die Root-ids der zwei neuen Layouts</td></tr>
-<tr><td class="pre">llMenu</td><td>Das LinearLayout, das die vier Knöpfe untereinander stellt</td></tr>
-<tr><td class="pre">btnPlay, btnRanking, btnQuestions, btnAbout</td><td>Die vier Knöpfe im Menü</td></tr>
-<tr><td class="pre">tvTitle, tvMenuHint</td><td>Titel und Hinweiszeile im Menü</td></tr>
-<tr><td class="pre">svAbout, llAbout, tvAbout...</td><td>Der Aufbau von Über die App</td></tr>
-<tr><td class="pre">menu_title, btn_play, about_intro</td><td>Neue Einträge in <code>strings.xml</code></td></tr>
-</table>
 
 <h3>Denkfragen</h3>
 <ol>
@@ -178,6 +122,15 @@
 
 <h3>Teil A, der Umzug <span class="time">12 Minuten</span></h3>
 
+
+<h4 class="brauchst">Was du in A1 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td>Refactor, dann Copy Class</td><td>Kopiert eine ganze Klasse samt Paket und neuem Namen</td></tr>
+<tr><td class="pre">GameActivity</td><td>Der Spielbildschirm, ab heute eine eigene Klasse</td></tr>
+<tr><td class="pre">&lt;activity&gt;</td><td>Ein Eintrag darin, einer pro Activity</td></tr>
+</table>
+
 <div class="step">
 <p><span class="n">A1</span><b>Die Klasse kopieren, nicht abtippen.</b></p>
 <p>Rechtsklick auf <code>MainActivity.java</code> im Projektbaum, dann <b>Refactor</b>, dann <b>Copy Class</b>.</p>
@@ -193,6 +146,14 @@
 </div>
 </div>
 
+
+<h4 class="brauchst">Was du in A2 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">activity_game.xml</td><td>Das Layout des Spielbildschirms</td></tr>
+<tr><td class="pre">clGame, clAbout</td><td>Die Root-ids der zwei neuen Layouts</td></tr>
+</table>
+
 <div class="step">
 <p><span class="n">A2</span><b>Das Layout kopieren und die Root-id ändern.</b></p>
 <p>Rechtsklick auf <code>activity_main.xml</code>, dann <b>Refactor</b>, dann <b>Copy File</b>. Neuer Name <code>activity_game.xml</code>, Zielordner bleibt <code>res/layout</code>.</p>
@@ -206,6 +167,13 @@
 </div>
 <p><code>tools:context</code> sagt nur der Vorschau, zu welcher Klasse das Layout gehört. Es ändert am laufenden Programm nichts. Mehr dazu im Blatt <b>XML verstehen</b>.</p>
 </div>
+
+
+<h4 class="brauchst">Was du in A3 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">setContentView</td><td>Sagt einer Activity, welches Layout sie zeigt. Kennst du aus 01B</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">A3</span><b>Die GameActivity auf ihr eigenes Layout umstellen.</b></p>
@@ -233,6 +201,13 @@
 
 <h3>Teil B, das Menü und der Weg ins Spiel <span class="time">15 Minuten</span></h3>
 
+
+<h4 class="brauchst">Was du in B1 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">menu_title, btn_play, about_intro</td><td>Neue Einträge in <code>strings.xml</code></td></tr>
+</table>
+
 <div class="step">
 <p><span class="n">B1</span><b>Sechs neue Texte in <code>strings.xml</code>.</b></p>
 <pre>&lt;<span class="c">!-- Startbildschirm, das Menü. --</span>&gt;
@@ -244,6 +219,16 @@
 &lt;<span class="t">string</span> name=<span class="s">"menu_hint"</span>&gt;Rangliste und Fragen verwalten kommen später.&lt;/<span class="t">string</span>&gt;</pre>
 <p>Die Faustregel aus 03D gilt weiter. Was der Benutzer liest, gehört nach <code>strings.xml</code>. Was der Code entscheidet, gehört in den Code.</p>
 </div>
+
+
+<h4 class="brauchst">Was du in B2 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">android:enabled="false"</td><td>Sperrt einen Knopf im XML. Er ist sichtbar und reagiert nicht</td></tr>
+<tr><td class="pre">llMenu</td><td>Das LinearLayout, das die vier Knöpfe untereinander stellt</td></tr>
+<tr><td class="pre">btnPlay, btnRanking, btnQuestions, btnAbout</td><td>Die vier Knöpfe im Menü</td></tr>
+<tr><td class="pre">tvTitle, tvMenuHint</td><td>Titel und Hinweiszeile im Menü</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">B2</span><b>Aus <code>activity_main.xml</code> wird das Menü.</b></p>
@@ -324,6 +309,14 @@
 <p><b>Das <code>llMenu</code> hat nur drei Anker, nicht vier.</b> Oben, links und rechts. Unten bleibt es offen, damit die Knöpfe oben stehen und nicht in der Bildschirmmitte kleben. Seine Höhe ist <code>wrap_content</code>, also so hoch wie sein Inhalt.</p>
 </div>
 </div>
+
+
+<h4 class="brauchst">Was du in B3 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">Intent</td><td>Der Zettel, auf dem steht, welcher Bildschirm als Nächstes dran ist</td></tr>
+<tr><td class="pre">startActivity</td><td>Startet den Bildschirm, den der Intent nennt</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">B3</span><b>Die MainActivity leerräumen.</b></p>
@@ -409,6 +402,16 @@
 </div>
 </div>
 
+
+<h4 class="brauchst">Was du in B5 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">AndroidManifest.xml</td><td>Das Verzeichnis aller Bildschirme. Was nicht darin steht, gibt es für Android nicht</td></tr>
+<tr><td class="pre">android:exported</td><td>Sagt, ob andere Apps diese Activity starten dürfen</td></tr>
+<tr><td class="pre">intent-filter</td><td>Steht nur bei der Startactivity. Er macht sie zum Einstiegspunkt</td></tr>
+<tr><td>System-Zurück-Taste</td><td>Beendet den obersten Bildschirm. Ohne eine Zeile Code</td></tr>
+</table>
+
 <div class="step">
 <p><span class="n">B5</span><b>Der Eintrag im Manifest.</b></p>
 <p>In <code>AndroidManifest.xml</code>, im <code>&lt;application&gt;</code>-Block, <b>unter</b> dem bestehenden <code>&lt;/activity&gt;</code> der MainActivity:</p>
@@ -452,6 +455,13 @@
 <h3>Teil C, die AboutActivity, jetzt die ganze Kette selbst <span class="time">9 Minuten</span></h3>
 <p>In Teil A und B hast du den Weg einmal geführt gemacht. Jetzt gehst du ihn allein. Es sind dieselben vier Stellen: Texte, Layout, Klasse, Manifest. Dazu der Listener.</p>
 
+
+<h4 class="brauchst">Was du in C1 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">AboutActivity</td><td>Der Bildschirm Über die App</td></tr>
+</table>
+
 <div class="step">
 <p><span class="n">C1</span><b>Die Texte in <code>strings.xml</code>.</b></p>
 <pre>&lt;<span class="c">!-- Bildschirm Über die App. --</span>&gt;
@@ -461,6 +471,14 @@
 &lt;<span class="t">string</span> name=<span class="s">"about_tech"</span>&gt;Gebaut mit Android Studio und Java. Die Fragen stehen zurzeit fest im Code.&lt;/<span class="t">string</span>&gt;
 &lt;<span class="t">string</span> name=<span class="s">"about_back"</span>&gt;Mit der Zurück-Taste kommst du ins Menü.&lt;/<span class="t">string</span>&gt;</pre>
 </div>
+
+
+<h4 class="brauchst">Was du in C2 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">activity_about.xml</td><td>Das Layout von Über die App</td></tr>
+<tr><td class="pre">svAbout, llAbout, tvAbout...</td><td>Der Aufbau von Über die App</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">C2</span><b>Das Layout <code>activity_about.xml</code>.</b></p>
@@ -685,7 +703,38 @@
 <tr><td>Die Knöpfe kleben in der Bildschirmmitte statt oben</td><td>Das <code>llMenu</code> hat auch unten einen Anker</td><td>Siehe B2. Nur oben, links und rechts</td></tr>
 </table>
 
-<h2>03 Guide</h2>
+
+<h2>03 Recap</h2>
+
+<p>Das Wichtigste aus diesem Auftrag, zum Nachschlagen.</p>
+
+<h3>Pflichtangaben</h3>
+<table>
+<tr><th>Angabe</th><th>Pflicht, weil</th></tr>
+<tr><td class="pre">android:name</td><td>Bei jedem <code>&lt;activity&gt;</code>. Der Punkt am Anfang steht für dein Paket, also <code>.GameActivity</code></td></tr>
+<tr><td class="pre">android:exported</td><td>Seit Android 12 bei jeder Activity Pflicht. <code>true</code> nur bei der Startactivity, sonst <code>false</code></td></tr>
+<tr><td>Eine eigene Root-id pro Layout</td><td>Der Insets-Block holt sie mit <code>findViewById</code>. Zwei Layouts mit derselben Root-id gehen zwar, aber dann weisst du nie, welches du gerade meinst</td></tr>
+</table>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>2.3</td><td>App-Architekturen kennen, hier die Aufteilung einer App auf mehrere Activities</td></tr>
+<tr><td>3.1</td><td>Entwicklungsumgebung einsetzen, hier das Kopieren einer Klasse ohne Handarbeit</td></tr>
+<tr><td>3.2</td><td>Framework und APIs der Plattform einsetzen, hier Intent und Manifest</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du legst eine zweite und eine dritte Activity an und trägst sie im Manifest ein.</li>
+<li>Du startest einen anderen Bildschirm mit einem Intent.</li>
+<li>Du erklärst, warum eine fehlerfreie Java-Klasse allein nicht genügt, damit Android sie starten kann.</li>
+<li>Du liest eine <code>ActivityNotFoundException</code> und findest die Ursache in der Meldung selbst.</li>
+<li>Du begründest, warum das ganze Spiel eine Activity ist und nicht jede Ansicht eine eigene bekommt.</li>
+<li>Du erkennst, dass die System-Zurück-Taste ohne eine einzige Zeile Code funktioniert.</li>
+</ul>
+
+<h2>04 Guide</h2>
 <table>
 <tr><td>Zeitbudget</td><td>40 Minuten. Teil A 12, Teil B 15, Teil C 9, Übungen 4</td></tr>
 <tr><td>Sozialform</td><td>Einzelarbeit. Bei den Denkfragen und Übung 3 zu zweit</td></tr>
@@ -704,7 +753,7 @@
 <p>Der <b>05AB Wissenscheck</b> gehört zum Beitrag von 05B, nicht hierher.</p>
 
 
-<h2>04 Unterrichtsmittel</h2>
+<h2>05 Unterrichtsmittel</h2>
 <table>
 <tr><th>Art</th><th>Was</th></tr>
 <tr><td>Hardware</td><td>Eigenes Notebook, laufender Emulator Medium Phone API 36.1</td></tr>
@@ -721,6 +770,180 @@
 <footer class="site-footer"><div class="in">
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
+<script>
+/* ------------------------------------------------------------------
+   M335: schwebendes Inhaltsverzeichnis und Legende.
+
+   Warum hier und nicht als eigene Datei: dieser Baustein geht ueber
+   web-bau/rahmen/fuss.html in jede Seite. Inline heisst, dass bauen.js
+   nichts Zusaetzliches kopieren muss.
+
+   Was das Skript tut:
+     1. markiert die Ueberschriften Teil A, Teil B, Teil C
+     2. vergibt jeder Ueberschrift eine id, die Quellen haben keine
+     3. baut oben die Auftragskarte: Zeit als Pille, darunter die
+        Teile mit ihren Minuten
+     4. baut das Verzeichnis und markiert den sichtbaren Abschnitt
+
+   Das Aussehen steht in web-bau/stil/rahmen.css unter m335-nav.
+   ------------------------------------------------------------------ */
+(function () {
+  var wrap = document.querySelector('.wrap');
+  if (!wrap) return;
+
+  // Die Startseite ist selbst ein Verzeichnis, sie bekommt keines.
+  // Sie ist daran zu erkennen, dass ihr der Rueckweg im Kopf fehlt.
+  if (!document.querySelector('.site-header .back')) return;
+
+  var text = function (el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); };
+
+  // ---------------------------------------------------------------- 1 und 2
+  var heads = [].slice.call(wrap.querySelectorAll('h2, h3'));
+
+  var vergeben = {};
+  heads.forEach(function (h, i) {
+    if (h.tagName === 'H3' && /^Teil [A-Z]\b/.test(text(h))) h.classList.add('teil');
+    if (h.id) { vergeben[h.id] = true; return; }
+    var roh = text(h).toLowerCase()
+      .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+    var id = roh || ('abschnitt-' + i);
+    if (vergeben[id]) id = id + '-' + i;
+    vergeben[id] = true;
+    h.id = id;
+  });
+
+  // ---------------------------------------------------------------- 3
+  // Die Auftragskarte. Sie sagt in einem Bildschirm, wie lange der Auftrag
+  // dauert und aus welchen Teilen er besteht. Alles daran steht schon auf
+  // der Seite, die Karte stellt es nur neu zusammen. Darum muss kein
+  // Quelldokument dafuer angefasst werden.
+  var esc = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+  var subs = [].slice.call(wrap.querySelectorAll('.sub'));
+  var bloecke = heads.filter(function (h) { return h.querySelector('.time'); });
+  var budget = '', zusatz = '';
+
+  // Das Zeitbudget steht heute mitten im Untertitel. Es wandert in die Pille.
+  subs.forEach(function (p) {
+    if (budget) return;
+    var m = p.innerHTML.match(/Zeitbudget\s+([^.<]+)\./);
+    if (!m) return;
+    var stuecke = m[1].split(/,\s*dazu\s*/);
+    budget = stuecke[0].trim();
+    if (stuecke[1]) zusatz = 'dazu ' + stuecke[1].trim();
+    p.innerHTML = p.innerHTML.replace(m[0], '').replace(/\s{2,}/g, ' ').trim();
+  });
+
+  if (budget || bloecke.length) {
+    var karte = document.createElement('div');
+    karte.className = 'karte';
+    var inhalt = '';
+    if (budget) {
+      inhalt += '<p class="zeit"><span class="pill">' + esc(budget) + '</span>';
+      if (zusatz) inhalt += '<span class="pill neben">' + esc(zusatz) + '</span>';
+      inhalt += '</p>';
+    }
+    if (bloecke.length) {
+      inhalt += '<p class="t">DAS MACHST DU</p><ol>';
+      bloecke.forEach(function (b) {
+        var uhr = b.querySelector('.time');
+        var min = uhr ? text(uhr) : '';
+        var t = text(b).replace(min, '').replace(/\s+/g, ' ').replace(/\s+,/g, ',').trim();
+        t = t.replace(/[,;]\s*$/, '');
+        var teil = t.match(/^([^,]+),\s*(.*)$/);
+        var wo = teil ? teil[1] : t;
+        var rest = teil ? teil[2] : '';
+        inhalt += '<li><a href="#' + b.id + '"><span class="wo">' + esc(wo) + '</span>'
+                + (rest ? ' ' + esc(rest) : '') + '</a>'
+                + '<span class="min">' + esc(min) + '</span></li>';
+      });
+      inhalt += '</ol>';
+    }
+    karte.innerHTML = inhalt;
+    var anker = subs.length ? subs[subs.length - 1] : wrap.firstElementChild;
+    anker.parentNode.insertBefore(karte, anker.nextSibling);
+  }
+
+  // ---------------------------------------------------------------- 4
+  // Unter vier Ueberschriften lohnt sich kein Verzeichnis. Die Legende
+  // steht dann trotzdem schon, sie haengt nicht an den Ueberschriften.
+  if (heads.length < 4) return;
+
+  var nav = document.createElement('nav');
+  nav.className = 'm335-nav';
+  nav.setAttribute('aria-label', 'Inhalt dieser Seite');
+
+  var html = '<p class="kopfzeile">AUF DIESER SEITE</p>'
+           + '<button type="button" class="schliessen" aria-label="Verzeichnis schliessen">Schliessen</button><ol>';
+  heads.forEach(function (h) {
+    var stufe = h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3');
+    var t = text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, '');
+    html += '<li class="' + stufe + '"><a href="#' + h.id + '">'
+          + t.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</a></li>';
+  });
+  nav.innerHTML = html + '</ol>';
+
+  var knopf = document.createElement('button');
+  knopf.type = 'button';
+  knopf.className = 'm335-nav-knopf';
+  knopf.textContent = 'Inhalt';
+
+  document.body.appendChild(nav);
+  document.body.appendChild(knopf);
+
+  var links = [].slice.call(nav.querySelectorAll('a'));
+
+  // Breit: die Leiste steht fest am Rand. Schmal: sie liegt hinter dem Knopf.
+  var breit = window.matchMedia('(min-width: 1320px)');
+  function umschalten() {
+    if (breit.matches) {
+      nav.className = 'm335-nav seitlich';
+      nav.hidden = false;
+      knopf.style.display = 'none';
+    } else {
+      nav.className = 'm335-nav klappe';
+      nav.hidden = true;
+      knopf.style.display = '';
+    }
+  }
+  umschalten();
+  if (breit.addEventListener) breit.addEventListener('change', umschalten);
+  else if (breit.addListener) breit.addListener(umschalten);
+
+  knopf.addEventListener('click', function () { nav.hidden = !nav.hidden; });
+  nav.querySelector('.schliessen').addEventListener('click', function () { nav.hidden = true; });
+  nav.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && !breit.matches) nav.hidden = true;
+  });
+
+  // Welcher Abschnitt ist gerade dran. Gesucht ist die letzte Ueberschrift,
+  // die oberhalb der Lesekante liegt. Die Kante liegt knapp unter dem
+  // klebenden Kopfbereich.
+  var laeuft = false;
+  function markieren() {
+    laeuft = false;
+    var kante = 96, treffer = 0;
+    for (var i = 0; i < heads.length; i++) {
+      if (heads[i].getBoundingClientRect().top <= kante) treffer = i;
+      else break;
+    }
+    for (var j = 0; j < links.length; j++) links[j].classList.toggle('hier', j === treffer);
+    var a = links[treffer];
+    if (a && breit.matches) {
+      var r = a.getBoundingClientRect(), n = nav.getBoundingClientRect();
+      if (r.top < n.top + 8 || r.bottom > n.bottom - 8) a.scrollIntoView({ block: 'nearest' });
+    }
+  }
+  function anstossen() {
+    if (laeuft) return;
+    laeuft = true;
+    window.requestAnimationFrame(markieren);
+  }
+  window.addEventListener('scroll', anstossen, { passive: true });
+  window.addEventListener('resize', anstossen);
+  markieren();
+})();
+</script>
 <!--/M335:RAHMEN-FUSS-->
 </body>
 </html>

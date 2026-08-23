@@ -1,9 +1,14 @@
 /* ------------------------------------------------------------------
    M335 rahmen.css
-   Kopf- und Fussbereich, gilt fuer ALLE Seiten inklusive Startseite.
+   Kopf- und Fussbereich, schwebende Navigation, Druckansicht.
+   Gilt fuer ALLE Seiten inklusive Startseite.
    Wird von web-bau/bauen.js nach Docs/Web/stil/ kopiert.
+
+   ACHTUNG: rahmen.css wird VOR dokument.css geladen. Wer hier eine
+   Regel setzt, die auch in dokument.css steht, verliert. Darum stehen
+   die Regeln fuer die Kaesten in dokument.css und nicht hier.
    ------------------------------------------------------------------ */
-  html{scroll-padding-top:64px}
+  html{scroll-padding-top:70px}
   .site-header{border-bottom:1px solid #c3c2b7;background:#fcfcfb;
     position:sticky;top:0;z-index:20}
   .site-header .in{max-width:960px;margin:0 auto;padding:14px 24px;
@@ -27,6 +32,45 @@
   .druck-knopf:hover{text-decoration:underline}
 
 /* ------------------------------------------------------------------
+   Schwebende Navigation
+   Gebaut vom Skript in web-bau/rahmen/fuss.html. Es sammelt die
+   Ueberschriften der Seite und vergibt ihnen ids.
+
+   Ab 1320px steht sie fest am linken Rand. Der Textblock ist 800px
+   breit und mittig, es bleiben also rund 260px auf jeder Seite.
+   Darunter liegt sie hinter einem Knopf unten rechts.
+   ------------------------------------------------------------------ */
+  .m335-nav{position:fixed;z-index:30;font:13.5px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+  .m335-nav ol{list-style:none;margin:0;padding:0}
+  .m335-nav a{display:block;padding:4px 10px;color:#52514e;text-decoration:none;
+    border-left:2px solid transparent;border-radius:0 4px 4px 0}
+  .m335-nav a:hover{background:#f0eee9;color:#0b0b0b}
+  .m335-nav .n2>a{font-weight:600;color:#0b0b0b;margin-top:9px}
+  .m335-nav .n3>a{padding-left:18px;font-size:13px}
+  .m335-nav .n3.teil>a{padding-left:10px;font-weight:600;color:#26241f}
+  .m335-nav a.hier{border-left-color:#26241f;background:#f0eee9;color:#0b0b0b}
+  .m335-nav .kopfzeile{font:700 10.5px/1 system-ui,-apple-system,sans-serif;letter-spacing:.11em;
+    color:#898781;padding:0 10px;margin:0 0 10px}
+
+  /* Breiter Bildschirm: fest am Rand */
+  .m335-nav.seitlich{top:78px;left:18px;width:232px;max-height:calc(100vh - 100px);
+    overflow-y:auto;overscroll-behavior:contain;padding:2px 2px 20px}
+  .m335-nav.seitlich .schliessen{display:none}
+
+  /* Schmaler Bildschirm: Knopf unten rechts */
+  .m335-nav-knopf{position:fixed;right:16px;bottom:16px;z-index:31;
+    background:#26241f;color:#fff;border:0;border-radius:26px;
+    padding:11px 17px;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.28);
+    font:600 13.5px/1 system-ui,-apple-system,"Segoe UI",sans-serif}
+  .m335-nav.klappe{position:fixed;right:12px;bottom:70px;left:12px;max-width:340px;margin-left:auto;
+    max-height:min(70vh,560px);overflow-y:auto;background:#fcfcfb;
+    border:1px solid #c3c2b7;border-radius:12px;padding:14px 6px 14px 4px;
+    box-shadow:0 8px 30px rgba(0,0,0,.22)}
+  .m335-nav[hidden]{display:none}
+  .m335-nav .schliessen{position:absolute;top:8px;right:10px;background:none;border:0;
+    font:600 13px/1 system-ui,sans-serif;color:#898781;cursor:pointer;padding:4px}
+
+/* ------------------------------------------------------------------
    Druckansicht
    Gilt fuer alle Seiten, auch fuer die Nachschlageblaetter mit eigenem CSS.
    Ziel: eine Seite laesst sich als PDF speichern oder auf Papier drucken,
@@ -38,7 +82,7 @@
 
    Warum keine Fuellfarben: der Browser druckt Hintergruende
    standardmaessig nicht mit. Auf Papier traegt darum der Rahmen die
-   Bedeutung und nicht die Farbe.
+   Bedeutung, und seit der Farbreform zusaetzlich die Wortmarke.
 
    Den Notizrand aendern: der dritte Wert in @page margin.
    ------------------------------------------------------------------ */
@@ -52,7 +96,8 @@
     overflow:visible !important}
 
   /* Rahmen und Bedienelemente weg */
-  .site-header,.site-footer,.druck-knopf,.kopf-rechts{display:none !important}
+  .site-header,.site-footer,.druck-knopf,.kopf-rechts,
+  .m335-nav,.m335-nav-knopf{display:none !important}
 
   /* Eine Ueberschrift bleibt bei ihrem Text */
   h1,h2,h3,h4{break-after:avoid;page-break-after:avoid;color:#000 !important}
@@ -60,6 +105,8 @@
   h2{font-size:14pt !important;margin-top:20pt !important;
     border-top:1.5pt solid #000 !important;break-before:auto}
   h3{font-size:11.5pt !important}
+  h3.teil{font-size:13pt !important;margin-top:18pt !important;
+    border-top:1pt solid #000 !important;padding-top:7pt !important}
   h4{font-size:10.5pt !important;color:#000 !important}
   p,li{orphans:3;widows:3;overflow-wrap:break-word}
   .sub{color:#000 !important}
@@ -76,15 +123,38 @@
     padding:0 2pt !important;font-size:8.8pt !important}
   pre code{border:0 !important;padding:0 !important}
 
-  /* Die farbigen Kaesten */
-  .tip,.note,.warn,.info,.chk,.step,.ue{
+  /* Die Kaesten, die etwas verlangen: Rahmen und kraeftiger Balken links.
+     Sie tragen auf Papier dieselbe Wortmarke wie am Bildschirm. */
+  .step,.chk,.ue,.warn,.warte{
     background:#fff !important;border:.6pt solid #444 !important;
     border-left:2.5pt solid #000 !important;border-radius:0 !important;
-    padding:7pt 9pt !important;margin:0 0 9pt !important;
+    padding:6pt 9pt 7pt !important;margin:0 0 9pt !important;
     break-inside:avoid;page-break-inside:avoid}
-  .tip b,.note b,.warn b,.info b,.chk b{color:#000 !important}
+  .step::before,.chk::before,.warn::before,.warte::before{
+    color:#000 !important;font-size:7.2pt !important;margin-bottom:4pt !important}
+
+  /* Die Hintergrundkaesten bleiben auch auf Papier leise:
+     kein Rahmen, nur ein duenner Strich und ein Einzug. */
+  .tip,.note,.info{
+    background:#fff !important;border:0 !important;
+    border-left:.5pt solid #999 !important;border-radius:0 !important;
+    padding:0 0 0 7pt !important;margin:0 0 8pt 6pt !important;
+    break-inside:avoid;page-break-inside:avoid}
+  .tip b,.note b,.warn b,.info b,.chk b,.warte b{color:#000 !important}
   .step .n,.time{background:#fff !important;color:#000 !important;
     border:.6pt solid #000 !important}
+
+  /* Die Auftragskarte gehoert aufs Papier, sie sagt die Zeit und die Teile. */
+  .karte{background:#fff !important;border:.7pt solid #666 !important;
+    border-radius:0 !important;color:#000 !important;
+    padding:6pt 9pt !important;margin:0 0 12pt !important;
+    break-inside:avoid;page-break-inside:avoid}
+  .karte .pill{background:#fff !important;color:#000 !important;
+    border:.8pt solid #000 !important;font-size:9.5pt !important;padding:2pt 6pt !important}
+  .karte .t{color:#000 !important;font-size:7.2pt !important}
+  .karte li{border-top:.4pt solid #999 !important;padding:2.5pt 0 !important}
+  .karte a,.karte .min{color:#000 !important}
+  h4.brauchst{color:#000 !important;font-size:8pt !important;margin:9pt 0 3pt !important}
 
   /* Tabellen: sichtbare Linien statt Fuellfarbe, Kopfzeile auf jeder Seite.
      width und overflow-wrap zwingen breite Tabellen in die Seite, sonst
@@ -92,8 +162,11 @@
   table{background:#fff !important;font-size:9pt !important;
     border:.6pt solid #666 !important;margin:0 0 9pt !important;
     width:100% !important;max-width:100% !important}
+  /* break-word statt anywhere: anywhere setzt die Mindestbreite einer Spalte
+     auf ein einziges Zeichen, dann bricht der Browser Woerter wie Zeitbudget
+     mitten durch, obwohl daneben Platz waere. */
   th,td{border:.4pt solid #999 !important;padding:3pt 5pt !important;
-    color:#000 !important;overflow-wrap:anywhere !important;
+    color:#000 !important;overflow-wrap:break-word !important;
     word-break:normal !important;hyphens:auto}
   th{background:#fff !important;border-bottom:1.2pt solid #000 !important}
   /* Code-Zellen duerfen auf Papier umbrechen, am Bildschirm nicht.

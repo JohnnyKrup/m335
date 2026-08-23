@@ -22,28 +22,9 @@
 
 <h1>05D Der beste Wert bleibt</h1>
 <p class="sub">Modul 335 Mobile Applikationen, Tag 3 Vormittag. Zeitbudget 45 Minuten. Version 1 vom 16.08.2026.</p>
-<p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
 
 
 <h2>01 Einführung</h2>
-
-<h3>Lernziele</h3>
-<table>
-<tr><th>HANOK</th><th>Ziel</th></tr>
-<tr><td>2.3</td><td>App-Architekturen kennen, hier der Lebenszyklus einer Activity</td></tr>
-<tr><td>2.4</td><td>Persistenzlösungen einsetzen, hier einzelne Werte dauerhaft auf dem Gerät</td></tr>
-<tr><td>3.2</td><td>Framework und APIs der Plattform einsetzen, hier SharedPreferences und das Bundle</td></tr>
-</table>
-
-<p>Nach diesem Auftrag kannst du:</p>
-<ul>
-<li>Du legst einen einzelnen Wert dauerhaft auf dem Gerät ab und liest ihn wieder.</li>
-<li>Du sagst, warum <code>onCreate</code> beim Zurückkommen aus einem anderen Bildschirm nicht läuft.</li>
-<li>Du wählst die Stelle, an der gelesen wird, nach dem <b>Zeitpunkt</b> und nicht nach dem Gefühl.</li>
-<li>Du rettest Werte über den Neubau einer Activity mit einem <code>Bundle</code>.</li>
-<li>Du unterscheidest drei Arten von Gedächtnis und sagst, welche wie lange hält.</li>
-<li>Du schaust dir die gespeicherte Datei auf dem Gerät selbst an.</li>
-</ul>
 
 <h3>Das brauchst du vorher</h3>
 <ul>
@@ -79,44 +60,6 @@
 <p>Dein Menü zeigt seit 05B den Punktestand der letzten Runde. Beende die App und starte sie neu. Der Wert ist weg.</p>
 <p>Das ist richtig so, denn er lebt in zwei Feldern, und Felder verschwinden mit dem Objekt. Heute kommt ein zweiter Wert dazu, der <b>nicht</b> verschwindet. Am Ende stehen beide untereinander auf demselben Bildschirm, und du kannst an ihnen ablesen, wie lange sich Android was merkt.</p>
 
-<h3>Werkzeugkasten</h3>
-<table>
-<tr><th>Baustein</th><th>Wofür</th></tr>
-<tr><td class="pre">SharedPreferences</td><td>Eine kleine Ablage für einzelne Werte. Android legt sie als XML-Datei im Ordner der App ab</td></tr>
-<tr><td class="pre">getSharedPreferences(name, mode)</td><td>Öffnet die Ablage. Der Name wird zum Dateinamen</td></tr>
-<tr><td class="pre">edit().putInt(...).apply()</td><td>Schreiben. Der Editor sammelt, <code>apply</code> gibt den Auftrag ab</td></tr>
-<tr><td class="pre">getInt(key, defaultValue)</td><td>Lesen. Ist nichts da, kommt der Vorgabewert zurück</td></tr>
-<tr><td class="pre">onResume</td><td>Läuft jedes Mal, wenn ein Bildschirm in den Vordergrund kommt</td></tr>
-<tr><td class="pre">onSaveInstanceState</td><td>Läuft, bevor Android eine Activity abräumt. Hier legst du ab, was den Neubau überstehen soll</td></tr>
-<tr><td class="pre">Bundle</td><td>Ein Zettel mit Schlüssel und Wert. Du kennst ihn als Parameter von <code>onCreate</code></td></tr>
-<tr><td class="pre">ScrollView</td><td>Ein Behälter, der scrollt, wenn sein Inhalt höher ist als der Bildschirm. Kennst du aus 04A</td></tr>
-<tr><td class="pre">final class</td><td>Von dieser Klasse kann niemand erben. Passt zu einer reinen Werkzeugklasse</td></tr>
-<tr><td class="pre">static</td><td>Gehört der Klasse und nicht einem Objekt. Kennst du von <code>QuestionBank</code></td></tr>
-</table>
-
-<h3>Pflichtangaben</h3>
-<table>
-<tr><th>Angabe</th><th>Pflicht, weil</th></tr>
-<tr><td>Name der Ablage und Schlüssel als <code>static final</code> an <b>einer</b> Stelle</td><td>Ein Tippfehler fällt sonst nie auf. <code>getInt</code> liefert stillschweigend die Vorgabe zurück</td></tr>
-<tr><td class="pre">Context.MODE_PRIVATE</td><td>Nur diese App darf lesen. Die alten Modi sind seit Android 7 gesperrt und werfen eine Exception</td></tr>
-<tr><td class="pre">.apply()</td><td>Ohne Abschluss schreibt der Editor gar nichts</td></tr>
-<tr><td>Ein Vorgabewert bei jedem <code>getInt</code></td><td>Beim ersten Start ist die Ablage leer. Ohne Vorgabe gibt es keine sinnvolle Antwort</td></tr>
-</table>
-
-<h3>Namen im Code</h3>
-<table>
-<tr><th>Name</th><th>Was es ist</th></tr>
-<tr><td class="pre">data</td><td>Das neue Paket neben <code>model</code>. Dort wohnt ab Tag 4 auch die Datenbank</td></tr>
-<tr><td class="pre">ScoreStorage</td><td>Die neue Klasse. Kennt Name und Schlüssel der Ablage</td></tr>
-<tr><td class="pre">PREFS_NAME, KEY_BEST_SCORE</td><td>Die zwei Konstanten darin</td></tr>
-<tr><td class="pre">NO_SCORE_YET</td><td>Bedeutet: noch nie eine Runde beendet</td></tr>
-<tr><td class="pre">getBestScore, saveIfBetter</td><td>Die zwei öffentlichen Methoden</td></tr>
-<tr><td class="pre">tvBestScore</td><td>Die neue Anzeige im Menü, über <code>tvLastScore</code></td></tr>
-<tr><td class="pre">showBestScore</td><td>Die Methode, die diese Anzeige füllt</td></tr>
-<tr><td class="pre">svMenu</td><td>Die neue <code>ScrollView</code> um das Menü</td></tr>
-<tr><td class="pre">KEY_LAST_SCORE, KEY_LAST_TOTAL</td><td>Die zwei Schlüssel fürs Bundle in der MainActivity</td></tr>
-<tr><td class="pre">best_score_none, best_score_format</td><td>Neue Einträge in <code>strings.xml</code></td></tr>
-</table>
 
 <h3>Denkfragen</h3>
 <ol>
@@ -166,6 +109,23 @@ MainActivity.showBestScore()
 
 
 <h3>Teil A, der beste Wert <span class="time">17 Minuten</span></h3>
+
+
+<h4 class="brauchst">Was du in A1 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">SharedPreferences</td><td>Eine kleine Ablage für einzelne Werte. Android legt sie als XML-Datei im Ordner der App ab</td></tr>
+<tr><td class="pre">getSharedPreferences(name, mode)</td><td>Öffnet die Ablage. Der Name wird zum Dateinamen</td></tr>
+<tr><td class="pre">edit().putInt(...).apply()</td><td>Schreiben. Der Editor sammelt, <code>apply</code> gibt den Auftrag ab</td></tr>
+<tr><td class="pre">getInt(key, defaultValue)</td><td>Lesen. Ist nichts da, kommt der Vorgabewert zurück</td></tr>
+<tr><td class="pre">final class</td><td>Von dieser Klasse kann niemand erben. Passt zu einer reinen Werkzeugklasse</td></tr>
+<tr><td class="pre">static</td><td>Gehört der Klasse und nicht einem Objekt. Kennst du von <code>QuestionBank</code></td></tr>
+<tr><td class="pre">data</td><td>Das neue Paket neben <code>model</code>. Dort wohnt ab Tag 4 auch die Datenbank</td></tr>
+<tr><td class="pre">ScoreStorage</td><td>Die neue Klasse. Kennt Name und Schlüssel der Ablage</td></tr>
+<tr><td class="pre">PREFS_NAME, KEY_BEST_SCORE</td><td>Die zwei Konstanten darin</td></tr>
+<tr><td class="pre">NO_SCORE_YET</td><td>Bedeutet: noch nie eine Runde beendet</td></tr>
+<tr><td class="pre">getBestScore, saveIfBetter</td><td>Die zwei öffentlichen Methoden</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">A1</span><b>Das Paket <code>data</code> und die Klasse <code>ScoreStorage</code>.</b></p>
@@ -259,6 +219,15 @@ MainActivity.showBestScore()
 </div>
 </div>
 
+
+<h4 class="brauchst">Was du in A3 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">tvBestScore</td><td>Die neue Anzeige im Menü, über <code>tvLastScore</code></td></tr>
+<tr><td class="pre">showBestScore</td><td>Die Methode, die diese Anzeige füllt</td></tr>
+<tr><td class="pre">best_score_none, best_score_format</td><td>Neue Einträge in <code>strings.xml</code></td></tr>
+</table>
+
 <div class="step">
 <p><span class="n">A3</span><b>Die zweite Zeile im Menü.</b></p>
 <p>In <code>strings.xml</code>, bei den Texten des Startbildschirms:</p>
@@ -323,6 +292,13 @@ showLastScore();</pre>
 </div>
 </div>
 
+
+<h4 class="brauchst">Was du in A5 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">onResume</td><td>Läuft jedes Mal, wenn ein Bildschirm in den Vordergrund kommt</td></tr>
+</table>
+
 <div class="step">
 <p><span class="n">A5</span><b>Gelesen wird in <code>onResume</code>.</b></p>
 <p>Nimm den Aufruf <code>showBestScore();</code> aus <code>onCreate</code> wieder heraus. Er kommt in eine eigene Methode, direkt unter <code>onCreate</code>:</p>
@@ -368,6 +344,14 @@ showLastScore();</pre>
 
 
 <h3>Teil B, was der Neubau überlebt <span class="time">18 Minuten</span></h3>
+
+
+<h4 class="brauchst">Was du in B1 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">ScrollView</td><td>Ein Behälter, der scrollt, wenn sein Inhalt höher ist als der Bildschirm. Kennst du aus 04A</td></tr>
+<tr><td class="pre">svMenu</td><td>Die neue <code>ScrollView</code> um das Menü</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">B1</span><b>Zuerst muss das Menü ins Querformat passen.</b></p>
@@ -420,6 +404,15 @@ showLastScore();</pre>
 <p>Der beste Wert übersteht das trotzdem. Er lebt nicht in einem Feld, sondern in einer Datei, und <code>onResume</code> liest ihn nach dem Neubau sofort wieder.</p>
 </div>
 </div>
+
+
+<h4 class="brauchst">Was du in B3 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">onSaveInstanceState</td><td>Läuft, bevor Android eine Activity abräumt. Hier legst du ab, was den Neubau überstehen soll</td></tr>
+<tr><td class="pre">Bundle</td><td>Ein Zettel mit Schlüssel und Wert. Du kennst ihn als Parameter von <code>onCreate</code></td></tr>
+<tr><td class="pre">KEY_LAST_SCORE, KEY_LAST_TOTAL</td><td>Die zwei Schlüssel fürs Bundle in der MainActivity</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">B3</span><b>Der Zettel für den Neubau.</b></p>
@@ -601,7 +594,39 @@ showLastScore();</pre>
 <tr><td>Der Wert stimmt, aber die App hakt kurz beim Speichern</td><td><code>commit()</code> statt <code>apply()</code></td><td><code>commit</code> schreibt sofort und lässt die Oberfläche warten</td></tr>
 </table>
 
-<h2>03 Guide</h2>
+
+<h2>03 Recap</h2>
+
+<p>Das Wichtigste aus diesem Auftrag, zum Nachschlagen.</p>
+
+<h3>Pflichtangaben</h3>
+<table>
+<tr><th>Angabe</th><th>Pflicht, weil</th></tr>
+<tr><td>Name der Ablage und Schlüssel als <code>static final</code> an <b>einer</b> Stelle</td><td>Ein Tippfehler fällt sonst nie auf. <code>getInt</code> liefert stillschweigend die Vorgabe zurück</td></tr>
+<tr><td class="pre">Context.MODE_PRIVATE</td><td>Nur diese App darf lesen. Die alten Modi sind seit Android 7 gesperrt und werfen eine Exception</td></tr>
+<tr><td class="pre">.apply()</td><td>Ohne Abschluss schreibt der Editor gar nichts</td></tr>
+<tr><td>Ein Vorgabewert bei jedem <code>getInt</code></td><td>Beim ersten Start ist die Ablage leer. Ohne Vorgabe gibt es keine sinnvolle Antwort</td></tr>
+</table>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>2.3</td><td>App-Architekturen kennen, hier der Lebenszyklus einer Activity</td></tr>
+<tr><td>2.4</td><td>Persistenzlösungen einsetzen, hier einzelne Werte dauerhaft auf dem Gerät</td></tr>
+<tr><td>3.2</td><td>Framework und APIs der Plattform einsetzen, hier SharedPreferences und das Bundle</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du legst einen einzelnen Wert dauerhaft auf dem Gerät ab und liest ihn wieder.</li>
+<li>Du sagst, warum <code>onCreate</code> beim Zurückkommen aus einem anderen Bildschirm nicht läuft.</li>
+<li>Du wählst die Stelle, an der gelesen wird, nach dem <b>Zeitpunkt</b> und nicht nach dem Gefühl.</li>
+<li>Du rettest Werte über den Neubau einer Activity mit einem <code>Bundle</code>.</li>
+<li>Du unterscheidest drei Arten von Gedächtnis und sagst, welche wie lange hält.</li>
+<li>Du schaust dir die gespeicherte Datei auf dem Gerät selbst an.</li>
+</ul>
+
+<h2>04 Guide</h2>
 <table>
 <tr><td>Zeitbudget</td><td>45 Minuten. Teil A 17, Teil B 18, Teil C 4, Übungen 6</td></tr>
 <tr><td>Sozialform</td><td>Einzelarbeit. Bei den Denkfragen und Übung 3 zu zweit</td></tr>
@@ -620,7 +645,7 @@ showLastScore();</pre>
 </table>
 
 
-<h2>04 Unterrichtsmittel</h2>
+<h2>05 Unterrichtsmittel</h2>
 <table>
 <tr><th>Art</th><th>Was</th></tr>
 <tr><td>Hardware</td><td>Eigenes Notebook, laufender Emulator Medium Phone API 36.1</td></tr>
@@ -637,6 +662,180 @@ showLastScore();</pre>
 <footer class="site-footer"><div class="in">
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
+<script>
+/* ------------------------------------------------------------------
+   M335: schwebendes Inhaltsverzeichnis und Legende.
+
+   Warum hier und nicht als eigene Datei: dieser Baustein geht ueber
+   web-bau/rahmen/fuss.html in jede Seite. Inline heisst, dass bauen.js
+   nichts Zusaetzliches kopieren muss.
+
+   Was das Skript tut:
+     1. markiert die Ueberschriften Teil A, Teil B, Teil C
+     2. vergibt jeder Ueberschrift eine id, die Quellen haben keine
+     3. baut oben die Auftragskarte: Zeit als Pille, darunter die
+        Teile mit ihren Minuten
+     4. baut das Verzeichnis und markiert den sichtbaren Abschnitt
+
+   Das Aussehen steht in web-bau/stil/rahmen.css unter m335-nav.
+   ------------------------------------------------------------------ */
+(function () {
+  var wrap = document.querySelector('.wrap');
+  if (!wrap) return;
+
+  // Die Startseite ist selbst ein Verzeichnis, sie bekommt keines.
+  // Sie ist daran zu erkennen, dass ihr der Rueckweg im Kopf fehlt.
+  if (!document.querySelector('.site-header .back')) return;
+
+  var text = function (el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); };
+
+  // ---------------------------------------------------------------- 1 und 2
+  var heads = [].slice.call(wrap.querySelectorAll('h2, h3'));
+
+  var vergeben = {};
+  heads.forEach(function (h, i) {
+    if (h.tagName === 'H3' && /^Teil [A-Z]\b/.test(text(h))) h.classList.add('teil');
+    if (h.id) { vergeben[h.id] = true; return; }
+    var roh = text(h).toLowerCase()
+      .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+    var id = roh || ('abschnitt-' + i);
+    if (vergeben[id]) id = id + '-' + i;
+    vergeben[id] = true;
+    h.id = id;
+  });
+
+  // ---------------------------------------------------------------- 3
+  // Die Auftragskarte. Sie sagt in einem Bildschirm, wie lange der Auftrag
+  // dauert und aus welchen Teilen er besteht. Alles daran steht schon auf
+  // der Seite, die Karte stellt es nur neu zusammen. Darum muss kein
+  // Quelldokument dafuer angefasst werden.
+  var esc = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+  var subs = [].slice.call(wrap.querySelectorAll('.sub'));
+  var bloecke = heads.filter(function (h) { return h.querySelector('.time'); });
+  var budget = '', zusatz = '';
+
+  // Das Zeitbudget steht heute mitten im Untertitel. Es wandert in die Pille.
+  subs.forEach(function (p) {
+    if (budget) return;
+    var m = p.innerHTML.match(/Zeitbudget\s+([^.<]+)\./);
+    if (!m) return;
+    var stuecke = m[1].split(/,\s*dazu\s*/);
+    budget = stuecke[0].trim();
+    if (stuecke[1]) zusatz = 'dazu ' + stuecke[1].trim();
+    p.innerHTML = p.innerHTML.replace(m[0], '').replace(/\s{2,}/g, ' ').trim();
+  });
+
+  if (budget || bloecke.length) {
+    var karte = document.createElement('div');
+    karte.className = 'karte';
+    var inhalt = '';
+    if (budget) {
+      inhalt += '<p class="zeit"><span class="pill">' + esc(budget) + '</span>';
+      if (zusatz) inhalt += '<span class="pill neben">' + esc(zusatz) + '</span>';
+      inhalt += '</p>';
+    }
+    if (bloecke.length) {
+      inhalt += '<p class="t">DAS MACHST DU</p><ol>';
+      bloecke.forEach(function (b) {
+        var uhr = b.querySelector('.time');
+        var min = uhr ? text(uhr) : '';
+        var t = text(b).replace(min, '').replace(/\s+/g, ' ').replace(/\s+,/g, ',').trim();
+        t = t.replace(/[,;]\s*$/, '');
+        var teil = t.match(/^([^,]+),\s*(.*)$/);
+        var wo = teil ? teil[1] : t;
+        var rest = teil ? teil[2] : '';
+        inhalt += '<li><a href="#' + b.id + '"><span class="wo">' + esc(wo) + '</span>'
+                + (rest ? ' ' + esc(rest) : '') + '</a>'
+                + '<span class="min">' + esc(min) + '</span></li>';
+      });
+      inhalt += '</ol>';
+    }
+    karte.innerHTML = inhalt;
+    var anker = subs.length ? subs[subs.length - 1] : wrap.firstElementChild;
+    anker.parentNode.insertBefore(karte, anker.nextSibling);
+  }
+
+  // ---------------------------------------------------------------- 4
+  // Unter vier Ueberschriften lohnt sich kein Verzeichnis. Die Legende
+  // steht dann trotzdem schon, sie haengt nicht an den Ueberschriften.
+  if (heads.length < 4) return;
+
+  var nav = document.createElement('nav');
+  nav.className = 'm335-nav';
+  nav.setAttribute('aria-label', 'Inhalt dieser Seite');
+
+  var html = '<p class="kopfzeile">AUF DIESER SEITE</p>'
+           + '<button type="button" class="schliessen" aria-label="Verzeichnis schliessen">Schliessen</button><ol>';
+  heads.forEach(function (h) {
+    var stufe = h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3');
+    var t = text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, '');
+    html += '<li class="' + stufe + '"><a href="#' + h.id + '">'
+          + t.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</a></li>';
+  });
+  nav.innerHTML = html + '</ol>';
+
+  var knopf = document.createElement('button');
+  knopf.type = 'button';
+  knopf.className = 'm335-nav-knopf';
+  knopf.textContent = 'Inhalt';
+
+  document.body.appendChild(nav);
+  document.body.appendChild(knopf);
+
+  var links = [].slice.call(nav.querySelectorAll('a'));
+
+  // Breit: die Leiste steht fest am Rand. Schmal: sie liegt hinter dem Knopf.
+  var breit = window.matchMedia('(min-width: 1320px)');
+  function umschalten() {
+    if (breit.matches) {
+      nav.className = 'm335-nav seitlich';
+      nav.hidden = false;
+      knopf.style.display = 'none';
+    } else {
+      nav.className = 'm335-nav klappe';
+      nav.hidden = true;
+      knopf.style.display = '';
+    }
+  }
+  umschalten();
+  if (breit.addEventListener) breit.addEventListener('change', umschalten);
+  else if (breit.addListener) breit.addListener(umschalten);
+
+  knopf.addEventListener('click', function () { nav.hidden = !nav.hidden; });
+  nav.querySelector('.schliessen').addEventListener('click', function () { nav.hidden = true; });
+  nav.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && !breit.matches) nav.hidden = true;
+  });
+
+  // Welcher Abschnitt ist gerade dran. Gesucht ist die letzte Ueberschrift,
+  // die oberhalb der Lesekante liegt. Die Kante liegt knapp unter dem
+  // klebenden Kopfbereich.
+  var laeuft = false;
+  function markieren() {
+    laeuft = false;
+    var kante = 96, treffer = 0;
+    for (var i = 0; i < heads.length; i++) {
+      if (heads[i].getBoundingClientRect().top <= kante) treffer = i;
+      else break;
+    }
+    for (var j = 0; j < links.length; j++) links[j].classList.toggle('hier', j === treffer);
+    var a = links[treffer];
+    if (a && breit.matches) {
+      var r = a.getBoundingClientRect(), n = nav.getBoundingClientRect();
+      if (r.top < n.top + 8 || r.bottom > n.bottom - 8) a.scrollIntoView({ block: 'nearest' });
+    }
+  }
+  function anstossen() {
+    if (laeuft) return;
+    laeuft = true;
+    window.requestAnimationFrame(markieren);
+  }
+  window.addEventListener('scroll', anstossen, { passive: true });
+  window.addEventListener('resize', anstossen);
+  markieren();
+})();
+</script>
 <!--/M335:RAHMEN-FUSS-->
 </body>
 </html>

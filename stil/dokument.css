@@ -1,20 +1,22 @@
 /* Erzeugt von web-bau/bauen.js aus den Quelldokumenten.
    Nicht von Hand aendern, sondern die Regel im Auftrag selbst.
-   56 Regeln aus 61 Dokumenten. */
+   74 Regeln aus 61 Dokumenten. */
 
 :root{--bg:#f9f9f7; --surface:#fcfcfb; --fg:#0b0b0b; --ink2:#52514e; --muted:#898781;
     --line:#e1e0d9; --rule:#c3c2b7;
     --acc:#2a78d6; --acc-bg:#e8f0f8;
-    --good:#0ca30c; --ok-bg:#e6f2ed;
-    --amber:#b1701c; --amber-bg:#fbf0df;
+    --good:#0a7a3d; --ok-bg:#eaf4ee;
+    --amber:#a5620f; --amber-bg:#fbf1e0;
     --crit:#d03b3b; --crit-bg:#fbeae7;
-    --vio:#4a3aa7; --vio-bg:#eceaf7;}
+    --vio:#4a3aa7; --vio-bg:#eceaf7;
+    --tun:#26241f; --marke:#8a877d;
+    --leise:#d6d4ca; --leise-blau:#bfd0e2; --leise-gruen:#c6d7c6}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--fg);
        font:16px/1.62 system-ui,-apple-system,"Segoe UI",sans-serif}
-.wrap{max-width:920px;margin:0 auto;padding:40px 24px 90px}
+.wrap{max-width:800px;margin:0 auto;padding:40px 26px 90px}
 h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
-.sub{color:var(--ink2);margin:0 0 26px;font-size:15px}
+.sub{color:var(--ink2);margin:0 0 22px;font-size:15px}
 h2{font-size:20px;margin:46px 0 12px;padding-top:15px;border-top:2px solid var(--rule);letter-spacing:-.01em}
 h3{font-size:16.5px;margin:28px 0 8px}
 h4{font-size:14.5px;margin:20px 0 6px;color:var(--ink2)}
@@ -27,16 +29,16 @@ pre .k{color:#d8a0d0}
 pre .t{color:#8fc4e8}
 pre .s{color:#b7d69a}
 pre .c{color:#8f8a7d}
-.tip{border-left:3px solid var(--good);background:var(--ok-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
-.tip b{color:#006300}
-.note{border-left:3px solid var(--crit);background:var(--crit-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
-.note b{color:var(--crit)}
-.warn{border-left:3px solid var(--amber);background:var(--amber-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
-.warn b{color:var(--amber)}
-.info{border-left:3px solid var(--acc);background:var(--acc-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
-.info b{color:var(--acc)}
-.chk{border-left:3px solid var(--vio);background:var(--vio-bg);padding:13px 17px;border-radius:0 8px 8px 0;margin:0 0 16px}
-.chk b{color:var(--vio)}
+.tip{border-left:2px solid var(--leise-gruen);background:none;padding:1px 0 1px 15px;border-radius:0;margin:0 0 15px 10px}
+.tip b{color:var(--fg)}
+.note{border-left:2px solid var(--leise);background:none;padding:1px 0 1px 15px;border-radius:0;margin:0 0 15px 10px}
+.note b{color:var(--fg)}
+.warn{border-left:4px solid var(--amber);background:var(--amber-bg);padding:12px 17px 13px;border-radius:0 8px 8px 0;margin:0 0 16px}
+.warn b{color:var(--fg)}
+.info{border-left:2px solid var(--leise-blau);background:none;padding:1px 0 1px 15px;border-radius:0;margin:0 0 15px 10px}
+.info b{color:var(--fg)}
+.chk{border-left:4px solid var(--good);background:var(--ok-bg);padding:12px 17px 13px;border-radius:0 8px 8px 0;margin:0 0 16px}
+.chk b{color:#08532b}
 table{border-collapse:collapse;width:100%;font-size:14.2px;margin:0 0 16px;background:var(--surface)}
 th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top}
 th{font-weight:600;background:#f3f1ec}
@@ -44,10 +46,12 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:now
 td.pre,th.pre{font-family:ui-monospace,Menlo,monospace;font-weight:600;color:#3a2d86;white-space:nowrap}
 ul,ol{margin:0 0 14px;padding-left:22px}
 li{margin:0 0 7px}
-.step{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:0 0 16px}
+.step{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--tun);
+           border-radius:0 10px 10px 0;padding:13px 18px 15px;margin:0 0 16px}
 .step .n{display:inline-block;background:#26241f;color:#fff;font:600 12px/1 system-ui,sans-serif;
            padding:5px 9px;border-radius:6px;margin-right:8px}
-.ue{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 17px;margin:0 0 14px}
+.ue{background:var(--surface);border:1px solid var(--line);border-left:4px solid #6b6862;
+         border-radius:0 10px 10px 0;padding:13px 17px 14px;margin:0 0 16px}
 .ue .t{font-weight:600;margin-bottom:5px}
 .time{display:inline-block;font:600 11px/1.5 system-ui,sans-serif;padding:2px 8px;border-radius:20px;
         background:#e4e2f5;color:#3a2d86;border:1px solid #bdb5e0;white-space:nowrap;margin-left:8px}
@@ -66,6 +70,24 @@ li{margin:0 0 7px}
 .foot{margin-top:50px;padding-top:16px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
 td.pre{font-family:ui-monospace,Menlo,monospace;font-weight:600;color:#3a2d86;white-space:nowrap}
 pre .a{color:#d8bd7a}
-.warte{border-left:3px solid #b1701c;background:#fbf0df;padding:14px 18px;border-radius:0 8px 8px 0;margin:0 0 18px}
-.warte b{color:#b1701c}
+.warte{border-left:4px solid var(--amber);background:var(--amber-bg);padding:12px 17px 13px;border-radius:0 8px 8px 0;margin:0 0 16px}
+.warte b{color:var(--fg)}
 a{color:#2a78d6}
+.step::before{content:"SCHRITT";display:block;font:700 10.5px/1 system-ui,-apple-system,sans-serif;letter-spacing:.11em;color:var(--marke);margin:0 0 10px}
+.chk::before{content:"PR\0000DCFEN";display:block;font:700 10.5px/1 system-ui,-apple-system,sans-serif;letter-spacing:.11em;color:var(--good);margin:0 0 9px}
+.warn::before{content:"ACHTUNG";display:block;font:700 10.5px/1 system-ui,-apple-system,sans-serif;letter-spacing:.11em;color:var(--amber);margin:0 0 9px}
+.warte::before{content:"ACHTUNG";display:block;font:700 10.5px/1 system-ui,-apple-system,sans-serif;letter-spacing:.11em;color:var(--amber);margin:0 0 9px}
+h3.teil{font-size:19.5px;margin:46px 0 14px;padding:14px 0 0;border-top:2px solid var(--tun);letter-spacing:-.01em}
+h3.teil .time{vertical-align:2px}
+.karte{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:15px 20px 17px;margin:0 0 28px}
+.karte .zeit{margin:0 0 13px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.karte .pill{display:inline-block;background:#26241f;color:#fff;font:700 13.5px/1 system-ui,-apple-system,sans-serif;padding:9px 15px;border-radius:20px}
+.karte .pill.neben{background:none;color:var(--ink2);border:1px solid var(--rule);font-weight:600;font-size:12.5px;padding:8px 12px}
+.karte .t{font:700 10.5px/1 system-ui,-apple-system,sans-serif;letter-spacing:.11em;color:var(--marke);margin:0 0 4px}
+.karte ol{list-style:none;margin:0;padding:0}
+.karte li{display:flex;gap:14px;align-items:baseline;margin:0;padding:8px 0;border-top:1px solid var(--line)}
+.karte a{flex:1 1 auto;text-decoration:none;color:var(--fg)}
+.karte a:hover{text-decoration:underline}
+.karte .wo{font-weight:700}
+.karte .min{flex:0 0 auto;font:600 12px/1.5 system-ui,sans-serif;color:var(--ink2);white-space:nowrap}
+h4.brauchst{font-size:13px;letter-spacing:.02em;color:var(--marke);margin:16px 0 7px;text-transform:uppercase;font-weight:700}

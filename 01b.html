@@ -22,25 +22,9 @@
 
 <h1>01B Android Studio und erster Code</h1>
 <p class="sub">Modul 335 Mobile Applikationen, Tag 1 Vormittag. Zeitbudget 30 Minuten, dazu 10 Minuten Einführung durch die Lehrperson.</p>
-<p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
 
 
 <h2>01 Einführung</h2>
-
-<h3>Lernziele</h3>
-<table>
-<tr><th>HANOK</th><th>Ziel</th></tr>
-<tr><td>3.1</td><td>Kennt die Bedienung und den Einsatz einer passenden Entwicklungs-, Simulations- und Testumgebung</td></tr>
-<tr><td>3.2</td><td>Kennt ein gängiges Framework und dessen APIs</td></tr>
-</table>
-
-<p>Nach diesem Auftrag kannst du:</p>
-<ul>
-<li>Du findest dich in der Projektstruktur eines Android-Projekts zurecht und weisst, wofür die fünf wichtigsten Dateien da sind.</li>
-<li>Du gibst einem Element im Layout eine id und sprichst es im Java-Code an.</li>
-<li>Du erklärst, warum <code>findViewById</code> nach <code>setContentView</code> stehen muss.</li>
-<li>Du liest einen Stacktrace in drei Schritten und benennst die Ursache eines Absturzes.</li>
-</ul>
 
 <h3>Das brauchst du vorher</h3>
 <ul>
@@ -90,18 +74,8 @@
 <p><b>Du ergänzt nur. Du löschst nichts.</b> Der Code, den Android Studio erzeugt hat, enthält mehr, als es auf den ersten Blick scheint. Lass alles stehen, auch die Zeilen, die du heute noch nicht verstehst.</p>
 </div>
 
-<h3>Werkzeugkasten</h3>
 <p>Das sind alle Bausteine, die du für diesen Auftrag brauchst. Mehr nicht.</p>
-<table>
-<tr><th>Baustein</th><th>Wofür</th><th>So sieht er aus</th></tr>
-<tr><td class="pre">android:id</td><td>Gibt einem Element im Layout einen Namen, damit du es im Code findest</td><td class="pre">android:id="@+id/tvGreeting"</td></tr>
-<tr><td class="pre">setContentView</td><td>Lädt das Layout und erzeugt daraus die Views. Steht schon im Code</td><td class="pre">setContentView(R.layout.activity_main);</td></tr>
-<tr><td class="pre">findViewById</td><td>Holt dir ein Element aus dem geladenen Layout in den Code</td><td class="pre">TextView tv = findViewById(R.id.tvGreeting);</td></tr>
-<tr><td class="pre">setText</td><td>Schreibt Text in eine TextView</td><td class="pre">tvGreeting.setText("Hallo Anna!");</td></tr>
-<tr><td class="pre">R</td><td>Automatisch erzeugte Klasse. Enthält für jede id eine Zahl. Nie von Hand ändern</td><td class="pre">R.id.tvGreeting</td></tr>
-<tr><td>Logcat</td><td>Der Reiter unten in Android Studio. Zeigt alle Meldungen des Geräts</td><td>Reiter <b>Logcat</b></td></tr>
-<tr><td>Alt und Enter</td><td>Holt einen fehlenden Import. Cursor muss im roten Wort stehen</td><td>Taste <b>Alt</b> und <b>Enter</b></td></tr>
-</table>
+
 
 <p>Welche Angaben Pflicht sind:</p>
 <table>
@@ -127,6 +101,14 @@
 </div>
 
 <h3>Denkfragen <span class="time">2 Minuten</span></h3>
+<h4 class="brauchst">Was du hier brauchst</h4>
+<table>
+<tr><th>Baustein</th><th>Wofür</th><th>So sieht er aus</th></tr>
+<tr><td class="pre">setContentView</td><td>Lädt das Layout und erzeugt daraus die Views. Steht schon im Code</td><td class="pre">setContentView(R.layout.activity_main);</td></tr>
+<tr><td class="pre">R</td><td>Automatisch erzeugte Klasse. Enthält für jede id eine Zahl. Nie von Hand ändern</td><td class="pre">R.id.tvGreeting</td></tr>
+</table>
+
+
 <p>Denk kurz darüber nach, bevor du anfängst. Aufschreiben musst du nichts davon. Die drei Fragen kommen im Wissenscheck wieder, dort bekommst du sofort eine Rückmeldung.</p>
 <ol>
 <li>Was macht die Zeile <code>setContentView(R.layout.activity_main)</code> genau? Was gibt es vorher noch nicht, das es nachher gibt?</li>
@@ -175,6 +157,13 @@
 
 <h3>Teil B, Die erste Änderung <span class="time">10 Minuten</span></h3>
 
+
+<h4 class="brauchst">Was du in B1 brauchst</h4>
+<table>
+<tr><th>Baustein</th><th>Wofür</th><th>So sieht er aus</th></tr>
+<tr><td class="pre">android:id</td><td>Gibt einem Element im Layout einen Namen, damit du es im Code findest</td><td class="pre">android:id="@+id/tvGreeting"</td></tr>
+</table>
+
 <div class="step">
 <p><span class="n">B1</span><b>Der TextView eine id geben.</b></p>
 <p>Öffne <code>app / res / layout / activity_main.xml</code> und wechsle oben rechts auf die Ansicht <code>Code</code>. Suche das Element <code>TextView</code>. Ergänze als erste Zeile innerhalb der TextView:</p>
@@ -187,6 +176,15 @@
 </figure>
 <p>Das <code>@+id/</code> bedeutet: leg diese id neu an. Ohne Plus würde Android Studio eine bestehende id suchen und nichts finden.</p>
 </div>
+
+
+<h4 class="brauchst">Was du in B2 brauchst</h4>
+<table>
+<tr><th>Baustein</th><th>Wofür</th><th>So sieht er aus</th></tr>
+<tr><td class="pre">findViewById</td><td>Holt dir ein Element aus dem geladenen Layout in den Code</td><td class="pre">TextView tv = findViewById(R.id.tvGreeting);</td></tr>
+<tr><td class="pre">setText</td><td>Schreibt Text in eine TextView</td><td class="pre">tvGreeting.setText("Hallo Anna!");</td></tr>
+<tr><td>Alt und Enter</td><td>Holt einen fehlenden Import. Cursor muss im roten Wort stehen</td><td>Taste <b>Alt</b> und <b>Enter</b></td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">B2</span><b>Den Text aus dem Code setzen.</b></p>
@@ -228,6 +226,13 @@ tvGreeting.setText(<span class="s">"Hallo DEIN NAME!"</span>);</pre>
 <p><span class="n">C2</span><b>Starten und abstürzen lassen.</b></p>
 <p>Drück Run. Die App stürzt ab. Das ist gewollt.</p>
 </div>
+
+
+<h4 class="brauchst">Was du in C3 brauchst</h4>
+<table>
+<tr><th>Baustein</th><th>Wofür</th><th>So sieht er aus</th></tr>
+<tr><td>Logcat</td><td>Der Reiter unten in Android Studio. Zeigt alle Meldungen des Geräts</td><td>Reiter <b>Logcat</b></td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">C3</span><b>Den Stacktrace lesen.</b></p>
@@ -366,7 +371,27 @@ tvGreeting.setText(<span class="s">"Hallo DEIN NAME!"</span>);</pre>
 <tr><td style="border:1px solid #c3c2b7;padding:9px">2</td><td style="border:1px solid #c3c2b7;padding:9px">Der Logcat mit dem Absturz aus Teil C. Die Zeile mit Caused by muss zu sehen sein</td><td style="border:1px solid #c3c2b7;padding:11px">&nbsp;</td></tr>
 </table>
 
-<h2>03 Guide</h2>
+
+<h2>03 Recap</h2>
+
+<p>Das Wichtigste aus diesem Auftrag, zum Nachschlagen.</p>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>3.1</td><td>Kennt die Bedienung und den Einsatz einer passenden Entwicklungs-, Simulations- und Testumgebung</td></tr>
+<tr><td>3.2</td><td>Kennt ein gängiges Framework und dessen APIs</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du findest dich in der Projektstruktur eines Android-Projekts zurecht und weisst, wofür die fünf wichtigsten Dateien da sind.</li>
+<li>Du gibst einem Element im Layout eine id und sprichst es im Java-Code an.</li>
+<li>Du erklärst, warum <code>findViewById</code> nach <code>setContentView</code> stehen muss.</li>
+<li>Du liest einen Stacktrace in drei Schritten und benennst die Ursache eines Absturzes.</li>
+</ul>
+
+<h2>04 Guide</h2>
 <table>
 <tr><th>Zeitbudget</th><td>30 Minuten. Denkfragen 2, Teil A 6, Teil B 10, Teil C 12. Dazu 10 Minuten Einführung durch die Lehrperson davor</td></tr>
 <tr><th>Sozialform</th><td>Einzel- oder Partnerarbeit</td></tr>
@@ -389,7 +414,7 @@ tvGreeting.setText(<span class="s">"Hallo DEIN NAME!"</span>);</pre>
 </table>
 
 
-<h2>04 Unterrichtsmittel</h2>
+<h2>05 Unterrichtsmittel</h2>
 <table>
 <tr><th>Art</th><th>Was</th></tr>
 <tr><td>Hardware</td><td>Eigenes Notebook, laufender Emulator Medium Phone API 36.1</td></tr>
@@ -410,6 +435,180 @@ tvGreeting.setText(<span class="s">"Hallo DEIN NAME!"</span>);</pre>
 <footer class="site-footer"><div class="in">
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
+<script>
+/* ------------------------------------------------------------------
+   M335: schwebendes Inhaltsverzeichnis und Legende.
+
+   Warum hier und nicht als eigene Datei: dieser Baustein geht ueber
+   web-bau/rahmen/fuss.html in jede Seite. Inline heisst, dass bauen.js
+   nichts Zusaetzliches kopieren muss.
+
+   Was das Skript tut:
+     1. markiert die Ueberschriften Teil A, Teil B, Teil C
+     2. vergibt jeder Ueberschrift eine id, die Quellen haben keine
+     3. baut oben die Auftragskarte: Zeit als Pille, darunter die
+        Teile mit ihren Minuten
+     4. baut das Verzeichnis und markiert den sichtbaren Abschnitt
+
+   Das Aussehen steht in web-bau/stil/rahmen.css unter m335-nav.
+   ------------------------------------------------------------------ */
+(function () {
+  var wrap = document.querySelector('.wrap');
+  if (!wrap) return;
+
+  // Die Startseite ist selbst ein Verzeichnis, sie bekommt keines.
+  // Sie ist daran zu erkennen, dass ihr der Rueckweg im Kopf fehlt.
+  if (!document.querySelector('.site-header .back')) return;
+
+  var text = function (el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); };
+
+  // ---------------------------------------------------------------- 1 und 2
+  var heads = [].slice.call(wrap.querySelectorAll('h2, h3'));
+
+  var vergeben = {};
+  heads.forEach(function (h, i) {
+    if (h.tagName === 'H3' && /^Teil [A-Z]\b/.test(text(h))) h.classList.add('teil');
+    if (h.id) { vergeben[h.id] = true; return; }
+    var roh = text(h).toLowerCase()
+      .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+    var id = roh || ('abschnitt-' + i);
+    if (vergeben[id]) id = id + '-' + i;
+    vergeben[id] = true;
+    h.id = id;
+  });
+
+  // ---------------------------------------------------------------- 3
+  // Die Auftragskarte. Sie sagt in einem Bildschirm, wie lange der Auftrag
+  // dauert und aus welchen Teilen er besteht. Alles daran steht schon auf
+  // der Seite, die Karte stellt es nur neu zusammen. Darum muss kein
+  // Quelldokument dafuer angefasst werden.
+  var esc = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+  var subs = [].slice.call(wrap.querySelectorAll('.sub'));
+  var bloecke = heads.filter(function (h) { return h.querySelector('.time'); });
+  var budget = '', zusatz = '';
+
+  // Das Zeitbudget steht heute mitten im Untertitel. Es wandert in die Pille.
+  subs.forEach(function (p) {
+    if (budget) return;
+    var m = p.innerHTML.match(/Zeitbudget\s+([^.<]+)\./);
+    if (!m) return;
+    var stuecke = m[1].split(/,\s*dazu\s*/);
+    budget = stuecke[0].trim();
+    if (stuecke[1]) zusatz = 'dazu ' + stuecke[1].trim();
+    p.innerHTML = p.innerHTML.replace(m[0], '').replace(/\s{2,}/g, ' ').trim();
+  });
+
+  if (budget || bloecke.length) {
+    var karte = document.createElement('div');
+    karte.className = 'karte';
+    var inhalt = '';
+    if (budget) {
+      inhalt += '<p class="zeit"><span class="pill">' + esc(budget) + '</span>';
+      if (zusatz) inhalt += '<span class="pill neben">' + esc(zusatz) + '</span>';
+      inhalt += '</p>';
+    }
+    if (bloecke.length) {
+      inhalt += '<p class="t">DAS MACHST DU</p><ol>';
+      bloecke.forEach(function (b) {
+        var uhr = b.querySelector('.time');
+        var min = uhr ? text(uhr) : '';
+        var t = text(b).replace(min, '').replace(/\s+/g, ' ').replace(/\s+,/g, ',').trim();
+        t = t.replace(/[,;]\s*$/, '');
+        var teil = t.match(/^([^,]+),\s*(.*)$/);
+        var wo = teil ? teil[1] : t;
+        var rest = teil ? teil[2] : '';
+        inhalt += '<li><a href="#' + b.id + '"><span class="wo">' + esc(wo) + '</span>'
+                + (rest ? ' ' + esc(rest) : '') + '</a>'
+                + '<span class="min">' + esc(min) + '</span></li>';
+      });
+      inhalt += '</ol>';
+    }
+    karte.innerHTML = inhalt;
+    var anker = subs.length ? subs[subs.length - 1] : wrap.firstElementChild;
+    anker.parentNode.insertBefore(karte, anker.nextSibling);
+  }
+
+  // ---------------------------------------------------------------- 4
+  // Unter vier Ueberschriften lohnt sich kein Verzeichnis. Die Legende
+  // steht dann trotzdem schon, sie haengt nicht an den Ueberschriften.
+  if (heads.length < 4) return;
+
+  var nav = document.createElement('nav');
+  nav.className = 'm335-nav';
+  nav.setAttribute('aria-label', 'Inhalt dieser Seite');
+
+  var html = '<p class="kopfzeile">AUF DIESER SEITE</p>'
+           + '<button type="button" class="schliessen" aria-label="Verzeichnis schliessen">Schliessen</button><ol>';
+  heads.forEach(function (h) {
+    var stufe = h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3');
+    var t = text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, '');
+    html += '<li class="' + stufe + '"><a href="#' + h.id + '">'
+          + t.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</a></li>';
+  });
+  nav.innerHTML = html + '</ol>';
+
+  var knopf = document.createElement('button');
+  knopf.type = 'button';
+  knopf.className = 'm335-nav-knopf';
+  knopf.textContent = 'Inhalt';
+
+  document.body.appendChild(nav);
+  document.body.appendChild(knopf);
+
+  var links = [].slice.call(nav.querySelectorAll('a'));
+
+  // Breit: die Leiste steht fest am Rand. Schmal: sie liegt hinter dem Knopf.
+  var breit = window.matchMedia('(min-width: 1320px)');
+  function umschalten() {
+    if (breit.matches) {
+      nav.className = 'm335-nav seitlich';
+      nav.hidden = false;
+      knopf.style.display = 'none';
+    } else {
+      nav.className = 'm335-nav klappe';
+      nav.hidden = true;
+      knopf.style.display = '';
+    }
+  }
+  umschalten();
+  if (breit.addEventListener) breit.addEventListener('change', umschalten);
+  else if (breit.addListener) breit.addListener(umschalten);
+
+  knopf.addEventListener('click', function () { nav.hidden = !nav.hidden; });
+  nav.querySelector('.schliessen').addEventListener('click', function () { nav.hidden = true; });
+  nav.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && !breit.matches) nav.hidden = true;
+  });
+
+  // Welcher Abschnitt ist gerade dran. Gesucht ist die letzte Ueberschrift,
+  // die oberhalb der Lesekante liegt. Die Kante liegt knapp unter dem
+  // klebenden Kopfbereich.
+  var laeuft = false;
+  function markieren() {
+    laeuft = false;
+    var kante = 96, treffer = 0;
+    for (var i = 0; i < heads.length; i++) {
+      if (heads[i].getBoundingClientRect().top <= kante) treffer = i;
+      else break;
+    }
+    for (var j = 0; j < links.length; j++) links[j].classList.toggle('hier', j === treffer);
+    var a = links[treffer];
+    if (a && breit.matches) {
+      var r = a.getBoundingClientRect(), n = nav.getBoundingClientRect();
+      if (r.top < n.top + 8 || r.bottom > n.bottom - 8) a.scrollIntoView({ block: 'nearest' });
+    }
+  }
+  function anstossen() {
+    if (laeuft) return;
+    laeuft = true;
+    window.requestAnimationFrame(markieren);
+  }
+  window.addEventListener('scroll', anstossen, { passive: true });
+  window.addEventListener('resize', anstossen);
+  markieren();
+})();
+</script>
 <!--/M335:RAHMEN-FUSS-->
 </body>
 </html>

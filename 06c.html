@@ -22,28 +22,9 @@
 
 <h1>06C RecyclerView und Rangliste</h1>
 <p class="sub">Modul 335 Mobile Applikationen, Tag 3 Nachmittag. Zeitbudget 90 Minuten. Version 1 vom 19.08.2026.</p>
-<p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
 <p class="sub">Heute wird sichtbar, was du in 06A gezeichnet und in 06B gebaut hast. Und du baust dieselbe Liste wie in 04B nochmals, diesmal so, wie Android es vorsieht.</p>
 
 <h2>01 Einführung</h2>
-
-<h3>Lernziele</h3>
-<table>
-<tr><th>HANOK</th><th>Ziel</th></tr>
-<tr><td>1.1</td><td>Ergonomische Standards und Prinzipien der Interaktion kennen und anwenden</td></tr>
-<tr><td>2.3</td><td>Kennt gängige App-Architekturen und kann sie einsetzen</td></tr>
-<tr><td>3.2</td><td>Kennt das Framework und seine APIs und kann sie anwenden</td></tr>
-</table>
-
-<p>Nach diesem Auftrag kannst du:</p>
-<ul>
-<li>Du legst einen vierten Bildschirm an und schaltest ihn im Menü frei.</li>
-<li>Du beschreibst eine Listenzeile in einer eigenen Layoutdatei.</li>
-<li>Du schreibst einen Adapter mit ViewHolder für einen <code>RecyclerView</code>.</li>
-<li>Du erklärst, warum Erzeugen und Füllen zwei getrennte Methoden sind.</li>
-<li>Du sortierst eine Liste absteigend und erklärst, woher die Rangnummer kommt.</li>
-<li>Du findest einen Fehler, der nichts anzeigt und nichts abstürzt.</li>
-</ul>
 
 <h3>Das brauchst du vorher</h3>
 <ul>
@@ -116,54 +97,12 @@
 
 <p>Der Auftrag hat drei Teile. Teil A baut den Bildschirm und die Zeile. Teil B baut den Adapter. Teil C verbindet beides und lädt die Daten.</p>
 
-<h3>Werkzeugkasten</h3>
-
-<table>
-<tr><th>Baustein</th><th>Wofür</th></tr>
-<tr><td class="pre">RecyclerView</td><td>Die Liste selbst. Steht im Layout wie jede andere View. Präfix <code>rv</code></td></tr>
-<tr><td class="pre">item_highscore.xml</td><td>Eine eigene Layoutdatei für <b>genau eine</b> Zeile</td></tr>
-<tr><td class="pre">RecyclerView.Adapter</td><td>Die Klasse, die aus deinen Daten Zeilen macht</td></tr>
-<tr><td class="pre">RecyclerView.ViewHolder</td><td>Merkt sich die Views einer Zeile, damit <code>findViewById</code> nur einmal läuft</td></tr>
-<tr><td class="pre">LayoutInflater.inflate(...)</td><td>Macht aus einer XML-Datei echte Views. <b>Das kennst du schon</b>, <code>setContentView</code> macht dasselbe für den ganzen Bildschirm</td></tr>
-<tr><td class="pre">LinearLayoutManager</td><td>Ordnet die Zeilen untereinander an. Das ist der Normalfall</td></tr>
-<tr><td class="pre">notifyDataSetChanged()</td><td>Sagt dem <code>RecyclerView</code>, dass er neu zeichnen soll</td></tr>
-<tr><td class="pre">Collections.sort(liste, ...)</td><td>Sortiert eine Liste. <b>Die Nachbarmethode von <code>Collections.shuffle</code></b>, das du in 05C benutzt hast</td></tr>
-<tr><td class="pre">Integer.compare(a, b)</td><td>Liefert eine negative Zahl, null oder eine positive. Damit sagst du, was zuerst kommt</td></tr>
-<tr><td class="pre">tools:listitem</td><td>Nur für die Vorschau im Editor. Ohne sie siehst du dort eine leere graue Fläche</td></tr>
-<tr><td class="pre">startActivity(new Intent(...))</td><td>Öffnet einen Bildschirm ohne Rückgabe. <b>Kennst du aus 05A</b>, Knopf Über die App</td></tr>
-</table>
 
 <div class="tip">
 <p><b>Keine neue Abhängigkeit nötig.</b> Der <code>RecyclerView</code> steckt in einer eigenen Bibliothek <code>androidx.recyclerview</code>. Wir haben sie nie eingetragen, und trotzdem läuft sie, weil <code>material</code> sie mitbringt.</p>
 <p>In einem echten Projekt trägt man ein, was man direkt benutzt, auch wenn es schon da ist. Hier bleibt es aus einem Grund weg: <b>in 07C kommt Room</b>, und das ist die erste Abhängigkeit, die zwingend eingetragen werden muss. Dort lernst du den Versionskatalog an einem Fall, wo es nicht anders geht.</p>
 </div>
 
-<h3>Pflichtangaben</h3>
-
-<table>
-<tr><th>Wo</th><th>Was Pflicht ist</th><th>Warum</th></tr>
-<tr><td>Am Root-Element von <code>item_highscore.xml</code></td><td><code>layout_height="wrap_content"</code></td><td>Eine Zeile ist so hoch wie ihr Inhalt. Mit <code>match_parent</code> siehst du einen Eintrag pro Bildschirm</td></tr>
-<tr><td>Am <code>RecyclerView</code> im Layout</td><td><code>0dp</code> Höhe plus Anker oben <b>und</b> unten</td><td>Nur so kennt er seine Grösse und kann scrollen</td></tr>
-<tr><td>Beim <code>inflate</code> im Adapter</td><td>Das dritte Argument ist <code>false</code></td><td>Mit <code>true</code> stürzt die App ab</td></tr>
-<tr><td>Bei einer neuen Activity</td><td>Eintrag im <code>AndroidManifest.xml</code></td><td>Sonst <code>ActivityNotFoundException</code>, genau wie in 05A</td></tr>
-<tr><td>Bei jeder neuen Methode und jedem neuen Feld</td><td>Javadoc</td><td>Wird in der Leistungsbeurteilung bewertet</td></tr>
-</table>
-
-<h3>Namen im Code</h3>
-
-<table>
-<tr><th>Name</th><th>Was es ist</th></tr>
-<tr><td class="pre">HighscoreActivity</td><td>Der neue Bildschirm</td></tr>
-<tr><td class="pre">activity_highscore.xml</td><td>Sein Layout</td></tr>
-<tr><td class="pre">item_highscore.xml</td><td>Das Layout <b>einer Zeile</b></td></tr>
-<tr><td class="pre">HighscoreAdapter</td><td>Die neue Klasse neben den Activities</td></tr>
-<tr><td class="pre">HighscoreViewHolder</td><td>Die Klasse <b>in</b> der Klasse</td></tr>
-<tr><td class="pre">clHighscore</td><td>Das Root-Element von <code>activity_highscore.xml</code></td></tr>
-<tr><td class="pre">rvHighscore</td><td>Der RecyclerView</td></tr>
-<tr><td class="pre">tvHighscoreTitle</td><td>Der Titel oben</td></tr>
-<tr><td class="pre">tvRank, tvEntryName, tvEntryScore</td><td>Die drei TextViews <b>in der Zeile</b></td></tr>
-<tr><td class="pre">title_highscore, rank_format, entry_score_format</td><td>Die drei neuen Strings</td></tr>
-</table>
 
 <h3>Denkfragen</h3>
 <ol>
@@ -177,6 +116,21 @@
 </div>
 
 <h3>Teil A, der Bildschirm und die Zeile <span class="time">18 Minuten</span></h3>
+
+
+<h4 class="brauchst">Was du in A1 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">RecyclerView</td><td>Die Liste selbst. Steht im Layout wie jede andere View. Präfix <code>rv</code></td></tr>
+<tr><td class="pre">tools:listitem</td><td>Nur für die Vorschau im Editor. Ohne sie siehst du dort eine leere graue Fläche</td></tr>
+<tr><td class="pre">startActivity(new Intent(...))</td><td>Öffnet einen Bildschirm ohne Rückgabe. <b>Kennst du aus 05A</b>, Knopf Über die App</td></tr>
+<tr><td class="pre">HighscoreActivity</td><td>Der neue Bildschirm</td></tr>
+<tr><td class="pre">activity_highscore.xml</td><td>Sein Layout</td></tr>
+<tr><td class="pre">clHighscore</td><td>Das Root-Element von <code>activity_highscore.xml</code></td></tr>
+<tr><td class="pre">rvHighscore</td><td>Der RecyclerView</td></tr>
+<tr><td class="pre">tvHighscoreTitle</td><td>Der Titel oben</td></tr>
+<tr><td class="pre">title_highscore, rank_format, entry_score_format</td><td>Die drei neuen Strings</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">A1</span><b>Die vierte Activity.</b> <span class="time">10 Min</span></p>
@@ -282,6 +236,15 @@ btnRanking.setOnClickListener(v -&gt; startActivity(<span class="k">new</span> <
 </div>
 </div>
 
+
+<h4 class="brauchst">Was du in A2 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">item_highscore.xml</td><td>Eine eigene Layoutdatei für <b>genau eine</b> Zeile</td></tr>
+<tr><td class="pre">item_highscore.xml</td><td>Das Layout <b>einer Zeile</b></td></tr>
+<tr><td class="pre">tvRank, tvEntryName, tvEntryScore</td><td>Die drei TextViews <b>in der Zeile</b></td></tr>
+</table>
+
 <div class="step">
 <p><span class="n">A2</span><b>Die Zeile.</b> <span class="time">8 Min</span></p>
 
@@ -353,6 +316,16 @@ btnRanking.setOnClickListener(v -&gt; startActivity(<span class="k">new</span> <
 
 <h3>Teil B, der Adapter <span class="time">30 Minuten</span></h3>
 
+
+<h4 class="brauchst">Was du in B1 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">RecyclerView.Adapter</td><td>Die Klasse, die aus deinen Daten Zeilen macht</td></tr>
+<tr><td class="pre">RecyclerView.ViewHolder</td><td>Merkt sich die Views einer Zeile, damit <code>findViewById</code> nur einmal läuft</td></tr>
+<tr><td class="pre">HighscoreAdapter</td><td>Die neue Klasse neben den Activities</td></tr>
+<tr><td class="pre">HighscoreViewHolder</td><td>Die Klasse <b>in</b> der Klasse</td></tr>
+</table>
+
 <div class="step">
 <p><span class="n">B1</span><b>Die Klasse und der ViewHolder.</b> <span class="time">10 Min</span></p>
 
@@ -403,6 +376,13 @@ btnRanking.setOnClickListener(v -&gt; startActivity(<span class="k">new</span> <
 </ul>
 </div>
 </div>
+
+
+<h4 class="brauchst">Was du in B2 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">LayoutInflater.inflate(...)</td><td>Macht aus einer XML-Datei echte Views. <b>Das kennst du schon</b>, <code>setContentView</code> macht dasselbe für den ganzen Bildschirm</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">B2</span><b>Eine Zeile erzeugen.</b> <span class="time">6 Min</span></p>
@@ -474,6 +454,13 @@ llQuestionList.addView(row);                    <span class="c">// anhängen</sp
 </div>
 </div>
 
+
+<h4 class="brauchst">Was du in B4 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">notifyDataSetChanged()</td><td>Sagt dem <code>RecyclerView</code>, dass er neu zeichnen soll</td></tr>
+</table>
+
 <div class="step">
 <p><span class="n">B4</span><b>Die Daten hineingeben.</b> <span class="time">5 Min</span></p>
 
@@ -510,6 +497,12 @@ llQuestionList.addView(row);                    <span class="c">// anhängen</sp
 </div>
 
 <h3>Der Überblick, bevor Teil C anfängt <span class="time">4 Minuten</span></h3>
+<h4 class="brauchst">Was du hier brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">Collections.sort(liste, ...)</td><td>Sortiert eine Liste. <b>Die Nachbarmethode von <code>Collections.shuffle</code></b>, das du in 05C benutzt hast</td></tr>
+</table>
+
 
 <p>Eine Frage entscheidet, ob du Teil C verstehst oder nur abtippst: <b>wer ruft eigentlich <code>onCreateViewHolder</code> und <code>onBindViewHolder</code> auf?</b></p>
 
@@ -562,6 +555,13 @@ rvHighscore.setAdapter(adapter);</pre>
 </div>
 </div>
 
+
+<h4 class="brauchst">Was du in C2 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">Integer.compare(a, b)</td><td>Liefert eine negative Zahl, null oder eine positive. Damit sagst du, was zuerst kommt</td></tr>
+</table>
+
 <div class="step">
 <p><span class="n">C2</span><b>Laden und sortieren.</b> <span class="time">7 Min</span></p>
 
@@ -597,6 +597,13 @@ rvHighscore.setAdapter(adapter);</pre>
 <p><b><code>Collections.shuffle</code> kennst du aus 05C.</b> <code>Collections.sort</code> ist die Nachbarmethode. Der zweite Parameter sagt, was zuerst kommt: eine kleine Funktion, die zwei Einträge vergleicht und eine Zahl zurückgibt.</p>
 </div>
 </div>
+
+
+<h4 class="brauchst">Was du in C3 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">LinearLayoutManager</td><td>Ordnet die Zeilen untereinander an. Das ist der Normalfall</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">C3</span><b>Schau genau hin.</b> <span class="time">8 Min</span></p>
@@ -744,7 +751,41 @@ rvHighscore.setAdapter(adapter);</pre>
 <tr><td><b>Nach Teil A und nach Teil B ist die Fläche leer</b></td><td>Kein Fehler</td><td>Nichts tun. Gefüllt wird sie erst in Teil C</td></tr>
 </table>
 
-<h2>03 Guide</h2>
+
+<h2>03 Recap</h2>
+
+<p>Das Wichtigste aus diesem Auftrag, zum Nachschlagen.</p>
+
+<h3>Pflichtangaben</h3>
+
+<table>
+<tr><th>Wo</th><th>Was Pflicht ist</th><th>Warum</th></tr>
+<tr><td>Am Root-Element von <code>item_highscore.xml</code></td><td><code>layout_height="wrap_content"</code></td><td>Eine Zeile ist so hoch wie ihr Inhalt. Mit <code>match_parent</code> siehst du einen Eintrag pro Bildschirm</td></tr>
+<tr><td>Am <code>RecyclerView</code> im Layout</td><td><code>0dp</code> Höhe plus Anker oben <b>und</b> unten</td><td>Nur so kennt er seine Grösse und kann scrollen</td></tr>
+<tr><td>Beim <code>inflate</code> im Adapter</td><td>Das dritte Argument ist <code>false</code></td><td>Mit <code>true</code> stürzt die App ab</td></tr>
+<tr><td>Bei einer neuen Activity</td><td>Eintrag im <code>AndroidManifest.xml</code></td><td>Sonst <code>ActivityNotFoundException</code>, genau wie in 05A</td></tr>
+<tr><td>Bei jeder neuen Methode und jedem neuen Feld</td><td>Javadoc</td><td>Wird in der Leistungsbeurteilung bewertet</td></tr>
+</table>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>1.1</td><td>Ergonomische Standards und Prinzipien der Interaktion kennen und anwenden</td></tr>
+<tr><td>2.3</td><td>Kennt gängige App-Architekturen und kann sie einsetzen</td></tr>
+<tr><td>3.2</td><td>Kennt das Framework und seine APIs und kann sie anwenden</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du legst einen vierten Bildschirm an und schaltest ihn im Menü frei.</li>
+<li>Du beschreibst eine Listenzeile in einer eigenen Layoutdatei.</li>
+<li>Du schreibst einen Adapter mit ViewHolder für einen <code>RecyclerView</code>.</li>
+<li>Du erklärst, warum Erzeugen und Füllen zwei getrennte Methoden sind.</li>
+<li>Du sortierst eine Liste absteigend und erklärst, woher die Rangnummer kommt.</li>
+<li>Du findest einen Fehler, der nichts anzeigt und nichts abstürzt.</li>
+</ul>
+
+<h2>04 Guide</h2>
 
 <table>
 <tr><th>Punkt</th><th>Angabe</th></tr>
@@ -762,7 +803,7 @@ rvHighscore.setAdapter(adapter);</pre>
 <li><b>Wissenscheck 06ABC.</b> Unbenotet, beliebig wiederholbar, kein Fälligkeitsdatum.</li>
 </ul>
 
-<h2>04 Unterrichtsmittel</h2>
+<h2>05 Unterrichtsmittel</h2>
 <ul>
 <li><b>Deine eigene <code>buildQuestionList</code> aus 04B</b>, für den Vergleich in B3. Ohne sie fehlt der halbe Auftrag.</li>
 <li><b>Die Activity von innen</b>, für die Frage Feld gegen lokale Variable in C1.</li>
@@ -778,6 +819,180 @@ rvHighscore.setAdapter(adapter);</pre>
 <footer class="site-footer"><div class="in">
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
+<script>
+/* ------------------------------------------------------------------
+   M335: schwebendes Inhaltsverzeichnis und Legende.
+
+   Warum hier und nicht als eigene Datei: dieser Baustein geht ueber
+   web-bau/rahmen/fuss.html in jede Seite. Inline heisst, dass bauen.js
+   nichts Zusaetzliches kopieren muss.
+
+   Was das Skript tut:
+     1. markiert die Ueberschriften Teil A, Teil B, Teil C
+     2. vergibt jeder Ueberschrift eine id, die Quellen haben keine
+     3. baut oben die Auftragskarte: Zeit als Pille, darunter die
+        Teile mit ihren Minuten
+     4. baut das Verzeichnis und markiert den sichtbaren Abschnitt
+
+   Das Aussehen steht in web-bau/stil/rahmen.css unter m335-nav.
+   ------------------------------------------------------------------ */
+(function () {
+  var wrap = document.querySelector('.wrap');
+  if (!wrap) return;
+
+  // Die Startseite ist selbst ein Verzeichnis, sie bekommt keines.
+  // Sie ist daran zu erkennen, dass ihr der Rueckweg im Kopf fehlt.
+  if (!document.querySelector('.site-header .back')) return;
+
+  var text = function (el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); };
+
+  // ---------------------------------------------------------------- 1 und 2
+  var heads = [].slice.call(wrap.querySelectorAll('h2, h3'));
+
+  var vergeben = {};
+  heads.forEach(function (h, i) {
+    if (h.tagName === 'H3' && /^Teil [A-Z]\b/.test(text(h))) h.classList.add('teil');
+    if (h.id) { vergeben[h.id] = true; return; }
+    var roh = text(h).toLowerCase()
+      .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+    var id = roh || ('abschnitt-' + i);
+    if (vergeben[id]) id = id + '-' + i;
+    vergeben[id] = true;
+    h.id = id;
+  });
+
+  // ---------------------------------------------------------------- 3
+  // Die Auftragskarte. Sie sagt in einem Bildschirm, wie lange der Auftrag
+  // dauert und aus welchen Teilen er besteht. Alles daran steht schon auf
+  // der Seite, die Karte stellt es nur neu zusammen. Darum muss kein
+  // Quelldokument dafuer angefasst werden.
+  var esc = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+  var subs = [].slice.call(wrap.querySelectorAll('.sub'));
+  var bloecke = heads.filter(function (h) { return h.querySelector('.time'); });
+  var budget = '', zusatz = '';
+
+  // Das Zeitbudget steht heute mitten im Untertitel. Es wandert in die Pille.
+  subs.forEach(function (p) {
+    if (budget) return;
+    var m = p.innerHTML.match(/Zeitbudget\s+([^.<]+)\./);
+    if (!m) return;
+    var stuecke = m[1].split(/,\s*dazu\s*/);
+    budget = stuecke[0].trim();
+    if (stuecke[1]) zusatz = 'dazu ' + stuecke[1].trim();
+    p.innerHTML = p.innerHTML.replace(m[0], '').replace(/\s{2,}/g, ' ').trim();
+  });
+
+  if (budget || bloecke.length) {
+    var karte = document.createElement('div');
+    karte.className = 'karte';
+    var inhalt = '';
+    if (budget) {
+      inhalt += '<p class="zeit"><span class="pill">' + esc(budget) + '</span>';
+      if (zusatz) inhalt += '<span class="pill neben">' + esc(zusatz) + '</span>';
+      inhalt += '</p>';
+    }
+    if (bloecke.length) {
+      inhalt += '<p class="t">DAS MACHST DU</p><ol>';
+      bloecke.forEach(function (b) {
+        var uhr = b.querySelector('.time');
+        var min = uhr ? text(uhr) : '';
+        var t = text(b).replace(min, '').replace(/\s+/g, ' ').replace(/\s+,/g, ',').trim();
+        t = t.replace(/[,;]\s*$/, '');
+        var teil = t.match(/^([^,]+),\s*(.*)$/);
+        var wo = teil ? teil[1] : t;
+        var rest = teil ? teil[2] : '';
+        inhalt += '<li><a href="#' + b.id + '"><span class="wo">' + esc(wo) + '</span>'
+                + (rest ? ' ' + esc(rest) : '') + '</a>'
+                + '<span class="min">' + esc(min) + '</span></li>';
+      });
+      inhalt += '</ol>';
+    }
+    karte.innerHTML = inhalt;
+    var anker = subs.length ? subs[subs.length - 1] : wrap.firstElementChild;
+    anker.parentNode.insertBefore(karte, anker.nextSibling);
+  }
+
+  // ---------------------------------------------------------------- 4
+  // Unter vier Ueberschriften lohnt sich kein Verzeichnis. Die Legende
+  // steht dann trotzdem schon, sie haengt nicht an den Ueberschriften.
+  if (heads.length < 4) return;
+
+  var nav = document.createElement('nav');
+  nav.className = 'm335-nav';
+  nav.setAttribute('aria-label', 'Inhalt dieser Seite');
+
+  var html = '<p class="kopfzeile">AUF DIESER SEITE</p>'
+           + '<button type="button" class="schliessen" aria-label="Verzeichnis schliessen">Schliessen</button><ol>';
+  heads.forEach(function (h) {
+    var stufe = h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3');
+    var t = text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, '');
+    html += '<li class="' + stufe + '"><a href="#' + h.id + '">'
+          + t.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</a></li>';
+  });
+  nav.innerHTML = html + '</ol>';
+
+  var knopf = document.createElement('button');
+  knopf.type = 'button';
+  knopf.className = 'm335-nav-knopf';
+  knopf.textContent = 'Inhalt';
+
+  document.body.appendChild(nav);
+  document.body.appendChild(knopf);
+
+  var links = [].slice.call(nav.querySelectorAll('a'));
+
+  // Breit: die Leiste steht fest am Rand. Schmal: sie liegt hinter dem Knopf.
+  var breit = window.matchMedia('(min-width: 1320px)');
+  function umschalten() {
+    if (breit.matches) {
+      nav.className = 'm335-nav seitlich';
+      nav.hidden = false;
+      knopf.style.display = 'none';
+    } else {
+      nav.className = 'm335-nav klappe';
+      nav.hidden = true;
+      knopf.style.display = '';
+    }
+  }
+  umschalten();
+  if (breit.addEventListener) breit.addEventListener('change', umschalten);
+  else if (breit.addListener) breit.addListener(umschalten);
+
+  knopf.addEventListener('click', function () { nav.hidden = !nav.hidden; });
+  nav.querySelector('.schliessen').addEventListener('click', function () { nav.hidden = true; });
+  nav.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && !breit.matches) nav.hidden = true;
+  });
+
+  // Welcher Abschnitt ist gerade dran. Gesucht ist die letzte Ueberschrift,
+  // die oberhalb der Lesekante liegt. Die Kante liegt knapp unter dem
+  // klebenden Kopfbereich.
+  var laeuft = false;
+  function markieren() {
+    laeuft = false;
+    var kante = 96, treffer = 0;
+    for (var i = 0; i < heads.length; i++) {
+      if (heads[i].getBoundingClientRect().top <= kante) treffer = i;
+      else break;
+    }
+    for (var j = 0; j < links.length; j++) links[j].classList.toggle('hier', j === treffer);
+    var a = links[treffer];
+    if (a && breit.matches) {
+      var r = a.getBoundingClientRect(), n = nav.getBoundingClientRect();
+      if (r.top < n.top + 8 || r.bottom > n.bottom - 8) a.scrollIntoView({ block: 'nearest' });
+    }
+  }
+  function anstossen() {
+    if (laeuft) return;
+    laeuft = true;
+    window.requestAnimationFrame(markieren);
+  }
+  window.addEventListener('scroll', anstossen, { passive: true });
+  window.addEventListener('resize', anstossen);
+  markieren();
+})();
+</script>
 <!--/M335:RAHMEN-FUSS-->
 </body>
 </html>

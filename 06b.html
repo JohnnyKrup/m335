@@ -22,29 +22,9 @@
 
 <h1>06B Validierung und inputType</h1>
 <p class="sub">Modul 335 Mobile Applikationen, Tag 3 Nachmittag. Zeitbudget 50 Minuten. Version 1 vom 19.08.2026.</p>
-<p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
 <p class="sub">Heute wird aus deiner Zeichnung von vorhin echter Code. Und dein Ergebnisbereich bekommt das erste Eingabefeld der ganzen App.</p>
 
 <h2>01 Einführung</h2>
-
-<h3>Lernziele</h3>
-<table>
-<tr><th>HANOK</th><th>Ziel</th></tr>
-<tr><td>1.1</td><td>Ergonomische Standards und Prinzipien der Interaktion kennen und anwenden</td></tr>
-<tr><td>1.3</td><td>Kennt die Geräteeigenschaften und Eingabeoptionen und kann sie einsetzen</td></tr>
-<tr><td>2.4</td><td>Kennt die Persistenzlösungen auf mobilen Devices und kann sie situationsgerecht einsetzen</td></tr>
-</table>
-
-<p>Nach diesem Auftrag kannst du:</p>
-<ul>
-<li>Du schreibst eine Datenklasse aus einem selbst gezeichneten Datenmodell.</li>
-<li>Du baust ein Eingabefeld mit <code>TextInputLayout</code> und <code>TextInputEditText</code>.</li>
-<li>Du stellst über <code>inputType</code> ein, welche Tastatur der Benutzer bekommt.</li>
-<li>Du prüfst eine Eingabe und zeigst die Fehlermeldung direkt beim Feld an.</li>
-<li>Du erklärst, warum jede Texteingabe getrimmt gehört.</li>
-<li>Du sperrst eine Aktion, die man nur einmal auslösen darf.</li>
-<li>Du sorgst dafür, dass die Bildschirmtastatur deinen Inhalt nicht verdeckt.</li>
-</ul>
 
 <h3>Das brauchst du vorher</h3>
 <ul>
@@ -86,51 +66,11 @@
 
 <p>Der Auftrag hat drei Teile. Teil A macht aus deiner Zeichnung Code. Teil B baut das Feld ins Layout. Teil C prüft die Eingabe.</p>
 
-<h3>Werkzeugkasten</h3>
-
-<table>
-<tr><th>Baustein</th><th>Wofür</th></tr>
-<tr><td class="pre">TextInputLayout</td><td>Der <b>Rahmen</b> um ein Eingabefeld. Zeigt den Hinweistext und die Fehlermeldung. Präfix <code>til</code></td></tr>
-<tr><td class="pre">TextInputEditText</td><td>Das <b>Feld</b> selbst, liegt im Rahmen drin. Nimmt den Text entgegen. Präfix <code>et</code></td></tr>
-<tr><td class="pre">setError(text)</td><td>Zeigt eine rote Meldung an. Gehört auf den <b>Rahmen</b>, nicht auf das Feld</td></tr>
-<tr><td class="pre">setError(null)</td><td>Räumt die Meldung wieder weg</td></tr>
-<tr><td class="pre">android:inputType</td><td>Bestimmt, welche Tastatur erscheint und wie gross geschrieben wird</td></tr>
-<tr><td class="pre">android:imeOptions</td><td>Bestimmt, was unten rechts auf der Tastatur steht</td></tr>
-<tr><td class="pre">app:errorEnabled</td><td>Reserviert den Platz für die Fehlermeldung von Anfang an</td></tr>
-<tr><td class="pre">String.trim()</td><td>Entfernt Leerzeichen am Anfang und am Ende</td></tr>
-<tr><td class="pre">WindowInsetsCompat.Type.ime()</td><td>Der Platzbedarf der <b>Tastatur</b>. Gehört in den Insets-Block, den du seit 01B im Projekt hast</td></tr>
-<tr><td class="pre">JSONArray, JSONObject</td><td>Bauen JSON in Java und lesen es wieder. <b>Das Format kennst du aus 294 und 295</b>, neu sind nur diese vier Aufrufe. Steckt schon in Android drin</td></tr>
-</table>
 
 <div class="tip">
 <p><b>Keine neue Abhängigkeit nötig.</b> <code>TextInputLayout</code> steckt in <code>material</code>, und das ist seit dem ersten Tag eingebunden. <code>JSONArray</code> gehört zu Android selbst. Du musst an Gradle heute nichts anfassen.</p>
 </div>
 
-<h3>Pflichtangaben</h3>
-
-<table>
-<tr><th>Wo</th><th>Was Pflicht ist</th><th>Warum</th></tr>
-<tr><td>Am <code>TextInputLayout</code></td><td><code>android:hint</code> und <code>app:errorEnabled="true"</code></td><td>Der Hinweistext sagt, was hineingehört. Ohne <code>errorEnabled</code> springt das Layout</td></tr>
-<tr><td>Am <code>TextInputEditText</code></td><td><code>android:inputType</code>, <code>android:maxLines="1"</code></td><td>Ein Name hat eine Zeile und braucht eine Namenstastatur</td></tr>
-<tr><td>Bei jedem Text vom Benutzer</td><td><code>.trim()</code></td><td>Ausnahmslos. Auch in der Prüfung</td></tr>
-<tr><td>Bei jeder verändernden Aktion</td><td>Ein Gedanke an den zweiten Klick</td><td>Sonst steht derselbe Spieler fünfmal in der Rangliste</td></tr>
-<tr><td>Bei jeder neuen Methode</td><td>Javadoc</td><td>Wird in der Leistungsbeurteilung bewertet</td></tr>
-</table>
-
-<h3>Namen im Code</h3>
-
-<table>
-<tr><th>Name</th><th>Was es ist</th></tr>
-<tr><td class="pre">HighscoreEntry</td><td>Deine neue Datenklasse. Der Kasten aus 06A A4</td></tr>
-<tr><td class="pre">HighscoreStorage</td><td>Die neue Klasse in <code>data</code>, legt die Rangliste ab</td></tr>
-<tr><td class="pre">svResult</td><td>Die neue ScrollView um den Ergebnisbereich</td></tr>
-<tr><td class="pre">tilPlayerName</td><td>Der Rahmen um das Namensfeld</td></tr>
-<tr><td class="pre">etPlayerName</td><td>Das Namensfeld</td></tr>
-<tr><td class="pre">btnSaveScore</td><td>Der Knopf zum Eintragen</td></tr>
-<tr><td class="pre">tvSaved</td><td>Die Bestätigung nach dem Eintragen</td></tr>
-<tr><td class="pre">scoreSaved</td><td>Das Feld, das die Sperre merkt</td></tr>
-<tr><td class="pre">MIN_NAME_LENGTH</td><td>Die Konstante mit dem Wert 3</td></tr>
-</table>
 
 <h3>Denkfragen</h3>
 <ol>
@@ -144,6 +84,14 @@
 </div>
 
 <h3>Teil A, dein Datenmodell wird Code <span class="time">14 Minuten</span></h3>
+
+
+<h4 class="brauchst">Was du in A1 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">HighscoreEntry</td><td>Deine neue Datenklasse. Der Kasten aus 06A A4</td></tr>
+<tr><td class="pre">WindowInsetsCompat.Type.ime()</td><td>Der Platzbedarf der <b>Tastatur</b>. Gehört in den Insets-Block, den du seit 01B im Projekt hast</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">A1</span><b>Die Klasse <code>HighscoreEntry</code>.</b> <span class="time">6 Min</span></p>
@@ -165,6 +113,14 @@
 </ul>
 </div>
 </div>
+
+
+<h4 class="brauchst">Was du in A2 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">JSONArray, JSONObject</td><td>Bauen JSON in Java und lesen es wieder. <b>Das Format kennst du aus 294 und 295</b>, neu sind nur diese vier Aufrufe. Steckt schon in Android drin</td></tr>
+<tr><td class="pre">HighscoreStorage</td><td>Die neue Klasse in <code>data</code>, legt die Rangliste ab</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">A2</span><b>Die Rangliste ablegen.</b> <span class="time">8 Min</span></p>
@@ -266,6 +222,23 @@ a.put(o);                        <span class="c">// Objekt in die Liste</span>
 
 <h3>Teil B, das Namensfeld im Layout <span class="time">14 Minuten</span></h3>
 
+
+<h4 class="brauchst">Was du in B1 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">TextInputLayout</td><td>Der <b>Rahmen</b> um ein Eingabefeld. Zeigt den Hinweistext und die Fehlermeldung. Präfix <code>til</code></td></tr>
+<tr><td class="pre">TextInputEditText</td><td>Das <b>Feld</b> selbst, liegt im Rahmen drin. Nimmt den Text entgegen. Präfix <code>et</code></td></tr>
+<tr><td class="pre">setError(text)</td><td>Zeigt eine rote Meldung an. Gehört auf den <b>Rahmen</b>, nicht auf das Feld</td></tr>
+<tr><td class="pre">setError(null)</td><td>Räumt die Meldung wieder weg</td></tr>
+<tr><td class="pre">android:inputType</td><td>Bestimmt, welche Tastatur erscheint und wie gross geschrieben wird</td></tr>
+<tr><td class="pre">android:imeOptions</td><td>Bestimmt, was unten rechts auf der Tastatur steht</td></tr>
+<tr><td class="pre">app:errorEnabled</td><td>Reserviert den Platz für die Fehlermeldung von Anfang an</td></tr>
+<tr><td class="pre">tilPlayerName</td><td>Der Rahmen um das Namensfeld</td></tr>
+<tr><td class="pre">etPlayerName</td><td>Das Namensfeld</td></tr>
+<tr><td class="pre">btnSaveScore</td><td>Der Knopf zum Eintragen</td></tr>
+<tr><td class="pre">tvSaved</td><td>Die Bestätigung nach dem Eintragen</td></tr>
+</table>
+
 <div class="step">
 <p><span class="n">B1</span><b>Der Rahmen und das Feld.</b> <span class="time">7 Min</span></p>
 <p>In <code>activity_game.xml</code>, im Ergebnisbereich <code>llResult</code>, direkt unter <code>tvResult</code>:</p>
@@ -334,6 +307,13 @@ a.put(o);                        <span class="c">// Objekt in die Liste</span>
 </div>
 </div>
 
+
+<h4 class="brauchst">Was du in B2 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">svResult</td><td>Die neue ScrollView um den Ergebnisbereich</td></tr>
+</table>
+
 <div class="step">
 <p><span class="n">B2</span><b>Der Ergebnisbereich braucht eine ScrollView.</b> <span class="time">4 Min</span></p>
 <p>Der Bereich ist gewachsen: Punktzahl, Namensfeld, drei Knöpfe, Bestätigung und die Fragenliste. Dazu schiebt die Tastatur beim Tippen den halben Bildschirm hoch.</p>
@@ -350,6 +330,14 @@ ScrollView svResult            <span class="c">// 0dp mal 0dp, an allen vier Ank
 <p><b>Zwei ScrollViews ineinander sind fast immer ein Fehler.</b> Beide wollen die Wischgeste haben, und das Ergebnis ist ein Bereich, der sich nur mit Mühe bewegen lässt. Wenn der äussere Bereich ohnehin scrollen muss, nimmt man dem inneren die ScrollView weg.</p>
 </div>
 <p>Und jetzt eine Zeile im Java, die leicht vergessen geht. In <code>showState</code> wird der Ergebnisbereich umgeschaltet. Umgeschaltet wird ab jetzt <code>svResult</code> statt <code>llResult</code>. Dieselbe Regel wie in 05C: <b>ein Container, der etwas versteckt, muss sich selbst verstecken.</b></p>
+
+<h4 class="brauchst">Was du in B3 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">String.trim()</td><td>Entfernt Leerzeichen am Anfang und am Ende</td></tr>
+<tr><td class="pre">scoreSaved</td><td>Das Feld, das die Sperre merkt</td></tr>
+</table>
+
 <div class="step">
 <p><span class="n">B3</span><b>Die Tastatur braucht Platz.</b> <span class="time">3 Min</span></p>
 <p>Starte die App, spiel eine Runde zu Ende und tipp ins Namensfeld. Die Tastatur kommt hoch. <b>Schau, was mit deinem Inhalt passiert.</b></p>
@@ -424,6 +412,13 @@ Klick auf btnStart
 </div>
 
 <h3>Teil C, die Prüfung im Code <span class="time">16 Minuten</span></h3>
+
+
+<h4 class="brauchst">Was du in C1 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">MIN_NAME_LENGTH</td><td>Die Konstante mit dem Wert 3</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">C1</span><b>Felder, Konstante und die zwei Auslöser.</b> <span class="time">3 Min</span></p>
@@ -617,7 +612,42 @@ etPlayerName.setOnEditorActionListener((v, actionId, event) -&gt; {
 <tr><td>Der Hinweistext wandert beim Tippen nicht nach oben</td><td>Im Rahmen steht ein normales <code>EditText</code> statt eines <code>TextInputEditText</code></td><td>Umstellen. Android Studio warnt sogar davor</td></tr>
 </table>
 
-<h2>03 Guide</h2>
+
+<h2>03 Recap</h2>
+
+<p>Das Wichtigste aus diesem Auftrag, zum Nachschlagen.</p>
+
+<h3>Pflichtangaben</h3>
+
+<table>
+<tr><th>Wo</th><th>Was Pflicht ist</th><th>Warum</th></tr>
+<tr><td>Am <code>TextInputLayout</code></td><td><code>android:hint</code> und <code>app:errorEnabled="true"</code></td><td>Der Hinweistext sagt, was hineingehört. Ohne <code>errorEnabled</code> springt das Layout</td></tr>
+<tr><td>Am <code>TextInputEditText</code></td><td><code>android:inputType</code>, <code>android:maxLines="1"</code></td><td>Ein Name hat eine Zeile und braucht eine Namenstastatur</td></tr>
+<tr><td>Bei jedem Text vom Benutzer</td><td><code>.trim()</code></td><td>Ausnahmslos. Auch in der Prüfung</td></tr>
+<tr><td>Bei jeder verändernden Aktion</td><td>Ein Gedanke an den zweiten Klick</td><td>Sonst steht derselbe Spieler fünfmal in der Rangliste</td></tr>
+<tr><td>Bei jeder neuen Methode</td><td>Javadoc</td><td>Wird in der Leistungsbeurteilung bewertet</td></tr>
+</table>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>1.1</td><td>Ergonomische Standards und Prinzipien der Interaktion kennen und anwenden</td></tr>
+<tr><td>1.3</td><td>Kennt die Geräteeigenschaften und Eingabeoptionen und kann sie einsetzen</td></tr>
+<tr><td>2.4</td><td>Kennt die Persistenzlösungen auf mobilen Devices und kann sie situationsgerecht einsetzen</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du schreibst eine Datenklasse aus einem selbst gezeichneten Datenmodell.</li>
+<li>Du baust ein Eingabefeld mit <code>TextInputLayout</code> und <code>TextInputEditText</code>.</li>
+<li>Du stellst über <code>inputType</code> ein, welche Tastatur der Benutzer bekommt.</li>
+<li>Du prüfst eine Eingabe und zeigst die Fehlermeldung direkt beim Feld an.</li>
+<li>Du erklärst, warum jede Texteingabe getrimmt gehört.</li>
+<li>Du sperrst eine Aktion, die man nur einmal auslösen darf.</li>
+<li>Du sorgst dafür, dass die Bildschirmtastatur deinen Inhalt nicht verdeckt.</li>
+</ul>
+
+<h2>04 Guide</h2>
 
 <table>
 <tr><th>Punkt</th><th>Angabe</th></tr>
@@ -635,7 +665,7 @@ etPlayerName.setOnEditorActionListener((v, actionId, event) -&gt; {
 <li><b>Wissenscheck</b> des Halbtags. Unbenotet, beliebig wiederholbar, kein Fälligkeitsdatum.</li>
 </ul>
 
-<h2>04 Unterrichtsmittel</h2>
+<h2>05 Unterrichtsmittel</h2>
 <ul>
 <li><b>Dein Arbeitsblatt aus 06A</b>, für Teil A1. Ohne das geht der erste Schritt nicht.</li>
 <li><b>Wo deine App ihre Daten ablegt</b>, für den letzten Prüfschritt und für C4.</li>
@@ -651,6 +681,180 @@ etPlayerName.setOnEditorActionListener((v, actionId, event) -&gt; {
 <footer class="site-footer"><div class="in">
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
+<script>
+/* ------------------------------------------------------------------
+   M335: schwebendes Inhaltsverzeichnis und Legende.
+
+   Warum hier und nicht als eigene Datei: dieser Baustein geht ueber
+   web-bau/rahmen/fuss.html in jede Seite. Inline heisst, dass bauen.js
+   nichts Zusaetzliches kopieren muss.
+
+   Was das Skript tut:
+     1. markiert die Ueberschriften Teil A, Teil B, Teil C
+     2. vergibt jeder Ueberschrift eine id, die Quellen haben keine
+     3. baut oben die Auftragskarte: Zeit als Pille, darunter die
+        Teile mit ihren Minuten
+     4. baut das Verzeichnis und markiert den sichtbaren Abschnitt
+
+   Das Aussehen steht in web-bau/stil/rahmen.css unter m335-nav.
+   ------------------------------------------------------------------ */
+(function () {
+  var wrap = document.querySelector('.wrap');
+  if (!wrap) return;
+
+  // Die Startseite ist selbst ein Verzeichnis, sie bekommt keines.
+  // Sie ist daran zu erkennen, dass ihr der Rueckweg im Kopf fehlt.
+  if (!document.querySelector('.site-header .back')) return;
+
+  var text = function (el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); };
+
+  // ---------------------------------------------------------------- 1 und 2
+  var heads = [].slice.call(wrap.querySelectorAll('h2, h3'));
+
+  var vergeben = {};
+  heads.forEach(function (h, i) {
+    if (h.tagName === 'H3' && /^Teil [A-Z]\b/.test(text(h))) h.classList.add('teil');
+    if (h.id) { vergeben[h.id] = true; return; }
+    var roh = text(h).toLowerCase()
+      .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+    var id = roh || ('abschnitt-' + i);
+    if (vergeben[id]) id = id + '-' + i;
+    vergeben[id] = true;
+    h.id = id;
+  });
+
+  // ---------------------------------------------------------------- 3
+  // Die Auftragskarte. Sie sagt in einem Bildschirm, wie lange der Auftrag
+  // dauert und aus welchen Teilen er besteht. Alles daran steht schon auf
+  // der Seite, die Karte stellt es nur neu zusammen. Darum muss kein
+  // Quelldokument dafuer angefasst werden.
+  var esc = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+  var subs = [].slice.call(wrap.querySelectorAll('.sub'));
+  var bloecke = heads.filter(function (h) { return h.querySelector('.time'); });
+  var budget = '', zusatz = '';
+
+  // Das Zeitbudget steht heute mitten im Untertitel. Es wandert in die Pille.
+  subs.forEach(function (p) {
+    if (budget) return;
+    var m = p.innerHTML.match(/Zeitbudget\s+([^.<]+)\./);
+    if (!m) return;
+    var stuecke = m[1].split(/,\s*dazu\s*/);
+    budget = stuecke[0].trim();
+    if (stuecke[1]) zusatz = 'dazu ' + stuecke[1].trim();
+    p.innerHTML = p.innerHTML.replace(m[0], '').replace(/\s{2,}/g, ' ').trim();
+  });
+
+  if (budget || bloecke.length) {
+    var karte = document.createElement('div');
+    karte.className = 'karte';
+    var inhalt = '';
+    if (budget) {
+      inhalt += '<p class="zeit"><span class="pill">' + esc(budget) + '</span>';
+      if (zusatz) inhalt += '<span class="pill neben">' + esc(zusatz) + '</span>';
+      inhalt += '</p>';
+    }
+    if (bloecke.length) {
+      inhalt += '<p class="t">DAS MACHST DU</p><ol>';
+      bloecke.forEach(function (b) {
+        var uhr = b.querySelector('.time');
+        var min = uhr ? text(uhr) : '';
+        var t = text(b).replace(min, '').replace(/\s+/g, ' ').replace(/\s+,/g, ',').trim();
+        t = t.replace(/[,;]\s*$/, '');
+        var teil = t.match(/^([^,]+),\s*(.*)$/);
+        var wo = teil ? teil[1] : t;
+        var rest = teil ? teil[2] : '';
+        inhalt += '<li><a href="#' + b.id + '"><span class="wo">' + esc(wo) + '</span>'
+                + (rest ? ' ' + esc(rest) : '') + '</a>'
+                + '<span class="min">' + esc(min) + '</span></li>';
+      });
+      inhalt += '</ol>';
+    }
+    karte.innerHTML = inhalt;
+    var anker = subs.length ? subs[subs.length - 1] : wrap.firstElementChild;
+    anker.parentNode.insertBefore(karte, anker.nextSibling);
+  }
+
+  // ---------------------------------------------------------------- 4
+  // Unter vier Ueberschriften lohnt sich kein Verzeichnis. Die Legende
+  // steht dann trotzdem schon, sie haengt nicht an den Ueberschriften.
+  if (heads.length < 4) return;
+
+  var nav = document.createElement('nav');
+  nav.className = 'm335-nav';
+  nav.setAttribute('aria-label', 'Inhalt dieser Seite');
+
+  var html = '<p class="kopfzeile">AUF DIESER SEITE</p>'
+           + '<button type="button" class="schliessen" aria-label="Verzeichnis schliessen">Schliessen</button><ol>';
+  heads.forEach(function (h) {
+    var stufe = h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3');
+    var t = text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, '');
+    html += '<li class="' + stufe + '"><a href="#' + h.id + '">'
+          + t.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</a></li>';
+  });
+  nav.innerHTML = html + '</ol>';
+
+  var knopf = document.createElement('button');
+  knopf.type = 'button';
+  knopf.className = 'm335-nav-knopf';
+  knopf.textContent = 'Inhalt';
+
+  document.body.appendChild(nav);
+  document.body.appendChild(knopf);
+
+  var links = [].slice.call(nav.querySelectorAll('a'));
+
+  // Breit: die Leiste steht fest am Rand. Schmal: sie liegt hinter dem Knopf.
+  var breit = window.matchMedia('(min-width: 1320px)');
+  function umschalten() {
+    if (breit.matches) {
+      nav.className = 'm335-nav seitlich';
+      nav.hidden = false;
+      knopf.style.display = 'none';
+    } else {
+      nav.className = 'm335-nav klappe';
+      nav.hidden = true;
+      knopf.style.display = '';
+    }
+  }
+  umschalten();
+  if (breit.addEventListener) breit.addEventListener('change', umschalten);
+  else if (breit.addListener) breit.addListener(umschalten);
+
+  knopf.addEventListener('click', function () { nav.hidden = !nav.hidden; });
+  nav.querySelector('.schliessen').addEventListener('click', function () { nav.hidden = true; });
+  nav.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && !breit.matches) nav.hidden = true;
+  });
+
+  // Welcher Abschnitt ist gerade dran. Gesucht ist die letzte Ueberschrift,
+  // die oberhalb der Lesekante liegt. Die Kante liegt knapp unter dem
+  // klebenden Kopfbereich.
+  var laeuft = false;
+  function markieren() {
+    laeuft = false;
+    var kante = 96, treffer = 0;
+    for (var i = 0; i < heads.length; i++) {
+      if (heads[i].getBoundingClientRect().top <= kante) treffer = i;
+      else break;
+    }
+    for (var j = 0; j < links.length; j++) links[j].classList.toggle('hier', j === treffer);
+    var a = links[treffer];
+    if (a && breit.matches) {
+      var r = a.getBoundingClientRect(), n = nav.getBoundingClientRect();
+      if (r.top < n.top + 8 || r.bottom > n.bottom - 8) a.scrollIntoView({ block: 'nearest' });
+    }
+  }
+  function anstossen() {
+    if (laeuft) return;
+    laeuft = true;
+    window.requestAnimationFrame(markieren);
+  }
+  window.addEventListener('scroll', anstossen, { passive: true });
+  window.addEventListener('resize', anstossen);
+  markieren();
+})();
+</script>
 <!--/M335:RAHMEN-FUSS-->
 </body>
 </html>

@@ -22,27 +22,9 @@
 
 <h1>07B Wert rechts und Filter</h1>
 <p class="sub">Modul 335 Mobile Applikationen, Tag 4 Vormittag. Zeitbudget 35 Minuten. Version 1 vom 19.08.2026.</p>
-<p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
 <p class="sub">Heute machst du deine Rangliste fertig. Die Punktzahl steht danach bei jeder Zeile an derselben Stelle, und du kannst nach Kategorie filtern.</p>
 
 <h2>01 Einführung</h2>
-
-<h3>Lernziele</h3>
-<table>
-<tr><th>HANOK</th><th>Ziel</th></tr>
-<tr><td>1.1</td><td>Ergonomische Standards und Prinzipien der Interaktion kennen und anwenden</td></tr>
-<tr><td>1.3</td><td>Geräteeigenschaften und Eingabeoptionen kennen und einsetzen</td></tr>
-<tr><td>2.3</td><td>Kennt gängige App-Architekturen und kann sie einsetzen</td></tr>
-</table>
-
-<p>Nach diesem Auftrag kannst du:</p>
-<ul>
-<li>Du richtest einen Wert am rechten Rand aus, ohne das Wort rechts zu schreiben.</li>
-<li>Du sorgst dafür, dass ein langer Text eine Zeile nicht höher macht.</li>
-<li>Du baust einen Filter über einem <code>RecyclerView</code>.</li>
-<li>Du erklärst, warum es dafür zwei Listen braucht und nicht eine.</li>
-<li>Du liest an einer Rangnummer ab, worauf sie sich bezieht.</li>
-</ul>
 
 <h3>Das brauchst du vorher</h3>
 <ul>
@@ -112,50 +94,11 @@
 
 <p>Der Auftrag hat zwei Teile. Teil A baut die Zeile um. Teil B baut den Filter.</p>
 
-<h3>Werkzeugkasten</h3>
-
-<table>
-<tr><th>Baustein</th><th>Wofür</th></tr>
-<tr><td class="pre">layout_weight="1"</td><td>Nimm allen Platz, der übrig bleibt. <b>Kennst du aus 02A und vom Spielbildschirm</b>, dort schiebt es die Punktzahl neben <code>Frage 1 von 5</code></td></tr>
-<tr><td class="pre">layout_width="0dp"</td><td>Gehört zu <code>weight</code> dazu. Die Breite kommt aus dem Gewicht, nicht aus dem Inhalt</td></tr>
-<tr><td class="pre">maxLines="1"</td><td>Der Text bleibt einzeilig, auch wenn er zu lang ist</td></tr>
-<tr><td class="pre">ellipsize="end"</td><td>Was nicht passt, wird durch drei Punkte ersetzt. Ohne <code>maxLines</code> wirkt es nicht</td></tr>
-<tr><td class="pre">Spinner</td><td>Die Auswahl. <b>Kennst du aus 05C</b>, das ist die Kategoriewahl im Spielbildschirm. Präfix <code>spn</code></td></tr>
-<tr><td class="pre">ArrayAdapter</td><td>Füllt den Spinner aus einer Liste von Texten. <b>Kennst du auch aus 05C</b></td></tr>
-<tr><td class="pre">AdapterView.OnItemSelectedListener</td><td><b>Neu.</b> Sagt dir, dass jemand etwas ausgewählt hat. Hat zwei Methoden, eine davon bleibt leer</td></tr>
-<tr><td class="pre">getSelectedItemPosition()</td><td>Liefert die <b>Nummer</b> der Auswahl, nicht ihren Text. In 05C hast du <code>getSelectedItem()</code> benutzt, das liefert den Text</td></tr>
-<tr><td class="pre">QuestionBank.categories()</td><td><b>Deine eigene Methode aus 05C.</b> Sie liefert die fünf Einträge der Kategoriewahl</td></tr>
-<tr><td class="pre">QuestionBank.byCategory(...)</td><td><b>Deine Vorlage für heute.</b> Sie durchsucht einen Bestand nach Kategorie und gibt eine neue Liste zurück</td></tr>
-<tr><td class="pre">adapter.setEntries(...)</td><td>Hast du in 06C geschrieben. Sie tauscht die angezeigten Zeilen aus und meldet es dem <code>RecyclerView</code></td></tr>
-</table>
 
 <div class="tip">
 <p><b>Fast alles davon kennst du schon.</b> Wirklich neu ist genau eine Zeile, der Listener am Spinner. Alles andere ist Zusammensetzen.</p>
 </div>
 
-<h3>Pflichtangaben</h3>
-
-<table>
-<tr><th>Wo</th><th>Was Pflicht ist</th><th>Warum</th></tr>
-<tr><td>Am mittleren Block der Zeile</td><td><code>layout_width="0dp"</code> <b>und</b> <code>layout_weight="1"</code></td><td>Nur beide zusammen wirken. Mit <code>wrap_content</code> und Gewicht rechnet Android zuerst den Inhalt und verteilt erst danach</td></tr>
-<tr><td>Am Namen</td><td><code>maxLines="1"</code> <b>und</b> <code>ellipsize="end"</code></td><td>Ohne <code>maxLines</code> tut <code>ellipsize</code> nichts. Der Name würde umbrechen, und die Zeile wäre höher als die anderen</td></tr>
-<tr><td>Am <code>RecyclerView</code></td><td>Der Anker oben zeigt auf den <b>Spinner</b></td><td>Sonst liegen Filter und erste Zeile übereinander</td></tr>
-<tr><td>Am Feld <code>allEntries</code></td><td>Gleich mit <code>new ArrayList&lt;&gt;()</code> belegen</td><td>Der Filter meldet sich schon, bevor <code>onResume</code> zum ersten Mal geladen hat</td></tr>
-<tr><td>Bei jeder neuen Methode und jedem neuen Feld</td><td>Javadoc</td><td>Wird in der Leistungsbeurteilung bewertet</td></tr>
-</table>
-
-<h3>Namen im Code</h3>
-
-<table>
-<tr><th>Name</th><th>Was es ist</th></tr>
-<tr><td class="pre">spnFilter</td><td>Der Spinner über der Liste</td></tr>
-<tr><td class="pre">tvEntryCategory</td><td>Die vierte TextView <b>in der Zeile</b></td></tr>
-<tr><td class="pre">allEntries</td><td>Das neue Feld. Der ganze Bestand, sortiert</td></tr>
-<tr><td class="pre">applyFilter</td><td>Die neue Methode. Sie entscheidet, was der Adapter zu sehen bekommt</td></tr>
-<tr><td class="pre">buildFilterLabels</td><td>Die zweite neue Methode. Sie baut die sechs Beschriftungen</td></tr>
-<tr><td class="pre">FILTER_POSITION_ALL</td><td>Die Konstante <code>0</code>, der erste Eintrag im Filter</td></tr>
-<tr><td class="pre">filter_all, category_mixed</td><td>Die zwei neuen Strings</td></tr>
-</table>
 
 <h3>Denkfragen</h3>
 <ol>
@@ -169,6 +112,15 @@
 </div>
 
 <h3>Teil A, die Zeile <span class="time">11 Minuten</span></h3>
+
+
+<h4 class="brauchst">Was du in A1 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">tvEntryCategory</td><td>Die vierte TextView <b>in der Zeile</b></td></tr>
+<tr><td class="pre">layout_width="0dp"</td><td>Gehört zu <code>weight</code> dazu. Die Breite kommt aus dem Gewicht, nicht aus dem Inhalt</td></tr>
+<tr><td class="pre">ellipsize="end"</td><td>Was nicht passt, wird durch drei Punkte ersetzt. Ohne <code>maxLines</code> wirkt es nicht</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">A1</span><b>Die Zeile umbauen.</b> <span class="time">7 Min</span></p>
@@ -238,6 +190,13 @@
 </div>
 </div>
 
+
+<h4 class="brauchst">Was du in A2 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">filter_all, category_mixed</td><td>Die zwei neuen Strings</td></tr>
+</table>
+
 <div class="step">
 <p><span class="n">A2</span><b>Der Adapter füllt die vierte TextView.</b> <span class="time">4 Min</span></p>
 
@@ -289,6 +248,15 @@
 </div>
 
 <h3>Der Überblick, bevor Teil B anfängt <span class="time">2 Minuten</span></h3>
+<h4 class="brauchst">Was du hier brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">Spinner</td><td>Die Auswahl. <b>Kennst du aus 05C</b>, das ist die Kategoriewahl im Spielbildschirm. Präfix <code>spn</code></td></tr>
+<tr><td class="pre">adapter.setEntries(...)</td><td>Hast du in 06C geschrieben. Sie tauscht die angezeigten Zeilen aus und meldet es dem <code>RecyclerView</code></td></tr>
+<tr><td class="pre">allEntries</td><td>Das neue Feld. Der ganze Bestand, sortiert</td></tr>
+<tr><td class="pre">applyFilter</td><td>Die neue Methode. Sie entscheidet, was der Adapter zu sehen bekommt</td></tr>
+</table>
+
 
 <p>Teil B bringt eine neue Methode und ein neues Feld. Bevor du sie baust, schau dir an, wer wen aufruft. Es gibt ab jetzt <b>zwei</b> Auslöser, die dasselbe Ende haben:</p>
 
@@ -319,6 +287,13 @@ applyFilter()
 </div>
 
 <h3>Teil B, der Filter <span class="time">20 Minuten</span></h3>
+
+
+<h4 class="brauchst">Was du in B1 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">spnFilter</td><td>Der Spinner über der Liste</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">B1</span><b>Der Filter im Layout.</b> <span class="time">4 Min</span></p>
@@ -353,6 +328,15 @@ applyFilter()
 <p><b>Ein leerer Filter ist nach B1 der richtige Zustand.</b> Der Spinner steht im Layout, aber niemand hat ihm gesagt, was drinstehen soll. Das machst du in B2.</p>
 </div>
 </div>
+
+
+<h4 class="brauchst">Was du in B2 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">ArrayAdapter</td><td>Füllt den Spinner aus einer Liste von Texten. <b>Kennst du auch aus 05C</b></td></tr>
+<tr><td class="pre">QuestionBank.categories()</td><td><b>Deine eigene Methode aus 05C.</b> Sie liefert die fünf Einträge der Kategoriewahl</td></tr>
+<tr><td class="pre">buildFilterLabels</td><td>Die zweite neue Methode. Sie baut die sechs Beschriftungen</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">B2</span><b>Den Filter füllen.</b> <span class="time">4 Min</span></p>
@@ -407,6 +391,15 @@ spnFilter.setAdapter(<span class="k">new</span> <span class="t">ArrayAdapter</sp
 <p>Merk dir dieses Bild. Es ist genau das, was du auch siehst, wenn du den Listener später <b>vergisst</b>.</p>
 </div>
 </div>
+
+
+<h4 class="brauchst">Was du in B3 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">getSelectedItemPosition()</td><td>Liefert die <b>Nummer</b> der Auswahl, nicht ihren Text. In 05C hast du <code>getSelectedItem()</code> benutzt, das liefert den Text</td></tr>
+<tr><td class="pre">QuestionBank.byCategory(...)</td><td><b>Deine Vorlage für heute.</b> Sie durchsucht einen Bestand nach Kategorie und gibt eine neue Liste zurück</td></tr>
+<tr><td class="pre">FILTER_POSITION_ALL</td><td>Die Konstante <code>0</code>, der erste Eintrag im Filter</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">B3</span><b>Zwei Listen und der Filter. Das schreibst du selbst.</b> <span class="time">7 Min</span></p>
@@ -485,6 +478,13 @@ spnFilter.setAdapter(<span class="k">new</span> <span class="t">ArrayAdapter</sp
 </div>
 </div>
 
+
+<h4 class="brauchst">Was du in B4 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">AdapterView.OnItemSelectedListener</td><td><b>Neu.</b> Sagt dir, dass jemand etwas ausgewählt hat. Hat zwei Methoden, eine davon bleibt leer</td></tr>
+</table>
+
 <div class="step">
 <p><span class="n">B4</span><b>Der Listener, und dann schau genau hin.</b> <span class="time">5 Min</span></p>
 
@@ -558,6 +558,13 @@ spnFilter.setAdapter(<span class="k">new</span> <span class="t">ArrayAdapter</sp
 </div>
 
 <h3>Das machst du daheim <span class="time">etwa 20 Minuten</span></h3>
+<h4 class="brauchst">Was du hier brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">layout_weight="1"</td><td>Nimm allen Platz, der übrig bleibt. <b>Kennst du aus 02A und vom Spielbildschirm</b>, dort schiebt es die Punktzahl neben <code>Frage 1 von 5</code></td></tr>
+<tr><td class="pre">maxLines="1"</td><td>Der Text bleibt einzeilig, auch wenn er zu lang ist</td></tr>
+</table>
+
 
 <p>Der Block ist mit Teil A und Teil B voll. Diese vier Sachen laufen darum als Hausaufgabe. <b>Die erste ist keine Übung, sondern gehört zum Auftrag.</b></p>
 
@@ -639,7 +646,40 @@ spnFilter.setAdapter(<span class="k">new</span> <span class="t">ArrayAdapter</sp
 <tr><td>Die Ränge zählen nach dem Filtern wieder bei 1 an</td><td><b>Kein Fehler</b></td><td>Nichts tun. Siehe B4</td></tr>
 </table>
 
-<h2>03 Guide</h2>
+
+<h2>03 Recap</h2>
+
+<p>Das Wichtigste aus diesem Auftrag, zum Nachschlagen.</p>
+
+<h3>Pflichtangaben</h3>
+
+<table>
+<tr><th>Wo</th><th>Was Pflicht ist</th><th>Warum</th></tr>
+<tr><td>Am mittleren Block der Zeile</td><td><code>layout_width="0dp"</code> <b>und</b> <code>layout_weight="1"</code></td><td>Nur beide zusammen wirken. Mit <code>wrap_content</code> und Gewicht rechnet Android zuerst den Inhalt und verteilt erst danach</td></tr>
+<tr><td>Am Namen</td><td><code>maxLines="1"</code> <b>und</b> <code>ellipsize="end"</code></td><td>Ohne <code>maxLines</code> tut <code>ellipsize</code> nichts. Der Name würde umbrechen, und die Zeile wäre höher als die anderen</td></tr>
+<tr><td>Am <code>RecyclerView</code></td><td>Der Anker oben zeigt auf den <b>Spinner</b></td><td>Sonst liegen Filter und erste Zeile übereinander</td></tr>
+<tr><td>Am Feld <code>allEntries</code></td><td>Gleich mit <code>new ArrayList&lt;&gt;()</code> belegen</td><td>Der Filter meldet sich schon, bevor <code>onResume</code> zum ersten Mal geladen hat</td></tr>
+<tr><td>Bei jeder neuen Methode und jedem neuen Feld</td><td>Javadoc</td><td>Wird in der Leistungsbeurteilung bewertet</td></tr>
+</table>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>1.1</td><td>Ergonomische Standards und Prinzipien der Interaktion kennen und anwenden</td></tr>
+<tr><td>1.3</td><td>Geräteeigenschaften und Eingabeoptionen kennen und einsetzen</td></tr>
+<tr><td>2.3</td><td>Kennt gängige App-Architekturen und kann sie einsetzen</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du richtest einen Wert am rechten Rand aus, ohne das Wort rechts zu schreiben.</li>
+<li>Du sorgst dafür, dass ein langer Text eine Zeile nicht höher macht.</li>
+<li>Du baust einen Filter über einem <code>RecyclerView</code>.</li>
+<li>Du erklärst, warum es dafür zwei Listen braucht und nicht eine.</li>
+<li>Du liest an einer Rangnummer ab, worauf sie sich bezieht.</li>
+</ul>
+
+<h2>04 Guide</h2>
 
 <table>
 <tr><th>Punkt</th><th>Angabe</th></tr>
@@ -657,7 +697,7 @@ spnFilter.setAdapter(<span class="k">new</span> <span class="t">ArrayAdapter</sp
 <li><b>Wissenscheck 07ABC.</b> Unbenotet, beliebig wiederholbar, kein Fälligkeitsdatum.</li>
 </ul>
 
-<h2>04 Unterrichtsmittel</h2>
+<h2>05 Unterrichtsmittel</h2>
 <ul>
 <li><b>Deine eigene <code>QuestionBank.byCategory</code></b>, als Vorlage für B3. Ohne sie ist B3 nur Abtippen.</li>
 <li><b>Deine eigene Kategoriewahl in der <code>GameActivity</code></b>, für den Spinner in B2.</li>
@@ -673,6 +713,180 @@ spnFilter.setAdapter(<span class="k">new</span> <span class="t">ArrayAdapter</sp
 <footer class="site-footer"><div class="in">
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
+<script>
+/* ------------------------------------------------------------------
+   M335: schwebendes Inhaltsverzeichnis und Legende.
+
+   Warum hier und nicht als eigene Datei: dieser Baustein geht ueber
+   web-bau/rahmen/fuss.html in jede Seite. Inline heisst, dass bauen.js
+   nichts Zusaetzliches kopieren muss.
+
+   Was das Skript tut:
+     1. markiert die Ueberschriften Teil A, Teil B, Teil C
+     2. vergibt jeder Ueberschrift eine id, die Quellen haben keine
+     3. baut oben die Auftragskarte: Zeit als Pille, darunter die
+        Teile mit ihren Minuten
+     4. baut das Verzeichnis und markiert den sichtbaren Abschnitt
+
+   Das Aussehen steht in web-bau/stil/rahmen.css unter m335-nav.
+   ------------------------------------------------------------------ */
+(function () {
+  var wrap = document.querySelector('.wrap');
+  if (!wrap) return;
+
+  // Die Startseite ist selbst ein Verzeichnis, sie bekommt keines.
+  // Sie ist daran zu erkennen, dass ihr der Rueckweg im Kopf fehlt.
+  if (!document.querySelector('.site-header .back')) return;
+
+  var text = function (el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); };
+
+  // ---------------------------------------------------------------- 1 und 2
+  var heads = [].slice.call(wrap.querySelectorAll('h2, h3'));
+
+  var vergeben = {};
+  heads.forEach(function (h, i) {
+    if (h.tagName === 'H3' && /^Teil [A-Z]\b/.test(text(h))) h.classList.add('teil');
+    if (h.id) { vergeben[h.id] = true; return; }
+    var roh = text(h).toLowerCase()
+      .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+    var id = roh || ('abschnitt-' + i);
+    if (vergeben[id]) id = id + '-' + i;
+    vergeben[id] = true;
+    h.id = id;
+  });
+
+  // ---------------------------------------------------------------- 3
+  // Die Auftragskarte. Sie sagt in einem Bildschirm, wie lange der Auftrag
+  // dauert und aus welchen Teilen er besteht. Alles daran steht schon auf
+  // der Seite, die Karte stellt es nur neu zusammen. Darum muss kein
+  // Quelldokument dafuer angefasst werden.
+  var esc = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+  var subs = [].slice.call(wrap.querySelectorAll('.sub'));
+  var bloecke = heads.filter(function (h) { return h.querySelector('.time'); });
+  var budget = '', zusatz = '';
+
+  // Das Zeitbudget steht heute mitten im Untertitel. Es wandert in die Pille.
+  subs.forEach(function (p) {
+    if (budget) return;
+    var m = p.innerHTML.match(/Zeitbudget\s+([^.<]+)\./);
+    if (!m) return;
+    var stuecke = m[1].split(/,\s*dazu\s*/);
+    budget = stuecke[0].trim();
+    if (stuecke[1]) zusatz = 'dazu ' + stuecke[1].trim();
+    p.innerHTML = p.innerHTML.replace(m[0], '').replace(/\s{2,}/g, ' ').trim();
+  });
+
+  if (budget || bloecke.length) {
+    var karte = document.createElement('div');
+    karte.className = 'karte';
+    var inhalt = '';
+    if (budget) {
+      inhalt += '<p class="zeit"><span class="pill">' + esc(budget) + '</span>';
+      if (zusatz) inhalt += '<span class="pill neben">' + esc(zusatz) + '</span>';
+      inhalt += '</p>';
+    }
+    if (bloecke.length) {
+      inhalt += '<p class="t">DAS MACHST DU</p><ol>';
+      bloecke.forEach(function (b) {
+        var uhr = b.querySelector('.time');
+        var min = uhr ? text(uhr) : '';
+        var t = text(b).replace(min, '').replace(/\s+/g, ' ').replace(/\s+,/g, ',').trim();
+        t = t.replace(/[,;]\s*$/, '');
+        var teil = t.match(/^([^,]+),\s*(.*)$/);
+        var wo = teil ? teil[1] : t;
+        var rest = teil ? teil[2] : '';
+        inhalt += '<li><a href="#' + b.id + '"><span class="wo">' + esc(wo) + '</span>'
+                + (rest ? ' ' + esc(rest) : '') + '</a>'
+                + '<span class="min">' + esc(min) + '</span></li>';
+      });
+      inhalt += '</ol>';
+    }
+    karte.innerHTML = inhalt;
+    var anker = subs.length ? subs[subs.length - 1] : wrap.firstElementChild;
+    anker.parentNode.insertBefore(karte, anker.nextSibling);
+  }
+
+  // ---------------------------------------------------------------- 4
+  // Unter vier Ueberschriften lohnt sich kein Verzeichnis. Die Legende
+  // steht dann trotzdem schon, sie haengt nicht an den Ueberschriften.
+  if (heads.length < 4) return;
+
+  var nav = document.createElement('nav');
+  nav.className = 'm335-nav';
+  nav.setAttribute('aria-label', 'Inhalt dieser Seite');
+
+  var html = '<p class="kopfzeile">AUF DIESER SEITE</p>'
+           + '<button type="button" class="schliessen" aria-label="Verzeichnis schliessen">Schliessen</button><ol>';
+  heads.forEach(function (h) {
+    var stufe = h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3');
+    var t = text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, '');
+    html += '<li class="' + stufe + '"><a href="#' + h.id + '">'
+          + t.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</a></li>';
+  });
+  nav.innerHTML = html + '</ol>';
+
+  var knopf = document.createElement('button');
+  knopf.type = 'button';
+  knopf.className = 'm335-nav-knopf';
+  knopf.textContent = 'Inhalt';
+
+  document.body.appendChild(nav);
+  document.body.appendChild(knopf);
+
+  var links = [].slice.call(nav.querySelectorAll('a'));
+
+  // Breit: die Leiste steht fest am Rand. Schmal: sie liegt hinter dem Knopf.
+  var breit = window.matchMedia('(min-width: 1320px)');
+  function umschalten() {
+    if (breit.matches) {
+      nav.className = 'm335-nav seitlich';
+      nav.hidden = false;
+      knopf.style.display = 'none';
+    } else {
+      nav.className = 'm335-nav klappe';
+      nav.hidden = true;
+      knopf.style.display = '';
+    }
+  }
+  umschalten();
+  if (breit.addEventListener) breit.addEventListener('change', umschalten);
+  else if (breit.addListener) breit.addListener(umschalten);
+
+  knopf.addEventListener('click', function () { nav.hidden = !nav.hidden; });
+  nav.querySelector('.schliessen').addEventListener('click', function () { nav.hidden = true; });
+  nav.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && !breit.matches) nav.hidden = true;
+  });
+
+  // Welcher Abschnitt ist gerade dran. Gesucht ist die letzte Ueberschrift,
+  // die oberhalb der Lesekante liegt. Die Kante liegt knapp unter dem
+  // klebenden Kopfbereich.
+  var laeuft = false;
+  function markieren() {
+    laeuft = false;
+    var kante = 96, treffer = 0;
+    for (var i = 0; i < heads.length; i++) {
+      if (heads[i].getBoundingClientRect().top <= kante) treffer = i;
+      else break;
+    }
+    for (var j = 0; j < links.length; j++) links[j].classList.toggle('hier', j === treffer);
+    var a = links[treffer];
+    if (a && breit.matches) {
+      var r = a.getBoundingClientRect(), n = nav.getBoundingClientRect();
+      if (r.top < n.top + 8 || r.bottom > n.bottom - 8) a.scrollIntoView({ block: 'nearest' });
+    }
+  }
+  function anstossen() {
+    if (laeuft) return;
+    laeuft = true;
+    window.requestAnimationFrame(markieren);
+  }
+  window.addEventListener('scroll', anstossen, { passive: true });
+  window.addEventListener('resize', anstossen);
+  markieren();
+})();
+</script>
 <!--/M335:RAHMEN-FUSS-->
 </body>
 </html>

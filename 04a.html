@@ -22,29 +22,9 @@
 
 <h1>04A Die Fragenliste und die Runde</h1>
 <p class="sub">Modul 335 Mobile Applikationen, Tag 2 Nachmittag. Zeitbudget 55 Minuten. Version 3 vom 15.08.2026.</p>
-<p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
 
 
 <h2>01 Einführung</h2>
-
-<h3>Lernziele</h3>
-<table>
-<tr><th>HANOK</th><th>Ziel</th></tr>
-<tr><td>1.3</td><td>Geräteeigenschaften kennen und passend einsetzen, hier die Bildschirmhöhe im Querformat</td></tr>
-<tr><td>2.3</td><td>App-Architekturen kennen, den Zustand einer App verwalten</td></tr>
-<tr><td>3.2</td><td>Framework und APIs der Plattform einsetzen</td></tr>
-</table>
-
-<p>Nach diesem Auftrag kannst du:</p>
-<ul>
-<li>Du baust eine Liste von Objekten auf und arbeitest sie der Reihe nach ab.</li>
-<li>Du blendest Bereiche eines Bildschirms ein und aus, statt einen zweiten Bildschirm zu bauen.</li>
-<li>Du erklärst, warum ein Zustand, den dein Code setzt, von deinem Code auch zurückgesetzt werden muss.</li>
-<li>Du erkennst, wann ein Layout eine <code>ScrollView</code> braucht, und begründest es mit dem Querformat.</li>
-<li>Du unterscheidest den ganzen Bestand von der laufenden Runde.</li>
-<li>Du liest an einer Aufrufkette ab, welche Methode von welcher aufgerufen wird.</li>
-<li>Du ziehst deine Kommentare nach, wenn sich der Code darunter geändert hat.</li>
-</ul>
 
 <h3>Das brauchst du vorher</h3>
 <ul>
@@ -82,20 +62,6 @@
 <p>Deine App zeigt genau eine Frage. Du tippst eine Antwort an, sie wird grün oder rot, die vier Buttons sperren, und dann steht die App still.</p>
 <p>Heute kommt die Runde dazu. Sieben Fragen liegen im Code, fünf davon werden gespielt, und am Schluss siehst du deine Punkte.</p>
 
-<h3>Werkzeugkasten</h3>
-<table>
-<tr><th>Baustein</th><th>Wofür</th></tr>
-<tr><td class="pre">List&lt;Question&gt;</td><td>Eine Liste von Objekten. Hält den Fragenbestand und die Runde</td></tr>
-<tr><td class="pre">ArrayList</td><td>Die Umsetzung von <code>List</code>, die wir benutzen</td></tr>
-<tr><td class="pre">subList(0, 5)</td><td>Schneidet die ersten fünf Einträge aus einer Liste heraus</td></tr>
-<tr><td class="pre">ScrollView</td><td>Ein Container, dessen Inhalt sich schieben lässt, wenn er zu hoch ist</td></tr>
-<tr><td class="pre">setVisibility</td><td>Blendet eine View ein oder aus</td></tr>
-<tr><td class="pre">View.GONE</td><td>Unsichtbar und ohne Platzbedarf</td></tr>
-<tr><td class="pre">View.VISIBLE</td><td>Wieder sichtbar</td></tr>
-<tr><td class="pre">getBackgroundTintList</td><td>Liest die Hintergrundfarbe eines Buttons aus. Das Gegenstück zu 03C</td></tr>
-<tr><td class="pre">getTextColors</td><td>Liest die Textfarbe eines Buttons aus</td></tr>
-<tr><td class="pre">static final</td><td>Eine Konstante. Eine Zahl mit Namen statt einer Zahl im Code</td></tr>
-</table>
 
 <h3>Pflichtangaben im Layout</h3>
 <table>
@@ -107,23 +73,6 @@
 <tr><td class="pre">visibility="gone"</td><td>Beim Weiter-Knopf und beim Ergebnisbereich. Sie starten unsichtbar</td></tr>
 </table>
 
-<h3>Namen im Code</h3>
-<table>
-<tr><th>Name</th><th>Was es ist</th></tr>
-<tr><td class="pre">svQuestion</td><td>Die ScrollView um den ganzen Fragebereich</td></tr>
-<tr><td class="pre">llQuestion</td><td>Das LinearLayout darin, das alles untereinander stapelt</td></tr>
-<tr><td class="pre">llHeader</td><td>Die Kopfzeile mit Kategorie links und Punkten rechts</td></tr>
-<tr><td class="pre">tvProgress</td><td>Die Anzeige "Frage 1 von 5"</td></tr>
-<tr><td class="pre">btnNext</td><td>Der Weiter-Knopf</td></tr>
-<tr><td class="pre">llResult</td><td>Der Ergebnisbereich</td></tr>
-<tr><td class="pre">tvResult</td><td>Die Anzeige der erreichten Punkte</td></tr>
-<tr><td class="pre">btnRestart</td><td>Der Knopf "Nochmals spielen"</td></tr>
-<tr><td class="pre">allQuestions</td><td>Der ganze Fragenbestand, sieben Stück</td></tr>
-<tr><td class="pre">roundQuestions</td><td>Die fünf Fragen der laufenden Runde</td></tr>
-<tr><td class="pre">currentIndex</td><td>Welche Frage der Runde dran ist, beginnend bei 0</td></tr>
-<tr><td class="pre">QUESTIONS_PER_ROUND</td><td>Konstante mit dem Wert 5</td></tr>
-<tr><td class="pre">createQuestions, startRound, onNextClicked, showResult</td><td>Die vier neuen Methoden</td></tr>
-</table>
 
 <h3>Denkfragen</h3>
 <ol>
@@ -156,6 +105,19 @@
 </div>
 </div>
 
+
+<h4 class="brauchst">Was du in A2 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">List&lt;Question&gt;</td><td>Eine Liste von Objekten. Hält den Fragenbestand und die Runde</td></tr>
+<tr><td class="pre">static final</td><td>Eine Konstante. Eine Zahl mit Namen statt einer Zahl im Code</td></tr>
+<tr><td class="pre">llQuestion</td><td>Das LinearLayout darin, das alles untereinander stapelt</td></tr>
+<tr><td class="pre">allQuestions</td><td>Der ganze Fragenbestand, sieben Stück</td></tr>
+<tr><td class="pre">roundQuestions</td><td>Die fünf Fragen der laufenden Runde</td></tr>
+<tr><td class="pre">currentIndex</td><td>Welche Frage der Runde dran ist, beginnend bei 0</td></tr>
+<tr><td class="pre">QUESTIONS_PER_ROUND</td><td>Konstante mit dem Wert 5</td></tr>
+</table>
+
 <div class="step">
 <p><span class="n">A2</span><b>Die Konstante und die zwei Listen.</b></p>
 <p>Neue Felder in <code>MainActivity</code>. Sie kommen zu <code>currentQuestion</code> dazu, das bleibt.</p>
@@ -178,6 +140,14 @@
 <p><b>Rot bei <code>List</code>?</b> Der Import fehlt. <code>Alt</code> und <code>Enter</code>, dann <code>java.util.List</code> wählen. Nicht eine der anderen Vorschläge, davon gibt es mehrere.</p>
 </div>
 </div>
+
+
+<h4 class="brauchst">Was du in A3 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">ArrayList</td><td>Die Umsetzung von <code>List</code>, die wir benutzen</td></tr>
+<tr><td class="pre">createQuestions, startRound, onNextClicked, showResult</td><td>Die vier neuen Methoden</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">A3</span><b>Die sieben Fragen. Diesen Block kopierst du.</b></p>
@@ -249,6 +219,15 @@ Log.d(TAG, <span class="s">"question bank loaded, size="</span> + allQuestions.s
 
 <h3>Teil B, der zweiteilige Bildschirm <span class="time">18 Minuten</span></h3>
 
+
+<h4 class="brauchst">Was du in B1 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">setVisibility</td><td>Blendet eine View ein oder aus</td></tr>
+<tr><td class="pre">View.VISIBLE</td><td>Wieder sichtbar</td></tr>
+<tr><td class="pre">btnNext</td><td>Der Weiter-Knopf</td></tr>
+</table>
+
 <div class="step">
 <p><span class="n">B1</span><b>Den Weiter-Knopf einbauen.</b></p>
 <p>Neu im Layout, direkt <b>unter</b> dem LinearLayout <code>llAnswers</code> und noch im ConstraintLayout. Wir bauen ihn zuerst genau so ein, wie du es aus 03B kennst, mit Ankern.</p>
@@ -293,6 +272,16 @@ showScore();
 <p>Falls bei dir im Querformat noch alles passt: schau, ob du die <b>vierte Antwort und den Weiter-Knopf gleichzeitig</b> siehst. Das ist der Punkt.</p>
 </div>
 </div>
+
+
+<h4 class="brauchst">Was du in B3 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">ScrollView</td><td>Ein Container, dessen Inhalt sich schieben lässt, wenn er zu hoch ist</td></tr>
+<tr><td class="pre">svQuestion</td><td>Die ScrollView um den ganzen Fragebereich</td></tr>
+<tr><td class="pre">llHeader</td><td>Die Kopfzeile mit Kategorie links und Punkten rechts</td></tr>
+<tr><td class="pre">tvProgress</td><td>Die Anzeige "Frage 1 von 5"</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">B3</span><b>Den Fragebereich in eine ScrollView packen.</b></p>
@@ -367,6 +356,16 @@ showScore();
 </div>
 <p>Dreh jetzt nochmals ins Querformat. Der Weiter-Knopf ist erreichbar, notfalls musst du nach unten schieben.</p>
 </div>
+
+
+<h4 class="brauchst">Was du in B4 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">View.GONE</td><td>Unsichtbar und ohne Platzbedarf</td></tr>
+<tr><td class="pre">llResult</td><td>Der Ergebnisbereich</td></tr>
+<tr><td class="pre">tvResult</td><td>Die Anzeige der erreichten Punkte</td></tr>
+<tr><td class="pre">btnRestart</td><td>Der Knopf "Nochmals spielen"</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">B4</span><b>Der Ergebnisbereich.</b></p>
@@ -481,6 +480,13 @@ Klick auf Nochmals spielen
 
 <h3>Teil C, die Runde <span class="time">20 Minuten</span></h3>
 
+
+<h4 class="brauchst">Was du in C1 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">subList(0, 5)</td><td>Schneidet die ersten fünf Einträge aus einer Liste heraus</td></tr>
+</table>
+
 <div class="step">
 <p><span class="n">C1</span><b>Die Runde starten.</b></p>
 <p>Eine neue Methode. Sie schneidet die ersten fünf Fragen aus dem Bestand heraus und stellt alles auf Anfang.</p>
@@ -566,6 +572,14 @@ btnRestart.setOnClickListener(v -&gt; startRound());</pre>
 <p>Nicht reparieren, nur schauen. Repariert wird in C3.</p>
 </div>
 </div>
+
+
+<h4 class="brauchst">Was du in C3 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">getBackgroundTintList</td><td>Liest die Hintergrundfarbe eines Buttons aus. Das Gegenstück zu 03C</td></tr>
+<tr><td class="pre">getTextColors</td><td>Liest die Textfarbe eines Buttons aus</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">C3</span><b>Zurücksetzen und Runde beenden.</b></p>
@@ -716,7 +730,31 @@ defaultButtonTextColors = answerButtons[<span class="k">0</span>].getTextColors(
 <tr><td>Der Punktestand bleibt beim Start leer</td><td><code>showScore()</code> wird nicht mehr aufgerufen</td><td>Es steht ab jetzt in <code>showQuestion</code>. Siehe C1</td></tr>
 </table>
 
-<h2>03 Guide</h2>
+
+<h2>03 Recap</h2>
+
+<p>Das Wichtigste aus diesem Auftrag, zum Nachschlagen.</p>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>1.3</td><td>Geräteeigenschaften kennen und passend einsetzen, hier die Bildschirmhöhe im Querformat</td></tr>
+<tr><td>2.3</td><td>App-Architekturen kennen, den Zustand einer App verwalten</td></tr>
+<tr><td>3.2</td><td>Framework und APIs der Plattform einsetzen</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du baust eine Liste von Objekten auf und arbeitest sie der Reihe nach ab.</li>
+<li>Du blendest Bereiche eines Bildschirms ein und aus, statt einen zweiten Bildschirm zu bauen.</li>
+<li>Du erklärst, warum ein Zustand, den dein Code setzt, von deinem Code auch zurückgesetzt werden muss.</li>
+<li>Du erkennst, wann ein Layout eine <code>ScrollView</code> braucht, und begründest es mit dem Querformat.</li>
+<li>Du unterscheidest den ganzen Bestand von der laufenden Runde.</li>
+<li>Du liest an einer Aufrufkette ab, welche Methode von welcher aufgerufen wird.</li>
+<li>Du ziehst deine Kommentare nach, wenn sich der Code darunter geändert hat.</li>
+</ul>
+
+<h2>04 Guide</h2>
 <table>
 <tr><td>Zeitbudget</td><td>55 Minuten. Teil A 12, Teil B 18, Teil C 20, Übungen 5</td></tr>
 <tr><td>Sozialform</td><td>Einzelarbeit. Bei den Denkfragen und Übung 3 zu zweit</td></tr>
@@ -734,7 +772,7 @@ defaultButtonTextColors = answerButtons[<span class="k">0</span>].getTextColors(
 </table>
 
 
-<h2>04 Unterrichtsmittel</h2>
+<h2>05 Unterrichtsmittel</h2>
 <table>
 <tr><th>Art</th><th>Was</th></tr>
 <tr><td>Hardware</td><td>Eigenes Notebook, laufender Emulator Medium Phone API 36.1</td></tr>
@@ -751,6 +789,180 @@ defaultButtonTextColors = answerButtons[<span class="k">0</span>].getTextColors(
 <footer class="site-footer"><div class="in">
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
+<script>
+/* ------------------------------------------------------------------
+   M335: schwebendes Inhaltsverzeichnis und Legende.
+
+   Warum hier und nicht als eigene Datei: dieser Baustein geht ueber
+   web-bau/rahmen/fuss.html in jede Seite. Inline heisst, dass bauen.js
+   nichts Zusaetzliches kopieren muss.
+
+   Was das Skript tut:
+     1. markiert die Ueberschriften Teil A, Teil B, Teil C
+     2. vergibt jeder Ueberschrift eine id, die Quellen haben keine
+     3. baut oben die Auftragskarte: Zeit als Pille, darunter die
+        Teile mit ihren Minuten
+     4. baut das Verzeichnis und markiert den sichtbaren Abschnitt
+
+   Das Aussehen steht in web-bau/stil/rahmen.css unter m335-nav.
+   ------------------------------------------------------------------ */
+(function () {
+  var wrap = document.querySelector('.wrap');
+  if (!wrap) return;
+
+  // Die Startseite ist selbst ein Verzeichnis, sie bekommt keines.
+  // Sie ist daran zu erkennen, dass ihr der Rueckweg im Kopf fehlt.
+  if (!document.querySelector('.site-header .back')) return;
+
+  var text = function (el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); };
+
+  // ---------------------------------------------------------------- 1 und 2
+  var heads = [].slice.call(wrap.querySelectorAll('h2, h3'));
+
+  var vergeben = {};
+  heads.forEach(function (h, i) {
+    if (h.tagName === 'H3' && /^Teil [A-Z]\b/.test(text(h))) h.classList.add('teil');
+    if (h.id) { vergeben[h.id] = true; return; }
+    var roh = text(h).toLowerCase()
+      .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+    var id = roh || ('abschnitt-' + i);
+    if (vergeben[id]) id = id + '-' + i;
+    vergeben[id] = true;
+    h.id = id;
+  });
+
+  // ---------------------------------------------------------------- 3
+  // Die Auftragskarte. Sie sagt in einem Bildschirm, wie lange der Auftrag
+  // dauert und aus welchen Teilen er besteht. Alles daran steht schon auf
+  // der Seite, die Karte stellt es nur neu zusammen. Darum muss kein
+  // Quelldokument dafuer angefasst werden.
+  var esc = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+  var subs = [].slice.call(wrap.querySelectorAll('.sub'));
+  var bloecke = heads.filter(function (h) { return h.querySelector('.time'); });
+  var budget = '', zusatz = '';
+
+  // Das Zeitbudget steht heute mitten im Untertitel. Es wandert in die Pille.
+  subs.forEach(function (p) {
+    if (budget) return;
+    var m = p.innerHTML.match(/Zeitbudget\s+([^.<]+)\./);
+    if (!m) return;
+    var stuecke = m[1].split(/,\s*dazu\s*/);
+    budget = stuecke[0].trim();
+    if (stuecke[1]) zusatz = 'dazu ' + stuecke[1].trim();
+    p.innerHTML = p.innerHTML.replace(m[0], '').replace(/\s{2,}/g, ' ').trim();
+  });
+
+  if (budget || bloecke.length) {
+    var karte = document.createElement('div');
+    karte.className = 'karte';
+    var inhalt = '';
+    if (budget) {
+      inhalt += '<p class="zeit"><span class="pill">' + esc(budget) + '</span>';
+      if (zusatz) inhalt += '<span class="pill neben">' + esc(zusatz) + '</span>';
+      inhalt += '</p>';
+    }
+    if (bloecke.length) {
+      inhalt += '<p class="t">DAS MACHST DU</p><ol>';
+      bloecke.forEach(function (b) {
+        var uhr = b.querySelector('.time');
+        var min = uhr ? text(uhr) : '';
+        var t = text(b).replace(min, '').replace(/\s+/g, ' ').replace(/\s+,/g, ',').trim();
+        t = t.replace(/[,;]\s*$/, '');
+        var teil = t.match(/^([^,]+),\s*(.*)$/);
+        var wo = teil ? teil[1] : t;
+        var rest = teil ? teil[2] : '';
+        inhalt += '<li><a href="#' + b.id + '"><span class="wo">' + esc(wo) + '</span>'
+                + (rest ? ' ' + esc(rest) : '') + '</a>'
+                + '<span class="min">' + esc(min) + '</span></li>';
+      });
+      inhalt += '</ol>';
+    }
+    karte.innerHTML = inhalt;
+    var anker = subs.length ? subs[subs.length - 1] : wrap.firstElementChild;
+    anker.parentNode.insertBefore(karte, anker.nextSibling);
+  }
+
+  // ---------------------------------------------------------------- 4
+  // Unter vier Ueberschriften lohnt sich kein Verzeichnis. Die Legende
+  // steht dann trotzdem schon, sie haengt nicht an den Ueberschriften.
+  if (heads.length < 4) return;
+
+  var nav = document.createElement('nav');
+  nav.className = 'm335-nav';
+  nav.setAttribute('aria-label', 'Inhalt dieser Seite');
+
+  var html = '<p class="kopfzeile">AUF DIESER SEITE</p>'
+           + '<button type="button" class="schliessen" aria-label="Verzeichnis schliessen">Schliessen</button><ol>';
+  heads.forEach(function (h) {
+    var stufe = h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3');
+    var t = text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, '');
+    html += '<li class="' + stufe + '"><a href="#' + h.id + '">'
+          + t.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</a></li>';
+  });
+  nav.innerHTML = html + '</ol>';
+
+  var knopf = document.createElement('button');
+  knopf.type = 'button';
+  knopf.className = 'm335-nav-knopf';
+  knopf.textContent = 'Inhalt';
+
+  document.body.appendChild(nav);
+  document.body.appendChild(knopf);
+
+  var links = [].slice.call(nav.querySelectorAll('a'));
+
+  // Breit: die Leiste steht fest am Rand. Schmal: sie liegt hinter dem Knopf.
+  var breit = window.matchMedia('(min-width: 1320px)');
+  function umschalten() {
+    if (breit.matches) {
+      nav.className = 'm335-nav seitlich';
+      nav.hidden = false;
+      knopf.style.display = 'none';
+    } else {
+      nav.className = 'm335-nav klappe';
+      nav.hidden = true;
+      knopf.style.display = '';
+    }
+  }
+  umschalten();
+  if (breit.addEventListener) breit.addEventListener('change', umschalten);
+  else if (breit.addListener) breit.addListener(umschalten);
+
+  knopf.addEventListener('click', function () { nav.hidden = !nav.hidden; });
+  nav.querySelector('.schliessen').addEventListener('click', function () { nav.hidden = true; });
+  nav.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && !breit.matches) nav.hidden = true;
+  });
+
+  // Welcher Abschnitt ist gerade dran. Gesucht ist die letzte Ueberschrift,
+  // die oberhalb der Lesekante liegt. Die Kante liegt knapp unter dem
+  // klebenden Kopfbereich.
+  var laeuft = false;
+  function markieren() {
+    laeuft = false;
+    var kante = 96, treffer = 0;
+    for (var i = 0; i < heads.length; i++) {
+      if (heads[i].getBoundingClientRect().top <= kante) treffer = i;
+      else break;
+    }
+    for (var j = 0; j < links.length; j++) links[j].classList.toggle('hier', j === treffer);
+    var a = links[treffer];
+    if (a && breit.matches) {
+      var r = a.getBoundingClientRect(), n = nav.getBoundingClientRect();
+      if (r.top < n.top + 8 || r.bottom > n.bottom - 8) a.scrollIntoView({ block: 'nearest' });
+    }
+  }
+  function anstossen() {
+    if (laeuft) return;
+    laeuft = true;
+    window.requestAnimationFrame(markieren);
+  }
+  window.addEventListener('scroll', anstossen, { passive: true });
+  window.addEventListener('resize', anstossen);
+  markieren();
+})();
+</script>
 <!--/M335:RAHMEN-FUSS-->
 </body>
 </html>

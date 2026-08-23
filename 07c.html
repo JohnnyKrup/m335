@@ -22,27 +22,9 @@
 
 <h1>07C Room, Entity und Dao</h1>
 <p class="sub">Modul 335 Mobile Applikationen, Tag 4 Vormittag. Zeitbudget 90 Minuten. Version 2 vom 20.08.2026.</p>
-<p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
 <p class="sub">Heute bekommt deine App eine Datenbank. Auf dem Bildschirm wirst du nichts davon sehen, und trotzdem ist es der wichtigste Block im Modul.</p>
 
 <h2>01 Einführung</h2>
-
-<h3>Lernziele</h3>
-<table>
-<tr><th>HANOK</th><th>Ziel</th></tr>
-<tr><td>2.3</td><td>Kennt gängige App-Architekturen und kann sie einsetzen, hier die Trennung von Daten und Anzeige</td></tr>
-<tr><td>2.4</td><td>Persistenzlösungen einsetzen, hier eine lokale Datenbank mit Room</td></tr>
-<tr><td>3.2</td><td>Kennt das Framework und seine APIs und kann sie anwenden, hier Room und der Annotation Processor</td></tr>
-</table>
-
-<p>Nach diesem Auftrag kannst du:</p>
-<ul>
-<li>Du trägst eine Abhängigkeit selbst in dein Projekt ein und weisst, warum es dafür zwei Dateien braucht.</li>
-<li>Du machst aus einer gewöhnlichen Java-Klasse eine Tabelle.</li>
-<li>Du schreibst ein Dao mit allen vier Grundoperationen und erklärst, wer den Code dahinter schreibt.</li>
-<li>Du baust eine Datenbank-Klasse, die es genau einmal gibt.</li>
-<li>Du erklärst, wann du eine Datenbank nimmst und wann <code>SharedPreferences</code> reicht.</li>
-</ul>
 
 <h3>Das brauchst du vorher</h3>
 <ul>
@@ -120,55 +102,11 @@
 <p><b>Der Unterschied, auf den es ankommt:</b> in 294 lief der Server auf einem anderen Rechner, und du musstest damit rechnen, dass er antwortet oder eben nicht. Room läuft auf demselben Gerät wie deine App. Es gibt keine Verbindung, die abreissen kann.</p>
 </div>
 
-<h3>Werkzeugkasten</h3>
-
-<table>
-<tr><th>Baustein</th><th>Wofür</th></tr>
-<tr><td class="pre">annotationProcessor</td><td><b>Neu.</b> Ein Programm, das beim Bauen der App läuft und Java-Code schreibt. Es landet nicht in der fertigen App</td></tr>
-<tr><td class="pre">@Entity(tableName = "...")</td><td><b>Neu.</b> Aus dieser Klasse wird eine Tabelle</td></tr>
-<tr><td class="pre">@PrimaryKey(autoGenerate = true)</td><td><b>Neu.</b> Dieses Feld ist die Nummer der Zeile, und die Datenbank vergibt sie</td></tr>
-<tr><td class="pre">@ColumnInfo(name = "...")</td><td><b>Neu.</b> So heisst die Spalte in der Tabelle</td></tr>
-<tr><td class="pre">@Dao</td><td><b>Neu.</b> Dieses Interface beschreibt die Zugriffe. Data Access Object</td></tr>
-<tr><td class="pre">@Insert, @Update, @Delete</td><td><b>Neu.</b> Drei der vier Grundoperationen. Sie brauchen kein SQL</td></tr>
-<tr><td class="pre">@Query("...")</td><td><b>Neu.</b> Die vierte, und alles Weitere. Hier schreibst du SQL</td></tr>
-<tr><td class="pre">@Database(entities = {...})</td><td><b>Neu.</b> Welche Tabellen es gibt und welche Version die Datenbank hat</td></tr>
-<tr><td class="pre">Room.databaseBuilder(...)</td><td><b>Neu.</b> Baut die Datenbank oder öffnet die vorhandene</td></tr>
-<tr><td class="pre">allowMainThreadQueries()</td><td><b>Neu.</b> Erlaubt Abfragen im Haupt-Thread. Für uns richtig, mit Begründung in C1</td></tr>
-<tr><td class="pre">synchronized</td><td><b>Neu in diesem Zusammenhang.</b> Nur einer darf gleichzeitig hinein</td></tr>
-<tr><td class="pre">SELECT, COUNT(*), ORDER BY, WHERE</td><td><b>Kennst du aus 295.</b> Dasselbe SQL, nur an einem anderen Ort</td></tr>
-<tr><td class="pre">Log.d</td><td><b>Kennst du seit 01B.</b> Heute ist es dein einziger Beleg</td></tr>
-</table>
 
 <div class="warn">
 <p><b>Zwölf von dreizehn Bausteinen sind neu. Das ist der dichteste Auftrag des Kurses.</b> Dafür ist es der einzige, der keinen einzigen Bildschirm baut. Du hast also die ganzen neunzig Minuten für eine Sache.</p>
 </div>
 
-<h3>Pflichtangaben</h3>
-
-<table>
-<tr><th>Wo</th><th>Was Pflicht ist</th><th>Warum</th></tr>
-<tr><td>In <code>@Entity</code></td><td><code>tableName = "questions"</code></td><td>Vorgabe. Die Tabelle steht auch im SQL deiner Abfragen. Wer sie anders nennt, hat überall etwas anderes stehen</td></tr>
-<tr><td>Paket der drei neuen Klassen</td><td><code>data</code></td><td>Dort liegen schon <code>ScoreStorage</code> und <code>HighscoreStorage</code>. Alles was Daten hält, liegt beieinander</td></tr>
-<tr><td>Klassennamen</td><td><code>QuestionEntity</code>, <code>QuestionDao</code>, <code>QuizDatabase</code></td><td>Vorgabe. Am Nachmittag greifen alle Aufträge darauf zu</td></tr>
-<tr><td>Im Dao</td><td><b>Alle sechs Methoden</b>, auch die, die heute niemand aufruft</td><td>Ein Dao ist der Vertrag mit der Tabelle. Den schreibt man einmal ganz. Begründung in B2</td></tr>
-<tr><td>In <code>getInstance</code></td><td><code>context.getApplicationContext()</code></td><td>Die Datenbank lebt so lange wie die App. Eine Activity nicht. Siehe C1</td></tr>
-<tr><td>In <code>getInstance</code></td><td><code>synchronized</code> in der Signatur</td><td>Sonst können zwei Aufrufe gleichzeitig je eine Datenbank bauen</td></tr>
-<tr><td>Bei jeder neuen Klasse, jedem neuen Feld, jeder neuen Methode</td><td>Javadoc, und zwar <b>beim Schreiben</b> und nicht danach</td><td>Auf dem Prüfungsblatt steht: <i>"Alle selbst erstellten Klassen und Methoden sind Javadoc-kompatibel zu dokumentieren."</i></td></tr>
-</table>
-
-<h3>Namen im Code</h3>
-
-<table>
-<tr><th>Name</th><th>Was es ist</th></tr>
-<tr><td class="pre">data/QuestionEntity</td><td>Die Frage als Tabellenzeile. Vorlage ist <code>model/Question</code></td></tr>
-<tr><td class="pre">data/QuestionDao</td><td>Das Interface mit den sechs Zugriffen</td></tr>
-<tr><td class="pre">data/QuizDatabase</td><td>Die Datenbank selbst</td></tr>
-<tr><td class="pre">questions</td><td>Der Name der Tabelle. Steht in <code>@Entity</code> und in jedem <code>@Query</code></td></tr>
-<tr><td class="pre">quiz.db</td><td>Der Dateiname auf dem Gerät, als Konstante <code>DB_NAME</code></td></tr>
-<tr><td class="pre">instance</td><td>Das statische Feld, das die eine Datenbank hält</td></tr>
-<tr><td class="pre">getInstance</td><td>Die Methode, über die alle an die Datenbank kommen</td></tr>
-<tr><td class="pre">questionDao()</td><td>Die abstrakte Methode, die das Dao liefert</td></tr>
-</table>
 
 <h3>Denkfragen</h3>
 <ol>
@@ -190,6 +128,13 @@
 </div>
 
 <h3>Teil A, die Abhängigkeit und die Tabelle <span class="time">26 Minuten</span></h3>
+
+
+<h4 class="brauchst">Was du in A1 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">annotationProcessor</td><td><b>Neu.</b> Ein Programm, das beim Bauen der App läuft und Java-Code schreibt. Es landet nicht in der fertigen App</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">A1</span><b>Die Abhängigkeit eintragen.</b> <span class="time">10 Min</span></p>
@@ -259,6 +204,17 @@ annotationProcessor(libs.room.compiler)</pre>
 </ol>
 </div>
 </div>
+
+
+<h4 class="brauchst">Was du in A2 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">@Entity(tableName = "...")</td><td><b>Neu.</b> Aus dieser Klasse wird eine Tabelle</td></tr>
+<tr><td class="pre">@PrimaryKey(autoGenerate = true)</td><td><b>Neu.</b> Dieses Feld ist die Nummer der Zeile, und die Datenbank vergibt sie</td></tr>
+<tr><td class="pre">@ColumnInfo(name = "...")</td><td><b>Neu.</b> So heisst die Spalte in der Tabelle</td></tr>
+<tr><td class="pre">data/QuestionEntity</td><td>Die Frage als Tabellenzeile. Vorlage ist <code>model/Question</code></td></tr>
+<tr><td class="pre">questions</td><td>Der Name der Tabelle. Steht in <code>@Entity</code> und in jedem <code>@Query</code></td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">A2</span><b>Aus <code>Question</code> wird <code>QuestionEntity</code>.</b> <span class="time">16 Min</span></p>
@@ -402,6 +358,13 @@ annotationProcessor(libs.room.compiler)</pre>
 </div>
 
 <h3>Der Überblick, bevor Teil B anfängt <span class="time">3 Minuten</span></h3>
+<h4 class="brauchst">Was du hier brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">data/QuestionDao</td><td>Das Interface mit den sechs Zugriffen</td></tr>
+<tr><td class="pre">data/QuizDatabase</td><td>Die Datenbank selbst</td></tr>
+</table>
+
 
 <p>Halt hier kurz an. Room braucht drei Klassen, und jede beantwortet genau eine Frage.</p>
 
@@ -419,6 +382,16 @@ QuizDatabase     Wo liegen die Tabellen?            Teil C</span></pre>
 <p><b>Dreimal dasselbe Muster: du beschreibst, Room baut.</b> Genau darum stand die Zeile <code>annotationProcessor</code> ganz am Anfang.</p>
 
 <h3>Teil B, das Dao <span class="time">26 Minuten</span></h3>
+
+
+<h4 class="brauchst">Was du in B1 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">@Dao</td><td><b>Neu.</b> Dieses Interface beschreibt die Zugriffe. Data Access Object</td></tr>
+<tr><td class="pre">@Insert, @Update, @Delete</td><td><b>Neu.</b> Drei der vier Grundoperationen. Sie brauchen kein SQL</td></tr>
+<tr><td class="pre">@Query("...")</td><td><b>Neu.</b> Die vierte, und alles Weitere. Hier schreibst du SQL</td></tr>
+<tr><td class="pre">SELECT, COUNT(*), ORDER BY, WHERE</td><td><b>Kennst du aus 295.</b> Dasselbe SQL, nur an einem anderen Ort</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">B1</span><b>Anlegen, lesen, zählen.</b> <span class="time">15 Min</span></p>
@@ -573,6 +546,20 @@ QuizDatabase     Wo liegen die Tabellen?            Teil C</span></pre>
 
 <h3>Teil C, die Datenbank <span class="time">27 Minuten</span></h3>
 
+
+<h4 class="brauchst">Was du in C1 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">@Database(entities = {...})</td><td><b>Neu.</b> Welche Tabellen es gibt und welche Version die Datenbank hat</td></tr>
+<tr><td class="pre">Room.databaseBuilder(...)</td><td><b>Neu.</b> Baut die Datenbank oder öffnet die vorhandene</td></tr>
+<tr><td class="pre">allowMainThreadQueries()</td><td><b>Neu.</b> Erlaubt Abfragen im Haupt-Thread. Für uns richtig, mit Begründung in C1</td></tr>
+<tr><td class="pre">synchronized</td><td><b>Neu in diesem Zusammenhang.</b> Nur einer darf gleichzeitig hinein</td></tr>
+<tr><td class="pre">quiz.db</td><td>Der Dateiname auf dem Gerät, als Konstante <code>DB_NAME</code></td></tr>
+<tr><td class="pre">instance</td><td>Das statische Feld, das die eine Datenbank hält</td></tr>
+<tr><td class="pre">getInstance</td><td>Die Methode, über die alle an die Datenbank kommen</td></tr>
+<tr><td class="pre">questionDao()</td><td>Die abstrakte Methode, die das Dao liefert</td></tr>
+</table>
+
 <div class="step">
 <p><span class="n">C1</span><b>Die Klasse <code>QuizDatabase</code>.</b> <span class="time">16 Min</span></p>
 
@@ -674,6 +661,13 @@ QuizDatabase     Wo liegen die Tabellen?            Teil C</span></pre>
 </ol>
 </div>
 </div>
+
+
+<h4 class="brauchst">Was du in C2 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">Log.d</td><td><b>Kennst du seit 01B.</b> Heute ist es dein einziger Beleg</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">C2</span><b>Öffnen, zählen, hineinschauen.</b> <span class="time">11 Min</span></p>
@@ -885,7 +879,42 @@ QuizDatabase     Wo liegen die Tabellen?            Teil C</span></pre>
 <tr><td>Im Logcat steht <code>questions=0</code></td><td><b>Kein Fehler</b></td><td>Nichts tun. Genau das ist das erwartete Ergebnis</td></tr>
 </table>
 
-<h2>03 Guide</h2>
+
+<h2>03 Recap</h2>
+
+<p>Das Wichtigste aus diesem Auftrag, zum Nachschlagen.</p>
+
+<h3>Pflichtangaben</h3>
+
+<table>
+<tr><th>Wo</th><th>Was Pflicht ist</th><th>Warum</th></tr>
+<tr><td>In <code>@Entity</code></td><td><code>tableName = "questions"</code></td><td>Vorgabe. Die Tabelle steht auch im SQL deiner Abfragen. Wer sie anders nennt, hat überall etwas anderes stehen</td></tr>
+<tr><td>Paket der drei neuen Klassen</td><td><code>data</code></td><td>Dort liegen schon <code>ScoreStorage</code> und <code>HighscoreStorage</code>. Alles was Daten hält, liegt beieinander</td></tr>
+<tr><td>Klassennamen</td><td><code>QuestionEntity</code>, <code>QuestionDao</code>, <code>QuizDatabase</code></td><td>Vorgabe. Am Nachmittag greifen alle Aufträge darauf zu</td></tr>
+<tr><td>Im Dao</td><td><b>Alle sechs Methoden</b>, auch die, die heute niemand aufruft</td><td>Ein Dao ist der Vertrag mit der Tabelle. Den schreibt man einmal ganz. Begründung in B2</td></tr>
+<tr><td>In <code>getInstance</code></td><td><code>context.getApplicationContext()</code></td><td>Die Datenbank lebt so lange wie die App. Eine Activity nicht. Siehe C1</td></tr>
+<tr><td>In <code>getInstance</code></td><td><code>synchronized</code> in der Signatur</td><td>Sonst können zwei Aufrufe gleichzeitig je eine Datenbank bauen</td></tr>
+<tr><td>Bei jeder neuen Klasse, jedem neuen Feld, jeder neuen Methode</td><td>Javadoc, und zwar <b>beim Schreiben</b> und nicht danach</td><td>Auf dem Prüfungsblatt steht: <i>"Alle selbst erstellten Klassen und Methoden sind Javadoc-kompatibel zu dokumentieren."</i></td></tr>
+</table>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>2.3</td><td>Kennt gängige App-Architekturen und kann sie einsetzen, hier die Trennung von Daten und Anzeige</td></tr>
+<tr><td>2.4</td><td>Persistenzlösungen einsetzen, hier eine lokale Datenbank mit Room</td></tr>
+<tr><td>3.2</td><td>Kennt das Framework und seine APIs und kann sie anwenden, hier Room und der Annotation Processor</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du trägst eine Abhängigkeit selbst in dein Projekt ein und weisst, warum es dafür zwei Dateien braucht.</li>
+<li>Du machst aus einer gewöhnlichen Java-Klasse eine Tabelle.</li>
+<li>Du schreibst ein Dao mit allen vier Grundoperationen und erklärst, wer den Code dahinter schreibt.</li>
+<li>Du baust eine Datenbank-Klasse, die es genau einmal gibt.</li>
+<li>Du erklärst, wann du eine Datenbank nimmst und wann <code>SharedPreferences</code> reicht.</li>
+</ul>
+
+<h2>04 Guide</h2>
 
 <table>
 <tr><th>Punkt</th><th>Angabe</th></tr>
@@ -903,7 +932,7 @@ QuizDatabase     Wo liegen die Tabellen?            Teil C</span></pre>
 <li><b>Wissenscheck 07ABC.</b> Unbenotet, beliebig wiederholbar, kein Fälligkeitsdatum.</li>
 </ul>
 
-<h2>04 Unterrichtsmittel</h2>
+<h2>05 Unterrichtsmittel</h2>
 <ul>
 <li><b>Room verstehen</b>, das Grundlagenblatt. <b>Welche drei Klassen Room braucht und warum</b>, der Vergleich mit Spring Boot und JPA, und wo du weiterliest. Es beantwortet auch die Frage, warum <code>Question</code> und <code>QuestionEntity</code> nebeneinander liegen</li>
 <li><b>Deine eigene <code>model/Question.java</code></b>, als Vorlage für A2. Ohne sie ist A2 nur Abtippen.</li>
@@ -920,6 +949,180 @@ QuizDatabase     Wo liegen die Tabellen?            Teil C</span></pre>
 <footer class="site-footer"><div class="in">
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
+<script>
+/* ------------------------------------------------------------------
+   M335: schwebendes Inhaltsverzeichnis und Legende.
+
+   Warum hier und nicht als eigene Datei: dieser Baustein geht ueber
+   web-bau/rahmen/fuss.html in jede Seite. Inline heisst, dass bauen.js
+   nichts Zusaetzliches kopieren muss.
+
+   Was das Skript tut:
+     1. markiert die Ueberschriften Teil A, Teil B, Teil C
+     2. vergibt jeder Ueberschrift eine id, die Quellen haben keine
+     3. baut oben die Auftragskarte: Zeit als Pille, darunter die
+        Teile mit ihren Minuten
+     4. baut das Verzeichnis und markiert den sichtbaren Abschnitt
+
+   Das Aussehen steht in web-bau/stil/rahmen.css unter m335-nav.
+   ------------------------------------------------------------------ */
+(function () {
+  var wrap = document.querySelector('.wrap');
+  if (!wrap) return;
+
+  // Die Startseite ist selbst ein Verzeichnis, sie bekommt keines.
+  // Sie ist daran zu erkennen, dass ihr der Rueckweg im Kopf fehlt.
+  if (!document.querySelector('.site-header .back')) return;
+
+  var text = function (el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); };
+
+  // ---------------------------------------------------------------- 1 und 2
+  var heads = [].slice.call(wrap.querySelectorAll('h2, h3'));
+
+  var vergeben = {};
+  heads.forEach(function (h, i) {
+    if (h.tagName === 'H3' && /^Teil [A-Z]\b/.test(text(h))) h.classList.add('teil');
+    if (h.id) { vergeben[h.id] = true; return; }
+    var roh = text(h).toLowerCase()
+      .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+    var id = roh || ('abschnitt-' + i);
+    if (vergeben[id]) id = id + '-' + i;
+    vergeben[id] = true;
+    h.id = id;
+  });
+
+  // ---------------------------------------------------------------- 3
+  // Die Auftragskarte. Sie sagt in einem Bildschirm, wie lange der Auftrag
+  // dauert und aus welchen Teilen er besteht. Alles daran steht schon auf
+  // der Seite, die Karte stellt es nur neu zusammen. Darum muss kein
+  // Quelldokument dafuer angefasst werden.
+  var esc = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+  var subs = [].slice.call(wrap.querySelectorAll('.sub'));
+  var bloecke = heads.filter(function (h) { return h.querySelector('.time'); });
+  var budget = '', zusatz = '';
+
+  // Das Zeitbudget steht heute mitten im Untertitel. Es wandert in die Pille.
+  subs.forEach(function (p) {
+    if (budget) return;
+    var m = p.innerHTML.match(/Zeitbudget\s+([^.<]+)\./);
+    if (!m) return;
+    var stuecke = m[1].split(/,\s*dazu\s*/);
+    budget = stuecke[0].trim();
+    if (stuecke[1]) zusatz = 'dazu ' + stuecke[1].trim();
+    p.innerHTML = p.innerHTML.replace(m[0], '').replace(/\s{2,}/g, ' ').trim();
+  });
+
+  if (budget || bloecke.length) {
+    var karte = document.createElement('div');
+    karte.className = 'karte';
+    var inhalt = '';
+    if (budget) {
+      inhalt += '<p class="zeit"><span class="pill">' + esc(budget) + '</span>';
+      if (zusatz) inhalt += '<span class="pill neben">' + esc(zusatz) + '</span>';
+      inhalt += '</p>';
+    }
+    if (bloecke.length) {
+      inhalt += '<p class="t">DAS MACHST DU</p><ol>';
+      bloecke.forEach(function (b) {
+        var uhr = b.querySelector('.time');
+        var min = uhr ? text(uhr) : '';
+        var t = text(b).replace(min, '').replace(/\s+/g, ' ').replace(/\s+,/g, ',').trim();
+        t = t.replace(/[,;]\s*$/, '');
+        var teil = t.match(/^([^,]+),\s*(.*)$/);
+        var wo = teil ? teil[1] : t;
+        var rest = teil ? teil[2] : '';
+        inhalt += '<li><a href="#' + b.id + '"><span class="wo">' + esc(wo) + '</span>'
+                + (rest ? ' ' + esc(rest) : '') + '</a>'
+                + '<span class="min">' + esc(min) + '</span></li>';
+      });
+      inhalt += '</ol>';
+    }
+    karte.innerHTML = inhalt;
+    var anker = subs.length ? subs[subs.length - 1] : wrap.firstElementChild;
+    anker.parentNode.insertBefore(karte, anker.nextSibling);
+  }
+
+  // ---------------------------------------------------------------- 4
+  // Unter vier Ueberschriften lohnt sich kein Verzeichnis. Die Legende
+  // steht dann trotzdem schon, sie haengt nicht an den Ueberschriften.
+  if (heads.length < 4) return;
+
+  var nav = document.createElement('nav');
+  nav.className = 'm335-nav';
+  nav.setAttribute('aria-label', 'Inhalt dieser Seite');
+
+  var html = '<p class="kopfzeile">AUF DIESER SEITE</p>'
+           + '<button type="button" class="schliessen" aria-label="Verzeichnis schliessen">Schliessen</button><ol>';
+  heads.forEach(function (h) {
+    var stufe = h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3');
+    var t = text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, '');
+    html += '<li class="' + stufe + '"><a href="#' + h.id + '">'
+          + t.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</a></li>';
+  });
+  nav.innerHTML = html + '</ol>';
+
+  var knopf = document.createElement('button');
+  knopf.type = 'button';
+  knopf.className = 'm335-nav-knopf';
+  knopf.textContent = 'Inhalt';
+
+  document.body.appendChild(nav);
+  document.body.appendChild(knopf);
+
+  var links = [].slice.call(nav.querySelectorAll('a'));
+
+  // Breit: die Leiste steht fest am Rand. Schmal: sie liegt hinter dem Knopf.
+  var breit = window.matchMedia('(min-width: 1320px)');
+  function umschalten() {
+    if (breit.matches) {
+      nav.className = 'm335-nav seitlich';
+      nav.hidden = false;
+      knopf.style.display = 'none';
+    } else {
+      nav.className = 'm335-nav klappe';
+      nav.hidden = true;
+      knopf.style.display = '';
+    }
+  }
+  umschalten();
+  if (breit.addEventListener) breit.addEventListener('change', umschalten);
+  else if (breit.addListener) breit.addListener(umschalten);
+
+  knopf.addEventListener('click', function () { nav.hidden = !nav.hidden; });
+  nav.querySelector('.schliessen').addEventListener('click', function () { nav.hidden = true; });
+  nav.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && !breit.matches) nav.hidden = true;
+  });
+
+  // Welcher Abschnitt ist gerade dran. Gesucht ist die letzte Ueberschrift,
+  // die oberhalb der Lesekante liegt. Die Kante liegt knapp unter dem
+  // klebenden Kopfbereich.
+  var laeuft = false;
+  function markieren() {
+    laeuft = false;
+    var kante = 96, treffer = 0;
+    for (var i = 0; i < heads.length; i++) {
+      if (heads[i].getBoundingClientRect().top <= kante) treffer = i;
+      else break;
+    }
+    for (var j = 0; j < links.length; j++) links[j].classList.toggle('hier', j === treffer);
+    var a = links[treffer];
+    if (a && breit.matches) {
+      var r = a.getBoundingClientRect(), n = nav.getBoundingClientRect();
+      if (r.top < n.top + 8 || r.bottom > n.bottom - 8) a.scrollIntoView({ block: 'nearest' });
+    }
+  }
+  function anstossen() {
+    if (laeuft) return;
+    laeuft = true;
+    window.requestAnimationFrame(markieren);
+  }
+  window.addEventListener('scroll', anstossen, { passive: true });
+  window.addEventListener('resize', anstossen);
+  markieren();
+})();
+</script>
 <!--/M335:RAHMEN-FUSS-->
 </body>
 </html>

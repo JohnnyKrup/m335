@@ -22,27 +22,9 @@
 
 <h1>03D Die Datenklasse Question</h1>
 <p class="sub">Modul 335 Mobile Applikationen, Tag 2 Vormittag. Zeitbudget 45 Minuten. Version 3 vom 14.08.2026.</p>
-<p class="sub">Die Zeitangabe ist ein <b>Richtwert</b>. Sie sagt dir, wie lange der Kursersteller gerechnet hat. Brauchst du deutlich länger, melde dich. Bist du deutlich schneller, nimm die Zusatzaufgabe.</p>
 
 
 <h2>01 Einführung</h2>
-
-<h3>Lernziele</h3>
-<table>
-<tr><th>HANOK</th><th>Ziel</th></tr>
-<tr><td>2.3</td><td>App-Architekturen kennen, Daten und Oberfläche trennen</td></tr>
-<tr><td>2.4</td><td>Persistenzlösungen vorbereiten, Daten als Objekte modellieren</td></tr>
-<tr><td>3.2</td><td>Framework und APIs der Plattform einsetzen</td></tr>
-</table>
-
-<p>Nach diesem Auftrag kannst du:</p>
-<ul>
-<li>Du schreibst eine Datenklasse mit privaten Feldern, Konstruktor und Gettern.</li>
-<li>Du erklärst, warum eine Methode wie <code>isCorrect</code> in die Datenklasse gehört und nicht in die Activity.</li>
-<li>Du unterscheidest <b>Daten</b> von <b>Beschriftung</b> und legst beide am richtigen Ort ab.</li>
-<li>Du füllst einen Bildschirm aus einem Objekt statt aus Ressourcen.</li>
-<li>Du zählst, an wie vielen Stellen eine Änderung nötig ist, und beurteilst danach eine Lösung.</li>
-</ul>
 
 <h3>Das brauchst du vorher</h3>
 <ul>
@@ -78,28 +60,6 @@
 <p>Deine Frage steckt in <code>strings.xml</code>, verteilt auf fünf Einträge. Die richtige Antwort steht als sechster Wert im Java-Code. Das hat für eine Frage funktioniert.</p>
 <p>Heute zieht die Frage in ein eigenes Objekt um. Fragetext, vier Antworten, die richtige, dazu Kategorie und Schwierigkeit, alles an einem Ort.</p>
 
-<h3>Werkzeugkasten</h3>
-<table>
-<tr><th>Baustein</th><th>Wofür</th></tr>
-<tr><td class="pre">class</td><td>Eine eigene Klasse für die Daten einer Frage</td></tr>
-<tr><td class="pre">private</td><td>Felder von aussen unerreichbar machen</td></tr>
-<tr><td class="pre">Konstruktor</td><td>Ein Objekt mit allen Werten auf einmal erzeugen</td></tr>
-<tr><td class="pre">Getter</td><td>Einen Wert von aussen lesbar machen</td></tr>
-<tr><td class="pre">String[]</td><td>Ein Array. Hält die vier Antworten in der Reihenfolge der Buttons</td></tr>
-<tr><td class="pre">package</td><td>Ordnung im Code. Daten kommen in ein eigenes Package</td></tr>
-<tr><td class="pre">tools:text</td><td>Platzhaltertext, den nur die Vorschau zeigt. Kennst du aus 03B</td></tr>
-</table>
-
-<h3>Namen im Code</h3>
-<table>
-<tr><th>Name</th><th>Was es ist</th></tr>
-<tr><td class="pre">ch.wiss.m335.quiz.model</td><td>Neues Package. Hier liegen die Datenklassen</td></tr>
-<tr><td class="pre">Question</td><td>Die Klasse</td></tr>
-<tr><td class="pre">text, answers, correctAnswer, category, difficulty</td><td>Die fünf Felder</td></tr>
-<tr><td class="pre">isCorrect</td><td>Methode der Klasse. Prüft eine angetippte Antwort</td></tr>
-<tr><td class="pre">currentQuestion</td><td>Feld in der Activity. Die Frage, die gerade auf dem Bildschirm steht</td></tr>
-<tr><td class="pre">showQuestion</td><td>Methode in der Activity. Füllt den Bildschirm aus dem Objekt</td></tr>
-</table>
 
 <h3>Denkfragen</h3>
 <ol>
@@ -116,6 +76,15 @@
 
 <h3>Teil A, die Datenklasse <span class="time">18 Minuten</span></h3>
 
+
+<h4 class="brauchst">Was du in A1 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">class</td><td>Eine eigene Klasse für die Daten einer Frage</td></tr>
+<tr><td class="pre">ch.wiss.m335.quiz.model</td><td>Neues Package. Hier liegen die Datenklassen</td></tr>
+<tr><td class="pre">Question</td><td>Die Klasse</td></tr>
+</table>
+
 <div class="step">
 <p><span class="n">A1</span><b>Ein eigenes Package anlegen.</b></p>
 <p>Rechtsklick auf <code>ch.wiss.m335.quiz</code> im Projektbaum, dann <code>New</code>, dann <code>Package</code>. Name: <code>model</code>.</p>
@@ -125,6 +94,17 @@
 <p>Die Regel dahinter ist älter als Android: <b>was verschiedene Aufgaben hat, liegt an verschiedenen Orten.</b> Eine Activity zeigt etwas an. Eine Datenklasse weiss etwas.</p>
 </div>
 </div>
+
+
+<h4 class="brauchst">Was du in A2 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">private</td><td>Felder von aussen unerreichbar machen</td></tr>
+<tr><td class="pre">Getter</td><td>Einen Wert von aussen lesbar machen</td></tr>
+<tr><td class="pre">String[]</td><td>Ein Array. Hält die vier Antworten in der Reihenfolge der Buttons</td></tr>
+<tr><td class="pre">package</td><td>Ordnung im Code. Daten kommen in ein eigenes Package</td></tr>
+<tr><td class="pre">text, answers, correctAnswer, category, difficulty</td><td>Die fünf Felder</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">A2</span><b>Die fünf Felder. Diesen Block bekommst du vorgegeben.</b></p>
@@ -162,6 +142,13 @@
 </div>
 </div>
 
+
+<h4 class="brauchst">Was du in A3 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">Konstruktor</td><td>Ein Objekt mit allen Werten auf einmal erzeugen</td></tr>
+</table>
+
 <div class="step">
 <p><span class="n">A3</span><b>Der Konstruktor. Ab hier selbst.</b></p>
 <p>Er nimmt alle fünf Werte entgegen und legt sie in die Felder. Die Reihenfolge der Parameter ist die Reihenfolge der Felder oben.</p>
@@ -176,6 +163,13 @@
 <p><b>Achtung bei <code>this</code>.</b> Der Parameter heisst gleich wie das Feld. Ohne <code>this.text = text;</code> würdest du den Parameter sich selbst zuweisen, und das Feld bliebe leer. Der Compiler warnt nicht, die App zeigt einfach nichts an.</p>
 </div>
 </div>
+
+
+<h4 class="brauchst">Was du in A4 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">isCorrect</td><td>Methode der Klasse. Prüft eine angetippte Antwort</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">A4</span><b>Die Methode <code>isCorrect</code>. Diesen Block bekommst du vorgegeben.</b></p>
@@ -222,6 +216,13 @@
 
 <h3>Teil B, die Frage aus dem Objekt <span class="time">17 Minuten</span></h3>
 
+
+<h4 class="brauchst">Was du in B1 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">currentQuestion</td><td>Feld in der Activity. Die Frage, die gerade auf dem Bildschirm steht</td></tr>
+</table>
+
 <div class="step">
 <p><span class="n">B1</span><b>Ein Objekt anlegen.</b></p>
 <p>In <code>MainActivity</code> ersetzt du das Feld <code>correctAnswer</code> durch ein Feld für die ganze Frage.</p>
@@ -266,6 +267,13 @@
 </div>
 </div>
 
+
+<h4 class="brauchst">Was du in B3 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">tools:text</td><td>Platzhaltertext, den nur die Vorschau zeigt. Kennst du aus 03B</td></tr>
+</table>
+
 <div class="step">
 <p><span class="n">B3</span><b>Das Layout aufräumen.</b></p>
 <p>Sechs Views zeigen jetzt Text, den der Code setzt. Also gilt dieselbe Regel wie beim Punktestand in 03B: <code>android:text</code> raus, <code>tools:text</code> rein.</p>
@@ -298,6 +306,13 @@ tvQuestion = findViewById(R.id.tvQuestion);</pre>
 <p><b>Die Regel:</b> ein Feld für eine View und sein <code>findViewById</code> gehören zusammen. Wer das eine schreibt, schreibt das andere gleich dazu.</p>
 </div>
 </div>
+
+
+<h4 class="brauchst">Was du in B5 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">showQuestion</td><td>Methode in der Activity. Füllt den Bildschirm aus dem Objekt</td></tr>
+</table>
 
 <div class="step">
 <p><span class="n">B5</span><b>Den Bildschirm aus dem Objekt füllen.</b></p>
@@ -419,7 +434,29 @@ Log.d(TAG, <span class="s">"MainActivity onCreate, Frage aus dem Objekt"</span>)
 <tr><td>Gelb: <code>Field can be converted to a local variable</code></td><td>Ein Feld wird nur in einer Methode gebraucht</td><td>Prüfen, ob es wirklich ein Feld sein muss. Bei <code>currentQuestion</code> ja, es wird beim Klick gebraucht</td></tr>
 </table>
 
-<h2>03 Guide</h2>
+
+<h2>03 Recap</h2>
+
+<p>Das Wichtigste aus diesem Auftrag, zum Nachschlagen.</p>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>2.3</td><td>App-Architekturen kennen, Daten und Oberfläche trennen</td></tr>
+<tr><td>2.4</td><td>Persistenzlösungen vorbereiten, Daten als Objekte modellieren</td></tr>
+<tr><td>3.2</td><td>Framework und APIs der Plattform einsetzen</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du schreibst eine Datenklasse mit privaten Feldern, Konstruktor und Gettern.</li>
+<li>Du erklärst, warum eine Methode wie <code>isCorrect</code> in die Datenklasse gehört und nicht in die Activity.</li>
+<li>Du unterscheidest <b>Daten</b> von <b>Beschriftung</b> und legst beide am richtigen Ort ab.</li>
+<li>Du füllst einen Bildschirm aus einem Objekt statt aus Ressourcen.</li>
+<li>Du zählst, an wie vielen Stellen eine Änderung nötig ist, und beurteilst danach eine Lösung.</li>
+</ul>
+
+<h2>04 Guide</h2>
 <table>
 <tr><td>Zeitbudget</td><td>45 Minuten. Teil A 18, Teil B 17, Teil C 5, Übungen 5</td></tr>
 <tr><td>Sozialform</td><td>Einzelarbeit. Bei den Denkfragen und Übung 3 zu zweit</td></tr>
@@ -438,7 +475,7 @@ Log.d(TAG, <span class="s">"MainActivity onCreate, Frage aus dem Objekt"</span>)
 </table>
 
 
-<h2>04 Unterrichtsmittel</h2>
+<h2>05 Unterrichtsmittel</h2>
 <table>
 <tr><th>Art</th><th>Was</th></tr>
 <tr><td>Hardware</td><td>Eigenes Notebook, laufender Emulator Medium Phone API 36.1</td></tr>
@@ -455,6 +492,180 @@ Log.d(TAG, <span class="s">"MainActivity onCreate, Frage aus dem Objekt"</span>)
 <footer class="site-footer"><div class="in">
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
+<script>
+/* ------------------------------------------------------------------
+   M335: schwebendes Inhaltsverzeichnis und Legende.
+
+   Warum hier und nicht als eigene Datei: dieser Baustein geht ueber
+   web-bau/rahmen/fuss.html in jede Seite. Inline heisst, dass bauen.js
+   nichts Zusaetzliches kopieren muss.
+
+   Was das Skript tut:
+     1. markiert die Ueberschriften Teil A, Teil B, Teil C
+     2. vergibt jeder Ueberschrift eine id, die Quellen haben keine
+     3. baut oben die Auftragskarte: Zeit als Pille, darunter die
+        Teile mit ihren Minuten
+     4. baut das Verzeichnis und markiert den sichtbaren Abschnitt
+
+   Das Aussehen steht in web-bau/stil/rahmen.css unter m335-nav.
+   ------------------------------------------------------------------ */
+(function () {
+  var wrap = document.querySelector('.wrap');
+  if (!wrap) return;
+
+  // Die Startseite ist selbst ein Verzeichnis, sie bekommt keines.
+  // Sie ist daran zu erkennen, dass ihr der Rueckweg im Kopf fehlt.
+  if (!document.querySelector('.site-header .back')) return;
+
+  var text = function (el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); };
+
+  // ---------------------------------------------------------------- 1 und 2
+  var heads = [].slice.call(wrap.querySelectorAll('h2, h3'));
+
+  var vergeben = {};
+  heads.forEach(function (h, i) {
+    if (h.tagName === 'H3' && /^Teil [A-Z]\b/.test(text(h))) h.classList.add('teil');
+    if (h.id) { vergeben[h.id] = true; return; }
+    var roh = text(h).toLowerCase()
+      .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+    var id = roh || ('abschnitt-' + i);
+    if (vergeben[id]) id = id + '-' + i;
+    vergeben[id] = true;
+    h.id = id;
+  });
+
+  // ---------------------------------------------------------------- 3
+  // Die Auftragskarte. Sie sagt in einem Bildschirm, wie lange der Auftrag
+  // dauert und aus welchen Teilen er besteht. Alles daran steht schon auf
+  // der Seite, die Karte stellt es nur neu zusammen. Darum muss kein
+  // Quelldokument dafuer angefasst werden.
+  var esc = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+  var subs = [].slice.call(wrap.querySelectorAll('.sub'));
+  var bloecke = heads.filter(function (h) { return h.querySelector('.time'); });
+  var budget = '', zusatz = '';
+
+  // Das Zeitbudget steht heute mitten im Untertitel. Es wandert in die Pille.
+  subs.forEach(function (p) {
+    if (budget) return;
+    var m = p.innerHTML.match(/Zeitbudget\s+([^.<]+)\./);
+    if (!m) return;
+    var stuecke = m[1].split(/,\s*dazu\s*/);
+    budget = stuecke[0].trim();
+    if (stuecke[1]) zusatz = 'dazu ' + stuecke[1].trim();
+    p.innerHTML = p.innerHTML.replace(m[0], '').replace(/\s{2,}/g, ' ').trim();
+  });
+
+  if (budget || bloecke.length) {
+    var karte = document.createElement('div');
+    karte.className = 'karte';
+    var inhalt = '';
+    if (budget) {
+      inhalt += '<p class="zeit"><span class="pill">' + esc(budget) + '</span>';
+      if (zusatz) inhalt += '<span class="pill neben">' + esc(zusatz) + '</span>';
+      inhalt += '</p>';
+    }
+    if (bloecke.length) {
+      inhalt += '<p class="t">DAS MACHST DU</p><ol>';
+      bloecke.forEach(function (b) {
+        var uhr = b.querySelector('.time');
+        var min = uhr ? text(uhr) : '';
+        var t = text(b).replace(min, '').replace(/\s+/g, ' ').replace(/\s+,/g, ',').trim();
+        t = t.replace(/[,;]\s*$/, '');
+        var teil = t.match(/^([^,]+),\s*(.*)$/);
+        var wo = teil ? teil[1] : t;
+        var rest = teil ? teil[2] : '';
+        inhalt += '<li><a href="#' + b.id + '"><span class="wo">' + esc(wo) + '</span>'
+                + (rest ? ' ' + esc(rest) : '') + '</a>'
+                + '<span class="min">' + esc(min) + '</span></li>';
+      });
+      inhalt += '</ol>';
+    }
+    karte.innerHTML = inhalt;
+    var anker = subs.length ? subs[subs.length - 1] : wrap.firstElementChild;
+    anker.parentNode.insertBefore(karte, anker.nextSibling);
+  }
+
+  // ---------------------------------------------------------------- 4
+  // Unter vier Ueberschriften lohnt sich kein Verzeichnis. Die Legende
+  // steht dann trotzdem schon, sie haengt nicht an den Ueberschriften.
+  if (heads.length < 4) return;
+
+  var nav = document.createElement('nav');
+  nav.className = 'm335-nav';
+  nav.setAttribute('aria-label', 'Inhalt dieser Seite');
+
+  var html = '<p class="kopfzeile">AUF DIESER SEITE</p>'
+           + '<button type="button" class="schliessen" aria-label="Verzeichnis schliessen">Schliessen</button><ol>';
+  heads.forEach(function (h) {
+    var stufe = h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3');
+    var t = text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, '');
+    html += '<li class="' + stufe + '"><a href="#' + h.id + '">'
+          + t.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</a></li>';
+  });
+  nav.innerHTML = html + '</ol>';
+
+  var knopf = document.createElement('button');
+  knopf.type = 'button';
+  knopf.className = 'm335-nav-knopf';
+  knopf.textContent = 'Inhalt';
+
+  document.body.appendChild(nav);
+  document.body.appendChild(knopf);
+
+  var links = [].slice.call(nav.querySelectorAll('a'));
+
+  // Breit: die Leiste steht fest am Rand. Schmal: sie liegt hinter dem Knopf.
+  var breit = window.matchMedia('(min-width: 1320px)');
+  function umschalten() {
+    if (breit.matches) {
+      nav.className = 'm335-nav seitlich';
+      nav.hidden = false;
+      knopf.style.display = 'none';
+    } else {
+      nav.className = 'm335-nav klappe';
+      nav.hidden = true;
+      knopf.style.display = '';
+    }
+  }
+  umschalten();
+  if (breit.addEventListener) breit.addEventListener('change', umschalten);
+  else if (breit.addListener) breit.addListener(umschalten);
+
+  knopf.addEventListener('click', function () { nav.hidden = !nav.hidden; });
+  nav.querySelector('.schliessen').addEventListener('click', function () { nav.hidden = true; });
+  nav.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && !breit.matches) nav.hidden = true;
+  });
+
+  // Welcher Abschnitt ist gerade dran. Gesucht ist die letzte Ueberschrift,
+  // die oberhalb der Lesekante liegt. Die Kante liegt knapp unter dem
+  // klebenden Kopfbereich.
+  var laeuft = false;
+  function markieren() {
+    laeuft = false;
+    var kante = 96, treffer = 0;
+    for (var i = 0; i < heads.length; i++) {
+      if (heads[i].getBoundingClientRect().top <= kante) treffer = i;
+      else break;
+    }
+    for (var j = 0; j < links.length; j++) links[j].classList.toggle('hier', j === treffer);
+    var a = links[treffer];
+    if (a && breit.matches) {
+      var r = a.getBoundingClientRect(), n = nav.getBoundingClientRect();
+      if (r.top < n.top + 8 || r.bottom > n.bottom - 8) a.scrollIntoView({ block: 'nearest' });
+    }
+  }
+  function anstossen() {
+    if (laeuft) return;
+    laeuft = true;
+    window.requestAnimationFrame(markieren);
+  }
+  window.addEventListener('scroll', anstossen, { passive: true });
+  window.addEventListener('resize', anstossen);
+  markieren();
+})();
+</script>
 <!--/M335:RAHMEN-FUSS-->
 </body>
 </html>
