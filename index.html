@@ -17,7 +17,7 @@
        font:16px/1.62 system-ui,-apple-system,"Segoe UI",sans-serif}
   .wrap{max-width:860px;margin:0 auto;padding:44px 24px 90px}
   h1{font-size:30px;line-height:1.2;margin:0 0 4px;letter-spacing:-.02em}
-  .sub{color:var(--ink2);margin:0 0 30px;font-size:15px}
+  .sub{color:var(--ink2);margin:0 0 18px;font-size:15px}
   h2{font-size:19px;margin:40px 0 10px;padding-top:14px;border-top:2px solid var(--rule);
      letter-spacing:-.01em}
   h2 .tag{font:600 11.5px/1.5 system-ui,sans-serif;color:var(--muted);
@@ -42,6 +42,16 @@
         color:var(--muted);white-space:nowrap;flex:0 0 auto}
   .foot{margin-top:52px;padding-top:16px;border-top:1px solid var(--rule);
         font-size:13px;color:var(--muted)}
+  /* Schnellnavigation ueber die Tage. Nur auf dieser Seite.
+     Sie zeigt auf die erste Ueberschrift des jeweiligen Tages.
+     Der Versatz zur klebenden Kopfleiste kommt aus scroll-padding-top
+     in rahmen.css, hier braucht es dafuer nichts. */
+  .schnellnav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 26px}
+  .schnellnav a{font:600 13.5px/1 system-ui,-apple-system,"Segoe UI",sans-serif;
+    color:var(--fg);text-decoration:none;background:var(--surface);
+    border:1px solid var(--rule);border-radius:20px;padding:9px 15px}
+  .schnellnav a:hover{background:#26241f;border-color:#26241f;color:#fff;text-decoration:none}
+  @media print{ .schnellnav{display:none} }
   @media (max-width:560px){
     li{flex-wrap:wrap}
     .zeit{margin-left:0;width:100%}
@@ -63,6 +73,15 @@
 
 <h1>Modul 335, Mobile Applikationen</h1>
 <p class="sub">Alle Aufträge, Lösungen und Grundlagen. WISS.</p>
+<nav class="schnellnav" aria-label="Zu einem Tag springen">
+<a href="#tag1">Tag 1</a>
+<a href="#tag2">Tag 2</a>
+<a href="#tag3">Tag 3</a>
+<a href="#tag4">Tag 4</a>
+<a href="#tag5">Tag 5</a>
+<a href="#grundlagen">Grundlagen</a>
+</nav>
+
 
 <div class="info">
 <p><b>So arbeitest du damit.</b> Der Auftrag sagt dir, was zu tun ist. Am Schluss jedes Auftrags steht, woran du merkst, dass du fertig bist. <b>Du gibst nichts ab.</b> Die Lösung schaust du dir erst an, wenn du es selbst versucht hast. Die Grundlagen bleiben das ganze Modul über hier liegen, du darfst jederzeit hineinschauen.</p>
@@ -70,7 +89,7 @@
 </div>
 
 
-<h2>Tag 1, Vormittag <span class="tag">Vom Zuschauer zum Bauenden</span></h2>
+<h2 id="tag1">Tag 1, Vormittag <span class="tag">Vom Zuschauer zum Bauenden</span></h2>
 <ul>
   <li><span class="art a-auftrag">Auftrag</span><a href="/01a">01A Mobile Applikationen</a><span class="zeit">45 Min</span></li>
   <li><span class="art a-loesung">Lösung</span><a href="/01a-loesung">01A Lösung</a><span class="zeit">10 Min</span></li>
@@ -93,7 +112,7 @@
 </ul>
 
 
-<h2>Tag 2, Vormittag <span class="tag">Von festem Text zu echten Daten</span></h2>
+<h2 id="tag2">Tag 2, Vormittag <span class="tag">Von festem Text zu echten Daten</span></h2>
 <ul>
   <li><span class="art a-auftrag">Auftrag</span><a href="/03a">03A Das Projektgerüst</a><span class="zeit">30 Min</span></li>
   <li><span class="art a-loesung">Lösung</span><a href="/03a-loesung">03A Lösung</a><span class="zeit">10 Min</span></li>
@@ -125,7 +144,7 @@
 </ul>
 
 
-<h2>Tag 3, Vormittag <span class="tag">Von einem Bildschirm zur App</span></h2>
+<h2 id="tag3">Tag 3, Vormittag <span class="tag">Von einem Bildschirm zur App</span></h2>
 <ul>
   <li><span class="art a-auftrag">Auftrag</span><a href="/05a">05A Zweite Activity und Intent</a><span class="zeit">40 Min</span></li>
   <li><span class="art a-loesung">Lösung</span><a href="/05a-loesung">05A Lösung</a><span class="zeit">13 Min</span></li>
@@ -154,7 +173,7 @@
 </ul>
 
 
-<h2>Tag 4, Vormittag <span class="tag">Vom Spielzeug zur Datenanwendung</span></h2>
+<h2 id="tag4">Tag 4, Vormittag <span class="tag">Vom Spielzeug zur Datenanwendung</span></h2>
 <ul>
   <li><span class="art a-auftrag">Auftrag</span><a href="/07a">07A Generalprobe Planungsteil</a><span class="zeit">45 Min</span></li>
   <li><span class="art a-loesung">Lösung</span><a href="/07a-loesung">07A Lösung</a><span class="zeit">14 Min</span></li>
@@ -178,7 +197,7 @@
 </ul>
 
 
-<h2>Tag 5, Vormittag <span class="tag">Nur noch üben</span></h2>
+<h2 id="tag5">Tag 5, Vormittag <span class="tag">Nur noch üben</span></h2>
 <ul>
   <li><span class="art a-auftrag">Auftrag</span><a href="/09a">09A Generalprobe Teil B</a><span class="zeit">75 Min</span></li>
   <li><span class="art a-loesung">Lösung</span><a href="/09a-loesung">09A Lösung</a><span class="zeit">18 Min</span></li>
@@ -187,7 +206,7 @@
 </ul>
 
 
-<h2>Grundlagen <span class="tag">Das ganze Modul über offen</span></h2>
+<h2 id="grundlagen">Grundlagen <span class="tag">Das ganze Modul über offen</span></h2>
 <ul>
   <li><span class="art a-nach">Grundlagen</span><a href="/apps">Wie Apps aufgebaut sind</a><span class="zeit">11 Min lesen</span></li>
   <li><span class="art a-nach">Grundlagen</span><a href="/layouts">Layouts verstehen</a><span class="zeit">6 Min lesen</span></li>
