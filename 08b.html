@@ -1206,7 +1206,10 @@ findViewById(<span class="t">R</span>.id.btnCancelQuestion).setOnClickListener(v
       inhalt += '</ol>';
     }
     karte.innerHTML = inhalt;
-    var anker = subs.length ? subs[subs.length - 1] : wrap.firstElementChild;
+    // Steht oben ein Zielbild, gehoert die Karte darunter. Erst sehen, was
+    // entsteht, dann lesen, wie lange es dauert.
+    var anker = wrap.querySelector('figure.zielbild')
+              || (subs.length ? subs[subs.length - 1] : wrap.firstElementChild);
     anker.parentNode.insertBefore(karte, anker.nextSibling);
   }
 

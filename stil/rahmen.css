@@ -176,6 +176,8 @@
   tr{break-inside:avoid;page-break-inside:avoid}
 
   img,svg{max-width:100% !important;break-inside:avoid;page-break-inside:avoid}
+  /* Das Zielbild oben soll auf Papier nicht die halbe Seite fressen. */
+  .zielbild img{max-height:8.5cm !important;width:auto !important}
   a{color:#000 !important;text-decoration:none !important}
   .foot{border-top:.7pt solid #000 !important;color:#000 !important;
     font-size:8.5pt !important;margin-top:18pt !important}

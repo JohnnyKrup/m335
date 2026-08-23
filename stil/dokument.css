@@ -1,6 +1,6 @@
 /* Erzeugt von web-bau/bauen.js aus den Quelldokumenten.
    Nicht von Hand aendern, sondern die Regel im Auftrag selbst.
-   74 Regeln aus 61 Dokumenten. */
+   75 Regeln aus 61 Dokumenten. */
 
 :root{--bg:#f9f9f7; --surface:#fcfcfb; --fg:#0b0b0b; --ink2:#52514e; --muted:#898781;
     --line:#e1e0d9; --rule:#c3c2b7;
@@ -91,3 +91,4 @@ h3.teil .time{vertical-align:2px}
 .karte .wo{font-weight:700}
 .karte .min{flex:0 0 auto;font:600 12px/1.5 system-ui,sans-serif;color:var(--ink2);white-space:nowrap}
 h4.brauchst{font-size:13px;letter-spacing:.02em;color:var(--marke);margin:16px 0 7px;text-transform:uppercase;font-weight:700}
+.bild.zielbild img{max-height:min(44vh,11.5cm)}

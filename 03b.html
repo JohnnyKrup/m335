@@ -23,6 +23,13 @@
 <h1>03B Der Spielbildschirm</h1>
 <p class="sub">Modul 335 Mobile Applikationen, Tag 2 Vormittag. Zeitbudget 50 Minuten. Version 3 vom 14.08.2026.</p>
 
+<figure class="bild hoch zielbild">
+<a href="images/03b-spielbildschirm.png" target="_blank" rel="noopener">
+<img src="images/03b-spielbildschirm.png" alt="Der fertige Spielbildschirm im Hochformat, mit Kategorie und Punktestand oben, der Frage darunter und vier Antwortknöpfen" width="571" height="717">
+</a>
+<figcaption><b>Das baust du heute.</b> Oben links die Kategorie, oben rechts der Punktestand. Darunter die Frage und vier Antwortknöpfe. Antippen bewirkt in diesem Auftrag noch nichts, das kommt in 03C.<span class="lupe">Zum Vergrössern anklicken</span></figcaption>
+</figure>
+
 
 <h2>01 Einführung</h2>
 
@@ -513,7 +520,10 @@
       inhalt += '</ol>';
     }
     karte.innerHTML = inhalt;
-    var anker = subs.length ? subs[subs.length - 1] : wrap.firstElementChild;
+    // Steht oben ein Zielbild, gehoert die Karte darunter. Erst sehen, was
+    // entsteht, dann lesen, wie lange es dauert.
+    var anker = wrap.querySelector('figure.zielbild')
+              || (subs.length ? subs[subs.length - 1] : wrap.firstElementChild);
     anker.parentNode.insertBefore(karte, anker.nextSibling);
   }
 
