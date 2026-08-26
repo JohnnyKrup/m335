@@ -21,7 +21,7 @@
 <div class="wrap">
 
 <h1>08D Lösung, Testplan</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Block 16. Version 1 vom 13.08.2026.</p>
+<p class="sub">Modul 335 Mobile Applikationen, Block 16. Version 2 vom 26.08.2026.</p>
 <p class="sub">Schau erst hinein, wenn du deine eigenen Testfälle geschrieben hast. Sonst schreibst du meine ab und lernst nichts.</p>
 
 <h2>Antworten zu den Denkfragen</h2>
@@ -57,8 +57,8 @@
 7. Den Punktestand erneut ablesen.
 </td></tr>
 <tr><td><b>Erwartetes Ergebnis</b></td><td>Nach Schritt 4 steht der Punktestand auf 1, die angetippte Antwort ist grün. Nach Schritt 6 steht der Punktestand weiterhin auf 1. Die Farbe ändert sich nicht. Der Knopf "Weiter" ist sichtbar.</td></tr>
-<tr><td><b>Tatsächliches Ergebnis</b></td><td>Nach Schritt 4 stand der Punktestand auf 1 und der Knopf war grün. Der zweite Tipp in Schritt 6 löste nichts aus, der Punktestand blieb auf 1. Alle vier Knöpfe waren nach dem ersten Tipp ausgegraut.</td></tr>
-<tr><td><b>Befund</b></td><td>Bestanden. Die Antworten werden nach dem ersten Tipp gesperrt, darum kann kein zweiter Punkt entstehen. Die Sperre ist zusätzlich sichtbar, weil die Knöpfe ausgegraut sind. Das ist besser als eine unsichtbare Sperre, denn der Benutzer sieht, dass die Frage erledigt ist.</td></tr>
+<tr><td><b>Tatsächliches Ergebnis</b></td><td>Nach Schritt 4 stand der Punktestand auf 1 und der Knopf war grün. Der zweite Tipp in Schritt 6 löste nichts aus, der Punktestand blieb auf 1. Der angetippte Knopf blieb grün. Die drei anderen wurden blass, weil sie gesperrt sind.</td></tr>
+<tr><td><b>Befund</b></td><td>Bestanden. Die Antworten werden nach dem ersten Tipp gesperrt, darum kann kein zweiter Punkt entstehen. Die Sperre ist zusätzlich sichtbar, weil die drei anderen Knöpfe blass werden. Das ist besser als eine unsichtbare Sperre, denn der Benutzer sieht, dass die Frage erledigt ist.</td></tr>
 </table>
 
 <div class="tip">
@@ -77,15 +77,15 @@
 <tr><td><b>Vorbedingungen</b></td><td>Die App läuft. Unter "Fragen verwalten" steht in der Überschrift "Fragen (30)".</td></tr>
 <tr><td><b>Testablauf</b></td><td>
 1. "Fragen verwalten" öffnen und die Zahl in der Überschrift notieren.<br>
-2. Die erste Zeile der Liste antippen.<br>
-3. Im Fragetext das Wort "Kantone" durch "Bezirke" ersetzen.<br>
+2. Die erste Zeile der Liste antippen. Die Liste ist nach Kategorie sortiert, oben steht darum eine Frage aus Geographie.<br>
+3. Im Fragetext das Wort "Hauptstadt" durch "Metropole" ersetzen.<br>
 4. "Speichern" antippen.<br>
 5. Die Überschrift und die erste Zeile ablesen.<br>
 6. Die App über die Zurück-Taste verlassen und neu starten.<br>
 7. "Fragen verwalten" erneut öffnen.
 </td></tr>
-<tr><td><b>Erwartetes Ergebnis</b></td><td>Nach Schritt 4 schliesst sich das Formular. Die Überschrift zeigt weiterhin "Fragen (30)". In der ersten Zeile steht der geänderte Text mit "Bezirke". Nach dem Neustart in Schritt 7 steht der geänderte Text immer noch dort.</td></tr>
-<tr><td><b>Tatsächliches Ergebnis</b></td><td>Alles wie erwartet. Überschrift blieb "Fragen (30)", der Text lautete "Bezirke", auch nach dem Neustart.</td></tr>
+<tr><td><b>Erwartetes Ergebnis</b></td><td>Nach Schritt 4 schliesst sich das Formular. Die Überschrift zeigt weiterhin "Fragen (30)". In der ersten Zeile steht der geänderte Text mit "Metropole". Nach dem Neustart in Schritt 7 steht der geänderte Text immer noch dort.</td></tr>
+<tr><td><b>Tatsächliches Ergebnis</b></td><td>Alles wie erwartet. Überschrift blieb "Fragen (30)", der Text lautete "Metropole", auch nach dem Neustart.</td></tr>
 <tr><td><b>Befund</b></td><td>Bestanden. Die Zahl in der Überschrift ist der entscheidende Punkt. Wäre sie auf 31 gestiegen, hätte die App eine zweite Frage angelegt statt die erste zu ändern. Schritt 6 beweist zusätzlich, dass die Änderung in der Datenbank steht und nicht nur in der Anzeige.</td></tr>
 </table>
 
@@ -97,28 +97,41 @@
 
 <h2>Ein Testfall, der fehlgeschlagen ist</h2>
 
-<p>Dieser stammt aus der Entwicklung der Referenz-App, am 13.08.2026. Er hat einen echten Fehler gefunden. So sieht das im Formular aus.</p>
+<p>Dieser Testfall lässt sich in deiner eigenen App nachstellen. Er findet einen echten Fehler, und zwar einen, der seit 08C darin steckt. So sieht das im Formular aus.</p>
 
 <table>
 <tr><th style="width:26%">Feld</th><th>Inhalt</th></tr>
 <tr><td><b>Testfall-Nr</b></td><td>3</td></tr>
-<tr><td><b>Titel</b></td><td>Zwei verletzte Regeln erzeugen gleichzeitig zwei Fehlermeldungen</td></tr>
-<tr><td><b>Vorbedingungen</b></td><td>Die App läuft. Das Formular für eine neue Frage ist offen und leer.</td></tr>
+<tr><td><b>Titel</b></td><td>Ein leeres Formular zeigt unter jedem Pflichtfeld die passende Meldung</td></tr>
+<tr><td><b>Vorbedingungen</b></td><td>Die App läuft. Das Formular für eine neue Frage ist offen und leer. Der Knopf oben steht auf Antwort 1, so wie er beim Öffnen immer steht.</td></tr>
 <tr><td><b>Testablauf</b></td><td>
-1. Als Fragetext "Test" eingeben, also weniger als zehn Zeichen.<br>
-2. In alle vier Antwortfelder dasselbe Wort "ja" eintippen.<br>
-3. "Speichern" antippen.<br>
-4. Alle Fehlermeldungen ablesen.
+1. "Fragen verwalten" öffnen.<br>
+2. Den Plus-Knopf antippen.<br>
+3. Ohne eine einzige Eingabe auf "Frage speichern" tippen.<br>
+4. Alle Meldungen ablesen, Feld für Feld von oben nach unten.
 </td></tr>
-<tr><td><b>Erwartetes Ergebnis</b></td><td>Unter dem Fragetext steht "Mindestens zehn Zeichen". Unter allen vier Antwortfeldern steht "Die Antworten müssen verschieden sein". Also fünf Meldungen gleichzeitig.</td></tr>
-<tr><td><b>Tatsächliches Ergebnis</b></td><td>Nur eine Meldung erschien, unter dem Fragetext. Die vier Antwortfelder blieben ohne Meldung, obwohl alle vier denselben Text hatten. Erst nachdem der Fragetext verlängert und erneut gespeichert wurde, erschienen die vier Meldungen.</td></tr>
-<tr><td><b>Befund</b></td><td><b>Nicht bestanden.</b> Die Prüfung auf doppelte Antworten läuft nur, wenn vorher keine andere Regel gegriffen hat. Damit versteckt ein zu kurzer Fragetext einen zweiten Fehler. Der Benutzer bekommt die Meldungen nacheinander statt gleichzeitig, also genau das Verhalten, das die Prüfung vermeiden soll. Ursache vermutlich eine gemeinsame Variable, an der beide Regeln hängen. Muss behoben werden.</td></tr>
+<tr><td><b>Erwartetes Ergebnis</b></td><td>Drei Meldungen gleichzeitig. Unter dem Fragetext steht "Mindestens 10 Zeichen.". Unter Antwort 1 und unter Antwort 2 steht je "Diese Antwort ist Pflicht.". Antwort 3 und 4 sind optional und bleiben ohne Meldung. Das Formular bleibt offen, es wird nichts gespeichert.</td></tr>
+<tr><td><b>Tatsächliches Ergebnis</b></td><td>Drei Meldungen, aber unter Antwort 1 stand "Die als richtig markierte Antwort ist leer." statt "Diese Antwort ist Pflicht.". Fragetext und Antwort 2 waren wie erwartet. Das Formular blieb offen, die Liste zeigte danach weiterhin 30 Fragen.</td></tr>
+<tr><td><b>Befund</b></td><td><b>Nicht bestanden.</b> Auf Antwort 1 zeigen zwei Regeln: sie ist Pflichtfeld, und sie ist als richtig markiert. Beide setzen ihre Meldung an dasselbe Feld, und die zweite überschreibt die erste. Für den Benutzer ist das die schlechtere von beiden, denn im leeren Formular erklärt "Pflicht" mehr als "als richtig markiert". Folge: die Reihenfolge der Regeln im Code entscheidet, welche Meldung sichtbar wird. Muss angeschaut werden.</td></tr>
 </table>
 
 <div class="note">
 <p><b>Das ist ein sehr guter Testfall, obwohl er fehlgeschlagen ist.</b> Genauer: <b>weil</b> er fehlgeschlagen ist.</p>
-<p>Er hat einen Fehler gefunden, den niemand vermutet hatte. Die App wurde daraufhin korrigiert. Ein Testfall, der nur den geraden Weg prüft, hätte diesen Fehler nie berührt.</p>
+<p>Er findet etwas, das beim Bauen niemand gesucht hat. In 08C hast du gelernt, dass auf Antwort 3 und 4 zwei Regeln zeigen, und du hast dort einmal geräumt statt zweimal ein else gesetzt. Auf Antwort 1 zeigen ebenfalls zwei Regeln, und dort ist der Fall nie zur Sprache gekommen. Ein Testfall, der nur den geraden Weg prüft, hätte das nie berührt.</p>
 <p>Schau dir den Befund genau an. Er sagt drei Dinge: was nicht stimmt, welche Folge das für den Benutzer hat, und eine Vermutung zur Ursache. Mehr braucht es nicht. Die Ursache muss nicht sicher sein, es genügt, dass die nächste Person eine Spur hat.</p>
+</div>
+
+<h3>Der Testfall zu den zwei gleichen Antworten</h3>
+
+<p>Am Schluss von 08C steht, dass der Testfall zu den zwei gleichen Antworten hier kommt. Hier ist er, und er hat zwei Ausgänge.</p>
+
+<p><b>Hast du Übung 2 aus 08B gebaut</b>, dann gibt es eine Regel dafür. Dein erwartetes Ergebnis lautet: unter den betroffenen Antwortfeldern steht deine Meldung, und die Frage wird nicht gespeichert.</p>
+
+<p><b>Hast du sie nicht gebaut</b>, dann gibt es keine Regel. Dein erwartetes Ergebnis lautet dann: die Frage wird gespeichert, obwohl zwei Antworten gleich sind. Im Spiel stehen danach zwei Knöpfe mit demselben Text, und einer davon zählt als falsch.</p>
+
+<div class="tip">
+<p><b>Beide Ausgänge sind ein bestandener Test.</b> Ein Testfall prüft, ob die App das tut, was du erwartest. Er prüft nicht, ob die App alles kann.</p>
+<p>Der Befund ist trotzdem verschieden. Im zweiten Fall schreibst du dazu: <i>"Bestanden. Die App verhält sich wie gebaut. Eine Regel gegen doppelte Antworten fehlt aber, und das ist im Spiel sichtbar."</i> Genau so trennt man einen Fehler von einer Lücke.</p>
 </div>
 
 <h2>Lösungen der Übungen</h2>
@@ -129,7 +142,7 @@
 <tr><th>Feld</th><th>Vorher</th><th>Der Fehler</th><th>Nachher</th></tr>
 <tr><td>Titel</td><td>Test Formular</td><td>Sagt nicht, was geprüft wird. Bei zehn Testfällen heissen dann alle so</td><td>Ein leeres Formular zeigt bei allen Pflichtfeldern eine Meldung</td></tr>
 <tr><td>Testablauf</td><td>Ich teste, ob das Speichern geht</td><td>Eine Absicht, kein Ablauf. Niemand kann das nachmachen</td><td>1. "Fragen verwalten" öffnen. 2. Plus-Knopf antippen. 3. Ohne Eingabe auf "Speichern" tippen</td></tr>
-<tr><td>Erwartetes Ergebnis</td><td>Es sollte eigentlich funktionieren</td><td>Nicht überprüfbar. "Eigentlich" heisst, du bist dir selbst nicht sicher</td><td>Unter dem Fragetext und unter allen vier Antwortfeldern steht je eine rote Meldung. Das Formular bleibt offen</td></tr>
+<tr><td>Erwartetes Ergebnis</td><td>Es sollte eigentlich funktionieren</td><td>Nicht überprüfbar. "Eigentlich" heisst, du bist dir selbst nicht sicher</td><td>Unter dem Fragetext und unter Antwort 1 und Antwort 2 steht je eine rote Meldung. Antwort 3 und 4 sind seit 08C optional und bleiben leer. Das Formular bleibt offen</td></tr>
 </table>
 
 <h3>Übung 2, Vorbedingung gegen Ablauf</h3>
@@ -152,11 +165,11 @@
 
 <p>Nachher, eine mögliche Version:</p>
 
-<p><b>"Es erscheinen fünf rote Meldungen gleichzeitig, je eine unter dem Fragetext und unter jedem der vier Antwortfelder. Unter dem Fragetext steht 'Mindestens zehn Zeichen', unter den Antwortfeldern 'Bitte ausfüllen'. Das Formular bleibt offen, es wird nichts gespeichert, und die Liste zeigt danach dieselbe Anzahl Fragen wie vorher."</b></p>
+<p><b>"Es erscheinen drei rote Meldungen gleichzeitig. Unter dem Fragetext steht 'Mindestens 10 Zeichen.', unter Antwort 1 und unter Antwort 2 je 'Diese Antwort ist Pflicht.'. Antwort 3 und 4 sind optional und bleiben ohne Meldung. Das Formular bleibt offen, es wird nichts gespeichert, und die Liste zeigt danach dieselbe Anzahl Fragen wie vorher."</b></p>
 
 <p>Was dazugekommen ist:</p>
 <ul>
-<li><b>Wie viele.</b> Fünf, nicht "eine". Damit fällt auf, wenn nur die erste erscheint.</li>
+<li><b>Wie viele.</b> Drei, nicht "eine". Damit fällt auf, wenn nur die erste erscheint. Und wer hier drei schreibt, hat gemerkt, dass Antwort 3 und 4 seit 08C optional sind.</li>
 <li><b>Wo.</b> Direkt unter dem betroffenen Feld, nicht irgendwo auf dem Bildschirm.</li>
 <li><b>Was.</b> Der Wortlaut. Damit fällt auf, wenn die falsche Meldung am falschen Feld hängt.</li>
 <li><b>Was nicht passiert.</b> Nichts gespeichert, Anzahl unverändert. Eine Fehlermeldung nützt wenig, wenn nebenbei trotzdem gespeichert wird.</li>
@@ -209,7 +222,7 @@
 
 <p><b>Ein fehlgeschlagener Test ist ein Erfolg.</b> Er hat etwas gefunden. Der einzige wertlose Test ist der, den niemand durchgeführt hat.</p>
 
-<p class="foot">Modul 335 | Tag 4 Nachmittag | Lösung 08D | Version 1 | 13.08.2026</p>
+<p class="foot">Modul 335 | Tag 4 Nachmittag | Lösung 08D | Version 2 | 26.08.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>08C Lösung Bearbeiten und löschen</title>
+<title>08C Lösungsmaterial: Bearbeiten und löschen</title>
 <!--M335:STIL-->
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/stil/rahmen.css">
@@ -19,21 +19,1166 @@
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
 <div class="wrap">
-<h1>08C Lösungsmaterial: Bearbeiten und löschen</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Tag 4, Nachmittag. Zum Durchlesen brauchst du etwa 14 Minuten.</p>
 
-<div class="warte">
-<p><b>Dieses Lösungsmaterial ist noch nicht freigeschaltet.</b></p>
-<p>Es gehört zum Auftrag 08C, der am <b>Tag 4, Nachmittag</b> läuft.</p>
+<h1>08C Lösungsmaterial: Bearbeiten und löschen</h1>
+<p class="sub">Modul 335 Mobile Applikationen. Zum Auftrag 08C. Zum Durchlesen brauchst du etwa 15 Minuten. Version 1 vom 26.08.2026.</p>
+<p class="sub">Schau erst hinein, wenn dein Bearbeiten läuft. Der ganze Code steht hier, aber er nützt dir nur, wenn du vorher selbst gebaut hast.</p>
+
+<h2>Die Vergleichsliste, dein eigener Code</h2>
+
+<p>Geh sie an deinen eigenen Dateien durch. <b>Die Punkte 4, 7, 12 und 15 melden sich nie von selbst.</b> Wenn du nur vier prüfst, dann diese vier.</p>
+
+<table>
+<tr><th class="num">Nr</th><th>Das prüfst du</th><th>Warum es zählt</th></tr>
+<tr><td class="num">1</td><td>Der Schlüssel <code>EXTRA_QUESTION_ID</code> steht als Konstante in der <code>QuestionEditActivity</code> und wird auf beiden Seiten benutzt</td><td>Ein von Hand getippter Text an zwei Orten läuft auseinander, und dann kommt still keine <code>id</code> an</td></tr>
+<tr><td class="num">2</td><td><code>questionId</code> ist ein <code>int</code> und wird mit <code>0</code> vorbelegt</td><td>Room vergibt seine ids ab 1. Damit braucht es kein zweites Feld, das den Zustand merkt</td></tr>
+<tr><td class="num">3</td><td>In <code>onCreate</code> steht <code>showMode()</code> und <code>loadQuestion()</code> <b>nach</b> den zwei <code>setAdapter</code>-Zeilen</td><td>Die Adapter müssen stehen, bevor <code>selectValue</code> eine Position darin auswählt</td></tr>
+<tr><td class="num">4</td><td>In <code>loadQuestion</code> stehen <b>beide</b> <code>selectValue</code>-Zeilen, für Kategorie und für Schwierigkeit</td><td><b>Die Stelle aus B1.</b> Fehlt die zweite, geht die Schwierigkeit verloren. Das siehst du in der Liste nicht, denn sortiert wird nach Kategorie</td></tr>
+<tr><td class="num">5</td><td><code>radioIdOf</code> und <code>selectedAnswerIndex</code> spiegeln sich genau. Vier Fälle, dieselbe Reihenfolge</td><td>Passen sie nicht zusammen, zeigt das Formular beim Bearbeiten auf die falsche Antwort</td></tr>
+<tr><td class="num">6</td><td>In <code>onSaveClicked</code> steht <code>question.setId(questionId)</code> <b>nur</b> im Zweig für <code>update</code></td><td>Im anderen Zweig wäre es ein Fehler. Dieselbe Zeile ist je nach Fall Pflicht oder Katastrophe</td></tr>
+<tr><td class="num">7</td><td>In <code>showMode</code> stehen <b>zwei</b> Zeilen, Titel und Löschen-Knopf</td><td>Fehlt die zweite, kann man beim Anlegen auf Löschen tippen. <b>Es passiert dann gar nichts</b>, denn <code>delete</code> mit id 0 findet keine Zeile</td></tr>
+<tr><td class="num">8</td><td>Der Dialog hat den harmlosen Knopf als <code>setNegativeButton</code></td><td>Er steht damit links. Wer schnell tippt, behält seine Frage</td></tr>
+<tr><td class="num">9</td><td>In <code>isFormValid</code> stehen die zwei <code>setError(null)</code> <b>vor</b> den zwei neuen Regeln</td><td>Auf Antwort 3 und 4 zeigen zwei Regeln. Zwei <code>else</code> würden sich gegenseitig löschen</td></tr>
+<tr><td class="num">10</td><td>Die Regel am Knopf oben prüft <code>answerFields[selectedAnswerIndex()]</code> und nicht ein festes Feld</td><td>Sonst prüfst du immer Antwort 1, egal welcher Knopf markiert ist</td></tr>
+<tr><td class="num">11</td><td>Im Dao steht <code>:category</code> als Platzhalter, nicht ein zusammengeklebter Text</td><td>Sonst ist die Abfrage für eine SQL-Injection offen</td></tr>
+<tr><td class="num">12</td><td>In <code>showQuestion</code> wird die Sichtbarkeit in <b>beide</b> Richtungen gesetzt</td><td><b>Meldet sich nie.</b> Der Fehler zeigt sich erst bei der zweiten Frage, und dann fehlen Knöpfe für immer</td></tr>
+<tr><td class="num">13</td><td><code>model/Question.java</code> ist gelöscht, und <code>QuestionBank</code> hat nur noch <code>CATEGORY_ALL</code> und <code>categories()</code></td><td>Toter Code sieht aus, als würde er noch gebraucht. Und beim Suchen findest du zwei Klassen, die dasselbe zu sein scheinen</td></tr>
+<tr><td class="num">14</td><td>Javadoc bei allen neuen Feldern und Methoden, und der Klassenkommentar der <code>QuestionEditActivity</code> ist nachgezogen</td><td>Steht im Prüfungsblatt und im Bewertungsraster. Das ist die Hausaufgabe</td></tr>
+<tr><td class="num">15</td><td><b>Eine Frage aus dem Startbestand zeigt beim Bearbeiten alle vier Antworten</b></td><td>Prüft rückwirkend deine <code>seedIfEmpty</code> aus 08A. <b>Heute ist der erste Tag, an dem dieser Fehler sichtbar wird</b></td></tr>
+</table>
+
+<h2>Antworten zu den Denkfragen</h2>
+
+<h3>1. Ein Bildschirm oder zwei?</h3>
+
+<p><b>Dafür, zwei zu bauen:</b> jeder Bildschirm wäre für sich einfacher. Kein <code>if</code>, kein <code>showMode</code>, keine Verzweigung beim Speichern.</p>
+
+<p><b>Dagegen, und darum machen wir es nicht:</b> die elf Felder wären zweimal da. Jede Änderung müsste zweimal gemacht werden, und beim ersten Mal, wo jemand nur eine der zwei Stellen anfasst, laufen die zwei auseinander. In 08C kommen zwei neue Prüfregeln dazu. In einem zweiten Bildschirm hättest du sie vermutlich vergessen.</p>
+
+<p><b>Der Unterschied zwischen den zwei Fällen sind genau drei Zeilen</b>, in <code>showMode</code> zwei und in <code>onSaveClicked</code> eine. Elf Felder gegen drei Zeilen ist ein klarer Fall.</p>
+
+<h3>2. Die zwei Regeln für die optionalen Antworten</h3>
+
+<p><b>Regel eins, die Lücke.</b> Antwort 4 gefüllt und Antwort 3 leer ergibt im Spiel einen leeren Knopf zwischen zwei gefüllten. Erlaubt sind zwei, drei oder vier Antworten, aber immer von oben her ohne Loch.</p>
+
+<p><b>Regel zwei, der Knopf oben.</b> Der Radiobutton lässt sich auf ein leeres Feld stellen. Dann wäre die richtige Antwort ein leerer Text. Im Spiel gäbe es dann keine richtige Antwort mehr, und der Spieler kann die Frage nicht lösen.</p>
+
+<div class="tip">
+<p><b>Wenn du in 08B nur eine der zwei hattest, war es fast immer die Lücke.</b> Die zweite fällt schwerer, weil sie zwei Bedienelemente verbindet, die weit auseinander stehen: den Knopf oben und ein Feld weiter unten.</p>
 </div>
 
-<p>Die Adresse bleibt dieselbe. Sobald die Lösung da ist, findest du sie genau hier.</p>
+<h3>3. Die Rangliste und die gelöschte Frage</h3>
 
-<p>Und wenn es soweit ist, gilt wie immer: erst selbst bauen, dann hier hineinschauen. Der ganze Code steht dann hier, aber er nützt dir nur, wenn du vorher selbst gesucht hast.</p>
+<p><b>Es passiert gar nichts, und das ist ein echtes Problem.</b> Deine Rangliste steht in SharedPreferences und speichert den Kategorienamen als Text. Sie weiss nichts von der Fragen-Tabelle. Löschst du alle Fragen einer Kategorie, bleiben die Ranglisten-Einträge stehen.</p>
 
-<p><a href="/">Zurück zur Übersicht</a></p>
+<p><b>Was passieren sollte, hängt davon ab, was du willst.</b> Drei Möglichkeiten, alle vertretbar:</p>
+<ul>
+<li>Nichts tun. Ein Ranglisteneintrag ist eine Erinnerung an eine gespielte Runde und wird nicht falsch, nur weil die Frage weg ist.</li>
+<li>Die Einträge mitlöschen. Dann bräuchte es eine Verbindung zwischen den zwei Ablagen, die es heute nicht gibt.</li>
+<li>Beides in dieselbe Datenbank legen und Room die Verbindung machen lassen. <b>Das ist die saubere Lösung</b>, und genau darum wird in einer echten App selten die Hälfte der Daten in SharedPreferences abgelegt.</li>
+</ul>
 
-<p class="foot">Modul 335 Mobile Applikationen | Tag 4, Nachmittag | Lösung 08C | Platzhalter</p>
+<p>In der Leistungsbeurteilung stellt sich dieselbe Frage bei den Noten: sie gehören zum Modul und dürfen nicht ohne es weiterleben.</p>
+
+<h3>4. Welche Stellen sich in der GameActivity ändern</h3>
+
+<p><b>Sechs Stellen, und keine davon ist Logik.</b> Ein Import, vier Typen, ein Aufruf. Dazu die neue Zeile für die Sichtbarkeit, die aber nichts mit dem Datenzugriff zu tun hat.</p>
+
+<p><b>Warum es so wenig ist:</b> deine <code>QuestionEntity</code> hat seit 07C dieselben Methoden nach aussen wie <code>Question</code>, also <code>getText</code>, <code>getAnswers</code>, <code>getCategory</code> und <code>isCorrect</code>. Das war damals eine bewusste Entscheidung, und heute zahlt sie sich aus.</p>
+
+<div class="info">
+<p><b>Das ist der Punkt der ganzen Übung.</b> Wer beim Bauen einer neuen Klasse darauf achtet, dass sie von aussen gleich aussieht wie die alte, kann die Datenquelle später austauschen, ohne alles neu zu schreiben. Wäre <code>getAnswers</code> in der Entity anders gebaut, wäre B3 ein halber Nachmittag geworden statt zwölf Minuten.</p>
+</div>
+
+<h2>Teil A, ein Bildschirm mit zwei Aufgaben</h2>
+
+<h3>Die neuen Texte in res/values/strings.xml</h3>
+
+<pre><span class="c">&lt;!-- Bearbeiten und löschen, ab 08C --&gt;</span>
+&lt;<span class="t">string</span> name=<span class="s">"title_question_edit"</span>&gt;Frage bearbeiten&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"btn_delete_question"</span>&gt;Diese Frage löschen&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"dialog_delete_title"</span>&gt;Frage löschen?&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"dialog_delete_message"</span>&gt;Die Frage verschwindet aus der Datenbank. Das lässt sich nicht rückgängig machen.&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"dialog_delete_confirm"</span>&gt;Löschen&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"dialog_delete_keep"</span>&gt;Behalten&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"error_answer_gap"</span>&gt;Antwort 3 muss gefüllt sein, wenn Antwort 4 gefüllt ist.&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"error_correct_empty"</span>&gt;Die als richtig markierte Antwort ist leer.&lt;/<span class="t">string</span>&gt;</pre>
+
+<p>Dazu die zwei geänderten Beschriftungen aus B2:</p>
+
+<pre>&lt;<span class="t">string</span> name=<span class="s">"hint_answer3"</span>&gt;Antwort 3 (optional)&lt;/<span class="t">string</span>&gt;
+&lt;<span class="t">string</span> name=<span class="s">"hint_answer4"</span>&gt;Antwort 4 (optional)&lt;/<span class="t">string</span>&gt;</pre>
+
+<h3>Was in res/layout/activity_question_edit.xml dazugekommen ist</h3>
+
+<p>Genau ein Knopf, ganz unten. Der Abbrechen-Knopf verliert dabei sein <code>layout_marginBottom</code>:</p>
+
+<pre>&lt;<span class="t">Button</span>
+    android:id=<span class="s">"@+id/btnCancelQuestion"</span>
+    style=<span class="s">"@style/Widget.Material3.Button.TextButton"</span>
+    android:layout_width=<span class="s">"match_parent"</span>
+    android:layout_height=<span class="s">"wrap_content"</span>
+    android:layout_marginTop=<span class="s">"4dp"</span>
+    android:text=<span class="s">"@string/btn_cancel"</span> /&gt;
+
+<span class="c">&lt;!--
+  Der Löschen-Knopf steht auf visibility gone. Beim Anlegen
+  gibt es nichts zu löschen, also ist er nicht da. Erst beim
+  Bearbeiten schaltet ihn die Activity sichtbar.
+
+  gone und nicht invisible. invisible liesse eine leere Lücke
+  stehen, und der Abstand nach unten wäre beim Anlegen zu gross.
+--&gt;</span>
+&lt;<span class="t">Button</span>
+    android:id=<span class="s">"@+id/btnDeleteQuestion"</span>
+    style=<span class="s">"@style/Widget.Material3.Button.TextButton"</span>
+    android:layout_width=<span class="s">"match_parent"</span>
+    android:layout_height=<span class="s">"wrap_content"</span>
+    android:layout_marginTop=<span class="s">"4dp"</span>
+    android:layout_marginBottom=<span class="s">"16dp"</span>
+    android:text=<span class="s">"@string/btn_delete_question"</span>
+    android:textColor=<span class="s">"@color/answer_wrong"</span>
+    android:visibility=<span class="s">"gone"</span> /&gt;</pre>
+
+<h3>Was sich in AdminActivity.java geändert hat</h3>
+
+<p>Eine Methode, und in ihr sind zwei Zeilen neu:</p>
+
+<pre><span class="c">/**
+ * Reagiert auf einen Klick in der Liste und öffnet die Frage.
+ *
+ * Es ist derselbe Intent wie beim Plus-Knopf, nur mit der id dazu. Genau
+ * darum ist das Formular ein Bildschirm und nicht zwei. Ein zweiter
+ * Bildschirm mit denselben elf Feldern müsste bei jeder Änderung zweimal
+ * angepasst werden.
+ *
+ * @param question die angetippte Frage
+ */</span>
+<span class="a">@Override</span>
+<span class="k">public</span> <span class="k">void</span> onQuestionClick(<span class="t">QuestionEntity</span> question) {
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"question clicked, id="</span> + question.getId());
+
+    <span class="t">Intent</span> intent = <span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">QuestionEditActivity</span>.<span class="k">class</span>);
+    intent.putExtra(<span class="t">QuestionEditActivity</span>.<span class="t">EXTRA_QUESTION_ID</span>, question.getId());
+    startActivity(intent);
+}</pre>
+
+<div class="tip">
+<p><b>Die Log-Zeile bleibt stehen.</b> Sie hat in 08A den Klick belegt, als es sonst nichts zu sehen gab, und sie ist heute noch die schnellste Antwort auf die Frage, welche <code>id</code> wirklich losgeschickt wurde.</p>
+</div>
+
+<h3>QuestionEditActivity.java, die ganze Klasse</h3>
+
+<p><b>Das ist der Endstand nach B2.</b> Vergleich Methode für Methode, nicht Zeile für Zeile.</p>
+
+<pre><span class="k">package</span> ch.wiss.m335.quiz;
+
+<span class="k">import</span> android.os.<span class="t">Bundle</span>;
+<span class="k">import</span> android.util.<span class="t">Log</span>;
+<span class="k">import</span> android.view.<span class="t">View</span>;
+<span class="k">import</span> android.widget.<span class="t">ArrayAdapter</span>;
+<span class="k">import</span> android.widget.<span class="t">Button</span>;
+<span class="k">import</span> android.widget.<span class="t">RadioGroup</span>;
+<span class="k">import</span> android.widget.<span class="t">Spinner</span>;
+<span class="k">import</span> android.widget.<span class="t">TextView</span>;
+
+<span class="k">import</span> androidx.activity.<span class="t">EdgeToEdge</span>;
+<span class="k">import</span> androidx.appcompat.app.<span class="t">AlertDialog</span>;
+<span class="k">import</span> androidx.appcompat.app.<span class="t">AppCompatActivity</span>;
+<span class="k">import</span> androidx.core.graphics.<span class="t">Insets</span>;
+<span class="k">import</span> androidx.core.view.<span class="t">ViewCompat</span>;
+<span class="k">import</span> androidx.core.view.<span class="t">WindowInsetsCompat</span>;
+
+<span class="k">import</span> com.google.android.material.textfield.<span class="t">TextInputEditText</span>;
+<span class="k">import</span> com.google.android.material.textfield.<span class="t">TextInputLayout</span>;
+
+<span class="k">import</span> java.util.<span class="t">Arrays</span>;
+<span class="k">import</span> java.util.<span class="t">List</span>;
+
+<span class="k">import</span> ch.wiss.m335.quiz.data.<span class="t">QuestionEntity</span>;
+<span class="k">import</span> ch.wiss.m335.quiz.data.<span class="t">QuizDatabase</span>;
+<span class="k">import</span> ch.wiss.m335.quiz.model.<span class="t">QuestionBank</span>;
+
+<span class="c">/**
+ * Das Formular für eine Frage. Es legt neue an und ändert bestehende.
+ *
+ * Seit 08C hat der Bildschirm zwei Aufgaben. Welche davon gilt, entscheidet
+ * ein einziger Wert: die id im Intent. Ist keine da, bleibt questionId auf 0
+ * und der Bildschirm legt an. Kommt eine mit, lädt er die Frage und
+ * schreibt sie mit update zurück.
+ *
+ * Genau darum heisst die Klasse seit 08B QuestionEditActivity und nicht
+ * QuestionNewActivity. Der Name hat den zweiten Fall schon vorgesehen.
+ *
+ * Der Unterschied zwischen den zwei Fällen steckt an drei Stellen und
+ * sonst nirgends. Im Titel oben, im Löschen-Knopf unten, und in der einen
+ * Verzweigung in onSaveClicked. Alles andere ist für beide Fälle gleich.
+ *
+ * Die Prüflogik ist dieselbe Idee wie beim Namensfeld in 06B. setError
+ * gehört auf das TextInputLayout und nicht auf das TextInputEditText.
+ */</span>
+<span class="k">public</span> <span class="k">class</span> <span class="t">QuestionEditActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span> {
+
+    <span class="c">/**
+     * Log-Tag für das ganze Modul 335.
+     *
+     * Bewusst nicht "M335". Diese Zeichenfolge steckt auch im Paketnamen
+     * ch.wiss.m335.quiz. Das Suchfeld im Logcat sucht im Freitext über alle
+     * Spalten, und damit träfe "M335" jede Zeile unserer App statt nur die
+     * selbst geschriebenen.
+     */</span>
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="t">TAG</span> = <span class="s">"Modul335"</span>;
+
+    <span class="c">/**
+     * Der Schlüssel für die id im Intent.
+     *
+     * Die Konstante steht hier und nicht in der AdminActivity. Wer den
+     * Bildschirm öffnet, muss den Schlüssel kennen. Wer ihn liest, auch.
+     * Steht er an einer Stelle, können die zwei nicht auseinanderlaufen.
+     */</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="t">EXTRA_QUESTION_ID</span> = <span class="s">"question_id"</span>;
+
+    <span class="c">/** So viele Zeichen muss ein Fragetext mindestens haben. */</span>
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="k">int</span> <span class="t">MIN_TEXT_LENGTH</span> = 10;
+
+    <span class="c">/**
+     * Die drei Schwierigkeitsstufen, genau so wie sie in den Daten stehen.
+     *
+     * Der Text aus dem Spinner wandert unverändert in die Spalte
+     * difficulty. Ein grosses L in "Leicht" würde eine zweite Schreibweise
+     * in die Tabelle bringen, und danach passt kein Vergleich mehr.
+     */</span>
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">List</span>&lt;<span class="t">String</span>&gt; <span class="t">DIFFICULTIES</span> = <span class="t">Arrays</span>.asList(<span class="s">"leicht"</span>, <span class="s">"mittel"</span>, <span class="s">"schwer"</span>);
+
+    <span class="c">/**
+     * Die id der Frage, die bearbeitet wird. 0 heisst neue Frage.
+     *
+     * Room vergibt seine ids ab 1, also kann 0 nie eine echte Frage meinen.
+     * Damit braucht es kein zweites Feld, das den Zustand merkt.
+     */</span>
+    <span class="k">private</span> <span class="k">int</span> questionId = 0;
+
+    <span class="c">/** Der Titel oben. Er sagt, welcher der zwei Fälle gerade gilt. */</span>
+    <span class="k">private</span> <span class="t">TextView</span> tvEditTitle;
+
+    <span class="c">/** Das Eingabefeld für den Fragetext, mit seinem Rahmen. */</span>
+    <span class="k">private</span> <span class="t">TextInputLayout</span> tilQuestionText;
+
+    <span class="c">/** Das Eingabefeld für den Fragetext. */</span>
+    <span class="k">private</span> <span class="t">TextInputEditText</span> etQuestionText;
+
+    <span class="c">/** Die vier Rahmen der Antwortfelder, in der Reihenfolge 1 bis 4. */</span>
+    <span class="k">private</span> <span class="t">TextInputLayout</span>[] answerLayouts;
+
+    <span class="c">/** Die vier Antwortfelder, in derselben Reihenfolge. */</span>
+    <span class="k">private</span> <span class="t">TextInputEditText</span>[] answerFields;
+
+    <span class="c">/** Die Auswahl, welche der vier Antworten die richtige ist. */</span>
+    <span class="k">private</span> <span class="t">RadioGroup</span> rgCorrect;
+
+    <span class="c">/** Die Kategorie der Frage. Ohne den Eintrag Alle. */</span>
+    <span class="k">private</span> <span class="t">Spinner</span> spnEditCategory;
+
+    <span class="c">/** Die Schwierigkeit der Frage. */</span>
+    <span class="k">private</span> <span class="t">Spinner</span> spnEditDifficulty;
+
+    <span class="c">/** Der Knopf, der die Frage löscht. Nur beim Bearbeiten sichtbar. */</span>
+    <span class="k">private</span> <span class="t">Button</span> btnDeleteQuestion;
+
+    <span class="c">/**
+     * Die Kategorien in der Reihenfolge, in der sie im Spinner stehen.
+     *
+     * Als Feld, weil loadQuestion die Position eines Textes darin sucht.
+     * Ohne die Liste müsste man sie dem Adapter wieder abfragen.
+     */</span>
+    <span class="k">private</span> <span class="t">List</span>&lt;<span class="t">String</span>&gt; categories;
+
+    <span class="a">@Override</span>
+    <span class="k">protected</span> <span class="k">void</span> onCreate(<span class="t">Bundle</span> savedInstanceState) {
+        <span class="k">super</span>.onCreate(savedInstanceState);
+        <span class="t">EdgeToEdge</span>.enable(<span class="k">this</span>);
+        setContentView(<span class="t">R</span>.layout.activity_question_edit);
+
+        <span class="c">// 16dp eigener Rand, in Pixel umgerechnet über die Dichte des Geräts.</span>
+        <span class="k">final</span> <span class="k">int</span> extraPadding = <span class="t">Math</span>.round(16 * getResources().getDisplayMetrics().density);
+
+        <span class="c">// Type.ime() ist die Tastatur. Dieser Bildschirm ist nach der</span>
+        <span class="c">// GameActivity der zweite mit Eingabefeldern, und hier sind es</span>
+        <span class="c">// gleich fünf. Ohne Type.ime() legt sich die Tastatur über das</span>
+        <span class="c">// Feld, in das gerade getippt wird.</span>
+        <span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(<span class="t">R</span>.id.clQuestionEdit), (v, insets) -&gt; {
+            <span class="t">Insets</span> systemBars = insets.getInsets(
+                    <span class="t">WindowInsetsCompat</span>.<span class="t">Type</span>.systemBars() | <span class="t">WindowInsetsCompat</span>.<span class="t">Type</span>.ime());
+            v.setPadding(
+                    systemBars.left + extraPadding,
+                    systemBars.top + extraPadding,
+                    systemBars.right + extraPadding,
+                    systemBars.bottom + extraPadding);
+            <span class="k">return</span> insets;
+        });
+
+        tvEditTitle = findViewById(<span class="t">R</span>.id.tvEditTitle);
+        tilQuestionText = findViewById(<span class="t">R</span>.id.tilQuestionText);
+        etQuestionText = findViewById(<span class="t">R</span>.id.etQuestionText);
+        rgCorrect = findViewById(<span class="t">R</span>.id.rgCorrect);
+        spnEditCategory = findViewById(<span class="t">R</span>.id.spnEditCategory);
+        spnEditDifficulty = findViewById(<span class="t">R</span>.id.spnEditDifficulty);
+        btnDeleteQuestion = findViewById(<span class="t">R</span>.id.btnDeleteQuestion);
+
+        <span class="c">// Die vier Antwortfelder in ein Array. Danach läuft jede Prüfung</span>
+        <span class="c">// in einer Schleife statt vier Mal untereinander. Dasselbe Muster</span>
+        <span class="c">// wie bei den vier Antwort-Buttons in der GameActivity.</span>
+        answerLayouts = <span class="k">new</span> <span class="t">TextInputLayout</span>[]{
+                findViewById(<span class="t">R</span>.id.tilAnswer1),
+                findViewById(<span class="t">R</span>.id.tilAnswer2),
+                findViewById(<span class="t">R</span>.id.tilAnswer3),
+                findViewById(<span class="t">R</span>.id.tilAnswer4)
+        };
+        answerFields = <span class="k">new</span> <span class="t">TextInputEditText</span>[]{
+                findViewById(<span class="t">R</span>.id.etAnswer1),
+                findViewById(<span class="t">R</span>.id.etAnswer2),
+                findViewById(<span class="t">R</span>.id.etAnswer3),
+                findViewById(<span class="t">R</span>.id.etAnswer4)
+        };
+
+        categories = realCategories();
+
+        spnEditCategory.setAdapter(<span class="k">new</span> <span class="t">ArrayAdapter</span>&lt;&gt;(<span class="k">this</span>,
+                android.<span class="t">R</span>.layout.simple_spinner_dropdown_item, categories));
+        spnEditDifficulty.setAdapter(<span class="k">new</span> <span class="t">ArrayAdapter</span>&lt;&gt;(<span class="k">this</span>,
+                android.<span class="t">R</span>.layout.simple_spinner_dropdown_item, <span class="t">DIFFICULTIES</span>));
+
+        findViewById(<span class="t">R</span>.id.btnSaveQuestion).setOnClickListener(v -&gt; onSaveClicked());
+        findViewById(<span class="t">R</span>.id.btnCancelQuestion).setOnClickListener(v -&gt; finish());
+        btnDeleteQuestion.setOnClickListener(v -&gt; onDeleteClicked());
+
+        <span class="c">// Die id kommt aus dem Intent. Ist keine da, liefert getIntExtra den</span>
+        <span class="c">// zweiten Wert zurück, also 0. Damit steht der Fall Anlegen ohne</span>
+        <span class="c">// eine einzige Abfrage fest.</span>
+        questionId = getIntent().getIntExtra(<span class="t">EXTRA_QUESTION_ID</span>, 0);
+
+        <span class="c">// Die Reihenfolge zählt. Die Adapter müssen stehen, bevor</span>
+        <span class="c">// loadQuestion eine Position darin auswählt.</span>
+        showMode();
+        <span class="k">if</span> (questionId &gt; 0) {
+            loadQuestion();
+        }
+
+        <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"QuestionEditActivity onCreate, id="</span> + questionId);
+    }
+
+    <span class="c">/**
+     * Liefert die Kategorien ohne den Eintrag Alle.
+     *
+     * Alle ist eine Angabe für eine Spielrunde und keine Eigenschaft einer
+     * einzelnen Frage. Wer es hier anbieten würde, bekäme Fragen mit der
+     * Kategorie Alle. Die tauchen danach in keiner echten Kategorie auf und
+     * sind praktisch verloren.
+     *
+     * @return die vier echten Kategorien
+     */</span>
+    <span class="k">private</span> <span class="t">List</span>&lt;<span class="t">String</span>&gt; realCategories() {
+        <span class="t">List</span>&lt;<span class="t">String</span>&gt; all = <span class="t">QuestionBank</span>.categories();
+        <span class="k">return</span> all.subList(1, all.size());
+    }
+
+    <span class="c">/**
+     * Holt die Frage aus der Datenbank und schreibt sie in die Felder.
+     *
+     * Genau die Gegenrichtung von onSaveClicked. Dort wandern die Felder in
+     * ein Objekt, hier wandert ein Objekt in die Felder.
+     *
+     * Findet findById nichts, ist die Frage inzwischen gelöscht worden. Der
+     * Bildschirm schliesst sich dann, statt ein leeres Formular zu zeigen,
+     * das beim Speichern nichts bewirken würde.
+     */</span>
+    <span class="k">private</span> <span class="k">void</span> loadQuestion() {
+        <span class="t">QuestionEntity</span> question = <span class="t">QuizDatabase</span>.getInstance(<span class="k">this</span>).questionDao().findById(questionId);
+
+        <span class="k">if</span> (question == <span class="k">null</span>) {
+            <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"question not found, id="</span> + questionId);
+            finish();
+            <span class="k">return</span>;
+        }
+
+        etQuestionText.setText(question.getText());
+
+        <span class="t">String</span>[] answers = question.getAnswers();
+        <span class="k">for</span> (<span class="k">int</span> i = 0; i &lt; answerFields.length; i++) {
+            answerFields[i].setText(answers[i]);
+        }
+
+        <span class="c">// Vom Text zurück zum Knopf. selectedAnswerIndex geht die andere</span>
+        <span class="c">// Richtung, vom Knopf zum Text.</span>
+        <span class="k">for</span> (<span class="k">int</span> i = 0; i &lt; answers.length; i++) {
+            <span class="k">if</span> (answers[i].equals(question.getCorrectAnswer())) {
+                rgCorrect.check(radioIdOf(i));
+                <span class="k">break</span>;
+            }
+        }
+
+        <span class="c">// Ein Spinner nimmt keinen Text entgegen, sondern eine Position.</span>
+        <span class="c">// Ohne diese zwei Zeilen bliebe er auf dem ersten Eintrag stehen,</span>
+        <span class="c">// und das Speichern schriebe die falsche Kategorie zurück.</span>
+        selectValue(spnEditCategory, categories, question.getCategory());
+        selectValue(spnEditDifficulty, <span class="t">DIFFICULTIES</span>, question.getDifficulty());
+
+        <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"question loaded, id="</span> + questionId);
+    }
+
+    <span class="c">/**
+     * Stellt den Bildschirm auf Anlegen oder auf Bearbeiten.
+     *
+     * Genau eine Methode schaltet um, so wie showState in der GameActivity
+     * und showEmptyState in der AdminActivity. Wären es zwei Stellen,
+     * könnte der Titel Bearbeiten sagen, während der Löschen-Knopf fehlt.
+     */</span>
+    <span class="k">private</span> <span class="k">void</span> showMode() {
+        <span class="k">boolean</span> editing = questionId &gt; 0;
+
+        tvEditTitle.setText(editing ? <span class="t">R</span>.string.title_question_edit : <span class="t">R</span>.string.title_question_new);
+        btnDeleteQuestion.setVisibility(editing ? <span class="t">View</span>.<span class="t">VISIBLE</span> : <span class="t">View</span>.<span class="t">GONE</span>);
+    }
+
+    <span class="c">/**
+     * Prüft die Eingaben und schreibt die Frage in die Datenbank.
+     *
+     * Erst prüfen, dann bauen, dann speichern. Wer in der anderen
+     * Reihenfolge arbeitet, hat halbe Objekte im Speicher und muss sie
+     * wieder wegwerfen.
+     */</span>
+    <span class="k">private</span> <span class="k">void</span> onSaveClicked() {
+        <span class="k">if</span> (!isFormValid()) {
+            <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"save rejected, form not valid"</span>);
+            <span class="k">return</span>;
+        }
+
+        <span class="t">QuestionEntity</span> question = <span class="k">new</span> <span class="t">QuestionEntity</span>();
+        question.setText(textOf(etQuestionText));
+        question.setAnswer1(textOf(answerFields[0]));
+        question.setAnswer2(textOf(answerFields[1]));
+        question.setAnswer3(textOf(answerFields[2]));
+        question.setAnswer4(textOf(answerFields[3]));
+
+        <span class="c">// Die richtige Antwort wird als Text gespeichert und nicht als</span>
+        <span class="c">// Nummer. So bleibt QuestionEntity von aussen gleich wie frueher</span>
+        <span class="c">// die Klasse Question, und isCorrect vergleicht zwei Texte.</span>
+        question.setCorrectAnswer(textOf(answerFields[selectedAnswerIndex()]));
+
+        question.setCategory((<span class="t">String</span>) spnEditCategory.getSelectedItem());
+        question.setDifficulty((<span class="t">String</span>) spnEditDifficulty.getSelectedItem());
+
+        <span class="c">// Die eine Verzweigung, um die es in 08C geht. Beim Anlegen bleibt</span>
+        <span class="c">// die id auf 0 und Room vergibt eine neue. Beim Bearbeiten wird sie</span>
+        <span class="c">// gesetzt, denn ohne id findet update keine Zeile und tut nichts.</span>
+        <span class="k">if</span> (questionId &gt; 0) {
+            question.setId(questionId);
+            <span class="t">QuizDatabase</span>.getInstance(<span class="k">this</span>).questionDao().update(question);
+            <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"question updated, id="</span> + questionId);
+        } <span class="k">else</span> {
+            <span class="k">long</span> newId = <span class="t">QuizDatabase</span>.getInstance(<span class="k">this</span>).questionDao().insert(question);
+            <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"question inserted, id="</span> + newId);
+        }
+
+        <span class="c">// Zurück zur Liste. finish schliesst nur diesen Bildschirm, die</span>
+        <span class="c">// AdminActivity darunter lebt weiter und bekommt onResume.</span>
+        finish();
+    }
+
+    <span class="c">/**
+     * Fragt nach und löscht die Frage.
+     *
+     * Löschen lässt sich nicht rückgängig machen. Darum die Rückfrage.
+     * Sie steht bewusst nicht im Dialog selbst, sondern der Dialog fragt und
+     * löscht erst, wenn der Benutzer den zweiten Knopf drückt.
+     *
+     * setCancelable bleibt auf dem Standard true. Wer neben den Dialog
+     * tippt, hat damit abgebrochen, und das ist die harmlose Richtung.
+     */</span>
+    <span class="k">private</span> <span class="k">void</span> onDeleteClicked() {
+        <span class="k">new</span> <span class="t">AlertDialog</span>.<span class="t">Builder</span>(<span class="k">this</span>)
+                .setTitle(<span class="t">R</span>.string.dialog_delete_title)
+                .setMessage(<span class="t">R</span>.string.dialog_delete_message)
+                .setNegativeButton(<span class="t">R</span>.string.dialog_delete_keep, <span class="k">null</span>)
+                .setPositiveButton(<span class="t">R</span>.string.dialog_delete_confirm, (dialog, which) -&gt; deleteQuestion())
+                .show();
+    }
+
+    <span class="c">/**
+     * Löscht die Frage wirklich und schliesst den Bildschirm.
+     *
+     * Room löscht über die id. Die anderen Felder darf das Objekt leer
+     * lassen, sie werden nicht angeschaut.
+     */</span>
+    <span class="k">private</span> <span class="k">void</span> deleteQuestion() {
+        <span class="t">QuestionEntity</span> question = <span class="k">new</span> <span class="t">QuestionEntity</span>();
+        question.setId(questionId);
+
+        <span class="t">QuizDatabase</span>.getInstance(<span class="k">this</span>).questionDao().delete(question);
+        <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"question deleted, id="</span> + questionId);
+
+        finish();
+    }
+
+    <span class="c">/**
+     * Prüft alle Felder und zeigt die Fehler dort an, wo sie entstehen.
+     *
+     * Wichtig ist die Bauart: die Methode setzt valid auf false und prüft
+     * weiter. Sie steigt nicht mit return aus. Wer nach dem ersten Fehler
+     * aussteigt, zwingt den Benutzer, mehrmals auf Speichern zu tippen, um
+     * mehrere Fehler zu sehen.
+     *
+     * Und jede Regel räumt ihre eigene Meldung wieder weg. Ohne das else
+     * mit setError(null) bleibt eine rote Meldung stehen, obwohl das Feld
+     * inzwischen stimmt.
+     *
+     * Seit 08C sind Antwort 3 und 4 optional, und darum hängen zwei neue
+     * Regeln daran. Sie liessen sich anhängen, ohne die alten anzufassen.
+     * Genau dafür war der Umbau aus 08B da.
+     *
+     * Eine Sache ist neu: auf Antwort 3 und 4 zeigen zwei Regeln. Das else
+     * der einen würde die Meldung der anderen löschen. Darum werden diese
+     * zwei Felder einmal geräumt und danach nur noch gesetzt.
+     *
+     * @return true, wenn alle Eingaben brauchbar sind
+     */</span>
+    <span class="k">private</span> <span class="k">boolean</span> isFormValid() {
+        <span class="k">boolean</span> valid = <span class="k">true</span>;
+
+        <span class="k">if</span> (textOf(etQuestionText).length() &lt; <span class="t">MIN_TEXT_LENGTH</span>) {
+            tilQuestionText.setError(getString(<span class="t">R</span>.string.error_question_text));
+            valid = <span class="k">false</span>;
+        } <span class="k">else</span> {
+            tilQuestionText.setError(<span class="k">null</span>);
+        }
+
+        <span class="c">// Antwort 1 und 2 sind weiterhin Pflicht. Eine Frage mit nur einer</span>
+        <span class="c">// Antwort ist keine Frage.</span>
+        <span class="k">for</span> (<span class="k">int</span> i = 0; i &lt; 2; i++) {
+            <span class="k">if</span> (textOf(answerFields[i]).isEmpty()) {
+                answerLayouts[i].setError(getString(<span class="t">R</span>.string.error_answer_required));
+                valid = <span class="k">false</span>;
+            } <span class="k">else</span> {
+                answerLayouts[i].setError(<span class="k">null</span>);
+            }
+        }
+
+        <span class="c">// Antwort 3 und 4 sind seit 08C optional. Auf sie zeigen zwei</span>
+        <span class="c">// Regeln statt einer, und darum passt das Muster mit dem else</span>
+        <span class="c">// hier nicht mehr. Zwei else könnten sich gegenseitig löschen.</span>
+        <span class="c">// Also einmal räumen, danach nur noch setzen.</span>
+        answerLayouts[2].setError(<span class="k">null</span>);
+        answerLayouts[3].setError(<span class="k">null</span>);
+
+        <span class="c">// Neue Regel 1, die Lücke. Antwort 4 ohne Antwort 3 würde im Spiel</span>
+        <span class="c">// einen leeren Knopf zwischen zwei gefüllte setzen.</span>
+        <span class="k">if</span> (textOf(answerFields[2]).isEmpty() &amp;&amp; !textOf(answerFields[3]).isEmpty()) {
+            answerLayouts[2].setError(getString(<span class="t">R</span>.string.error_answer_gap));
+            valid = <span class="k">false</span>;
+        }
+
+        <span class="c">// Neue Regel 2, der Knopf oben. Der Radiobutton lässt sich auf ein</span>
+        <span class="c">// leeres Feld stellen. Dann wäre die richtige Antwort ein leerer</span>
+        <span class="c">// Text, und im Spiel gäbe es keine richtige Antwort mehr.</span>
+        <span class="k">int</span> correct = selectedAnswerIndex();
+        <span class="k">if</span> (textOf(answerFields[correct]).isEmpty()) {
+            answerLayouts[correct].setError(getString(<span class="t">R</span>.string.error_correct_empty));
+            valid = <span class="k">false</span>;
+        }
+
+        <span class="k">return</span> valid;
+    }
+
+    <span class="c">/**
+     * Liest ein Feld aus, ohne Leerzeichen am Rand.
+     *
+     * getText kann null liefern, darum die Abfrage. trim entfernt
+     * Leerzeichen. Ohne trim wäre ein Feld mit einem Leerschlag darin
+     * gefüllt, und die Pflichtprüfung liesse es durch.
+     *
+     * @param field das Eingabefeld
+     * @return der Inhalt, nie null
+     */</span>
+    <span class="k">private</span> <span class="t">String</span> textOf(<span class="t">TextInputEditText</span> field) {
+        <span class="k">return</span> field.getText() == <span class="k">null</span> ? <span class="s">""</span> : field.getText().toString().trim();
+    }
+
+    <span class="c">/**
+     * Findet heraus, welcher RadioButton gewählt ist.
+     *
+     * if und else statt switch. Seit 01C sind die R-Nummern keine
+     * Konstanten mehr, und ein switch braucht Konstanten.
+     *
+     * @return 0 bis 3 für die vier Antworten
+     */</span>
+    <span class="k">private</span> <span class="k">int</span> selectedAnswerIndex() {
+        <span class="k">int</span> checkedId = rgCorrect.getCheckedRadioButtonId();
+
+        <span class="k">if</span> (checkedId == <span class="t">R</span>.id.rbCorrect2) {
+            <span class="k">return</span> 1;
+        }
+        <span class="k">if</span> (checkedId == <span class="t">R</span>.id.rbCorrect3) {
+            <span class="k">return</span> 2;
+        }
+        <span class="k">if</span> (checkedId == <span class="t">R</span>.id.rbCorrect4) {
+            <span class="k">return</span> 3;
+        }
+        <span class="c">// Auch der Fall nichts gewählt landet hier. Im Layout ist der</span>
+        <span class="c">// erste Knopf vorausgewählt, also kann das nicht vorkommen.</span>
+        <span class="k">return</span> 0;
+    }
+
+    <span class="c">/**
+     * Die Gegenrichtung zu selectedAnswerIndex, von der Nummer zum Knopf.
+     *
+     * Ein Array mit den vier R-Nummern wäre kürzer, aber es wäre auch
+     * eine fünfte Stelle, an der die Reihenfolge stimmen muss. Zwei
+     * Methoden, die sich genau spiegeln, sind leichter zu prüfen.
+     *
+     * @param index 0 bis 3 für die vier Antworten
+     * @return die id des Radiobuttons, der dazu gehört
+     */</span>
+    <span class="k">private</span> <span class="k">int</span> radioIdOf(<span class="k">int</span> index) {
+        <span class="k">if</span> (index == 1) {
+            <span class="k">return</span> <span class="t">R</span>.id.rbCorrect2;
+        }
+        <span class="k">if</span> (index == 2) {
+            <span class="k">return</span> <span class="t">R</span>.id.rbCorrect3;
+        }
+        <span class="k">if</span> (index == 3) {
+            <span class="k">return</span> <span class="t">R</span>.id.rbCorrect4;
+        }
+        <span class="k">return</span> <span class="t">R</span>.id.rbCorrect1;
+    }
+
+    <span class="c">/**
+     * Stellt einen Spinner auf den Eintrag mit diesem Text.
+     *
+     * setSelection will eine Position und keinen Text. Die Position steht in
+     * derselben Liste, die auch der Adapter bekommen hat, darum indexOf.
+     *
+     * Steht der Text nicht in der Liste, liefert indexOf minus eins. Dann
+     * bleibt der Spinner, wo er ist. Das passiert, wenn in der Datenbank
+     * eine Kategorie steht, die es im Programm nicht mehr gibt.
+     *
+     * @param spinner der Spinner, der umgestellt wird
+     * @param values  die Liste, die der Spinner anzeigt
+     * @param value   der Text, der ausgewählt werden soll
+     */</span>
+    <span class="k">private</span> <span class="k">void</span> selectValue(<span class="t">Spinner</span> spinner, <span class="t">List</span>&lt;<span class="t">String</span>&gt; values, <span class="t">String</span> value) {
+        <span class="k">int</span> position = values.indexOf(value);
+
+        <span class="k">if</span> (position &gt;= 0) {
+            spinner.setSelection(position);
+        }
+    }
+}</pre>
+
+<div class="info">
+<p><b>Erlaubte Abweichungen.</b> Die Reihenfolge der Methoden in der Datei und die Reihenfolge der Importe sind keine Fehler. Android Studio sortiert die Importe beim <code>Alt+Enter</code> selbst.</p>
+<p><b>Was nicht abweichen darf:</b> die Reihenfolge <b>innerhalb</b> von <code>onCreate</code>. Die Adapter müssen vor <code>loadQuestion</code> stehen, sonst findet <code>selectValue</code> keine Position. Und die Reihenfolge innerhalb von <code>isFormValid</code>: erst räumen, dann setzen.</p>
+</div>
+
+<h2>Teil B, was in der Datenbank steht</h2>
+
+<h3>Die Stelle aus B1, in einem Bild</h3>
+
+<pre><span class="c">Ohne die zwei selectValue-Zeilen:
+
+   Datenbank              Formular                  Datenbank
+   ---------              --------                  ---------
+   category = Sport  --&gt;  loadQuestion fasst   --&gt;  getSelectedItem
+                          den Spinner nie an        liefert Geographie
+                          |
+                          Spinner steht auf         category = Geographie
+                          Position 0                     (still)
+
+Mit den zwei Zeilen:
+
+   category = Sport  --&gt;  selectValue setzt    --&gt;  getSelectedItem
+                          Position 1                liefert Sport
+                          |
+                          Spinner zeigt Sport       category = Sport</span></pre>
+
+<p><b>Die Falle ist der Name der Methode.</b> Bei einem Textfeld heisst sie <code>setText</code>, und wer sie vergisst, sieht ein leeres Feld. Bei einem Spinner heisst sie <code>setSelection</code> und will eine Zahl. Wer sie vergisst, sieht <b>einen gültig aussehenden Wert</b>, nämlich den ersten Eintrag. Nichts sieht kaputt aus.</p>
+
+<h3>Der Helfer, den du dafür gebaut hast</h3>
+
+<pre><span class="c">/**
+ * Stellt einen Spinner auf den Eintrag mit diesem Text.
+ *
+ * setSelection will eine Position und keinen Text. Die Position steht in
+ * derselben Liste, die auch der Adapter bekommen hat, darum indexOf.
+ *
+ * Steht der Text nicht in der Liste, liefert indexOf minus eins. Dann
+ * bleibt der Spinner, wo er ist. Das passiert, wenn in der Datenbank
+ * eine Kategorie steht, die es im Programm nicht mehr gibt.
+ *
+ * @param spinner der Spinner, der umgestellt wird
+ * @param values  die Liste, die der Spinner anzeigt
+ * @param value   der Text, der ausgewählt werden soll
+ */</span>
+<span class="k">private</span> <span class="k">void</span> selectValue(<span class="t">Spinner</span> spinner, <span class="t">List</span>&lt;<span class="t">String</span>&gt; values, <span class="t">String</span> value) {
+    <span class="k">int</span> position = values.indexOf(value);
+
+    <span class="k">if</span> (position &gt;= 0) {
+        spinner.setSelection(position);
+    }
+}</pre>
+
+<div class="tip">
+<p><b>Warum der Helfer die Liste als Parameter bekommt.</b> Man könnte sie auch dem Adapter des Spinners abfragen. Das ginge, braucht aber einen Cast auf <code>ArrayAdapter&lt;String&gt;</code>, und der Compiler warnt dabei zu Recht. Die Liste durchzureichen ist kürzer und ehrlicher.</p>
+</div>
+
+<h3>Die Prüfung mit den zwei neuen Regeln</h3>
+
+<pre><span class="c">/**
+ * Prüft alle Felder und zeigt die Fehler dort an, wo sie entstehen.
+ *
+ * Wichtig ist die Bauart: die Methode setzt valid auf false und prüft
+ * weiter. Sie steigt nicht mit return aus. Wer nach dem ersten Fehler
+ * aussteigt, zwingt den Benutzer, mehrmals auf Speichern zu tippen, um
+ * mehrere Fehler zu sehen.
+ *
+ * Und jede Regel räumt ihre eigene Meldung wieder weg. Ohne das else
+ * mit setError(null) bleibt eine rote Meldung stehen, obwohl das Feld
+ * inzwischen stimmt.
+ *
+ * Seit 08C sind Antwort 3 und 4 optional, und darum hängen zwei neue
+ * Regeln daran. Sie liessen sich anhängen, ohne die alten anzufassen.
+ * Genau dafür war der Umbau aus 08B da.
+ *
+ * Eine Sache ist neu: auf Antwort 3 und 4 zeigen zwei Regeln. Das else
+ * der einen würde die Meldung der anderen löschen. Darum werden diese
+ * zwei Felder einmal geräumt und danach nur noch gesetzt.
+ *
+ * @return true, wenn alle Eingaben brauchbar sind
+ */</span>
+<span class="k">private</span> <span class="k">boolean</span> isFormValid() {
+    <span class="k">boolean</span> valid = <span class="k">true</span>;
+
+    <span class="k">if</span> (textOf(etQuestionText).length() &lt; <span class="t">MIN_TEXT_LENGTH</span>) {
+        tilQuestionText.setError(getString(<span class="t">R</span>.string.error_question_text));
+        valid = <span class="k">false</span>;
+    } <span class="k">else</span> {
+        tilQuestionText.setError(<span class="k">null</span>);
+    }
+
+    <span class="c">// Antwort 1 und 2 sind weiterhin Pflicht. Eine Frage mit nur einer</span>
+    <span class="c">// Antwort ist keine Frage.</span>
+    <span class="k">for</span> (<span class="k">int</span> i = 0; i &lt; 2; i++) {
+        <span class="k">if</span> (textOf(answerFields[i]).isEmpty()) {
+            answerLayouts[i].setError(getString(<span class="t">R</span>.string.error_answer_required));
+            valid = <span class="k">false</span>;
+        } <span class="k">else</span> {
+            answerLayouts[i].setError(<span class="k">null</span>);
+        }
+    }
+
+    <span class="c">// Antwort 3 und 4 sind seit 08C optional. Auf sie zeigen zwei</span>
+    <span class="c">// Regeln statt einer, und darum passt das Muster mit dem else</span>
+    <span class="c">// hier nicht mehr. Zwei else könnten sich gegenseitig löschen.</span>
+    <span class="c">// Also einmal räumen, danach nur noch setzen.</span>
+    answerLayouts[2].setError(<span class="k">null</span>);
+    answerLayouts[3].setError(<span class="k">null</span>);
+
+    <span class="c">// Neue Regel 1, die Lücke. Antwort 4 ohne Antwort 3 würde im Spiel</span>
+    <span class="c">// einen leeren Knopf zwischen zwei gefüllte setzen.</span>
+    <span class="k">if</span> (textOf(answerFields[2]).isEmpty() &amp;&amp; !textOf(answerFields[3]).isEmpty()) {
+        answerLayouts[2].setError(getString(<span class="t">R</span>.string.error_answer_gap));
+        valid = <span class="k">false</span>;
+    }
+
+    <span class="c">// Neue Regel 2, der Knopf oben. Der Radiobutton lässt sich auf ein</span>
+    <span class="c">// leeres Feld stellen. Dann wäre die richtige Antwort ein leerer</span>
+    <span class="c">// Text, und im Spiel gäbe es keine richtige Antwort mehr.</span>
+    <span class="k">int</span> correct = selectedAnswerIndex();
+    <span class="k">if</span> (textOf(answerFields[correct]).isEmpty()) {
+        answerLayouts[correct].setError(getString(<span class="t">R</span>.string.error_correct_empty));
+        valid = <span class="k">false</span>;
+    }
+
+    <span class="k">return</span> valid;
+}</pre>
+
+<div class="warn">
+<p><b>Hier steht bewusst kein <code>else</code> an den zwei neuen Regeln</b>, und das widerspricht scheinbar der Lektion aus 08B. Es ist aber dieselbe Regel, eine Ebene höher gedacht.</p>
+<p>Die Lektion aus 08B lautet: <b>jede Meldung, die gesetzt wird, muss auch wieder geräumt werden.</b> Solange genau eine Regel auf ein Feld zeigt, ist das <code>else</code> der kürzeste Weg dorthin. Zeigen zwei Regeln auf dasselbe Feld, würde das <code>else</code> der einen die Meldung der anderen löschen. Dann räumt man einmal am Anfang.</p>
+</div>
+
+<h3>Das Dao mit der neuen Abfrage</h3>
+
+<pre><span class="c">/**
+ * Liefert alle Fragen einer Kategorie.
+ *
+ * Der Doppelpunkt vor category ist kein Tippfehler. So markiert Room
+ * einen Platzhalter, in den der Wert des Parameters eingesetzt wird.
+ * Ohne Platzhalter, also mit zusammengesetztem Text, wäre die Abfrage
+ * für eine SQL-Injection offen.
+ *
+ * Die Sortierung ist dieselbe wie in getAll, damit eine Runde nicht
+ * anders geordnet ankommt als die Verwaltungsliste.
+ *
+ * @param category die Kategorie, genau so geschrieben wie in der Spalte
+ * @return alle Fragen dieser Kategorie, nie null
+ */</span>
+<span class="a">@Query</span>(<span class="s">"SELECT * FROM questions WHERE category = :category ORDER BY category, id"</span>)
+<span class="t">List</span>&lt;<span class="t">QuestionEntity</span>&gt; getByCategory(<span class="t">String</span> category);</pre>
+
+<h3>Was sich in GameActivity.java geändert hat</h3>
+
+<p><b>Die Datenquelle:</b></p>
+
+<pre><span class="c">/**
+ * Stellt die Runde aus der gewählten Kategorie zusammen und startet sie.
+ *
+ * Gemischt wird eine Kopie des Bestands, nicht der Bestand selbst. Die
+ * Liste im Ergebnisbereich soll ihre eigene Reihenfolge behalten.
+ */</span>
+<span class="k">private</span> <span class="k">void</span> onStartClicked() {
+    selectedCategory = (<span class="t">String</span>) spnCategory.getSelectedItem();
+
+    <span class="c">// Die Fragen kommen bei jedem Start frisch aus der Datenbank. Wer</span>
+    <span class="c">// im Verwaltungsbildschirm eine Frage anlegt, ändert oder löscht,</span>
+    <span class="c">// spielt sie in der nächsten Runde. Ein Feld, das den Bestand</span>
+    <span class="c">// zwischenspeichert, wäre sofort veraltet.</span>
+    <span class="t">QuestionDao</span> dao = <span class="t">QuizDatabase</span>.getInstance(<span class="k">this</span>).questionDao();
+
+    <span class="k">if</span> (<span class="t">QuestionBank</span>.<span class="t">CATEGORY_ALL</span>.equals(selectedCategory)) {
+        categoryQuestions = dao.getAll();
+    } <span class="k">else</span> {
+        categoryQuestions = dao.getByCategory(selectedCategory);
+    }</pre>
+
+<p><b>Und die Schleife in <code>showQuestion</code>, ganz:</b></p>
+
+<pre><span class="c">/**
+ * Zeigt die Frage, die gerade dran ist, und setzt die Buttons zurück.
+ *
+ * Genau eine Methode füllt den Fragebildschirm. Das Zurücksetzen der
+ * vier Buttons gehört dazu, denn Markierung und Sperre der Vorfrage
+ * kleben sonst am Button.
+ *
+ * Seit 08C gilt dasselbe für die Sichtbarkeit. Eine Frage mit zwei
+ * Antworten blendet zwei Knöpfe aus, und die nächste Frage braucht sie
+ * vielleicht wieder.
+ */</span>
+<span class="k">private</span> <span class="k">void</span> showQuestion() {
+    currentQuestion = roundQuestions.get(currentIndex);
+
+    tvProgress.setText(getString(<span class="t">R</span>.string.progress_format,
+            currentIndex + 1, roundQuestions.size()));
+    tvCategory.setText(currentQuestion.getCategory());
+    tvQuestion.setText(currentQuestion.getText());
+    showScore();
+
+    <span class="t">String</span>[] answers = currentQuestion.getAnswers();
+    <span class="k">for</span> (<span class="k">int</span> i = 0; i &lt; answerButtons.length; i++) {
+        <span class="t">Button</span> button = answerButtons[i];
+        button.setText(answers[i]);
+        button.setEnabled(<span class="k">true</span>);
+        button.setBackgroundTintList(defaultButtonTint);
+        button.setTextColor(defaultButtonTextColors);
+
+        <span class="c">// Ein leeres Antwortfeld heisst: diese Frage hat weniger als</span>
+        <span class="c">// vier Möglichkeiten. Der Knopf verschwindet, statt leer</span>
+        <span class="c">// dazustehen. VISIBLE muss dabei stehen bleiben, sonst fehlt</span>
+        <span class="c">// der Knopf ab der nächsten Frage für immer.</span>
+        button.setVisibility(answers[i].isEmpty() ? <span class="t">View</span>.<span class="t">GONE</span> : <span class="t">View</span>.<span class="t">VISIBLE</span>);
+    }</pre>
+
+<div class="info">
+<p><b>Warum <code>setText</code> auch für den leeren Knopf läuft.</b> Man könnte die Schleife mit <code>continue</code> abkürzen, sobald der Text leer ist. Dann behielte der ausgeblendete Knopf aber den Text der Vorfrage. Er ist zwar unsichtbar, aber <code>markAnswers</code> liest ihn trotzdem aus. Ein unsichtbarer Knopf mit altem Text ist eine Falle, die irgendwann zuschnappt.</p>
+</div>
+
+<h3>QuestionBank.java, was übrig bleibt</h3>
+
+<pre><span class="k">package</span> ch.wiss.m335.quiz.model;
+
+<span class="k">import</span> java.util.<span class="t">Arrays</span>;
+<span class="k">import</span> java.util.<span class="t">List</span>;
+
+<span class="c">/**
+ * Die Kategorien der App.
+ *
+ * Bis 08B standen hier auch die dreissig Fragen, fest im Code. Das war mit
+ * Absicht umständlich: wer eine Frage ändern wollte, musste die App neu
+ * bauen. Seit 08C holt das Spiel seine Fragen aus der Datenbank, und damit
+ * ist der Fragenbestand im Code überflüssig geworden.
+ *
+ * Übrig bleibt die Liste der Kategorien. Sie ist keine Frage, sondern eine
+ * Vorgabe des Programms. Die Rangliste braucht sie, das Spiel braucht sie,
+ * und das Formular braucht sie ohne den Eintrag Alle.
+ *
+ * Der Klassenname bleibt, obwohl er jetzt zu gross ist. Ihn zu ändern hiesse
+ * vier Dateien anzufassen, ohne dass sich etwas verhält.
+ */</span>
+<span class="k">public</span> <span class="k">final</span> <span class="k">class</span> <span class="t">QuestionBank</span> {
+
+    <span class="c">/** Der Eintrag in der Auswahl, der keine Kategorie einschränkt. */</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="t">CATEGORY_ALL</span> = <span class="s">"Alle"</span>;
+
+    <span class="c">/** Diese Klasse wird nie erzeugt, sie hat nur statische Methoden. */</span>
+    <span class="k">private</span> <span class="t">QuestionBank</span>() {
+    }
+
+    <span class="c">/**
+     * Liefert die Einträge für die Kategorieauswahl.
+     *
+     * "Alle" steht bewusst zuoberst. Es ist der Normalfall, und der
+     * schnellste Weg soll der kürzeste sein.
+     *
+     * @return die fünf Einträge in Anzeigereihenfolge
+     */</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="t">List</span>&lt;<span class="t">String</span>&gt; categories() {
+        <span class="k">return</span> <span class="t">Arrays</span>.asList(<span class="t">CATEGORY_ALL</span>, <span class="s">"Sport"</span>, <span class="s">"Technologie"</span>, <span class="s">"Geographie"</span>, <span class="s">"Geschichte"</span>);
+    }
+}</pre>
+
+<p><b>Rund 140 Zeilen sind verschwunden</b>, dazu die ganze Datei <code>model/Question.java</code>. Das ist der beste Teil des heutigen Auftrags: du hast Code gelöscht, und die App kann mehr als vorher.</p>
+
+<h2>Lösungen zu den Übungen</h2>
+
+<h3>Kommentare nachziehen</h3>
+
+<p>Keine Musterlösung, aber die Prüffrage: <b>such im ganzen Projekt nach <code>08C</code>.</b> Zwei Stellen in der <code>AdminActivity</code> sprechen von 08C als Zukunft, eine im Klassenkommentar und eine über <code>onQuestionClick</code>. Beide sind seit heute falsch.</p>
+
+<p>So sieht es im Referenzprojekt aus, als Vergleich und nicht als Vorgabe:</p>
+
+<pre> * Ein Klick auf eine Zeile öffnet die Frage im Formular. Die Liste selbst
+ * weiss nichts vom Bearbeiten. Sie meldet den Klick weiter und baut einen
+ * Intent, mehr nicht.</pre>
+
+<div class="tip">
+<p><b>Eine Auftragsnummer in einem Kommentar ist ein Verfallsdatum.</b> Der Auftrag mit dieser Nummer muss es einlösen. Dasselbe hast du in 08B mit dem Wort <code>08B</code> gemacht.</p>
+</div>
+
+<h3>Übung 1, die id beim Drehen retten</h3>
+
+<pre><span class="a">@Override</span>
+<span class="k">protected</span> <span class="k">void</span> onSaveInstanceState(<span class="a">@NonNull</span> <span class="t">Bundle</span> outState) {
+    <span class="k">super</span>.onSaveInstanceState(outState);
+    outState.putInt(EXTRA_QUESTION_ID, questionId);
+}</pre>
+
+<p><b>Und in <code>onCreate</code>, nach der Zeile mit <code>getIntExtra</code>:</b></p>
+
+<pre><span class="k">if</span> (savedInstanceState != <span class="k">null</span>) {
+    questionId = savedInstanceState.getInt(EXTRA_QUESTION_ID, 0);
+}</pre>
+
+<div class="info">
+<p><b>Warum das überhaupt nötig ist, obwohl <code>getIntent</code> die id noch hat.</b> In dieser App ist es tatsächlich nicht nötig, denn der Intent überlebt das Drehen. <b>Sobald die <code>id</code> aber nicht mehr aus dem Intent käme</b>, zum Beispiel weil du sie nach einem <code>insert</code> selbst gesetzt hast, wäre sie weg.</p>
+<p>Wer das ausprobieren will: leg im Formular eine neue Frage an, setz <code>questionId</code> nach dem <code>insert</code> auf die neue id, statt <code>finish()</code> zu rufen. Dreh dann. <b>Ohne <code>onSaveInstanceState</code> steht sie danach wieder auf 0</b>, und das nächste Speichern legt eine zweite Frage an.</p>
+<p><b>Der Merksatz:</b> was aus dem Intent kommt, überlebt. Was die Activity selbst berechnet hat, nicht.</p>
+</div>
+
+<h3>Übung 2, der Hinweis rechts in der Zeile</h3>
+
+<p><b>Im Layout <code>item_question.xml</code></b> wird aus dem <code>LinearLayout</code> ein waagrechtes, mit der bisherigen senkrechten Spalte links und der neuen <code>TextView</code> rechts. Genau wie in <code>item_highscore.xml</code> aus 07B.</p>
+
+<p><b>Im Adapter, in <code>onBindViewHolder</code>:</b></p>
+
+<pre><span class="k">int</span> anzahl = 0;
+<span class="k">for</span> (<span class="t">String</span> antwort : question.getAnswers()) {
+    <span class="k">if</span> (!antwort.isEmpty()) {
+        anzahl++;
+    }
+}
+holder.tvAnswerCount.setText(<span class="t">String</span>.valueOf(anzahl));</pre>
+
+<p><b>Zur Frage, ob das in <code>onBindViewHolder</code> gehört:</b> ja. Die Schleife läuft über vier Elemente und macht keinen Zugriff auf die Datenbank und kein <code>findViewById</code>. Das ist billig. <b>Die Regel aus 06C verbietet nicht jede Rechnung</b>, sondern teure Arbeit, also Datenbankzugriffe und das Suchen von Views.</p>
+
+<h3>Übung 3, erklären</h3>
+
+<p>Kein Musterwortlaut. Aber der Kern muss vorkommen: <b>beim Anlegen gibt es die Zeile noch nicht</b>, also muss Room die <code>id</code> vergeben. <b>Beim Ändern gibt es sie schon</b>, also ist die <code>id</code> die einzige Auskunft darüber, welche Zeile gemeint ist.</p>
+
+<p>Und der zweite Satz muss sagen, <b>woran der Code die zwei Fälle unterscheidet</b>: an <code>questionId &gt; 0</code>, und das kommt aus dem Intent.</p>
+
+<h3>Zusatzaufgabe, Löschen durch Wischen</h3>
+
+<p><b>In <code>onCreate</code> der <code>AdminActivity</code>, nach dem <code>setAdapter</code>:</b></p>
+
+<pre><span class="k">new</span> <span class="t">ItemTouchHelper</span>(<span class="k">new</span> <span class="t">ItemTouchHelper</span>.<span class="t">SimpleCallback</span>(0, <span class="t">ItemTouchHelper</span>.LEFT) {
+    <span class="a">@Override</span>
+    <span class="k">public</span> <span class="k">boolean</span> onMove(<span class="a">@NonNull</span> <span class="t">RecyclerView</span> rv,
+                          <span class="a">@NonNull</span> <span class="t">RecyclerView</span>.<span class="t">ViewHolder</span> von,
+                          <span class="a">@NonNull</span> <span class="t">RecyclerView</span>.<span class="t">ViewHolder</span> nach) {
+        <span class="c">// Verschieben ist hier nicht erlaubt, sortiert wird im SQL.</span>
+        <span class="k">return</span> <span class="k">false</span>;
+    }
+
+    <span class="a">@Override</span>
+    <span class="k">public</span> <span class="k">void</span> onSwiped(<span class="a">@NonNull</span> <span class="t">RecyclerView</span>.<span class="t">ViewHolder</span> holder, <span class="k">int</span> richtung) {
+        <span class="t">QuestionEntity</span> question = adapter.getQuestionAt(holder.getAdapterPosition());
+        <span class="t">QuizDatabase</span>.getInstance(<span class="t">AdminActivity</span>.<span class="k">this</span>).questionDao().delete(question);
+        <span class="t">Log</span>.d(TAG, <span class="s">"question swiped away, id="</span> + question.getId());
+        onResume();
+    }
+}).attachToRecyclerView(rvQuestions);</pre>
+
+<p>Dazu brauchst du im Adapter eine kleine Methode, die die Frage an einer Position herausgibt:</p>
+
+<pre><span class="k">public</span> <span class="t">QuestionEntity</span> getQuestionAt(<span class="k">int</span> position) {
+    <span class="k">return</span> questions.get(position);
+}</pre>
+
+<div class="warn">
+<p><b>Der Aufruf von <code>onResume()</code> von Hand ist eine Abkürzung</b>, und du solltest wissen, dass es eine ist. Sauberer wäre eine eigene Methode <code>ladeFragen()</code>, die sowohl <code>onResume</code> als auch <code>onSwiped</code> aufruft. Eine Lebenszyklus-Methode selbst zu rufen, ist immer ein kleiner Regelbruch.</p>
+</div>
+
+<p><b>Zur Frage nach der Rückfrage:</b> beides ist vertretbar. Ohne Rückfrage brauchst du dafür ein <b>Rückgängig</b>, üblicherweise als <code>Snackbar</code> mit einem Knopf. Was du nicht machen darfst, ist beides weglassen. Ein Wisch passiert leichter aus Versehen als ein Knopfdruck plus Dialog.</p>
+
+<h2>Wenn dein Startbestand kaputt ist</h2>
+
+<p><b>Das ist der wahrscheinlichste Fund des heutigen Auftrags, und er stammt nicht von heute.</b></p>
+
+<p>In 08A hast du <code>seedIfEmpty</code> geschrieben. Darin stehen vier fast gleiche Zeilen untereinander:</p>
+
+<pre>entity.setAnswer1(antworten.getString(0));
+entity.setAnswer2(antworten.getString(1));
+entity.setAnswer3(antworten.getString(2));
+entity.setAnswer4(antworten.getString(3));</pre>
+
+<p><b>Wer hier viermal <code>setAnswer1</code> tippt, merkt in 08A nichts.</b> Die App läuft, der Zähler sagt dreissig, die Liste zeigt Fragetext und Kategorie. Die Antworten stehen auf keinem Bildschirm.</p>
+
+<div class="warn">
+<p><b>Und jetzt der Teil, der überrascht.</b> Wer den Tippfehler in 08A bemerkt und sofort korrigiert, hat sein Problem trotzdem nicht gelöst. <b>Der Code ist repariert, die Datenbank nicht.</b></p>
+<p><code>seedIfEmpty</code> prüft <code>count() &gt; 0</code> und tut dann nichts. Die dreissig kaputten Zeilen liegen weiterhin da, und zwar so lange, bis jemand die Datenbank leert.</p>
+<p><b>Das ist kein Fehler in der Prüfung.</b> Ohne sie hättest du nach jedem Start dreissig Fragen mehr. Der Satz dazu: <b>ein Startbestand ist keine Reparatur.</b> Wer Daten korrigieren will, muss die Daten anfassen, nicht den Code, der sie einmal erzeugt hat.</p>
+</div>
+
+<p><b>08C ist der Auftrag, in dem der Fehler aufwacht</b>, und zwar an drei Stellen nacheinander:</p>
+
+<table>
+<tr><th>Wo</th><th>Was du siehst</th></tr>
+<tr><td>A2, das gefüllte Formular</td><td>Nur Antwort 1 hat Text, Antwort 2 bis 4 sind leer</td></tr>
+<tr><td>B2, die neuen Prüfregeln</td><td>Eine bestehende Frage lässt sich nicht mehr speichern, weil Antwort 2 leer ist</td></tr>
+<tr><td>B3, das Spiel aus der Datenbank</td><td><code>NullPointerException</code>, sobald <code>showQuestion</code> ein <code>null</code> anfasst</td></tr>
+</table>
+
+<p><b>Die Reparatur gehört vor B1</b>, sonst suchst du dort einen Fehler in der Kategorie, während dein halber Bestand leer ist.</p>
+
+<ol>
+<li>Die vier Setter richtigstellen. <b>Lies sie von unten nach oben</b>, dann fällt eine doppelte Zahl auf.</li>
+<li>Einstellungen des Geräts, Apps, WissQuiz, <b>Clear storage</b>. Oder im <b>Device Manager</b> beim Gerät <b>Wipe Data</b>, was das ganze Gerät leert und länger dauert.</li>
+<li>App starten. <code>seedIfEmpty</code> läuft neu, weil die Tabelle leer ist.</li>
+</ol>
+
+<div class="info">
+<p><b>Warum <code>Clear storage</code> nötig ist und ein Neustart nicht reicht.</b> Dein <code>seedIfEmpty</code> prüft <code>count() &gt; 0</code> und tut dann nichts. Die dreissig kaputten Zeilen stehen also weiterhin da. Der Seed ist ein Startbestand und keine Reparatur.</p>
+<p><b>Das ist übrigens der Grund, warum die Prüfung dort steht.</b> Ohne sie hättest du nach jedem Start dreissig Fragen mehr. Beides zusammen heisst: einmal geladen ist einmal geladen, und wer es anders will, leert die Datenbank.</p>
+</div>
+
+<div class="tip">
+<p><b>Der allgemeine Punkt, und er ist grösser als dieser eine Fehler.</b> Ein Fehler in einer Schreiboperation zeigt sich erst dort, wo jemand liest. Zwischen Ursache und Symptom können in einem echten Projekt Wochen liegen. <b>Darum prüft man Daten dort, wo sie entstehen</b>, und nicht erst dort, wo sie auffallen.</p>
+</div>
+
+<h2>Mögliche falsche KI-Rückmeldungen</h2>
+
+<p>Diese Liste ist eine Prüfliste und keine Anklage. Es ist nicht sicher, dass jede KI diese Fehler macht. Aber wenn dir eine dieser Antworten begegnet, schau genauer hin.</p>
+
+<table>
+<tr><th>Vorschlag</th><th>Warum er hier nicht passt</th></tr>
+<tr><td>Für das Bearbeiten eine zweite Activity anlegen</td><td>Elf Felder zweimal. Siehe Denkfrage 1. Der Vorschlag kommt oft, weil er für sich genommen einfacher aussieht</td></tr>
+<tr><td>Die ganze <code>QuestionEntity</code> als <code>Serializable</code> oder <code>Parcelable</code> durch den Intent schicken</td><td>Geht, ist aber mehr Aufwand und veraltet sofort. Die <code>id</code> ist die kürzeste und immer aktuelle Auskunft. Ein mitgeschicktes Objekt ist eine Kopie von vorhin</td></tr>
+<tr><td>Ein zweites Feld <code>isEditMode</code> als <code>boolean</code></td><td>Zwei Felder, die dasselbe sagen, können auseinanderlaufen. <code>questionId &gt; 0</code> reicht, weil Room seine ids ab 1 vergibt</td></tr>
+<tr><td><code>spnEditCategory.setSelection(question.getCategory())</code></td><td>Kompiliert nicht. <code>setSelection</code> will ein <code>int</code>. <b>Genau hier liegt die Falle von B1</b>, und der Compiler fängt sie nur, wenn man es überhaupt versucht</td></tr>
+<tr><td>Einen <code>TextWatcher</code> auf jedes Feld, damit die Prüfung beim Tippen läuft</td><td>Fünf Watcher für einen Bildschirm mit einem Speichern-Knopf. Die Prüfung beim Speichern reicht, und sie ist das, was das Bewertungsraster verlangt</td></tr>
+<tr><td><code>AlertDialog</code> aus <code>android.app</code> statt aus <code>androidx.appcompat.app</code></td><td><b>Der häufigste stille Fehler dieses Auftrags</b>, und er kommt nicht nur von der KI, sondern auch von der Import-Liste in Android Studio. Beide Klassen haben dieselben Methoden, es kompiliert, der Dialog funktioniert. Die aus <code>android.app</code> nimmt aber das Aussehen des <b>Geräts</b> statt das deiner <b>App</b>. Auf einem neuen Emulator siehst du das kaum, auf Android 8 sofort. <b>Die Erkennungsregel: der richtige beginnt mit <code>androidx</code></b></td></tr>
+<tr><td>Im Dao <code>@Query("DELETE FROM questions WHERE id = " + id)</code></td><td>Zwei Fehler auf einmal. Zusammengeklebtes SQL, und <code>@Delete</code> gibt es schon</td></tr>
+<tr><td>Das Löschen ohne Rückfrage, dafür mit einer <code>Toast</code>-Meldung danach</td><td>Ein <code>Toast</code> kommt zu spät. Er sagt dir, was passiert ist, und du kannst nichts mehr dagegen tun</td></tr>
+<tr><td>Die leeren Antwortknöpfe mit <code>setEnabled(false)</code> statt <code>GONE</code></td><td>Ein grauer Knopf ohne Text sieht nach einem Fehler aus. Weg ist besser als kaputt</td></tr>
+</table>
+
+<h2>So prüfst du das Ganze</h2>
+
+<ol>
+<li><b>Bearbeiten.</b> Tipp eine Frage an, die nicht zuoberst steht. Alle Felder sind gefüllt, der richtige Knopf ist markiert, Kategorie und Schwierigkeit stimmen. Änder ein Wort, speicher. Die Frage bleibt an ihrem Platz.</li>
+<li><b>Anlegen.</b> Runder Knopf, Formular leer, oben <b>Neue Frage</b>, kein Löschen-Knopf. Anlegen klappt weiterhin.</li>
+<li><b>Löschen.</b> Dialog mit <b>Behalten</b> abbrechen, dann mit <b>Löschen</b> bestätigen. Der Zähler oben stimmt danach. <b>Und schau in deine Import-Zeilen:</b> dort muss <code>androidx.appcompat.app.AlertDialog</code> stehen.</li>
+<li><b>Die Lücke.</b> Antwort 3 leer, Antwort 4 gefüllt. Rote Meldung an Antwort 3.</li>
+<li><b>Der Knopf oben.</b> Knopf auf 3, Antwort 3 leer. Rote Meldung an Antwort 3.</li>
+<li><b>Die Ja-Nein-Frage.</b> Im Spiel zwei Knöpfe. Die nächste Frage zeigt wieder vier.</li>
+<li><b>Deine eigene Frage im Spiel.</b> Anlegen, Kategorie wählen, spielen. Sie kommt dran.</li>
+<li><b>Die gelöschte Frage im Spiel.</b> Löschen, dieselbe Kategorie spielen. Sie kommt nicht mehr.</li>
+<li><b>Der Logcat.</b> Unter <code>tag:Modul335</code> stehen <code>question updated</code>, <code>question deleted</code> und <code>question loaded</code>. Jede mit einer <code>id</code> grösser als 0.</li>
+</ol>
+
+<h2>Was noch nicht gut ist, und das mit Absicht</h2>
+
+<ul>
+<li><b>Beim Drehen im Formular stellen sich die Spinner zurück.</b> Der Text bleibt, die Auswahl nicht. Das ist Übung 1 und ihre grössere Schwester: was die Activity selbst gesetzt hat, muss sie selbst retten.</li>
+<li><b>Es gibt keine Rückmeldung nach dem Speichern</b> ausser dem Schliessen. Das Ergebnis ist in der Liste sofort sichtbar, darum lassen wir es weg.</li>
+<li><b>Zwei gleiche Antworten sind weiterhin erlaubt</b>, ausser du hast Übung 2 aus 08B gemacht. Der Testfall dazu kommt in 08D.</li>
+<li><b>Die Rangliste weiss nichts vom Löschen.</b> Siehe Denkfrage 3.</li>
+<li><b>Deine <code>QuestionBank</code> heisst seit heute falsch.</b> Sie enthält keine einzige Frage mehr. Siehe den Abschnitt gleich darunter.</li>
+<li><b>Der Bestand lässt sich nicht zurücksetzen.</b> Wer alle Fragen löscht, hat eine leere App. Der Startbestand lädt nur, wenn die Tabelle leer ist, also hilft nur <b>Clear storage</b>.</li>
+<li><b>Die Liste sortiert nur nach Kategorie und id.</b> Kein Filter, kein Suchfeld.</li>
+</ul>
+
+<h2>Eine Klasse, die falsch heisst, und die Enum-Frage dahinter</h2>
+
+<p>Nach dem Aufräumen in B3 steht in deiner <code>QuestionBank</code> nur noch das:</p>
+
+<pre><span class="k">public</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> CATEGORY_ALL = <span class="s">"Alle"</span>;
+
+<span class="k">public</span> <span class="k">static</span> <span class="t">List</span>&lt;<span class="t">String</span>&gt; categories() {
+    <span class="k">return</span> <span class="t">Arrays</span>.asList(CATEGORY_ALL, <span class="s">"Sport"</span>, <span class="s">"Technologie"</span>, <span class="s">"Geographie"</span>, <span class="s">"Geschichte"</span>);
+}</pre>
+
+<p><b>Eine Klasse namens Fragenbank ohne eine einzige Frage darin.</b> Der Name ist seit heute falsch, und das ist ein echter Mangel: wer ihn liest, sucht dort Fragen.</p>
+
+<p><b>Die kürzeste Reparatur ist ein neuer Name.</b> Rechtsklick auf die Klasse, <code>Shift+F6</code>, und sie heisst <code>Kategorien</code>. Android Studio zieht alle vier Dateien nach, die sie benutzen. Zwei Klicks, und der Code sagt die Wahrheit.</p>
+
+<h3>Und warum kein Enum?</h3>
+
+<p><b>Das ist die naheliegende Frage</b>, und sie ist gut. Fünf feste Texte, die sich nie ändern, sind der Lehrbuchfall für ein Enum. Du hast sogar schon eines im Projekt, seit 05C:</p>
+
+<pre><span class="k">private</span> <span class="k">enum</span> <span class="t">GameState</span> { CHOOSE_CATEGORY, QUESTION, RESULT }</pre>
+
+<p><b>Der Unterschied zwischen den beiden ist die Lektion.</b></p>
+
+<table>
+<tr><th></th><th><code>GameState</code></th><th>Die Kategorie</th></tr>
+<tr><td>Was ist es</td><td>ein <b>Programmzustand</b></td><td>ein <b>Datenwert</b></td></tr>
+<tr><td>Wo lebt es</td><td>nur im Speicher, während die App läuft</td><td>in der Datenbank, in SharedPreferences, in einer Datei unter assets</td></tr>
+<tr><td>Wer bestimmt es</td><td>dein Code, und sonst niemand</td><td>die Daten. Auch die, die es schon gab, bevor du den Code geschrieben hast</td></tr>
+<tr><td>Enum?</td><td><b>ja, genau richtig</b></td><td><b>eher nicht</b></td></tr>
+</table>
+
+<p><b>Deine Kategorie verlässt das Programm ständig.</b> Sie steht als Text in der Spalte <code>category</code>, sie steht in jedem Ranglisten-Eintrag, und sie steht in <code>questions_m335.json</code>. An achtzehn Stellen in deinem Code wird sie als <code>String</code> weitergereicht.</p>
+
+<p>Mit einem Enum bräuchte jede dieser Grenzen eine Umwandlung. <b>Und die Rückrichtung ist die gefährliche:</b> <code>valueOf("Sport")</code> wirft eine <code>IllegalArgumentException</code>, sobald ein Wert kommt, den das Enum nicht kennt.</p>
+
+<div class="warn">
+<p><b>Was das praktisch heisst:</b> ein Tippfehler in <code>questions_m335.json</code> würde deine App <b>beim Start zum Absturz bringen</b>. Heute bekommst du stattdessen eine Frage mit einer komischen Kategorie, und die App läuft weiter.</p>
+<p>Bei Daten von aussen ist das fast immer die bessere Wahl. <b>Ein Datenfehler soll ein Datenfehler bleiben und nicht zum Absturz werden.</b></p>
+</div>
+
+<p><b>Dazu kommt <code>Alle</code>.</b> Im Enum wäre es ein Wert, der nie in der Datenbank stehen darf. Genau der Fremdkörper, den dein <code>realCategories()</code> heute wegschneidet. Eine Ausnahme mitten im Typ ist schlechter als eine Ausnahme in einer Methode.</p>
+
+<div class="info">
+<p><b>Machbar wäre es trotzdem</b>, und in einer App, die du jahrelang pflegst, wäre es vertretbar. Man gibt dem Enum ein Feld mit dem Anzeigetext, und Room bekommt einen <code>@TypeConverter</code>, der zwischen Enum und Text übersetzt. Beim Lesen fängt man den unbekannten Wert ab.</p>
+<p><b>Das ist mehr Code als das, was du heute hast</b>, und es löst kein Problem, das du hast. Und die Leistungsbeurteilung arbeitet ohnehin mit freien Texten: Modulnummer und Modultitel.</p>
+</div>
+
+<p><b>Der Merksatz zum Mitnehmen:</b> ein Enum ist richtig, solange der Wert im Programm bleibt. Sobald er in eine Datei, eine Datenbank oder über das Netz geht, wird aus dem Typ eine Übersetzungsaufgabe. Dann muss sich der Aufwand lohnen.</p>
+
+<h2>Was als Nächstes kommt</h2>
+
+<p><b>08D, der Testplan.</b> Du schreibst Testfälle im Formular der Leistungsbeurteilung auf, mit allen sieben Feldern, und führst sie sofort durch. <b>Der erste Testfall ist vorgegeben:</b> was passiert, wenn ich im Spiel eine Antwort zweimal antippe.</p>
+
+<p>Deine App ist damit fertig gebaut. <b>Alles, was die Leistungsbeurteilung an Code verlangt, hast du heute zum letzten Mal neu gemacht.</b> Was am Tag 5 kommt, ist Üben und Reparieren.</p>
+
+<table>
+<tr><th>Was du heute gebaut hast</th><th>Wo es in der Leistungsbeurteilung wieder auftaucht</th></tr>
+<tr><td>Der Klick öffnet den Datensatz</td><td>Ein Modul in der Liste antippen und bearbeiten</td></tr>
+<tr><td><code>setId</code> plus <code>update</code></td><td>Eine geänderte Modulnote zurückschreiben</td></tr>
+<tr><td>Optionale Felder mit Regeln</td><td>Die zwei Noten, die später nachgetragen werden dürfen</td></tr>
+<tr><td>Das Spiel liest aus der Datenbank</td><td>Die Modulliste liest aus der Datenbank</td></tr>
+</table>
+
 
 </div>
 <!--M335:RAHMEN-FUSS-->
