@@ -47,8 +47,15 @@
   /* Die Startseite gibt jedem li einen Rahmen und flex mit. Das darf
      nicht in das Verzeichnis durchschlagen, darum hier zuruecksetzen. */
   .m335-nav li{display:block;margin:0;padding:0;border:0}
+  /* break-word und nicht anywhere: anywhere wuerde auch dort trennen, wo
+     daneben Platz waere. break-word trennt erst, wenn ein Wort allein zu
+     lang fuer die Zeile ist. Genau das ist der Fall bei Pfaden wie
+     res/layout/activity_question_edit.xml, an denen der Browser von sich
+     aus keine Trennstelle sieht. Ohne diese Regel ragt so ein Eintrag aus
+     der Leiste heraus und erzeugt eine waagrechte Bildlaufleiste. */
   .m335-nav a{display:block;padding:4px 10px;color:#52514e;text-decoration:none;
-    border-left:2px solid transparent;border-radius:0 4px 4px 0}
+    border-left:2px solid transparent;border-radius:0 4px 4px 0;
+    overflow-wrap:break-word;word-break:normal;hyphens:auto}
   .m335-nav a:hover{background:#f0eee9;color:#0b0b0b}
   .m335-nav .n2>a{font-weight:600;color:#0b0b0b;margin-top:9px}
   .m335-nav .n3>a{padding-left:18px;font-size:13px}
@@ -58,8 +65,13 @@
     color:#898781;padding:0 10px;margin:0 0 10px}
 
   /* Breiter Bildschirm: fest am Rand */
+  /* Die 232px sind gerechnet und nicht geraten: der breiteste Textblock
+     ist der der Startseite mit 860px. Bei 1380px Fenster beginnt er bei
+     260px, links davon bleiben mit left:18px genau 232px plus ein wenig
+     Luft. Wer sie breiter macht, schiebt die Leiste in den Text.
+     overflow-x:hidden ist die zweite Sicherung hinter dem Umbruch oben. */
   .m335-nav.seitlich{top:78px;left:18px;width:232px;max-height:calc(100vh - 100px);
-    overflow-y:auto;overscroll-behavior:contain;padding:2px 2px 20px}
+    overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;padding:2px 2px 20px}
   .m335-nav.seitlich .schliessen{display:none}
 
   /* Schmaler Bildschirm: Knopf unten rechts */
@@ -67,8 +79,15 @@
     background:#26241f;color:#fff;border:0;border-radius:26px;
     padding:11px 17px;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.28);
     font:600 13.5px/1 system-ui,-apple-system,"Segoe UI",sans-serif}
-  .m335-nav.klappe{position:fixed;right:12px;bottom:70px;left:12px;max-width:340px;margin-left:auto;
-    max-height:min(70vh,560px);overflow-y:auto;background:#fcfcfb;
+  /* Hier darf die Leiste breiter sein, sie liegt ueber dem Text. 380px
+     statt 340px, damit die langen Eintraege weniger oft umbrechen. Auf
+     einem schmalen Telefon greift ohnehin left und right, die Leiste ist
+     dort so breit wie das Fenster minus 24px.
+     scrollbar-gutter:stable haelt den Platz der senkrechten Leiste frei,
+     sonst springt der Text beim Aufklappen. */
+  .m335-nav.klappe{position:fixed;right:12px;bottom:70px;left:12px;max-width:380px;margin-left:auto;
+    max-height:min(70vh,560px);overflow-y:auto;overflow-x:hidden;
+    scrollbar-gutter:stable;background:#fcfcfb;
     border:1px solid #c3c2b7;border-radius:12px;padding:14px 6px 14px 4px;
     box-shadow:0 8px 30px rgba(0,0,0,.22)}
   .m335-nav[hidden]{display:none}
