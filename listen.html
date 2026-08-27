@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M335 Listen verstehen</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+<h1>Listen verstehen</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Nachschlageblatt. Lesezeit etwa 12 Minuten. Version 1 vom 26.08.2026.</p>
+<p class="sub">Was RecyclerView, Adapter, ViewHolder und LayoutInflater tun, in welcher Reihenfolge sie zusammenarbeiten, und was du davon selbst schreibst.</p>
+
+<div class="tip">
+<p><b>Lies das, bevor du eine Liste baust, nicht mittendrin.</b> Unter Zeitdruck kommst du sonst in den Zustand, in dem du zwar tippst, aber nicht mehr weisst warum. Dieses Blatt ist gegen genau diesen Zustand gebaut.</p>
+</div>
+
+<h2>01 Die Frage, um die es geht</h2>
+
+<p>Für einen Knopf gibt es in Android einen fertigen Baustein. Für ein Eingabefeld auch. <b>Für deine Zeile nicht.</b></p>
+
+<p>Deine Zeile sieht so aus, wie sie in keiner anderen App aussieht. Links der Artikel, darunter kleiner der Laden, rechts der Betrag. Das hat sich niemand vor dir ausgedacht, und darum liegt es auch nirgends fertig herum.</p>
+
+<p><b>Also beschreibst du deine Zeile einmal selbst</b>, als eigene Layout-Datei. Genau eine Zeile, nicht die Liste.</p>
+
+<p>Und dann kommt das zweite Problem. Deine Liste hat vielleicht fünfhundert Einträge. Auf den Bildschirm passen fünfzehn. <b>Fünfhundert Zeilen zu bauen, von denen vierhundertfünfundachtzig niemand sieht, wäre Verschwendung.</b></p>
+
+<div class="chk">
+<p><b>Der eine Satz, der alles trägt:</b> du beschreibst <b>eine</b> Zeile, und Android baut daraus so viele, wie gerade sichtbar sind. Beim Scrollen füllt es dieselben Zeilen immer wieder neu.</p>
+</div>
+
+<p>Alles andere auf diesem Blatt folgt aus diesem Satz. Die vier Namen, über die du stolperst, sind nur die Arbeitsteilung dahinter.</p>
+
+<h2>02 Das Schichtenbild</h2>
+
+<p>So gehen die Daten durch. Von oben nach unten, und jede Schicht baut auf der darunter auf.</p>
+
+<pre><span class="c">   DEINE DATEN            List&lt;ShoppingItem&gt; aus der Datenbank
+        |                 fünfhundert Einträge
+        |
+        |   setItems(...)  du gibst sie dem Adapter
+        v
+   ADAPTER                ShoppingAdapter, deine eigene Klasse
+        |                 weiss WIE VIELE es sind
+        |                 und WAS in Zeile Nummer 17 stehen muss
+        |
+        v
+   VIEWHOLDER             merkt sich die drei TextViews EINER Zeile
+        |                 damit findViewById nicht dauernd läuft
+        |
+        |   inflate(...)   der LayoutInflater baut die Zeile
+        v
+   ZEILEN-LAYOUT          item_shopping.xml
+        |                 wie EINE Zeile aussieht. Deine Datei
+        |
+        v
+   RECYCLERVIEW           der Rahmen im Bildschirm-Layout
+        |                 der LayoutManager ordnet die Zeilen an
+        v
+   BILDSCHIRM             fünfzehn sichtbare Zeilen</span></pre>
+
+<div class="note">
+<p><b>Achtung, die Pfeile zeigen den Weg der Daten, nicht die Reihenfolge der Aufrufe.</b> Gerufen wird von unten nach oben: der RecyclerView fragt den Adapter, und der Adapter benutzt den Inflater. Die Aufrufrichtung steht in Abschnitt 05.</p>
+</div>
+
+<h2>03 Die fünf Teile, einzeln</h2>
+
+<table>
+<tr><th>Teil</th><th>Was es tut</th><th>Schreibst du es?</th><th>Was passiert, wenn es fehlt</th></tr>
+<tr><td class="pre">item_shopping.xml</td><td>Beschreibt <b>eine</b> Zeile</td><td><b>ja, ganz</b></td><td>Compiler-Fehler, das Layout gibt es nicht</td></tr>
+<tr><td class="pre">Adapter</td><td>Weiss wie viele, und was in Zeile N steht</td><td><b>ja, ganz</b></td><td>Leere Fläche. Im Logcat <code>No adapter attached</code></td></tr>
+<tr><td class="pre">ViewHolder</td><td>Merkt sich die Views einer Zeile</td><td>ja, als kleine Klasse im Adapter</td><td>Ohne ihn läuft <code>findViewById</code> bei jedem Scrollen. Es funktioniert, es ruckelt</td></tr>
+<tr><td class="pre">LayoutInflater</td><td>Macht aus der XML-Datei echte Objekte</td><td>nein, du rufst ihn nur auf</td><td>Ohne <code>inflate</code> entsteht keine Zeile</td></tr>
+<tr><td class="pre">LayoutManager</td><td>Ordnet die Zeilen an, meist untereinander</td><td>nein, eine Zeile Aufruf</td><td>Leere Fläche. Im Logcat <code>No layout manager attached</code></td></tr>
+<tr><td class="pre">RecyclerView</td><td>Der Rahmen. Fragt den Adapter nach Zeilen</td><td>nein, ein Element im Layout</td><td>Es gibt keine Liste</td></tr>
+</table>
+
+<h3>Das Zeilen-Layout, deine Datei</h3>
+<p>Eine ganz normale Layout-Datei, nur beschreibt sie <b>eine Zeile und nicht einen Bildschirm</b>. Daran erkennst du sie: das Root-Element ist <code>match_parent</code> breit und <code>wrap_content</code> hoch. Nie <code>match_parent</code> hoch, sonst füllt eine einzige Zeile den ganzen Bildschirm.</p>
+
+<h3>Der Adapter, deine Klasse</h3>
+<p><b>Der Adapter ist der Übersetzer zwischen deinen Daten und den Zeilen.</b> Er beantwortet dem RecyclerView genau drei Fragen:</p>
+<ul>
+<li><b>Wie viele Zeilen gibt es?</b> Das ist <code>getItemCount</code>.</li>
+<li><b>Bau mir eine leere Zeile.</b> Das ist <code>onCreateViewHolder</code>.</li>
+<li><b>Füll mir diese Zeile mit Eintrag Nummer 17.</b> Das ist <code>onBindViewHolder</code>.</li>
+</ul>
+<p>Mehr macht er nicht. Er holt keine Daten und er entscheidet nichts. <b>Woher die Daten kommen, entscheidet deine Activity.</b> Darum bekommt der Adapter sie über eine eigene Methode gereicht, in unseren Projekten heisst sie <code>setItems</code> oder <code>setQuestions</code>.</p>
+
+<h3>Der ViewHolder, die kleine Klasse im Adapter</h3>
+<p><b>Ein ViewHolder ist ein Zettel mit den Views einer einzigen Zeile darauf.</b> Er sucht die drei TextViews genau einmal, wenn die Zeile gebaut wird, und merkt sie sich.</p>
+<p>Warum das nötig ist: <code>findViewById</code> durchsucht den Baum. Das kostet wenig, aber beim Scrollen passiert es dutzende Male pro Sekunde. Der ViewHolder macht daraus <b>einmal suchen, danach nur noch benutzen</b>.</p>
+<div class="info">
+<p><b>Der Name sagt es wörtlich.</b> Er hält (hold) die Views. Er hält keine Daten. In ihm steht nie ein Artikel und nie ein Preis, sondern nur die drei Felder, in die so etwas hineingeschrieben wird.</p>
+</div>
+
+<h3>Der LayoutInflater, das Werkzeug von Android</h3>
+<p>Deine Layout-Datei ist Text. Auf dem Bildschirm braucht es Objekte. <b>Der Inflater ist die Maschine, die aus dem einen das andere macht.</b> Aufblasen, daher der Name.</p>
+<p>Du schreibst ihn nicht, du rufst ihn nur auf, mit einer einzigen Zeile in <code>onCreateViewHolder</code>. Das dritte Argument dieses Aufrufs ist <code>false</code>. Mit <code>true</code> hängt der Inflater die Zeile sofort an den RecyclerView, und der wirft dann eine <code>IllegalStateException</code> mit dem Text <i>The specified child already has a parent</i>.</p>
+<div class="tip">
+<p><b>Du kennst den Inflater schon länger, als du denkst.</b> Jedes <code>setContentView(R.layout.activity_main)</code> ruft ihn auf. Nur macht es das für dich, und darum ist er dir nie begegnet.</p>
+</div>
+
+<h2>04 Der Lebenslauf einer Zeile</h2>
+
+<p>Das ist der Abschnitt, der alles andere erklärt. Er beantwortet die Frage, warum es <b>zwei</b> Methoden gibt statt einer.</p>
+
+<p>Deine App startet. Auf den Bildschirm passen fünfzehn Zeilen, in der Datenbank stehen fünfhundert Einträge.</p>
+
+<pre><span class="c">   RecyclerView: "Wie viele hast du?"
+   Adapter:      "Fünfhundert."          getItemCount
+
+   RecyclerView: "Ich brauche Zeile 0. Ich habe keine leere."
+   Adapter:      inflate(item_shopping)   onCreateViewHolder
+                 ViewHolder sucht die drei TextViews EINMAL
+
+   RecyclerView: "Füll sie mit Eintrag 0."
+   Adapter:      setText, setText, setText onBindViewHolder
+
+   ... das Ganze fünfzehn Mal, dann ist der Bildschirm voll ...
+
+   DU SCROLLST
+
+   Zeile 0 verschwindet oben.
+   RecyclerView baut KEINE neue Zeile.
+   Er nimmt die alte, schiebt sie nach unten und sagt:
+
+   RecyclerView: "Füll diese Zeile mit Eintrag 15."
+   Adapter:      setText, setText, setText onBindViewHolder</span></pre>
+
+<div class="chk">
+<p><b>Daher der Name Recycler.</b> Es entstehen nie mehr Zeilen, als auf den Bildschirm passen. Dieselben fünfzehn Zeilen werden beim Scrollen immer wieder neu gefüllt.</p>
+</div>
+
+<h3>Und daraus folgen drei Regeln</h3>
+
+<table>
+<tr><th>Regel</th><th>Warum</th></tr>
+<tr><td><b>In <code>onBindViewHolder</code> gehört nichts, was Zeit kostet</b></td><td>Sie läuft bei jedem Scrollen dutzende Male pro Sekunde. Kein <code>findViewById</code>, keine Datenbankabfrage, kein Aufbau von Objekten. Sonst ruckelt die Liste</td></tr>
+<tr><td><b>Der Klick-Listener wird bei jedem Binden neu gesetzt</b></td><td>Die Zeile ist wiederverwendet. Sie zeigte vorhin Eintrag 0 und zeigt jetzt Eintrag 15. Der alte Listener zeigte auf den falschen</td></tr>
+<tr><td><b>Was du in <code>onBindViewHolder</code> setzt, musst du auch zurücksetzen</b></td><td>Wenn du bei Eintrag 3 etwas ausblendest, ist es in dieser Zeile ausgeblendet. Kommt sie als Eintrag 18 zurück, ist es immer noch weg. <b>Immer beide Richtungen setzen</b></td></tr>
+</table>
+
+<div class="warn">
+<p><b>Die dritte Regel ist die, die am meisten Zeit kostet</b>, weil der Fehler erst beim Scrollen auftaucht und dann aussieht wie Zufall. Ein Symptom davon: nach unten scrollen und wieder hoch, und plötzlich fehlt bei einer Zeile der Betrag.</p>
+</div>
+
+<h2>05 Wer ruft wen an</h2>
+
+<p>Das Schichtenbild oben zeigt, wo die Daten durchgehen. Hier steht, wer wen aufruft. <b>Die zwei Richtungen sind nicht gleich, und genau das verwirrt am Anfang.</b></p>
+
+<table>
+<tr><th>Wer</th><th>Ruft</th><th>Wie oft</th></tr>
+<tr><td>Du, in <code>onCreate</code></td><td><code>setLayoutManager</code>, dann <code>setAdapter</code></td><td>einmal</td></tr>
+<tr><td>Du, wenn die Daten da sind</td><td>deine Methode <code>setItems</code> am Adapter</td><td>bei jedem Laden</td></tr>
+<tr><td>Deine <code>setItems</code></td><td><code>notifyDataSetChanged</code></td><td>ganz am Schluss, sonst passiert nichts</td></tr>
+<tr><td><b>RecyclerView</b></td><td><code>getItemCount</code></td><td>oft</td></tr>
+<tr><td><b>RecyclerView</b></td><td><code>onCreateViewHolder</code></td><td><b>selten</b>, etwa fünfzehn Mal</td></tr>
+<tr><td><b>RecyclerView</b></td><td><code>onBindViewHolder</code></td><td><b>ständig</b></td></tr>
+<tr><td>Dein <code>onCreateViewHolder</code></td><td><code>LayoutInflater.from(...).inflate(...)</code></td><td>einmal pro gebauter Zeile</td></tr>
+</table>
+
+<div class="chk">
+<p><b>Die Umkehrung, die am Anfang verwirrt:</b> du sagst dem Adapter nie, er solle eine Zeile zeichnen. Du gibst ihm nur die Daten. <b>Alles andere fragt der RecyclerView von sich aus ab</b>, und zwar dann, wenn er es braucht.</p>
+<p>Darum stehen deine zwei wichtigsten Methoden im Adapter und werden von dir nirgends aufgerufen. Sie sehen aus wie toter Code und sind es nicht.</p>
+</div>
+
+<h2>06 Warum der Aufwand, der Vergleich mit 04B</h2>
+
+<p>In 04B hast du eine Liste zu Fuss gebaut. Eine Schleife, und für jede Frage eine neue TextView. <b>Zehn Zeilen Code, und es hat funktioniert.</b> Warum jetzt eine ganze Klasse?</p>
+
+<table>
+<tr><th></th><th>Liste zu Fuss, 04B</th><th>RecyclerView</th></tr>
+<tr><td>Wie viele Zeilen entstehen</td><td>eine pro Eintrag, alle gleichzeitig</td><td>nur so viele, wie auf den Bildschirm passen</td></tr>
+<tr><td>Bei 500 Einträgen</td><td>500 Objekte im Speicher, 485 unsichtbar</td><td>immer noch etwa fünfzehn</td></tr>
+<tr><td>Beim Scrollen</td><td>alles ist schon da</td><td>die oberste Zeile wandert nach unten und wird neu gefüllt</td></tr>
+<tr><td>Zeilenaufbau</td><td>im Java-Code zusammengebaut</td><td>als eigene Layout-Datei</td></tr>
+<tr><td>Aufwand</td><td>zehn Zeilen Code</td><td>ein Layout, eine Klasse, drei Zeilen in der Activity</td></tr>
+</table>
+
+<div class="info">
+<p><b>Der Aufwand ist der Punkt, nicht das Problem.</b> Bei sieben Fragen war die Liste zu Fuss richtig. Bei fünfhundert Einträgen ist sie falsch. Wer nur den RecyclerView kennt, hält ihn für Bürokratie. <b>Wer beides gebaut hat, weiss wofür die Teile da sind.</b></p>
+</div>
+
+<h2>07 Wenn die Liste leer bleibt</h2>
+
+<p><b>Das ist der häufigste Fall, und er stürzt nicht ab.</b> Du siehst eine leere Fläche und sonst nichts. Drei Fragen, in dieser Reihenfolge, und der Logcat beantwortet die ersten zwei.</p>
+
+<table>
+<tr><th class="num">Nr</th><th>Frage</th><th>Im Logcat steht</th></tr>
+<tr><td class="num">1</td><td>Hat der RecyclerView einen LayoutManager?</td><td><code>No layout manager attached; skipping layout</code></td></tr>
+<tr><td class="num">2</td><td>Hat er einen Adapter?</td><td><code>No adapter attached; skipping layout</code></td></tr>
+<tr><td class="num">3</td><td>Hat der Adapter Daten bekommen?</td><td><b>gar nichts.</b> Das ist die unangenehmste</td></tr>
+</table>
+
+<p>Zu Frage 3 gehören zwei Unterfragen, und beide kommen vor:</p>
+<ul>
+<li><b>Ruft überhaupt jemand deine Lade-Methode auf?</b> Sie steht da, sie ist richtig, und niemand ruft sie.</li>
+<li><b>Steht am Schluss deiner <code>setItems</code> ein <code>notifyDataSetChanged</code>?</b> Ohne den Aufruf hat der RecyclerView alles was er braucht und wartet nur darauf, dass ihm jemand Bescheid gibt.</li>
+</ul>
+
+<div class="warn">
+<p><b>Der Aufruf gehört in <code>setItems</code> und nicht in die Activity.</b> An genau einer Stelle, zusammen mit dem Austausch der Daten. So kann er nicht vergessen gehen.</p>
+</div>
+
+<h2>08 Wenn du eine neue Liste baust: die Reihenfolge</h2>
+
+<p><b>Diese sechs Schritte sind bei jeder Liste dieselben.</b> Wenn du unter Zeitdruck nicht mehr weisst, was als nächstes kommt, geh sie von oben durch.</p>
+
+<table>
+<tr><th class="num">Nr</th><th>Was</th><th>Danach starten und schauen</th></tr>
+<tr><td class="num">1</td><td>Das <b>Zeilen-Layout</b>. Wie sieht eine Zeile aus, und welche ids haben ihre Felder?</td><td>Vorschau im Editor genügt</td></tr>
+<tr><td class="num">2</td><td>Die <b>Adapter-Klasse</b>, mit dem ViewHolder als kleiner Klasse darin</td><td>Sie muss kompilieren, mehr sieht man noch nicht</td></tr>
+<tr><td class="num">3</td><td>Den <b>RecyclerView</b> ins Layout des Bildschirms, mit einer id</td><td>Leere Fläche, das ist richtig</td></tr>
+<tr><td class="num">4</td><td>In <code>onCreate</code>: erst <b>LayoutManager</b>, dann <b>Adapter</b></td><td>Immer noch leer, aber der Logcat schweigt jetzt</td></tr>
+<tr><td class="num">5</td><td>Die <b>Daten holen</b> und mit deiner Methode übergeben</td><td><b>Jetzt stehen die Zeilen da</b></td></tr>
+<tr><td class="num">6</td><td><b>Gerät drehen</b> und die Höhe des RecyclerView prüfen</td><td>Die Liste geht bis zum unteren Rand</td></tr>
+</table>
+
+<div class="chk">
+<p><b>Nach jedem Schritt einmal starten</b>, auch wenn du weisst, dass sich noch nichts ändert. Zwei von drei möglichen Fehlern stürzen nicht ab. Wer alle sechs Schritte auf einmal baut und dann eine leere Fläche sieht, weiss nicht, welcher davon schuld ist.</p>
+</div>
+
+<h2>09 Wo das im Ganzen steht</h2>
+
+<p>Die Liste ist nur eine von drei Schichten deiner App. So hängen sie zusammen:</p>
+
+<pre><span class="c">   DATEN         Entity, Dao, Database          07C
+                 die Datenbank auf dem Gerät
+        |
+        |  getAll()
+        v
+   ACTIVITY      holt die Daten, entscheidet     05A bis 05D
+                 was angezeigt wird
+        |
+        |  setItems(...)
+        v
+   ANZEIGE       Adapter, ViewHolder, Layout     06C, 07B
+                 zeigt an und rechnet nichts</span></pre>
+
+<p><b>Jede Schicht weiss nur, was die darunter ihr gibt.</b> Der Adapter kennt keine Datenbank. Die Datenbank kennt keinen Bildschirm. Die Activity in der Mitte verbindet die zwei.</p>
+
+<p>Das ist der Grund, warum du in 08C die Datenquelle des Spiels austauschen konntest, ohne den Bildschirm neu zu schreiben. Und es ist der Grund, warum ein Adapter aus einem Projekt fast unverändert in ein anderes passt.</p>
+
+<h2>10 Prüfe dich selbst</h2>
+
+<ol>
+<li>Warum gibt es für deine Zeile keinen fertigen Baustein in Android, für einen Knopf aber schon?</li>
+<li>Deine Liste hat 500 Einträge. Wie viele ViewHolder entstehen ungefähr, und warum?</li>
+<li>Warum gibt es zwei Methoden im Adapter statt einer, die beides macht?</li>
+<li>Du scrollst nach unten und wieder hoch, und bei einer Zeile fehlt plötzlich der Betrag. <b>Welche der drei Regeln aus Abschnitt 04 hast du verletzt?</b></li>
+<li>Die Liste bleibt leer und im Logcat steht nichts dazu. Was prüfst du?</li>
+<li>Du gibst dem Adapter neue Daten und auf dem Bildschirm ändert sich nichts. Welche Zeile fehlt?</li>
+</ol>
+
+<div class="tip">
+<p><b>Die Antworten stehen alle auf diesem Blatt.</b> Wenn du eine nicht findest, hast du den Abschnitt überschlagen, und genau der ist der, den du brauchst.</p>
+</div>
+
+<p class="foot">Modul 335 | Nachschlagen | Listen verstehen | Version 1 | 26.08.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<script>
+/* ------------------------------------------------------------------
+   M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
+
+   Warum hier und nicht als eigene Datei: dieser Baustein geht ueber
+   web-bau/rahmen/fuss.html in jede Seite. Inline heisst, dass bauen.js
+   nichts Zusaetzliches kopieren muss.
+
+   Zwei Faelle:
+     Startseite   nimmt die sechs Links aus .schnellnav und baut daraus
+                  dasselbe schwebende Verzeichnis. Keine Auftragskarte.
+     Auftragsseite markiert Teil A bis C, vergibt jeder Ueberschrift eine
+                  id, baut oben die Auftragskarte und daneben das Verzeichnis.
+
+   Das Aussehen steht in web-bau/stil/rahmen.css unter m335-nav.
+   ------------------------------------------------------------------ */
+(function () {
+  var wrap = document.querySelector('.wrap');
+  if (!wrap) return;
+
+  var text = function (el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); };
+  var esc  = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+
+  // Die Startseite ist daran zu erkennen, dass ihr der Rueckweg im Kopf fehlt.
+  var istStart = !document.querySelector('.site-header .back');
+  var eintraege = [];
+
+  if (istStart) {
+    // ------------------------------------------------------------ Startseite
+    var schnell = wrap.querySelector('.schnellnav');
+    if (!schnell) return;
+    [].slice.call(schnell.querySelectorAll('a')).forEach(function (a) {
+      var ziel = document.getElementById(a.getAttribute('href').slice(1));
+      if (ziel) eintraege.push({ el: ziel, text: text(a), stufe: 'n2' });
+    });
+    if (eintraege.length < 2) return;
+
+  } else {
+    // --------------------------------------------------------- Auftragsseite
+    var heads = [].slice.call(wrap.querySelectorAll('h2, h3'));
+
+    // 1 und 2: Teil A bis C markieren, jeder Ueberschrift eine id geben.
+    // Die Quellen haben keine.
+    var vergeben = {};
+    heads.forEach(function (h, i) {
+      if (h.tagName === 'H3' && /^Teil [A-Z]\b/.test(text(h))) h.classList.add('teil');
+      if (h.id) { vergeben[h.id] = true; return; }
+      var roh = text(h).toLowerCase()
+        .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+        .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+      var id = roh || ('abschnitt-' + i);
+      if (vergeben[id]) id = id + '-' + i;
+      vergeben[id] = true;
+      h.id = id;
+    });
+
+    // 3: Die Auftragskarte. Sie sagt in einem Bildschirm, wie lange der
+    // Auftrag dauert und aus welchen Teilen er besteht. Alles daran steht
+    // schon auf der Seite, die Karte stellt es nur neu zusammen.
+    var subs = [].slice.call(wrap.querySelectorAll('.sub'));
+    var bloecke = heads.filter(function (h) { return h.querySelector('.time'); });
+    var budget = '', zusatz = '';
+
+    subs.forEach(function (p) {
+      if (budget) return;
+      var m = p.innerHTML.match(/Zeitbudget\s+([^.<]+)\./);
+      if (!m) return;
+      var stuecke = m[1].split(/,\s*dazu\s*/);
+      budget = stuecke[0].trim();
+      if (stuecke[1]) zusatz = 'dazu ' + stuecke[1].trim();
+      p.innerHTML = p.innerHTML.replace(m[0], '').replace(/\s{2,}/g, ' ').trim();
+    });
+
+    if (budget || bloecke.length) {
+      var karte = document.createElement('div');
+      karte.className = 'karte';
+      var inhalt = '';
+      if (budget) {
+        inhalt += '<p class="zeit"><span class="pill">' + esc(budget) + '</span>';
+        if (zusatz) inhalt += '<span class="pill neben">' + esc(zusatz) + '</span>';
+        inhalt += '</p>';
+      }
+      if (bloecke.length) {
+        inhalt += '<p class="t">DAS MACHST DU</p><ol>';
+        bloecke.forEach(function (b) {
+          var uhr = b.querySelector('.time');
+          var min = uhr ? text(uhr) : '';
+          var t = text(b).replace(min, '').replace(/\s+/g, ' ').replace(/\s+,/g, ',').trim();
+          t = t.replace(/[,;]\s*$/, '');
+          var teil = t.match(/^([^,]+),\s*(.*)$/);
+          var wo = teil ? teil[1] : t;
+          var rest = teil ? teil[2] : '';
+          inhalt += '<li><a href="#' + b.id + '"><span class="wo">' + esc(wo) + '</span>'
+                  + (rest ? ' ' + esc(rest) : '') + '</a>'
+                  + '<span class="min">' + esc(min) + '</span></li>';
+        });
+        inhalt += '</ol>';
+      }
+      karte.innerHTML = inhalt;
+      // Steht oben ein Zielbild, gehoert die Karte darunter. Erst sehen, was
+      // entsteht, dann lesen, wie lange es dauert.
+      var anker = wrap.querySelector('figure.zielbild')
+                || (subs.length ? subs[subs.length - 1] : wrap.firstElementChild);
+      anker.parentNode.insertBefore(karte, anker.nextSibling);
+    }
+
+    // Unter vier Ueberschriften lohnt sich kein Verzeichnis.
+    if (heads.length < 4) return;
+    heads.forEach(function (h) {
+      eintraege.push({
+        el: h,
+        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
+      });
+    });
+  }
+
+  // ---------------------------------------------------------------- 4
+  var nav = document.createElement('nav');
+  nav.className = 'm335-nav';
+  nav.setAttribute('aria-label', 'Inhalt dieser Seite');
+
+  var html = '<p class="kopfzeile">AUF DIESER SEITE</p>'
+           + '<button type="button" class="schliessen" aria-label="Verzeichnis schliessen">Schliessen</button><ol>';
+  eintraege.forEach(function (e) {
+    html += '<li class="' + e.stufe + '"><a href="#' + e.el.id + '">' + esc(e.text) + '</a></li>';
+  });
+  nav.innerHTML = html + '</ol>';
+
+  var knopf = document.createElement('button');
+  knopf.type = 'button';
+  knopf.className = 'm335-nav-knopf';
+  knopf.textContent = 'Inhalt';
+
+  document.body.appendChild(nav);
+  document.body.appendChild(knopf);
+
+  var links = [].slice.call(nav.querySelectorAll('a'));
+
+  // Breit: die Leiste steht fest am Rand. Schmal: sie liegt hinter dem Knopf.
+  var breit = window.matchMedia('(min-width: 1380px)');
+  function umschalten() {
+    if (breit.matches) {
+      nav.className = 'm335-nav seitlich';
+      nav.hidden = false;
+      knopf.style.display = 'none';
+    } else {
+      nav.className = 'm335-nav klappe';
+      nav.hidden = true;
+      knopf.style.display = '';
+    }
+  }
+  umschalten();
+  if (breit.addEventListener) breit.addEventListener('change', umschalten);
+  else if (breit.addListener) breit.addListener(umschalten);
+
+  knopf.addEventListener('click', function () { nav.hidden = !nav.hidden; });
+  nav.querySelector('.schliessen').addEventListener('click', function () { nav.hidden = true; });
+  nav.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && !breit.matches) nav.hidden = true;
+  });
+
+  // Welcher Abschnitt ist gerade dran. Gesucht ist der letzte Eintrag, der
+  // oberhalb der Lesekante liegt. Die Kante liegt knapp unter dem klebenden
+  // Kopfbereich.
+  var laeuft = false;
+  function markieren() {
+    laeuft = false;
+    var kante = 96, treffer = 0;
+    for (var i = 0; i < eintraege.length; i++) {
+      if (eintraege[i].el.getBoundingClientRect().top <= kante) treffer = i;
+      else break;
+    }
+    for (var j = 0; j < links.length; j++) links[j].classList.toggle('hier', j === treffer);
+    var a = links[treffer];
+    if (a && breit.matches) {
+      var r = a.getBoundingClientRect(), n = nav.getBoundingClientRect();
+      if (r.top < n.top + 8 || r.bottom > n.bottom - 8) a.scrollIntoView({ block: 'nearest' });
+    }
+  }
+  function anstossen() {
+    if (laeuft) return;
+    laeuft = true;
+    window.requestAnimationFrame(markieren);
+  }
+  window.addEventListener('scroll', anstossen, { passive: true });
+  window.addEventListener('resize', anstossen);
+  markieren();
+})();
+</script>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>

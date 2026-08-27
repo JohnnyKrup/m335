@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>09B Lösung Reparatur und Rückblick</title>
+<title>09B Lösungsmaterial, Reparatur und Rückblick</title>
 <!--M335:STIL-->
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/stil/rahmen.css">
@@ -19,21 +19,305 @@
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
 <div class="wrap">
-<h1>09B Lösungsmaterial: Reparatur und Rückblick</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Tag 5, Vormittag. Zum Durchlesen brauchst du etwa 20 Minuten.</p>
+<h1>09B Lösungsmaterial, Reparatur und Rückblick</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 5 Vormittag. Version 1 vom 26.08.2026.</p>
+<p class="sub">Zum Durchlesen brauchst du etwa 18 Minuten.</p>
 
-<div class="warte">
-<p><b>Dieses Lösungsmaterial ist noch nicht freigeschaltet.</b></p>
-<p>Es gehört zum Auftrag 09B, der am <b>Tag 5, Vormittag</b> läuft.</p>
+<h2>01 Wie du dieses Material benutzt</h2>
+
+<div class="warn">
+<p><b>Dieses Material ist von Anfang an offen.</b> Es ist kein Nachschlagewerk für hinterher, du brauchst es während des Blocks.</p>
 </div>
 
-<p>Die Adresse bleibt dieselbe. Sobald die Lösung da ist, findest du sie genau hier.</p>
+<table>
+<tr><th>Wann</th><th>Was du hier holst</th></tr>
+<tr><td>In T2a, Bahn 1</td><td><b>Abschnitt 02.</b> Die <b>sieben</b> häufigsten Lücken, und zu jeder, woran du sie erkennst. <b>Lücke 7 ist die, die nicht abstürzt</b></td></tr>
+<tr><td>In T2b, Bahn 2</td><td><b>Abschnitt 03.</b> Die Prüfliste für dein Formular. <b>Kein Code</b>, das ist Absicht</td></tr>
+<tr><td>In T3c</td><td><b>Abschnitt 04.</b> Die Landkarte über alle 48 Punkte</td></tr>
+<tr><td>In T4a</td><td><b>Abschnitt 06.</b> Was einen Testfall aussagekräftig macht</td></tr>
+<tr><td>In T4b</td><td><b>Abschnitt 05.</b> Die Antworten zum Leseblatt</td></tr>
+<tr><td>Vor der Prüfung</td><td><b>Abschnitt 07.</b> Die Checkliste für den Nachmittag</td></tr>
+</table>
 
-<p>Und wenn es soweit ist, gilt wie immer: erst selbst bauen, dann hier hineinschauen. Der ganze Code steht dann hier, aber er nützt dir nur, wenn du vorher selbst gesucht hast.</p>
+<h2>02 Die sechs häufigsten Lücken</h2>
 
-<p><a href="/">Zurück zur Übersicht</a></p>
+<p>Zu jeder Lücke steht hier <b>woran du sie erkennst</b> und <b>wo die vollständige Erklärung liegt</b>. Der Code selbst steht nicht hier, sondern in dem Auftrag, in dem du ihn gebaut hast. <b>Das ist Absicht:</b> am Prüfungstag suchst du auch dort, und heute ist die letzte Gelegenheit, das Suchen zu üben.</p>
 
-<p class="foot">Modul 335 Mobile Applikationen | Tag 5, Vormittag | Lösung 09B | Platzhalter</p>
+<h3>Lücke 1, Room baut nicht durch</h3>
+<p><b>Woran du sie erkennst:</b> das Projekt lässt sich mit <code>Ctrl+F9</code> nicht bauen. Die Meldung nennt entweder deine Datenbank-Klasse mit dem Anhang <code>_Impl</code>, oder ein einzelnes Feld deiner Entity.</p>
+<table>
+<tr><th>Die Meldung sagt</th><th>Dann fehlt</th></tr>
+<tr><td><code>cannot find symbol ..._Impl</code></td><td>Nichts an deinem Code. Das Projekt ist nur nicht neu gebaut. Room erzeugt diese Klasse beim Bauen</td></tr>
+<tr><td><code>Cannot find getter for field</code></td><td>Ein Getter oder Setter zu einem <code>private</code>-Feld</td></tr>
+<tr><td><code>Cannot figure out how to save this field</code></td><td>Ein Typ, den Room nicht kennt. Room kann Zahlen, Text und die Hüllklassen dazu</td></tr>
+<tr><td><code>Entities and POJOs must have a usable public constructor</code></td><td>Ein Konstruktor ohne Parameter, oder gar keiner</td></tr>
+<tr><td>Nichts davon, aber <code>@Database</code> kennt deine Entity nicht</td><td>Der Eintrag in <code>entities = {...}</code></td></tr>
+</table>
+<p><b>Wo es vollständig steht:</b> Auftrag 07C, Teil A und B. Das Lösungsmaterial von 09A, Abschnitt 05, hat den fertigen Code aller drei Klassen. Das Grundlagenblatt <b>Room verstehen</b> erklärt, warum es drei sind.</p>
+<div class="tip">
+<p><b>Der eine Satz zum Mitnehmen:</b> Room meldet sich nur beim Bauen, dafür sagt es fast immer, welches Feld nicht passt. <b>Lies die erste Meldung ganz, nicht die letzte.</b></p>
+</div>
+
+<h3>Lücke 2, der Startbestand wächst</h3>
+<p><b>Woran du sie erkennst:</b> nach dem zweiten Start stehen doppelt so viele Einträge da wie nach dem ersten. Nichts stürzt ab.</p>
+<p><b>Die Ursache:</b> deine Methode für den Startbestand prüft nicht, ob schon etwas da ist. Sie muss mit <code>count()</code> zählen und umkehren, sobald die Zahl grösser als 0 ist.</p>
+<div class="warn">
+<p><b>Die Reparatur allein genügt nicht.</b> Die falschen Zeilen stehen schon in der Datenbank, und deine reparierte Methode lädt nie wieder. Du musst zusätzlich die Datenbank leeren: App-Info auf dem Gerät, <b>Clear storage</b>.</p>
+<p><b>Der Satz dazu, und er gilt weit über diesen Fehler hinaus: ein Startbestand ist keine Reparatur.</b> Wer Daten korrigieren will, muss die Daten anfassen und nicht den Code, der sie einmal erzeugt hat.</p>
+</div>
+<p><b>Wo es vollständig steht:</b> Auftrag 08A, Teil B2. Lösungsmaterial 09A, Denkfrage 3.</p>
+
+<h3>Lücke 3, die Liste bleibt leer</h3>
+<p><b>Woran du sie erkennst:</b> der Bildschirm bleibt leer, nichts stürzt ab. <b>Die Unterscheidung machst du im Logcat</b>, und sie dauert zehn Sekunden.</p>
+<table>
+<tr><th>Im Logcat steht</th><th>Dann fehlt</th></tr>
+<tr><td><code>No layout manager attached; skipping layout</code></td><td>Der <code>LinearLayoutManager</code>. Er gehört gesetzt, <b>bevor</b> der Adapter gesetzt wird</td></tr>
+<tr><td>gar nichts dazu</td><td>Niemand ruft deine Lade-Methode auf, oder sie gibt die Liste nicht an den Adapter weiter</td></tr>
+<tr><td>deine eigene Zeile mit <code>total=0</code></td><td>Die Datenbank ist wirklich leer. Dann ist es Lücke 2 und nicht Lücke 3</td></tr>
+</table>
+<p><b>Wo es vollständig steht:</b> Auftrag 06C für den Adapter, 08A B1 für die Liste aus der Datenbank, 09A Schritt 3 für beides zusammen.</p>
+
+<h3>Lücke 4, das Formular speichert nichts</h3>
+<p><b>Woran du sie erkennst:</b> du tippst auf Speichern und es passiert gar nichts. Kein Fehler, keine Meldung, kein Eintrag in der Liste.</p>
+<table>
+<tr><th>Prüf der Reihe nach</th><th>Wenn es fehlt</th></tr>
+<tr><td>Steht ein <code>setOnClickListener</code> am Speichern-Knopf?</td><td><b>Nichts passiert, und nichts meldet sich.</b> Der häufigste stille Fehler des ganzen Moduls</td></tr>
+<tr><td>Läuft deine Prüfmethode durch, oder kehrt sie beim ersten Fehler zurück?</td><td>Dann siehst du nur eine rote Meldung statt aller. Kein Absturz, aber falsch</td></tr>
+<tr><td>Wird nach dem Speichern <code>finish()</code> aufgerufen?</td><td>Der Eintrag ist da, aber du siehst ihn nicht, weil das Formular offen bleibt</td></tr>
+<tr><td>Lädt die Liste nach der Rückkehr neu?</td><td>Der Eintrag ist in der Datenbank und nicht auf dem Bildschirm. Das ist die Rolle von <code>onResume</code></td></tr>
+</table>
+<p><b>Wo es vollständig steht:</b> Auftrag 06B C1 für die Prüfung, 08B B2 und B3 für das Formular und das Anlegen.</p>
+
+<h3>Lücke 5, beim Bearbeiten entsteht eine zweite Zeile</h3>
+<p><b>Woran du sie erkennst:</b> du änderst einen bestehenden Eintrag, speicherst, und danach stehen zwei fast gleiche in der Liste.</p>
+<p><b>Die Ursache:</b> beim Speichern läuft immer <code>insert</code>. Es fehlt die Verzweigung, die beim Bearbeiten stattdessen <code>update</code> aufruft.</p>
+<div class="warn">
+<p><b>Und der Fehler daneben, der noch stiller ist:</b> die Verzweigung ist da, <code>update</code> läuft, und trotzdem ändert sich nichts. Dann fehlt das Setzen der <code>id</code> vor dem <code>update</code>. <b>Room findet die Zeile nur über die <code>id</code>.</b> Ohne sie tut <code>update</code> gar nichts und meldet auch nichts.</p>
+</div>
+<p><b>Die schnellste Kontrolle:</b> zähl die Einträge in der Liste vor und nach dem Speichern. Bleibt die Zahl gleich, hast du geändert. Steigt sie, hast du angelegt.</p>
+<p><b>Wo es vollständig steht:</b> Auftrag 08C, Teil A3.</p>
+
+<h3>Lücke 6, im Querformat ist etwas abgeschnitten</h3>
+<p><b>Woran du sie erkennst:</b> im Hochformat sieht alles richtig aus. <b>Du siehst diesen Fehler nur, wenn du das Gerät drehst</b>, und das macht beim Testen fast niemand.</p>
+<table>
+<tr><th>Prüf</th><th>Richtig</th></tr>
+<tr><td>Die Höhe des Elements, das den Platz füllen soll</td><td><code>0dp</code>, nicht <code>wrap_content</code> und nicht <code>match_parent</code></td></tr>
+<tr><td>Die Verbindungen dieses Elements</td><td>Oben <b>und</b> unten verbunden. Mit nur einer Verbindung weiss es nicht, wo es aufhören soll</td></tr>
+<tr><td>Ein Formular mit vielen Feldern</td><td>Gehört in eine <code>ScrollView</code>. Im Querformat bleibt sonst die Hälfte unerreichbar</td></tr>
+</table>
+<p><b>Wo es vollständig steht:</b> Auftrag 02B, das Grundlagenblatt <b>Constraints verstehen</b>, und 09A Schritt 3.</p>
+<div class="tip">
+<p><b>Im Bewertungsraster ist das eine eigene Zeile mit 2 Punkten.</b> Es kostet dich eine einzige Angabe und dreissig Sekunden Prüfen. <b>Dreh das Gerät, bevor du am Nachmittag abgibst.</b></p>
+</div>
+
+<h3>Lücke 7, es läuft und ich könnte es nicht erklären</h3>
+<p><b>Woran du sie erkennst:</b> in 09A hat alles funktioniert. Du hast dein WissQuiz aufgemacht, den Adapter kopiert, die Namen angepasst, gestartet, hat gepasst, weiter. <b>Gefragt, was der ViewHolder dabei tut, müsstest du raten.</b></p>
+<div class="warn">
+<p><b>Das ist die häufigste Lücke im ganzen Kurs, und sie steht in keiner Fehlermeldung.</b> Sie ist auch kein Grund, sich schlecht zu fühlen. <b>Kopieren und Anpassen ist unter Zeitdruck die richtige Strategie</b>, es ist am Prüfungstag erlaubt, und es holt die Punkte im Raster.</p>
+<p><b>Sie hat genau eine Schwäche, und die trifft dich am Nachmittag:</b> wenn etwas nicht funktioniert, hast du keinen Ansatzpunkt. Du weisst nicht, welches Stück schuld sein könnte, also probierst du. Mit dem Bild im Kopf prüfst du stattdessen drei Stellen der Reihe nach und bist in zwei Minuten fertig.</p>
+</div>
+<p><b>Die Behandlung, dreissig Minuten:</b></p>
+<ol>
+<li><b>Lies das passende Grundlagenblatt.</b> <b>Listen verstehen</b> für alles rund um den Adapter, <b>Room verstehen</b> für die drei Klassen der Datenbank.</li>
+<li><b>Leg deinen eigenen Code daneben.</b> Nicht das Referenzprojekt, deinen. Such jedes Stück aus dem Schichtenbild in deiner Datei.</li>
+<li><b>Sag zu jedem Teil einen Satz</b>, laut oder auf Papier. Wo du ins Stocken kommst, ist die Stelle.</li>
+<li><b>Und eine Gegenprobe, die zwei Minuten dauert:</b> nimm eine Zeile deines Adapters weg und schau, was passiert. Wer den Fehler vorhersagen kann, bevor er ihn sieht, hat verstanden.</li>
+</ol>
+<div class="tip">
+<p><b>Diese Lücke ist die einzige, bei der T3b die eigentliche Prüfung ist.</b> Dort erklärst du einer anderen Person einen Schritt in eigenen Worten. Wenn das flüssig geht, ist die Lücke zu.</p>
+</div>
+
+<h2>03 Prüfliste für Bahn 2, das Formular in der Einkaufsliste</h2>
+
+<div class="warn">
+<p><b>Hier steht kein Code, und das ist Absicht.</b> Deine Vorlage ist deine eigene <code>QuestionEditActivity</code> aus 08B und 08C. Am Prüfungstag hast du auch keine andere.</p>
+</div>
+
+<p>Die Liste sagt dir, <b>was stimmen muss</b>. Wie es bei dir aussieht, entscheidest du.</p>
+
+<table>
+<tr><th class="num">Nr</th><th>Das prüfst du</th><th>Woran du es siehst</th></tr>
+<tr><td class="num">1</td><td>Ein Knopf auf der Startseite öffnet ein leeres Formular</td><td>Das Formular geht auf und alle Felder sind leer</td></tr>
+<tr><td class="num">2</td><td>Das Formular hat vier Eingabefelder: Artikel, Laden, Menge, Preis</td><td>Die vier Beschriftungen sind verschieden. <b>Wer kopiert, hat viermal dieselbe</b></td></tr>
+<tr><td class="num">3</td><td>Menge und Preis haben den passenden <code>inputType</code></td><td>Die Tastatur zeigt Zahlen und nicht Buchstaben</td></tr>
+<tr><td class="num">4</td><td>Speichern legt einen Eintrag an und der steht danach in der Liste</td><td>Die Anzahl in der Liste steigt um eins</td></tr>
+<tr><td class="num">5</td><td>Nach einem Neustart der App ist der neue Eintrag noch da</td><td>Sonst ist er nur im Adapter gelandet und nicht in der Datenbank</td></tr>
+<tr><td class="num">6</td><td>Artikel und Laden sind Pflicht, mindestens 4 Zeichen</td><td>Bei einem leeren Feld wird es rot und das Speichern läuft nicht</td></tr>
+<tr><td class="num">7</td><td><b>Alle</b> fehlerhaften Felder werden auf einmal rot, nicht nur das erste</td><td>Zwei leere Pflichtfelder geben zwei rote Meldungen</td></tr>
+<tr><td class="num">8</td><td>Menge und Preis dürfen leer bleiben</td><td>Ein Eintrag ohne beide lässt sich speichern und zeigt rechts keinen Betrag</td></tr>
+<tr><td class="num">9</td><td>Eine alte Meldung verschwindet, wenn das Feld jetzt stimmt</td><td>Sonst bleibt Rot stehen, obwohl alles passt</td></tr>
+<tr><td class="num">10</td><td>Ein Klick auf eine Zeile öffnet den bestehenden Eintrag mit seinen Werten</td><td>Die vier Felder sind gefüllt, nicht leer</td></tr>
+<tr><td class="num">11</td><td><b>Speichern ändert dann, statt neu anzulegen</b></td><td>Die Anzahl in der Liste bleibt gleich. Siehe Lücke 5</td></tr>
+<tr><td class="num">12</td><td>Der Löschen-Knopf ist nur beim Bearbeiten sichtbar und fragt nach</td><td>Beim Anlegen gibt es nichts zu löschen</td></tr>
+<tr><td class="num">13</td><td>Jede neue Klasse und jede neue Methode hat Javadoc</td><td>2 Punkte im Bewertungsraster</td></tr>
+<tr><td class="num">14</td><td>Das Formular bleibt im Querformat bedienbar</td><td>Dreh das Gerät. Siehe Lücke 6</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Wenn du bis Punkt 11 kommst, hast du die Prüfungs-App einmal ganz gebaut.</b> In 32 Minuten schafft das fast niemand, und das ist auch nicht das Ziel. <b>Das Ziel ist, dass du am Nachmittag weisst, in welcher Reihenfolge du vorgehst.</b></p>
+</div>
+
+<h2>04 Die Landkarte, alle 48 Punkte</h2>
+
+<p>Links steht, was im Bewertungsraster der Prüfung steht. Rechts steht, in welchem Auftrag du das gebaut hast.</p>
+
+<h3>Dokumentation, 22 Punkte, ohne eine Zeile Code</h3>
+<table>
+<tr><th>Zeile im Raster</th><th class="num">P</th><th>Geübt in</th></tr>
+<tr><td>Drei User Stories mit Akzeptanzkriterien</td><td class="num">6</td><td>04C, und unter Zeit in 07A. <b>Die grösste Einzelposition der ganzen Prüfung</b></td></tr>
+<tr><td>Datenmodell korrekt</td><td class="num">3</td><td>06A, 07A, und umgesetzt in 09A Schritt 1</td></tr>
+<tr><td>Persistenz dokumentiert und begründet</td><td class="num">2</td><td>05D gegen 07C, also SharedPreferences gegen Room. Schriftlich in 07A</td></tr>
+<tr><td><b>Alternative Persistenzmethode genannt</b></td><td class="num">1</td><td>07A. <b>Eine eigene Zeile mit einem eigenen Punkt.</b> Der billigste Punkt der Prüfung</td></tr>
+<tr><td>Zwei aussagekräftige GUI-Mockups</td><td class="num">4</td><td>04D, und als Hausaufgabe von 07A</td></tr>
+<tr><td>Testplan mit vier Tests</td><td class="num">4</td><td>08D, einer gemeinsam, drei selbst</td></tr>
+<tr><td>Testdurchführung dokumentiert</td><td class="num">2</td><td>08D als Hausaufgabe</td></tr>
+</table>
+
+<h3>Funktionalität, 26 Punkte</h3>
+<table>
+<tr><th>Zeile im Raster</th><th class="num">P</th><th>Geübt in</th></tr>
+<tr><td>Datenmodell und Persistenz korrekt implementiert</td><td class="num">4</td><td>07C, und von Null in 09A Schritt 1 und 2</td></tr>
+<tr><td>Einträge werden in Liste angezeigt und aktualisiert</td><td class="num">2</td><td>06C, 08A, und von Null in 09A Schritt 3</td></tr>
+<tr><td>Der berechnete Wert wird rechts angezeigt</td><td class="num">1</td><td>07B, und in 09A Schritt 3</td></tr>
+<tr><td>Neue Einträge hinzufügen</td><td class="num">4</td><td>08B</td></tr>
+<tr><td>Vorhandene Einträge editierbar</td><td class="num">4</td><td>08C</td></tr>
+<tr><td>Formularfelder optimiert</td><td class="num">2</td><td>06B, <code>inputType</code> und die Aktionstaste</td></tr>
+<tr><td>Fehlerbehandlung für Formularfelder</td><td class="num">4</td><td>06B, 08B und 08C</td></tr>
+<tr><td>Querformat und Displaygrössen</td><td class="num">2</td><td>02B, und in jedem Layout seither</td></tr>
+<tr><td>App-Kompatibilität ab Android 8</td><td class="num">1</td><td>seit 01B. Es ist eine Zeile in deiner <code>build.gradle.kts</code></td></tr>
+<tr><td>Javadoc für alle Klassen und Funktionen</td><td class="num">2</td><td>in jedem einzelnen Auftrag</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Die Rechnung, die diese Tabelle trägt.</b> Der Papierteil gibt 22 Punkte in 61 Minuten, das sind 0.36 Punkte pro Minute. Der Codeteil gibt 26 Punkte in 150 Minuten, das sind 0.17. <b>Der Papierteil ist mehr als doppelt so ertragreich pro Minute</b>, und er braucht kein Gerät, keinen Compiler und kein Glück.</p>
+<p>Daraus folgt der Vorschlag für den Nachmittag: <b>zuerst die Aufgaben 1 bis 3, dann 4 und 5, und erst danach programmieren.</b> Und geh nicht ins Programmieren, bevor Mockups und Testplan geschrieben sind.</p>
+</div>
+
+<div class="warn">
+<p><b>Es gibt in dieser Landkarte keine Zeile ohne Eintrag rechts.</b> Alles, was am Nachmittag bewertet wird, hast du im Kurs mindestens einmal gebaut. <b>Wenn du bei einer Zeile trotzdem nichts sagen könntest, ist das dein Thema für die Mittagspause.</b></p>
+</div>
+
+<h2>05 Die Antworten zum Leseblatt</h2>
+
+<h3>Frage 1, drei Sensoren in deinem Handy</h3>
+<p><b>Diese Antwort ist bei jedem anders</b>, denn sie hängt von deinem Gerät ab. Häufige richtige Antworten:</p>
+<table>
+<tr><th>Sensor</th><th>Wofür er benutzt wird</th></tr>
+<tr><td>Beschleunigungssensor</td><td>Schrittzähler, Drehen des Bildschirms, Schütteln zum Rückgängigmachen</td></tr>
+<tr><td>Helligkeitssensor</td><td>Automatische Bildschirmhelligkeit</td></tr>
+<tr><td>Näherungssensor</td><td>Der Bildschirm geht aus, wenn du das Handy ans Ohr hältst</td></tr>
+<tr><td>Magnetfeldsensor</td><td>Kompass, Nordpfeil in einer Kartenapp</td></tr>
+<tr><td>Gyroskop</td><td>Bildstabilisierung der Kamera, Steuerung in Spielen</td></tr>
+</table>
+<div class="note">
+<p><b>GPS zählt hier nicht.</b> Der Standort läuft in Android nicht über das Sensor-Framework, sondern über einen eigenen Dienst. Das ist eine gute Nachfrage im Plenum.</p>
+</div>
+
+<h3>Frage 2, warum in <code>onPause</code> abmelden</h3>
+<p><b>Weil ein angemeldeter Sensor weitermisst, auch wenn deine App gar nicht mehr auf dem Bildschirm ist.</b> Das kostet Strom, und zwar merkbar.</p>
+<p>Das Tückische daran: <b>nichts stürzt ab und nichts meldet sich.</b> Der Benutzer merkt nur, dass sein Akku schneller leer ist, und weiss nicht warum. Genau darum ist es eine Regel und keine Empfehlung.</p>
+
+<h3>Frage 3, Emulator gegen Play Store</h3>
+<p>Drei Unterschiede, und der erste ist der wichtige:</p>
+<ol>
+<li><b>Der Schlüssel.</b> Die Version im Emulator ist mit dem Debug-Schlüssel unterschrieben, den Android Studio automatisch erzeugt und den jeder hat. Für den Store brauchst du deinen eigenen Upload-Schlüssel.</li>
+<li><b>Das Format.</b> Du lädst kein APK hoch, sondern ein App Bundle mit der Endung <code>.aab</code>. Das eigentliche APK baut Google daraus, für jedes Gerät einzeln.</li>
+<li><b>Die Optimierung.</b> Die Debug-Version ist nicht verkleinert. Sie ist schneller zu bauen und grösser.</li>
+</ol>
+
+<h3>Frage 4, wozu der Versionscode dient</h3>
+<p><b>Der Store erkennt daran, welche Version neuer ist.</b> Es ist eine ganze Zahl, sie muss bei jedem Upload grösser werden, und der Benutzer sieht sie nie.</p>
+<p><b>Nicht zu verwechseln mit dem Versionsnamen.</b> Der steht im Store und in den App-Infos, ist ein Text wie <code>2.3.1</code>, und der Store rechnet damit nicht.</p>
+<p>Das ist der Grund für die häufigste abgelehnte Hochladung überhaupt: der Versionscode wurde nicht erhöht.</p>
+
+<h3>Frage 5, zwei Dinge, die der Store verlangt</h3>
+<p>Zwei genügen. Richtig ist alles davon:</p>
+<ul>
+<li>Eine <b>Datenschutzerklärung</b> als öffentlich erreichbare Adresse im Netz, auch bei einer App ohne Daten</li>
+<li>Die Angaben zur <b>Datensicherheit</b></li>
+<li>Eine <b>Inhaltseinstufung</b> über einen Fragebogen</li>
+<li>Einen <b>Store-Eintrag</b> mit Beschreibung, Symbol und Screenshots</li>
+<li>Ein <b>signiertes App Bundle</b>, kein Debug-APK</li>
+<li>Einen ausreichend hohen <b>targetSdk</b></li>
+<li>Bei einem persönlichen Konto: einen bestandenen <b>geschlossenen Test</b> mit 12 Testern über 14 Tage</li>
+</ul>
+
+<div class="tip">
+<p><b>Die stärkste Nachfrage im Plenum:</b> wie lange dauert es realistisch von "meine App läuft" bis "sie steht im Store"? Antwort: bei einem neuen persönlichen Konto <b>drei bis vier Wochen</b>, wegen der 14 Tage Testphase und der Prüfung danach. Fast alle schätzen einen Tag.</p>
+</div>
+
+<h2>06 Was einen Testfall aussagekräftig macht</h2>
+
+<p>Für T4a. Geh die sechs Punkte an einem fremden Testfall durch, nicht an deinem eigenen. An einem fremden siehst du es sofort.</p>
+
+<table>
+<tr><th class="num">Nr</th><th>Das prüfst du</th><th>Gegenbeispiel</th></tr>
+<tr><td class="num">1</td><td><b>Kann ihn eine fremde Person nachstellen?</b> Die Vorbedingung sagt, was vorher gelten muss</td><td>"App offen" reicht nicht. <b>Welcher Bildschirm, welche Daten?</b></td></tr>
+<tr><td class="num">2</td><td><b>Ist das erwartete Ergebnis prüfbar?</b> Also eine Zahl, ein Text, ein Zustand</td><td>"Es funktioniert" ist nicht prüfbar. "Die Meldung <i>Pflichtfeld</i> erscheint unter dem Feld Artikel" schon</td></tr>
+<tr><td class="num">3</td><td><b>Ist das tatsächliche Ergebnis ausgefüllt</b>, mit dem was deine App wirklich gemacht hat?</td><td>Ein leeres Feld heisst, der Test wurde nie durchgeführt. <b>An der Prüfung sind das 2 eigene Punkte</b></td></tr>
+<tr><td class="num">4</td><td><b>Prüft der Testfall genau eine Sache?</b></td><td>Ein Testfall, der Anlegen, Ändern und Löschen zusammen prüft, sagt bei einem Fehler nicht, welches davon kaputt ist</td></tr>
+<tr><td class="num">5</td><td><b>Sagt der Befund, ob es passt</b>, und nicht was zu tun ist?</td><td>"Muss noch gefixt werden" ist kein Befund. "Weicht ab, es erscheint keine Meldung" schon</td></tr>
+<tr><td class="num">6</td><td><b>Steht der Testablauf als nummerierte Schritte da?</b></td><td>Ein Fliesstext lässt sich nicht abarbeiten. Vier Zeilen mit Nummern schon</td></tr>
+</table>
+
+<div class="warn">
+<p><b>Ein Testfall, der besteht, ist ein guter Testfall.</b> Das muss gesagt werden, denn viele glauben, ein Test sei nur dann etwas wert, wenn er einen Fehler findet. <b>Bewertet wird, ob der Testfall aussagekräftig und dokumentiert ist</b>, nicht ob er fehlschlägt.</p>
+</div>
+
+<div class="tip">
+<p><b>Der billigste Testfall, den es gibt, und er wird fast immer vergessen:</b> ein Pflichtfeld leer lassen und speichern. Vorbedingung, Ablauf und erwartetes Ergebnis stehen in drei Zeilen, und er prüft genau die Fehlerbehandlung, die im Raster 4 Punkte wert ist.</p>
+</div>
+
+<h2>07 Die Checkliste für den Nachmittag</h2>
+
+<h3>In der Mittagspause</h3>
+<table>
+<tr><th>Das machst du</th><th>Warum</th></tr>
+<tr><td><b>Emulator einmal starten</b></td><td>Ein Gerät, das nicht startet, kostet um 13:00 zwanzig Minuten. Jetzt kostet es keine</td></tr>
+<tr><td><b>Beide Projekte einmal öffnen und bauen</b></td><td>Ein Gradle-Problem willst du jetzt sehen, nicht dann</td></tr>
+<tr><td><b>Den Vorschlag zum Android Gradle Plugin wegklicken</b></td><td>Android Studio bietet oft an, es zu aktualisieren. <b>Der Assistent ändert deine Bau-Dateien.</b> Geht dabei etwas schief, baut nichts mehr, und der Fehler sieht aus wie einer in deinem Code. Am Prüfungstag steht dieselbe Meldung da</td></tr>
+<tr><td><b>Deine Unterlagen zurechtlegen</b></td><td>Open Book. Dein eigenes Projekt ist das stärkste Hilfsmittel, das du hast</td></tr>
+<tr><td><b>Etwas essen</b></td><td>Es sind dreieinhalb Stunden</td></tr>
+</table>
+
+<div class="warn">
+<p><b>Was du in der Mittagspause nicht mehr tust: etwas Neues lernen.</b> Eine Stunde vor einer Prüfung bringt das nichts und macht nervös. Wenn du noch etwas machst, dann die eine Zeile aus der Landkarte, bei der du nichts sagen konntest.</p>
+</div>
+
+<h3>Die Reihenfolge am Nachmittag</h3>
+<ol>
+<li><b>Zuerst die Aufgaben auf Papier.</b> User Stories, Datenmodell, Persistenz. Das sind 12 Punkte in 31 Minuten und sie brauchen kein Gerät.</li>
+<li><b>Dann Mockups und Testplan.</b> Weitere 8 Punkte, ebenfalls auf Papier.</li>
+<li><b>Erst danach programmieren.</b> Und geh nicht ins Programmieren, bevor 4 und 5 geschrieben sind.</li>
+<li><b>Beim Programmieren in der Reihenfolge von 09A:</b> Datenschicht, dann Liste, dann Formular, dann Bearbeiten. Nach jedem Schritt läuft etwas.</li>
+<li><b>Zum Schluss die Testdurchführung eintragen.</b> Das sind 2 Punkte und es dauert fünf Minuten.</li>
+</ol>
+
+<h3>Die sechs Punkte, die am billigsten sind</h3>
+<table>
+<tr><th>Punkt</th><th class="num">P</th><th>Aufwand</th></tr>
+<tr><td>Die alternative Persistenzmethode nennen</td><td class="num">1</td><td>Ein Halbsatz. <b>Eigene Zeile im Raster</b></td></tr>
+<tr><td>Die dritte User Story schreiben</td><td class="num">2</td><td>Drei Zeilen. <b>Eine KI liefert oft nur zwei</b></td></tr>
+<tr><td>Das Gerät einmal drehen und das Layout anpassen</td><td class="num">2</td><td>Eine Angabe im Layout, dreissig Sekunden Prüfen</td></tr>
+<tr><td>Javadoc beim Schreiben statt danach</td><td class="num">2</td><td>Kostet null, wenn du es sofort machst</td></tr>
+<tr><td>Das tatsächliche Ergebnis im Testplan eintragen</td><td class="num">2</td><td>Fünf Minuten am Schluss</td></tr>
+<tr><td><code>minSdk</code> prüfen</td><td class="num">1</td><td>Eine Zeile lesen. Es muss 26 oder tiefer sein</td></tr>
+</table>
+
+<p><b>Zusammen sind das 10 der 48 Punkte</b>, und keiner davon braucht Können. Sie brauchen nur, dass du daran denkst.</p>
+
+<h3>Die drei teuersten Fehler</h3>
+<ol>
+<li><b>Nur zwei User Stories statt drei.</b> Reine Flüchtigkeit, kostet bis zu 2 der 6 Punkte.</li>
+<li><b>Ein berechneter Wert als Feld im Datenmodell.</b> Der Durchschnitt ist Summe durch Anzahl. Derselbe Fehler wie der Betrag in 07A und der Rang in 06A.</li>
+<li><b>Zu spät mit dem Programmieren aufhören.</b> Wer bis zur letzten Minute tippt, trägt die Testdurchführung nicht mehr ein und verliert 2 Punkte für fünf Minuten Arbeit.</li>
+</ol>
+
+<div class="tip">
+<p><b>Und der Satz, der über allem steht:</b> von 48 Punkten gibt es 22 ohne eine Zeile Code. Für eine Vier brauchst du rund 29. <b>Rechne selbst nach, was das heisst.</b></p>
+</div>
+
+<p class="foot">Modul 335 | Tag 5 Vormittag | Lösungsmaterial 09B | Version 1 | 26.08.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->

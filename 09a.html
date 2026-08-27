@@ -20,20 +20,468 @@
 <!--/M335:RAHMEN-KOPF-->
 <div class="wrap">
 <h1>09A Generalprobe Teil B</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Tag 5, Vormittag. Zeitbudget 75 Minuten.</p>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 5 Vormittag. Zeitbudget 90 Minuten. Version 1 vom 26.08.2026.</p>
+<p class="sub">Heute programmierst du die App, die du in 07A auf Papier geplant hast. Vom leeren Projekt bis zur laufenden Liste, unter denselben Bedingungen wie an der Prüfung.</p>
 
-<div class="warte">
-<p><b>Dieser Auftrag ist noch nicht freigeschaltet.</b></p>
-<p>Er läuft am <b>Tag 5, Vormittag</b>. Bis dahin steht hier nur diese Seite.</p>
+<h2>01 Einführung</h2>
+
+<h3>Das brauchst du vorher</h3>
+<ul>
+<li><b>Dein ausgefülltes Blatt aus 07A.</b> Dort steht dein Datenmodell für die Einkaufsliste. Du brauchst es in Schritt 1, und du brauchst es in der ersten Minute.</li>
+<li><b>Das Starter-Projekt Einkaufsliste.</b> Es liegt in Google Classroom als ZIP-Datei. Entpacken, in Android Studio öffnen, einmal <code>Ctrl+F9</code>.</li>
+<li>Dein Gerät oder dein Emulator, so wie er seit 01B eingerichtet ist.</li>
+<li><b>Dein Projekt WissQuiz nach 08C.</b> Nicht zum Arbeiten, sondern zum Nachschlagen. Alles, was du heute brauchst, hast du dort schon einmal geschrieben.</li>
+</ul>
+
+<div class="note">
+<p><b>Die Vorbereitung dauert drei Minuten und läuft vor der Zeit.</b> ZIP entpacken, Projekt öffnen, warten bis Gradle fertig ist, dann <code>Ctrl+F9</code>. Es muss ohne Fehler durchlaufen und die App muss starten. Sie zeigt dann einen leeren Bildschirm, und das ist richtig so.</p>
+<p>Läuft das nicht, meld dich sofort. <b>Diese drei Minuten sind am Prüfungstag genau gleich</b>, und dort willst du sie nicht mit einem kaputten Projekt verbringen.</p>
 </div>
 
-<p>Die Adresse bleibt dieselbe. Sobald der Auftrag da ist, findest du ihn genau hier, ohne dass sich der Link in Google Classroom ändert.</p>
+<h3>Woran du merkst, dass du fertig bist</h3>
 
-<p>Wenn du früher dran bist als der Kurs: nimm die Zusatzaufgabe des letzten Auftrags. Sie steht am Schluss jedes Auftragsdokuments und hat nie eine Musterlösung.</p>
+<div class="warn">
+<p><b>Dieses Blatt gibst du nicht ab, es ist für dich.</b> Am Prüfungstag hilft dir nur, was du selbst geübt hast.</p>
+</div>
 
-<p><a href="/">Zurück zur Übersicht</a></p>
+<p>Fertig bist du, wenn deine App fünf Einträge in einer Liste zeigt, wenn bei dreien davon rechts ein Betrag steht und bei zweien nicht, und wenn nach einem Neustart der App immer noch genau fünf Einträge da sind. <b>Mach davon einen Screenshot für dich selbst.</b></p>
 
-<p class="foot">Modul 335 Mobile Applikationen | Tag 5, Vormittag | Auftrag 09A | Platzhalter</p>
+<h2>02 Auftrag</h2>
+
+<h3>Ausgangslage</h3>
+
+<p>In 07A hast du eine Einkaufsliste geplant. Drei User Stories, ein Datenmodell, eine Begründung für die Speicherung. Das war der Papierteil der Prüfung, und du hast ihn unter echter Zeit geschrieben.</p>
+
+<p><b>Heute kommt der zweite Teil.</b> Dieselbe App, dieselbe Beschreibung, nur programmierst du sie jetzt. Du hast 75 Minuten. An der Prüfung sind es für dieselbe Sache <b>150</b>.</p>
+
+<h4>Die Auftragsbeschreibung, dieselbe wie in 07A</h4>
+
+<div class="info">
+<p>Du programmierst eine App für die Verwaltung einer Einkaufsliste nach folgenden Vorgaben:</p>
+<ul>
+<li>In der App kann der Benutzer für jeden Eintrag folgende Angaben speichern: den <b>Artikel</b>, den <b>Laden</b>, die <b>Menge</b> und den <b>Preis pro Stück</b>.</li>
+<li>Artikel und Laden sind Pflichtfelder. Sie müssen beim Anlegen eines neuen Eintrags eingegeben werden. Die Mindestlänge für beide Felder beträgt 4 Zeichen.</li>
+<li>Menge und Preis können später nachgetragen werden, sind also keine Pflichtfelder.</li>
+<li>Fehleingaben sollen vor dem Speichern abgefangen werden.</li>
+<li>Die Startseite der App soll eine Übersicht der Einträge mit Artikel und Laden enthalten. <b>Sind Menge und Preis für einen Eintrag vorhanden, wird der Betrag angezeigt.</b></li>
+<li>Ein bestehender Eintrag lässt sich antippen, ändern und wieder speichern.</li>
+<li>Die Datenhaltung soll nur lokal erfolgen.</li>
+<li>Die App muss für unterschiedliche Bildschirmgrössen auf Mobilgeräten mit Android 8 und höher taugen.</li>
+<li>Die App soll sowohl im Hoch- als auch im Querformat einwandfrei funktionieren.</li>
+<li>Alle selbst erstellten Klassen und Methoden sind Javadoc-kompatibel zu dokumentieren.</li>
+</ul>
+</div>
+
+<h4>Was davon heute drankommt</h4>
+
+<p>Die ganze Beschreibung in 75 Minuten zu bauen geht nicht, und das ist keine Schwäche der Probe, sondern eine Rechnung. Du baust heute die <b>erste Hälfte</b>, und zwar genau die, mit der auch die Prüfung anfängt.</p>
+
+<table>
+<tr><th>Aus der Beschreibung</th><th>Heute</th></tr>
+<tr><td>Die Angaben speichern, nur lokal</td><td><b>ja</b>, Schritt 1</td></tr>
+<tr><td>Die Startseite zeigt eine Übersicht mit Artikel und Laden</td><td><b>ja</b>, Schritt 3</td></tr>
+<tr><td>Sind Menge und Preis vorhanden, wird der Betrag angezeigt</td><td><b>ja</b>, Schritt 3</td></tr>
+<tr><td>Hoch- und Querformat</td><td><b>ja</b>, das entscheidet sich im Layout von Schritt 3</td></tr>
+<tr><td>Javadoc</td><td><b>ja</b>, bei jeder Klasse und jeder Methode, die du schreibst</td></tr>
+<tr><td>Einen Eintrag anlegen, Pflichtfelder, Mindestlänge, Fehleingaben abfangen</td><td>nein. Das hast du in 06B, 08B und 08C dreimal gebaut</td></tr>
+<tr><td>Einen Eintrag antippen, ändern, speichern</td><td>nein. Das ist 08C</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Damit du gleich weisst, wo du stehst:</b> von den 26 Punkten, die es an der Prüfung für den Code gibt, arbeitest du heute an <b>11</b> direkt. Die anderen 15 hast du in den Aufträgen 06B bis 08C schon einmal gebaut. <b>Es kommt heute nichts vor, was du noch nie gemacht hast.</b> Die vollständige Landkarte steht in der Auswertung am Schluss.</p>
+</div>
+
+<h4>Die Bedingungen</h4>
+
+<table>
+<tr><th>Punkt</th><th>Angabe</th><th>Woher</th></tr>
+<tr><td>Zeit</td><td><b>75 Minuten</b> für die drei Schritte. Danach 15 Minuten Auswertung, ohne Uhr</td><td>Ablauf. Die Lehrperson sagt es an</td></tr>
+<tr><td>Form</td><td>Einzelarbeit</td><td>Prüfungsblatt</td></tr>
+<tr><td>Erlaubt</td><td>Open Book. Das Internet, deine eigenen Unterlagen, dein eigenes Projekt WissQuiz</td><td>Prüfungsblatt</td></tr>
+<tr><td>KI</td><td><b>Das Prüfungsblatt verbietet sie nicht.</b> Auf der letzten Seite unterschreibst du aber, dass Stellen "aus Veröffentlichungen oder aus anderweitigen fremden Äusserungen (inkl. ChatGPT)" gekennzeichnet sind</td><td>Prüfungsblatt, Eidesstattliche Erklärung</td></tr>
+<tr><td>Nicht erlaubt</td><td>Fertige Projekte aus fremden Quellen. Chatten mit deinen Kollegen</td><td>Prüfungsblatt: "keine fertigten Github-Projekte oder Chat-Tools mit deinen Kollegen"</td></tr>
+<tr><td>Abgabe</td><td><b>keine.</b> Das Projekt bleibt bei dir</td><td>Ablauf</td></tr>
+</table>
+
+<div class="warn">
+<p><b>Die Zeit ist der Gegenstand dieser Probe, nicht der Code.</b> Du weisst schon, wie man ein Dao schreibt. Was du noch nicht weisst, ist, wie lange du dafür brauchst, wenn eine Uhr läuft. Genau das findest du heute heraus, und danach kannst du am Prüfungstag einteilen.</p>
+</div>
+
+<h4>Das Sicherheitsnetz</h4>
+
+<div class="tip">
+<p><b>Das Lösungsmaterial ist ab der ersten Minute offen.</b> Das ist Absicht und keine Schwäche.</p>
+<p><b>Die Regel dazu: hängst du an einem Schritt länger als zehn Minuten, machst du die Lösung auf.</b> Du holst dir die Stelle, du baust weiter, und du notierst dir <b>wo</b> du nachgeschaut hast. Dieses Wo ist das eigentliche Ergebnis des Vormittags. Es sagt dir und der Lehrperson, was im Reparaturblock nach der Pause drankommt.</p>
+<p>Sechzig Minuten an einer Stelle festzusitzen bringt dir gar nichts. Zu wissen, dass du bei Room hängst, bringt dir den ganzen Nachmittag.</p>
+</div>
+
+<div class="note">
+<p><b>In diesem Auftrag steht kein einziger Codeblock.</b> Auch das ist Absicht. Am Prüfungstag steht auf dem Blatt ebenfalls keiner. Du bekommst hier die Namen, die du brauchst, und die Prüfliste, an der du merkst, ob es stimmt. Den Rest schreibst du selbst oder schaust ihn nach.</p>
+</div>
+
+<h3>Denkfragen</h3>
+<ol>
+<li>Der <b>Betrag</b> steht rechts in der Zeile. Warum ist er trotzdem kein Feld in deiner Tabelle? Und was wäre das Problem, wenn du ihn speicherst?</li>
+<li>Menge und Preis dürfen leer bleiben. Was passiert, wenn du sie als <code>int</code> und <code>double</code> anlegst statt als <code>Integer</code> und <code>Double</code>? <b>Was steht dann in der Liste bei einem Eintrag ohne Preis?</b></li>
+<li>Du startest die App zum dritten Mal. Wie viele Einträge stehen in der Liste, und wovon hängt das ab?</li>
+</ol>
+
+<div class="tip">
+<p><b>Diese drei Fragen gibst du nicht ab.</b> Notier dir ein Stichwort, die Antworten stehen im Lösungsmaterial. <b>Zu 09A gibt es keinen Wissenscheck</b>, denn zwischen diesem Auftrag und der Prüfung liegt keine Nacht mehr.</p>
+</div>
+
+<h3>Der Einstieg <span class="time">3 Minuten</span></h3>
+
+<div class="step">
+<p><span class="n">0</span><b>Projekt öffnen, einmal bauen, Blatt aus 07A hinlegen.</b> <span class="time">3 Min</span></p>
+<p>Entpack das ZIP, öffne den Ordner <code>Einkaufsliste</code> in Android Studio und warte, bis Gradle fertig ist. Dann <code>Ctrl+F9</code>.</p>
+<p>Schau dir an, was schon da ist. Es ist wenig, und das ist am Prüfungstag genauso:</p>
+<table>
+<tr><th>Was da ist</th><th>Wofür</th></tr>
+<tr><td class="pre">MainActivity</td><td>Die Startseite. Leer bis auf den Rand-Block für die Statusleiste</td></tr>
+<tr><td class="pre">ItemEditActivity</td><td>Das Formular. Bleibt heute leer. Es steht schon im Manifest</td></tr>
+<tr><td class="pre">activity_main.xml</td><td>Leer, mit der id <code>clMain</code> am Root-Element</td></tr>
+<tr><td class="pre">item_shopping.xml</td><td><b>Fertig.</b> Die Zeile der Liste, mit <code>tvArticle</code>, <code>tvShop</code> und <code>tvAmount</code></td></tr>
+<tr><td class="pre">build.gradle.kts</td><td>Room ist bereits eingetragen, samt <code>annotationProcessor</code></td></tr>
+</table>
+<div class="chk">
+<p>Das Projekt baut ohne Fehler und die App startet. Der Bildschirm ist leer und trägt oben den Namen <b>Einkaufsliste</b>. Im Logcat steht unter <code>tag:Modul335</code> die Zeile <code>MainActivity onCreate</code>.</p>
+</div>
+
+<div class="warn">
+<p><b>Android Studio schlägt dir beim Öffnen vielleicht vor, das Android Gradle Plugin zu aktualisieren</b>, mit einem Knopf namens <b>Start AGP Upgrade Assistant</b>. <b>Klick das weg und fass es nicht an.</b></p>
+<p>Warum: dieser Assistent ändert deine Bau-Dateien. Läuft dabei etwas schief, baut dein Projekt gar nicht mehr, und der Fehler sieht dann aus wie ein Fehler in deinem Code. <b>Die Meldung sagt nichts über dein Projekt aus</b>, sie erscheint bei jedem Projekt, dessen Plugin nicht das allerneueste ist.</p>
+<p><b>Am Prüfungstag steht dieselbe Meldung da</b>, im Starter-Projekt der Prüfung und in deinem WissQuiz. Dieselbe Antwort: wegklicken.</p>
+</div>
+</div>
+
+<div class="note">
+<p><b>Das Zeilenlayout <code>item_shopping.xml</code> ist fertig und du baust es nicht.</b> Am Prüfungstag musst du es selbst zeichnen, aber du hast es in 06C und 07B schon zweimal gebaut, und hier würde es zwölf Minuten von der Datenbank wegnehmen. <b>Schau es dir trotzdem einmal an</b>, vor allem den linken Block mit <code>layout_weight="1"</code>. Genau dieser Trick lässt den Betrag rechts am Rand stehen.</p>
+</div>
+
+<h3>Schritt 1, die Datenschicht <span class="time">30 Minuten</span></h3>
+
+<h4 class="brauchst">Was du in Schritt 1 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">@Entity(tableName = "...")</td><td>Macht aus deiner Klasse eine Tabelle. <b>Kennst du aus 07C</b></td></tr>
+<tr><td class="pre">@PrimaryKey(autoGenerate = true)</td><td>Room vergibt die <code>id</code> selbst. Du setzt sie nie</td></tr>
+<tr><td class="pre">@ColumnInfo(name = "...")</td><td>Gibt einer Spalte einen anderen Namen als dem Feld. Für <code>pricePerUnit</code></td></tr>
+<tr><td class="pre">@Dao</td><td>Am Interface. Room baut die Methoden dahinter beim Bauen</td></tr>
+<tr><td class="pre">@Insert @Update @Delete @Query</td><td>Die vier Annotationen am Dao. <b>Alle vier aus 07C</b></td></tr>
+<tr><td class="pre">@Database(entities = {...})</td><td>An der abstrakten Datenbank-Klasse</td></tr>
+<tr><td class="pre">Room.databaseBuilder</td><td>Baut die Datenbank. Mit <code>allowMainThreadQueries()</code>, wie im ganzen Kurs</td></tr>
+<tr><td class="pre">Integer, Double</td><td>Die Hüllklassen. Sie können <code>null</code> sein, <code>int</code> und <code>double</code> nicht</td></tr>
+</table>
+
+<div class="step">
+<p><span class="n">1</span><b>Deine drei Klassen für die Datenhaltung.</b> <span class="time">30 Min</span></p>
+
+<h4>Was du baust</h4>
+<p>Leg ein Paket <code>data</code> unter <code>ch.wiss.m335.einkauf</code> an und darin drei Dateien:</p>
+<ol>
+<li><b>Die Entity.</b> Sie hat genau die Felder aus deinem Datenmodell von 07A. <b>Nimm das Blatt hervor und tipp ab, was du dort gezeichnet hast.</b> Dazu ein Primärschlüssel, den Room vergibt.</li>
+<li><b>Das Dao.</b> Ein Interface mit <b>sechs</b> Methoden: anlegen, ändern, löschen, alle holen, eine über die <code>id</code> holen, zählen. Genau dieselben sechs wie in deinem <code>QuestionDao</code> aus 07C.</li>
+<li><b>Die Datenbank-Klasse.</b> Abstract, mit <code>getInstance</code> und dem einen Feld <code>instance</code>. Wie deine <code>QuizDatabase</code>.</li>
+</ol>
+
+<h4>Die eine Entscheidung, die du hier treffen musst</h4>
+<p><b>Menge und Preis können später nachgetragen werden.</b> Das steht so in der Beschreibung, und es ist keine Nebensache. Ein <code>int</code> ist niemals leer, er ist immer irgendeine Zahl. Wenn du <code>int</code> nimmst, steht bei einem Eintrag ohne Preis eine <code>0</code> in der Tabelle, und du kannst danach nicht mehr unterscheiden, ob der Artikel gratis ist oder ob niemand den Preis eingetragen hat.</p>
+<p>Zwei Wege sind richtig, und du musst dich für einen entscheiden und ihn begründen können:</p>
+<ul>
+<li><code>Integer</code> und <code>Double</code>, dann ist <b>nicht eingetragen</b> gleich <code>null</code>.</li>
+<li><code>int</code> und <code>double</code> mit einer zusätzlichen Regel, was <code>0</code> bedeutet.</li>
+</ul>
+<p><b>Die Lösung geht den ersten Weg</b>, weil er ohne Zusatzregel auskommt. Dieselbe Frage stand schon in der Zusatzaufgabe von 06A und im Lösungsmaterial von 07A.</p>
+
+<h4>Javadoc</h4>
+<p>Jede Klasse, jedes Feld, jede Methode. <b>Schreib es beim Schreiben</b>, nicht danach. Am Prüfungstag gibt es dafür 2 von 26 Punkten, und wer es nachträglich einbaut, kommt nie dazu.</p>
+<p><b>Achtung bei den Gettern und Settern.</b> Was <code>Alt+Insert</code> erzeugt, bringt kein Javadoc mit. Bei fünf Feldern sind das zehn Methoden ohne Kommentar auf einen Schlag.</p>
+
+<div class="chk">
+<p>Das Projekt baut mit <code>Ctrl+F9</code> ohne Fehler durch. <b>Das ist der ganze Test von Schritt 1</b>, denn Room erzeugt seinen Code erst beim Bauen. Solange es nicht baut, existiert deine Datenbank nicht.</p>
+<p>Danach: App starten, im Logcat unter <code>tag:Modul335</code> steht deine Zeile aus <code>getInstance</code> mit der Anzahl <b>0</b>. Auf dem Bildschirm ist weiterhin nichts, das ist richtig.</p>
+<p><b>Ruft niemand <code>getInstance</code> auf, passiert auch nichts.</b> Eine Zeile in <code>onCreate</code> der <code>MainActivity</code> genügt, um die Datenbank zum ersten Mal zu bauen.</p>
+</div>
+</div>
+
+<div class="warn">
+<p><b>Room meldet sich nur beim Bauen.</b> Rote Namen im Editor sind normal, solange du deine Klassen erst halb geschrieben hast. Was zählt, ist <code>Ctrl+F9</code>. Und die Meldungen von Room sind ungewohnt ausführlich, aber sie sagen fast immer genau, welches Feld oder welche Methode nicht passt. <b>Lies die erste Meldung ganz, nicht die letzte.</b></p>
+</div>
+
+<h3>Schritt 2, der Startbestand <span class="time">12 Minuten</span></h3>
+
+<h4 class="brauchst">Was du in Schritt 2 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">count()</td><td>Deine Dao-Methode aus Schritt 1. Sie entscheidet, ob gefüllt wird</td></tr>
+<tr><td class="pre">insert(...)</td><td>Legt eine Zeile an. Fünfmal aufgerufen</td></tr>
+<tr><td class="pre">seedIfEmpty</td><td>Deine neue private Methode in der Datenbank-Klasse. <b>Genau wie in 08A</b></td></tr>
+<tr><td class="pre">Log.d</td><td>Damit du siehst, ob gefüllt oder übersprungen wurde</td></tr>
+</table>
+
+<div class="step">
+<p><span class="n">2</span><b>Fünf Beispieleinträge beim allerersten Start.</b> <span class="time">12 Min</span></p>
+
+<p>Ohne Formular kommt nichts in die Datenbank, und ohne Daten siehst du in Schritt 3 nichts. Also legst du fünf Einträge im Code an, genau wie in 08A den Startbestand der Fragen.</p>
+
+<p><b>Nimm eigene Artikel und eigene Läden</b>, das ist schneller als abschreiben. Zwei Bedingungen musst du einhalten:</p>
+<ul>
+<li>Es sind <b>fünf</b> Einträge.</li>
+<li><b>Bei genau zwei davon lässt du Menge und Preis weg.</b> Ohne diese zwei siehst du in Schritt 3 nicht, ob dein Betrag richtig entscheidet.</li>
+</ul>
+
+<p>Der Aufruf gehört in <code>getInstance</code>, direkt nachdem die Datenbank gebaut ist.</p>
+
+<div class="chk">
+<p>App starten. Im Logcat steht die Anzahl <b>5</b>.</p>
+<p><b>App noch einmal starten.</b> Es stehen immer noch 5. Steht dort 10, fehlt die Prüfung mit <code>count()</code>, und du hast gerade den Fehler wiederholt, den 08A gebaut hat.</p>
+<p>Öffne den <b>Database Inspector</b> über <code>View</code> und dann <code>Tool Windows</code>. <b>Findest du ihn dort nicht</b>, drück zweimal <code>Shift</code> und such nach dem Namen. Für dieses Fenster gibt es keine Tastenkombination, und der Menüweg wechselt zwischen den Versionen. Deine Tabelle steht da, mit fünf Zeilen, und bei zwei Zeilen sind die Spalten für Menge und Preis leer. <b>Schau dir die Spaltennamen an</b>, dort siehst du den Unterschied zwischen dem Feldnamen in Java und dem Spaltennamen in SQL.</p>
+</div>
+</div>
+
+<div class="warn">
+<p><b>Wenn du deine Entity nach dem ersten Start noch änderst</b>, also ein Feld dazunimmst oder umbenennst, stürzt die App beim nächsten Start ab. Room sagt dann sinngemäss, das Schema stimme nicht mehr. <b>Das ist kein Fehler in deinem Code.</b> Die Datei auf dem Gerät passt nicht mehr zur Klasse.</p>
+<p>Die Reparatur dauert zehn Sekunden: App-Info auf dem Gerät, <b>Clear storage</b>, App neu starten. Dann wird die Datenbank neu gebaut und der Startbestand läuft wieder. <b>Merk dir das für den Prüfungstag</b>, dort kostet es sonst leicht zwanzig Minuten Suche.</p>
+</div>
+
+<h3>Schritt 3, die Liste auf dem Bildschirm <span class="time">30 Minuten</span></h3>
+
+<div class="warn">
+<p><b>Wenn dir bei den nächsten vier Namen nicht mehr einfällt, was sie tun, halt hier kurz an.</b> Das Grundlagenblatt <b>Listen verstehen</b> zeigt in einem Bild, wie Adapter, ViewHolder, Inflater und RecyclerView zusammenhängen. <b>Zwei Minuten Abschnitt 02 und 08 sparen dir hier zehn.</b></p>
+<p>Und Abschnitt 08 dieses Blatts beantwortet die Frage, die unter Zeitdruck am meisten kostet: <b>was mache ich als nächstes?</b> Die sechs Schritte dort sind bei jeder Liste dieselben. <b>Am Prüfungstag darfst du dort genauso nachschlagen</b>, es ist Open Book.</p>
+</div>
+
+<h4 class="brauchst">Was du in Schritt 3 brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">RecyclerView</td><td>Ins Layout, mit einer id. <b>Kennst du aus 06C</b></td></tr>
+<tr><td class="pre">LinearLayoutManager</td><td>Sagt dem RecyclerView, dass die Zeilen untereinander stehen. <b>Ohne ihn bleibt die Liste leer</b></td></tr>
+<tr><td class="pre">RecyclerView.Adapter</td><td>Deine neue Klasse. Vorlage ist dein <code>QuestionAdapter</code> aus 08A</td></tr>
+<tr><td class="pre">ViewHolder</td><td>Hält die drei TextViews einer Zeile fest</td></tr>
+<tr><td class="pre">LayoutInflater.from(...).inflate</td><td>Baut eine Zeile aus <code>item_shopping.xml</code>. Drittes Argument <code>false</code></td></tr>
+<tr><td class="pre">getString(R.string.xxx, wert)</td><td>Setzt einen Wert in einen Text mit Platzhalter ein. <b>Kennst du aus 08A</b></td></tr>
+<tr><td class="pre">%1$.2f</td><td>Der Platzhalter für eine Kommazahl mit zwei Stellen</td></tr>
+<tr><td class="pre">tvArticle, tvShop, tvAmount</td><td>Die drei ids im fertigen Zeilenlayout</td></tr>
+</table>
+
+<div class="step">
+<p><span class="n">3</span><b>Das Layout, der Adapter, die Verdrahtung.</b> <span class="time">30 Min</span></p>
+
+<h4>Das Layout</h4>
+<p>In <code>activity_main.xml</code> kommt eine Überschrift und darunter der RecyclerView. <b>Der Text der Überschrift gehört in <code>strings.xml</code></b>, wie jeder sichtbare Text. Im Bewertungsraster hängt daran die Zeile über die Standards.</p>
+<p><b>Der RecyclerView bekommt <code>layout_height="0dp"</code></b> und wird oben an die Überschrift und unten an den Bildschirmrand gebunden. So bekommt er allen Platz, der übrig bleibt.</p>
+<div class="note">
+<p><b>Genau hier entscheidet sich der Punkt fürs Querformat.</b> Mit <code>wrap_content</code> sieht im Hochformat alles gleich aus. Dreh das Gerät, und die Liste ist unten abgeschnitten. Das ist im Bewertungsraster eine eigene Zeile mit 2 Punkten, und es kostet dich hier eine einzige Angabe.</p>
+</div>
+
+<h4>Der Adapter</h4>
+<p>Eine neue Klasse neben der <code>MainActivity</code>. <b>Deine Vorlage ist der <code>QuestionAdapter</code> aus 08A</b>, er steht in deinem WissQuiz-Projekt. Der Aufbau ist derselbe, nur die Daten sind andere.</p>
+<p>Was anders wird, als Tabelle:</p>
+<table>
+<tr><th>Aus</th><th>Wird</th></tr>
+<tr><td><code>QuestionEntity</code> als Datentyp</td><td>deine Entity</td></tr>
+<tr><td>zwei TextViews im ViewHolder</td><td><b>drei</b>, Artikel, Laden und Betrag</td></tr>
+<tr><td><code>R.layout.item_question</code></td><td><code>R.layout.item_shopping</code></td></tr>
+<tr><td><code>setQuestions</code></td><td>ein Name, der zu deinen Daten passt</td></tr>
+<tr><td>der Klick-Listener und das Interface</td><td><b>fällt weg.</b> Es gibt heute kein Formular zum Öffnen</td></tr>
+<tr><td>der Javadoc-Text mit dem Wort <b>zwei</b> TextViews</td><td>drei. <b>Diese Zeile meldet niemand</b></td></tr>
+</table>
+
+<h4>Der Betrag rechts</h4>
+<p><b>Das ist die einzige Stelle mit echter Logik heute.</b> Der Betrag ist Menge mal Preis, und er wird gerechnet, nicht gespeichert.</p>
+<p>Sind beide Werte da, steht der Betrag in der Zeile. Fehlt einer, bleibt das Feld <b>leer</b>. Nicht <code>0.00</code>, denn das hiesse, der Eintrag koste nichts.</p>
+<div class="note">
+<p><b>Zwei Stellen nach dem Punkt, über den Platzhalter im String.</b> Ohne die Vorgabe rechnet ein <code>double</code> so genau, dass in deiner Liste plötzlich <code>7.6000000000000005</code> steht. Das sieht nach einem Fehler in deiner App aus und ist keiner.</p>
+</div>
+
+<h4>Die Verdrahtung in der MainActivity</h4>
+<p>Feld für den RecyclerView, Feld für den Adapter, beide in <code>onCreate</code> suchen und setzen. <b>Erst der LayoutManager, dann der Adapter.</b></p>
+<p>Das Holen der Daten gehört in eine <b>eigene Methode</b>, nicht in <code>onCreate</code>. Sobald es ein Formular gibt, muss die Liste nach der Rückkehr neu geladen werden, und dann steht der Aufruf einfach ein zweites Mal in <code>onResume</code>. Genau so hast du es in 08A gebaut.</p>
+
+<div class="chk">
+<p>Die App zeigt <b>fünf Zeilen</b>. In jeder steht oben der Artikel und darunter kleiner der Laden.</p>
+<p>Bei <b>drei</b> Zeilen steht rechts ein Betrag mit zwei Stellen nach dem Punkt. Bei <b>zwei</b> Zeilen steht rechts nichts.</p>
+<p>Rechne bei einer Zeile von Hand nach. Menge mal Preis muss stimmen.</p>
+<p><b>Dreh das Gerät.</b> Die Liste geht bis zum unteren Rand und lässt sich scrollen.</p>
+<p><b>Schliess die App ganz und starte sie neu.</b> Es stehen immer noch fünf Einträge da. <b>Das ist der Moment, auf den die ganzen 75 Minuten hinauslaufen</b>: deine Daten überleben den Neustart, weil sie in einer Datenbank liegen und nicht in einer Liste im Speicher.</p>
+</div>
+</div>
+
+<h3>Die Auswertung <span class="time">15 Minuten</span></h3>
+
+<p>Ab hier läuft die Uhr nicht mehr. <b>Diese fünfzehn Minuten sind der Ertrag des Vormittags</b>, nicht die App.</p>
+
+<h4>Dein Befund</h4>
+<p>Schreib dir das auf, in dein Heft oder in eine Datei. Es ist die Eingabe für den Reparaturblock nach der Pause.</p>
+<table>
+<tr><th>Frage</th><th>Deine Antwort</th></tr>
+<tr><td>Wie weit bist du in den 75 Minuten gekommen?</td><td>Schritt 1, 2 oder 3</td></tr>
+<tr><td><b>Bei welchem Schritt hast du ins Lösungsmaterial geschaut?</b></td><td>und an welcher Stelle genau</td></tr>
+<tr><td>Was hat am meisten Zeit gekostet?</td><td>eine Zeile genügt</td></tr>
+<tr><td>Was ging schneller, als du dachtest?</td><td>auch das ist ein Befund</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Wer nicht fertig geworden ist, hat den wertvolleren Befund.</b> Er weiss jetzt, wo er am Prüfungstag hängen bleibt, und er hat noch einen ganzen Nachmittag und eine Woche Zeit, das zu ändern.</p>
+</div>
+
+<h4>Die drei Fragen zur KI</h4>
+<p>Du durftest eine KI benutzen, und am Prüfungstag verbietet sie das Blatt ebenfalls nicht. <b>Darum gehören diese drei Fragen dazu, und die dritte ist die wichtigste:</b></p>
+<ol>
+<li><b>Wo hat sie dir geholfen?</b> Nenn eine konkrete Stelle.</li>
+<li><b>Wo hat sie dich aufgehalten?</b> Also wo hat sie etwas geliefert, das nicht gepasst hat, und wie lange hat es gedauert, bis du es gemerkt hast?</li>
+<li><b>Welchen Code hast du übernommen, ohne ihn zu verstehen?</b> Genau diese Stellen schaust du dir im Reparaturblock an.</li>
+</ol>
+
+<div class="warn">
+<p><b>Die Prüfung verlangt eine Unterschrift dazu.</b> Auf der letzten Seite steht eine Eidesstattliche Erklärung, und sie verlangt, dass Stellen "aus Veröffentlichungen oder aus anderweitigen fremden Äusserungen (inkl. ChatGPT)" gekennzeichnet sind. <b>KI benutzen ja, verschweigen nein.</b></p>
+</div>
+
+<h4>Die Landkarte</h4>
+<p>So verteilen sich die 26 Punkte für den Code an der Prüfung, und so hast du sie im Kurs gebaut:</p>
+<table>
+<tr><th>Zeile im Bewertungsraster</th><th class="num">P</th><th>Wo du das gebaut hast</th></tr>
+<tr><td>Datenmodell und Persistenz korrekt implementiert</td><td class="num">4</td><td>07C, und <b>heute Schritt 1</b></td></tr>
+<tr><td>Einträge werden in Liste angezeigt und aktualisiert</td><td class="num">2</td><td>06C, 08A, und <b>heute Schritt 3</b></td></tr>
+<tr><td>Der berechnete Wert wird rechts angezeigt</td><td class="num">1</td><td>07B, und <b>heute Schritt 3</b></td></tr>
+<tr><td>Querformat und Displaygrössen</td><td class="num">2</td><td>02B, und <b>heute im Layout</b></td></tr>
+<tr><td>Javadoc für alle Klassen und Funktionen</td><td class="num">2</td><td>in jedem Auftrag, und <b>heute</b></td></tr>
+<tr><td>Neue Einträge hinzufügen</td><td class="num">4</td><td>08B</td></tr>
+<tr><td>Vorhandene Einträge editierbar</td><td class="num">4</td><td>08C</td></tr>
+<tr><td>Fehlerbehandlung für Formularfelder</td><td class="num">4</td><td>06B, 08B und 08C</td></tr>
+<tr><td>Formularfelder optimiert</td><td class="num">2</td><td>06B</td></tr>
+<tr><td>App-Kompatibilität ab Android 8</td><td class="num">1</td><td>seit 01B, es steht in deinem <code>build.gradle.kts</code></td></tr>
+</table>
+
+<div class="tip">
+<p><b>Rechne selbst nach.</b> Heute hast du an 11 dieser 26 Punkte gearbeitet. Die anderen 15 stehen fertig in deinem WissQuiz-Projekt. <b>Nichts davon ist neu für dich</b>, und dazu kommen die 22 Punkte des Papierteils, die du in 04C, 04D, 06A, 07A und 08D geübt hast.</p>
+</div>
+
+<h3>Zusatzaufgabe für Schnelle</h3>
+
+<div class="ue">
+<div class="t">Der leere Zustand</div>
+<p>Zuerst die drei Schritte fertig und lauffähig. Dann erst hier weiter.</p>
+<p>Lösch über den Database Inspector alle fünf Zeilen und starte die App neu. <b>Du siehst einen leeren Bildschirm ohne jede Erklärung.</b> Genau das sieht auch der Benutzer, wenn er die App zum ersten Mal öffnet und noch nichts eingetragen hat.</p>
+<p><b>Auftrag:</b> Bau eine TextView, die nur dann erscheint, wenn die Liste leer ist. Sie sagt in einem Satz, was zu tun ist. Umgeschaltet wird über <code>View.GONE</code> und <code>View.VISIBLE</code>, wie in 05C.</p>
+<p><b>So prüfst du:</b> Bei fünf Einträgen ist der Text weg und die Liste da. Bei null Einträgen ist es umgekehrt. <b>Und beides muss beim Drehen des Geräts noch stimmen.</b></p>
+<p>KI darfst du benutzen, du musst jede Zeile erklären können.</p>
+</div>
+
+<h3>Wenn etwas nicht funktioniert</h3>
+
+<table>
+<tr><th>Symptom</th><th>Wahrscheinliche Ursache</th><th>Was du machst</th></tr>
+<tr><td><b>Nach einem Klick auf <i>Start AGP Upgrade Assistant</i> baut gar nichts mehr</b></td><td>Der Assistent hat deine Bau-Dateien geändert</td><td>Über <code>Ctrl+Z</code> oder den lokalen Verlauf zurück, sonst das ZIP neu entpacken. <b>Den Vorschlag gar nicht erst anklicken</b>, siehe Einstieg</td></tr>
+<tr><td><code>cannot find symbol</code> beim Namen deiner Datenbank mit dem Anhang <code>_Impl</code></td><td>Das Projekt ist nicht neu gebaut. Room erzeugt diese Klasse erst beim Bauen</td><td><code>Ctrl+F9</code>. Siehe Schritt 1</td></tr>
+<tr><td><code>Cannot figure out how to save this field into database</code></td><td>Ein Feld hat einen Typ, den Room nicht kennt</td><td>Room kann Zahlen, Text und die Hüllklassen dazu. Alles andere braucht einen Umweg. Siehe Schritt 1</td></tr>
+<tr><td><code>Cannot find getter for field</code> oder <code>setter</code></td><td>Das Feld ist <code>private</code> und hat keinen passenden Getter oder Setter</td><td><code>Alt+Insert</code> und dann <b>Getter and Setter</b>. Danach das Javadoc von Hand dazu</td></tr>
+<tr><td><code>Entities and POJOs must have a usable public constructor</code></td><td>Die Entity hat nur einen Konstruktor mit Parametern</td><td>Entweder gar keinen schreiben, oder zusätzlich einen ohne Parameter</td></tr>
+<tr><td><b>Die App stürzt beim Start ab</b>, Room spricht vom Schema oder von einer Migration</td><td><b>Kein Fehler in deinem Code.</b> Du hast die Entity geändert, nachdem die Datenbank schon einmal angelegt war</td><td>App-Info auf dem Gerät, <b>Clear storage</b>, App neu starten. Siehe den Kasten nach Schritt 2</td></tr>
+<tr><td>Im Logcat steht <code>0</code>, obwohl dein Startbestand da ist</td><td><code>seedIfEmpty</code> wird nie aufgerufen, oder es steht nach der Log-Zeile</td><td>Reihenfolge in <code>getInstance</code> prüfen. Erst füllen, dann zählen. Siehe Schritt 2</td></tr>
+<tr><td><b>Nach dem zweiten Start stehen zehn Einträge</b></td><td>Die Prüfung mit <code>count()</code> fehlt in <code>seedIfEmpty</code></td><td>Ergänzen und danach <b>Clear storage</b>, sonst bleiben die zehn stehen. Derselbe Fehler wie in 08A</td></tr>
+<tr><td><b>Der Bildschirm bleibt leer, nichts stürzt ab</b>, und im Logcat steht <code>No layout manager attached; skipping layout</code></td><td>Der <code>LinearLayoutManager</code> fehlt</td><td>Setzen, und zwar <b>vor</b> dem Adapter. Siehe Schritt 3. <b>Diese Meldung schreibt der RecyclerView selbst</b>, sie ist zuverlässig</td></tr>
+<tr><td>Der Bildschirm bleibt leer und im Logcat steht gar nichts dazu</td><td>Die Liste kommt aus der Datenbank, aber niemand gibt sie an den Adapter weiter</td><td>Den Aufruf deiner Lade-Methode in <code>onCreate</code> prüfen. <b>Dieser Fehler meldet sich nirgends</b></td></tr>
+<tr><td><code>IllegalStateException: The specified child already has a parent</code></td><td>Beim <code>inflate</code> steht als drittes Argument <code>true</code> statt <code>false</code></td><td>Auf <code>false</code> ändern. Derselbe Fehler wie in 06C</td></tr>
+<tr><td><code>NullPointerException</code> im Adapter, beim Setzen eines Textes</td><td>Eine id im ViewHolder ist falsch geschrieben, <code>findViewById</code> liefert <code>null</code></td><td>Gegen <code>item_shopping.xml</code> halten. Die drei ids heissen <code>tvArticle</code>, <code>tvShop</code> und <code>tvAmount</code></td></tr>
+<tr><td><b>Der Betrag steht bei allen fünf Zeilen</b>, bei zweien als <code>0.00</code></td><td>Die Prüfung auf <code>null</code> fehlt, oder die Felder sind <code>int</code> und <code>double</code></td><td>Siehe Schritt 1 und Schritt 3. <b>Nichts stürzt ab, es sieht nur falsch aus</b></td></tr>
+<tr><td>Im Betrag stehen zehn Stellen nach dem Punkt</td><td>Der Platzhalter im String hat keine Angabe zur Genauigkeit</td><td><code>%1$.2f</code> statt <code>%1$f</code>. Siehe Schritt 3</td></tr>
+<tr><td>Der Betrag steht nicht am rechten Rand, sondern gleich hinter dem Artikel</td><td><b>Kein Fehler von heute.</b> Du hast <code>item_shopping.xml</code> verändert</td><td>Der linke Block braucht <code>layout_width="0dp"</code> und <code>layout_weight="1"</code>. Die Datei war fertig, stell sie zurück</td></tr>
+<tr><td><b>Im Querformat ist die Liste unten abgeschnitten</b></td><td>Der RecyclerView hat <code>wrap_content</code> statt <code>0dp</code>, oder die untere Verbindung fehlt</td><td>Beides prüfen. Siehe Schritt 3. <b>Im Hochformat sieht man den Fehler nie</b></td></tr>
+<tr><td>Die Einträge stehen in einer anderen Reihenfolge als bei deiner Sitznachbarin</td><td><b>Kein Fehler.</b> Die Sortierung steht im SQL deiner Methode, und ihr habt verschiedene gewählt</td><td>Nichts. Aber du musst sagen können, wonach deine sortiert</td></tr>
+</table>
+
+<h3>Zum Schluss</h3>
+<p><b>Du gibst nichts ab.</b> Kein ZIP, keine Dateien, kein Screenshot. Das Projekt bleibt bei dir, und du nimmst es am Prüfungstag mit.</p>
+<p>Was zählt, ist dein <b>Befund</b> aus der Auswertung. Er ist die Eingabe für den Reparaturblock in 09B, gleich nach der Pause.</p>
+
+<h2>03 Recap</h2>
+
+<p>Das Wichtigste aus diesem Auftrag, zum Nachschlagen.</p>
+
+<h3>Pflichtangaben</h3>
+
+<table>
+<tr><th>Wo</th><th>Was Pflicht ist</th><th>Warum</th></tr>
+<tr><td>An der Entity</td><td><code>@PrimaryKey(autoGenerate = true)</code></td><td>Ohne <code>autoGenerate</code> bleibt die <code>id</code> bei allen Einträgen 0, und ab dem zweiten <code>insert</code> gibt es einen Konflikt</td></tr>
+<tr><td>Bei Menge und Preis</td><td>Ein Typ, der <b>leer</b> sein kann, also <code>Integer</code> und <code>Double</code></td><td>Die Beschreibung sagt, beides könne später nachgetragen werden. Ein <code>int</code> ist nie leer, und dann kannst du gratis nicht mehr von nicht eingetragen unterscheiden</td></tr>
+<tr><td>Im Startbestand</td><td>Die Prüfung <code>count() &gt; 0</code>, bevor gefüllt wird</td><td>Sonst kommen bei jedem Start fünf Einträge dazu. <b>Ein Startbestand ist keine Reparatur</b>, er läuft nur beim allerersten Mal</td></tr>
+<tr><td>Beim Bauen der Datenbank</td><td><code>allowMainThreadQueries()</code></td><td>Eine bewusste Entscheidung für diesen Kurs. Bei einer echten App mit vielen Daten gehört die Abfrage in einen eigenen Thread, und das sagst du am besten dazu</td></tr>
+<tr><td>In <code>onCreate</code></td><td>Erst der <code>LayoutManager</code>, dann der Adapter</td><td>Ohne LayoutManager zeichnet der RecyclerView gar nichts. <b>Es stürzt nichts ab</b>, die Meldung steht nur im Logcat</td></tr>
+<tr><td>Beim <code>inflate</code> im Adapter</td><td>Das dritte Argument ist <code>false</code></td><td>Mit <code>true</code> hängt die Zeile schon am Parent, und der RecyclerView wirft eine <code>IllegalStateException</code></td></tr>
+<tr><td>Am RecyclerView im Layout</td><td><code>layout_height="0dp"</code>, oben und unten verbunden</td><td>Das ist der Unterschied zwischen einer Liste, die im Querformat funktioniert, und einer, die unten abgeschnitten ist. Im Bewertungsraster eine eigene Zeile mit 2 Punkten</td></tr>
+<tr><td>Beim Betrag</td><td>Er wird <b>gerechnet</b> und nirgends gespeichert</td><td>Menge mal Preis lässt sich jederzeit ausrechnen. Ins Datenmodell gehört, was du nicht wieder ausrechnen kannst. Derselbe Fehler wie der Rang in 06A und der Notendurchschnitt in der Prüfung</td></tr>
+<tr><td>Beim Betrag</td><td>Er bleibt <b>leer</b>, wenn ein Wert fehlt</td><td><code>0.00</code> hiesse, der Eintrag koste nichts. Das ist eine andere Aussage</td></tr>
+<tr><td>Bei jeder Klasse und jeder Methode</td><td>Javadoc</td><td>Steht im Prüfungsblatt: "Alle selbst erstellten Klassen und Methoden sind Javadoc-kompatibel zu dokumentieren." Im Bewertungsraster 2 Punkte</td></tr>
+</table>
+
+<div class="info">
+<p><b>Warum dieser Auftrag zählt, und diesmal ganz wörtlich.</b> Die Auftragsbeschreibung oben ist Wort für Wort in der Form des Prüfungsblatts gebaut. Nur die Sache ist eine andere, Einkaufsliste statt Modulnoten.</p>
+<table>
+<tr><th>Was am Prüfungstag verlangt wird</th><th>Woher</th><th>Was du heute dazu gebaut hast</th></tr>
+<tr><td>"Die Datenhaltung soll nur lokal erfolgen."</td><td>Prüfungsblatt</td><td>Schritt 1, die drei Klassen für Room</td></tr>
+<tr><td>"Datenmodell korrekt, Persistenz korrekt implementiert", 4 Punkte</td><td>Bewertungsraster</td><td>Schritt 1 und Schritt 2</td></tr>
+<tr><td>"Module werden in Liste angezeigt und ggf. aktualisiert", 2 Punkte</td><td>Bewertungsraster</td><td>Schritt 3, der RecyclerView mit dem Adapter</td></tr>
+<tr><td>"Durchschnitt wird rechts angezeigt", 1 Punkt</td><td>Bewertungsraster</td><td>Schritt 3, dein Betrag rechts in der Zeile. Auch der ist gerechnet und nicht gespeichert</td></tr>
+<tr><td>"Querformat und unterschiedliche Displaygrössen", 2 Punkte</td><td>Bewertungsraster</td><td>Schritt 3, die Angabe <code>0dp</code> am RecyclerView</td></tr>
+<tr><td>"Javadoc für alle Klassen und Funktionen mit eigenen Worten", 2 Punkte</td><td>Bewertungsraster</td><td>Jede Klasse und jede Methode aus allen drei Schritten</td></tr>
+</table>
+<p><b>Elf der 26 Punkte für den Code hängen an dem, was du heute gebaut hast.</b> Die restlichen 15 stehen fertig in deinem WissQuiz-Projekt.</p>
+</div>
+
+<div class="tip">
+<p><b>Kein neuer Stoff, und zwar mit Absicht.</b> Alles, was die Prüfung abfragt, war am Ende von Tag 4 unterrichtet. Der letzte Vormittag ist Probe und Reparatur. Wenn dir heute etwas neu vorkommt, ist das der wichtigste Befund des Tages, und er gehört in den Reparaturblock.</p>
+</div>
+
+<h3>Lernziele</h3>
+<table>
+<tr><th>HANOK</th><th>Ziel</th></tr>
+<tr><td>1.1</td><td>Ergonomische Standards und Prinzipien der Interaktion kennen und anwenden</td></tr>
+<tr><td>2.3</td><td>Kennt den Lebenszyklus einer App und kann ihn berücksichtigen</td></tr>
+<tr><td>2.4</td><td>Kennt die Persistenzlösungen auf mobilen Devices und kann sie situationsgerecht einsetzen</td></tr>
+<tr><td>3.2</td><td>Kann eine mobile Applikation nach Vorgaben umsetzen</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>Du baust aus einer Beschreibung in Prosa eine Tabelle, ohne dass dir jemand die Felder vorgibt.</li>
+<li>Du richtest Room in einem fremden Projekt von Null ein und weisst, dass erst das Bauen zeigt, ob es stimmt.</li>
+<li>Du entscheidest begründet, ob ein Feld leer sein können muss, und wählst danach den Typ.</li>
+<li>Du zeigst eine Liste aus der Datenbank an und rechnest dabei einen Wert, den du nicht speicherst.</li>
+<li>Du schätzt ein, wie lange du für einen Schritt brauchst, und teilst dir eine Prüfungszeit danach ein.</li>
+<li>Du sagst, an welcher Stelle du nachschauen musstest, statt es zu verbergen.</li>
+</ul>
+
+<h2>04 Guide</h2>
+
+<table>
+<tr><th>Punkt</th><th>Angabe</th></tr>
+<tr><td>Sozialform</td><td>Einzelarbeit</td></tr>
+<tr><td>Aufgabenart</td><td>Code-Auftrag unter Prüfungsbedingungen. Kein Arbeitsblatt, das Produkt entsteht in der IDE</td></tr>
+<tr><td>Zeitbudget</td><td>90 Minuten. Einstieg 3, Schritt 1 30, Schritt 2 12, Schritt 3 30, Auswertung 15. <b>Die 75 Minuten der Schritte laufen unter Zeit</b>, die Auswertung nicht</td></tr>
+<tr><td>Hilfsmittel</td><td>Das Starter-Projekt, dein Blatt aus 07A, dein Projekt WissQuiz nach 08C, die Nachschlageblätter, das Internet. <b>KI erlaubt</b>, du musst jede Zeile erklären können</td></tr>
+<tr><td>Abgabe</td><td><b>keine.</b> Das Projekt bleibt bei dir, der Befund auch</td></tr>
+</table>
+
+<h3>Die Beiträge in Google Classroom</h3>
+<ul>
+<li><b>09A Auftrag, Generalprobe Teil B.</b> Material, dieses Dokument.</li>
+<li><b>09A Starter-Projekt Einkaufsliste.</b> Material, die ZIP-Datei. <b>Lad sie vor dem Kurstag herunter und entpack sie</b>, dann geht der Einstieg schneller.</li>
+<li><b>09A Loesung, Generalprobe Teil B.</b> Material. <b>Diesmal ab der ersten Minute offen</b>, siehe das Sicherheitsnetz.</li>
+</ul>
+
+<h2>05 Unterrichtsmittel</h2>
+<ul>
+<li><b>Dein eigenes Blatt aus 07A.</b> Dein Datenmodell steht darauf. Ohne das Blatt beginnt Schritt 1 mit einer Zeichnung statt mit Code.</li>
+<li><b>Dein eigenes Projekt WissQuiz nach 08C.</b> Das ist heute dein stärkstes Hilfsmittel. Dao, Datenbank-Klasse, Startbestand und Adapter stehen dort fertig.</li>
+<li><b>Listen verstehen</b>, das Grundlagenblatt. <b>Für Schritt 3 das wichtigste Blatt überhaupt.</b> Das Schichtenbild, der Lebenslauf einer Zeile, und die sechs Schritte, in denen du jede Liste baust.</li>
+<li><b>Room verstehen</b>, das Grundlagenblatt aus 07C. Für die drei Klassen und dafür, warum alles über das Dao läuft.</li>
+<li><b>Wo deine App ihre Daten ablegt</b>, für das Leeren der Datenbank nach einer Änderung an der Entity.</li>
+<li><b>Emulator streikt</b>, falls das Gerät nicht startet. <b>Diese drei Minuten willst du am Prüfungstag nicht suchen.</b></li>
+</ul>
+
+<p class="foot">Modul 335 | Tag 5 Vormittag | Auftrag 09A | Version 1 | 26.08.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->

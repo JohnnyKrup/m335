@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M335 Sensoren und Veröffentlichen</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+<h1>Sensoren und Veröffentlichen</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Nachschlageblatt. Lesezeit etwa 16 Minuten. Version 1 vom 26.08.2026.</p>
+<p class="sub">Zwei Themen, die in deiner Quiz-App nicht vorkommen und die trotzdem zu mobiler Entwicklung gehören. Du liest das als Hausaufgabe vor Tag 5, besprochen wird es dort.</p>
+
+<div class="warn">
+<p><b>Für die Leistungsbeurteilung brauchst du davon nichts.</b> Kein einziger Punkt im Bewertungsraster hängt an einem Sensor oder am Play Store. Das sagen wir dir offen, damit du deine Lernzeit richtig einteilst.</p>
+<p><b>Trotzdem gehört es zum Modul.</b> Es sind die zwei Ziele des Rahmenlehrplans, die keinen eigenen Unterrichtsblock bekommen haben, und ohne sie kennst du nur die Hälfte von dem, was eine mobile App ausmacht.</p>
+</div>
+
+<h2>01 Was du danach beantworten kannst</h2>
+
+<p>Diese fünf Fragen kommen in der Besprechung dran. Lies das Blatt mit ihnen im Kopf.</p>
+
+<table>
+<tr><th class="num">Nr</th><th>Frage</th><th>Steht in</th></tr>
+<tr><td class="num">1</td><td>Nenne drei Sensoren, die in deinem eigenen Handy stecken, und für jeden eine App, die ihn benutzt</td><td>Teil A</td></tr>
+<tr><td class="num">2</td><td>Warum meldet man einen Sensor in <code>onPause</code> wieder ab?</td><td>Teil A</td></tr>
+<tr><td class="num">3</td><td>Was unterscheidet die Version deiner App, die im Emulator läuft, von der, die im Play Store liegt?</td><td>Teil B</td></tr>
+<tr><td class="num">4</td><td>Wozu dient der Versionscode?</td><td>Teil B</td></tr>
+<tr><td class="num">5</td><td>Nenne zwei Dinge, die der Play Store vor der Veröffentlichung verlangt</td><td>Teil B</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Frage 1 kannst du nicht abschreiben.</b> Schau in den Einstellungen deines eigenen Geräts nach oder installier eine App, die die Sensoren auflistet. Bei jedem sieht die Antwort anders aus, und genau darum ist es die Frage.</p>
+</div>
+
+<h2>02 Teil A, Sensoren</h2>
+
+<h3>Was ein Sensor ist</h3>
+
+<p>Ein Sensor ist ein Bauteil, das etwas aus der Umgebung misst und dir eine Zahl liefert. Mehr nicht. Die Kunst liegt nicht im Messen, sondern darin, aus den Zahlen etwas Sinnvolles zu machen.</p>
+
+<p>Android teilt die Sensoren in drei Gruppen ein:</p>
+
+<table>
+<tr><th>Gruppe</th><th>Misst</th><th>Beispiele</th></tr>
+<tr><td><b>Bewegung</b></td><td>Beschleunigung und Drehung</td><td>Beschleunigungssensor, Gyroskop, Schwerkraftsensor</td></tr>
+<tr><td><b>Umgebung</b></td><td>die Luft und das Licht um das Gerät herum</td><td>Helligkeit, Luftdruck, Temperatur, Luftfeuchtigkeit</td></tr>
+<tr><td><b>Position</b></td><td>wie das Gerät im Raum liegt</td><td>Magnetfeld, Näherungssensor</td></tr>
+</table>
+
+<div class="note">
+<p><b>Der wichtigste Satz über Sensoren steht gleich am Anfang:</b> kein Sensor ist garantiert vorhanden. Ein Hersteller muss keinen einzigen einbauen. Der Beschleunigungssensor steckt fast überall, ein Barometer in den wenigsten Geräten. <b>Wer einen Sensor benutzt, ohne vorher zu prüfen, ob es ihn gibt, baut eine App, die auf manchen Geräten abstürzt.</b></p>
+</div>
+
+<h3>Die vier Klassen</h3>
+
+<table>
+<tr><th>Klasse</th><th>Wofür</th></tr>
+<tr><td class="pre">SensorManager</td><td>Der Systemdienst. Über ihn kommst du an die Sensoren und meldest dich an und ab</td></tr>
+<tr><td class="pre">Sensor</td><td>Ein einzelner Sensor. Kennt seinen Messbereich, seine Genauigkeit und seinen Stromverbrauch</td></tr>
+<tr><td class="pre">SensorEvent</td><td>Eine einzelne Messung. Enthält die Werte, den Zeitpunkt und die Genauigkeit</td></tr>
+<tr><td class="pre">SensorEventListener</td><td>Das Interface mit zwei Methoden, die du schreibst. Android ruft sie auf, wenn ein neuer Wert da ist</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Das Muster kennst du schon.</b> Ein Listener, den du beim System anmeldest, und eine Methode, die aufgerufen wird, wenn etwas passiert. Genau so funktioniert der <code>OnClickListener</code> an deinem Knopf seit 01C. Nur ist der Auslöser hier kein Finger, sondern eine Messung.</p>
+</div>
+
+<h3>Der Ablauf in fünf Schritten</h3>
+
+<p>So sieht das in Java aus. Du musst das nicht auswendig können, du sollst es wiedererkennen.</p>
+
+<p><b>Schritt 1, den Dienst holen und den Sensor suchen:</b></p>
+
+<pre><span class="t">SensorManager</span> sensorManager =
+        (<span class="t">SensorManager</span>) getSystemService(<span class="t">Context</span>.SENSOR_SERVICE);
+
+<span class="t">Sensor</span> sensor = sensorManager.getDefaultSensor(<span class="t">Sensor</span>.TYPE_LIGHT);</pre>
+
+<p><b>Schritt 2, prüfen, ob es ihn überhaupt gibt:</b></p>
+
+<pre><span class="k">if</span> (sensor == <span class="k">null</span>) {
+    <span class="c">// Dieses Gerät hat keinen Helligkeitssensor.
+    // Zeig etwas Sinnvolles an, statt abzustürzen.</span>
+    <span class="k">return</span>;
+}</pre>
+
+<div class="warn">
+<p><b>Schritt 2 ist der, den alle vergessen.</b> <code>getDefaultSensor</code> liefert <code>null</code>, wenn das Gerät den Sensor nicht hat. Auf deinem Testgerät fällt das nie auf. Auf dem Gerät eines Benutzers stürzt die App beim Start ab.</p>
+</div>
+
+<p><b>Schritt 3, die Klasse wird zum Zuhörer:</b></p>
+
+<pre><span class="k">public class</span> <span class="t">LightActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span>
+        <span class="k">implements</span> <span class="t">SensorEventListener</span> {
+
+    <span class="a">@Override</span>
+    <span class="k">public void</span> onSensorChanged(<span class="t">SensorEvent</span> event) {
+        <span class="k">float</span> lux = event.values[<span class="t">0</span>];
+        tvLight.setText(getString(<span class="t">R</span>.string.light_format, lux));
+    }
+
+    <span class="a">@Override</span>
+    <span class="k">public void</span> onAccuracyChanged(<span class="t">Sensor</span> sensor, <span class="k">int</span> accuracy) {
+        <span class="c">// Meistens leer. Wird gerufen, wenn der Sensor
+        // genauer oder ungenauer wird.</span>
+    }
+}</pre>
+
+<p><b>Schritt 4 und 5, anmelden und abmelden:</b></p>
+
+<pre><span class="a">@Override</span>
+<span class="k">protected void</span> onResume() {
+    <span class="k">super</span>.onResume();
+    sensorManager.registerListener(<span class="k">this</span>, sensor,
+            <span class="t">SensorManager</span>.SENSOR_DELAY_NORMAL);
+}
+
+<span class="a">@Override</span>
+<span class="k">protected void</span> onPause() {
+    <span class="k">super</span>.onPause();
+    sensorManager.unregisterListener(<span class="k">this</span>);
+}</pre>
+
+<h3>Die eine Regel, die du wirklich behalten sollst</h3>
+
+<div class="chk">
+<p><b>Anmelden in <code>onResume</code>, abmelden in <code>onPause</code>.</b> Immer beides. Nie nur das eine.</p>
+</div>
+
+<p>Warum: ein angemeldeter Sensor misst weiter, auch wenn deine App gar nicht mehr auf dem Bildschirm ist. Das kostet Strom, und zwar merkbar. Ein Beschleunigungssensor, den niemand abmeldet, leert einen Akku in wenigen Stunden.</p>
+
+<p><b>Und du kennst die zwei Methoden schon.</b> In 05D hast du gelernt, dass <code>onCreate</code> einmal läuft und <code>onResume</code> jedes Mal, wenn der Bildschirm wieder nach vorn kommt. Genau deshalb steht die Anmeldung dort und nicht in <code>onCreate</code>. Wer sie in <code>onCreate</code> setzt, meldet einmal an und danach nie wieder ab.</p>
+
+<h3>Die drei Fallen</h3>
+
+<table>
+<tr><th>Falle</th><th>Was passiert</th><th>Richtig</th></tr>
+<tr><td>Kein <code>null</code>-Test nach <code>getDefaultSensor</code></td><td>Absturz auf Geräten ohne diesen Sensor. <b>Auf deinem eigenen nie</b></td><td>Immer prüfen. Und im Manifest <code>&lt;uses-feature&gt;</code> mit <code>required="false"</code> eintragen, wenn die App auch ohne läuft</td></tr>
+<tr><td>Kein <code>unregisterListener</code></td><td>Der Akku leert sich, ohne dass jemand versteht warum. <b>Nichts stürzt ab, nichts meldet sich</b></td><td>In <code>onPause</code> abmelden</td></tr>
+<tr><td>Viel Arbeit in <code>onSensorChanged</code></td><td>Die Oberfläche ruckelt. Die Methode wird bis zu zweihundert Mal pro Sekunde gerufen</td><td>Dort nur den Wert holen und anzeigen. Rechnen, speichern und zeichnen gehört woandershin</td></tr>
+</table>
+
+<div class="note">
+<p><b>Zwei Sensortypen sind veraltet und du sollst sie nicht mehr benutzen:</b> <code>TYPE_ORIENTATION</code> und <code>TYPE_TEMPERATURE</code>. Für die Lage des Geräts nimmt man heute den Rotationsvektor, für die Temperatur <code>TYPE_AMBIENT_TEMPERATURE</code>. Eine KI schlägt dir die alten trotzdem oft vor, weil sie in tausenden alten Beispielen stehen.</p>
+</div>
+
+<h3>Ausprobieren ohne echtes Gerät</h3>
+
+<p>Der Emulator hat keine echten Sensoren, aber er kann sie vortäuschen. In den <b>Extended Controls</b>, das sind die drei Punkte neben dem Emulator-Fenster, gibt es den Bereich <b>Virtual sensors</b>. Dort kannst du das Gerät im Raum drehen und schieben, und deine App bekommt die passenden Werte.</p>
+
+<p><b>Das ist zugleich die Antwort auf eine Frage aus 01A:</b> der Emulator taugt für vieles, aber sobald es um echte Sensoren geht, ist er eine Simulation. Für einen Schrittzähler brauchst du ein Gerät, das jemand tatsächlich in der Tasche trägt.</p>
+
+<h2>03 Teil B, Veröffentlichen</h2>
+
+<div class="warn">
+<p><b>Dieser Teil veraltet schneller als alles andere im Modul.</b> Google ändert die Regeln des Play Store mehrmals pro Jahr. Die Zahlen und Fristen hier sind vom <b>26.08.2026</b>. Bevor du wirklich etwas veröffentlichst, schau in der Play Console nach, was gerade gilt.</p>
+</div>
+
+<h3>Was zwischen deinem Emulator und dem Play Store liegt</h3>
+
+<p>Deine Quiz-App läuft. Trotzdem kann sie niemand installieren, den du nicht persönlich kennst. Dazwischen liegen vier Dinge, und drei davon haben nichts mit Programmieren zu tun.</p>
+
+<table>
+<tr><th class="num">Nr</th><th>Was</th><th>Aufwand</th></tr>
+<tr><td class="num">1</td><td>Ein <b>Entwicklerkonto</b> bei Google, mit Identitätsprüfung</td><td>einmalig, kostet Geld und Wartezeit</td></tr>
+<tr><td class="num">2</td><td>Eine <b>unterschriebene Version</b> deiner App, nicht die aus dem Emulator</td><td>ein paar Minuten, einmal eingerichtet</td></tr>
+<tr><td class="num">3</td><td>Ein <b>Store-Eintrag</b>: Beschreibung, Screenshots, Symbol, Datenschutzerklärung, Angaben zu den Daten, Inhaltseinstufung</td><td>Stunden bis Tage</td></tr>
+<tr><td class="num">4</td><td>Ein <b>geschlossener Test</b> mit echten Testern, bevor du in die Produktion darfst</td><td>mindestens zwei Wochen</td></tr>
+</table>
+
+<h3>Das Entwicklerkonto</h3>
+
+<p>Ein Konto kostet <b>einmalig 25 US-Dollar</b>. Google verlangt eine Identitätsprüfung, in der Regel mit einem amtlichen Ausweis und einer Kreditkarte, beide auf denselben Namen.</p>
+
+<p>Es gibt zwei Arten von Konto, und der Unterschied ist grösser, als er klingt:</p>
+
+<table>
+<tr><th>Konto</th><th>Für wen</th><th>Besonderheit</th></tr>
+<tr><td><b>Persönlich</b></td><td>Einzelpersonen</td><td><b>Muss vor der ersten Veröffentlichung einen geschlossenen Test bestehen.</b> Siehe unten</td></tr>
+<tr><td><b>Organisation</b></td><td>Firmen und Vereine</td><td>Braucht eine Firmenkennung. <b>Die Testpflicht gilt hier nicht</b></td></tr>
+</table>
+
+<h3>Die Testpflicht, seit 2023</h3>
+
+<div class="warn">
+<p><b>Wer ein neues persönliches Konto anlegt, muss vor der ersten Veröffentlichung einen geschlossenen Test bestehen: mindestens 12 Tester, mindestens 14 Tage lang durchgehend angemeldet.</b></p>
+<p><b>Durchgehend heisst durchgehend.</b> Wer sich abmeldet und wieder anmeldet, setzt die 14 Tage für sich neu auf null. Danach beantragst du den Zugang zur Produktion, und Google schaut sich das an. Die Prüfung dauert meist bis zu sieben Tage.</p>
+</div>
+
+<p>Warum es das gibt: der Play Store war voll mit Apps, die nie jemand ausprobiert hatte. Die Regel drückt die Zahl der halbfertigen Veröffentlichungen.</p>
+
+<p><b>Was das für dich heisst:</b> zwischen dem Entschluss und der ersten öffentlichen Version liegen realistisch drei bis vier Wochen, und zwölf Menschen, die dir dabei helfen. Wer glaubt, er lade seine App am Abend hoch und am Morgen sei sie im Store, hat sich um einen Monat verrechnet.</p>
+
+<h3>Was du hochlädst, und warum es kein APK mehr ist</h3>
+
+<p>Bis 2021 hat man ein <b>APK</b> hochgeladen, also die fertige Installationsdatei. Seit August 2021 verlangt Google für neue Apps ein <b>Android App Bundle</b>, Endung <code>.aab</code>.</p>
+
+<table>
+<tr><th></th><th>APK</th><th>AAB, das App Bundle</th></tr>
+<tr><td>Was es ist</td><td>die fertige Datei, die auf einem Gerät landet</td><td>ein <b>Rohstoff</b> für den Store</td></tr>
+<tr><td>Inhalt</td><td>alles für alle Geräte</td><td>alles, aber getrennt nach Gerätetyp, Bildschirmgrösse und Sprache</td></tr>
+<tr><td>Wer baut die Installationsdatei</td><td>du</td><td><b>Google</b>, für jedes Gerät einzeln</td></tr>
+<tr><td>Was der Benutzer lädt</td><td>auch die Teile, die sein Gerät nie braucht</td><td>nur seine Teile. Deutlich kleiner</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Das APK ist nicht verschwunden.</b> Es ist immer noch das, was auf dem Gerät installiert wird. Nur baust du es nicht mehr selbst, sondern Google baut es aus deinem Bundle. In Android Studio findest du beides unter <code>Build</code> und dann <code>Generate Signed App Bundle or APK</code>.</p>
+</div>
+
+<h3>Die Unterschrift</h3>
+
+<p><b>Jede Android-App ist digital unterschrieben.</b> Ohne Unterschrift lässt sie sich nicht installieren. Die Unterschrift beweist, dass ein Update von derselben Person kommt wie die erste Version.</p>
+
+<p>Deine App im Emulator ist auch unterschrieben, nämlich mit dem <b>Debug-Schlüssel</b>. Den erzeugt Android Studio automatisch, er liegt bei dir im Benutzerordner, und jeder Entwickler auf der Welt hat einen. <b>Damit kommst du in keinen Store.</b></p>
+
+<table>
+<tr><th></th><th>Debug-Version</th><th>Version für den Store</th></tr>
+<tr><td>Schlüssel</td><td>der automatische Debug-Schlüssel</td><td>dein eigener Upload-Schlüssel</td></tr>
+<tr><td>Wer kann sie bauen</td><td>jeder</td><td>nur wer deinen Schlüssel hat</td></tr>
+<tr><td>Optimiert</td><td>nein, dafür schnell zu bauen</td><td>ja, kleiner und schneller</td></tr>
+<tr><td>Läuft im Store</td><td>nein</td><td>ja</td></tr>
+</table>
+
+<div class="warn">
+<p><b>Früher war der Schlüssel das grösste Risiko am ganzen Veröffentlichen.</b> Wer ihn verlor, konnte seine eigene App nie mehr aktualisieren. Keine Wiederherstellung, kein Support, nichts. Es blieb nur, die App unter neuem Namen neu zu veröffentlichen und alle Benutzer zu verlieren.</p>
+<p><b>Play App Signing entschärft das.</b> Google verwahrt heute den eigentlichen Signaturschlüssel. Du unterschreibst nur mit deinem Upload-Schlüssel, und den kann Google zurücksetzen, wenn er dir abhandenkommt. <b>Trotzdem gilt weiterhin: Schlüssel und Passwort sichern, nicht im Projektordner und nicht im Git.</b></p>
+</div>
+
+<h3>Der Versionscode</h3>
+
+<p>In deiner <code>build.gradle.kts</code> stehen zwei Angaben zur Version, und sie tun verschiedene Dinge:</p>
+
+<table>
+<tr><th>Angabe</th><th>Beispiel</th><th>Wofür</th></tr>
+<tr><td class="pre">versionCode</td><td><code>1</code>, <code>2</code>, <code>3</code></td><td><b>Für den Store.</b> Eine ganze Zahl, die bei jedem Upload grösser werden muss. Daran erkennt der Store, was neuer ist. Der Benutzer sieht sie nie</td></tr>
+<tr><td class="pre">versionName</td><td><code>"1.0"</code>, <code>"2.3.1"</code></td><td><b>Für den Menschen.</b> Steht im Store und in den App-Infos. Der Store rechnet damit nicht</td></tr>
+</table>
+
+<div class="note">
+<p><b>Das ist der Grund für die häufigste abgelehnte Hochladung überhaupt:</b> der <code>versionCode</code> wurde nicht erhöht. Der Store nimmt die Datei nicht an und sagt, diese Version gebe es schon. <b>Schau in deinem eigenen Projekt nach</b>, beide Zeilen stehen dort seit 01B.</p>
+</div>
+
+<h3>Die vier Spuren im Play Store</h3>
+
+<table>
+<tr><th>Spur</th><th>Wer sieht es</th><th>Wofür</th></tr>
+<tr><td><b>Internal testing</b></td><td>bis 100 Leute, die du einträgst</td><td>schnellste Rückmeldung, ist innerhalb von Minuten da</td></tr>
+<tr><td><b>Closed testing</b></td><td>eine Liste, die du bestimmst</td><td><b>Die Pflichtstufe für neue persönliche Konten</b></td></tr>
+<tr><td><b>Open testing</b></td><td>jeder, der will</td><td>Beta-Version, öffentlich sichtbar</td></tr>
+<tr><td><b>Production</b></td><td>alle</td><td>die richtige Veröffentlichung</td></tr>
+</table>
+
+<h3>Die Frist, die gerade alle betrifft</h3>
+
+<p>Google verlangt regelmässig, dass Apps auf eine neuere Android-Version zielen. Diese Angabe heisst <code>targetSdk</code> und steht in deiner <code>build.gradle.kts</code>.</p>
+
+<div class="warn">
+<p><b>Ab dem 31.08.2026 müssen neue Apps und Updates auf Android 16 zielen, also <code>targetSdk = 36</code>.</b> Eine Verlängerung bis zum 01.11.2026 lässt sich in der Play Console beantragen. Bestehende Apps, die nichts mehr ändern, brauchen mindestens Android 15, also 35, sonst sehen neuere Geräte sie nicht mehr im Store.</p>
+</div>
+
+<p><b>Schau in deinem eigenen Projekt nach.</b> Dort steht <code>targetSdk = 36</code> und <code>minSdk = 26</code>. Die erste Zahl sagt, für welche Android-Version du gebaut hast. Die zweite sagt, ab welcher deine App überhaupt startet, und 26 ist Android 8. <b>Genau diese 26 verlangt auch das Prüfungsblatt.</b></p>
+
+<h3>Was der Store sonst noch verlangt</h3>
+
+<ul>
+<li><b>Eine Datenschutzerklärung</b> als öffentlich erreichbare Adresse im Netz. Auch für eine App, die gar keine Daten sammelt.</li>
+<li><b>Den Abschnitt Datensicherheit</b>, in dem du erklärst, welche Daten deine App sammelt und was damit geschieht.</li>
+<li><b>Eine Inhaltseinstufung</b>, über einen Fragebogen. Daraus entsteht die Altersfreigabe.</li>
+<li><b>Den Store-Eintrag</b>: Titel, Kurzbeschreibung, ausführliche Beschreibung, ein Symbol, ein Grafikbanner und Screenshots für mehrere Bildschirmgrössen.</li>
+<li><b>Eine Zielgruppenangabe</b>. Richtet sich die App an Kinder, gelten deutlich strengere Regeln.</li>
+</ul>
+
+<div class="tip">
+<p><b>Der ehrliche Vergleich:</b> die App zu programmieren war die eine Hälfte. Die andere Hälfte sind Texte, Bilder, Formulare und Wartezeit. Das überrascht fast alle beim ersten Mal.</p>
+</div>
+
+<h2>04 Woher diese Angaben stammen</h2>
+
+<p>Alles in Teil B ist am 26.08.2026 an der Quelle nachgeschlagen worden, nicht aus dem Gedächtnis geschrieben. Die vier Quellen:</p>
+
+<table>
+<tr><th>Quelle</th><th>Wofür</th></tr>
+<tr><td><a href="https://support.google.com/googleplay/android-developer/answer/14151465">support.google.com, Testanforderungen für neue persönliche Konten</a></td><td>die 12 Tester und die 14 Tage</td></tr>
+<tr><td><a href="https://support.google.com/googleplay/android-developer/answer/6112435">support.google.com, Entwicklerkonto einrichten</a></td><td>die 25 US-Dollar, persönlich gegen Organisation, die Identitätsprüfung</td></tr>
+<tr><td><a href="https://developer.android.com/guide/app-bundle">developer.android.com, Android App Bundle</a></td><td>AAB Pflicht seit August 2021, was Play App Signing macht</td></tr>
+<tr><td><a href="https://developer.android.com/google/play/requirements/target-sdk">developer.android.com, Target API level</a></td><td>die Frist 31.08.2026 und die Verlängerung</td></tr>
+</table>
+
+<p>Für Teil A: <a href="https://developer.android.com/develop/sensors-and-location/sensors/sensors_overview">developer.android.com, Sensors overview</a>.</p>
+
+<div class="warn">
+<p><b>Achtung, die Beispiele auf developer.android.com sind in Kotlin.</b> Wir arbeiten mit Java. Zwei Stellen sehen darum anders aus: der Typ steht dort hinter dem Namen, und es gibt kein Semikolon am Zeilenende. <b>Wenn du eine KI fragst, sag ausdrücklich Java dazu</b>, sonst bekommst du Kotlin zurück.</p>
+</div>
+
+<h2>05 Prüfe dich selbst</h2>
+
+<ol>
+<li>Du baust eine App, die die Helligkeit anzeigt. Auf deinem Gerät läuft sie. Ein Kollege installiert sie und sie stürzt beim Start ab. <b>Was hast du vergessen?</b></li>
+<li>Ein Benutzer meldet, deine App leere den Akku, obwohl er sie gar nicht benutzt. <b>Wo schaust du zuerst?</b></li>
+<li>Du lädst die zweite Version deiner App hoch und der Store nimmt sie nicht an. <b>Welche Zeile hast du wahrscheinlich nicht angefasst?</b></li>
+<li>Warum reicht es nicht, deiner Kollegin einfach das APK aus dem Emulator zu schicken, wenn du in den Store willst?</li>
+<li>Du hast ein persönliches Entwicklerkonto und willst deine App in fünf Tagen veröffentlichen. <b>Warum geht das nicht?</b></li>
+</ol>
+
+<div class="tip">
+<p><b>Die Antworten stehen alle in diesem Blatt.</b> Wenn du eine nicht findest, hast du den Abschnitt überschlagen, und genau der kommt in der Besprechung dran.</p>
+</div>
+
+<p class="foot">Modul 335 | Nachschlagen | Sensoren und Veröffentlichen | Version 1 | 26.08.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<script>
+/* ------------------------------------------------------------------
+   M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
+
+   Warum hier und nicht als eigene Datei: dieser Baustein geht ueber
+   web-bau/rahmen/fuss.html in jede Seite. Inline heisst, dass bauen.js
+   nichts Zusaetzliches kopieren muss.
+
+   Zwei Faelle:
+     Startseite   nimmt die sechs Links aus .schnellnav und baut daraus
+                  dasselbe schwebende Verzeichnis. Keine Auftragskarte.
+     Auftragsseite markiert Teil A bis C, vergibt jeder Ueberschrift eine
+                  id, baut oben die Auftragskarte und daneben das Verzeichnis.
+
+   Das Aussehen steht in web-bau/stil/rahmen.css unter m335-nav.
+   ------------------------------------------------------------------ */
+(function () {
+  var wrap = document.querySelector('.wrap');
+  if (!wrap) return;
+
+  var text = function (el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); };
+  var esc  = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+
+  // Die Startseite ist daran zu erkennen, dass ihr der Rueckweg im Kopf fehlt.
+  var istStart = !document.querySelector('.site-header .back');
+  var eintraege = [];
+
+  if (istStart) {
+    // ------------------------------------------------------------ Startseite
+    var schnell = wrap.querySelector('.schnellnav');
+    if (!schnell) return;
+    [].slice.call(schnell.querySelectorAll('a')).forEach(function (a) {
+      var ziel = document.getElementById(a.getAttribute('href').slice(1));
+      if (ziel) eintraege.push({ el: ziel, text: text(a), stufe: 'n2' });
+    });
+    if (eintraege.length < 2) return;
+
+  } else {
+    // --------------------------------------------------------- Auftragsseite
+    var heads = [].slice.call(wrap.querySelectorAll('h2, h3'));
+
+    // 1 und 2: Teil A bis C markieren, jeder Ueberschrift eine id geben.
+    // Die Quellen haben keine.
+    var vergeben = {};
+    heads.forEach(function (h, i) {
+      if (h.tagName === 'H3' && /^Teil [A-Z]\b/.test(text(h))) h.classList.add('teil');
+      if (h.id) { vergeben[h.id] = true; return; }
+      var roh = text(h).toLowerCase()
+        .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+        .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+      var id = roh || ('abschnitt-' + i);
+      if (vergeben[id]) id = id + '-' + i;
+      vergeben[id] = true;
+      h.id = id;
+    });
+
+    // 3: Die Auftragskarte. Sie sagt in einem Bildschirm, wie lange der
+    // Auftrag dauert und aus welchen Teilen er besteht. Alles daran steht
+    // schon auf der Seite, die Karte stellt es nur neu zusammen.
+    var subs = [].slice.call(wrap.querySelectorAll('.sub'));
+    var bloecke = heads.filter(function (h) { return h.querySelector('.time'); });
+    var budget = '', zusatz = '';
+
+    subs.forEach(function (p) {
+      if (budget) return;
+      var m = p.innerHTML.match(/Zeitbudget\s+([^.<]+)\./);
+      if (!m) return;
+      var stuecke = m[1].split(/,\s*dazu\s*/);
+      budget = stuecke[0].trim();
+      if (stuecke[1]) zusatz = 'dazu ' + stuecke[1].trim();
+      p.innerHTML = p.innerHTML.replace(m[0], '').replace(/\s{2,}/g, ' ').trim();
+    });
+
+    if (budget || bloecke.length) {
+      var karte = document.createElement('div');
+      karte.className = 'karte';
+      var inhalt = '';
+      if (budget) {
+        inhalt += '<p class="zeit"><span class="pill">' + esc(budget) + '</span>';
+        if (zusatz) inhalt += '<span class="pill neben">' + esc(zusatz) + '</span>';
+        inhalt += '</p>';
+      }
+      if (bloecke.length) {
+        inhalt += '<p class="t">DAS MACHST DU</p><ol>';
+        bloecke.forEach(function (b) {
+          var uhr = b.querySelector('.time');
+          var min = uhr ? text(uhr) : '';
+          var t = text(b).replace(min, '').replace(/\s+/g, ' ').replace(/\s+,/g, ',').trim();
+          t = t.replace(/[,;]\s*$/, '');
+          var teil = t.match(/^([^,]+),\s*(.*)$/);
+          var wo = teil ? teil[1] : t;
+          var rest = teil ? teil[2] : '';
+          inhalt += '<li><a href="#' + b.id + '"><span class="wo">' + esc(wo) + '</span>'
+                  + (rest ? ' ' + esc(rest) : '') + '</a>'
+                  + '<span class="min">' + esc(min) + '</span></li>';
+        });
+        inhalt += '</ol>';
+      }
+      karte.innerHTML = inhalt;
+      // Steht oben ein Zielbild, gehoert die Karte darunter. Erst sehen, was
+      // entsteht, dann lesen, wie lange es dauert.
+      var anker = wrap.querySelector('figure.zielbild')
+                || (subs.length ? subs[subs.length - 1] : wrap.firstElementChild);
+      anker.parentNode.insertBefore(karte, anker.nextSibling);
+    }
+
+    // Unter vier Ueberschriften lohnt sich kein Verzeichnis.
+    if (heads.length < 4) return;
+    heads.forEach(function (h) {
+      eintraege.push({
+        el: h,
+        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
+      });
+    });
+  }
+
+  // ---------------------------------------------------------------- 4
+  var nav = document.createElement('nav');
+  nav.className = 'm335-nav';
+  nav.setAttribute('aria-label', 'Inhalt dieser Seite');
+
+  var html = '<p class="kopfzeile">AUF DIESER SEITE</p>'
+           + '<button type="button" class="schliessen" aria-label="Verzeichnis schliessen">Schliessen</button><ol>';
+  eintraege.forEach(function (e) {
+    html += '<li class="' + e.stufe + '"><a href="#' + e.el.id + '">' + esc(e.text) + '</a></li>';
+  });
+  nav.innerHTML = html + '</ol>';
+
+  var knopf = document.createElement('button');
+  knopf.type = 'button';
+  knopf.className = 'm335-nav-knopf';
+  knopf.textContent = 'Inhalt';
+
+  document.body.appendChild(nav);
+  document.body.appendChild(knopf);
+
+  var links = [].slice.call(nav.querySelectorAll('a'));
+
+  // Breit: die Leiste steht fest am Rand. Schmal: sie liegt hinter dem Knopf.
+  var breit = window.matchMedia('(min-width: 1380px)');
+  function umschalten() {
+    if (breit.matches) {
+      nav.className = 'm335-nav seitlich';
+      nav.hidden = false;
+      knopf.style.display = 'none';
+    } else {
+      nav.className = 'm335-nav klappe';
+      nav.hidden = true;
+      knopf.style.display = '';
+    }
+  }
+  umschalten();
+  if (breit.addEventListener) breit.addEventListener('change', umschalten);
+  else if (breit.addListener) breit.addListener(umschalten);
+
+  knopf.addEventListener('click', function () { nav.hidden = !nav.hidden; });
+  nav.querySelector('.schliessen').addEventListener('click', function () { nav.hidden = true; });
+  nav.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && !breit.matches) nav.hidden = true;
+  });
+
+  // Welcher Abschnitt ist gerade dran. Gesucht ist der letzte Eintrag, der
+  // oberhalb der Lesekante liegt. Die Kante liegt knapp unter dem klebenden
+  // Kopfbereich.
+  var laeuft = false;
+  function markieren() {
+    laeuft = false;
+    var kante = 96, treffer = 0;
+    for (var i = 0; i < eintraege.length; i++) {
+      if (eintraege[i].el.getBoundingClientRect().top <= kante) treffer = i;
+      else break;
+    }
+    for (var j = 0; j < links.length; j++) links[j].classList.toggle('hier', j === treffer);
+    var a = links[treffer];
+    if (a && breit.matches) {
+      var r = a.getBoundingClientRect(), n = nav.getBoundingClientRect();
+      if (r.top < n.top + 8 || r.bottom > n.bottom - 8) a.scrollIntoView({ block: 'nearest' });
+    }
+  }
+  function anstossen() {
+    if (laeuft) return;
+    laeuft = true;
+    window.requestAnimationFrame(markieren);
+  }
+  window.addEventListener('scroll', anstossen, { passive: true });
+  window.addEventListener('resize', anstossen);
+  markieren();
+})();
+</script>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>
