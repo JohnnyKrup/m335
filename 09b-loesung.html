@@ -293,6 +293,33 @@
 <li><b>Zum Schluss die Testdurchführung eintragen.</b> Das sind 2 Punkte und es dauert fünf Minuten.</li>
 </ol>
 
+<h3>Der Notausgang, falls die Liste nicht laufen will</h3>
+
+<div class="warn">
+<p><b>Das ist ein Notfall und kein Plan A.</b> Lies es einmal, damit du es kennst, und benutz es nur, wenn dein Adapter am Prüfungstag nach zwanzig Minuten immer noch nicht läuft.</p>
+</div>
+
+<p><b>Das Prüfungsblatt schreibt keinen RecyclerView vor.</b> Es nennt überhaupt keine Klasse. Im Bewertungsraster stehen nur diese zwei Zeilen:</p>
+<table>
+<tr><th>Zeile im Raster</th><th class="num">P</th></tr>
+<tr><td>Module werden in Liste angezeigt und ggf. aktualisiert</td><td class="num">2</td></tr>
+<tr><td>Durchschnitt wird rechts angezeigt</td><td class="num">1</td></tr>
+</table>
+<p><b>Diese drei Punkte holt auch deine Liste zu Fuss aus 04B.</b> Eine Schleife, die für jeden Eintrag eine Zeile baut und an ein <code>LinearLayout</code> hängt. Der Code dafür steht in deinem eigenen Projekt und ist zehn Zeilen lang.</p>
+<p><b>Drei Bedingungen, sonst kostet es dich mehr, als es bringt:</b></p>
+<ol>
+<li><b>Das <code>LinearLayout</code> gehört in eine <code>ScrollView</code>.</b> Sonst ist die Liste im Querformat unten abgeschnitten, und das ist eine eigene Zeile mit 2 Punkten. <b>Ein RecyclerView scrollt von selbst, eine Liste zu Fuss nicht.</b></li>
+<li><b>Der Durchschnitt muss trotzdem rechts stehen.</b> Also dieselbe Zeilenstruktur wie beim Adapter: links ein Block mit <code>layout_weight="1"</code>, rechts der Wert.</li>
+<li><b>Nach jeder Änderung baust du die ganze Liste neu.</b> Also erst <code>removeAllViews</code>, dann die Schleife. Sonst stehen die alten Zeilen doppelt da. Das ist genau der Punkt <i>ggf. aktualisiert</i> im Raster.</li>
+</ol>
+<div class="tip">
+<p><b>Was du damit verlierst:</b> nichts an Punkten, bei zehn Modulen auch nichts an Geschwindigkeit. Bei fünfhundert Einträgen wäre es falsch, aber die hast du am Prüfungstag nicht.</p>
+<p><b>Was du gewinnst:</b> die drei Punkte, statt gar keine. <b>Und du kannst begründen, warum du so entschieden hast.</b> Genau das wird in der Leistungsbeurteilung gefragt.</p>
+</div>
+<div class="warn">
+<p><b>Trotzdem ist der Adapter der bessere Weg, und du sollst ihn zuerst versuchen.</b> Er ist im Kurs geübt, er scrollt von selbst, und er ist das, was in einer echten App steht. <b>Der Notausgang ist dafür da, dass ein einziger klemmender Adapter dir nicht drei Punkte und zwanzig Minuten kostet.</b></p>
+</div>
+
 <h3>Die sechs Punkte, die am billigsten sind</h3>
 <table>
 <tr><th>Punkt</th><th class="num">P</th><th>Aufwand</th></tr>
