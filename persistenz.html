@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M335 Daten aufbewahren</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+<h1>Daten aufbewahren</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Nachschlageblatt. Lesezeit etwa 8 Minuten. Version 1 vom 04.09.2026.</p>
+<p class="sub">Wo deine Daten bleiben, wenn die App zugeht. Welche Ablage wofür passt, wie du deine Wahl begründest, und wer im Code mit wem redet.</p>
+
+<div class="tip">
+<p><b>Dieses Blatt beantwortet die Frage <i>wohin</i>.</b> Wo die Dateien danach auf dem Gerät liegen und wie du hineinschaust, steht in <a href="/daten">Wo deine App ihre Daten ablegt</a>. Welche Klassen eine Datenbank braucht, steht in <a href="/room">Room verstehen</a>.</p>
+</div>
+
+<h2>01 Die Frage, um die es geht</h2>
+
+<p>Du hast einen Wert in einem Feld deiner Activity. Er ist da, du kannst ihn lesen, alles gut.</p>
+
+<pre><span class="k">private</span> <span class="t">List</span>&lt;<span class="t">Question</span>&gt; questions;</pre>
+
+<p>Dann schliesst jemand die App. <b>Der Wert ist weg.</b> Nicht gelöscht, nicht kaputt, sondern nie irgendwo gewesen ausser im Arbeitsspeicher, und den räumt Android auf, sobald er ihn braucht.</p>
+
+<div class="chk">
+<p><b>Der eine Satz, der alles trägt:</b> nichts, was nur im Arbeitsspeicher steht, überlebt das Beenden der App. <b>Aufbewahren heisst, es irgendwohin zu schreiben</b>, und genau dafür gibt es mehrere Möglichkeiten.</p>
+</div>
+
+<p>Das Wort dafür ist <b>Persistenz</b>. Es heisst nichts anderes als: es bleibt, auch wenn niemand hinschaut.</p>
+
+<h2>02 Die vier Arten von Gedächtnis</h2>
+
+<p>Deine App hat sie alle vier nebeneinander, und sie halten <b>verschieden lange</b>. Das ist der Grund, warum du überhaupt wählen musst.</p>
+
+<table>
+<tr><th>Womit</th><th>Drehen</th><th>App beenden</th><th>Gerät neu starten</th><th>Deinstallieren</th></tr>
+<tr><td>Ein Feld in der Klasse</td><td>nein</td><td>nein</td><td>nein</td><td>nein</td></tr>
+<tr><td>Ein Feld plus Bundle</td><td><b>ja</b></td><td>nein</td><td>nein</td><td>nein</td></tr>
+<tr><td>SharedPreferences oder eine eigene Datei</td><td><b>ja</b></td><td><b>ja</b></td><td><b>ja</b></td><td>nein</td></tr>
+<tr><td>Eine lokale Datenbank</td><td><b>ja</b></td><td><b>ja</b></td><td><b>ja</b></td><td>nein</td></tr>
+</table>
+
+<p><b>Die unteren zwei Zeilen unterscheiden sich nicht in der Haltbarkeit.</b> Sie liegen sogar am selben Ort, nämlich im Ordner der App auf dem Gerät. <b>Der Unterschied liegt nicht darin, wo sie sind, sondern was du mit ihnen machen kannst.</b></p>
+
+<div class="note">
+<p style="margin:0"><b>Nichts davon überlebt das Deinstallieren.</b> Wer Daten braucht, die ein neues Gerät wiederfinden soll, braucht einen Server. Das ist in diesem Modul kein Thema, aber es ist der Grund, warum es Anmeldungen und Konten gibt.</p>
+</div>
+
+<h2>03 Die drei Ablagen im Vergleich</h2>
+
+<table>
+<tr><th>Ablage</th><th>Was sie ist</th><th>Passt für</th></tr>
+<tr><td class="pre">SharedPreferences</td><td>Eine kleine Ablage für einzelne Werte, als XML-Datei im Ordner der App</td><td>Einzelne Zahlen, Wahrheitswerte, kurze Texte. <b>Einstellungen</b></td></tr>
+<tr><td class="pre">Eine eigene Datei</td><td>Du schreibst selbst Text oder JSON in eine Datei im Ordner der App</td><td>Grössere Mengen, die <b>als Ganzes</b> gelesen und geschrieben werden. Ein Export</td></tr>
+<tr><td class="pre">Eine lokale Datenbank</td><td>SQLite im Ordner der App. Du sprichst sie über Room an</td><td>Viele gleichartige Datensätze, die <b>einzeln</b> gesucht, geändert und gelöscht werden</td></tr>
+</table>
+
+<p><b>Die Reihenfolge in der Tabelle ist auch eine Reihenfolge im Aufwand.</b> SharedPreferences kosten eine Zeile. Eine Datenbank kostet drei Klassen. Wer die Datenbank nimmt, wo eine Zahl reicht, verliert Zeit. Wer die Zahl-Lösung nimmt, wo dreissig Datensätze einzeln geändert werden, verliert mehr.</p>
+
+<h2>04 Die drei Prüffragen</h2>
+
+<p><b>Du brauchst keine Regel zum Auswendiglernen.</b> Du brauchst drei Fragen, die du an jede Datenart stellst, die deine App aufbewahren soll.</p>
+
+<table>
+<tr><th>Nr</th><th>Frage</th><th>Warum sie zählt</th></tr>
+<tr><td>1</td><td>Wie viele Datensätze werden es, wenn die App ein Jahr läuft?</td><td>Einer bleibt einer. Dreissig werden dreihundert</td></tr>
+<tr><td>2</td><td>Willst du je einen <b>einzelnen</b> davon ändern oder löschen?</td><td>Ohne Datenbank heisst das: alles lesen, im Speicher ändern, alles zurückschreiben</td></tr>
+<tr><td>3</td><td>Willst du danach suchen, filtern oder sortieren?</td><td>Suchen in einer Textdatei heisst: alles lesen und selbst durchgehen</td></tr>
+</table>
+
+<div class="chk">
+<p><b>Zweimal ja bei Frage 2 und 3 heisst Datenbank. Dreimal nein heisst SharedPreferences.</b> Dazwischen entscheidest du und begründest.</p>
+<p style="margin:0">Das ist keine Regel, das ist eine <b>Rechnung</b>. Sie sagt dir, was unter diesen Bedingungen passiert, nicht was du tun sollst.</p>
+</div>
+
+<h2>05 Wie du deine Wahl begründest</h2>
+
+<p>Eine Entscheidung ohne Begründung ist keine Entscheidung, sie ist eine Behauptung. <b>Der Aufbau ist immer derselbe, drei Teile.</b></p>
+
+<div class="step"><p><span class="n">1</span> <b>Zwei Möglichkeiten nennen.</b> Nicht eine. Zwei</p></div>
+<div class="step"><p><span class="n">2</span> <b>Dich für eine entscheiden</b></p></div>
+<div class="step"><p><span class="n">3</span> <b>In zwei Sätzen begründen.</b> Der erste sagt, was <b>für</b> deine Wahl spricht. Der zweite sagt, was <b>gegen</b> die andere spricht</p></div>
+
+<div class="warn">
+<p style="margin:0"><b>Der Prüfsatz für jede Begründung:</b> nenne ich eine <b>Eigenschaft meiner Daten</b>, oder ein <b>Urteil über die Technik</b>? Nur das Erste ist eine Begründung. Sätze wie <i>eine Datenbank ist besser</i> oder <i>das ist der moderne Weg</i> beschreiben keine Bedingung deiner App und tragen darum nichts.</p>
+</div>
+
+<p><b>Ein brauchbarer Satz enthält eine Zahl oder eine Tätigkeit.</b> Also dreissig, oder ändern, oder filtern. Ein harter Test dafür: gib deine zwei Sätze jemandem, ohne zu sagen, um welche Daten es geht. <b>Errät die Person es, sind deine Sätze konkret genug.</b></p>
+
+<h2>06 Die Schichten, von der Anzeige bis zur Datei</h2>
+
+<p>Bis jetzt ging es darum, <b>wohin</b>. Jetzt geht es darum, <b>wer im Code mit wem redet</b>. Und das ist bei beiden Wegen dasselbe Muster, nur unterschiedlich tief.</p>
+
+<pre><span class="c">   OHNE DATENBANK                        MIT DATENBANK
+   wie beim besten Punktestand           wie bei den Fragen
+
+   Activity                              Activity
+      |   ruft eine Methode auf             |   ruft eine Methode auf
+      v                                     v
+   Deine Speicher-Klasse                 Dao
+      |   liest und schreibt                |   eine Methode je Zugriff
+      v                                     v
+   SharedPreferences                     Datenbank
+      |   Android verwaltet sie             |   Room verwaltet sie
+      v                                     v
+   Eine Datei im Ordner der App          Eine Datei im Ordner der App</span></pre>
+
+<div class="chk">
+<p><b>Der Satz, der beide Bilder erklärt:</b> die Activity kennt die Datei nie. <b>Sie kennt nur die Klasse eine Stufe tiefer</b>, und die kennt wieder nur die Stufe darunter.</p>
+</div>
+
+<p>Das ist kein Selbstzweck. Es hat drei Folgen, die du im Modul selbst erlebst.</p>
+
+<table>
+<tr><th>Weil jede Schicht nur die nächste kennt</th><th>Kannst du</th></tr>
+<tr><td>Die Activity weiss nicht, ob dahinter eine Datei oder eine Datenbank liegt</td><td>die Ablage austauschen, ohne den Bildschirm neu zu schreiben</td></tr>
+<tr><td>Die Speicher-Klasse weiss nichts von Knöpfen</td><td>sie in einem anderen Bildschirm wiederverwenden</td></tr>
+<tr><td>Jede Schicht hat eine Aufgabe</td><td>bei einem Fehler von oben nach unten suchen, statt überall gleichzeitig</td></tr>
+</table>
+
+<p>Wie die Anzeige darüber weitergeht, also von der Activity über den Adapter bis zur einzelnen Zeile, steht in <a href="/listen">Listen verstehen</a>. <b>Die zwei Bilder zusammengesetzt ergeben den ganzen Weg</b>, von der Datei bis zum Pixel.</p>
+
+<h2>07 Wenn es nicht geht</h2>
+
+<table>
+<tr><th>Was du siehst</th><th>Woran es meist liegt</th><th>Was du prüfst</th></tr>
+<tr><td>Der Wert ist nach dem Drehen weg</td><td>Er lebt nur in einem Feld. Beim Drehen wird die Activity neu aufgebaut</td><td>Wird er irgendwo hingeschrieben, oder steht er nur im Feld?</td></tr>
+<tr><td>Der Wert überlebt das Drehen, aber nicht das Beenden der App</td><td>Er liegt im Bundle. <b>Das Bundle ist kein Speicher, es ist ein Zwischenhalt</b></td><td>Ob es eine Zeile gibt, die wirklich schreibt</td></tr>
+<tr><td>Du schreibst und es kommt nichts an</td><td>Bei SharedPreferences fehlt der Abschluss des Schreibvorgangs</td><td>Die Schreibzeile ganz lesen. <b>Ein Editor allein schreibt nichts</b></td></tr>
+<tr><td>Die Datei ist auf dem Gerät nicht zu finden</td><td>Sie entsteht erst beim ersten Schreiben</td><td>Einmal etwas speichern, dann nochmals nachschauen. Der Weg dahin steht in <a href="/daten">Wo deine App ihre Daten ablegt</a></td></tr>
+<tr><td>Eine Änderung an einem einzelnen Eintrag ist mühsam und langsam</td><td>Das ist kein Fehler, sondern die falsche Ablage</td><td>Die drei Prüffragen aus Abschnitt 04 nochmals stellen</td></tr>
+</table>
+
+<h2>08 Wenn du entscheiden musst: die Reihenfolge</h2>
+
+<div class="step"><p><span class="n">1</span> <b>Schreib auf, welche Datenart es ist.</b> Nicht die ganze App auf einmal, sondern eine Art nach der anderen</p></div>
+<div class="step"><p><span class="n">2</span> <b>Stell die drei Prüffragen</b> aus Abschnitt 04 an genau diese Datenart</p></div>
+<div class="step"><p><span class="n">3</span> <b>Entscheide dich</b> und schreib die zwei Sätze nach dem Aufbau aus Abschnitt 05</p></div>
+<div class="step"><p><span class="n">4</span> <b>Erst danach baust du.</b> Und du baust in Schichten, von unten nach oben</p></div>
+
+<div class="chk">
+<p style="margin:0"><b>Der Prüfschritt:</b> jede Datenart hat eine Entscheidung <b>und</b> eine Begründung. Keine Begründung besteht nur aus <i>einfacher</i> oder <i>besser</i>. In jeder kommt eine Zahl oder eine Tätigkeit vor.</p>
+</div>
+
+<h2>09 Wo das im Ganzen steht</h2>
+
+<pre><span class="c">   Was der Benutzer sieht        Listen verstehen
+        ^                        Adapter, ViewHolder, die einzelne Zeile
+        |
+   Wer die Daten holt            dieses Blatt
+        ^                        die Schichten, die Wahl der Ablage
+        |
+   Womit die Datenbank           Room verstehen
+   gebaut ist                    Entity, Dao, Database
+        ^
+        |
+   Wo die Datei liegt            Wo deine App ihre Daten ablegt
+                                 der Ordner der App, Device Explorer, adb</span></pre>
+
+<p><b>Die Pfeile zeigen nach oben</b>, denn so laufen die Daten: von der Datei bis auf den Bildschirm.</p>
+
+<h2>10 Prüfe dich selbst</h2>
+
+<ol>
+<li>Was heisst Persistenz, in einem Satz und ohne das Wort selbst zu benutzen?</li>
+<li>Zwei Ablagen halten gleich lange und liegen am selben Ort. Worin unterscheiden sie sich trotzdem?</li>
+<li>Deine App merkt sich, welchen Filter der Benutzer zuletzt gewählt hat, ein einziges Wort. Welche Ablage nimmst du, und warum?</li>
+<li>Deine App verwaltet zweihundert Einträge, die einzeln geändert und nach Kategorie gefiltert werden. Wie lauten deine drei Antworten auf die Prüffragen?</li>
+<li>Warum genügt der Satz <i>eine Datenbank ist die bessere Lösung</i> nicht als Begründung?</li>
+<li>Warum kennt die Activity die Datei nicht, obwohl am Schluss doch alles dort landet?</li>
+</ol>
+
+<div class="tip">
+<p><b>Die Antworten stehen alle auf diesem Blatt.</b> Wenn du eine nicht findest, hast du den Abschnitt überschlagen, und genau der ist der, den du brauchst.</p>
+</div>
+
+<p class="foot">Modul 335 | Nachschlagen | Daten aufbewahren | Version 1 | 04.09.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<script>
+/* ------------------------------------------------------------------
+   M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
+
+   Warum hier und nicht als eigene Datei: dieser Baustein geht ueber
+   web-bau/rahmen/fuss.html in jede Seite. Inline heisst, dass bauen.js
+   nichts Zusaetzliches kopieren muss.
+
+   Zwei Faelle:
+     Startseite   nimmt die sechs Links aus .schnellnav und baut daraus
+                  dasselbe schwebende Verzeichnis. Keine Auftragskarte.
+     Auftragsseite markiert Teil A bis C, vergibt jeder Ueberschrift eine
+                  id, baut oben die Auftragskarte und daneben das Verzeichnis.
+
+   Das Aussehen steht in web-bau/stil/rahmen.css unter m335-nav.
+   ------------------------------------------------------------------ */
+(function () {
+  var wrap = document.querySelector('.wrap');
+  if (!wrap) return;
+
+  var text = function (el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); };
+  var esc  = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+
+  // Die Startseite ist daran zu erkennen, dass ihr der Rueckweg im Kopf fehlt.
+  var istStart = !document.querySelector('.site-header .back');
+  var eintraege = [];
+
+  if (istStart) {
+    // ------------------------------------------------------------ Startseite
+    var schnell = wrap.querySelector('.schnellnav');
+    if (!schnell) return;
+    [].slice.call(schnell.querySelectorAll('a')).forEach(function (a) {
+      var ziel = document.getElementById(a.getAttribute('href').slice(1));
+      if (ziel) eintraege.push({ el: ziel, text: text(a), stufe: 'n2' });
+    });
+    if (eintraege.length < 2) return;
+
+  } else {
+    // --------------------------------------------------------- Auftragsseite
+    var heads = [].slice.call(wrap.querySelectorAll('h2, h3'));
+
+    // 1 und 2: Teil A bis C markieren, jeder Ueberschrift eine id geben.
+    // Die Quellen haben keine.
+    var vergeben = {};
+    heads.forEach(function (h, i) {
+      if (h.tagName === 'H3' && /^Teil [A-Z]\b/.test(text(h))) h.classList.add('teil');
+      if (h.id) { vergeben[h.id] = true; return; }
+      var roh = text(h).toLowerCase()
+        .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+        .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+      var id = roh || ('abschnitt-' + i);
+      if (vergeben[id]) id = id + '-' + i;
+      vergeben[id] = true;
+      h.id = id;
+    });
+
+    // 3: Die Auftragskarte. Sie sagt in einem Bildschirm, wie lange der
+    // Auftrag dauert und aus welchen Teilen er besteht. Alles daran steht
+    // schon auf der Seite, die Karte stellt es nur neu zusammen.
+    var subs = [].slice.call(wrap.querySelectorAll('.sub'));
+    var bloecke = heads.filter(function (h) { return h.querySelector('.time'); });
+    var budget = '', zusatz = '';
+
+    subs.forEach(function (p) {
+      if (budget) return;
+      var m = p.innerHTML.match(/Zeitbudget\s+([^.<]+)\./);
+      if (!m) return;
+      var stuecke = m[1].split(/,\s*dazu\s*/);
+      budget = stuecke[0].trim();
+      if (stuecke[1]) zusatz = 'dazu ' + stuecke[1].trim();
+      p.innerHTML = p.innerHTML.replace(m[0], '').replace(/\s{2,}/g, ' ').trim();
+    });
+
+    if (budget || bloecke.length) {
+      var karte = document.createElement('div');
+      karte.className = 'karte';
+      var inhalt = '';
+      if (budget) {
+        inhalt += '<p class="zeit"><span class="pill">' + esc(budget) + '</span>';
+        if (zusatz) inhalt += '<span class="pill neben">' + esc(zusatz) + '</span>';
+        inhalt += '</p>';
+      }
+      if (bloecke.length) {
+        inhalt += '<p class="t">DAS MACHST DU</p><ol>';
+        bloecke.forEach(function (b) {
+          var uhr = b.querySelector('.time');
+          var min = uhr ? text(uhr) : '';
+          var t = text(b).replace(min, '').replace(/\s+/g, ' ').replace(/\s+,/g, ',').trim();
+          t = t.replace(/[,;]\s*$/, '');
+          var teil = t.match(/^([^,]+),\s*(.*)$/);
+          var wo = teil ? teil[1] : t;
+          var rest = teil ? teil[2] : '';
+          inhalt += '<li><a href="#' + b.id + '"><span class="wo">' + esc(wo) + '</span>'
+                  + (rest ? ' ' + esc(rest) : '') + '</a>'
+                  + '<span class="min">' + esc(min) + '</span></li>';
+        });
+        inhalt += '</ol>';
+      }
+      karte.innerHTML = inhalt;
+      // Steht oben ein Zielbild, gehoert die Karte darunter. Erst sehen, was
+      // entsteht, dann lesen, wie lange es dauert.
+      var anker = wrap.querySelector('figure.zielbild')
+                || (subs.length ? subs[subs.length - 1] : wrap.firstElementChild);
+      anker.parentNode.insertBefore(karte, anker.nextSibling);
+    }
+
+    // Unter vier Ueberschriften lohnt sich kein Verzeichnis.
+    if (heads.length < 4) return;
+    heads.forEach(function (h) {
+      eintraege.push({
+        el: h,
+        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
+      });
+    });
+  }
+
+  // ---------------------------------------------------------------- 4
+  var nav = document.createElement('nav');
+  nav.className = 'm335-nav';
+  nav.setAttribute('aria-label', 'Inhalt dieser Seite');
+
+  var html = '<p class="kopfzeile">AUF DIESER SEITE</p>'
+           + '<button type="button" class="schliessen" aria-label="Verzeichnis schliessen">Schliessen</button><ol>';
+  eintraege.forEach(function (e) {
+    html += '<li class="' + e.stufe + '"><a href="#' + e.el.id + '">' + esc(e.text) + '</a></li>';
+  });
+  nav.innerHTML = html + '</ol>';
+
+  var knopf = document.createElement('button');
+  knopf.type = 'button';
+  knopf.className = 'm335-nav-knopf';
+  knopf.textContent = 'Inhalt';
+
+  document.body.appendChild(nav);
+  document.body.appendChild(knopf);
+
+  var links = [].slice.call(nav.querySelectorAll('a'));
+
+  // Breit: die Leiste steht fest am Rand. Schmal: sie liegt hinter dem Knopf.
+  var breit = window.matchMedia('(min-width: 1380px)');
+  function umschalten() {
+    if (breit.matches) {
+      nav.className = 'm335-nav seitlich';
+      nav.hidden = false;
+      knopf.style.display = 'none';
+    } else {
+      nav.className = 'm335-nav klappe';
+      nav.hidden = true;
+      knopf.style.display = '';
+    }
+  }
+  umschalten();
+  if (breit.addEventListener) breit.addEventListener('change', umschalten);
+  else if (breit.addListener) breit.addListener(umschalten);
+
+  knopf.addEventListener('click', function () { nav.hidden = !nav.hidden; });
+  nav.querySelector('.schliessen').addEventListener('click', function () { nav.hidden = true; });
+  nav.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && !breit.matches) nav.hidden = true;
+  });
+
+  // Welcher Abschnitt ist gerade dran. Gesucht ist der letzte Eintrag, der
+  // oberhalb der Lesekante liegt. Die Kante liegt knapp unter dem klebenden
+  // Kopfbereich.
+  var laeuft = false;
+  function markieren() {
+    laeuft = false;
+    var kante = 96, treffer = 0;
+    for (var i = 0; i < eintraege.length; i++) {
+      if (eintraege[i].el.getBoundingClientRect().top <= kante) treffer = i;
+      else break;
+    }
+    for (var j = 0; j < links.length; j++) links[j].classList.toggle('hier', j === treffer);
+    var a = links[treffer];
+    if (a && breit.matches) {
+      var r = a.getBoundingClientRect(), n = nav.getBoundingClientRect();
+      if (r.top < n.top + 8 || r.bottom > n.bottom - 8) a.scrollIntoView({ block: 'nearest' });
+    }
+  }
+  function anstossen() {
+    if (laeuft) return;
+    laeuft = true;
+    window.requestAnimationFrame(markieren);
+  }
+  window.addEventListener('scroll', anstossen, { passive: true });
+  window.addEventListener('resize', anstossen);
+  markieren();
+})();
+</script>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>

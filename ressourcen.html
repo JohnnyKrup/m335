@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M335 Ressourcen und R</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+<h1>Ressourcen und R</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Nachschlageblatt. Lesezeit etwa 9 Minuten. Version 1 vom 04.09.2026.</p>
+<p class="sub">Warum dein Text nicht im Code steht, was der Ordner res enthält, und was die Klasse R eigentlich ist.</p>
+
+<div class="tip">
+<p><b>Dieses Blatt ist die Ergänzung zu <a href="/xml">XML verstehen</a>.</b> Dort steht, was das Zeichen <code>@</code> im Layout bedeutet. Hier steht, <b>warum es das überhaupt gibt</b> und was dahinter liegt.</p>
+</div>
+
+<h2>01 Die Frage, um die es geht</h2>
+
+<p>Du willst eine Überschrift setzen. Der naheliegende Weg wäre dieser.</p>
+
+<pre><span class="c">// Das läuft. Und trotzdem macht es in Android niemand.</span>
+tvTitle.setText(<span class="s">"Meine Einkaufsliste"</span>);</pre>
+
+<p>Der Grund ist <b>nicht</b> Ordnung, und es ist auch keine Geschmacksfrage. Der Grund ist, dass dieselbe App auf sehr verschiedenen Geräten läuft. Eines steht auf Deutsch, eines auf Französisch. Eines läuft im Dunkelmodus. Eines hat einen viel feineren Bildschirm als das andere.</p>
+
+<p><b>Ein fest eingebauter Text kann auf all das nicht reagieren.</b> Er ist ein einziger Wert, und er steht mitten in einer Methode.</p>
+
+<div class="chk">
+<p><b>Der eine Satz, der alles trägt:</b> du schreibst nicht den Text hin, du schreibst <b>einen Namen</b> hin. Welchen Wert Android hinter dem Namen hervorholt, entscheidet es <b>beim Anzeigen</b>, nach der Situation des Geräts.</p>
+</div>
+
+<p>Alles Weitere auf diesem Blatt folgt daraus. Der Ordner <code>res</code> ist die Sammlung dieser Werte, und <code>R</code> ist das Verzeichnis dazu.</p>
+
+<h2>02 Der Ordner res, von aussen</h2>
+
+<p>So sieht er in deinem Projekt wirklich aus. Links der Ordner, rechts was darin liegt.</p>
+
+<pre><span class="c">   app/src/main/
+        |
+        +-- java/            dein Code
+        |
+        +-- res/             alles, was der Benutzer sieht oder hört
+        |     |
+        |     +-- layout/          activity_main.xml, item_shopping.xml
+        |     +-- values/          strings.xml, colors.xml, themes.xml
+        |     +-- values-night/    themes.xml, dieselben Namen, andere Werte
+        |     +-- drawable/        Formen und Bilder, meist als XML
+        |     +-- mipmap-hdpi/     das App-Symbol in einer Grösse
+        |     +-- mipmap-xhdpi/    dasselbe Symbol, feiner
+        |     +-- xml/             Einstellungen, die niemand sieht
+        |
+        +-- AndroidManifest.xml</span></pre>
+
+<div class="note">
+<p style="margin:0"><b>Alles unter <code>res</code> gehört zur App, aber nichts davon ist Code.</b> Es wird nicht übersetzt, es wird mitgeliefert. Darum kannst du einen Text ändern, ohne eine einzige Zeile Java anzufassen.</p>
+</div>
+
+<h2>03 Der Zusatz hinter dem Ordnernamen</h2>
+
+<p>Dir ist sicher aufgefallen, dass manche Ordner einen Anhang tragen. <code>values</code> und <code>values-night</code>. <code>mipmap-hdpi</code> und <code>mipmap-xhdpi</code>. <b>Das ist der eigentliche Trick, und er ist einfacher, als er aussieht.</b></p>
+
+<p><b>Der Anhang ist eine Bedingung.</b> Für dich und für <code>R</code> heissen beide Ordner gleich, nämlich <code>values</code>. Erst auf dem Gerät entscheidet Android, aus welchem der beiden es liest.</p>
+
+<table>
+<tr><th>Anhang</th><th>Android nimmt diesen Ordner, wenn</th><th>Bei uns im Projekt</th></tr>
+<tr><td class="pre">kein Anhang</td><td>immer, wenn nichts Besseres passt. <b>Der Rückfallwert</b></td><td><code>values/</code>, <code>layout/</code>, <code>drawable/</code></td></tr>
+<tr><td class="pre">-night</td><td>das Gerät im Dunkelmodus läuft</td><td><code>values-night/themes.xml</code></td></tr>
+<tr><td class="pre">-hdpi, -xhdpi, -xxhdpi</td><td>der Bildschirm so fein ist</td><td>das App-Symbol, sechsmal abgelegt</td></tr>
+<tr><td class="pre">-de, -fr</td><td>das Gerät auf dieser Sprache steht</td><td><b>gibt es bei uns nicht.</b> Wir haben nur eine Sprache</td></tr>
+<tr><td class="pre">-land</td><td>das Gerät im Querformat ist</td><td>gibt es bei uns nicht</td></tr>
+</table>
+
+<div class="chk">
+<p><b>Der Merksatz:</b> du schreibst den Namen <b>einmal</b>, du legst die Datei <b>mehrmals</b> an. Im Code ändert sich dabei kein Zeichen. <b>Genau deshalb steht der Text nicht im Java.</b></p>
+</div>
+
+<p>Und daraus folgt eine Regel für den Rückfallwert. <b>Der Ordner ohne Anhang muss vollständig sein.</b> Wenn ein Name nur in <code>values-night</code> steht, findet Android ihn am Tag nicht.</p>
+
+<h2>04 Was R ist und wer es baut</h2>
+
+<p><code>R</code> ist eine Java-Klasse. Sie steht in keinem Ordner, den du siehst, und <b>du hast sie nie geschrieben</b>. Sie entsteht bei jedem Bau neu.</p>
+
+<pre><span class="c">// Sinngemäss das, was der Bau erzeugt. Du siehst diese Datei normalerweise nicht.</span>
+<span class="k">public final class</span> <span class="t">R</span> {
+    <span class="k">public static final class</span> <span class="t">string</span> {
+        <span class="k">public static final int</span> title_main = <span class="s">0x7f0f001a</span>;
+        <span class="k">public static final int</span> btn_save   = <span class="s">0x7f0f001b</span>;
+    }
+    <span class="k">public static final class</span> <span class="t">id</span> {
+        <span class="k">public static final int</span> tvTitle = <span class="s">0x7f0900c3</span>;
+    }
+}</pre>
+
+<p><b>Jede Ressource bekommt eine Zahl</b>, und der Name daneben ist nur für dich da. Wenn du <code>R.string.title_main</code> schreibst, übergibst du in Wahrheit diese Zahl.</p>
+
+<table>
+<tr><th>Über R stimmt</th><th></th></tr>
+<tr><td>Sie wird bei jedem Bau neu erzeugt</td><td>ja</td></tr>
+<tr><td>Sie enthält für jede Ressource eine Konstante</td><td>ja</td></tr>
+<tr><td>Nach einer neuen id kann ein neuer Bau nötig sein, damit sie gefunden wird</td><td>ja</td></tr>
+<tr><td>Du musst sie von Hand pflegen</td><td><b>nein, nie</b></td></tr>
+</table>
+
+<div class="chk">
+<p><b>Der Merksatz:</b> <code>R</code> ist das <b>Inhaltsverzeichnis, das der Bau erzeugt</b>. Kein Eintrag unter <code>res</code>, kein Name in <code>R</code>. Und umgekehrt: was du in <code>res</code> anlegst, steht nach dem nächsten Bau in <code>R</code>.</p>
+</div>
+
+<p>Deshalb hilft bei einem hartnäckig roten Namen oft schlicht ein neuer Bau mit <code>Ctrl+F9</code>.</p>
+
+<h2>05 Die zwei Schreibweisen, in einem Satz</h2>
+
+<p>Dieselbe Ressource heisst im XML anders als im Java.</p>
+
+<table>
+<tr><th>Im Layout</th><th>Im Java-Code</th></tr>
+<tr><td class="pre">@string/btn_save</td><td class="pre">R.string.btn_save</td></tr>
+<tr><td class="pre">@layout/activity_main</td><td class="pre">R.layout.activity_main</td></tr>
+<tr><td class="pre">@+id/tvTitle</td><td class="pre">R.id.tvTitle</td></tr>
+</table>
+
+<p>Aus dem <code>@</code> wird ein <code>R.</code>, aus dem Schrägstrich ein Punkt. <b>Mehr ist es nicht.</b> Warum im Layout einmal <code>@+id</code> und einmal <code>@id</code> steht, erklärt <a href="/xml">XML verstehen</a> im Abschnitt über das Zeichen @.</p>
+
+<h2>06 Was in strings.xml gehört und was nicht</h2>
+
+<p>Nicht jeder Text auf dem Bildschirm ist eine Ressource. <b>Die Trennlinie ist nicht die Länge und nicht der Ort, sondern die Frage: wer ändert diesen Text?</b></p>
+
+<table>
+<tr><th></th><th>Beschriftung</th><th>Daten</th></tr>
+<tr><td><b>Wer ändert sie</b></td><td>du, oder ein Übersetzer</td><td>der Benutzer, oder die Datenbank</td></tr>
+<tr><td><b>Beispiele</b></td><td>Speichern, Menge, Noch keine Runde gespielt</td><td>Milch, 2.50, der Text einer Frage</td></tr>
+<tr><td><b>Wohin</b></td><td><code>strings.xml</code></td><td>in den Code oder in die Datenbank</td></tr>
+</table>
+
+<h3>Die Namensregel</h3>
+
+<p>Im Projekt steht sie als Kommentar zuoberst in <code>strings.xml</code>: <b><code>was_wofuer</code>, alles klein, mit Unterstrich.</b></p>
+
+<pre><span class="c">&lt;string name=</span><span class="s">"title_main"</span><span class="c">&gt;</span>Meine Einkaufsliste<span class="c">&lt;/string&gt;</span>
+<span class="c">&lt;string name=</span><span class="s">"btn_save"</span><span class="c">&gt;</span>Speichern<span class="c">&lt;/string&gt;</span>
+<span class="c">&lt;string name=</span><span class="s">"hint_article"</span><span class="c">&gt;</span>Artikel<span class="c">&lt;/string&gt;</span>
+<span class="c">&lt;string name=</span><span class="s">"error_required"</span><span class="c">&gt;</span>Pflichtfeld<span class="c">&lt;/string&gt;</span></pre>
+
+<div class="warn">
+<p style="margin:0"><b>Der Name ist ein Java-Bezeichner, der Wert nicht.</b> Aus dem Namen wird eine Konstante in <code>R</code>, darum sind darin nur Kleinbuchstaben, Ziffern und Unterstriche erlaubt. <b>Kein Bindestrich, kein Umlaut, kein Leerzeichen.</b> Im Wert daneben darfst du alles schreiben, Umlaute und Satzzeichen inklusive.</p>
+</div>
+
+<h2>07 Texte mit einer Lücke</h2>
+
+<p>Sehr oft soll ein Text eine Zahl enthalten, die erst zur Laufzeit feststeht. <b>Dann zerlegst du ihn nicht, sondern lässt eine Lücke.</b></p>
+
+<pre><span class="c">&lt;!-- in strings.xml --&gt;</span>
+<span class="c">&lt;string name=</span><span class="s">"amount_format"</span><span class="c">&gt;</span>%1$.2f CHF<span class="c">&lt;/string&gt;</span>
+<span class="c">&lt;string name=</span><span class="s">"progress_format"</span><span class="c">&gt;</span>Frage %1$d von %2$d<span class="c">&lt;/string&gt;</span></pre>
+
+<pre><span class="c">// im Java, die Lücken werden von links nach rechts gefüllt</span>
+tvProgress.setText(getString(<span class="t">R</span>.string.progress_format, aktuelle, gesamt));</pre>
+
+<table>
+<tr><th>Zeichen</th><th>Heisst</th></tr>
+<tr><td class="pre">%1$d</td><td>der <b>erste</b> Wert, als ganze Zahl</td></tr>
+<tr><td class="pre">%2$d</td><td>der zweite Wert, als ganze Zahl</td></tr>
+<tr><td class="pre">%1$s</td><td>der erste Wert, als Text</td></tr>
+<tr><td class="pre">%1$.2f</td><td>der erste Wert, als Kommazahl mit <b>genau zwei</b> Stellen</td></tr>
+</table>
+
+<div class="note">
+<p style="margin:0"><b>Die Nummer vor dem Dollarzeichen ist der Grund, warum das Ganze so umständlich aussieht.</b> Sie sagt, welcher Wert gemeint ist, und nicht der Platz im Satz. In einer anderen Sprache steht die Zahl vielleicht am Anfang statt am Schluss. <b>Mit der Nummer bleibt trotzdem klar, welcher Wert wohin gehört.</b></p>
+</div>
+
+<p>In einem Adapter hast du kein <code>getString</code> zur Hand, denn eine Adapter-Klasse ist keine Activity. Dort läuft es über den Context, also <code>context.getString(...)</code>. Warum das so ist, steht in <a href="/activity">Die Activity von innen</a>.</p>
+
+<h2>08 Wenn es nicht geht</h2>
+
+<table>
+<tr><th>Was du siehst</th><th>Woran es meist liegt</th><th>Was du prüfst</th></tr>
+<tr><td>Du änderst den Text in <code>strings.xml</code>, auf dem Bildschirm bleibt der alte</td><td>Die Stelle nimmt ihren Text gar nicht von dort. Sie hat ihn fest eingebaut, im Layout oder im Java</td><td>Nach dem alten Text im ganzen Projekt suchen. <b>Steht er zweimal da, hast du die Ursache</b></td></tr>
+<tr><td>Der neue Name ist im Java rot, im Layout aber nicht</td><td><code>R</code> ist noch nicht neu gebaut</td><td>Einmal <code>Ctrl+F9</code>. Bleibt es rot, stimmt der Name nicht</td></tr>
+<tr><td>Ein Name mit Bindestrich oder Umlaut lässt sich nicht benutzen</td><td>Daraus kann keine Java-Konstante werden</td><td>Den <b>Namen</b> umschreiben, alles klein mit Unterstrich. Der Wert daneben darf bleiben</td></tr>
+<tr><td>Auf dem Bildschirm steht <code>%1$d</code> als Text</td><td>Die Ressource wurde direkt gesetzt, statt über <code>getString</code> mit den Werten</td><td>Die <code>setText</code>-Zeile. <b>Steht dort nur <code>R.string...</code> ohne weitere Werte, ist das die Ursache</b></td></tr>
+<tr><td>Im Dunkelmodus stimmen die Farben nicht</td><td>Der Wert steht nur in einem der beiden <code>values</code>-Ordner</td><td>Beide Dateien nebeneinander öffnen. <b>Jeder Name muss im Ordner ohne Anhang stehen</b></td></tr>
+</table>
+
+<p>Zwei weitere Fehlerbilder stehen in <a href="/xml">XML verstehen</a>, nämlich der rote Verweis <code>@string/...</code> im Layout und ein rotes <code>R</code> im ganzen Java-File.</p>
+
+<h2>09 Wenn du einen neuen Text brauchst: die Reihenfolge</h2>
+
+<div class="step"><p><span class="n">1</span> <b>Entscheide, ob es überhaupt eine Beschriftung ist.</b> Wer ändert diesen Text? Sind es Daten, hör hier auf</p></div>
+<div class="step"><p><span class="n">2</span> <b>Trag ihn in <code>strings.xml</code> ein</b>, unter einem Namen nach dem Schema <code>was_wofuer</code></p></div>
+<div class="step"><p><span class="n">3</span> <b>Verweise darauf.</b> Im Layout mit <code>@string/name</code>, im Java mit <code>R.string.name</code></p></div>
+<div class="step"><p><span class="n">4</span> <b>Hat der Text eine Lücke</b>, setz ihn mit <code>getString(R.string.name, wert)</code> statt direkt</p></div>
+
+<div class="chk">
+<p><b>Der Prüfschritt am Schluss:</b> such im ganzen Projekt nach dem sichtbaren Text. <b>Er darf genau einmal vorkommen, nämlich in <code>strings.xml</code>.</b> Findest du ihn ein zweites Mal, steht er irgendwo noch fest eingebaut.</p>
+</div>
+
+<h2>10 Wo das im Ganzen steht</h2>
+
+<pre><span class="c">   Was steht im Layout          XML verstehen
+        |                       android:, app:, tools:, das Zeichen @
+        |
+        v
+   Woher die Werte kommen       dieses Blatt
+        |                       res, die Ordner-Anhänge, R, strings.xml
+        |
+        v
+   Wer sie im Code abholt       Die Activity von innen
+                                findViewById, setText, der Context</span></pre>
+
+<p><b>Davor:</b> <a href="/xml">XML verstehen</a>. Dort lernst du die Schreibweise, hier den Mechanismus dahinter.</p>
+
+<h2>11 Prüfe dich selbst</h2>
+
+<ol>
+<li>Nenne zwei Situationen, in denen Android für denselben Namen einen anderen Wert holt</li>
+<li>Warum darf ein Ressourcen-Name keinen Bindestrich haben, der Wert daneben aber schon?</li>
+<li>Ein Name steht nur in <code>values-night</code>. Was passiert am Tag?</li>
+<li>Du legst eine neue id im Layout an und das Java findet sie nicht. Was probierst du zuerst?</li>
+<li><i>Milch</i> und <i>Speichern</i> stehen beide auf dem Bildschirm. Welches der beiden gehört in <code>strings.xml</code>, und woran erkennst du das?</li>
+<li>Wozu ist die Nummer in <code>%1$d</code> gut, wenn die Werte doch von links nach rechts eingesetzt werden?</li>
+</ol>
+
+<div class="tip">
+<p><b>Die Antworten stehen alle auf diesem Blatt.</b> Wenn du eine nicht findest, hast du den Abschnitt überschlagen, und genau der ist der, den du brauchst.</p>
+</div>
+
+<p class="foot">Modul 335 | Nachschlagen | Ressourcen und R | Version 1 | 04.09.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<script>
+/* ------------------------------------------------------------------
+   M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
+
+   Warum hier und nicht als eigene Datei: dieser Baustein geht ueber
+   web-bau/rahmen/fuss.html in jede Seite. Inline heisst, dass bauen.js
+   nichts Zusaetzliches kopieren muss.
+
+   Zwei Faelle:
+     Startseite   nimmt die sechs Links aus .schnellnav und baut daraus
+                  dasselbe schwebende Verzeichnis. Keine Auftragskarte.
+     Auftragsseite markiert Teil A bis C, vergibt jeder Ueberschrift eine
+                  id, baut oben die Auftragskarte und daneben das Verzeichnis.
+
+   Das Aussehen steht in web-bau/stil/rahmen.css unter m335-nav.
+   ------------------------------------------------------------------ */
+(function () {
+  var wrap = document.querySelector('.wrap');
+  if (!wrap) return;
+
+  var text = function (el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); };
+  var esc  = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+
+  // Die Startseite ist daran zu erkennen, dass ihr der Rueckweg im Kopf fehlt.
+  var istStart = !document.querySelector('.site-header .back');
+  var eintraege = [];
+
+  if (istStart) {
+    // ------------------------------------------------------------ Startseite
+    var schnell = wrap.querySelector('.schnellnav');
+    if (!schnell) return;
+    [].slice.call(schnell.querySelectorAll('a')).forEach(function (a) {
+      var ziel = document.getElementById(a.getAttribute('href').slice(1));
+      if (ziel) eintraege.push({ el: ziel, text: text(a), stufe: 'n2' });
+    });
+    if (eintraege.length < 2) return;
+
+  } else {
+    // --------------------------------------------------------- Auftragsseite
+    var heads = [].slice.call(wrap.querySelectorAll('h2, h3'));
+
+    // 1 und 2: Teil A bis C markieren, jeder Ueberschrift eine id geben.
+    // Die Quellen haben keine.
+    var vergeben = {};
+    heads.forEach(function (h, i) {
+      if (h.tagName === 'H3' && /^Teil [A-Z]\b/.test(text(h))) h.classList.add('teil');
+      if (h.id) { vergeben[h.id] = true; return; }
+      var roh = text(h).toLowerCase()
+        .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+        .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+      var id = roh || ('abschnitt-' + i);
+      if (vergeben[id]) id = id + '-' + i;
+      vergeben[id] = true;
+      h.id = id;
+    });
+
+    // 3: Die Auftragskarte. Sie sagt in einem Bildschirm, wie lange der
+    // Auftrag dauert und aus welchen Teilen er besteht. Alles daran steht
+    // schon auf der Seite, die Karte stellt es nur neu zusammen.
+    var subs = [].slice.call(wrap.querySelectorAll('.sub'));
+    var bloecke = heads.filter(function (h) { return h.querySelector('.time'); });
+    var budget = '', zusatz = '';
+
+    subs.forEach(function (p) {
+      if (budget) return;
+      var m = p.innerHTML.match(/Zeitbudget\s+([^.<]+)\./);
+      if (!m) return;
+      var stuecke = m[1].split(/,\s*dazu\s*/);
+      budget = stuecke[0].trim();
+      if (stuecke[1]) zusatz = 'dazu ' + stuecke[1].trim();
+      p.innerHTML = p.innerHTML.replace(m[0], '').replace(/\s{2,}/g, ' ').trim();
+    });
+
+    if (budget || bloecke.length) {
+      var karte = document.createElement('div');
+      karte.className = 'karte';
+      var inhalt = '';
+      if (budget) {
+        inhalt += '<p class="zeit"><span class="pill">' + esc(budget) + '</span>';
+        if (zusatz) inhalt += '<span class="pill neben">' + esc(zusatz) + '</span>';
+        inhalt += '</p>';
+      }
+      if (bloecke.length) {
+        inhalt += '<p class="t">DAS MACHST DU</p><ol>';
+        bloecke.forEach(function (b) {
+          var uhr = b.querySelector('.time');
+          var min = uhr ? text(uhr) : '';
+          var t = text(b).replace(min, '').replace(/\s+/g, ' ').replace(/\s+,/g, ',').trim();
+          t = t.replace(/[,;]\s*$/, '');
+          var teil = t.match(/^([^,]+),\s*(.*)$/);
+          var wo = teil ? teil[1] : t;
+          var rest = teil ? teil[2] : '';
+          inhalt += '<li><a href="#' + b.id + '"><span class="wo">' + esc(wo) + '</span>'
+                  + (rest ? ' ' + esc(rest) : '') + '</a>'
+                  + '<span class="min">' + esc(min) + '</span></li>';
+        });
+        inhalt += '</ol>';
+      }
+      karte.innerHTML = inhalt;
+      // Steht oben ein Zielbild, gehoert die Karte darunter. Erst sehen, was
+      // entsteht, dann lesen, wie lange es dauert.
+      var anker = wrap.querySelector('figure.zielbild')
+                || (subs.length ? subs[subs.length - 1] : wrap.firstElementChild);
+      anker.parentNode.insertBefore(karte, anker.nextSibling);
+    }
+
+    // Unter vier Ueberschriften lohnt sich kein Verzeichnis.
+    if (heads.length < 4) return;
+    heads.forEach(function (h) {
+      eintraege.push({
+        el: h,
+        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
+      });
+    });
+  }
+
+  // ---------------------------------------------------------------- 4
+  var nav = document.createElement('nav');
+  nav.className = 'm335-nav';
+  nav.setAttribute('aria-label', 'Inhalt dieser Seite');
+
+  var html = '<p class="kopfzeile">AUF DIESER SEITE</p>'
+           + '<button type="button" class="schliessen" aria-label="Verzeichnis schliessen">Schliessen</button><ol>';
+  eintraege.forEach(function (e) {
+    html += '<li class="' + e.stufe + '"><a href="#' + e.el.id + '">' + esc(e.text) + '</a></li>';
+  });
+  nav.innerHTML = html + '</ol>';
+
+  var knopf = document.createElement('button');
+  knopf.type = 'button';
+  knopf.className = 'm335-nav-knopf';
+  knopf.textContent = 'Inhalt';
+
+  document.body.appendChild(nav);
+  document.body.appendChild(knopf);
+
+  var links = [].slice.call(nav.querySelectorAll('a'));
+
+  // Breit: die Leiste steht fest am Rand. Schmal: sie liegt hinter dem Knopf.
+  var breit = window.matchMedia('(min-width: 1380px)');
+  function umschalten() {
+    if (breit.matches) {
+      nav.className = 'm335-nav seitlich';
+      nav.hidden = false;
+      knopf.style.display = 'none';
+    } else {
+      nav.className = 'm335-nav klappe';
+      nav.hidden = true;
+      knopf.style.display = '';
+    }
+  }
+  umschalten();
+  if (breit.addEventListener) breit.addEventListener('change', umschalten);
+  else if (breit.addListener) breit.addListener(umschalten);
+
+  knopf.addEventListener('click', function () { nav.hidden = !nav.hidden; });
+  nav.querySelector('.schliessen').addEventListener('click', function () { nav.hidden = true; });
+  nav.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && !breit.matches) nav.hidden = true;
+  });
+
+  // Welcher Abschnitt ist gerade dran. Gesucht ist der letzte Eintrag, der
+  // oberhalb der Lesekante liegt. Die Kante liegt knapp unter dem klebenden
+  // Kopfbereich.
+  var laeuft = false;
+  function markieren() {
+    laeuft = false;
+    var kante = 96, treffer = 0;
+    for (var i = 0; i < eintraege.length; i++) {
+      if (eintraege[i].el.getBoundingClientRect().top <= kante) treffer = i;
+      else break;
+    }
+    for (var j = 0; j < links.length; j++) links[j].classList.toggle('hier', j === treffer);
+    var a = links[treffer];
+    if (a && breit.matches) {
+      var r = a.getBoundingClientRect(), n = nav.getBoundingClientRect();
+      if (r.top < n.top + 8 || r.bottom > n.bottom - 8) a.scrollIntoView({ block: 'nearest' });
+    }
+  }
+  function anstossen() {
+    if (laeuft) return;
+    laeuft = true;
+    window.requestAnimationFrame(markieren);
+  }
+  window.addEventListener('scroll', anstossen, { passive: true });
+  window.addEventListener('resize', anstossen);
+  markieren();
+})();
+</script>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>

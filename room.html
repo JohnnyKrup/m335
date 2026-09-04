@@ -21,10 +21,50 @@
 <div class="wrap">
 
 <h1>Room verstehen</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Grundlagen. Welche drei Klassen Room braucht und warum, der Vergleich mit Spring Boot und JPA, und wo du weiterliest. Lesezeit rund 12 Minuten. Version 1 vom 20.08.2026.</p>
-<p class="sub">Dieses Blatt bleibt das ganze Modul über offen. Du darfst jederzeit hineinschauen.</p>
+<p class="sub">Modul 335 Mobile Applikationen, Nachschlageblatt. Lesezeit etwa 18 Minuten. Version 2 vom 04.09.2026.</p>
+<p class="sub">Welche drei Klassen Room braucht und warum, was der Vergleich mit Spring Boot erklärt, und wie du eine neue Tabelle anlegst.</p>
 
-<h2>01 Die kurze Antwort</h2>
+<div class="tip">
+<p><b>Lies das, bevor du eine Datenbank baust, nicht mittendrin.</b> Davor gehört <a href="/persistenz">Daten aufbewahren</a>. Dort steht, <b>warum</b> du eine Datenbank nimmst und nicht etwas Einfacheres. Hier steht, <b>wie</b> sie gebaut wird.</p>
+</div>
+
+
+<h2>01 Die Frage, um die es geht</h2>
+
+<p>Du legst für eine einzige Tabelle mehrere Klassen an, und nach der dritten weisst du nicht mehr, welche wofür da ist. Wer Spring Boot kennt, zählt sogar <b>vier</b> und wundert sich, denn dort genügt eine.</p>
+
+<p><b>Das Gefühl täuscht nicht, aber die Zahl stimmt nicht.</b> Room verlangt drei Klassen, und jede hat eine klar abgegrenzte Aufgabe.</p>
+
+<div class="chk">
+<p><b>Der eine Satz, der alles trägt:</b> Room braucht <b>drei</b> Bausteine, und jeder beantwortet genau <b>eine</b> Frage. Was steht in einer Zeile, was kann ich mit den Zeilen tun, und wo liegt das Ganze.</p>
+</div>
+
+<p>Alles Weitere folgt daraus. Auch der Vergleich mit Spring Boot in Abschnitt 05, denn dort sind dieselben drei Fragen nur anders verteilt.</p>
+
+
+<h2>02 Das Bild</h2>
+
+<p>So hängen die Bausteine zusammen. Von oben nach unten, und jede Stufe kennt nur die darunter.</p>
+
+<pre><span class="c">   DEINE ACTIVITY       holt sich das Dao und ruft eine Methode
+        |
+        |  QuizDatabase.getInstance(this).questionDao()
+        v
+   DAO                  QuestionDao, dein Interface
+        |               eine Methode je Zugriff, keine Rümpfe
+        v
+   DATABASE             QuizDatabase, deine abstrakte Klasse
+        |               kennt die Entities und den Dateinamen
+        v
+   SQLITE-DATEI         quiz.db im Ordner der App
+                        Zeilen im Aufbau deiner Entity</span></pre>
+
+<div class="note">
+<p style="margin:0"><b>Die Entity steht in diesem Bild nicht als eigene Stufe, und das ist Absicht.</b> Sie ist keine Station auf dem Weg, sondern die <b>Beschreibung dessen, was unten in einer Zeile steht</b>. Darum taucht sie überall auf, im Dao als Rückgabetyp und in der Database als Eintrag.</p>
+</div>
+
+
+<h2>03 Die Teile einzeln</h2>
 
 <p>Room braucht <b>drei</b> Bausteine, und jeder beantwortet genau eine Frage. In 07C hast du alle drei selbst gebaut.</p>
 
@@ -41,7 +81,7 @@
 <p><b>Die Faustregel für ein Projekt:</b> eine Entity und ein Dao <b>pro Tabelle</b>, aber nur <b>eine</b> Database-Klasse pro App. Hättest du eine zweite Tabelle, kämen eine zweite Entity und ein zweites Dao dazu, und die eine <code>QuizDatabase</code> würde beide Entities in ihrer Liste führen.</p>
 </div>
 
-<h2>02 Nein, das Model ist nicht die vierte Klasse</h2>
+<h3>Nein, das Model ist nicht die vierte Klasse</h3>
 
 <p>In deinem Projekt liegen zwei Klassen nebeneinander, die fast dasselbe beschreiben:</p>
 
@@ -56,86 +96,26 @@ data/QuestionEntity.java    seit 07C, mit Room</span></pre>
 
 <p>Wenn du also gezählt hast und auf vier gekommen bist: es sind drei. Die vierte ist ein Museumsstück.</p>
 
-<h2>03 Der Vergleich mit Spring Boot</h2>
-
-<p>Du kennst das Muster schon, nur unter anderen Namen. Fast alles hat eine Entsprechung.</p>
+<h3>Die Annotationen auf einen Blick</h3>
 
 <table>
-<tr><th>Spring Boot mit JPA</th><th>Room</th><th>Bemerkung</th></tr>
-<tr><td><code>@Entity</code> an der Klasse</td><td><code>@Entity</code> an der Klasse</td><td>gleicher Name, gleiche Idee</td></tr>
-<tr><td><code>@Table(name = "...")</code></td><td><code>@Entity(tableName = "...")</code></td><td>bei Room steckt es in derselben Annotation</td></tr>
-<tr><td><code>@Id</code> plus <code>@GeneratedValue</code></td><td><code>@PrimaryKey(autoGenerate = true)</code></td><td>bei Room eine Annotation statt zwei</td></tr>
-<tr><td><code>@Column(name = "...")</code></td><td><code>@ColumnInfo(name = "...")</code></td><td>gleiche Idee</td></tr>
-<tr><td><code>Long id</code></td><td>bei uns <code>int id</code></td><td>beides geht. In Spring ist <code>Long</code> die Gewohnheit</td></tr>
-<tr><td><code>JpaRepository&lt;Question, Long&gt;</code></td><td><code>@Dao</code> Interface</td><td><b>Hier ist der grösste Unterschied</b>, siehe unten</td></tr>
-<tr><td><code>findByCategory(...)</code> ohne Rumpf</td><td><code>@Query("SELECT ... WHERE category = :category")</code></td><td>Spring rät aus dem Methodennamen, Room verlangt die Abfrage</td></tr>
-<tr><td><code>@Query</code> mit JPQL</td><td><code>@Query</code> mit echtem SQL</td><td>JPQL kennt deine Klassen, SQL kennt nur Tabellen</td></tr>
-<tr><td><code>application.properties</code></td><td><code>Room.databaseBuilder(...)</code></td><td>Konfiguration als Datei gegen Konfiguration als Code</td></tr>
-<tr><td><code>spring.jpa.hibernate.ddl-auto</code></td><td>Room legt die Tabelle beim ersten Zugriff an</td><td>bei Room gibt es dafür keinen Schalter</td></tr>
-<tr><td>Spring baut das Repository und gibt es dir</td><td><b>du</b> baust die Datenbank und holst dir das Dao</td><td><b>Der eigentliche Unterschied</b>, siehe 04</td></tr>
-<tr><td>Hibernate arbeitet zur Laufzeit</td><td>Room schreibt Code beim Bauen</td><td>siehe 05</td></tr>
-<tr><td>jede relationale Datenbank</td><td><b>nur SQLite</b></td><td>kein Dialekt, keine Auswahl</td></tr>
-<tr><td>Flyway, Liquibase oder <code>ddl-auto</code></td><td><code>version</code> plus <code>Migration</code></td><td>siehe 08</td></tr>
+<tr><th>Annotation</th><th>Wohin</th><th>Was sie bewirkt</th></tr>
+<tr><td class="pre">@Entity(tableName = "...")</td><td>an die Klasse</td><td>Aus dieser Klasse wird eine Tabelle mit diesem Namen</td></tr>
+<tr><td class="pre">@PrimaryKey(autoGenerate = true)</td><td>an ein Feld</td><td>Dieses Feld ist der Schlüssel, die Datenbank vergibt ihn</td></tr>
+<tr><td class="pre">@ColumnInfo(name = "...")</td><td>an ein Feld</td><td>So heisst die Spalte. Ohne die Angabe heisst sie wie das Feld</td></tr>
+<tr><td class="pre">@NonNull</td><td>an ein Feld</td><td>Die Spalte bekommt ein <code>NOT NULL</code></td></tr>
+<tr><td class="pre">@Ignore</td><td>an ein Feld</td><td>Dieses Feld bekommt keine Spalte</td></tr>
+<tr><td class="pre">@Dao</td><td>an ein Interface</td><td>Room baut die Zugriffe dazu</td></tr>
+<tr><td class="pre">@Insert, @Update, @Delete</td><td>an eine Methode</td><td>Room weiss selbst, was zu tun ist. Kein SQL nötig</td></tr>
+<tr><td class="pre">@Query("...")</td><td>an eine Methode</td><td>Alles andere. Hier schreibst du SQL, und Room prüft es beim Bauen</td></tr>
+<tr><td class="pre">@Database(entities = {...}, version = n)</td><td>an die abstrakte Klasse</td><td>Welche Tabellen es gibt und welche Version der Aufbau hat</td></tr>
 </table>
-
-<h2>04 Der erste echte Unterschied: wer baut das Ding?</h2>
-
-<p><b>In Spring Boot baut es jemand für dich.</b> Der Anwendungskontext sucht deine Klassen, erzeugt sie, verbindet sie und legt dir das Repository ins Feld. Du schreibst ein Interface hin, und ein fertiges Objekt taucht auf. Woher es kommt, musst du nie wissen.</p>
-
-<p><b>In Android gibt es diesen Kontext nicht.</b> Es gibt niemanden, der deine Klassen durchsucht und zusammensteckt. Es gibt auch keine <code>application.properties</code>, in der stünde, wo die Datenbank liegt.</p>
-
-<div class="info">
-<p><b>Genau darum gibt es die dritte Klasse.</b> Alles, was in Spring die Konfiguration und der Kontext übernehmen, musst du bei Room selbst hinschreiben. Und alles davon steckt in <code>QuizDatabase</code>:</p>
-<table>
-<tr><th>Was in Spring wo steht</th><th>Wo es bei dir steht</th></tr>
-<tr><td>welche Entities es gibt</td><td><code>@Database(entities = {QuestionEntity.class})</code></td></tr>
-<tr><td>der Ort der Datenbank</td><td><code>Room.databaseBuilder(..., "quiz.db")</code></td></tr>
-<tr><td>die Version des Aufbaus</td><td><code>@Database(version = 1)</code></td></tr>
-<tr><td>dass es das Ding nur einmal gibt</td><td>dein <code>instance</code>-Feld und <code>getInstance</code></td></tr>
-<tr><td>dass jemand es dir gibt</td><td>du holst es dir: <code>QuizDatabase.getInstance(this).questionDao()</code></td></tr>
-</table>
-</div>
-
-<p><b>Der Merksatz:</b> die dritte Klasse ist keine Room-Eigenart. Sie ist die Rechnung dafür, dass es auf dem Handy keinen Spring-Kontext gibt.</p>
 
 <div class="tip">
-<p><b>Und dafür gibt es ein Gegenstück, wenn man es will.</b> Es gibt für Android Werkzeuge, die dasselbe tun wie der Spring-Kontext, sie heissen Hilt oder Dagger. Damit bekämst du dein Dao wieder ins Feld gelegt statt geholt. <b>In diesem Modul benutzen wir sie nicht</b>, weil sie ein eigenes Thema sind und weil du bei drei Klassen mehr Code schreiben würdest als du sparst.</p>
+<p><b>Der Doppelpunkt in einer Abfrage.</b> <code>WHERE id = :id</code> setzt den Wert des Parameters ein, der genauso heisst. <b>Nie den Wert selbst in den Text hängen</b>, also nie <code>"... WHERE id = " + id</code>. Das ist die Tür, durch die SQL-Injection kommt.</p>
 </div>
 
-<h2>05 Der zweite echte Unterschied: wann entsteht der Code?</h2>
-
-<p>Beide Male schreibst du ein Interface ohne Rumpf hin, und beide Male läuft es trotzdem. <b>Der Zeitpunkt ist ein anderer.</b></p>
-
-<table>
-<tr><th></th><th>Spring Data mit Hibernate</th><th>Room</th></tr>
-<tr><td>Wann entsteht der Code</td><td><b>beim Starten der Anwendung</b></td><td><b>beim Bauen der App</b></td></tr>
-<tr><td>Wie</td><td>der Rahmen schaut sich deine Klassen zur Laufzeit an und baut ein Objekt dazu</td><td><code>room-compiler</code> liest deine Annotationen und schreibt Java-Dateien</td></tr>
-<tr><td>Dein Tippfehler im SQL</td><td>fällt beim Starten auf, manchmal erst beim ersten Aufruf</td><td><b>fällt beim Bauen auf</b></td></tr>
-<tr><td>Du kannst den Code ansehen</td><td>nein, er existiert nur im Speicher</td><td><b>ja</b>, zweimal Shift und <code>QuizDatabase_Impl</code></td></tr>
-<tr><td>Methodenname als Abfrage</td><td>ja, <code>findByCategoryAndDifficulty</code> genügt</td><td>nein, du schreibst die Abfrage</td></tr>
-</table>
-
-<div class="info">
-<p><b>Warum Room den umständlicheren Weg geht.</b> Ein Handy ist kein Server. Der Code zur Laufzeit zu erzeugen kostet Zeit beim Start und Platz in der App, und beides ist auf einem Gerät knapper als auf einem Server.</p>
-<p><b>Und du bekommst etwas dafür zurück.</b> Weil Room deine Abfragen schon beim Bauen liest, kennt es deine Tabelle und kann vergleichen. Schreibst du <code>FROM question</code> statt <code>FROM questions</code>, siehst du den Fehler in Android Studio und nicht beim Kunden. <b>Das ist der Handel: du schreibst mehr hin, und dafür wird mehr geprüft.</b></p>
-</div>
-
-<h2>06 Was Room nicht kann</h2>
-
-<p>Damit du nicht danach suchst. Diese Dinge kennst du aus JPA, und bei Room gibt es sie so nicht.</p>
-
-<ul>
-<li><b>Kein Nachladen von Beziehungen.</b> In JPA holst du <code>modul.getNoten()</code> und die Liste kommt von selbst. Bei Room gibt es <code>@Relation</code>, aber du sagst ausdrücklich, dass du sie willst. Nichts passiert hinter deinem Rücken.</li>
-<li><b>Keine Auswahl der Datenbank.</b> Es ist SQLite, immer. Kein Dialekt, kein Umschalten.</li>
-<li><b>Kein Verbindungspool.</b> Es gibt keinen Server und keine Verbindung, es gibt eine Datei.</li>
-<li><b>Kein Kontext, der dir Objekte gibt.</b> Siehe Abschnitt 04.</li>
-</ul>
-
-<div class="tip">
-<p><b>Und das ist kein Mangel, sondern eine andere Aufgabe.</b> JPA muss mit vielen Datenbanken und mit Daten umgehen, die grösser sind als der Speicher. Room muss mit einer Datei auf einem Gerät umgehen, das der Benutzer in der Hand hält. Der kleinere Werkzeugkasten ist die passende Antwort darauf.</p>
-</div>
-
-<h2>07 So sieht ein sauberes Room-Setup aus</h2>
+<h2>04 Wie es zusammenspielt</h2>
 
 <p>Das hier ist die Form, die du in jedem Room-Projekt wiederfindest.</p>
 
@@ -175,7 +155,7 @@ data/QuestionEntity.java    seit 07C, mit Room</span></pre>
 <p><b>In der Leistungsbeurteilung brauchst du sie nicht.</b> Dort gibt es eine Quelle, und die ist lokal.</p>
 </div>
 
-<h2>08 Was passiert beim Bauen</h2>
+<h3>Was beim Bauen entsteht</h3>
 
 <p>Wenn du <code>Ctrl+F9</code> drückst, schreibt Room Java-Dateien. Du kannst sie ansehen, und es lohnt sich einmal.</p>
 
@@ -192,7 +172,112 @@ data/QuestionEntity.java    seit 07C, mit Room</span></pre>
 <p><b>Und sie sind der beste Ort, um einen Fehler zu verstehen.</b> Wenn eine Abfrage etwas anderes liefert als du erwartest, steht dort, welches SQL wirklich ausgeführt wird.</p>
 </div>
 
-<h2>09 Die Version und was passiert, wenn du die Tabelle änderst</h2>
+<h2>05 Der Vergleich mit Spring Boot</h2>
+
+<p>Du kennst das Muster schon, nur unter anderen Namen. Fast alles hat eine Entsprechung.</p>
+
+<table>
+<tr><th>Spring Boot mit JPA</th><th>Room</th><th>Bemerkung</th></tr>
+<tr><td><code>@Entity</code> an der Klasse</td><td><code>@Entity</code> an der Klasse</td><td>gleicher Name, gleiche Idee</td></tr>
+<tr><td><code>@Table(name = "...")</code></td><td><code>@Entity(tableName = "...")</code></td><td>bei Room steckt es in derselben Annotation</td></tr>
+<tr><td><code>@Id</code> plus <code>@GeneratedValue</code></td><td><code>@PrimaryKey(autoGenerate = true)</code></td><td>bei Room eine Annotation statt zwei</td></tr>
+<tr><td><code>@Column(name = "...")</code></td><td><code>@ColumnInfo(name = "...")</code></td><td>gleiche Idee</td></tr>
+<tr><td><code>Long id</code></td><td>bei uns <code>int id</code></td><td>beides geht. In Spring ist <code>Long</code> die Gewohnheit</td></tr>
+<tr><td><code>JpaRepository&lt;Question, Long&gt;</code></td><td><code>@Dao</code> Interface</td><td><b>Hier ist der grösste Unterschied</b>, siehe unten</td></tr>
+<tr><td><code>findByCategory(...)</code> ohne Rumpf</td><td><code>@Query("SELECT ... WHERE category = :category")</code></td><td>Spring rät aus dem Methodennamen, Room verlangt die Abfrage</td></tr>
+<tr><td><code>@Query</code> mit JPQL</td><td><code>@Query</code> mit echtem SQL</td><td>JPQL kennt deine Klassen, SQL kennt nur Tabellen</td></tr>
+<tr><td><code>application.properties</code></td><td><code>Room.databaseBuilder(...)</code></td><td>Konfiguration als Datei gegen Konfiguration als Code</td></tr>
+<tr><td><code>spring.jpa.hibernate.ddl-auto</code></td><td>Room legt die Tabelle beim ersten Zugriff an</td><td>bei Room gibt es dafür keinen Schalter</td></tr>
+<tr><td>Spring baut das Repository und gibt es dir</td><td><b>du</b> baust die Datenbank und holst dir das Dao</td><td><b>Der eigentliche Unterschied</b>, siehe 04</td></tr>
+<tr><td>Hibernate arbeitet zur Laufzeit</td><td>Room schreibt Code beim Bauen</td><td>siehe 05</td></tr>
+<tr><td>jede relationale Datenbank</td><td><b>nur SQLite</b></td><td>kein Dialekt, keine Auswahl</td></tr>
+<tr><td>Flyway, Liquibase oder <code>ddl-auto</code></td><td><code>version</code> plus <code>Migration</code></td><td>siehe 08</td></tr>
+</table>
+
+<h3>Der erste echte Unterschied: wer baut das Ding?</h3>
+
+<p><b>In Spring Boot baut es jemand für dich.</b> Der Anwendungskontext sucht deine Klassen, erzeugt sie, verbindet sie und legt dir das Repository ins Feld. Du schreibst ein Interface hin, und ein fertiges Objekt taucht auf. Woher es kommt, musst du nie wissen.</p>
+
+<p><b>In Android gibt es diesen Kontext nicht.</b> Es gibt niemanden, der deine Klassen durchsucht und zusammensteckt. Es gibt auch keine <code>application.properties</code>, in der stünde, wo die Datenbank liegt.</p>
+
+<div class="info">
+<p><b>Genau darum gibt es die dritte Klasse.</b> Alles, was in Spring die Konfiguration und der Kontext übernehmen, musst du bei Room selbst hinschreiben. Und alles davon steckt in <code>QuizDatabase</code>:</p>
+<table>
+<tr><th>Was in Spring wo steht</th><th>Wo es bei dir steht</th></tr>
+<tr><td>welche Entities es gibt</td><td><code>@Database(entities = {QuestionEntity.class})</code></td></tr>
+<tr><td>der Ort der Datenbank</td><td><code>Room.databaseBuilder(..., "quiz.db")</code></td></tr>
+<tr><td>die Version des Aufbaus</td><td><code>@Database(version = 1)</code></td></tr>
+<tr><td>dass es das Ding nur einmal gibt</td><td>dein <code>instance</code>-Feld und <code>getInstance</code></td></tr>
+<tr><td>dass jemand es dir gibt</td><td>du holst es dir: <code>QuizDatabase.getInstance(this).questionDao()</code></td></tr>
+</table>
+</div>
+
+<p><b>Der Merksatz:</b> die dritte Klasse ist keine Room-Eigenart. Sie ist die Rechnung dafür, dass es auf dem Handy keinen Spring-Kontext gibt.</p>
+
+<div class="tip">
+<p><b>Und dafür gibt es ein Gegenstück, wenn man es will.</b> Es gibt für Android Werkzeuge, die dasselbe tun wie der Spring-Kontext, sie heissen Hilt oder Dagger. Damit bekämst du dein Dao wieder ins Feld gelegt statt geholt. <b>In diesem Modul benutzen wir sie nicht</b>, weil sie ein eigenes Thema sind und weil du bei drei Klassen mehr Code schreiben würdest als du sparst.</p>
+</div>
+
+<h3>Der zweite echte Unterschied: wann entsteht der Code?</h3>
+
+<p>Beide Male schreibst du ein Interface ohne Rumpf hin, und beide Male läuft es trotzdem. <b>Der Zeitpunkt ist ein anderer.</b></p>
+
+<table>
+<tr><th></th><th>Spring Data mit Hibernate</th><th>Room</th></tr>
+<tr><td>Wann entsteht der Code</td><td><b>beim Starten der Anwendung</b></td><td><b>beim Bauen der App</b></td></tr>
+<tr><td>Wie</td><td>der Rahmen schaut sich deine Klassen zur Laufzeit an und baut ein Objekt dazu</td><td><code>room-compiler</code> liest deine Annotationen und schreibt Java-Dateien</td></tr>
+<tr><td>Dein Tippfehler im SQL</td><td>fällt beim Starten auf, manchmal erst beim ersten Aufruf</td><td><b>fällt beim Bauen auf</b></td></tr>
+<tr><td>Du kannst den Code ansehen</td><td>nein, er existiert nur im Speicher</td><td><b>ja</b>, zweimal Shift und <code>QuizDatabase_Impl</code></td></tr>
+<tr><td>Methodenname als Abfrage</td><td>ja, <code>findByCategoryAndDifficulty</code> genügt</td><td>nein, du schreibst die Abfrage</td></tr>
+</table>
+
+<div class="info">
+<p><b>Warum Room den umständlicheren Weg geht.</b> Ein Handy ist kein Server. Der Code zur Laufzeit zu erzeugen kostet Zeit beim Start und Platz in der App, und beides ist auf einem Gerät knapper als auf einem Server.</p>
+<p><b>Und du bekommst etwas dafür zurück.</b> Weil Room deine Abfragen schon beim Bauen liest, kennt es deine Tabelle und kann vergleichen. Schreibst du <code>FROM question</code> statt <code>FROM questions</code>, siehst du den Fehler in Android Studio und nicht beim Kunden. <b>Das ist der Handel: du schreibst mehr hin, und dafür wird mehr geprüft.</b></p>
+</div>
+
+<h3>Was Room nicht kann</h3>
+
+<p>Damit du nicht danach suchst. Diese Dinge kennst du aus JPA, und bei Room gibt es sie so nicht.</p>
+
+<ul>
+<li><b>Kein Nachladen von Beziehungen.</b> In JPA holst du <code>modul.getNoten()</code> und die Liste kommt von selbst. Bei Room gibt es <code>@Relation</code>, aber du sagst ausdrücklich, dass du sie willst. Nichts passiert hinter deinem Rücken.</li>
+<li><b>Keine Auswahl der Datenbank.</b> Es ist SQLite, immer. Kein Dialekt, kein Umschalten.</li>
+<li><b>Kein Verbindungspool.</b> Es gibt keinen Server und keine Verbindung, es gibt eine Datei.</li>
+<li><b>Kein Kontext, der dir Objekte gibt.</b> Siehe Abschnitt 04.</li>
+</ul>
+
+<div class="tip">
+<p><b>Und das ist kein Mangel, sondern eine andere Aufgabe.</b> JPA muss mit vielen Datenbanken und mit Daten umgehen, die grösser sind als der Speicher. Room muss mit einer Datei auf einem Gerät umgehen, das der Benutzer in der Hand hält. Der kleinere Werkzeugkasten ist die passende Antwort darauf.</p>
+</div>
+
+<h3>Der Merksatz</h3>
+
+<div class="info">
+<p><b>Spring nimmt dir die Arbeit ab und macht vieles zur Laufzeit. Room lässt dich mehr hinschreiben und prüft dafür beim Bauen.</b></p>
+<p>Beides ist eine Antwort auf dieselbe Frage, gestellt an zwei verschiedenen Orten. Auf einem Server zählt Bequemlichkeit, auf einem Handy zählen Startzeit, Platz und die Gewissheit, dass nichts erst beim Benutzer auffällt.</p>
+<p><b>Und wenn du beides kannst, kannst du das eine mit dem anderen erklären.</b> Das ist mehr wert als jedes von beiden allein.</p>
+</div>
+
+<h2>06 Wenn es nicht geht</h2>
+
+<p>Room meldet fast alles beim Bauen und nicht erst beim Laufen. Das ist die gute Nachricht. Die weniger gute ist, dass die Meldungen einander ähnlich sehen.</p>
+
+<table>
+<tr><th>Was du siehst</th><th>Woran es meist liegt</th><th>Was du prüfst</th></tr>
+<tr><td>Der Bau bricht ab, die Meldung sagt sinngemäss <code>is not annotated with Entity</code></td><td>Die Klasse fehlt in der Liste der Datenbank</td><td><code>@Database(entities = {...})</code>. Steht deine Entity darin?</td></tr>
+<tr><td>Der Bau bricht ab und die Meldung nennt deine Abfrage</td><td>Ein Tabellen- oder Spaltenname stimmt nicht</td><td>Den Namen im <code>@Query</code> gegen <code>tableName</code> und gegen die Feldnamen der Entity halten</td></tr>
+<tr><td>Der Bau bricht ab und die Meldung spricht von einem Feld, das nicht gesetzt werden kann</td><td>Zu einem Feld fehlt der Getter oder der Setter, oder zwei Typen passen nicht zueinander</td><td>Jedes Feld der Entity: leerer Konstruktor, Getter, Setter, gleiche Typen auf beiden Seiten</td></tr>
+<tr><td>Du kommst an dein Dao nicht heran</td><td>In der Datenbank-Klasse fehlt die abstrakte Methode dazu</td><td><code>public abstract QuestionDao questionDao();</code></td></tr>
+<tr><td>Eine Abfrage liefert etwas anderes als erwartet</td><td>Das ausgeführte SQL ist nicht das, was du im Kopf hattest</td><td>Die erzeugte Datei <code>QuestionDao_Impl</code> öffnen. <b>Dort steht das echte SQL</b></td></tr>
+</table>
+
+<div class="chk">
+<p style="margin:0"><b>Die Reihenfolge beim Suchen:</b> zuerst die Meldung ganz lesen, denn Room nennt fast immer die Klasse und das Feld. Dann die drei Dateien in dieser Reihenfolge aufmachen: Entity, Database, Dao. <b>Der Fehler sitzt in vier von fünf Fällen dort, wo zwei Namen zusammenpassen müssten.</b></p>
+</div>
+
+
+<h3>Wenn du die Tabelle änderst</h3>
 
 <p>In deiner Datenbank steht eine zweite Tabelle, die du nicht gebaut hast. Sie heisst <code>room_master_table</code>, und du siehst sie im Database Inspector.</p>
 
@@ -212,26 +297,7 @@ data/QuestionEntity.java    seit 07C, mit Room</span></pre>
 <p><b>In diesem Modul brauchst du das nicht.</b> Unsere Tabelle bleibt, wie sie ist, und <code>version</code> bleibt auf 1. Wer trotzdem etwas ändert, deinstalliert die App. Der Link zur Migration steht am Schluss, falls du es wissen willst.</p>
 </div>
 
-<h2>10 Die Annotationen auf einen Blick</h2>
-
-<table>
-<tr><th>Annotation</th><th>Wohin</th><th>Was sie bewirkt</th></tr>
-<tr><td class="pre">@Entity(tableName = "...")</td><td>an die Klasse</td><td>Aus dieser Klasse wird eine Tabelle mit diesem Namen</td></tr>
-<tr><td class="pre">@PrimaryKey(autoGenerate = true)</td><td>an ein Feld</td><td>Dieses Feld ist der Schlüssel, die Datenbank vergibt ihn</td></tr>
-<tr><td class="pre">@ColumnInfo(name = "...")</td><td>an ein Feld</td><td>So heisst die Spalte. Ohne die Angabe heisst sie wie das Feld</td></tr>
-<tr><td class="pre">@NonNull</td><td>an ein Feld</td><td>Die Spalte bekommt ein <code>NOT NULL</code></td></tr>
-<tr><td class="pre">@Ignore</td><td>an ein Feld</td><td>Dieses Feld bekommt keine Spalte</td></tr>
-<tr><td class="pre">@Dao</td><td>an ein Interface</td><td>Room baut die Zugriffe dazu</td></tr>
-<tr><td class="pre">@Insert, @Update, @Delete</td><td>an eine Methode</td><td>Room weiss selbst, was zu tun ist. Kein SQL nötig</td></tr>
-<tr><td class="pre">@Query("...")</td><td>an eine Methode</td><td>Alles andere. Hier schreibst du SQL, und Room prüft es beim Bauen</td></tr>
-<tr><td class="pre">@Database(entities = {...}, version = n)</td><td>an die abstrakte Klasse</td><td>Welche Tabellen es gibt und welche Version der Aufbau hat</td></tr>
-</table>
-
-<div class="tip">
-<p><b>Der Doppelpunkt in einer Abfrage.</b> <code>WHERE id = :id</code> setzt den Wert des Parameters ein, der genauso heisst. <b>Nie den Wert selbst in den Text hängen</b>, also nie <code>"... WHERE id = " + id</code>. Das ist die Tür, durch die SQL-Injection kommt.</p>
-</div>
-
-<h2>11 Wenn du eine neue Tabelle brauchst</h2>
+<h2>07 Wenn du eine neue Tabelle brauchst: die Reihenfolge</h2>
 
 <p>Die Reihenfolge, die immer funktioniert. Fünf Schritte.</p>
 
@@ -265,7 +331,47 @@ data/QuestionEntity.java    seit 07C, mit Room</span></pre>
 <p>Das gilt auch für die Getter und Setter, die <b>Alt+Insert</b> erzeugt. Die bringen keinen Kommentar mit. Schreib sie gleich dazu, nachträglich dauert es dreimal so lang.</p>
 </div>
 
-<h2>12 Wo du weiterliest</h2>
+<h2>08 Übungen ohne Vorlage</h2>
+
+<div class="ue">
+<p class="t">Übung 1, eine fremde Tabelle entwerfen</p>
+<p>Eine App führt Buch über Trainingseinheiten. Eine Einheit hat ein Datum, eine Sportart, die Dauer in Minuten und eine Notiz. Schreib auf Papier die <b>Entity</b> hin, mit Feldnamen, Typen und den Annotationen. Danach das <b>Dao</b>, mit den vier Grundoperationen und einer Abfrage, die alle Einheiten einer Sportart liefert.</p>
+<p style="margin:0"><b>So prüfst du:</b> deine Entity hat ein Feld mehr, als in der Beschreibung steht. Fehlt es, frag dich, wie die App eine einzelne Einheit wiederfindet, wenn sie geändert werden soll.</p>
+</div>
+
+<div class="ue">
+<p class="t">Übung 2, das erzeugte SQL lesen</p>
+<p>Öffne in deinem eigenen Projekt mit zweimal <code>Shift</code> die Datei <code>QuizDatabase_Impl</code>. Such das <code>CREATE TABLE</code> und leg es neben deine Entity.</p>
+<p style="margin:0"><b>So prüfst du:</b> zu jedem Feld deiner Entity findest du genau eine Spalte, und die Typen passen zusammen. Findest du eine Spalte, die du nicht erklären kannst, hast du etwas gelernt.</p>
+</div>
+
+<div class="ue">
+<p class="t">Übung 3, erklären</p>
+<p style="margin:0">Erklär einem Lerngspänli in zwei Sätzen, warum es bei Room eine dritte Klasse gibt und in Spring Boot nicht. <b>Ohne die Wörter <i>einfacher</i>, <i>moderner</i> und <i>besser</i>.</b> <b>So prüfst du:</b> in deiner Antwort kommt vor, was Spring an dieser Stelle für dich erledigt.</p>
+</div>
+
+
+<h2>09 Wo das im Ganzen steht</h2>
+
+<pre><span class="c">   Was der Benutzer sieht       Listen verstehen
+        ^                       Adapter, ViewHolder, die einzelne Zeile
+        |
+   Welche Ablage, und warum     Daten aufbewahren
+        ^                       die vier Arten von Gedächtnis, die Schichten
+        |
+   Womit die Datenbank          dieses Blatt
+   gebaut ist                   Entity, Dao, Database
+        ^
+        |
+   Wo die Datei liegt           Wo deine App ihre Daten ablegt
+                                der Ordner der App, Device Explorer, adb</span></pre>
+
+<p><b>Davor:</b> <a href="/persistenz">Daten aufbewahren</a>. Wer nicht weiss, warum es eine Datenbank sein soll, baut sie auch nicht überzeugt.</p>
+
+<p><b>Danach:</b> <a href="/daten">Wo deine App ihre Daten ablegt</a>. Dort schaust du dir <code>quiz.db</code> auf dem Gerät selbst an.</p>
+
+
+<h3>Wo du weiterliest</h3>
 
 <p>Alle vier Seiten sind am 20.08.2026 geprüft worden.</p>
 
@@ -286,15 +392,23 @@ data/QuestionEntity.java    seit 07C, mit Room</span></pre>
 <p><b>Eine KI übersetzt dir das zuverlässig.</b> Frag sie ausdrücklich nach Java, sonst bekommst du Kotlin zurück.</p>
 </div>
 
-<h2>13 Der Merksatz</h2>
+<h2>10 Prüfe dich selbst</h2>
 
-<div class="info">
-<p><b>Spring nimmt dir die Arbeit ab und macht vieles zur Laufzeit. Room lässt dich mehr hinschreiben und prüft dafür beim Bauen.</b></p>
-<p>Beides ist eine Antwort auf dieselbe Frage, gestellt an zwei verschiedenen Orten. Auf einem Server zählt Bequemlichkeit, auf einem Handy zählen Startzeit, Platz und die Gewissheit, dass nichts erst beim Benutzer auffällt.</p>
-<p><b>Und wenn du beides kannst, kannst du das eine mit dem anderen erklären.</b> Das ist mehr wert als jedes von beiden allein.</p>
+<ol>
+<li>Welche drei Fragen beantworten die drei Bausteine, je eine pro Baustein?</li>
+<li>Warum gibt es in deinem Projekt trotzdem vier Klassen, und welche davon zählt nicht?</li>
+<li>In Spring Boot genügen zwei Dinge, bei Room sind es drei. Was übernimmt Spring, das dir bei Room niemand abnimmt?</li>
+<li>Du vertippst dich in einem <code>@Query</code>. Wann erfährst du davon, und warum nicht später?</li>
+<li>Du nimmst ein Feld in deine Entity dazu und startest. Was passiert, und was sind deine zwei Möglichkeiten?</li>
+<li>Wo findest du das <code>CREATE TABLE</code>, das du nie geschrieben hast?</li>
+</ol>
+
+<div class="tip">
+<p><b>Die Antworten stehen alle auf diesem Blatt.</b> Wenn du eine nicht findest, hast du den Abschnitt überschlagen, und genau der ist der, den du brauchst.</p>
 </div>
 
-<p class="foot">Modul 335 | Grundlagen | Room verstehen | Version 1 | 20.08.2026</p>
+
+<p class="foot">Modul 335 | Nachschlagen | Room verstehen | Version 2 | 04.09.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->

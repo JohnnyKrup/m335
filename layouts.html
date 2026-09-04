@@ -12,6 +12,8 @@
     --linear:#3d8168;   --linear-bg:#e6f2ed;
     --frame:#b1701c;    --frame-bg:#fbf0df;
     --warn:#a63d2f;     --warn-bg:#fbeae7;
+  
+    --surface:#fcfcfb; --ink2:#52514e; --rule:#c3c2b7; --leise:#d6d4ca; --leise-blau:#bfd0e2; --leise-gruen:#c6d7c6; --amber:#a5620f; --amber-bg:#fbf1e0; --good:#0a7a3d; --ok-bg:#eaf4ee; --tun:#26241f; --marke:#8a877d;
   }
   *{box-sizing:border-box}
   body{
@@ -104,6 +106,25 @@
   li{margin:0 0 7px}
   .foot{margin-top:50px; padding-top:18px; border-top:1px solid var(--line);
         font-size:13px; color:var(--muted)}
+
+/* Regeln fuer das Zehn-Abschnitte-Geruest */
+h4{font-size:14.5px;margin:20px 0 6px;color:var(--ink2)}
+a{color:#2a78d6}
+.tip{border-left:2px solid var(--leise-gruen);background:none;padding:1px 0 1px 15px;border-radius:0;margin:0 0 15px 10px}
+.tip b{color:var(--fg)}
+.info{border-left:2px solid var(--leise-blau);background:none;padding:1px 0 1px 15px;border-radius:0;margin:0 0 15px 10px}
+.info b{color:var(--fg)}
+.warn{border-left:4px solid var(--amber);background:var(--amber-bg);padding:12px 17px 13px;border-radius:0 8px 8px 0;margin:0 0 16px}
+.warn b{color:var(--fg)}
+.chk{border-left:4px solid var(--good);background:var(--ok-bg);padding:12px 17px 13px;border-radius:0 8px 8px 0;margin:0 0 16px}
+.chk b{color:#08532b}
+.chk::before{content:"PR\0000DCFEN";display:block;font:700 10.5px/1 system-ui,-apple-system,sans-serif;letter-spacing:.11em;color:var(--good);margin:0 0 9px}
+.step{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--tun);border-radius:0 10px 10px 0;padding:13px 18px 15px;margin:0 0 16px}
+.step .n{display:inline-block;background:#26241f;color:#fff;font:600 12px/1 system-ui,sans-serif;padding:5px 9px;border-radius:6px;margin-right:8px}
+.step::before{content:"SCHRITT";display:block;font:700 10.5px/1 system-ui,-apple-system,sans-serif;letter-spacing:.11em;color:var(--marke);margin:0 0 10px}
+.ue{background:var(--surface);border:1px solid var(--line);border-left:4px solid #6b6862;border-radius:0 10px 10px 0;padding:13px 17px 14px;margin:0 0 16px}
+.ue .t{font-weight:600;margin-bottom:5px}
+td.pre,th.pre{font-family:ui-monospace,Menlo,monospace;font-weight:600;color:#3a2d86;white-space:nowrap}
 </style>
 <!--M335:STIL-->
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -120,49 +141,32 @@
 <!--/M335:RAHMEN-KOPF-->
 <div class="wrap">
 
-  <h1>Layouts verstehen</h1>
-  <p class="sub">Modul 335 Mobile Applikationen, Grundlagen zu Block 02. Wie du ConstraintLayout, LinearLayout und FrameLayout ineinander steckst. Fassung 4 vom 14.08.2026.</p>
+<h1>Layouts verstehen</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Nachschlageblatt. Lesezeit etwa 13 Minuten. Version 5 vom 04.09.2026.</p>
+<p class="sub">Welches Layout in welchem steckt, wie du einen Anker liest, und woran du merkst, dass du das falsche gewählt hast.</p>
 
-  <div class="card">
-    <p style="margin:0 0 10px"><b>Wenn du hier hängst, liegt das nicht an dir.</b> Ein Auftrag zeigt dir ein Bild und nennt dir drei Layout-Typen. Er sagt dir aber nirgends, welches Layout <i>in</i> welchem steckt. Genau das ist die eigentliche Fähigkeit. Diese Seite holt das nach.</p>
-    <p style="margin:0"><b>Das ist keine Lösung zum Abtippen.</b> Das Beispiel auf dieser Seite ist <b>ein</b> Quiz-Spielbildschirm, nicht deiner. Es ist so gebaut, dass alle drei Layout-Typen darin vorkommen. Der Bildschirm, den du ab Tag 2 wirklich baust, sieht anders aus und ist einfacher. Warum, steht unten in Abschnitt 8.</p>
-    <p style="margin:8px 0 0">Du lernst hier das <b>Denkmuster</b>, nicht die Antwort.</p>
-  </div>
+<div class="tip">
+<p><b>Lies das, bevor du einen Bildschirm baust, nicht mittendrin.</b> Davor gehört <a href="/apps">Wie Apps aufgebaut sind</a>. Dort steht, aus welchen Bausteinen ein Bildschirm überhaupt besteht. Hier steht, wie du sie ineinander steckst.</p>
+</div>
 
-  <h2>1. Die Denkregel</h2>
-  <p>Bevor du eine einzige Zeile XML schreibst, zeichnest du das Bild in <b>Kästchen</b> nach. Nicht die Knöpfe und Textfelder, sondern die Gruppen. Frag dich bei jeder Gruppe nur eine Sache:</p>
-  <ul>
-    <li>Liegen die Dinge <b>hintereinander</b> in einer Reihe oder Spalte? Dann LinearLayout.</li>
-    <li>Liegen die Dinge <b>übereinander</b> wie Folien auf dem Hellraumprojektor? Dann FrameLayout.</li>
-    <li>Muss etwas <b>an einem Rand kleben</b> oder relativ zu etwas anderem sitzen? Dann ConstraintLayout.</li>
-  </ul>
-  <p>Ein Layout kann ein anderes Layout als Child haben. Das ist der Trick. Du löst nicht das ganze Bild mit einem Layout, sondern jede Gruppe mit dem Layout, das für diese Gruppe passt.</p>
 
-  <h2>2. Die drei Layouts nebeneinander</h2>
-  <table>
-    <tr><th style="width:150px">Layout</th><th>Ordnet seine Children</th><th>Nimm es für</th></tr>
-    <tr>
-      <td><b style="color:var(--linear)">LinearLayout</b></td>
-      <td>in einer Reihe, entweder <code>vertical</code> oder <code>horizontal</code></td>
-      <td>Formulare, Button-Reihen, alles was einfach untereinander oder nebeneinander steht</td>
-    </tr>
-    <tr>
-      <td><b style="color:var(--frame)">FrameLayout</b></td>
-      <td>alle auf demselben Fleck, gestapelt. Das letzte Child liegt zuoberst</td>
-      <td>Text über einem Bild, ein Hinweis über dem Inhalt, ein Ladebalken über allem</td>
-    </tr>
-    <tr>
-      <td><b style="color:var(--constraint)">ConstraintLayout</b></td>
-      <td>gar nicht von selbst. Jedes Child sagt dir, woran es hängt</td>
-      <td>die äusserste Ebene, wenn Dinge an Rändern kleben sollen</td>
-    </tr>
-  </table>
+<h2>01 Die Frage, um die es geht</h2>
 
-  <div class="note">
-    <p style="margin:0"><b>Der wichtigste Satz zum ConstraintLayout.</b> Ein Child ohne Constraint landet beim Start der App oben links in der Ecke, egal wo du es im Editor hingeschoben hast. Der Editor lügt dich an. Jedes Child braucht mindestens <b>einen waagrechten und einen senkrechten Anker</b>.</p>
-  </div>
+<p><b>Wenn du hier hängst, liegt das nicht an dir.</b> Ein Auftrag zeigt dir ein Bild und nennt dir drei Layout-Typen. Er sagt dir aber nirgends, welches Layout <i>in</i> welchem steckt. <b>Genau das ist die eigentliche Fähigkeit</b>, und sie wird selten hingeschrieben.</p>
 
-  <h2>3. Ein Bauplan zum Mitlesen: der Quiz-Spielbildschirm</h2>
+<p>Der Reflex ist, das ganze Bild mit einem einzigen Layout lösen zu wollen. Dann kämpfst du gegen das Layout, statt es zu benutzen.</p>
+
+<div class="chk">
+<p><b>Der eine Satz, der alles trägt:</b> du löst nicht das ganze Bild mit einem Layout, sondern <b>jede Gruppe mit dem Layout, das für diese Gruppe passt</b>. Ein Layout darf ein anderes Layout enthalten, und genau davon lebt der Aufbau.</p>
+</div>
+
+<div class="note">
+<p style="margin:0"><b>Das Beispiel auf diesem Blatt ist keine Lösung zum Abtippen.</b> Es ist <b>ein</b> Quiz-Spielbildschirm, nicht deiner. Es ist so gebaut, dass alle drei Layout-Typen darin vorkommen. Dein eigener Bildschirm sieht anders aus und ist einfacher. <b>Warum, steht in Abschnitt 05.</b> Du lernst hier das Denkmuster, nicht die Antwort.</p>
+</div>
+
+
+<h2>02 Das Bild</h2>
+
   <p>So sieht der Bildschirm aus, auf dem du ab Tag 2 eine Quizfrage beantwortest. Oben links die Kategorie, oben rechts der Punktestand. In der Mitte die Frage. Unten vier Antworten untereinander und ein Weiter-Knopf.</p>
   <div class="legend">
     <span class="chip c">ConstraintLayout</span>
@@ -233,7 +237,37 @@
     <p style="margin:0"><b>Warum die Frage in einem FrameLayout steckt.</b> Nach dem Antippen soll die Rückmeldung <i>über</i> der Frage erscheinen, nicht darunter. Übereinander heisst FrameLayout. Das zweite Child <code>tvFeedback</code> steht im XML weiter unten, also liegt es oben. Zuerst ist es auf <code>gone</code> gestellt.</p>
   </div>
 
-  <h2>4. Wie du einen Anker setzt</h2>
+  
+
+<h2>03 Die Teile einzeln</h2>
+
+  <table>
+    <tr><th style="width:150px">Layout</th><th>Ordnet seine Children</th><th>Nimm es für</th></tr>
+    <tr>
+      <td><b style="color:var(--linear)">LinearLayout</b></td>
+      <td>in einer Reihe, entweder <code>vertical</code> oder <code>horizontal</code></td>
+      <td>Formulare, Button-Reihen, alles was einfach untereinander oder nebeneinander steht</td>
+    </tr>
+    <tr>
+      <td><b style="color:var(--frame)">FrameLayout</b></td>
+      <td>alle auf demselben Fleck, gestapelt. Das letzte Child liegt zuoberst</td>
+      <td>Text über einem Bild, ein Hinweis über dem Inhalt, ein Ladebalken über allem</td>
+    </tr>
+    <tr>
+      <td><b style="color:var(--constraint)">ConstraintLayout</b></td>
+      <td>gar nicht von selbst. Jedes Child sagt dir, woran es hängt</td>
+      <td>die äusserste Ebene, wenn Dinge an Rändern kleben sollen</td>
+    </tr>
+  </table>
+
+  <div class="note">
+    <p style="margin:0"><b>Der wichtigste Satz zum ConstraintLayout.</b> Ein Child ohne Constraint landet beim Start der App oben links in der Ecke, egal wo du es im Editor hingeschoben hast. Der Editor lügt dich an. Jedes Child braucht mindestens <b>einen waagrechten und einen senkrechten Anker</b>.</p>
+  </div>
+
+  
+
+<h2>04 Wie es zusammenspielt</h2>
+
   <p>Ein Anker ist immer nach demselben Muster gebaut. Du liest ihn wie einen Satz.</p>
 
   <pre><span class="a">app:layout_constraintBottom_toTopOf</span>=<span class="s">"@id/llAnswers"</span>
@@ -259,7 +293,10 @@
     <p style="margin:0"><b><code>0dp</code> heisst nicht null.</b> Im ConstraintLayout heisst <code>0dp</code>: dehne dich zwischen deine beiden Anker aus. Das gilt in beide Richtungen. <code>layout_width="0dp"</code> braucht einen Anker links und einen rechts. <code>layout_height="0dp"</code> braucht einen Anker oben und einen unten. Fehlt einer davon, siehst du nichts.</p>
   </div>
 
-  <h2>5. Der Bauplan als XML</h2>
+  
+
+<h3>Der Bauplan als XML</h3>
+
   <p>Verkürzt. Die Wiederholungen sind als Kommentar angedeutet.</p>
   <pre><span class="t">&lt;androidx.constraintlayout.widget.ConstraintLayout</span>
     <span class="a">xmlns:android</span>=<span class="s">"http://schemas.android.com/apk/res/android"</span>
@@ -343,7 +380,38 @@
 
   <p>Beachte die Breiten. Im ConstraintLayout steht <code>0dp</code>. Beim Button <b>innerhalb</b> des LinearLayout steht <code>match_parent</code>. Beides heisst "volle Breite", aber der Parent entscheidet, wie man das schreibt.</p>
 
-  <h2>6. Fünf Fallen, in die alle tappen</h2>
+  
+
+<h2>05 Der Vergleich mit deinem eigenen Bildschirm</h2>
+
+  <p>Ab Tag 2 baust du deinen eigenen Spielbildschirm. Er ist <b>einfacher</b> als der Bauplan hier, und das hat Gründe. Vergleiche selbst, sobald du ihn hast.</p>
+
+  <table>
+    <tr><th>Auf dieser Seite</th><th>In deiner App</th><th>Warum</th></tr>
+    <tr><td>Der Fragetext steckt in einem <code>FrameLayout</code>, damit eine Rückmeldung darüber liegen kann</td><td>Der Fragetext steht direkt im ConstraintLayout</td><td>Deine App zeigt die Rückmeldung nicht als Text über der Frage, sondern indem sie die Antwort-Buttons einfärbt. Grün für richtig, rot für deine falsche. Dann braucht es nichts, was übereinander liegt, und damit auch kein FrameLayout</td></tr>
+    <tr><td>Der Weiter-Knopf ist von Anfang an da</td><td>Er kommt erst dazu, wenn es eine zweite Frage gibt</td><td>Wohin sollte er führen, solange es nur eine Frage gibt</td></tr>
+    <tr><td>Oben rechts steht <code>2 von 5</code></td><td>Oben rechts steht <code>Punkte 0</code>, später zusätzlich <code>Frage 1 von 5</code></td><td>Zwei verschiedene Angaben, die man leicht verwechselt. Deine App zeigt sie darum getrennt</td></tr>
+  </table>
+
+  <div class="note">
+    <p style="margin:0"><b>Nimm das nicht als Fehler, sondern als Aufgabe.</b> Ein Bauplan ist eine von mehreren möglichen Antworten. Wer <code>FrameLayout</code> gelernt hat und danach merkt, dass er es hier gar nicht braucht, hat mehr verstanden als jemand, der es einfach eingebaut hat. Die Frage lautet immer: <b>liegt hier wirklich etwas übereinander?</b> Wenn nein, dann kein FrameLayout.</p>
+  </div>
+
+  <p>Ein echtes FrameLayout siehst du trotzdem noch. Ein Ladebalken über dem Inhalt, ein Hinweis über einer leeren Liste, ein Text über einem Bild: das sind die Fälle, für die es da ist.</p>
+
+<h2>06 Wenn es nicht geht</h2>
+
+<p>Fünf Fehlerbilder decken fast alles ab, was beim Bauen eines Bildschirms schiefgeht. Die Tabelle nennt sie, darunter steht jedes ausführlich.</p>
+
+<table>
+<tr><th>Was du siehst</th><th>Woran es meist liegt</th><th>Wo du nachliest</th></tr>
+<tr><td>Im Editor sitzt es richtig, in der App oben links</td><td>Ein Element ohne Anker</td><td>Falle 1</td></tr>
+<tr><td>Ein Element ist unsichtbar, obwohl alles da ist</td><td><code>0dp</code> mit nur einem Anker auf dieser Achse</td><td>Falle 2</td></tr>
+<tr><td><code>cannot resolve symbol</code> beim Anker</td><td><code>@id</code> statt <code>@+id</code> beim Verweis nach unten</td><td>Falle 3</td></tr>
+<tr><td>Die Meldung sagt <code>circular dependency</code></td><td>Zwei Elemente hängen gegenseitig aneinander</td><td>Falle 4</td></tr>
+<tr><td>Im Querformat verschwindet ein Bereich</td><td>Der Bereich mit <code>0dp</code> trägt den Höhenverlust allein</td><td>Falle 5</td></tr>
+</table>
+
 
   <h3>Falle 1: Der Editor zeigt es richtig, die App nicht</h3>
   <p>Du schiebst ein Element im Design-Editor an den unteren Rand und es sieht gut aus. Startest du die App, sitzt es oben links. Grund: du hast keinen Anker gesetzt. Im Editor erkennst du das an einem kleinen roten Warnsymbol. Arbeite lieber direkt im Code-Tab, dort siehst du sofort, ob die Anker da sind.</p>
@@ -367,7 +435,67 @@
   <p>Dreh den Emulator mit <code>Strg</code> und <code>F11</code>. Die Höhe schrumpft auf etwa die Hälfte. Beim Quiz-Bildschirm bleiben die vier Antworten und der Weiter-Knopf gleich hoch, also frisst der Fragebereich mit seiner Höhe <code>0dp</code> den Verlust allein. Bei zu wenig Platz wird er null hoch und die Frage verschwindet.</p>
   <p>Die saubere Lösung ist ein <code>ScrollView</code> um den Teil, der wachsen darf. Probier zuerst ohne, und bau es erst ein, wenn du das Problem wirklich siehst.</p>
 
-  <h2>7. Prüfe dich selbst</h2>
+  
+
+<h2>07 Wenn du einen Bildschirm baust: die Reihenfolge</h2>
+
+<p><b>Wenn du unter Zeitdruck nicht mehr weisst, was als nächstes kommt, geh diese Liste von oben durch.</b> Sie ist immer dieselbe, egal wie der Bildschirm aussieht.</p>
+
+<div class="step"><p><span class="n">1</span> <b>Zeichne das Bild in Kästchen nach.</b> Nicht die Knöpfe und Textfelder, sondern die <b>Gruppen</b>. Papier genügt</p></div>
+<div class="step"><p><span class="n">2</span> <b>Stell an jede Gruppe die eine Frage.</b> Hintereinander in einer Reihe oder Spalte heisst LinearLayout. Übereinander wie Folien heisst FrameLayout. An einem Rand oder relativ zu etwas anderem heisst ConstraintLayout</p></div>
+<div class="step"><p><span class="n">3</span> <b>Tippe von aussen nach innen.</b> Erst der äussere Behälter, dann seine Children, dann deren Children. So wie du den Baum in Abschnitt 02 liest</p></div>
+<div class="step"><p><span class="n">4</span> <b>Setz die Anker, sobald ein Element im ConstraintLayout steht.</b> Mindestens einen waagrechten und einen senkrechten. Nicht später, sonst vergisst du es</p></div>
+<div class="step"><p><span class="n">5</span> <b>Starte die App, nicht nur den Editor.</b> Erst dort siehst du, ob deine Anker halten</p></div>
+
+<div class="chk">
+<p style="margin:0"><b>Der Prüfschritt:</b> jedes Child des ConstraintLayout hat mindestens zwei Anker. Jedes Element mit <code>0dp</code> hat auf dieser Achse <b>zwei</b>. Und der Editor zeigt kein rotes Warnsymbol mehr.</p>
+</div>
+
+
+<h2>08 Übungen ohne Vorlage</h2>
+
+<div class="ue">
+<p class="t">Übung 1, eine fremde App zerlegen</p>
+<p>Nimm den Bildschirm einer App auf deinem Handy, auf dem etwas untereinander steht und etwas an einem Rand klebt. Zeichne ihn als Kästchenbaum, wie in Abschnitt 02. Schreib bei jedem Kästchen den Layout-Typ dazu.</p>
+<p style="margin:0"><b>So prüfst du:</b> zu jedem Kästchen kannst du sagen, welche der drei Fragen aus Schritt 2 du beantwortet hast. Wo du zögerst, liegt meist eine Gruppe, die du noch nicht gesehen hast.</p>
+</div>
+
+<div class="ue">
+<p class="t">Übung 2, den Anker vorlesen</p>
+<p>Nimm aus deinem eigenen Layout drei Anker und lies jeden als Satz vor, nach dem Muster aus Abschnitt 04. <i>Meine Unterkante klebt an der Oberkante von X.</i></p>
+<p style="margin:0"><b>So prüfst du:</b> jeder Satz ergibt Sinn und beschreibt, was du auf dem Bildschirm siehst. Wo der Satz seltsam klingt, sitzt meist der Anker falsch.</p>
+</div>
+
+<div class="ue">
+<p class="t">Übung 3, erklären</p>
+<p style="margin:0">Erklär einem Lerngspänli in zwei Sätzen, warum ein Element ohne Anker beim Start oben links landet, obwohl du es im Editor woanders hingeschoben hast. <b>So prüfst du:</b> in deiner Antwort kommt vor, was der Editor speichert und was er nur anzeigt.</p>
+</div>
+
+
+<h2>09 Wo das im Ganzen steht</h2>
+
+<pre><span class="c">   Woraus ein Bildschirm besteht     Wie Apps aufgebaut sind
+        |                            Baustein, Behälter, Bildschirm
+        |
+        v
+   Welches Layout in welchem         dieses Blatt
+        |                            die drei Typen, der Baum, die fünf Fallen
+        |
+        v
+   Woran genau ein Element hängt     Constraints verstehen
+        |                            die Ankerregeln im Einzelnen
+        |
+        v
+   Wie das im XML aussieht           XML verstehen
+                                     android, app, tools und das Zeichen @</span></pre>
+
+<p><b>Davor:</b> <a href="/apps">Wie Apps aufgebaut sind</a>.</p>
+
+<p><b>Danach:</b> <a href="/constraints">Constraints verstehen</a> geht bei den Ankern in die Tiefe, <a href="/xml">XML verstehen</a> erklärt die Schreibweise im Layout.</p>
+
+
+<h2>10 Prüfe dich selbst</h2>
+
   <ol>
     <li>Zeig auf dem Bauplan oben, welche fünf Children das ConstraintLayout hat. Wenn du acht zählst, hast du eine Ebene zu tief geschaut.</li>
     <li>Warum steht bei <code>btnAnswer1</code> die Breite auf <code>match_parent</code> und bei <code>btnNext</code> auf <code>0dp</code>, obwohl beide gleich breit aussehen?</li>
@@ -376,24 +504,14 @@
     <li>Erkläre einem Lerngspänli in einem Satz, warum die Rückmeldung "Richtig" in ein FrameLayout gehört und nicht in ein LinearLayout.</li>
   </ol>
 
-  <h2>8. Warum dein eigener Bildschirm anders aussieht</h2>
+  
 
-  <p>Ab Tag 2 baust du deinen eigenen Spielbildschirm. Er ist <b>einfacher</b> als der Bauplan hier, und das hat Gründe. Vergleiche selbst, sobald du ihn hast.</p>
+<div class="tip">
+<p><b>Die Antworten stehen alle auf diesem Blatt.</b> Wenn du eine nicht findest, hast du den Abschnitt überschlagen, und genau der ist der, den du brauchst.</p>
+</div>
 
-  <table>
-    <tr><th>Auf dieser Seite</th><th>In deiner App</th><th>Warum</th></tr>
-    <tr><td>Der Fragetext steckt in einem <code>FrameLayout</code>, damit eine Rückmeldung darüber liegen kann</td><td>Der Fragetext steht direkt im ConstraintLayout</td><td>Deine App zeigt die Rückmeldung nicht als Text über der Frage, sondern indem sie die Antwort-Buttons einfärbt. Grün für richtig, rot für deine falsche. Dann braucht es nichts, was übereinander liegt, und damit auch kein FrameLayout</td></tr>
-    <tr><td>Der Weiter-Knopf ist von Anfang an da</td><td>Er kommt erst dazu, wenn es eine zweite Frage gibt</td><td>Wohin sollte er führen, solange es nur eine Frage gibt</td></tr>
-    <tr><td>Oben rechts steht <code>2 von 5</code></td><td>Oben rechts steht <code>Punkte 0</code>, später zusätzlich <code>Frage 1 von 5</code></td><td>Zwei verschiedene Angaben, die man leicht verwechselt. Deine App zeigt sie darum getrennt</td></tr>
-  </table>
 
-  <div class="note">
-    <p style="margin:0"><b>Nimm das nicht als Fehler, sondern als Aufgabe.</b> Ein Bauplan ist eine von mehreren möglichen Antworten. Wer <code>FrameLayout</code> gelernt hat und danach merkt, dass er es hier gar nicht braucht, hat mehr verstanden als jemand, der es einfach eingebaut hat. Die Frage lautet immer: <b>liegt hier wirklich etwas übereinander?</b> Wenn nein, dann kein FrameLayout.</p>
-  </div>
-
-  <p>Ein echtes FrameLayout siehst du trotzdem noch. Ein Ladebalken über dem Inhalt, ein Hinweis über einer leeren Liste, ein Text über einem Bild: das sind die Fälle, für die es da ist.</p>
-
-  <p class="foot">Modul 335 | Grundlagen | Layouts verstehen | Fassung 4 | 14.08.2026</p>
+<p class="foot">Modul 335 | Nachschlagen | Layouts verstehen | Version 5 | 04.09.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->

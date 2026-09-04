@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M335 Bildschirme wechseln</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+<h1>Bildschirme wechseln</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Nachschlageblatt. Lesezeit etwa 10 Minuten. Version 2 vom 04.09.2026.</p>
+<p class="sub">Wie du auf einen zweiten Bildschirm kommst, wie du wieder zurückkommst, und wie ein Wert den Weg mitmacht.</p>
+
+<div class="tip">
+<p><b>Lies das, bevor du einen zweiten Bildschirm baust, nicht mittendrin.</b> Davor gehört <a href="/activity">Die Activity von innen</a>. Dort steht, was in <b>einer</b> Activity passiert. Hier geht es um <b>zwei</b>, und um alles, was zwischen ihnen liegt.</p>
+</div>
+
+<h2>01 Die Frage, um die es geht</h2>
+
+<p>Bis jetzt hatte deine App einen Bildschirm. Eine Activity, ein Layout, fertig. Jetzt sollen es zwei werden, und dein erster Reflex aus Java ist falsch.</p>
+
+<pre><span class="c">// So nicht. Das ist kein Tippfehler, das ist der falsche Gedanke.</span>
+<span class="k">new</span> <span class="t">GameActivity</span>();</pre>
+
+<p>Eine Activity ist <b>kein gewöhnliches Objekt</b>. Sie braucht ein Fenster, sie braucht einen Platz auf dem Bildschirm, sie braucht jemanden, der ihren Lebenszyklus führt. Das alles kannst du ihr nicht geben. Nur Android kann das.</p>
+
+<div class="chk">
+<p><b>Der eine Satz, der alles trägt:</b> du erzeugst keinen Bildschirm. <b>Du bittest Android um einen</b>, und Android erzeugt ihn für dich.</p>
+</div>
+
+<p>Aus diesem Satz folgt der ganze Rest. Wenn du bittest statt selbst zu bauen, brauchst du drei Dinge, die es in reinem Java nicht gibt.</p>
+
+<ul>
+<li><b>Eine Form für die Bitte.</b> Das ist der Intent</li>
+<li><b>Ein Verzeichnis, in dem Android nachschlägt</b>, was es überhaupt geben darf. Das ist das Manifest</li>
+<li><b>Einen Rückweg</b>, denn du hast das Objekt nie in der Hand gehabt und kannst es nachher auch nichts fragen</li>
+</ul>
+
+<h2>02 Das Bild</h2>
+
+<p>So läuft eine Bitte durch. Von oben nach unten, und ab der Mitte macht Android alles allein.</p>
+
+<pre><span class="c">   DEIN CODE               in der MainActivity, im Listener
+        |
+        |  new Intent(this, GameActivity.class)
+        |                     die Bitte: von wo aus, wohin
+        v
+   startActivity(...)      du gibst die Bitte ab und bist fertig
+        |
+        v
+   ANDROID                 schlägt nach
+        |
+        |  AndroidManifest.xml
+        |                     das Verzeichnis aller Bildschirme
+        v
+   ANDROID                 erzeugt ein Objekt der Klasse
+        |                   und ruft dessen onCreate auf
+        v
+   DER ZWEITE BILDSCHIRM   liegt jetzt zuoberst</span></pre>
+
+<div class="note">
+<p style="margin:0"><b>Zwischen deiner Zeile und dem zweiten onCreate steht keine einzige Zeile von dir.</b> Das ist der Grund, warum du <code>onCreate</code> nie selbst aufrufst. Du hast an dieser Stelle gar keine Gelegenheit dazu.</p>
+</div>
+
+<p>Und was mit dem ersten Bildschirm passiert, zeigt das zweite Bild. Android legt die Bildschirme <b>aufeinander</b>, wie Blätter auf einem Stapel.</p>
+
+<pre><span class="c">   Du bist zweimal weitergegangen
+
+        AboutActivity     zuoberst, das siehst du gerade
+        GameActivity      darunter, wartet
+        MainActivity      zuunterst, wartet
+
+   Zurück heisst: das oberste Blatt kommt weg.
+   Zurück heisst nicht: springe zur MainActivity.</span></pre>
+
+<p>Die wartenden Bildschirme sind nicht weg. Sie leben weiter, mit allem, was in ihren Feldern steht. <b>Ihr <code>onCreate</code> läuft nicht noch einmal, wenn du zurückkommst.</b></p>
+
+<h2>03 Die fünf Teile, einzeln</h2>
+
+<table>
+<tr><th>Teil</th><th>Was es tut</th><th>Schreibst du es selbst</th><th>Wo es liegt</th></tr>
+<tr><td class="pre">Die Activity-Klasse</td><td>Der Code des neuen Bildschirms. Hat ihr eigenes <code>onCreate</code></td><td><b>ja</b>, ganz</td><td>eigene <code>.java</code>-Datei</td></tr>
+<tr><td class="pre">Das Layout</td><td>Was auf diesem Bildschirm steht</td><td><b>ja</b>, ganz</td><td><code>res/layout/activity_xxx.xml</code></td></tr>
+<tr><td class="pre">Der Manifest-Eintrag</td><td>Sagt Android, dass es diesen Bildschirm gibt</td><td><b>ja</b>, von Hand</td><td><code>AndroidManifest.xml</code></td></tr>
+<tr><td class="pre">Der Intent</td><td>Die Bitte. Von wo aus, wohin</td><td><b>ja</b>, eine Zeile</td><td>in der Activity, die den Wechsel auslöst</td></tr>
+<tr><td class="pre">startActivity</td><td>Gibt die Bitte an Android weiter</td><td><b>ja</b>, eine Zeile</td><td>meist im Listener eines Knopfs</td></tr>
+</table>
+
+<h3>Die Klasse und das Layout</h3>
+
+<p>Beide baust du genau so, wie du den ersten Bildschirm gebaut hast. Neue Klasse mit <code>extends AppCompatActivity</code>, eigenes <code>onCreate</code>, darin <code>setContentView</code> auf das neue Layout. Wie ein Layout von innen aussieht, steht in <a href="/xml">XML verstehen</a>.</p>
+
+<h3>Der Eintrag im Manifest</h3>
+
+<p><b>Das Manifest ist das Verzeichnis aller Bildschirme deiner App.</b> Android liest es beim Installieren, nicht beim Übersetzen. Was nicht darin steht, gibt es für Android nicht.</p>
+
+<pre><span class="c">&lt;activity</span>
+<span class="t">    android:name</span>=<span class="s">".GameActivity"</span>
+<span class="t">    android:exported</span>=<span class="s">"false"</span> <span class="c">/&gt;</span></pre>
+
+<p><b>Der Punkt vor dem Namen steht für dein Paket.</b> <code>.GameActivity</code> heisst also <code>ch.wiss.m335.quiz.GameActivity</code>. Und <code>exported</code> sagt, ob andere Apps diesen Bildschirm öffnen dürfen. Bei allem ausser dem Startbildschirm ist das <code>false</code>.</p>
+
+<div class="warn">
+<p style="margin:0"><b>Der Compiler und Android schauen auf zwei verschiedene Dinge.</b> Der Compiler prüft, ob dein Java-Code in sich stimmt. Das Manifest sagt, was es für Android überhaupt gibt. Eine Klasse kann tadellos übersetzen und für Android trotzdem nicht existieren. <b>Das sind zwei Prüfungen zu zwei verschiedenen Zeitpunkten</b>, und keine ersetzt die andere.</p>
+</div>
+
+<h3>Der Intent und startActivity</h3>
+
+<pre><span class="t">btnPlay</span>.setOnClickListener(v -&gt; startActivity(<span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">GameActivity</span>.<span class="k">class</span>)));</pre>
+
+<p><code>new Intent(this, GameActivity.class)</code> ist ein Zettel mit zwei Angaben. <b>Von wo aus</b>, das ist <code>this</code>, und <b>wohin</b>, das ist die Klasse. <code>startActivity</code> gibt den Zettel an Android weiter. Danach ist dein Code fertig, und die Zeile darunter läuft sofort weiter.</p>
+
+<h2>04 Der Hinweg, Schritt für Schritt</h2>
+
+<p>Als Gespräch zwischen deinem Code und Android. Nur die erste Zeile gehört dir.</p>
+
+<table>
+<tr><th>Wer</th><th>Was</th></tr>
+<tr><td><b>Du</b></td><td>Hier ist ein Intent. Von der MainActivity zur GameActivity. Bitte</td></tr>
+<tr><td>Android</td><td>Moment, ich schlage im Manifest nach, ob es die GameActivity gibt</td></tr>
+<tr><td>Android</td><td>Es gibt sie. Ich erzeuge ein Objekt davon</td></tr>
+<tr><td>Android</td><td>Ich rufe ihr <code>onCreate</code> auf. <b>Dort machst du wieder mit</b>, mit <code>setContentView</code> und deinen <code>findViewById</code></td></tr>
+<tr><td>Android</td><td>Ich lege den neuen Bildschirm oben auf den Stapel und zeige ihn an</td></tr>
+<tr><td>Deine erste Activity</td><td>bleibt liegen. Ihr <code>onCreate</code> läuft nicht noch einmal</td></tr>
+</table>
+
+<div class="chk">
+<p><b>Daraus folgen zwei Regeln.</b> Erstens: du rufst <code>onCreate</code> nie selbst auf, weder bei dir noch beim anderen Bildschirm. Zweitens: alles, was der neue Bildschirm braucht, muss <b>vorher am Intent hängen</b>. Nachher kommst du nicht mehr dran.</p>
+</div>
+
+<h2>05 Der Rückweg</h2>
+
+<p>Es gibt kein <code>startActivity</code> rückwärts. <b>Zurück heisst immer: die oberste Activity endet</b>, und darunter wird sichtbar, was schon da war.</p>
+
+<p>Zwei Wege siehst du in deinem eigenen Code.</p>
+
+<table>
+<tr><th>Weg</th><th>Was du dafür schreibst</th></tr>
+<tr><td><b>Die System-Zurück-Taste</b></td><td><b>Nichts.</b> Keine einzige Zeile. Android beendet die oberste Activity von sich aus</td></tr>
+<tr><td><b>Ein eigener Knopf</b></td><td><code>finish()</code>. Das beendet genau die Activity, in der die Zeile steht</td></tr>
+</table>
+
+<p><b>Beides endet an derselben Stelle.</b> Die Activity endet, der Stapel wird um eins kürzer, der Bildschirm darunter kommt zum Vorschein. Ein eigener Knopf ist also keine andere Technik, sondern nur eine zweite Tür in denselben Gang.</p>
+
+<div class="note">
+<p style="margin:0"><b>Du kannst nicht wissen, welchen Weg jemand nimmt.</b> Darum darf nichts Wichtiges nur an deinem eigenen Knopf hängen. Alles, was beim Verlassen passieren muss, gehört an eine Stelle, die auf <b>jedem</b> Weg erreicht wird.</p>
+</div>
+
+<h2>06 Etwas mitgeben und etwas zurückbringen</h2>
+
+<p>Ein Intent ist nicht nur ein Fahrplan. <b>Er ist auch ein Behälter.</b> Du kannst Werte anhängen, und zwar in beide Richtungen.</p>
+
+<h3>Auf dem Hinweg</h3>
+
+<pre><span class="t">Intent</span> intent = <span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">QuestionEditActivity</span>.<span class="k">class</span>);
+intent.putExtra(<span class="t">QuestionEditActivity</span>.EXTRA_QUESTION_ID, question.getId());
+startActivity(intent);</pre>
+
+<p>Drüben holst du den Wert wieder heraus.</p>
+
+<pre>questionId = getIntent().getIntExtra(EXTRA_QUESTION_ID, <span class="s">0</span>);</pre>
+
+<p><b>Der zweite Parameter ist der Wert für den Fall, dass gar nichts mitkam.</b> Du bekommst also immer eine Zahl, auch wenn niemand etwas hinterlegt hat.</p>
+
+<div class="chk">
+<p><b>Die Regel für den Schlüssel:</b> er steht im ganzen Projekt <b>genau einmal</b>, als <code>public static final String</code> in einer der beiden Klassen. Die andere Seite holt ihn von dort, mit dem Klassennamen davor. <b>Beide Seiten benutzen dieselbe Konstante</b>, nie zweimal denselben abgetippten Text.</p>
+</div>
+
+<h3>Auf dem Rückweg</h3>
+
+<p>Der Rückweg ist aufwendiger, und der Grund dafür steht in Abschnitt 07. Der zweite Bildschirm legt sein Ergebnis bereit.</p>
+
+<pre><span class="t">Intent</span> data = <span class="k">new</span> <span class="t">Intent</span>();
+data.putExtra(EXTRA_SCORE, score);
+setResult(RESULT_OK, data);</pre>
+
+<div class="note">
+<p style="margin:0"><b>Ein <code>new Intent()</code> ohne Ziel ist kein Fahrplan.</b> Es ist nur der Behälter. Wohin es geht, weiss Android schon, denn es kennt den Stapel.</p>
+</div>
+
+<p>Und die erste Seite braucht einen Empfänger dafür, den <code>ActivityResultLauncher</code>.</p>
+
+<pre><span class="k">private</span> <span class="t">ActivityResultLauncher</span>&lt;<span class="t">Intent</span>&gt; gameLauncher;
+
+<span class="c">// in onCreate, nicht erst beim Klick</span>
+gameLauncher = registerForActivityResult(
+        <span class="k">new</span> <span class="t">ActivityResultContracts</span>.<span class="t">StartActivityForResult</span>(),
+        result -&gt; {
+            <span class="k">if</span> (result.getResultCode() == RESULT_OK &amp;&amp; result.getData() != <span class="k">null</span>) {
+                lastScore = result.getData().getIntExtra(<span class="t">GameActivity</span>.EXTRA_SCORE, <span class="s">0</span>);
+            }
+        });</pre>
+
+<p>Gestartet wird dann nicht mehr mit <code>startActivity</code>, sondern über den Launcher.</p>
+
+<pre>gameLauncher.launch(<span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">GameActivity</span>.<span class="k">class</span>));</pre>
+
+<table>
+<tr><th></th><th>Hinweg</th><th>Rückweg</th></tr>
+<tr><td><b>Wer hängt an</b></td><td>die aufrufende Activity</td><td>die aufgerufene Activity</td></tr>
+<tr><td><b>Womit</b></td><td><code>putExtra</code> am Ziel-Intent</td><td><code>setResult</code> mit einem leeren Intent</td></tr>
+<tr><td><b>Wer holt ab</b></td><td>der neue Bildschirm mit <code>getIntent()</code></td><td>der Launcher der ersten Activity</td></tr>
+<tr><td><b>Wann kommt es an</b></td><td>sofort, noch vor <code>onCreate</code></td><td><b>erst wenn die zweite Activity endet</b></td></tr>
+</table>
+
+<div class="warn">
+<p style="margin:0"><b>Der Launcher entsteht in <code>onCreate</code>, nicht im Listener.</b> Android muss ihn kennen, bevor der Bildschirm sichtbar ist. Ein Launcher, der erst beim Antippen entsteht, ist zu spät.</p>
+</div>
+
+<h2>07 Der Vergleich mit einem Methodenaufruf</h2>
+
+<p>Ein Bildschirmwechsel sieht aus wie ein Methodenaufruf und ist doch etwas anderes. <b>Der Unterschied ist der Grund für den ganzen Aufwand mit dem Launcher.</b></p>
+
+<table>
+<tr><th></th><th>Methode in Java</th><th>Bildschirmwechsel</th></tr>
+<tr><td><b>Aufrufen</b></td><td><code>berechne(5)</code></td><td><code>startActivity(intent)</code></td></tr>
+<tr><td><b>Werte mitgeben</b></td><td>Parameter</td><td><code>putExtra</code></td></tr>
+<tr><td><b>Wert zurück</b></td><td><code>return</code></td><td><code>setResult</code> plus Launcher</td></tr>
+<tr><td><b>Wann geht es weiter</b></td><td>wenn die Methode fertig ist</td><td><b>sofort.</b> Die nächste Zeile läuft, während der neue Bildschirm noch entsteht</td></tr>
+<tr><td><b>Wo landet das Ergebnis</b></td><td>in der Zeile des Aufrufs</td><td><b>an einer ganz anderen Stelle</b>, im Lambda des Launchers</td></tr>
+</table>
+
+<div class="chk">
+<p><b>Das ist der Kern.</b> Eine Methode hält an, rechnet, und gibt dir den Wert an derselben Stelle zurück. Ein Bildschirmwechsel hält nichts an. Deine Zeile ist fertig, der Benutzer tippt vielleicht eine Minute lang herum, und <b>irgendwann später</b> kommt eine Antwort an einer anderen Stelle deines Codes an. <b>Darum brauchst du den Launcher.</b> Er ist die Stelle, an der du sagst, was passieren soll, wenn die Antwort kommt.</p>
+</div>
+
+<p>Dasselbe Muster kennst du schon von einem Klick-Listener. Auch dort schreibst du vorher hin, was später passieren soll, und weisst nicht, wann.</p>
+
+<h2>08 Wenn es nicht geht</h2>
+
+<p>Vier von fünf Fehlern beim Bildschirmwechsel sehen gleich aus: <b>es passiert etwas, aber nicht das, was du wolltest.</b> Die Tabelle ordnet die häufigsten Bilder ihrer Ursache zu.</p>
+
+<table>
+<tr><th>Was du siehst</th><th>Woran es meist liegt</th><th>Was du prüfst</th></tr>
+<tr><td>Der zweite Bildschirm öffnet sich, zeigt aber <b>den Inhalt des ersten</b></td><td><code>setContentView</code> zeigt noch auf das alte Layout. Klassiker nach einer kopierten Klasse</td><td>Die eine Zeile in <code>onCreate</code> der neuen Activity</td></tr>
+<tr><td>Der zweite Bildschirm ist da, aber <code>findViewById</code> liefert <code>null</code></td><td>Die id steht in einem anderen Layout als dem, das geladen wird</td><td>Die id und die Layoutdatei nebeneinander legen. <b>Beides muss dieselbe Datei sein</b></td></tr>
+<tr><td>Der Wert kommt an, aber es ist <b>der Vorgabewert</b>, also die Zahl aus dem zweiten Parameter</td><td>Der Schlüssel heisst auf den zwei Seiten nicht gleich, oder das <code>putExtra</code> fehlt ganz. <b>Kein Absturz, keine rote Zeile</b></td><td>Benutzen beide Seiten dieselbe Konstante? Eine Log-Zeile direkt nach dem <code>getIntExtra</code> zeigt es sofort</td></tr>
+<tr><td>Der zweite Bildschirm bleibt stehen, und im ersten kommt nichts an, obwohl <code>setResult</code> dasteht</td><td><code>finish()</code> fehlt. <b>Ausgeliefert wird erst, wenn die Activity endet</b></td><td>Eine Log-Zeile unmittelbar vor <code>finish()</code>. Läuft sie nie, ist das die Ursache</td></tr>
+<tr><td>Beim Antippen bricht es ab, und die Meldung spricht vom Lebenszyklus</td><td>Der Launcher wird erst im Listener erzeugt statt in <code>onCreate</code></td><td>Wo <code>registerForActivityResult</code> steht. Es muss laufen, bevor der Bildschirm sichtbar ist</td></tr>
+</table>
+
+<div class="note">
+<p style="margin:0"><b>Die Tabelle ist nicht vollständig, und sie kann es nicht sein.</b> Sie kennt nur die Fehler, die immer gleich aussehen. Für alles andere ist die Prüfliste da.</p>
+</div>
+
+<div class="chk">
+<p><b>Die Prüfliste, wenn ein Wechsel nicht tut, was du erwartest.</b> Geh die fünf Stellen aus Abschnitt 03 durch und frag bei jeder: gibt es sie überhaupt, und heisst sie überall gleich?</p>
+<ol style="margin:8px 0 0">
+<li>Gibt es die Klasse, und ist der Name im Intent derselbe?</li>
+<li>Zeigt <code>setContentView</code> auf das Layout, das du meinst?</li>
+<li>Steht die Activity im Manifest, und stimmt der Punkt vor dem Namen?</li>
+<li>Hängt der Listener am richtigen Knopf?</li>
+<li>Bei Werten: benutzen beide Seiten <b>dieselbe Konstante</b>, nicht zweimal denselben abgetippten Text?</li>
+</ol>
+</div>
+
+<h2>09 Wenn du einen neuen Bildschirm baust: die Reihenfolge</h2>
+
+<p><b>Wenn du unter Zeitdruck nicht mehr weisst, was als nächstes kommt, geh diese Liste von oben durch.</b> Sie ist immer dieselbe, egal welcher Bildschirm.</p>
+
+<div class="step"><p><span class="n">1</span> <b>Die Texte in <code>strings.xml</code>.</b> Alles, was der Benutzer lesen wird. Zuerst, damit es beim Layout schon da ist</p></div>
+<div class="step"><p><span class="n">2</span> <b>Das Layout <code>activity_xxx.xml</code>.</b> Mit einer eigenen Root-id, sonst verwechselst du es später mit dem ersten</p></div>
+<div class="step"><p><span class="n">3</span> <b>Die Klasse <code>XxxActivity</code>.</b> <code>extends AppCompatActivity</code>, <code>onCreate</code>, darin <code>setContentView</code> auf das neue Layout</p></div>
+<div class="step"><p><span class="n">4</span> <b>Der Eintrag im Manifest.</b> <code>android:name</code> mit dem Punkt davor, dazu <code>android:exported</code></p></div>
+<div class="step"><p><span class="n">5</span> <b>Der Intent und der Listener</b> in der Activity, von der aus es losgeht</p></div>
+<div class="step"><p><span class="n">6</span> <b>Nur wenn du etwas zurückbrauchst:</b> die Schlüssel als Konstanten, <code>setResult</code> drüben, der Launcher hier</p></div>
+
+<h2>10 Wo das im Ganzen steht</h2>
+
+<pre><span class="c">   Ein Bildschirm             Die Activity von innen
+        |                     onCreate, findViewById, this
+        |
+        v
+   ZWEI Bildschirme           dieses Blatt
+        |                     Intent, Manifest, Stapel, Ergebnis
+        |
+        v
+   Eine Liste auf einem       Listen verstehen
+   Bildschirm                 RecyclerView, Adapter, ViewHolder</span></pre>
+
+<p><b>Davor:</b> <a href="/activity">Die Activity von innen</a>. Ohne <code>onCreate</code> und <code>findViewById</code> ist dieses Blatt nur halb verständlich.</p>
+
+<p><b>Danach:</b> <a href="/listen">Listen verstehen</a>. Sehr oft ist es das Antippen einer Zeile in einer Liste, das den Wechsel auslöst, und dann reist eine id im Intent mit.</p>
+
+<h2>11 Prüfe dich selbst</h2>
+
+<ol>
+<li>Warum kannst du eine Activity nicht mit <code>new</code> erzeugen, eine gewöhnliche Klasse aber schon?</li>
+<li>Welche zwei Angaben stehen in <code>new Intent(this, GameActivity.class)</code>?</li>
+<li>Deine Klasse übersetzt fehlerfrei. Reicht das, damit Android sie kennt? Begründe</li>
+<li>Du gehst von A nach B nach C und drückst einmal Zurück. Wo bist du, und warum nicht bei A?</li>
+<li>Warum gibt es für den Rückweg einen Launcher, für den Hinweg aber nur eine Zeile?</li>
+<li>Was ist der zweite Parameter von <code>getIntExtra</code>, und wann kommt er zum Zug?</li>
+</ol>
+
+<div class="tip">
+<p><b>Die Antworten stehen alle auf diesem Blatt.</b> Wenn du eine nicht findest, hast du den Abschnitt überschlagen, und genau der ist der, den du brauchst.</p>
+</div>
+
+<p class="foot">Modul 335 | Nachschlagen | Bildschirme wechseln | Version 2 | 04.09.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<script>
+/* ------------------------------------------------------------------
+   M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
+
+   Warum hier und nicht als eigene Datei: dieser Baustein geht ueber
+   web-bau/rahmen/fuss.html in jede Seite. Inline heisst, dass bauen.js
+   nichts Zusaetzliches kopieren muss.
+
+   Zwei Faelle:
+     Startseite   nimmt die sechs Links aus .schnellnav und baut daraus
+                  dasselbe schwebende Verzeichnis. Keine Auftragskarte.
+     Auftragsseite markiert Teil A bis C, vergibt jeder Ueberschrift eine
+                  id, baut oben die Auftragskarte und daneben das Verzeichnis.
+
+   Das Aussehen steht in web-bau/stil/rahmen.css unter m335-nav.
+   ------------------------------------------------------------------ */
+(function () {
+  var wrap = document.querySelector('.wrap');
+  if (!wrap) return;
+
+  var text = function (el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); };
+  var esc  = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+
+  // Die Startseite ist daran zu erkennen, dass ihr der Rueckweg im Kopf fehlt.
+  var istStart = !document.querySelector('.site-header .back');
+  var eintraege = [];
+
+  if (istStart) {
+    // ------------------------------------------------------------ Startseite
+    var schnell = wrap.querySelector('.schnellnav');
+    if (!schnell) return;
+    [].slice.call(schnell.querySelectorAll('a')).forEach(function (a) {
+      var ziel = document.getElementById(a.getAttribute('href').slice(1));
+      if (ziel) eintraege.push({ el: ziel, text: text(a), stufe: 'n2' });
+    });
+    if (eintraege.length < 2) return;
+
+  } else {
+    // --------------------------------------------------------- Auftragsseite
+    var heads = [].slice.call(wrap.querySelectorAll('h2, h3'));
+
+    // 1 und 2: Teil A bis C markieren, jeder Ueberschrift eine id geben.
+    // Die Quellen haben keine.
+    var vergeben = {};
+    heads.forEach(function (h, i) {
+      if (h.tagName === 'H3' && /^Teil [A-Z]\b/.test(text(h))) h.classList.add('teil');
+      if (h.id) { vergeben[h.id] = true; return; }
+      var roh = text(h).toLowerCase()
+        .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+        .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+      var id = roh || ('abschnitt-' + i);
+      if (vergeben[id]) id = id + '-' + i;
+      vergeben[id] = true;
+      h.id = id;
+    });
+
+    // 3: Die Auftragskarte. Sie sagt in einem Bildschirm, wie lange der
+    // Auftrag dauert und aus welchen Teilen er besteht. Alles daran steht
+    // schon auf der Seite, die Karte stellt es nur neu zusammen.
+    var subs = [].slice.call(wrap.querySelectorAll('.sub'));
+    var bloecke = heads.filter(function (h) { return h.querySelector('.time'); });
+    var budget = '', zusatz = '';
+
+    subs.forEach(function (p) {
+      if (budget) return;
+      var m = p.innerHTML.match(/Zeitbudget\s+([^.<]+)\./);
+      if (!m) return;
+      var stuecke = m[1].split(/,\s*dazu\s*/);
+      budget = stuecke[0].trim();
+      if (stuecke[1]) zusatz = 'dazu ' + stuecke[1].trim();
+      p.innerHTML = p.innerHTML.replace(m[0], '').replace(/\s{2,}/g, ' ').trim();
+    });
+
+    if (budget || bloecke.length) {
+      var karte = document.createElement('div');
+      karte.className = 'karte';
+      var inhalt = '';
+      if (budget) {
+        inhalt += '<p class="zeit"><span class="pill">' + esc(budget) + '</span>';
+        if (zusatz) inhalt += '<span class="pill neben">' + esc(zusatz) + '</span>';
+        inhalt += '</p>';
+      }
+      if (bloecke.length) {
+        inhalt += '<p class="t">DAS MACHST DU</p><ol>';
+        bloecke.forEach(function (b) {
+          var uhr = b.querySelector('.time');
+          var min = uhr ? text(uhr) : '';
+          var t = text(b).replace(min, '').replace(/\s+/g, ' ').replace(/\s+,/g, ',').trim();
+          t = t.replace(/[,;]\s*$/, '');
+          var teil = t.match(/^([^,]+),\s*(.*)$/);
+          var wo = teil ? teil[1] : t;
+          var rest = teil ? teil[2] : '';
+          inhalt += '<li><a href="#' + b.id + '"><span class="wo">' + esc(wo) + '</span>'
+                  + (rest ? ' ' + esc(rest) : '') + '</a>'
+                  + '<span class="min">' + esc(min) + '</span></li>';
+        });
+        inhalt += '</ol>';
+      }
+      karte.innerHTML = inhalt;
+      // Steht oben ein Zielbild, gehoert die Karte darunter. Erst sehen, was
+      // entsteht, dann lesen, wie lange es dauert.
+      var anker = wrap.querySelector('figure.zielbild')
+                || (subs.length ? subs[subs.length - 1] : wrap.firstElementChild);
+      anker.parentNode.insertBefore(karte, anker.nextSibling);
+    }
+
+    // Unter vier Ueberschriften lohnt sich kein Verzeichnis.
+    if (heads.length < 4) return;
+    heads.forEach(function (h) {
+      eintraege.push({
+        el: h,
+        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
+      });
+    });
+  }
+
+  // ---------------------------------------------------------------- 4
+  var nav = document.createElement('nav');
+  nav.className = 'm335-nav';
+  nav.setAttribute('aria-label', 'Inhalt dieser Seite');
+
+  var html = '<p class="kopfzeile">AUF DIESER SEITE</p>'
+           + '<button type="button" class="schliessen" aria-label="Verzeichnis schliessen">Schliessen</button><ol>';
+  eintraege.forEach(function (e) {
+    html += '<li class="' + e.stufe + '"><a href="#' + e.el.id + '">' + esc(e.text) + '</a></li>';
+  });
+  nav.innerHTML = html + '</ol>';
+
+  var knopf = document.createElement('button');
+  knopf.type = 'button';
+  knopf.className = 'm335-nav-knopf';
+  knopf.textContent = 'Inhalt';
+
+  document.body.appendChild(nav);
+  document.body.appendChild(knopf);
+
+  var links = [].slice.call(nav.querySelectorAll('a'));
+
+  // Breit: die Leiste steht fest am Rand. Schmal: sie liegt hinter dem Knopf.
+  var breit = window.matchMedia('(min-width: 1380px)');
+  function umschalten() {
+    if (breit.matches) {
+      nav.className = 'm335-nav seitlich';
+      nav.hidden = false;
+      knopf.style.display = 'none';
+    } else {
+      nav.className = 'm335-nav klappe';
+      nav.hidden = true;
+      knopf.style.display = '';
+    }
+  }
+  umschalten();
+  if (breit.addEventListener) breit.addEventListener('change', umschalten);
+  else if (breit.addListener) breit.addListener(umschalten);
+
+  knopf.addEventListener('click', function () { nav.hidden = !nav.hidden; });
+  nav.querySelector('.schliessen').addEventListener('click', function () { nav.hidden = true; });
+  nav.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && !breit.matches) nav.hidden = true;
+  });
+
+  // Welcher Abschnitt ist gerade dran. Gesucht ist der letzte Eintrag, der
+  // oberhalb der Lesekante liegt. Die Kante liegt knapp unter dem klebenden
+  // Kopfbereich.
+  var laeuft = false;
+  function markieren() {
+    laeuft = false;
+    var kante = 96, treffer = 0;
+    for (var i = 0; i < eintraege.length; i++) {
+      if (eintraege[i].el.getBoundingClientRect().top <= kante) treffer = i;
+      else break;
+    }
+    for (var j = 0; j < links.length; j++) links[j].classList.toggle('hier', j === treffer);
+    var a = links[treffer];
+    if (a && breit.matches) {
+      var r = a.getBoundingClientRect(), n = nav.getBoundingClientRect();
+      if (r.top < n.top + 8 || r.bottom > n.bottom - 8) a.scrollIntoView({ block: 'nearest' });
+    }
+  }
+  function anstossen() {
+    if (laeuft) return;
+    laeuft = true;
+    window.requestAnimationFrame(markieren);
+  }
+  window.addEventListener('scroll', anstossen, { passive: true });
+  window.addEventListener('resize', anstossen);
+  markieren();
+})();
+</script>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>
