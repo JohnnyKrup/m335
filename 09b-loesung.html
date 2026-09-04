@@ -20,7 +20,7 @@
 <!--/M335:RAHMEN-KOPF-->
 <div class="wrap">
 <h1>09B Lösungsmaterial, Reparatur und Rückblick</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Tag 5 Vormittag. Version 1 vom 26.08.2026.</p>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 5 Vormittag. Version 2 vom 04.09.2026.</p>
 <p class="sub">Zum Durchlesen brauchst du etwa 18 Minuten.</p>
 
 <h2>01 Wie du dieses Material benutzt</h2>
@@ -71,11 +71,12 @@
 <p><b>Woran du sie erkennst:</b> der Bildschirm bleibt leer, nichts stürzt ab. <b>Die Unterscheidung machst du im Logcat</b>, und sie dauert zehn Sekunden.</p>
 <table>
 <tr><th>Im Logcat steht</th><th>Dann fehlt</th></tr>
-<tr><td><code>No layout manager attached; skipping layout</code></td><td>Der <code>LinearLayoutManager</code>. Er gehört gesetzt, <b>bevor</b> der Adapter gesetzt wird</td></tr>
-<tr><td>gar nichts dazu</td><td>Niemand ruft deine Lade-Methode auf, oder sie gibt die Liste nicht an den Adapter weiter</td></tr>
+<tr><td>gar nichts, und die Liste wächst bei jedem Laden</td><td>Das <code>removeAllViews</code> zuoberst in deiner Bau-Methode</td></tr>
+<tr><td><code>No layout manager attached; skipping layout</code></td><td>Nur beim Weg mit Adapter: der <code>LinearLayoutManager</code>. Er gehört gesetzt, <b>bevor</b> der Adapter gesetzt wird</td></tr>
+<tr><td>gar nichts dazu</td><td>Niemand ruft deine Lade-Methode auf, oder sie baut aus den Daten keine Zeilen</td></tr>
 <tr><td>deine eigene Zeile mit <code>total=0</code></td><td>Die Datenbank ist wirklich leer. Dann ist es Lücke 2 und nicht Lücke 3</td></tr>
 </table>
-<p><b>Wo es vollständig steht:</b> Auftrag 06C für den Adapter, 08A B1 für die Liste aus der Datenbank, 09A Schritt 3 für beides zusammen.</p>
+<p><b>Wo es vollständig steht:</b> Auftrag 04B für die Liste zu Fuss, 06C für den Adapter, 08A B1 für die Liste aus der Datenbank, 09A Schritt 3 für alles zusammen. Und das Grundlagenblatt <b>Listen verstehen</b>, Abschnitt 06.</p>
 
 <h3>Lücke 4, das Formular speichert nichts</h3>
 <p><b>Woran du sie erkennst:</b> du tippst auf Speichern und es passiert gar nichts. Kein Fehler, keine Meldung, kein Eintrag in der Liste.</p>
@@ -111,17 +112,17 @@
 </div>
 
 <h3>Lücke 7, es läuft und ich könnte es nicht erklären</h3>
-<p><b>Woran du sie erkennst:</b> in 09A hat alles funktioniert. Du hast dein WissQuiz aufgemacht, den Adapter kopiert, die Namen angepasst, gestartet, hat gepasst, weiter. <b>Gefragt, was der ViewHolder dabei tut, müsstest du raten.</b></p>
+<p><b>Woran du sie erkennst:</b> in 09A hat alles funktioniert. Du hast dein WissQuiz aufgemacht, den Code für die Liste kopiert, die Namen angepasst, gestartet, hat gepasst, weiter. <b>Gefragt, was das dritte Argument von <code>inflate</code> bewirkt, müsstest du raten.</b></p>
 <div class="warn">
 <p><b>Das ist die häufigste Lücke im ganzen Kurs, und sie steht in keiner Fehlermeldung.</b> Sie ist auch kein Grund, sich schlecht zu fühlen. <b>Kopieren und Anpassen ist unter Zeitdruck die richtige Strategie</b>, es ist am Prüfungstag erlaubt, und es holt die Punkte im Raster.</p>
 <p><b>Sie hat genau eine Schwäche, und die trifft dich am Nachmittag:</b> wenn etwas nicht funktioniert, hast du keinen Ansatzpunkt. Du weisst nicht, welches Stück schuld sein könnte, also probierst du. Mit dem Bild im Kopf prüfst du stattdessen drei Stellen der Reihe nach und bist in zwei Minuten fertig.</p>
 </div>
 <p><b>Die Behandlung, dreissig Minuten:</b></p>
 <ol>
-<li><b>Lies das passende Grundlagenblatt.</b> <b>Listen verstehen</b> für alles rund um den Adapter, <b>Room verstehen</b> für die drei Klassen der Datenbank.</li>
+<li><b>Lies das passende Grundlagenblatt.</b> <b>Listen verstehen</b> für alles rund um die Liste, <b>Room verstehen</b> für die drei Klassen der Datenbank.</li>
 <li><b>Leg deinen eigenen Code daneben.</b> Nicht das Referenzprojekt, deinen. Such jedes Stück aus dem Schichtenbild in deiner Datei.</li>
 <li><b>Sag zu jedem Teil einen Satz</b>, laut oder auf Papier. Wo du ins Stocken kommst, ist die Stelle.</li>
-<li><b>Und eine Gegenprobe, die zwei Minuten dauert:</b> nimm eine Zeile deines Adapters weg und schau, was passiert. Wer den Fehler vorhersagen kann, bevor er ihn sieht, hat verstanden.</li>
+<li><b>Und eine Gegenprobe, die zwei Minuten dauert:</b> nimm eine Zeile deiner Bau-Methode weg und schau, was passiert. Wer den Fehler vorhersagen kann, bevor er ihn sieht, hat verstanden.</li>
 </ol>
 <div class="tip">
 <p><b>Diese Lücke ist die einzige, bei der T3b die eigentliche Prüfung ist.</b> Dort erklärst du einer anderen Person einen Schritt in eigenen Worten. Wenn das flüssig geht, ist die Lücke zu.</p>
@@ -141,7 +142,7 @@
 <tr><td class="num">2</td><td>Das Formular hat vier Eingabefelder: Artikel, Laden, Menge, Preis</td><td>Die vier Beschriftungen sind verschieden. <b>Wer kopiert, hat viermal dieselbe</b></td></tr>
 <tr><td class="num">3</td><td>Menge und Preis haben den passenden <code>inputType</code></td><td>Die Tastatur zeigt Zahlen und nicht Buchstaben</td></tr>
 <tr><td class="num">4</td><td>Speichern legt einen Eintrag an und der steht danach in der Liste</td><td>Die Anzahl in der Liste steigt um eins</td></tr>
-<tr><td class="num">5</td><td>Nach einem Neustart der App ist der neue Eintrag noch da</td><td>Sonst ist er nur im Adapter gelandet und nicht in der Datenbank</td></tr>
+<tr><td class="num">5</td><td>Nach einem Neustart der App ist der neue Eintrag noch da</td><td>Sonst ist er nur auf dem Bildschirm gelandet und nicht in der Datenbank</td></tr>
 <tr><td class="num">6</td><td>Artikel und Laden sind Pflicht, mindestens 4 Zeichen</td><td>Bei einem leeren Feld wird es rot und das Speichern läuft nicht</td></tr>
 <tr><td class="num">7</td><td><b>Alle</b> fehlerhaften Felder werden auf einmal rot, nicht nur das erste</td><td>Zwei leere Pflichtfelder geben zwei rote Meldungen</td></tr>
 <tr><td class="num">8</td><td>Menge und Preis dürfen leer bleiben</td><td>Ein Eintrag ohne beide lässt sich speichern und zeigt rechts keinen Betrag</td></tr>
@@ -293,33 +294,36 @@
 <li><b>Zum Schluss die Testdurchführung eintragen.</b> Das sind 2 Punkte und es dauert fünf Minuten.</li>
 </ol>
 
-<h3>Der Notausgang, falls die Liste nicht laufen will</h3>
+<h3>Die Liste: welchen der zwei Wege du nimmst</h3>
 
-<div class="warn">
-<p><b>Das ist ein Notfall und kein Plan A.</b> Lies es einmal, damit du es kennst, und benutz es nur, wenn dein Adapter am Prüfungstag nach zwanzig Minuten immer noch nicht läuft.</p>
-</div>
-
-<p><b>Das Prüfungsblatt schreibt keinen RecyclerView vor.</b> Es nennt überhaupt keine Klasse. Im Bewertungsraster stehen nur diese zwei Zeilen:</p>
+<p><b>Das Prüfungsblatt schreibt keinen RecyclerView vor.</b> Es nennt überhaupt keine Klasse. Im Bewertungsraster stehen zur Liste nur diese zwei Zeilen:</p>
 <table>
 <tr><th>Zeile im Raster</th><th class="num">P</th></tr>
 <tr><td>Module werden in Liste angezeigt und ggf. aktualisiert</td><td class="num">2</td></tr>
 <tr><td>Durchschnitt wird rechts angezeigt</td><td class="num">1</td></tr>
 </table>
-<p><b>Diese drei Punkte holt auch deine Liste zu Fuss aus 04B.</b> Eine Schleife, die für jeden Eintrag eine Zeile baut und an ein <code>LinearLayout</code> hängt. Der Code dafür steht in deinem eigenen Projekt und ist zehn Zeilen lang.</p>
-<p><b>Drei Bedingungen, sonst kostet es dich mehr, als es bringt:</b></p>
-<ol>
-<li><b>Das <code>LinearLayout</code> gehört in eine <code>ScrollView</code>.</b> Sonst ist die Liste im Querformat unten abgeschnitten, und das ist eine eigene Zeile mit 2 Punkten. <b>Ein RecyclerView scrollt von selbst, eine Liste zu Fuss nicht.</b></li>
-<li><b>Der Durchschnitt muss trotzdem rechts stehen.</b> Also dieselbe Zeilenstruktur wie beim Adapter: links ein Block mit <code>layout_weight="1"</code>, rechts der Wert.</li>
-<li><b>Nach jeder Änderung baust du die ganze Liste neu.</b> Also erst <code>removeAllViews</code>, dann die Schleife. Sonst stehen die alten Zeilen doppelt da. Das ist genau der Punkt <i>ggf. aktualisiert</i> im Raster.</li>
-</ol>
-<div class="tip">
-<p><b>Was du damit verlierst:</b> nichts an Punkten, bei zehn Modulen auch nichts an Geschwindigkeit. Bei fünfhundert Einträgen wäre es falsch, aber die hast du am Prüfungstag nicht.</p>
-<p><b>Was du gewinnst:</b> die drei Punkte, statt gar keine. <b>Und du kannst begründen, warum du so entschieden hast.</b> Genau das wird in der Leistungsbeurteilung gefragt.</p>
-</div>
-<div class="warn">
-<p><b>Trotzdem ist der Adapter der bessere Weg, und du sollst ihn zuerst versuchen.</b> Er ist im Kurs geübt, er scrollt von selbst, und er ist das, was in einer echten App steht. <b>Der Notausgang ist dafür da, dass ein einziger klemmender Adapter dir nicht drei Punkte und zwanzig Minuten kostet.</b></p>
+
+<p><b>Diese drei Punkte holen beide Wege.</b> Die Liste zu Fuss aus 04B genauso wie der RecyclerView mit Adapter aus 06C. In 09A hast du den kurzen Weg gebaut, und du hast gesehen, wie schnell er geht.</p>
+
+<div class="chk">
+<p><b>Die Empfehlung für den Prüfungstag: nimm den kurzen Weg.</b> Eine Notenverwaltung führt zwanzig Module und nicht fünfhundert. Bei zwanzig Zeilen ist zwischen den zwei Wegen kein Unterschied zu sehen, und der kurze kostet dich einen Bruchteil der Zeit.</p>
 </div>
 
+<p><b>Drei Bedingungen, sonst kostet es dich an einer anderen Stelle:</b></p>
+<ol>
+<li><b>Das <code>LinearLayout</code> gehört in eine <code>ScrollView</code>.</b> Sonst ist die Liste im Querformat unten abgeschnitten, und das ist eine eigene Zeile mit 2 Punkten. <b>Ein RecyclerView scrollt von selbst, eine Liste zu Fuss nicht.</b></li>
+<li><b>Der Durchschnitt muss rechts stehen.</b> Also blas dein Zeilenlayout auf, statt eine nackte TextView zu bauen: links ein Block mit <code>layout_weight="1"</code>, rechts der Wert.</li>
+<li><b>Nach jeder Änderung baust du die ganze Liste neu.</b> Also erst <code>removeAllViews</code>, dann die Schleife. Sonst stehen die alten Zeilen doppelt da. Das ist genau der Punkt <i>ggf. aktualisiert</i> im Raster.</li>
+</ol>
+
+<div class="tip">
+<p><b>Und der Klick auf eine Zeile ist beim kurzen Weg einfacher</b>, nicht schwerer. Du setzt den <code>setOnClickListener</code> direkt in der Schleife, und der Eintrag steht als Variable schon da. Beim Adapter musst du ihn bei jedem Binden neu setzen. <b>An den vier Punkten für das Bearbeiten hängt das.</b></p>
+</div>
+
+<div class="warn">
+<p><b>Der Adapter ist deswegen nicht falsch, er ist nur teurer.</b> Er ist der richtige Weg, sobald eine Liste beliebig lang werden kann, und genau darum hast du ihn in 06C und 08A gebaut. <b>In einer App, die wirklich benutzt wird, nimmst du ihn.</b></p>
+<p>Am Prüfungstag entscheidet aber nicht, was in einer echten App richtig wäre. Es entscheidet, was in 150 Minuten fertig wird und was du erklären kannst. <b>Wenn du den Adapter sicher im Griff hast, nimm ihn. Wenn nicht, nimm die Schleife und sag im Dokumentationsteil, warum.</b></p>
+</div>
 <h3>Die sechs Punkte, die am billigsten sind</h3>
 <table>
 <tr><th>Punkt</th><th class="num">P</th><th>Aufwand</th></tr>
@@ -344,7 +348,7 @@
 <p><b>Und der Satz, der über allem steht:</b> von 48 Punkten gibt es 22 ohne eine Zeile Code. Für eine Vier brauchst du rund 29. <b>Rechne selbst nach, was das heisst.</b></p>
 </div>
 
-<p class="foot">Modul 335 | Tag 5 Vormittag | Lösungsmaterial 09B | Version 1 | 26.08.2026</p>
+<p class="foot">Modul 335 | Tag 5 Vormittag | Lösungsmaterial 09B | Version 2 | 04.09.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->

@@ -20,8 +20,8 @@
 <!--/M335:RAHMEN-KOPF-->
 <div class="wrap">
 <h1>09A Lösungsmaterial, Generalprobe Teil B</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Tag 5 Vormittag. Version 1 vom 26.08.2026.</p>
-<p class="sub">Zum Durchlesen brauchst du etwa 20 Minuten.</p>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 5 Vormittag. Version 2 vom 04.09.2026.</p>
+<p class="sub">Zum Durchlesen brauchst du etwa 16 Minuten.</p>
 
 <h2>01 Wie du dieses Material heute benutzt</h2>
 
@@ -72,12 +72,12 @@
 <tr><td class="num">5</td><td>In deinen <code>@Query</code>-Texten steht der <b>Tabellenname</b>, nicht der Klassenname</td><td>SQL kennt deine Java-Klasse nicht. Der Fehler kommt erst beim Bauen, dafür deutlich</td></tr>
 <tr><td class="num">6</td><td>Die Datenbank-Klasse hat genau ein Feld <code>instance</code>, und <code>getInstance</code> ist <code>synchronized</code></td><td>Es gibt eine Datenbank pro App. Zwei gleichzeitig gebaute Verbindungen sind ein Fehler, den man erst spät bemerkt</td></tr>
 <tr><td class="num">7</td><td><b>Dein Startbestand prüft <code>count()</code> und kehrt um, wenn schon etwas da ist</b></td><td>Der wichtigste Punkt dieser Liste. Ohne ihn wächst deine Tabelle bei jedem Start. Siehe 08A</td></tr>
-<tr><td class="num">8</td><td>Bei <b>zwei</b> deiner fünf Einträge fehlen Menge und Preis</td><td>Nur damit siehst du, ob dein Betrag richtig entscheidet. Mit fünf vollständigen Einträgen sieht ein falscher Adapter richtig aus</td></tr>
-<tr><td class="num">9</td><td>In <code>onCreate</code> steht der <code>LayoutManager</code> <b>vor</b> dem Adapter</td><td>Ohne LayoutManager bleibt die Liste leer, und es stürzt nichts ab. Die Meldung steht nur im Logcat</td></tr>
-<tr><td class="num">10</td><td>Im Adapter ist das dritte Argument von <code>inflate</code> ein <code>false</code></td><td>Mit <code>true</code> hängt die Zeile schon am Parent, und der RecyclerView wirft eine <code>IllegalStateException</code></td></tr>
-<tr><td class="num">11</td><td>Der Betrag wird in <code>onBindViewHolder</code> gerechnet, <b>nach einer Prüfung auf beide Werte</b>, und bleibt sonst leer</td><td>Das ist die einzige Stelle mit Logik in diesem Auftrag. Am Prüfungstag ist es der Durchschnitt, und dort gibt es dafür einen eigenen Punkt</td></tr>
+<tr><td class="num">8</td><td>Bei <b>zwei</b> deiner fünf Einträge fehlen Menge und Preis</td><td>Nur damit siehst du, ob dein Betrag richtig entscheidet. Mit fünf vollständigen Einträgen sieht eine falsche Bau-Methode richtig aus</td></tr>
+<tr><td class="num">9</td><td><b><code>removeAllViews</code> steht als erste Zeile deiner Bau-Methode</b></td><td>Ohne sie wird die Liste bei jedem Laden länger, und es stürzt nichts ab. Derselbe Fehler wie in 04B</td></tr>
+<tr><td class="num">10</td><td>Beim <code>inflate</code> ist das dritte Argument ein <code>false</code>, und die drei <code>findViewById</code> laufen auf <code>row</code></td><td>Mit <code>true</code> hängt die Zeile zweimal, das gibt eine <code>IllegalStateException</code>. Ohne <code>row</code> sucht Android im falschen Layout und liefert <code>null</code></td></tr>
+<tr><td class="num">11</td><td>Der Betrag wird in der Schleife gerechnet, <b>nach einer Prüfung auf beide Werte</b>, und bleibt sonst leer</td><td>Das ist die einzige Stelle mit Logik in diesem Auftrag. Am Prüfungstag ist es der Durchschnitt, und dort gibt es dafür einen eigenen Punkt</td></tr>
 <tr><td class="num">12</td><td>Der Betrag hat <b>genau zwei</b> Stellen nach dem Punkt, und der Text kommt aus <code>strings.xml</code></td><td>Ohne die Vorgabe steht dort eine Zahl mit zehn Stellen. Und sichtbare Texte gehören nie in den Java-Code</td></tr>
-<tr><td class="num">13</td><td>Der RecyclerView hat <code>layout_height="0dp"</code> und ist oben <b>und unten</b> verbunden</td><td><b>Dreh das Gerät und schau nach.</b> Im Hochformat sieht man den Fehler nie, im Querformat sofort. Im Bewertungsraster 2 Punkte</td></tr>
+<tr><td class="num">13</td><td>Die ScrollView hat <code>layout_height="0dp"</code> und ist oben <b>und unten</b> verbunden</td><td><b>Dreh das Gerät und schau nach.</b> Im Hochformat sieht man den Fehler nie, im Querformat sofort. Im Bewertungsraster 2 Punkte</td></tr>
 <tr><td class="num">14</td><td>Jede neue Klasse hat einen <b>Klassenkommentar</b>, der sagt wofür sie da ist</td><td>Steht im Prüfungsblatt. Im Bewertungsraster 2 Punkte</td></tr>
 <tr><td class="num">15</td><td>Jedes Feld und jede Methode hat Javadoc, <b>auch die Getter und Setter</b></td><td>Was <code>Alt+Insert</code> erzeugt, bringt keines mit. Bei fünf Feldern sind das zehn Methoden auf einen Schlag</td></tr>
 </table>
@@ -101,7 +101,7 @@
 </ul>
 
 <div class="warn">
-<p><b>Was nicht abweichen darf</b>, weil es sonst still kaputt geht: die Reihenfolge von LayoutManager und Adapter, das <code>false</code> beim <code>inflate</code>, und die Prüfung mit <code>count()</code> im Startbestand.</p>
+<p><b>Was nicht abweichen darf</b>, weil es sonst still kaputt geht: das <code>removeAllViews</code> zuoberst, das <code>false</code> beim <code>inflate</code>, das <code>row</code> vor <code>findViewById</code>, und die Prüfung mit <code>count()</code> im Startbestand.</p>
 </div>
 
 <h2>05 Der vollständige Code</h2>
@@ -440,17 +440,21 @@
     }
 }</pre>
 <h3>Schritt 3, das Layout der Startseite</h3>
-<p>Die Überschrift oben, darunter der RecyclerView mit <code>0dp</code> und der Verbindung nach unten. <b>Diese eine Angabe entscheidet über das Querformat.</b></p>
+<p>Die Überschrift oben, darunter die ScrollView mit <code>0dp</code> und der Verbindung nach unten, und darin das leere LinearLayout. <b>Diese eine Angabe entscheidet über das Querformat.</b></p>
 <pre>&lt;?xml version=<span class="s">"1.0"</span> encoding=<span class="s">"utf-8"</span>?&gt;
 <span class="c">&lt;!--
   Die Startseite. Oben eine Überschrift, darunter die Liste.
 
-  Der RecyclerView hat layout_height="0dp" und ist oben an die Überschrift
-  und unten an den Bildschirmrand gebunden. So bekommt er allen Platz, der
-  übrig bleibt, und er bekommt ihn auch im Querformat.
+  Die Liste ist ein LinearLayout, das hier leer dasteht. Gefüllt wird es im
+  Java-Code, eine Zeile pro Eintrag. Darum hat es eine id und sonst nichts.
+
+  Die ScrollView darum herum hat layout_height="0dp" und ist oben an die
+  Überschrift und unten an den Bildschirmrand gebunden. So bekommt sie allen
+  Platz, der übrig bleibt, und sie bekommt ihn auch im Querformat.
 
   Wer statt 0dp ein wrap_content nimmt, sieht im Hochformat keinen
-  Unterschied und im Querformat eine Liste, die unten abgeschnitten ist.
+  Unterschied und im Querformat eine Liste, die unten abgeschnitten ist und
+  sich nicht scrollen lässt.
 --&gt;</span>
 &lt;<span class="t">androidx.constraintlayout.widget.ConstraintLayout</span>
     xmlns:android=<span class="s">"http://schemas.android.com/apk/res/android"</span>
@@ -471,16 +475,23 @@
         app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
         app:layout_constraintTop_toTopOf=<span class="s">"parent"</span> /&gt;
 
-    &lt;<span class="t">androidx.recyclerview.widget.RecyclerView</span>
-        android:id=<span class="s">"@+id/rvItems"</span>
+    &lt;<span class="t">ScrollView</span>
+        android:id=<span class="s">"@+id/svItems"</span>
         android:layout_width=<span class="s">"0dp"</span>
         android:layout_height=<span class="s">"0dp"</span>
         android:layout_marginTop=<span class="s">"12dp"</span>
         app:layout_constraintBottom_toBottomOf=<span class="s">"parent"</span>
         app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span>
         app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
-        app:layout_constraintTop_toBottomOf=<span class="s">"@id/tvTitle"</span>
-        tools:listitem=<span class="s">"@layout/item_shopping"</span> /&gt;
+        app:layout_constraintTop_toBottomOf=<span class="s">"@id/tvTitle"</span>&gt;
+
+        &lt;<span class="t">LinearLayout</span>
+            android:id=<span class="s">"@+id/llItems"</span>
+            android:layout_width=<span class="s">"match_parent"</span>
+            android:layout_height=<span class="s">"wrap_content"</span>
+            android:orientation=<span class="s">"vertical"</span> /&gt;
+
+    &lt;/<span class="t">ScrollView</span>&gt;
 
 &lt;/<span class="t">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</pre>
 <h3>Schritt 3, die Texte</h3>
@@ -508,159 +519,22 @@
     &lt;<span class="t">string</span> name=<span class="s">"amount_format"</span>&gt;%1$.2f CHF&lt;/<span class="t">string</span>&gt;
 
 &lt;/<span class="t">resources</span>&gt;</pre>
-<h3>Schritt 3, der Adapter</h3>
-<p>Der Aufbau ist derselbe wie beim <code>QuestionAdapter</code> aus 08A. Neu ist nur der Betrag in <code>onBindViewHolder</code>, und das ist die einzige Stelle mit Logik in diesem Auftrag.</p>
-<pre><span class="k">package</span> ch.wiss.m335.einkauf;
-
-<span class="k">import</span> android.content.<span class="t">Context</span>;
-<span class="k">import</span> android.view.<span class="t">LayoutInflater</span>;
-<span class="k">import</span> android.view.<span class="t">View</span>;
-<span class="k">import</span> android.view.<span class="t">ViewGroup</span>;
-<span class="k">import</span> android.widget.<span class="t">TextView</span>;
-
-<span class="k">import</span> androidx.annotation.<span class="t">NonNull</span>;
-<span class="k">import</span> androidx.recyclerview.widget.<span class="t">RecyclerView</span>;
-
-<span class="k">import</span> java.util.<span class="t">ArrayList</span>;
-<span class="k">import</span> java.util.<span class="t">List</span>;
-
-<span class="k">import</span> ch.wiss.m335.einkauf.data.<span class="t">ShoppingItem</span>;
-
-<span class="c">/**
- * Füllt den RecyclerView mit den Zeilen der Einkaufsliste.
- *
- * Der Aufbau ist derselbe wie beim HighscoreAdapter aus 06C und beim
- * QuestionAdapter aus 08A. Nur die Daten sind andere. Das ist der Punkt: ein
- * Adapter ist immer gleich gebaut, egal was in der Liste steht.
- *
- * onCreateViewHolder baut eine leere Zeile. Das passiert selten.
- * onBindViewHolder füllt eine vorhandene Zeile. Das passiert bei jedem
- * Scrollen, viele Male pro Sekunde. Darum gehört in onBindViewHolder nichts,
- * was Zeit kostet. Kein findViewById, keine Abfrage, kein Zugriff auf die
- * Datenbank.
- */</span>
-<span class="k">public</span> <span class="k">class</span> <span class="t">ShoppingAdapter</span> <span class="k">extends</span> <span class="t">RecyclerView</span>.<span class="t">Adapter</span>&lt;<span class="t">ShoppingAdapter</span>.<span class="t">ShoppingViewHolder</span>&gt; {
-
-    <span class="c">/**
-     * Die Einträge, die gerade angezeigt werden.
-     *
-     * Die Liste gehört dem Adapter. Ausgetauscht wird ihr Inhalt nur über
-     * setItems, damit das notifyDataSetChanged nie vergessen geht.
-     */</span>
-    <span class="k">private</span> <span class="k">final</span> <span class="t">List</span>&lt;<span class="t">ShoppingItem</span>&gt; items = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;();
-
-    <span class="c">/**
-     * Hält die Views einer Zeile fest.
-     *
-     * Das ist der Sinn des ViewHolder: findViewById läuft einmal pro Zeile
-     * und nicht bei jedem Scrollen.
-     */</span>
-    <span class="k">static</span> <span class="k">class</span> <span class="t">ShoppingViewHolder</span> <span class="k">extends</span> <span class="t">RecyclerView</span>.<span class="t">ViewHolder</span> {
-
-        <span class="c">/** Der Artikel, oben links in der Zeile. */</span>
-        <span class="k">final</span> <span class="t">TextView</span> tvArticle;
-
-        <span class="c">/** Der Laden, kleiner darunter. */</span>
-        <span class="k">final</span> <span class="t">TextView</span> tvShop;
-
-        <span class="c">/** Der Betrag, rechts in der Zeile. */</span>
-        <span class="k">final</span> <span class="t">TextView</span> tvAmount;
-
-        <span class="c">/**
-         * Sucht die drei TextViews einmal und merkt sie sich.
-         *
-         * @param itemView die frisch gebaute Zeile
-         */</span>
-        <span class="t">ShoppingViewHolder</span>(<span class="a">@NonNull</span> <span class="t">View</span> itemView) {
-            <span class="k">super</span>(itemView);
-            tvArticle = itemView.findViewById(<span class="t">R</span>.id.tvArticle);
-            tvShop = itemView.findViewById(<span class="t">R</span>.id.tvShop);
-            tvAmount = itemView.findViewById(<span class="t">R</span>.id.tvAmount);
-        }
-    }
-
-    <span class="c">/**
-     * Baut eine neue, leere Zeile aus item_shopping.xml.
-     *
-     * Das dritte Argument von inflate ist false. Mit true würde die Zeile
-     * sofort an den Parent gehängt, und der RecyclerView bekäme eine
-     * IllegalStateException mit dem Text "The specified child already has a
-     * parent".
-     *
-     * @param parent   der RecyclerView, der die Zeile später einhängt
-     * @param viewType wird hier nicht gebraucht, es gibt nur eine Zeilenart
-     * @return ein ViewHolder mit den drei TextViews darin
-     */</span>
-    <span class="a">@NonNull</span>
-    <span class="a">@Override</span>
-    <span class="k">public</span> <span class="t">ShoppingViewHolder</span> onCreateViewHolder(<span class="a">@NonNull</span> <span class="t">ViewGroup</span> parent, <span class="k">int</span> viewType) {
-        <span class="t">View</span> row = <span class="t">LayoutInflater</span>.from(parent.getContext())
-                .inflate(<span class="t">R</span>.layout.item_shopping, parent, <span class="k">false</span>);
-        <span class="k">return</span> <span class="k">new</span> <span class="t">ShoppingViewHolder</span>(row);
-    }
-
-    <span class="c">/**
-     * Füllt eine vorhandene Zeile mit den Daten eines Eintrags.
-     *
-     * Der Betrag wird hier gerechnet und nirgends gespeichert. Menge mal
-     * Preis, und nur wenn beide Werte da sind. Fehlt einer, bleibt das Feld
-     * leer. Ein leerer Text und nicht etwa 0.00, denn 0.00 hiesse, der
-     * Eintrag koste nichts.
-     *
-     * @param holder   die Zeile, die gefüllt wird
-     * @param position der Platz in der angezeigten Liste, beginnend bei 0
-     */</span>
-    <span class="a">@Override</span>
-    <span class="k">public</span> <span class="k">void</span> onBindViewHolder(<span class="a">@NonNull</span> <span class="t">ShoppingViewHolder</span> holder, <span class="k">int</span> position) {
-        <span class="t">ShoppingItem</span> item = items.get(position);
-        <span class="t">Context</span> context = holder.itemView.getContext();
-
-        holder.tvArticle.setText(item.getArticle());
-        holder.tvShop.setText(item.getShop());
-
-        <span class="k">if</span> (item.getQuantity() != <span class="k">null</span> &amp;&amp; item.getPricePerUnit() != <span class="k">null</span>) {
-            <span class="k">double</span> amount = item.getQuantity() * item.getPricePerUnit();
-            holder.tvAmount.setText(context.getString(<span class="t">R</span>.string.amount_format, amount));
-        } <span class="k">else</span> {
-            holder.tvAmount.setText(<span class="s">""</span>);
-        }
-    }
-
-    <span class="c">/** @return wie viele Zeilen die Liste hat */</span>
-    <span class="a">@Override</span>
-    <span class="k">public</span> <span class="k">int</span> getItemCount() {
-        <span class="k">return</span> items.size();
-    }
-
-    <span class="c">/**
-     * Tauscht die angezeigten Einträge aus.
-     *
-     * notifyDataSetChanged zeichnet die ganze Liste neu. Das ist grob, aber
-     * verständlich und für fünf Zeilen völlig ausreichend.
-     *
-     * @param newItems die Einträge, die angezeigt werden sollen
-     */</span>
-    <span class="a">@SuppressWarnings</span>(<span class="s">"NotifyDataSetChanged"</span>)
-    <span class="k">public</span> <span class="k">void</span> setItems(<span class="t">List</span>&lt;<span class="t">ShoppingItem</span>&gt; newItems) {
-        items.clear();
-        items.addAll(newItems);
-        notifyDataSetChanged();
-    }
-}</pre>
 <h3>Schritt 3, die MainActivity</h3>
-<p>Der obere Teil ist unverändert aus dem Starter-Projekt. Neu sind die zwei Felder, die vier Zeilen am Schluss von <code>onCreate</code> und die Methode darunter.</p>
+<p>Der obere Teil ist unverändert aus dem Starter-Projekt. Neu sind das eine Feld, die zwei Zeilen am Schluss von <code>onCreate</code> und die zwei Methoden darunter. <b>Es gibt keine zweite Klasse.</b></p>
 <pre><span class="k">package</span> ch.wiss.m335.einkauf;
 
 <span class="k">import</span> android.os.<span class="t">Bundle</span>;
 <span class="k">import</span> android.util.<span class="t">Log</span>;
+<span class="k">import</span> android.view.<span class="t">LayoutInflater</span>;
+<span class="k">import</span> android.view.<span class="t">View</span>;
+<span class="k">import</span> android.widget.<span class="t">LinearLayout</span>;
+<span class="k">import</span> android.widget.<span class="t">TextView</span>;
 
 <span class="k">import</span> androidx.activity.<span class="t">EdgeToEdge</span>;
 <span class="k">import</span> androidx.appcompat.app.<span class="t">AppCompatActivity</span>;
 <span class="k">import</span> androidx.core.graphics.<span class="t">Insets</span>;
 <span class="k">import</span> androidx.core.view.<span class="t">ViewCompat</span>;
 <span class="k">import</span> androidx.core.view.<span class="t">WindowInsetsCompat</span>;
-<span class="k">import</span> androidx.recyclerview.widget.<span class="t">LinearLayoutManager</span>;
-<span class="k">import</span> androidx.recyclerview.widget.<span class="t">RecyclerView</span>;
 
 <span class="k">import</span> java.util.<span class="t">List</span>;
 
@@ -670,9 +544,13 @@
 <span class="c">/**
  * Die Startseite. Zeigt alle Einträge der Einkaufsliste.
  *
- * Die Activity holt die Daten aus der Datenbank und gibt sie an den Adapter
- * weiter. Sie rechnet nichts und zeichnet nichts. Das eine macht der Adapter,
- * das andere der RecyclerView.
+ * Die Liste ist zu Fuss gebaut. Eine Schleife läuft über die Einträge und
+ * hängt für jeden eine Zeile in das LinearLayout aus dem Layout. Bei fünf
+ * oder zwanzig Einträgen ist das genau richtig.
+ *
+ * Bei fünfhundert Einträgen wäre es falsch, denn dann stünden fünfhundert
+ * Zeilen im Speicher, von denen niemand mehr als fünfzehn sieht. Dafür gibt
+ * es den RecyclerView mit einem Adapter, gebaut in 06C und 08A.
  */</span>
 <span class="k">public</span> <span class="k">class</span> <span class="t">MainActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span> {
 
@@ -686,11 +564,12 @@
      */</span>
     <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="t">TAG</span> = <span class="s">"Modul335"</span>;
 
-    <span class="c">/** Die Liste auf dem Bildschirm. */</span>
-    <span class="k">private</span> <span class="t">RecyclerView</span> rvItems;
-
-    <span class="c">/** Füllt die Liste mit Zeilen. */</span>
-    <span class="k">private</span> <span class="t">ShoppingAdapter</span> adapter;
+    <span class="c">/**
+     * Der Behälter für die Zeilen.
+     *
+     * Im Layout ist er leer. Gefüllt wird er in buildItemList.
+     */</span>
+    <span class="k">private</span> <span class="t">LinearLayout</span> llItems;
 
     <span class="a">@Override</span>
     <span class="k">protected</span> <span class="k">void</span> onCreate(<span class="t">Bundle</span> savedInstanceState) {
@@ -715,16 +594,13 @@
 
         <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"MainActivity onCreate"</span>);
 
-        rvItems = findViewById(<span class="t">R</span>.id.rvItems);
-        adapter = <span class="k">new</span> <span class="t">ShoppingAdapter</span>();
-        rvItems.setLayoutManager(<span class="k">new</span> <span class="t">LinearLayoutManager</span>(<span class="k">this</span>));
-        rvItems.setAdapter(adapter);
+        llItems = findViewById(<span class="t">R</span>.id.llItems);
 
         loadItems();
     }
 
     <span class="c">/**
-     * Holt alle Einträge aus der Datenbank und gibt sie an den Adapter.
+     * Holt alle Einträge aus der Datenbank und lässt sie anzeigen.
      *
      * Eine eigene Methode und nicht drei Zeilen in onCreate. Sobald es ein
      * Formular gibt, muss die Liste nach der Rückkehr neu geladen werden, und
@@ -735,9 +611,53 @@
                 .shoppingItemDao()
                 .getAll();
 
-        adapter.setItems(items);
+        buildItemList(items);
 
         <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"items loaded, total="</span> + items.size());
+    }
+
+    <span class="c">/**
+     * Baut für jeden Eintrag eine Zeile und hängt sie in llItems.
+     *
+     * Das removeAllViews steht zuoberst und ist die Zeile, die man vergisst.
+     * Ohne sie hängt jeder Aufruf die Zeilen ein weiteres Mal an, und die
+     * Liste wird bei jedem Laden länger.
+     *
+     * Das dritte Argument von inflate ist false. Mit true hängt der Inflater
+     * die Zeile sofort selbst an, und das addView danach hängt sie ein
+     * zweites Mal an. Die Meldung dazu heisst "The specified child already
+     * has a parent".
+     *
+     * @param items die Einträge, die angezeigt werden sollen
+     */</span>
+    <span class="k">private</span> <span class="k">void</span> buildItemList(<span class="t">List</span>&lt;<span class="t">ShoppingItem</span>&gt; items) {
+        llItems.removeAllViews();
+
+        <span class="t">LayoutInflater</span> inflater = <span class="t">LayoutInflater</span>.from(<span class="k">this</span>);
+
+        <span class="k">for</span> (<span class="t">ShoppingItem</span> item : items) {
+            <span class="t">View</span> row = inflater.inflate(<span class="t">R</span>.layout.item_shopping, llItems, <span class="k">false</span>);
+
+            <span class="t">TextView</span> tvArticle = row.findViewById(<span class="t">R</span>.id.tvArticle);
+            <span class="t">TextView</span> tvShop = row.findViewById(<span class="t">R</span>.id.tvShop);
+            <span class="t">TextView</span> tvAmount = row.findViewById(<span class="t">R</span>.id.tvAmount);
+
+            tvArticle.setText(item.getArticle());
+            tvShop.setText(item.getShop());
+
+            <span class="c">// Der Betrag wird gerechnet und nirgends gespeichert. Nur wenn</span>
+            <span class="c">// beide Werte da sind. Fehlt einer, bleibt das Feld leer. Ein</span>
+            <span class="c">// leerer Text und nicht 0.00, denn 0.00 hiesse, der Eintrag</span>
+            <span class="c">// koste nichts.</span>
+            <span class="k">if</span> (item.getQuantity() != <span class="k">null</span> &amp;&amp; item.getPricePerUnit() != <span class="k">null</span>) {
+                <span class="k">double</span> amount = item.getQuantity() * item.getPricePerUnit();
+                tvAmount.setText(getString(<span class="t">R</span>.string.amount_format, amount));
+            } <span class="k">else</span> {
+                tvAmount.setText(<span class="s">""</span>);
+            }
+
+            llItems.addView(row);
+        }
     }
 }</pre>
 <h3>Zum Vergleich, das fertige Zeilenlayout</h3>
@@ -803,7 +723,7 @@
 
 <h2>06 Mögliche falsche KI-Rückmeldungen</h2>
 
-<p>Das ist eine Prüfliste und keine Anklage. Es ist nicht sicher, dass jede KI diese Fehler macht. Aber jeder davon ist im Zusammenhang mit Room und RecyclerView schon vorgekommen, und jeder kostet dich Zeit unter der Uhr.</p>
+<p>Das ist eine Prüfliste und keine Anklage. Es ist nicht sicher, dass jede KI diese Fehler macht. Aber jeder davon ist im Zusammenhang mit Room und mit Listen schon vorgekommen, und jeder kostet dich Zeit unter der Uhr.</p>
 
 <table>
 <tr><th>Was eine KI vorschlagen kann</th><th>Warum es hier nicht passt</th></tr>
@@ -812,14 +732,14 @@
 <tr><td>Die Abfrage gehört in einen eigenen Thread, mit <code>ExecutorService</code> oder Coroutines</td><td><b>Richtig gedacht und für eine echte App auch richtig.</b> Im Kurs gilt <code>allowMainThreadQueries()</code>, und das ist eine bewusste Entscheidung. Sag sie an der Prüfung dazu, dann ist es kein Mangel</td></tr>
 <tr><td>Die Entity als <code>record</code> oder mit Konstruktor und ohne Setter</td><td>Room braucht entweder Getter und Setter oder einen Konstruktor, der zu allen Feldern passt. <b>Die record-Falle hattest du schon in 03D</b></td></tr>
 <tr><td><code>fallbackToDestructiveMigration()</code> gegen die Schema-Meldung</td><td>Es funktioniert, und es <b>löscht deine Daten still</b>, bei jeder Änderung an der Entity. Für den Kurs ist <b>Clear storage</b> ehrlicher, denn dort siehst du, was passiert</td></tr>
-<tr><td>Ein <code>ListAdapter</code> mit <code>DiffUtil</code> statt <code>RecyclerView.Adapter</code></td><td>Deutlich besser für lange Listen, und im Kurs nicht behandelt. Unter Zeitdruck baust du das, was du erklären kannst</td></tr>
+<tr><td>Ein <code>RecyclerView</code> mit Adapter statt der Schleife</td><td><b>Nicht falsch, im Gegenteil.</b> Für lange Listen ist es der richtige Weg, und du hast ihn in 06C gebaut. Hier kostet er dich zwanzig Minuten und bringt keinen Punkt mehr. <b>Unter Zeitdruck baust du das Kürzere</b></td></tr>
 <tr><td><code>String.format("%.2f", betrag)</code> direkt im Java-Code</td><td>Läuft, aber der sichtbare Text steht dann nicht in <code>strings.xml</code>. <b>Im Bewertungsraster ist das die Zeile über die Formularfelder und die Standards</b></td></tr>
 <tr><td>ViewBinding statt <code>findViewById</code></td><td>Muss erst in <code>build.gradle.kts</code> eingeschaltet werden. Ist im Kurs nicht behandelt und kostet dich unter der Uhr mehr, als es bringt</td></tr>
-<tr><td>Der RecyclerView bekommt <code>layout_height="wrap_content"</code></td><td>Sieht im Hochformat gleich aus. <b>Im Querformat ist die Liste unten abgeschnitten</b>, und das sind 2 Punkte im Raster</td></tr>
+<tr><td>Die Liste kommt ohne ScrollView aus, oder die ScrollView bekommt <code>wrap_content</code></td><td>Sieht im Hochformat gleich aus. <b>Im Querformat ist die Liste unten abgeschnitten</b>, und das sind 2 Punkte im Raster</td></tr>
 </table>
 
 <div class="tip">
-<p><b>Die Frage, die alle acht Zeilen beantwortet:</b> kannst du erklären, was diese Zeile tut und warum sie da steht? Wenn nein, nimm die Version, die du erklären kannst. An der Prüfung sitzt niemand neben dir, aber du unterschreibst am Schluss, dass du deine Quellen kennzeichnest.</p>
+<p><b>Die Frage, die alle diese Zeilen beantwortet:</b> kannst du erklären, was diese Zeile tut und warum sie da steht? Wenn nein, nimm die Version, die du erklären kannst. An der Prüfung sitzt niemand neben dir, aber du unterschreibst am Schluss, dass du deine Quellen kennzeichnest.</p>
 </div>
 
 <h2>07 Wie es weitergeht</h2>
@@ -837,7 +757,7 @@
 </ul>
 </div>
 
-<p class="foot">Modul 335 | Tag 5 Vormittag | Lösungsmaterial 09A | Version 1 | 26.08.2026</p>
+<p class="foot">Modul 335 | Tag 5 Vormittag | Lösungsmaterial 09A | Version 2 | 04.09.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->
