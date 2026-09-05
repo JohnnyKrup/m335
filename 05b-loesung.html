@@ -21,7 +21,7 @@
 <div class="wrap">
 
 <h1>05B Lösung: MainActivity und Ergebnis zurück</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Lösungsmaterial zum Auftrag 05B. Version 2 vom 16.08.2026.</p>
+<p class="sub">Modul 335 Mobile Applikationen, Lösungsmaterial zum Auftrag 05B. Version 3 vom 05.09.2026.</p>
 
 <div class="info">
 <p><b>Wie du das hier benutzt.</b> Nicht abtippen. Vergleichen. Die Begründung ist der eigentliche Inhalt, der Code ist nur der Beleg dazu.</p>
@@ -151,15 +151,21 @@
 
 <div class="ue">
 <p class="t">C2, das alte Ergebnis liegt noch im Speicher</p>
-<p><b>Was du siehst:</b> Runde fertig spielen, <b>Nochmals spielen</b> antippen, mitten drin abbrechen. Im Menü steht plötzlich ein Punktestand, obwohl du gerade abgebrochen hast.</p>
+<p><b>Was du siehst:</b> App neu starten, Runde fertig spielen, <b>Nochmals spielen</b> antippen, mitten drin abbrechen. Im Menü steht plötzlich ein Punktestand, obwohl du gerade abgebrochen hast.</p>
+<p><b>Der Ablauf muss genau so sein.</b> Wer zwischen den zwei Runden ins Menü zurückgeht, bekommt beim nächsten <b>Spielen</b> eine frische <code>GameActivity</code>. Die hat nichts hinterlegt, und der Abbruch ändert nichts. Das ist Weg 3 aus B4 und kein Fehler.</p>
 <p><b>Warum:</b> Das Ergebnis der ersten Runde liegt noch bereit. <code>Nochmals spielen</code> startet keine neue Activity.</p>
 <p><b>Falsch ist die Zahl nicht.</b> Die erste Runde ging wirklich so aus. Sie kommt nur zum falschen Zeitpunkt, und darum liest sie sich wie ein Fehler.</p>
 <p><b>Die häufigsten Fehlbeobachtungen:</b></p>
 <ul>
 <li>"die abgebrochene Runde wurde mitgezählt" ist falsch. Es ist der Stand der Runde davor.</li>
 <li>"das Menü hat sich einfach nicht aktualisiert" ist falsch. Es hat sich sehr wohl aktualisiert, nur mit einem alten Wert.</li>
+<li>"bei mir passiert gar nichts, diese Stelle gibt es nicht" heisst fast immer, dass der Umweg über das Menü genommen wurde. Ohne <b>Nochmals spielen</b> zeigt sich der Fall nicht.</li>
+<li>"beim Abbruch kommt gar kein Ereignis" ist falsch. Der Rückweg läuft bei jedem Verlassen. Nur der Block hinter <code>if (result.getResultCode() == RESULT_OK ...)</code> läuft nicht, und dort steht dein <code>Log.d</code>.</li>
 </ul>
 <p><b>Der Satz, den du dir merkst:</b> wer etwas setzt, ist auch fürs Zurücksetzen zuständig.</p>
+<div class="tip">
+<p><b>Zurückgesetzt wird nur die Ergebnis-Marke der Activity.</b> Nicht der Text im Menü und nicht <code>lastScore</code> und <code>lastTotal</code>. Der alte Text bleibt stehen, weil der Rückweg zwar läuft, aber nicht mehr auf <code>RESULT_OK</code> trifft. Und bei der ersten Runde ändert die Zeile nichts, denn eine frisch gestartete Activity steht ohnehin auf <code>RESULT_CANCELED</code>.</p>
+</div>
 </div>
 
 
@@ -494,7 +500,7 @@ btnBackToMain.setOnClickListener(v -&gt; finish());</pre>
 <p>Zuerst der <b>05AB Wissenscheck</b> über beide Aufträge des Vormittags.</p>
 <p>Danach <b>05C</b>. Dort bekommt der Spielbildschirm einen dritten Bereich, in dem du die Kategorie wählst. Und aus den verstreuten <code>setVisibility</code>-Aufrufen wird endlich eine einzige Methode.</p>
 
-<p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 05B MainActivity und Ergebnis zurück &middot; Version 2 vom 16.08.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
+<p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 05B MainActivity und Ergebnis zurück &middot; Version 3 vom 05.09.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->

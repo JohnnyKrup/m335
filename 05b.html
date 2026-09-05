@@ -21,7 +21,7 @@
 <div class="wrap">
 
 <h1>05B MainActivity und Ergebnis zurück</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Tag 3 Vormittag. Zeitbudget 40 Minuten. Version 2 vom 16.08.2026.</p>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 3 Vormittag. Zeitbudget 40 Minuten. Version 3 vom 05.09.2026.</p>
 
 
 <h2>01 Einführung</h2>
@@ -227,12 +227,14 @@ btnBackToMain                             <span class="c">setzt den Text</span>
 </div>
 
 <div class="chk">
-<p><b>So prüfst du Teil A.</b></p>
+<p><b>So prüfst du Teil A.</b> Jeder Punkt sagt dir, was du tust und was du danach sehen musst.</p>
 <ul>
-<li>Nichts ist rot.</li>
-<li>Spiel eine Runde zu Ende. Unter <b>Nochmals spielen</b> steht jetzt <b>Zurück zum Start</b>, beide mittig.</li>
-<li>Der neue Knopf bringt dich ins Menü. Dort ändert sich noch nichts, das kommt in Teil B.</li>
-<li>Im Logcat unter <code>tag:Modul335</code> steht <code>result published, score=</code> mit deinem Punktestand.</li>
+<li><b>Nichts ist rot</b>, und <code>EXTRA_SCORE</code> und <code>EXTRA_TOTAL</code> stehen auf <code>public static final</code>.</li>
+<li><b>Start die App</b> und tipp auf <b>Spielen</b>. Spiel die Runde ganz durch, bis der Ergebnisbereich erscheint.</li>
+<li><b>Im Ergebnisbereich</b> steht unter <b>Nochmals spielen</b> ein zweiter Knopf mit dem Text <b>Zurück zum Start</b>. Beide stehen mittig, nicht links.</li>
+<li><b>Tipp auf <code>Zurück zum Start</code>.</b> Du landest im Menü. Oben im Menü ändert sich noch nichts, denn die Anzeige dafür gibt es erst in Teil B.</li>
+<li><b>Filtre den Logcat auf <code>tag:Modul335</code>.</b> Dort steht jetzt eine Zeile <code>result published, score=4/5</code>, mit deinen eigenen Zahlen.</li>
+<li><b>Achte darauf, wann diese Zeile kommt.</b> Sie erscheint erst beim Tippen auf den Knopf, nicht schon beim Erscheinen des Ergebnisses. Das ist im Moment richtig so und ändert sich in C1.</li>
 </ul>
 </div>
 
@@ -373,13 +375,14 @@ gameLauncher = registerForActivityResult(
 </div>
 
 <div class="chk">
-<p><b>So prüfst du Teil B.</b></p>
+<p><b>So prüfst du Teil B.</b> Das ist der Stand <b>vor</b> Teil C. Zwei der drei Wege funktionieren hier noch nicht, und das ist Absicht.</p>
 <ul>
-<li>Beim ersten Start steht oben <b>Noch keine Runde gespielt</b>.</li>
-<li>Nach Weg 1 steht dort dein Punktestand.</li>
-<li>Nach Weg 3 steht der <b>alte</b> Text weiterhin da, nicht <b>0 von 0</b>.</li>
-<li>Im Logcat steht bei Weg 1 zuerst <code>result published</code> und danach <code>result received</code>.</li>
-<li>Bei Weg 3 steht <b>kein</b> <code>result received</code> im Logcat.</li>
+<li><b>Vorher:</b> Start die App neu. Zwischen dem Titel und dem Knopf <b>Spielen</b> steht jetzt eine neue Zeile mit dem Text <b>Noch keine Runde gespielt.</b></li>
+<li><b>Weg 1</b>, Runde fertig spielen, dann der Knopf <b>Zurück zum Start</b>: oben steht jetzt dein Punktestand, zum Beispiel <b>Letzte Runde: 4 von 5 Punkten.</b> Im Logcat stehen zwei Zeilen, zuerst <code>result published</code>, direkt danach <code>result received</code>.</li>
+<li><b>Weg 2</b>, Runde fertig spielen, dann die <b>System-Zurück-Taste</b>: oben ändert sich <b>nichts</b>, es steht noch der Text von vorhin. Im Logcat steht <b>weder</b> <code>result published</code> <b>noch</b> <code>result received</code>. <b>Das ist der Fehler</b>, und C1 repariert ihn.</li>
+<li><b>Weg 3</b>, im Menü auf <b>Spielen</b> und mitten in der Runde abbrechen: oben steht der <b>alte</b> Text weiterhin da, nicht <b>0 von 0 Punkten</b>. Im Logcat steht ebenfalls keine der zwei Zeilen.</li>
+<li><b>Weg 2 und Weg 3 sehen gleich aus, und das ist die Falle.</b> Bei Weg 2 gab es ein Ergebnis, und niemand hat es hinterlegt. Bei Weg 3 gab es keines, und dass nichts ankommt, ist genau richtig. Schreib dir den Unterschied auf, danach fragt der Wissenscheck.</li>
+<li><b>Steht bei Weg 3 plötzlich <code>0 von 0 Punkten</code></b>, fehlt dir die Prüfung auf <code>RESULT_OK</code> in B3.</li>
 </ul>
 </div>
 
@@ -410,8 +413,20 @@ Log.d(TAG, <span class="s">"round finished, score="</span> + score);</pre>
 
 <div class="step">
 <p><span class="n">C2</span><b>Und die Kehrseite. Das alte Ergebnis zurücknehmen.</b></p>
-<p>Probier zuerst das hier aus. Spiel eine Runde ganz durch. Tipp dann auf <b>Nochmals spielen</b> und brich diese zweite Runde <b>mitten drin</b> mit der Zurück-Taste ab.</p>
-<p><b>Was steht im Menü?</b> Es steht ein Punktestand da, obwohl du gerade abgebrochen hast.</p>
+<p>Probier zuerst das hier aus. Halt dich genau an diese vier Schritte, sonst siehst du nichts.</p>
+<ol>
+<li>Start die App neu. Oben im Menü steht <b>Noch keine Runde gespielt</b>.</li>
+<li>Tipp auf <b>Spielen</b> und spiel die Runde ganz durch, bis der Ergebnisbereich kommt.</li>
+<li>Tipp auf <b>Nochmals spielen</b>. Geh dazwischen <b>nicht</b> ins Menü zurück.</li>
+<li>Brich diese zweite Runde <b>mitten drin</b> mit der System-Zurück-Taste ab, etwa bei Frage 3.</li>
+</ol>
+<p><b>Was steht im Menü?</b> Statt <b>Noch keine Runde gespielt</b> steht plötzlich der Punktestand der ersten Runde da, obwohl du gerade abgebrochen hast.</p>
+<div class="warn">
+<p><b>Der Umweg über das Menü löscht den Fehler.</b> Wer nach der ersten Runde ins Menü zurückgeht und dann neu auf <b>Spielen</b> tippt, bekommt eine frische <code>GameActivity</code>. Die hat noch nichts hinterlegt, und ein Abbruch ändert dann zu Recht gar nichts. Das ist Weg 3 aus B4. Der Fall aus C2 zeigt sich nur über <b>Nochmals spielen</b>.</p>
+<p><b>Und im Logcat siehst du von einem Abbruch nichts.</b> Der Rückweg läuft zwar bei jedem Verlassen, auch beim Abbruch. Dein <code>Log.d</code> steht aber im <code>if</code> auf <code>RESULT_OK</code> und läuft darum nur bei einem echten Ergebnis. Willst du den Rückweg trotzdem sehen, setz für einen Moment eine Zeile <b>vor</b> das <code>if</code> in der <code>MainActivity</code>:</p>
+<pre>Log.d(TAG, <span class="s">"launcher callback, code="</span> + result.getResultCode());</pre>
+<p><code>RESULT_OK</code> ist -1, <code>RESULT_CANCELED</code> ist 0. Nimm die Zeile danach wieder weg.</p>
+</div>
 <div class="note">
 <p><b>Der Grund steht im Überblick.</b> Das Ergebnis der ersten Runde liegt noch im Speicher. <b>Nochmals spielen</b> startet keine neue Activity, sondern nur eine neue Runde. Also wird beim Verlassen das alte Ergebnis ausgeliefert.</p>
 <p>Falsch ist die Zahl nicht, die erste Runde ging wirklich so aus. Aber sie kommt zum falschen Zeitpunkt, und das verwirrt.</p>
@@ -419,6 +434,10 @@ Log.d(TAG, <span class="s">"round finished, score="</span> + score);</pre>
 <p>Also nimmst du das alte Ergebnis zurück, sobald eine neue Runde beginnt. In <code>startRound</code>, als <b>erste</b> Zeile im Methodenrumpf:</p>
 <pre><span class="c">// Eine neue Runde macht das alte Ergebnis ungültig, bis sie fertig ist.</span>
 setResult(RESULT_CANCELED);</pre>
+<div class="note">
+<p><b>Was diese Zeile zurücksetzt, und was nicht.</b> Sie setzt einzig die <b>Ergebnis-Marke der GameActivity</b> zurück, also das, was beim Beenden ausgeliefert wird. Sie rührt weder den Text im Menü an noch die Felder <code>lastScore</code> und <code>lastTotal</code>. Der alte Text bleibt danach stehen, weil der Rückweg zwar läuft, aber nicht mehr auf <code>RESULT_OK</code> trifft.</p>
+<p><b>Bei der ersten Runde ändert die Zeile nichts</b>, denn eine frisch gestartete Activity steht ohnehin auf <code>RESULT_CANCELED</code>. Sie wirkt erst ab der zweiten Runde in derselben Activity.</p>
+</div>
 <div class="tip">
 <p><b>Jetzt ist die Regel vollständig.</b> Leg ein Ergebnis bereit, sobald es feststeht, und nimm es zurück, sobald es nicht mehr gilt.</p>
 <p><b>Das ist dasselbe Paar wie <code>addView</code> und <code>removeAllViews</code> in 04B.</b> Wer etwas setzt, ist auch fürs Zurücksetzen zuständig. Zwei Fälle, ein Prinzip.</p>
@@ -458,14 +477,15 @@ setResult(RESULT_CANCELED);</pre>
 </div>
 
 <div class="chk">
-<p><b>So prüfst du Teil C.</b></p>
+<p><b>So prüfst du Teil C.</b> Du gehst dieselben Wege nochmals. Einer verhält sich jetzt anders als vorher, und einer kommt dazu. <b>Start die App vor jedem Durchgang neu</b>, sonst steht oben schon ein Punktestand und du siehst keinen Unterschied.</p>
 <ul>
-<li>Weg 2 aus B4 nochmals: Runde ganz durchspielen, dann mit der <b>System-Zurück-Taste</b> raus. Jetzt steht der Punktestand im Menü.</li>
-<li>Weg 1 geht immer noch, mit dem Knopf.</li>
-<li>Weg 3 verändert den Text weiterhin nicht.</li>
-<li><b>Der Fall aus C2:</b> Runde fertig, dann <b>Nochmals spielen</b>, dann mitten drin abbrechen. Jetzt bleibt der alte Text stehen, statt sich zu ändern.</li>
-<li>Im Logcat steht bei diesem Abbruch <b>kein</b> <code>result received</code>.</li>
-<li>Im Logcat steht <code>result published</code> jetzt schon, <b>sobald das Ergebnis erscheint</b>, und nicht erst beim Verlassen.</li>
+<li><b>Weg 2, der reparierte:</b> Runde ganz durchspielen, dann mit der <b>System-Zurück-Taste</b> raus. Oben steht jetzt <b>Letzte Runde: 4 von 5 Punkten.</b> Vor C1 stand dort noch <b>Noch keine Runde gespielt.</b> <b>Das ist der Beweis, dass C1 gewirkt hat.</b></li>
+<li><b>Weg 1 geht weiterhin:</b> dasselbe mit dem Knopf <b>Zurück zum Start</b> ergibt denselben Text.</li>
+<li><b>Weg 3 ändert weiterhin nichts:</b> im Menü auf <b>Spielen</b>, mitten in der Runde abbrechen. Oben bleibt der Text stehen, den du vorher gesehen hast.</li>
+<li><b>Der Fall aus C2:</b> App neu starten, Runde fertig spielen, <b>Nochmals spielen</b> tippen, dann mitten drin abbrechen. Geh dazwischen <b>nicht</b> ins Menü. Oben steht weiterhin <b>Noch keine Runde gespielt</b>, statt dass plötzlich ein Punktestand erscheint. <b>Das ist der Beweis, dass C2 gewirkt hat.</b></li>
+<li><b>Die Gegenprobe:</b> kommentier <code>setResult(RESULT_CANCELED)</code> kurz aus und mach denselben Durchgang nochmals. Jetzt erscheint der Punktestand der ersten Runde. Danach die Zeile wieder einschalten.</li>
+<li><b>Im Logcat, auf den Zeitpunkt achten:</b> <code>result published</code> steht jetzt schon da, <b>sobald der Ergebnisbereich erscheint</b>, und nicht erst beim Verlassen. Genau das hat C1 verschoben.</li>
+<li><b>Beim Abbruch aus C2 steht kein <code>result received</code>.</b> Der Rückweg läuft trotzdem, er trifft nur nicht mehr auf <code>RESULT_OK</code>. Sehen kannst du ihn mit der Zeile aus dem Kasten in C2.</li>
 <li>In keinem deiner zwei Klassenkommentare steht noch das Wort HIER oder eine leere Klammer.</li>
 </ul>
 </div>
@@ -516,6 +536,8 @@ setResult(RESULT_CANCELED);</pre>
 <tr><td>Der Knopf <b>Zurück zum Start</b> steht links statt mittig</td><td><code>android:layout_gravity</code> fehlt</td><td>Siehe A1. Der Parent ordnet seit 04B nicht mehr an</td></tr>
 <tr><td>Beim ersten Start steht die Anzeige leer</td><td>Der Aufruf <code>showLastScore()</code> am Ende von <code>onCreate</code> fehlt</td><td>Siehe B3. Ohne ihn setzt niemand den Anfangstext</td></tr>
 <tr><td>Nach <b>Nochmals spielen</b> und einem Abbruch erscheint plötzlich ein Punktestand</td><td><code>setResult(RESULT_CANCELED)</code> in <code>startRound</code> fehlt. Das Ergebnis der Runde davor liegt noch im Speicher</td><td>Siehe C2</td></tr>
+<tr><td>Der Fall aus C2 tritt bei dir gar nicht auf, es ändert sich nichts</td><td>Du bist zwischen den zwei Runden ins Menü gegangen. Dann startet <b>Spielen</b> eine frische Activity, und die hat nichts hinterlegt</td><td>Siehe C2. Der Fall zeigt sich nur über <b>Nochmals spielen</b></td></tr>
+<tr><td>Beim Abbruch erscheint gar keine Zeile im Logcat</td><td>Keine. Der Rückweg läuft, aber dein <code>Log.d</code> steht im <code>if</code> auf <code>RESULT_OK</code></td><td>Das ist richtig so. Nachschauen kannst du mit der Zeile aus dem Kasten in C2</td></tr>
 <tr><td>Nach <b>Nochmals spielen</b> steht im Menü noch der alte Wert</td><td>Keine. Das Menü sieht die neue Runde erst, wenn du den Spielbildschirm verlässt</td><td>Das ist richtig so</td></tr>
 </table>
 
@@ -580,7 +602,7 @@ setResult(RESULT_CANCELED);</pre>
 </table>
 
 
-<p class="foot">Modul 335 | Tag 3 Vormittag | Auftrag 05B | Version 2 | 16.08.2026</p>
+<p class="foot">Modul 335 | Tag 3 Vormittag | Auftrag 05B | Version 3 | 05.09.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->
