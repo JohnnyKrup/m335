@@ -192,6 +192,10 @@ setResult(RESULT_OK, data);</pre>
 
 <p>Und die erste Seite braucht einen Empfänger dafür, den <code>ActivityResultLauncher</code>.</p>
 
+<div class="tip">
+<p style="margin:0"><b>Das Muster dahinter heisst Rückruf</b>, und es ist dasselbe wie beim <code>setOnClickListener</code>. Warum das so gebaut ist und warum die Anmeldung in <code>onCreate</code> gehört, steht in <a href="/rueckruf">Rückruf verstehen</a>.</p>
+</div>
+
 <pre><span class="k">private</span> <span class="t">ActivityResultLauncher</span>&lt;<span class="t">Intent</span>&gt; gameLauncher;
 
 <span class="c">// in onCreate, nicht erst beim Klick</span>

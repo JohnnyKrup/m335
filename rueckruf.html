@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M335 Rückruf verstehen</title>
+<!--M335:STIL-->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="stylesheet" href="/stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+<h1>Rückruf verstehen</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Nachschlageblatt. Lesezeit etwa 17 Minuten. Version 1 vom 05.09.2026.</p>
+<p class="sub">Warum du Android eine Funktion gibst, statt ein Ergebnis abzuholen. Das eine Muster hinter <code>setOnClickListener</code>, dem <code>ActivityResultLauncher</code> und dem Klick auf eine Zeile.</p>
+
+<div class="tip">
+<p><b>Lies das, sobald dich der erste Knopf verwirrt hat.</b> Davor gehört <a href="/activity">Die Activity von innen</a>. Dort steht, wer deine Methoden aufruft. Hier steht, wie du selbst etwas hinterlegst, das später aufgerufen wird.</p>
+</div>
+
+<h2>01 Die Frage, um die es geht</h2>
+
+<p>Du hast einen Knopf im Layout. Du willst wissen, wann jemand darauf tippt. Das Naheliegende wäre, ihn zu fragen.</p>
+
+<pre><span class="c">// So geht es NICHT. Diese Methode gibt es nicht.</span>
+<span class="k">if</span> (btnNext.wasClicked()) {
+    showNextQuestion();
+}</pre>
+
+<p>Überleg kurz, was du bauen müsstest, damit diese Zeile funktioniert. Sie steht irgendwo in deinem Code. Sie wird einmal ausgeführt, in dem Moment, in dem sie dran ist. Danach nie wieder.</p>
+
+<p><b>Der Nutzer tippt aber nicht in diesem Moment.</b> Er tippt vielleicht in drei Sekunden, vielleicht in zwei Minuten, vielleicht nie. Damit dein <code>if</code> das mitbekommt, müsstest du es in eine Endlosschleife stecken und tausendmal pro Sekunde fragen. Solange die Schleife läuft, macht dein Programm nichts anderes mehr. Der Bildschirm wäre eingefroren.</p>
+
+<div class="chk">
+<p><b>Also wird es umgedreht.</b> Du fragst nicht, ob etwas passiert ist. Du hinterlegst vorher, <b>was passieren soll</b>, wenn es passiert. Android ruft dich dann zurück.</p>
+</div>
+
+<p>Genau das ist ein <b>Rückruf</b>. Im Englischen heisst er Callback, und dieses Wort steht auch in den Android-Klassennamen: <code>OnClickListener</code>, <code>ActivityResultCallback</code>, <code>OnQuestionClickListener</code>.</p>
+
+<p>Es ist <b>ein</b> Muster, und es kommt in deinem WissQuiz an drei sehr verschiedenen Stellen vor. Sie sehen unterschiedlich aus. Sie sind es nicht.</p>
+
+<table>
+<tr><th>Wo</th><th>Wie es heisst</th><th>Wer ruft zurück</th><th>Gebaut in</th></tr>
+<tr><td><b>Der Knopf</b></td><td><code>setOnClickListener</code></td><td>Der Knopf selbst</td><td>01C, 03C</td></tr>
+<tr><td><b>Der zweite Bildschirm</b></td><td><code>registerForActivityResult</code></td><td>Android, nach dem Ende der Activity</td><td>05B</td></tr>
+<tr><td><b>Die Zeile in der Liste</b></td><td>deine eigene Schnittstelle</td><td>Deine eigene Klasse</td><td>08C</td></tr>
+</table>
+
+<p>Die dritte Stelle ist die wichtigste für dein Verständnis. <b>Dort baust du den Rückruf selbst</b>, statt einen fertigen zu benutzen. Abschnitt 03 zeigt alle drei nebeneinander.</p>
+
+<h2>02 Das Bild</h2>
+
+<p>Zuerst der kurze Fall, der Knopf. Zwei Zeitpunkte, und zwischen ihnen liegt das Warten.</p>
+
+<pre><span class="c">   ZEITPUNKT 1   onCreate läuft
+        |
+        |  btnNext.setOnClickListener(v -> onNextClicked());
+        |        du gibst dem Knopf einen Zettel
+        v
+   +-----------+
+   |  btnNext  |  der Knopf hält den Zettel fest
+   +-----------+
+        |
+        |        ... Minuten vergehen. Dein Code läuft nicht mehr.
+        |            Die Activity ist sichtbar und wartet.
+        |
+   ZEITPUNKT 2   der Nutzer tippt
+        |
+        |  der Knopf holt den Zettel hervor und ruft an
+        v
+   onNextClicked()   DEINE Methode läuft, jetzt erst</span></pre>
+
+<div class="note">
+<p><b>Der Zettel ist der Vergleich, der trägt.</b> Du gibst deine Telefonnummer ab und gehst. Wer sie hat, entscheidet, wann er anruft. Ob überhaupt jemand anruft, weisst du beim Abgeben nicht.</p>
+</div>
+
+<p>Und jetzt der lange Fall, das Ergebnis aus einem zweiten Bildschirm. Der Zettel geht denselben Weg, nur liegt zwischen Abgabe und Anruf eine ganze Activity.</p>
+
+<pre><span class="c">   MainActivity, onCreate
+        |
+        |  gameLauncher = registerForActivityResult(..., result -> { ... });
+        |        du meldest den Zettel bei ANDROID an, nicht bei der GameActivity
+        v
+   +---------------+
+   |    ANDROID    |  merkt sich: MainActivity wartet auf ein Ergebnis
+   +---------------+
+        |
+        |  gameLauncher.launch(new Intent(this, GameActivity.class));
+        v
+   GameActivity     läuft, spielt eine Runde, dauert Minuten
+        |
+        |  setResult(RESULT_OK, data);
+        |  finish();
+        v
+   +---------------+
+   |    ANDROID    |  jetzt erst wird ausgeliefert
+   +---------------+
+        |
+        v
+   result -> { ... }   DEIN Rückruf läuft in der MainActivity</span></pre>
+
+<div class="warn">
+<p><b>Die GameActivity kennt deinen Rückruf nicht.</b> Sie bekommt ihn nicht übergeben, sie sieht ihn nie, sie weiss nicht einmal, wer sie gestartet hat. Sie sagt nur <i>mein Ergebnis ist das hier</i> und endet. Android stellt die Verbindung her. <b>Das ist der grosse Unterschied zum Knopf</b>, und Abschnitt 05 sagt, warum es so gebaut ist.</p>
+</div>
+
+<h2>03 Die Teile einzeln</h2>
+
+<p>Jeder Rückruf besteht aus vier Teilen. Sie heissen überall anders und tun überall dasselbe.</p>
+
+<table>
+<tr><th>Teil</th><th>Was er tut</th><th>Wann er läuft</th></tr>
+<tr><td><b>Der Auslöser</b></td><td>Das Bauteil, das etwas bemerkt. Ein Knopf, eine Activity, eine Zeile</td><td>irgendwann später</td></tr>
+<tr><td><b>Die Anmeldung</b></td><td>Der Aufruf, mit dem du deinen Zettel abgibst. Heisst <code>set...</code> oder <code>register...</code></td><td><b>genau einmal, früh</b></td></tr>
+<tr><td><b>Der Rückruf</b></td><td>Dein Code. Meistens ein Lambda mit <code>-&gt;</code></td><td>bei jedem Ereignis, oder nie</td></tr>
+<tr><td><b>Das Mitgebrachte</b></td><td>Was der Auslöser dir übergibt. Das <code>v</code>, das <code>result</code>, die <code>question</code></td><td>zusammen mit dem Rückruf</td></tr>
+</table>
+
+<p>Jetzt dieselben vier Teile dreimal, in aufsteigender Schwierigkeit.</p>
+
+<h3>Der Knopf, die einfachste Form</h3>
+
+<pre><span class="c">// in onCreate, aus deinem WissQuiz</span>
+button.setOnClickListener(v -&gt; onAnswerClicked(v));</pre>
+
+<p>Eine Zeile, alle vier Teile drin. Der Auslöser ist <code>button</code>. Die Anmeldung ist <code>setOnClickListener</code>. Der Rückruf ist alles rechts vom Pfeil. Das Mitgebrachte ist <code>v</code>, also der Knopf, auf den wirklich getippt wurde.</p>
+
+<div class="tip">
+<p><b>Warum das <code>v</code> nützlich ist:</b> in 03C hängt derselbe Rückruf an allen vier Antwortknöpfen. Ohne <code>v</code> wüsstest du in <code>onAnswerClicked</code> nicht, welcher es war.</p>
+</div>
+
+<h3>Der Launcher, über den Bildschirmwechsel</h3>
+
+<p>Hier stehen die vier Teile nicht mehr beieinander. Sie sind über drei Stellen verteilt.</p>
+
+<pre><span class="c">// Teil 1, das Feld der Klasse</span>
+<span class="k">private</span> <span class="t">ActivityResultLauncher</span>&lt;<span class="t">Intent</span>&gt; gameLauncher;
+
+<span class="c">// Teil 2, die Anmeldung. In onCreate, nicht später</span>
+gameLauncher = registerForActivityResult(
+        <span class="k">new</span> <span class="t">ActivityResultContracts</span>.StartActivityForResult(),
+        result -&gt; {
+            <span class="k">if</span> (result.getResultCode() == RESULT_OK &amp;&amp; result.getData() != <span class="k">null</span>) {
+                lastScore = result.getData().getIntExtra(<span class="t">GameActivity</span>.EXTRA_SCORE, <span class="s">0</span>);
+                showLastScore();
+            }
+        });
+
+<span class="c">// Teil 3, das Auslösen. Im Klick-Rückruf des Knopfes</span>
+btnPlay.setOnClickListener(v -&gt; gameLauncher.launch(<span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">GameActivity</span>.<span class="k">class</span>)));</pre>
+
+<p><b>Schau dir die letzte Zeile genau an.</b> Dort stecken zwei Rückrufe ineinander. Der äussere ist der Klick. Der innere ist der Launcher, und der ist zu diesem Zeitpunkt längst angemeldet.</p>
+
+<p>Der Auslöser ist hier nicht mehr ein Bauteil deiner Activity, sondern <b>Android selbst</b>. Das Mitgebrachte heisst <code>result</code> und enthält zwei Dinge: einen Code, ob es geklappt hat, und einen Intent mit den Daten.</p>
+
+<h3>Deine eigene Schnittstelle</h3>
+
+<p>Jetzt der Fall, in dem es keinen fertigen Rückruf gibt. Deine Zeile in der Fragenliste soll auf Antippen reagieren. Der <code>QuestionAdapter</code> baut die Zeile, aber er darf nicht entscheiden, was beim Antippen passiert. Das ist die Sache der Activity.</p>
+
+<p><b>Also beschreibt der Adapter, welchen Zettel er annimmt.</b> Genau eine Methode, mehr nicht.</p>
+
+<pre><span class="c">// im QuestionAdapter, aus 08C</span>
+<span class="k">public interface</span> <span class="t">OnQuestionClickListener</span> {
+    <span class="k">void</span> onQuestionClick(<span class="t">QuestionEntity</span> question);
+}
+
+<span class="k">private final</span> <span class="t">OnQuestionClickListener</span> listener;
+
+<span class="k">public</span> <span class="t">QuestionAdapter</span>(<span class="t">OnQuestionClickListener</span> listener) {
+    <span class="k">this</span>.listener = listener;
+}</pre>
+
+<p>Und in der Zeile selbst leitet er nur weiter. Er entscheidet nichts.</p>
+
+<pre>holder.itemView.setOnClickListener(v -&gt; listener.onQuestionClick(question));</pre>
+
+<p>Die Activity gibt sich beim Bauen des Adapters selbst mit.</p>
+
+<pre><span class="c">// AdminActivity</span>
+<span class="k">public class</span> <span class="t">AdminActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span>
+        <span class="k">implements</span> <span class="t">QuestionAdapter</span>.<span class="t">OnQuestionClickListener</span> {
+
+    adapter = <span class="k">new</span> <span class="t">QuestionAdapter</span>(<span class="k">this</span>);
+
+    <span class="k">public void</span> onQuestionClick(<span class="t">QuestionEntity</span> question) {
+        <span class="t">Intent</span> intent = <span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">QuestionEditActivity</span>.<span class="k">class</span>);
+        intent.putExtra(<span class="t">QuestionEditActivity</span>.EXTRA_QUESTION_ID, question.getId());
+        startActivity(intent);
+    }
+}</pre>
+
+<div class="chk">
+<p><b>Das <code>this</code> im Konstruktor ist der ganze Punkt.</b> Die Activity reicht sich selbst als Zettel durch. Der Adapter kennt von ihr nur die eine Methode aus der Schnittstelle. Alles andere an der Activity ist für ihn unsichtbar, und das ist gewollt.</p>
+</div>
+
+<div class="note">
+<p><b>Diesen Fall siehst du nur beim RecyclerView.</b> Baust du die Liste zu Fuss, hängst du den <code>setOnClickListener</code> direkt in der Schleife an die Zeile, und der Eintrag steht als Variable schon da. Der Vergleich der zwei Wege steht in <a href="/listen">Listen verstehen</a>.</p>
+</div>
+
+<h2>04 Wie es zusammenspielt</h2>
+
+<p>Alle Fehler mit Rückrufen kommen aus einer einzigen Verwechslung: <b>Anmeldung und Rückruf laufen zu völlig verschiedenen Zeiten.</b> Im Code stehen sie nebeneinander. In der Zeit liegen Minuten dazwischen.</p>
+
+<table>
+<tr><th>Die Anmeldung</th><th>Der Rückruf</th></tr>
+<tr><td>läuft <b>genau einmal</b></td><td>läuft <b>keinmal, einmal oder hundertmal</b></td></tr>
+<tr><td>läuft, wenn du sie hinschreibst</td><td>läuft irgendwann später</td></tr>
+<tr><td>gibt nichts zurück, was dich interessiert</td><td>bekommt etwas mitgeliefert</td></tr>
+<tr><td>gehört in <code>onCreate</code></td><td>gehört nirgendwo hin, er wird gerufen</td></tr>
+</table>
+
+<h3>Drei Regeln, die daraus folgen</h3>
+
+<div class="step"><p><span class="n">1</span> <b>Anmelden gehört nach oben, nicht in den Klick.</b> Ein <code>registerForActivityResult</code> im Klick-Rückruf stürzt ab. Warum, steht gleich unten.</p></div>
+
+<div class="step"><p><span class="n">2</span> <b>Was im Rückruf steht, läuft nicht sofort.</b> Wer <code>setOnClickListener</code> hinschreibt und danach eine Zeile erwartet, die den Klick schon verarbeitet hat, wartet vergebens. Ein <code>Log.d</code> direkt nach der Anmeldung beweist das in fünf Sekunden.</p></div>
+
+<div class="step"><p><span class="n">3</span> <b>Der Rückruf sieht die Welt von später, nicht die von damals.</b> Er liest die Felder deiner Klasse in dem Zustand, in dem sie beim Aufruf sind. Genau deshalb kann er überhaupt nützlich sein.</p></div>
+
+<h3>Warum der Launcher in onCreate entstehen muss</h3>
+
+<p>Das ist die einzige Stelle, an der Android streng ist, und sie hat einen handfesten Grund.</p>
+
+<p>Solange deine <code>GameActivity</code> vorne ist, braucht dein Gerät die <code>MainActivity</code> nicht. Wird der Speicher knapp, räumt Android sie ab. Kommt der Nutzer zurück, wird sie <b>neu gebaut</b>. Ihr <code>onCreate</code> läuft ein zweites Mal.</p>
+
+<p>Jetzt trifft gleich danach das Ergebnis der GameActivity ein. Android muss in diesem Moment einen Empfänger dafür finden. <b>Also muss die Anmeldung Teil des Aufbaus sein</b>, nicht Teil einer Reaktion auf einen Klick, der längst vorbei ist.</p>
+
+<div class="warn">
+<p><b>Meldest du erst im Klick an</b>, bricht es sofort ab. Die Meldung spricht vom Lebenszyklus und sagt sinngemäss, dass zu spät angemeldet wurde. Sie meint genau diesen Fall.</p>
+</div>
+
+<h2>05 Der Vergleich</h2>
+
+<h3>Gegen den normalen Methodenaufruf</h3>
+
+<p>Du kennst den geraden Weg: du rufst eine Methode, sie rechnet, sie gibt dir etwas zurück, du machst weiter. Der Rückruf dreht drei Dinge um.</p>
+
+<table>
+<tr><th></th><th>Methodenaufruf</th><th>Rückruf</th></tr>
+<tr><td><b>Wer ruft</b></td><td>du</td><td><b>der andere</b></td></tr>
+<tr><td><b>Wann</b></td><td>jetzt</td><td>irgendwann, oder nie</td></tr>
+<tr><td><b>Wie oft</b></td><td>einmal pro Aufruf</td><td>so oft, wie es passiert</td></tr>
+<tr><td><b>Ergebnis</b></td><td>der Rückgabewert</td><td>der Wert, der <b>hineingegeben</b> wird</td></tr>
+<tr><td><b>Dein Code wartet</b></td><td>ja, bis sie fertig ist</td><td><b>nein, er läuft weiter</b></td></tr>
+</table>
+
+<p>Die letzte Zeile ist der Grund für alles andere. <b>Eine App darf nie warten.</b> Wartet sie länger als einen Wimpernschlag, friert der Bildschirm ein, und nach fünf Sekunden bietet Android dem Nutzer an, deine App abzuschiessen.</p>
+
+<div class="chk">
+<p><b>Der Merksatz:</b> ruf uns nicht an, wir rufen dich an. Deine Activity ist nicht der Chef ihres Ablaufs. Sie ist derjenige, der Zettel hinterlegt und dann still ist.</p>
+</div>
+
+<h3>Gegen die Callback-Prop in React</h3>
+
+<p>Falls dir React schon begegnet ist, kennst du das Muster dort unter einem anderen Namen. Eine Komponente bekommt eine Funktion als Attribut mitgegeben und ruft sie auf, wenn etwas passiert.</p>
+
+<pre><span class="c">// React, in der Parent-Komponente</span>
+&lt;Game onFinish={(score) =&gt; setScore(score)} /&gt;
+
+<span class="c">// React, in der Child-Komponente</span>
+props.onFinish(42);</pre>
+
+<p><b>Das ist derselbe Gedanke.</b> Das Child entscheidet nicht, was mit dem Ergebnis geschieht. Es meldet nur, dass es fertig ist. Wer das Ergebnis auswertet, steht ganz woanders.</p>
+
+<p>Vergleich das mit dem Adapter aus Abschnitt 03. Die Schnittstelle <code>OnQuestionClickListener</code> ist die Prop. Das <code>this</code> im Konstruktor ist das Weitergeben. Der Aufruf <code>listener.onQuestionClick(question)</code> ist das <code>props.onFinish(42)</code>. <b>Java braucht dafür eine Schnittstelle, weil eine Funktion allein kein Typ ist.</b> Mehr ist der Unterschied nicht.</p>
+
+<p>Beim <code>ActivityResultLauncher</code> hört die Ähnlichkeit aber auf, und die drei Unterschiede sind lehrreich.</p>
+
+<table>
+<tr><th></th><th>React-Prop</th><th>ActivityResultLauncher</th></tr>
+<tr><td><b>Wer bekommt die Funktion</b></td><td>das Child, als Attribut</td><td><b>niemand.</b> Sie bleibt in der MainActivity</td></tr>
+<tr><td><b>Was das Child kennt</b></td><td>die Funktion</td><td><b>nichts.</b> Die GameActivity kennt keinen Aufrufer</td></tr>
+<tr><td><b>Was durchgeht</b></td><td>beliebige Objekte, auch Funktionen</td><td>nur, was in einen <code>Intent</code> passt</td></tr>
+</table>
+
+<p>Der Grund für alle drei steht in <a href="/wechsel">Bildschirme wechseln</a>: eine Activity ist keine Unterkomponente deiner Activity. Sie ist ein eigener Bildschirm, den Android verwaltet, den auch eine fremde App starten könnte, und den das System jederzeit abräumen darf. <b>Zwischen zwei Bildschirmen gibt es keinen gemeinsamen Speicher, in dem eine Funktion liegen könnte.</b> Darum geht dort nur, was sich in Bytes schreiben lässt.</p>
+
+<div class="note">
+<p><b>Daraus folgt eine Regel, die dir an der LB Zeit spart:</b> was du zwischen zwei Bildschirmen austauschen willst, muss ein einfacher Wert sein. Eine Zahl, ein Text, eine id. <b>Gib eine id mit und lies das Objekt drüben neu aus der Datenbank</b>, statt zu versuchen, das Objekt selbst zu schicken.</p>
+</div>
+
+<h2>06 Wenn es nicht geht</h2>
+
+<table>
+<tr><th>Was du siehst</th><th>Woran es liegt</th><th>Was du prüfst</th></tr>
+<tr><td>Du tippst auf den Knopf und nichts passiert. Kein Absturz, keine Meldung</td><td>Es gibt keine Anmeldung für diesen Knopf, oder sie hängt an einem anderen</td><td>Ein <code>Log.d</code> als erste Zeile im Rückruf. Kommt nichts, ist die Anmeldung das Problem und nicht dein Code darin</td></tr>
+<tr><td><code>NullPointerException</code> genau in der Zeile mit <code>setOnClickListener</code></td><td>Das <code>findViewById</code> davor hat nichts gefunden. Der Knopf ist <code>null</code></td><td>Die id im Layout gegen die id im Java-Code. Und ob <code>setContentView</code> vorher steht</td></tr>
+<tr><td>Beim Antippen bricht es ab, die Meldung spricht vom Lebenszyklus</td><td><code>registerForActivityResult</code> steht im Klick-Rückruf statt in <code>onCreate</code></td><td>Wo die Anmeldung steht. Sie muss laufen, bevor der Bildschirm sichtbar wird</td></tr>
+<tr><td>Der zweite Bildschirm bleibt stehen, im ersten kommt nichts an, obwohl <code>setResult</code> dasteht</td><td><code>finish()</code> fehlt. <b>Ausgeliefert wird erst, wenn die Activity endet</b></td><td>Eine Log-Zeile unmittelbar vor <code>finish()</code>. Läuft sie nie, ist das die Ursache</td></tr>
+<tr><td>Der Rückruf läuft, aber <code>result.getData()</code> ist <code>null</code></td><td>Drüben stand <code>setResult(RESULT_OK)</code> ohne Intent, oder der Nutzer ist mit der Zurück-Taste raus</td><td>Beides abfragen, den Code <b>und</b> die Daten. Genau darum stehen im Beispiel zwei Bedingungen</td></tr>
+<tr><td>Der Wert kommt an, ist aber immer <code>0</code></td><td>Der Schlüssel beim <code>putExtra</code> und beim <code>getIntExtra</code> ist nicht derselbe</td><td>Ob beide Seiten dieselbe Konstante benutzen. Ein Tippfehler in einem Text fällt nie auf</td></tr>
+<tr><td>Alle Zeilen der Liste öffnen denselben Eintrag, meistens den letzten</td><td>Der Rückruf greift auf eine Variable zu, die sich nach der Anmeldung noch ändert</td><td>Ob der Eintrag <b>in</b> der Schleife eine eigene Variable bekommt. Regel 3 in Abschnitt 04</td></tr>
+<tr><td><code>NullPointerException</code> in der Zeile <code>listener.onQuestionClick(...)</code></td><td>Beim Bauen des Adapters wurde kein Zettel übergeben</td><td>Ob beim <code>new</code> wirklich <code>this</code> steht und ob die Klasse die Schnittstelle wirklich implementiert</td></tr>
+<tr><td>Es kompiliert nicht, die Meldung nennt <code>final</code> oder <i>effectively final</i></td><td>Der Rückruf benutzt eine lokale Variable, die danach nochmals zugewiesen wird</td><td>Die Variable einmal setzen und nie mehr ändern. Oder den Wert in ein Feld der Klasse legen</td></tr>
+</table>
+
+<h2>07 Die Reihenfolge, in der du es baust</h2>
+
+<div class="step"><p><span class="n">1</span> <b>Sag zuerst, was passieren soll.</b> Schreib die Methode, die reagiert, und lass sie vorerst nur eine Log-Zeile ausgeben. Ein Rückruf ohne Ziel ist schwer zu prüfen</p></div>
+
+<div class="step"><p><span class="n">2</span> <b>Such den Auslöser.</b> Das Bauteil, das das Ereignis bemerkt. Ein Knopf, eine Zeile, eine zweite Activity</p></div>
+
+<div class="step"><p><span class="n">3</span> <b>Frag: gibt es dafür schon einen fertigen Rückruf?</b> Bei allem, was Android mitbringt, ja. Nur bei deinen eigenen Klassen musst du die Schnittstelle selbst schreiben</p></div>
+
+<div class="step"><p><span class="n">4</span> <b>Melde an, und zwar in <code>onCreate</code>.</b> Nach <code>setContentView</code> und nach den <code>findViewById</code>. Nie in einem anderen Rückruf</p></div>
+
+<div class="step"><p><span class="n">5</span> <b>Prüf mit dem Logcat, bevor du Inhalt schreibst.</b> Tippen, Log-Zeile suchen. Erst wenn sie da ist, kommt der echte Code hinein</p></div>
+
+<div class="step"><p><span class="n">6</span> <b>Nur wenn etwas zurückkommen soll:</b> die Schlüssel als Konstanten, drüben <code>setResult</code> und <code>finish()</code>, hier den Launcher und beide Bedingungen</p></div>
+
+<div class="tip">
+<p><b>Schritt 5 ist der, den alle überspringen.</b> Er trennt zwei Fehler, die gleich aussehen: der Rückruf läuft gar nicht, oder er läuft und dein Code darin ist falsch. Ohne diese Trennung suchst du an der falschen Stelle.</p>
+</div>
+
+<h2>08 Übungen ohne Vorlage</h2>
+
+<div class="ue">
+<p class="t">Übung 1, die vier Teile finden</p>
+<p>Nimm drei beliebige Zeilen mit <code>setOnClickListener</code> aus deinem WissQuiz. Schreib für jede auf Papier die vier Teile aus Abschnitt 03 auf: Auslöser, Anmeldung, Rückruf, Mitgebrachtes.</p>
+<p style="margin:0"><b>So prüfst du:</b> bei mindestens einer deiner drei Zeilen bleibt das Feld <i>Mitgebrachtes</i> ungenutzt, weil der Rückruf das <code>v</code> gar nicht anschaut. Findest du keine solche Zeile, hast du nur Antwortknöpfe genommen.</p>
+</div>
+
+<div class="ue">
+<p class="t">Übung 2, den Ablauf hinschreiben</p>
+<p>Jemand behauptet, der Code im Launcher-Rückruf laufe direkt nach <code>launch(...)</code>. Schreib in fünf nummerierten Zeilen auf, was wirklich in welcher Reihenfolge läuft, von <code>onCreate</code> bis zur letzten Zeile deines Rückrufs.</p>
+<p style="margin:0"><b>So prüfst du:</b> in deiner Reihenfolge steht <code>finish()</code> vor dem Rückruf. Steht es nachher oder gar nicht, lies Abschnitt 02 nochmals.</p>
+</div>
+
+<div class="ue">
+<p class="t">Übung 3, die eigene Schnittstelle</p>
+<p>Deine Rangliste soll beim langen Antippen einer Zeile fragen, ob der Eintrag gelöscht werden soll. Schreib auf Papier auf, wie die Schnittstelle heisst, welche eine Methode sie hat, welchen Parameter diese Methode bekommt, und in welcher Klasse die Methode am Ende wirklich ausprogrammiert wird.</p>
+<p style="margin:0"><b>So prüfst du:</b> die Methode wird nicht im Adapter ausprogrammiert. Steht bei dir der Adapter, hast du die Aufgabenteilung aus Abschnitt 03 noch nicht.</p>
+</div>
+
+<div class="ue">
+<p class="t">Übung 4, erklären</p>
+<p style="margin:0">Erklär einem Lerngspänli in zwei Sätzen, warum es keine Methode <code>button.wasClicked()</code> gibt. <b>Ohne die Wörter <i>Callback</i>, <i>Listener</i> und <i>Event</i>.</b> <b>So prüfst du:</b> in deiner Antwort kommt vor, was der Bildschirm in der Zwischenzeit täte.</p>
+</div>
+
+<h2>09 Wo das im Ganzen steht</h2>
+
+<p>Der Rückruf ist kein Sonderfall in deiner App. <b>Er ist die Bauweise.</b> Alles, was deine App je tut, läuft in einem Rückruf, den jemand anders auslöst.</p>
+
+<pre><span class="c">   ANDROID startet deine App
+        |
+        |  onCreate(...)              das ist selbst schon ein Rückruf
+        v                             du rufst diese Methode nie auf
+   DEIN onCreate
+   |
+   |  findViewById  ...  setContentView  ...
+   |
+   |  setOnClickListener(...)         Zettel an den Knopf
+   |  registerForActivityResult(...)  Zettel an Android
+   |  new QuestionAdapter(this)       Zettel an dich selbst
+        |
+        |  onCreate ist fertig. Dein Code läuft NICHT mehr.
+        v
+   ANDROID zeigt den Bildschirm und wartet
+        |
+        +--- Tipp auf einen Knopf     ---> dein Klick-Rückruf
+        +--- zweite Activity endet    ---> dein Launcher-Rückruf
+        +--- Tipp auf eine Zeile      ---> dein Listen-Rückruf
+        +--- Bildschirm gedreht       ---> onCreate, von vorne</span></pre>
+
+<p><b>Auch <code>onCreate</code> ist ein Rückruf.</b> Du schreibst die Methode, du rufst sie nie auf, Android tut es. Du hast das Muster also schon benutzt, bevor du den ersten Knopf hattest.</p>
+
+<p><b>Davor:</b> <a href="/activity">Die Activity von innen</a>. Dort steht, welche Methoden Android bei dir aufruft und wann.</p>
+
+<p><b>Danach:</b> <a href="/wechsel">Bildschirme wechseln</a>. Dort steht der ganze Weg hin und zurück, mit Intent, Extras und Manifest.</p>
+
+<p><b>Daneben:</b> <a href="/listen">Listen verstehen</a>. Dort steht, wie eine Zeile entsteht, an der dein Rückruf dann hängt.</p>
+
+<h2>10 Prüfe dich selbst</h2>
+
+<ol>
+<li>Warum gibt es keine Methode, mit der du einen Knopf fragen kannst, ob er gedrückt wurde?</li>
+<li>Nenn die vier Teile eines Rückrufs und zeig sie in der Zeile <code>btnNext.setOnClickListener(v -&gt; onNextClicked());</code></li>
+<li>Wie oft läuft eine Anmeldung, und wie oft läuft der Rückruf dazu?</li>
+<li>Die <code>GameActivity</code> bekommt deinen Rückruf nie übergeben. Wie kommt ihr Ergebnis trotzdem bei dir an?</li>
+<li>Warum muss <code>registerForActivityResult</code> in <code>onCreate</code> stehen? <b>Nenn den Zustand des Geräts, in dem der Unterschied auffällt.</b></li>
+<li>Der Rückruf läuft, aber <code>result.getData()</code> ist <code>null</code>. Nenn zwei verschiedene Ursachen.</li>
+<li>Warum braucht der Adapter eine eigene Schnittstelle, statt die Activity einfach direkt aufzurufen?</li>
+<li>Du tippst und nichts passiert. <b>Welche eine Zeile schreibst du zuerst</b>, und was genau weisst du, wenn sie nicht im Logcat erscheint?</li>
+<li>Warum kannst du zwischen zwei Activities kein Objekt schicken, in React aber eine ganze Funktion an ein Child geben?</li>
+</ol>
+
+<div class="tip">
+<p><b>Die Antworten stehen alle auf diesem Blatt.</b> Wenn du eine nicht findest, hast du den Abschnitt überschlagen, und genau der ist der, den du brauchst.</p>
+</div>
+
+<p class="foot">Modul 335 | Nachschlagen | Rückruf verstehen | Version 1 | 05.09.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<script>
+/* ------------------------------------------------------------------
+   M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
+
+   Warum hier und nicht als eigene Datei: dieser Baustein geht ueber
+   web-bau/rahmen/fuss.html in jede Seite. Inline heisst, dass bauen.js
+   nichts Zusaetzliches kopieren muss.
+
+   Zwei Faelle:
+     Startseite   nimmt die sechs Links aus .schnellnav und baut daraus
+                  dasselbe schwebende Verzeichnis. Keine Auftragskarte.
+     Auftragsseite markiert Teil A bis C, vergibt jeder Ueberschrift eine
+                  id, baut oben die Auftragskarte und daneben das Verzeichnis.
+
+   Das Aussehen steht in web-bau/stil/rahmen.css unter m335-nav.
+   ------------------------------------------------------------------ */
+(function () {
+  var wrap = document.querySelector('.wrap');
+  if (!wrap) return;
+
+  var text = function (el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); };
+  var esc  = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+
+  // Die Startseite ist daran zu erkennen, dass ihr der Rueckweg im Kopf fehlt.
+  var istStart = !document.querySelector('.site-header .back');
+  var eintraege = [];
+
+  if (istStart) {
+    // ------------------------------------------------------------ Startseite
+    var schnell = wrap.querySelector('.schnellnav');
+    if (!schnell) return;
+    [].slice.call(schnell.querySelectorAll('a')).forEach(function (a) {
+      var ziel = document.getElementById(a.getAttribute('href').slice(1));
+      if (ziel) eintraege.push({ el: ziel, text: text(a), stufe: 'n2' });
+    });
+    if (eintraege.length < 2) return;
+
+  } else {
+    // --------------------------------------------------------- Auftragsseite
+    var heads = [].slice.call(wrap.querySelectorAll('h2, h3'));
+
+    // 1 und 2: Teil A bis C markieren, jeder Ueberschrift eine id geben.
+    // Die Quellen haben keine.
+    var vergeben = {};
+    heads.forEach(function (h, i) {
+      if (h.tagName === 'H3' && /^Teil [A-Z]\b/.test(text(h))) h.classList.add('teil');
+      if (h.id) { vergeben[h.id] = true; return; }
+      var roh = text(h).toLowerCase()
+        .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+        .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+      var id = roh || ('abschnitt-' + i);
+      if (vergeben[id]) id = id + '-' + i;
+      vergeben[id] = true;
+      h.id = id;
+    });
+
+    // 3: Die Auftragskarte. Sie sagt in einem Bildschirm, wie lange der
+    // Auftrag dauert und aus welchen Teilen er besteht. Alles daran steht
+    // schon auf der Seite, die Karte stellt es nur neu zusammen.
+    var subs = [].slice.call(wrap.querySelectorAll('.sub'));
+    var bloecke = heads.filter(function (h) { return h.querySelector('.time'); });
+    var budget = '', zusatz = '';
+
+    subs.forEach(function (p) {
+      if (budget) return;
+      var m = p.innerHTML.match(/Zeitbudget\s+([^.<]+)\./);
+      if (!m) return;
+      var stuecke = m[1].split(/,\s*dazu\s*/);
+      budget = stuecke[0].trim();
+      if (stuecke[1]) zusatz = 'dazu ' + stuecke[1].trim();
+      p.innerHTML = p.innerHTML.replace(m[0], '').replace(/\s{2,}/g, ' ').trim();
+    });
+
+    if (budget || bloecke.length) {
+      var karte = document.createElement('div');
+      karte.className = 'karte';
+      var inhalt = '';
+      if (budget) {
+        inhalt += '<p class="zeit"><span class="pill">' + esc(budget) + '</span>';
+        if (zusatz) inhalt += '<span class="pill neben">' + esc(zusatz) + '</span>';
+        inhalt += '</p>';
+      }
+      if (bloecke.length) {
+        inhalt += '<p class="t">DAS MACHST DU</p><ol>';
+        bloecke.forEach(function (b) {
+          var uhr = b.querySelector('.time');
+          var min = uhr ? text(uhr) : '';
+          var t = text(b).replace(min, '').replace(/\s+/g, ' ').replace(/\s+,/g, ',').trim();
+          t = t.replace(/[,;]\s*$/, '');
+          var teil = t.match(/^([^,]+),\s*(.*)$/);
+          var wo = teil ? teil[1] : t;
+          var rest = teil ? teil[2] : '';
+          inhalt += '<li><a href="#' + b.id + '"><span class="wo">' + esc(wo) + '</span>'
+                  + (rest ? ' ' + esc(rest) : '') + '</a>'
+                  + '<span class="min">' + esc(min) + '</span></li>';
+        });
+        inhalt += '</ol>';
+      }
+      karte.innerHTML = inhalt;
+      // Steht oben ein Zielbild, gehoert die Karte darunter. Erst sehen, was
+      // entsteht, dann lesen, wie lange es dauert.
+      var anker = wrap.querySelector('figure.zielbild')
+                || (subs.length ? subs[subs.length - 1] : wrap.firstElementChild);
+      anker.parentNode.insertBefore(karte, anker.nextSibling);
+    }
+
+    // Unter vier Ueberschriften lohnt sich kein Verzeichnis.
+    if (heads.length < 4) return;
+    heads.forEach(function (h) {
+      eintraege.push({
+        el: h,
+        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
+      });
+    });
+  }
+
+  // ---------------------------------------------------------------- 4
+  var nav = document.createElement('nav');
+  nav.className = 'm335-nav';
+  nav.setAttribute('aria-label', 'Inhalt dieser Seite');
+
+  var html = '<p class="kopfzeile">AUF DIESER SEITE</p>'
+           + '<button type="button" class="schliessen" aria-label="Verzeichnis schliessen">Schliessen</button><ol>';
+  eintraege.forEach(function (e) {
+    html += '<li class="' + e.stufe + '"><a href="#' + e.el.id + '">' + esc(e.text) + '</a></li>';
+  });
+  nav.innerHTML = html + '</ol>';
+
+  var knopf = document.createElement('button');
+  knopf.type = 'button';
+  knopf.className = 'm335-nav-knopf';
+  knopf.textContent = 'Inhalt';
+
+  document.body.appendChild(nav);
+  document.body.appendChild(knopf);
+
+  var links = [].slice.call(nav.querySelectorAll('a'));
+
+  // Breit: die Leiste steht fest am Rand. Schmal: sie liegt hinter dem Knopf.
+  var breit = window.matchMedia('(min-width: 1380px)');
+  function umschalten() {
+    if (breit.matches) {
+      nav.className = 'm335-nav seitlich';
+      nav.hidden = false;
+      knopf.style.display = 'none';
+    } else {
+      nav.className = 'm335-nav klappe';
+      nav.hidden = true;
+      knopf.style.display = '';
+    }
+  }
+  umschalten();
+  if (breit.addEventListener) breit.addEventListener('change', umschalten);
+  else if (breit.addListener) breit.addListener(umschalten);
+
+  knopf.addEventListener('click', function () { nav.hidden = !nav.hidden; });
+  nav.querySelector('.schliessen').addEventListener('click', function () { nav.hidden = true; });
+  nav.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && !breit.matches) nav.hidden = true;
+  });
+
+  // Welcher Abschnitt ist gerade dran. Gesucht ist der letzte Eintrag, der
+  // oberhalb der Lesekante liegt. Die Kante liegt knapp unter dem klebenden
+  // Kopfbereich.
+  var laeuft = false;
+  function markieren() {
+    laeuft = false;
+    var kante = 96, treffer = 0;
+    for (var i = 0; i < eintraege.length; i++) {
+      if (eintraege[i].el.getBoundingClientRect().top <= kante) treffer = i;
+      else break;
+    }
+    for (var j = 0; j < links.length; j++) links[j].classList.toggle('hier', j === treffer);
+    var a = links[treffer];
+    if (a && breit.matches) {
+      var r = a.getBoundingClientRect(), n = nav.getBoundingClientRect();
+      if (r.top < n.top + 8 || r.bottom > n.bottom - 8) a.scrollIntoView({ block: 'nearest' });
+    }
+  }
+  function anstossen() {
+    if (laeuft) return;
+    laeuft = true;
+    window.requestAnimationFrame(markieren);
+  }
+  window.addEventListener('scroll', anstossen, { passive: true });
+  window.addEventListener('resize', anstossen);
+  markieren();
+})();
+</script>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>

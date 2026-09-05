@@ -21,7 +21,7 @@
 <div class="wrap">
 
 <h1>05C Lösung: Drei Zustände und die Kategoriewahl</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Lösungsmaterial zum Auftrag 05C. Version 2 vom 16.08.2026.</p>
+<p class="sub">Modul 335 Mobile Applikationen, Lösungsmaterial zum Auftrag 05C. Version 3 vom 04.09.2026.</p>
 
 <div class="info">
 <p><b>Wie du das hier benutzt.</b> Nicht abtippen. Vergleichen. Die Begründung ist der eigentliche Inhalt, der Code ist nur der Beleg dazu.</p>
@@ -331,9 +331,225 @@ roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;
 </div>
 
 <div class="note">
-<p><b>Zur Zusatzaufgabe steht hier bewusst nichts.</b> Die Frage danach ist der eigentliche Inhalt: welche Werte musst du dir merken, und welche kannst du daraus wieder ausrechnen? Die kürzeste Liste gewinnt, und sie ist erstaunlich kurz. Wer alles speichern will, was auf dem Bildschirm steht, hat die Frage noch nicht verstanden.</p>
+<p><b>Die Lösung zur Zusatzaufgabe steht weiter unten, mit dem ganzen Code.</b> Schau erst hinein, wenn du gedreht und beobachtet hast. Die Frage davor ist der eigentliche Inhalt: welche Werte musst du dir merken, und welche kannst du daraus wieder ausrechnen? Wer alles speichern will, was auf dem Bildschirm steht, hat die Frage noch nicht verstanden.</p>
 </div>
 
+
+<h2>Die Zusatzaufgabe, eine mögliche Lösung</h2>
+
+<div class="warn">
+<p><b>Erst selbst drehen und beobachten.</b> Wer hier hineinschaut, bevor er es gesehen hat, nimmt sich den interessantesten Teil weg. Die Beobachtung dauert zehn Sekunden, das Nachdenken darüber fünf Minuten.</p>
+</div>
+
+<p>Die Frage zur Zusatzaufgabe war: welche Werte musst du dir merken, und welche kannst du daraus wieder ausrechnen? Hier ist die Antwort, und ein Eintrag darin überrascht.</p>
+
+<table>
+<tr><th>Wert</th><th>Merken oder ausrechnen</th></tr>
+<tr><td>Die gewählte Kategorie</td><td><b>merken.</b> Der Spinner steht nach dem Neubau wieder auf dem ersten Eintrag</td></tr>
+<tr><td>Alle Fragen dieser Kategorie</td><td>ausrechnen. <code>QuestionBank.byCategory</code> liefert sie jederzeit wieder</td></tr>
+<tr><td><b>Die fünf Fragen der Runde</b></td><td><b>merken, und das ist die Überraschung.</b> <code>onStartClicked</code> mischt mit <code>Collections.shuffle</code>. Was gemischt wurde, lässt sich nicht ausrechnen</td></tr>
+<tr><td>Der Platz der aktuellen Frage</td><td>merken</td></tr>
+<tr><td>Der Punktestand</td><td>merken</td></tr>
+<tr><td>Welcher der drei Bereiche sichtbar ist</td><td>merken</td></tr>
+<tr><td>Die schon gegebene Antwort</td><td>merken. Sonst kannst du dieselbe Frage nach dem Drehen ein zweites Mal beantworten</td></tr>
+<tr><td>Fragetext, die vier Antworten, der Fortschritt, die Punkteanzeige</td><td>ausrechnen. Das macht <code>showQuestion</code> aus dem Platz und der Runde</td></tr>
+</table>
+
+<div class="chk">
+<p><b>Der Satz, der die ganze Tabelle trägt:</b> ins Bundle gehört, was dein Code <b>nicht wieder herleiten kann</b>. Alles, was auf dem Bildschirm steht, wird beim Neubau ohnehin neu geschrieben.</p>
+</div>
+
+<div class="note">
+<p><b>Es sind sechs Werte, und trotzdem ist die Liste kurz.</b> Auf dem Bildschirm stehen Fragetext, vier Antworten, Kategorie, Fortschritt und Punktestand, also acht sichtbare Dinge. Gerettet werden muss keines davon.</p>
+</div>
+
+<h3>Schritt 1, zwei neue Felder und sechs Schlüssel</h3>
+
+<p>Die Schlüssel sind Konstanten, damit derselbe Text nicht zweimal getippt wird. Ein Tippfehler im Schlüssel ist sonst ein Fehler, den niemand meldet: geschrieben wird unter dem einen Namen, gelesen unter dem anderen, und der Wert ist einfach weg.</p>
+<pre>    <span class="c">/**
+     * Welcher Bereich gerade sichtbar ist.
+     *
+     * In 05C war so ein Feld noch tot, weil es niemand gelesen hat. Jetzt
+     * liest es onSaveInstanceState, und damit ist es kein totes Feld mehr.
+     */</span>
+    <span class="k">private</span> <span class="t">GameState</span> currentState;
+
+    <span class="c">/**
+     * Die Antwort, die auf die aktuelle Frage schon gegeben wurde, oder null.
+     *
+     * Nur dafür da, dass der Neubau nach dem Drehen die Markierung wieder
+     * herstellen kann. showQuestion setzt sie zurück.
+     */</span>
+    <span class="k">private</span> <span class="t">String</span> givenAnswer;
+
+    <span class="c">/** Schlüssel für die gewählte Kategorie im Bundle. */</span>
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="t">KEY_CATEGORY</span> = <span class="s">"category"</span>;
+
+    <span class="c">/** Schlüssel für die Fragen der Runde, in ihrer Reihenfolge. */</span>
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="t">KEY_ROUND</span> = <span class="s">"round"</span>;
+
+    <span class="c">/** Schlüssel für den Platz der aktuellen Frage. */</span>
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="t">KEY_INDEX</span> = <span class="s">"index"</span>;
+
+    <span class="c">/** Schlüssel für den Punktestand. */</span>
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="t">KEY_SCORE</span> = <span class="s">"score"</span>;
+
+    <span class="c">/** Schlüssel für den Bereich, der gerade sichtbar ist. */</span>
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="t">KEY_STATE</span> = <span class="s">"state"</span>;
+
+    <span class="c">/** Schlüssel für die schon gegebene Antwort. */</span>
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="t">KEY_GIVEN</span> = <span class="s">"given"</span>;</pre>
+
+<div class="note">
+<p><b><code>currentState</code> ist genau das Feld, das in 05C bewusst nicht gebaut wurde.</b> Damals stand im Lösungsmaterial, es wäre ein totes Feld, weil es nur zugewiesen und nie gelesen wird. <b>Jetzt liest es <code>onSaveInstanceState</code>, und damit ist es kein totes Feld mehr.</b> Ein Feld wird nicht durch seinen Namen sinnvoll, sondern dadurch, dass jemand es liest.</p>
+</div>
+
+<h3>Schritt 2, drei Zeilen in Methoden, die es schon gibt</h3>
+<pre>    <span class="k">private</span> <span class="k">void</span> showState(<span class="t">GameState</span> state) {
+        currentState = state;
+
+        llCategory.setVisibility(...);
+
+
+    <span class="k">private</span> <span class="k">void</span> showQuestion() {
+        currentQuestion = roundQuestions.get(currentIndex);
+        givenAnswer = <span class="k">null</span>;
+
+
+    <span class="k">private</span> <span class="k">void</span> onAnswerClicked(<span class="t">View</span> view) {
+        givenAnswer = ((<span class="t">Button</span>) view).getText().toString();</pre>
+
+<p>In <code>onAnswerClicked</code> verschwindet dabei das Wort <code>String</code> vor <code>givenAnswer</code>. Aus der lokalen Variablen wird das Feld. <b>Steht das <code>String</code> stehen, hast du zwei Dinge mit demselben Namen</b>, die Methode arbeitet mit der lokalen und das Feld bleibt leer. Der Compiler sagt dazu nichts.</p>
+
+<h3>Schritt 3, den Zettel schreiben</h3>
+<pre>    <span class="c">/**
+     * Legt weg, was der Neubau dieser Activity überstehen soll.
+     *
+     * Android ruft die Methode auf, bevor es die Activity abräumt, zum
+     * Beispiel beim Drehen. Was hier nicht hineingeht, ist danach weg.
+     *
+     * Die Runde selbst muss mit hinein. Sie lässt sich nicht neu ausrechnen,
+     * denn onStartClicked mischt mit Collections.shuffle. Ein Bundle nimmt
+     * keine Question-Objekte, darum gehen die Fragetexte hinein.
+     *
+     * @param outState der Zettel, den der Neubau später zurückbekommt
+     */</span>
+    <span class="a">@Override</span>
+    <span class="k">protected</span> <span class="k">void</span> onSaveInstanceState(<span class="a">@NonNull</span> <span class="t">Bundle</span> outState) {
+        <span class="k">super</span>.onSaveInstanceState(outState);
+
+        <span class="c">// Vor der ersten Runde gibt es nichts zu retten.</span>
+        <span class="k">if</span> (roundQuestions == <span class="k">null</span>) {
+            <span class="k">return</span>;
+        }
+
+        <span class="t">ArrayList</span>&lt;<span class="t">String</span>&gt; texts = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;();
+        <span class="k">for</span> (<span class="t">Question</span> question : roundQuestions) {
+            texts.add(question.getText());
+        }
+
+        outState.putString(<span class="t">KEY_CATEGORY</span>, selectedCategory);
+        outState.putStringArrayList(<span class="t">KEY_ROUND</span>, texts);
+        outState.putInt(<span class="t">KEY_INDEX</span>, currentIndex);
+        outState.putInt(<span class="t">KEY_SCORE</span>, score);
+        outState.putString(<span class="t">KEY_STATE</span>, currentState.name());
+        outState.putString(<span class="t">KEY_GIVEN</span>, givenAnswer);
+
+        <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"state saved, index="</span> + currentIndex + <span class="s">" score="</span> + score);
+    }</pre>
+
+<div class="warn">
+<p><b>Ein Bundle nimmt keine <code>Question</code>-Objekte.</b> Es kann Zahlen, Texte, Wahrheitswerte und Listen davon. Darum gehen die Fragetexte hinein und nicht die Fragen selbst.</p>
+<p>Und darum steht ganz oben die Prüfung auf <code>null</code>. Wer auf der Kategoriewahl dreht, hat noch gar keine Runde, und ohne diese drei Zeilen stürzt die App genau dort ab.</p>
+</div>
+
+<h3>Schritt 4, den Zettel lesen</h3>
+
+<p>In <code>onCreate</code> wird aus der einen Zeile am Schluss eine Verzweigung. Sie steht dort, wo vorher <code>showState(GameState.CHOOSE_CATEGORY)</code> stand, also nach dem Spinner und vor dem Log.</p>
+<pre>        <span class="c">// Beim ersten Start bringt der Neubau keinen Zettel mit, dann beginnt</span>
+        <span class="c">// der Bildschirm bei der Kategoriewahl an. Nach dem Drehen ist der</span>
+        <span class="c">// Zettel da, und dann wird die Runde daraus wieder aufgebaut.</span>
+        <span class="k">if</span> (savedInstanceState == <span class="k">null</span> || savedInstanceState.getString(<span class="t">KEY_STATE</span>) == <span class="k">null</span>) {
+            showState(<span class="t">GameState</span>.<span class="t">CHOOSE_CATEGORY</span>);
+        } <span class="k">else</span> {
+            restoreRound(savedInstanceState);
+        }</pre>
+
+<p>Und die Methode dazu:</p>
+<pre>    <span class="c">/**
+     * Baut die Runde aus dem Zettel wieder auf.
+     *
+     * Die Reihenfolge zählt. Erst die Werte zurückholen, dann die Runde aus
+     * den Texten zusammensetzen, und erst danach anzeigen. showQuestion
+     * greift auf roundQuestions zu, vorher gibt es die Liste noch nicht.
+     *
+     * @param savedInstanceState der Zettel aus onSaveInstanceState
+     */</span>
+    <span class="k">private</span> <span class="k">void</span> restoreRound(<span class="t">Bundle</span> savedInstanceState) {
+        selectedCategory = savedInstanceState.getString(<span class="t">KEY_CATEGORY</span>);
+        currentIndex = savedInstanceState.getInt(<span class="t">KEY_INDEX</span>);
+        score = savedInstanceState.getInt(<span class="t">KEY_SCORE</span>);
+
+        <span class="c">// Vor showQuestion lesen. Die Methode setzt givenAnswer zurück.</span>
+        <span class="t">String</span> given = savedInstanceState.getString(<span class="t">KEY_GIVEN</span>);
+
+        categoryQuestions = <span class="t">QuestionBank</span>.byCategory(selectedCategory);
+
+        roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;();
+        <span class="k">for</span> (<span class="t">String</span> text : savedInstanceState.getStringArrayList(<span class="t">KEY_ROUND</span>)) {
+            <span class="k">for</span> (<span class="t">Question</span> question : categoryQuestions) {
+                <span class="k">if</span> (question.getText().equals(text)) {
+                    roundQuestions.add(question);
+                    <span class="k">break</span>;
+                }
+            }
+        }
+
+        <span class="t">GameState</span> state = <span class="t">GameState</span>.valueOf(savedInstanceState.getString(<span class="t">KEY_STATE</span>));
+
+        <span class="k">if</span> (state == <span class="t">GameState</span>.<span class="t">RESULT</span>) {
+            showResult();
+        } <span class="k">else</span> {
+            showQuestion();
+
+            <span class="c">// Wer vor dem Drehen schon geantwortet hatte, sieht seine</span>
+            <span class="c">// Markierung wieder. Ohne diese vier Zeilen könnte er dieselbe</span>
+            <span class="c">// Frage ein zweites Mal beantworten und zweimal punkten.</span>
+            <span class="k">if</span> (given != <span class="k">null</span>) {
+                givenAnswer = given;
+                markAnswers(given);
+                lockAnswers();
+                btnNext.setVisibility(<span class="t">View</span>.<span class="t">VISIBLE</span>);
+            }
+
+            showState(<span class="t">GameState</span>.<span class="t">QUESTION</span>);
+        }
+
+        <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"state restored, index="</span> + currentIndex + <span class="s">" score="</span> + score);
+    }</pre>
+
+<div class="chk">
+<p><b>Die Reihenfolge in <code>restoreRound</code> ist der Kern.</b> Erst die Werte zurückholen, dann die Runde zusammensetzen, und erst danach anzeigen. <code>showQuestion</code> greift auf <code>roundQuestions</code> zu. Wer es zu früh aufruft, bekommt einen <code>NullPointerException</code> in einer Methode, die völlig in Ordnung ist.</p>
+</div>
+
+<h3>So prüfst du deine Lösung</h3>
+
+<table>
+<tr><th class="num">Nr</th><th>Was du machst</th><th>Was passieren muss</th></tr>
+<tr><td class="num">1</td><td>Runde starten, bei Frage 3 drehen</td><td>Dieselbe Frage 3, derselbe Punktestand. <b>Und die Fragen 4 und 5 sind dieselben wie vorher</b></td></tr>
+<tr><td class="num">2</td><td>Eine Frage beantworten, dann drehen, ohne Weiter</td><td>Die Markierung ist wieder da, die vier Buttons sind gesperrt, Weiter steht da</td></tr>
+<tr><td class="num">3</td><td>Runde fertig spielen, im Ergebnis drehen</td><td>Das Ergebnis bleibt stehen, die Fragenliste darunter auch</td></tr>
+<tr><td class="num">4</td><td>Auf der Kategoriewahl drehen</td><td><b>Nichts stürzt ab</b>, und die Auswahl beginnt von vorne. Das ist richtig so</td></tr>
+<tr><td class="num">5</td><td>Ins Logcat schauen</td><td>Beim Drehen steht zuerst <code>state saved</code> und danach <code>state restored</code>, beide mit denselben Zahlen</td></tr>
+</table>
+
+<div class="tip">
+<p><b>Prüfschritt 1 ist der eigentliche.</b> Punktestand und Frage stimmen schon, wenn du nur drei Zahlen rettest. Ob du die Runde selbst gerettet hast, siehst du erst an den Fragen, die noch kommen.</p>
+</div>
+
+<div class="info">
+<p><b>Wo dir das später wieder begegnet.</b> In 08C hat das Formular zum Bearbeiten dasselbe Problem, dort geht beim Drehen die id der Frage verloren. Es ist die Übung 1 dieses Auftrags, und sie ist deutlich kleiner als diese hier. <b>Wenn du das hier gebaut hast, ist die andere in fünf Minuten erledigt.</b></p>
+</div>
 
 <h2>Mögliche falsche KI-Rückmeldungen</h2>
 <p>Das sind Antworten, die uns bei diesem Thema schon begegnet sind. Nicht jede KI macht jeden dieser Fehler. Die Liste ist eine Prüfliste, keine Anklage.</p>
@@ -375,7 +591,7 @@ roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;
 <p><b>05D</b> gibt dem Menü ein Gedächtnis, das über das Beenden der App hinausreicht. Aus dem letzten Punktestand wird der beste, und er ist auch beim nächsten Start noch da.</p>
 <p>Danach der <b>05CD Wissenscheck</b> über beide Aufträge.</p>
 
-<p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 05C Drei Zustände und die Kategoriewahl &middot; Version 2 vom 16.08.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
+<p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 05C Drei Zustände und die Kategoriewahl &middot; Version 3 vom 04.09.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->

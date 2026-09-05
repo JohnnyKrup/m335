@@ -21,7 +21,7 @@
 <div class="wrap">
 
 <h1>04A Lösung, Die Fragenliste und die Runde</h1>
-<p class="sub">Lösungsmaterial zum Auftrag 04A. Modul 335, Tag 2 Nachmittag. Version 3 vom 15.08.2026.</p>
+<p class="sub">Lösungsmaterial zum Auftrag 04A. Modul 335, Tag 2 Nachmittag. Version 4 vom 04.09.2026.</p>
 <p class="sub"><b>Zum Durchlesen brauchst du etwa 15 Minuten.</b> Das ist ein Richtwert. Such dir die Stelle, die du brauchst.</p>
 
 <div class="info">
@@ -463,15 +463,15 @@ roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;
 <p>Das sind Antworten, die uns bei diesem Thema schon begegnet sind. Nicht jede KI macht jeden dieser Fehler. Die Liste ist eine Prüfliste, keine Anklage.</p>
 <table>
 <tr><th>Die KI schlägt vor</th><th>Warum das hier falsch ist</th></tr>
-<tr><td>Statt zwei Bereichen gleich eine zweite Activity für das Ergebnis</td><td>Technisch richtig, didaktisch zu früh. Activities und der Wechsel dazwischen sind Tag 3. Heute geht es um den Zustand innerhalb eines Bildschirms</td></tr>
+<tr><td>Statt zwei Bereichen gleich eine zweite Activity für das Ergebnis</td><td>Technisch richtig, didaktisch zu früh. Activities und der Wechsel dazwischen kommen in 05A und 05B. Heute geht es um den Zustand innerhalb eines Bildschirms</td></tr>
 <tr><td><code>llQuestion.setVisibility(View.GONE)</code> statt <code>svQuestion</code></td><td>Die ScrollView bleibt sichtbar, liegt über dem Ergebnis und fängt jede Berührung ab. "Nochmals spielen" reagiert nicht mehr</td></tr>
 <tr><td><code>setBackgroundTintList(null)</code> zum Zurücksetzen</td><td><code>null</code> heisst "gar keine Färbung", nicht "die vom Anfang". Der Button wird farblos</td></tr>
 <tr><td>Die Buttons mit <code>setBackgroundColor</code> zurücksetzen</td><td>Ein MaterialButton ignoriert das stillschweigend. Derselbe Fall wie in 03C</td></tr>
 <tr><td><code>INVISIBLE</code> statt <code>GONE</code></td><td>Der Bereich braucht weiterhin Platz und fängt Berührungen ab. Sichtbar ist er nicht, im Weg schon</td></tr>
 <tr><td><code>roundQuestions.get(currentIndex++)</code> in einer Zeile</td><td>Läuft, versteckt aber die Zählung mitten im Zugriff. Beim Fehlersuchen sieht niemand mehr, wo hochgezählt wurde</td></tr>
 <tr><td>Die Runde mit <code>Collections.shuffle</code> mischen</td><td>Nicht falsch, aber heute nicht verlangt. Es macht das Testen schwerer, weil jede Runde anders aussieht</td></tr>
-<tr><td><code>onSaveInstanceState</code> gleich mitbauen, damit das Drehen die Runde nicht verliert</td><td>Das ist die Zusatzaufgabe von Tag 3. Vorher soll die Klasse den Verlust selbst erleben</td></tr>
-<tr><td>Einen <code>RecyclerView</code> vorschlagen, sobald das Wort Liste fällt</td><td>Hier wird nichts aufgelistet, hier wird abgearbeitet. Der RecyclerView kommt am Tag 3, und zwar aus einem Grund, den du dann selbst siehst</td></tr>
+<tr><td><code>onSaveInstanceState</code> gleich mitbauen, damit das Drehen die Runde nicht verliert</td><td>Das ist die Zusatzaufgabe von 05C. Vorher soll die Klasse den Verlust selbst erleben</td></tr>
+<tr><td>Einen <code>RecyclerView</code> vorschlagen, sobald das Wort Liste fällt</td><td>Hier wird nichts aufgelistet, hier wird abgearbeitet. Der RecyclerView kommt in 06C, und zwar aus einem Grund, den du dann selbst siehst</td></tr>
 </table>
 
 
@@ -499,7 +499,7 @@ roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;
 <p>Gebaut wird sie zu Fuss: eine Schleife erzeugt pro Frage eine TextView und hängt sie mit <code>addView</code> an. Bei sieben Zeilen läuft das gut. Denk schon mal darüber nach, was bei fünfhundert Zeilen passiert.</p>
 <p>Danach kommt der <b>04AB Wissenscheck</b> über beide Aufträge.</p>
 
-<p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 04A Die Fragenliste und die Runde &middot; Version 3 vom 15.08.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
+<p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 04A Die Fragenliste und die Runde &middot; Version 4 vom 04.09.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->
