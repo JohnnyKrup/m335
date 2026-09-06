@@ -4,17 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>M335 Ressourcen und R</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
 <!--M335:STIL-->
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/stil/rahmen.css">
-<link rel="stylesheet" href="/stil/dokument.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
 <!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
 <header class="site-header"><div class="in">
-<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
-<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
 <button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
@@ -31,7 +34,7 @@
 
 <p>Du willst eine Überschrift setzen. Der naheliegende Weg wäre dieser.</p>
 
-<pre><span class="c">// Das läuft. Und trotzdem macht es in Android niemand.</span>
+<pre><span class="d">// Das läuft. Und trotzdem macht es in Android niemand.</span>
 tvTitle.setText(<span class="s">"Meine Einkaufsliste"</span>);</pre>
 
 <p>Der Grund ist <b>nicht</b> Ordnung, und es ist auch keine Geschmacksfrage. Der Grund ist, dass dieselbe App auf sehr verschiedenen Geräten läuft. Eines steht auf Deutsch, eines auf Französisch. Eines läuft im Dunkelmodus. Eines hat einen viel feineren Bildschirm als das andere.</p>
@@ -48,7 +51,7 @@ tvTitle.setText(<span class="s">"Meine Einkaufsliste"</span>);</pre>
 
 <p>So sieht er in deinem Projekt wirklich aus. Links der Ordner, rechts was darin liegt.</p>
 
-<pre><span class="c">   app/src/main/
+<pre><span class="d">   app/src/main/
         |
         +-- java/            dein Code
         |
@@ -93,14 +96,14 @@ tvTitle.setText(<span class="s">"Meine Einkaufsliste"</span>);</pre>
 
 <p><code>R</code> ist eine Java-Klasse. Sie steht in keinem Ordner, den du siehst, und <b>du hast sie nie geschrieben</b>. Sie entsteht bei jedem Bau neu.</p>
 
-<pre><span class="c">// Sinngemäss das, was der Bau erzeugt. Du siehst diese Datei normalerweise nicht.</span>
-<span class="k">public final class</span> <span class="t">R</span> {
-    <span class="k">public static final class</span> <span class="t">string</span> {
-        <span class="k">public static final int</span> title_main = <span class="s">0x7f0f001a</span>;
-        <span class="k">public static final int</span> btn_save   = <span class="s">0x7f0f001b</span>;
+<pre><span class="l">// Sinngemäss das, was der Bau erzeugt. Du siehst diese Datei normalerweise nicht.</span>
+<span class="k">public</span> <span class="k">final</span> <span class="k">class</span> <span class="t">R</span> {
+    <span class="k">public</span> <span class="k">static</span> <span class="k">final</span> <span class="k">class</span> string {
+        <span class="k">public</span> <span class="k">static</span> <span class="k">final</span> <span class="k">int</span> <span class="v">title_main</span> = 0x7f0f001a;
+        <span class="k">public</span> <span class="k">static</span> <span class="k">final</span> <span class="k">int</span> <span class="v">btn_save</span>   = 0x7f0f001b;
     }
-    <span class="k">public static final class</span> <span class="t">id</span> {
-        <span class="k">public static final int</span> tvTitle = <span class="s">0x7f0900c3</span>;
+    <span class="k">public</span> <span class="k">static</span> <span class="k">final</span> <span class="k">class</span> id {
+        <span class="k">public</span> <span class="k">static</span> <span class="k">final</span> <span class="k">int</span> <span class="v">tvTitle</span> = 0x7f0900c3;
     }
 }</pre>
 
@@ -148,10 +151,10 @@ tvTitle.setText(<span class="s">"Meine Einkaufsliste"</span>);</pre>
 
 <p>Im Projekt steht sie als Kommentar zuoberst in <code>strings.xml</code>: <b><code>was_wofuer</code>, alles klein, mit Unterstrich.</b></p>
 
-<pre><span class="c">&lt;string name=</span><span class="s">"title_main"</span><span class="c">&gt;</span>Meine Einkaufsliste<span class="c">&lt;/string&gt;</span>
-<span class="c">&lt;string name=</span><span class="s">"btn_save"</span><span class="c">&gt;</span>Speichern<span class="c">&lt;/string&gt;</span>
-<span class="c">&lt;string name=</span><span class="s">"hint_article"</span><span class="c">&gt;</span>Artikel<span class="c">&lt;/string&gt;</span>
-<span class="c">&lt;string name=</span><span class="s">"error_required"</span><span class="c">&gt;</span>Pflichtfeld<span class="c">&lt;/string&gt;</span></pre>
+<pre>&lt;<span class="g">string</span> name=<span class="s">"title_main"</span>&gt;Meine Einkaufsliste&lt;/<span class="g">string</span>&gt;
+&lt;<span class="g">string</span> name=<span class="s">"btn_save"</span>&gt;Speichern&lt;/<span class="g">string</span>&gt;
+&lt;<span class="g">string</span> name=<span class="s">"hint_article"</span>&gt;Artikel&lt;/<span class="g">string</span>&gt;
+&lt;<span class="g">string</span> name=<span class="s">"error_required"</span>&gt;Pflichtfeld&lt;/<span class="g">string</span>&gt;</pre>
 
 <div class="warn">
 <p style="margin:0"><b>Der Name ist ein Java-Bezeichner, der Wert nicht.</b> Aus dem Namen wird eine Konstante in <code>R</code>, darum sind darin nur Kleinbuchstaben, Ziffern und Unterstriche erlaubt. <b>Kein Bindestrich, kein Umlaut, kein Leerzeichen.</b> Im Wert daneben darfst du alles schreiben, Umlaute und Satzzeichen inklusive.</p>
@@ -162,10 +165,10 @@ tvTitle.setText(<span class="s">"Meine Einkaufsliste"</span>);</pre>
 <p>Sehr oft soll ein Text eine Zahl enthalten, die erst zur Laufzeit feststeht. <b>Dann zerlegst du ihn nicht, sondern lässt eine Lücke.</b></p>
 
 <pre><span class="c">&lt;!-- in strings.xml --&gt;</span>
-<span class="c">&lt;string name=</span><span class="s">"amount_format"</span><span class="c">&gt;</span>%1$.2f CHF<span class="c">&lt;/string&gt;</span>
-<span class="c">&lt;string name=</span><span class="s">"progress_format"</span><span class="c">&gt;</span>Frage %1$d von %2$d<span class="c">&lt;/string&gt;</span></pre>
+&lt;<span class="g">string</span> name=<span class="s">"amount_format"</span>&gt;%1$.2f CHF&lt;/<span class="g">string</span>&gt;
+&lt;<span class="g">string</span> name=<span class="s">"progress_format"</span>&gt;Frage %1$d von %2$d&lt;/<span class="g">string</span>&gt;</pre>
 
-<pre><span class="c">// im Java, die Lücken werden von links nach rechts gefüllt</span>
+<pre><span class="d">// im Java, die Lücken werden von links nach rechts gefüllt</span>
 tvProgress.setText(getString(<span class="t">R</span>.string.progress_format, aktuelle, gesamt));</pre>
 
 <table>
@@ -208,7 +211,7 @@ tvProgress.setText(getString(<span class="t">R</span>.string.progress_format, ak
 
 <h2>10 Wo das im Ganzen steht</h2>
 
-<pre><span class="c">   Was steht im Layout          XML verstehen
+<pre><span class="d">   Was steht im Layout          XML verstehen
         |                       android:, app:, tools:, das Zeichen @
         |
         v
@@ -236,6 +239,9 @@ tvProgress.setText(getString(<span class="t">R</span>.string.progress_format, ak
 <p><b>Die Antworten stehen alle auf diesem Blatt.</b> Wenn du eine nicht findest, hast du den Abschnitt überschlagen, und genau der ist der, den du brauchst.</p>
 </div>
 
+<!--M335:WEITER-->
+<nav class="weiter"><a class="zurueck" href="wechsel.html"><span>Zurück</span>Bildschirme wechseln</a><a class="vor" href="persistenz.html"><span>Weiter</span>Daten aufbewahren</a></nav>
+<!--/M335:WEITER-->
 <p class="foot">Modul 335 | Nachschlagen | Ressourcen und R | Version 1 | 04.09.2026</p>
 
 </div>
@@ -244,6 +250,52 @@ tvProgress.setText(getString(<span class="t">R</span>.string.progress_format, ak
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
 <script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
 /* ------------------------------------------------------------------
    M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
 
@@ -354,7 +406,15 @@ tvProgress.setText(getString(<span class="t">R</span>.string.progress_format, ak
     heads.forEach(function (h) {
       eintraege.push({
         el: h,
-        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
         stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
       });
     });

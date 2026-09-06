@@ -4,17 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>03C Klick auswerten, markieren, sperren</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
 <!--M335:STIL-->
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/stil/rahmen.css">
-<link rel="stylesheet" href="/stil/dokument.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
 <!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
 <header class="site-header"><div class="in">
-<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
-<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
 <button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
@@ -107,7 +110,7 @@
 <span class="k">private</span> <span class="t">String</span> correctAnswer;
 
 <span class="c">/** Erreichte Punkte. Bei einer einzigen Frage höchstens einer. */</span>
-<span class="k">private int</span> score = <span class="s">0</span>;</pre>
+<span class="k">private</span> <span class="k">int</span> score = 0;</pre>
 <div class="tip">
 <p><b>Warum das Felder sind und keine lokalen Variablen.</b> Eine lokale Variable lebt nur solange die Methode läuft. Diese vier Werte brauchst du in <code>onCreate</code> und später wieder beim Klick, also in verschiedenen Methoden. Was mehrere Methoden brauchen, gehört ins Feld.</p>
 </div>
@@ -127,21 +130,21 @@
 <div class="step">
 <p><span class="n">A2</span><b>In <code>onCreate</code> verdrahten. Diesen Block bekommst du vorgegeben.</b></p>
 <p>Er kommt <b>unter</b> den Insets-Block, ganz ans Ende von <code>onCreate</code>.</p>
-<pre>tvScore = findViewById(R.id.tvScore);
+<pre>tvScore = findViewById(<span class="t">R</span>.id.tvScore);
 
-<span class="c">// Die vier Buttons in ein Array. Alles, was danach kommt, läuft in
-// einer Schleife. Vier Mal derselbe Code wäre vier Mal die Chance,
-// eine Zeile zu vergessen.</span>
+<span class="l">// Die vier Buttons in ein Array. Alles, was danach kommt, läuft in</span>
+<span class="l">// einer Schleife. Vier Mal derselbe Code wäre vier Mal die Chance,</span>
+<span class="l">// eine Zeile zu vergessen.</span>
 answerButtons = <span class="k">new</span> <span class="t">Button</span>[]{
-        findViewById(R.id.btnAnswer1),
-        findViewById(R.id.btnAnswer2),
-        findViewById(R.id.btnAnswer3),
-        findViewById(R.id.btnAnswer4)
+        findViewById(<span class="t">R</span>.id.btnAnswer1),
+        findViewById(<span class="t">R</span>.id.btnAnswer2),
+        findViewById(<span class="t">R</span>.id.btnAnswer3),
+        findViewById(<span class="t">R</span>.id.btnAnswer4)
 };
 
-<span class="c">// Die richtige Antwort steht in strings.xml, damit der Text nur an
-// einer Stelle steht.</span>
-correctAnswer = getString(R.string.q1_answer3);</pre>
+<span class="l">// Die richtige Antwort steht in strings.xml, damit der Text nur an</span>
+<span class="l">// einer Stelle steht.</span>
+correctAnswer = getString(<span class="t">R</span>.string.q1_answer3);</pre>
 <div class="warn">
 <p><b>Die Reihenfolge im Array ist die Reihenfolge im Layout.</b> Das ist keine Vorschrift von Android, sondern eine Abmachung mit dir selbst. Wer sie bricht, sucht später einen Fehler, den es im Code gar nicht gibt.</p>
 </div>
@@ -157,11 +160,11 @@ correctAnswer = getString(R.string.q1_answer3);</pre>
 <div class="step">
 <p><span class="n">A3</span><b>Den Punktestand anzeigen.</b></p>
 <p>Trag in <code>res/values/strings.xml</code> einen neuen Text ein:</p>
-<pre>&lt;<span class="t">string</span> name=<span class="s">"score_format"</span>&gt;Punkte %1$d&lt;/<span class="t">string</span>&gt;</pre>
+<pre>&lt;<span class="g">string</span> name=<span class="s">"score_format"</span>&gt;Punkte %1$d&lt;/<span class="g">string</span>&gt;</pre>
 <p>Dann eine kurze Methode am Ende der Klasse:</p>
 <pre><span class="c">/** Schreibt den aktuellen Punktestand in die Anzeige oben rechts. */</span>
-<span class="k">private void</span> showScore() {
-    tvScore.setText(getString(R.string.score_format, score));
+<span class="k">private</span> <span class="k">void</span> <span class="m">showScore</span>() {
+    tvScore.setText(getString(<span class="t">R</span>.string.score_format, score));
 }</pre>
 <p>Ruf sie am Ende von <code>onCreate</code> auf, vor der Log-Zeile.</p>
 <div class="tip">
@@ -193,7 +196,7 @@ correctAnswer = getString(R.string.q1_answer3);</pre>
  *
  * @param view der Button, der angetippt wurde
  */</span>
-<span class="k">private void</span> onAnswerClicked(<span class="t">View</span> view) {
+<span class="k">private</span> <span class="k">void</span> <span class="m">onAnswerClicked</span>(<span class="t">View</span> view) {
     <span class="t">String</span> givenAnswer = ((<span class="t">Button</span>) view).getText().toString();
     <span class="k">boolean</span> isCorrect = correctAnswer.equals(givenAnswer);
 
@@ -202,7 +205,7 @@ correctAnswer = getString(R.string.q1_answer3);</pre>
         showScore();
     }
 
-    Log.d(TAG, <span class="s">"answer="</span> + givenAnswer + <span class="s">" correct="</span> + isCorrect);
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"answer="</span> + givenAnswer + <span class="s">" correct="</span> + isCorrect);
 }</pre>
 <div class="warn">
 <p><b>Hier steht <code>equals</code> und nicht <code>==</code>. Das ist kein Stil, das ist Pflicht.</b></p>
@@ -228,9 +231,9 @@ correctAnswer = getString(R.string.q1_answer3);</pre>
 <div class="step">
 <p><span class="n">B1</span><b>Zwei Farben anlegen.</b></p>
 <p>In <code>res/values/colors.xml</code>, unter die zwei vorhandenen:</p>
-<pre>&lt;!-- Markierung der Antworten in der Spielrunde. --&gt;
-&lt;<span class="t">color</span> name=<span class="s">"answer_correct"</span>&gt;#0CA30C&lt;/<span class="t">color</span>&gt;
-&lt;<span class="t">color</span> name=<span class="s">"answer_wrong"</span>&gt;#D03B3B&lt;/<span class="t">color</span>&gt;</pre>
+<pre><span class="c">&lt;!-- Markierung der Antworten in der Spielrunde. --&gt;</span>
+&lt;<span class="g">color</span> name=<span class="s">"answer_correct"</span>&gt;#0CA30C&lt;/<span class="g">color</span>&gt;
+&lt;<span class="g">color</span> name=<span class="s">"answer_wrong"</span>&gt;#D03B3B&lt;/<span class="g">color</span>&gt;</pre>
 <p>Farben gehören genauso in eine Ressourcendatei wie Texte. Aus demselben Grund: ein Ort pro Wert.</p>
 </div>
 
@@ -252,13 +255,13 @@ correctAnswer = getString(R.string.q1_answer3);</pre>
  *
  * @param givenAnswer die Antwort, die der Spieler angetippt hat
  */</span>
-<span class="k">private void</span> markAnswers(<span class="t">String</span> givenAnswer) {
+<span class="k">private</span> <span class="k">void</span> <span class="m">markAnswers</span>(<span class="t">String</span> givenAnswer) {
     <span class="k">for</span> (<span class="t">Button</span> button : answerButtons) {
         <span class="t">String</span> text = button.getText().toString();
         <span class="k">if</span> (text.equals(correctAnswer)) {
-            markButton(button, R.color.answer_correct);
-        } <span class="k">else if</span> (text.equals(givenAnswer)) {
-            markButton(button, R.color.answer_wrong);
+            markButton(button, <span class="t">R</span>.color.answer_correct);
+        } <span class="k">else</span> <span class="k">if</span> (text.equals(givenAnswer)) {
+            markButton(button, <span class="t">R</span>.color.answer_wrong);
         }
     }
 }
@@ -269,7 +272,7 @@ correctAnswer = getString(R.string.q1_answer3);</pre>
  * @param button   der Button, der eingefärbt wird
  * @param colorRes die Farbe aus colors.xml
  */</span>
-<span class="k">private void</span> markButton(<span class="t">Button</span> button, <span class="k">int</span> colorRes) {
+<span class="k">private</span> <span class="k">void</span> <span class="m">markButton</span>(<span class="t">Button</span> button, <span class="k">int</span> colorRes) {
     <span class="k">int</span> color = <span class="t">ContextCompat</span>.getColor(<span class="k">this</span>, colorRes);
     button.setBackgroundColor(color);
 }</pre>
@@ -337,7 +340,7 @@ button.setTextColor(<span class="t">Color</span>.WHITE);</pre>
  * Ohne diese Sperre tippt jemand zweimal auf dieselbe richtige Antwort
  * und bekommt zwei Punkte für eine Frage.
  */</span>
-<span class="k">private void</span> lockAnswers() {
+<span class="k">private</span> <span class="k">void</span> <span class="m">lockAnswers</span>() {
     <span class="k">for</span> (<span class="t">Button</span> button : answerButtons) {
         button.setEnabled(<span class="k">false</span>);
     }
@@ -392,7 +395,7 @@ button.setTextColor(<span class="t">Color</span>.WHITE);</pre>
 
 <div class="ue">
 <div class="t">Übung 3, erklären</div>
-<p>Erkläre einem Lerngspänli in eigenen Worten, warum <code>setBackgroundColor</code> bei diesem Button nichts bewirkt hat und warum das schlimmer ist als eine Fehlermeldung.</p>
+<p>Erkläre einer anderen Person in eigenen Worten, warum <code>setBackgroundColor</code> bei diesem Button nichts bewirkt hat und warum das schlimmer ist als eine Fehlermeldung.</p>
 <p><b>So prüfst du:</b> Dein Gegenüber kann danach sagen, woran es merken würde, dass eine Methode still ignoriert wird.</p>
 </div>
 
@@ -472,6 +475,9 @@ button.setTextColor(<span class="t">Color</span>.WHITE);</pre>
 </table>
 
 
+<!--M335:WEITER-->
+<nav class="weiter"><div class="reihe"><span>Zu 03C</span><a href="03c-loesung.html">Lösung</a></div><a class="vor" href="03d.html"><span>Weiter</span>03D Die Datenklasse Question</a></nav>
+<!--/M335:WEITER-->
 <p class="foot">Modul 335 | Tag 2 Vormittag | Auftrag 03C | Version 2 | 14.08.2026</p>
 
 </div>
@@ -480,6 +486,52 @@ button.setTextColor(<span class="t">Color</span>.WHITE);</pre>
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
 <script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
 /* ------------------------------------------------------------------
    M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
 
@@ -590,7 +642,15 @@ button.setTextColor(<span class="t">Color</span>.WHITE);</pre>
     heads.forEach(function (h) {
       eintraege.push({
         el: h,
-        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
         stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
       });
     });

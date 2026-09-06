@@ -4,17 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>05B Lösung MainActivity und Ergebnis zurück</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
 <!--M335:STIL-->
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/stil/rahmen.css">
-<link rel="stylesheet" href="/stil/dokument.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
 <!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
 <header class="site-header"><div class="in">
-<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
-<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
 <button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
@@ -178,15 +181,15 @@
  * Der Paketname davor ist Gewohnheit, kein Zwang. Ein Intent kann von
  * überall kommen, und "SCORE" allein wäre kein eindeutiger Name.
  */</span>
-<span class="k">public static final</span> <span class="t">String</span> EXTRA_SCORE = <span class="s">"ch.wiss.m335.quiz.SCORE"</span>;
+<span class="k">public</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="t">EXTRA_SCORE</span> = <span class="s">"ch.wiss.m335.quiz.SCORE"</span>;
 
 <span class="c">/** Schlüssel für die Anzahl Fragen der Runde im Ergebnis-Intent. */</span>
-<span class="k">public static final</span> <span class="t">String</span> EXTRA_TOTAL = <span class="s">"ch.wiss.m335.quiz.TOTAL"</span>;
+<span class="k">public</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="t">EXTRA_TOTAL</span> = <span class="s">"ch.wiss.m335.quiz.TOTAL"</span>;
 
 <span class="c">/** Der Knopf, der diesen Bildschirm beendet und ins Menü zurückführt. */</span>
 <span class="k">private</span> <span class="t">Button</span> btnBackToMain;</pre>
 
-<pre><span class="c">// in onCreate, bei den anderen Listenern
+<pre><span class="d">// in onCreate, bei den anderen Listenern
 // finish beendet diese Activity. Das Ergebnis liegt zu diesem
 // Zeitpunkt schon bereit, darum steht hier sonst nichts.</span>
 btnBackToMain.setOnClickListener(v -&gt; finish());</pre>
@@ -198,16 +201,16 @@ btnBackToMain.setOnClickListener(v -&gt; finish());</pre>
  * Sonst geht es verloren, wenn jemand die System-Zurück-Taste nimmt,
  * und das tun die meisten.
  */</span>
-<span class="k">private void</span> showResult() {
-    tvResult.setText(getString(R.string.result_format, score, roundQuestions.size()));
+<span class="k">private</span> <span class="k">void</span> <span class="m">showResult</span>() {
+    tvResult.setText(getString(<span class="t">R</span>.string.result_format, score, roundQuestions.size()));
     buildQuestionList();
 
-    svQuestion.setVisibility(<span class="t">View</span>.GONE);
-    llResult.setVisibility(<span class="t">View</span>.VISIBLE);
+    svQuestion.setVisibility(<span class="t">View</span>.<span class="t">GONE</span>);
+    llResult.setVisibility(<span class="t">View</span>.<span class="t">VISIBLE</span>);
 
     publishResult();
 
-    Log.d(TAG, <span class="s">"round finished, score="</span> + score);
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"round finished, score="</span> + score);
 }
 
 <span class="c">/**
@@ -221,13 +224,13 @@ btnBackToMain.setOnClickListener(v -&gt; finish());</pre>
  * lässt sich auf viele Arten verlassen. Wer erst beim Verlassen
  * hinterlegt, muss jeden dieser Wege abfangen.
  */</span>
-<span class="k">private void</span> publishResult() {
+<span class="k">private</span> <span class="k">void</span> <span class="m">publishResult</span>() {
     <span class="t">Intent</span> data = <span class="k">new</span> <span class="t">Intent</span>();
-    data.putExtra(EXTRA_SCORE, score);
-    data.putExtra(EXTRA_TOTAL, roundQuestions.size());
-    setResult(RESULT_OK, data);
+    data.putExtra(<span class="t">EXTRA_SCORE</span>, score);
+    data.putExtra(<span class="t">EXTRA_TOTAL</span>, roundQuestions.size());
+    setResult(<span class="t">RESULT_OK</span>, data);
 
-    Log.d(TAG, <span class="s">"result published, score="</span> + score + <span class="s">"/"</span> + roundQuestions.size());
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"result published, score="</span> + score + <span class="s">"/"</span> + roundQuestions.size());
 }</pre>
 
 <pre><span class="c">/**
@@ -236,37 +239,37 @@ btnBackToMain.setOnClickListener(v -&gt; finish());</pre>
  * Punktestand und Zähler gehen auf null zurück. Danach ist wieder der
  * Fragebereich sichtbar und der Ergebnisbereich verschwunden.
  */</span>
-<span class="k">private void</span> startRound() {
-    <span class="c">// Eine neue Runde macht das alte Ergebnis ungültig, bis sie fertig ist.</span>
-    setResult(RESULT_CANCELED);
+<span class="k">private</span> <span class="k">void</span> <span class="m">startRound</span>() {
+    <span class="l">// Eine neue Runde macht das alte Ergebnis ungültig, bis sie fertig ist.</span>
+    setResult(<span class="t">RESULT_CANCELED</span>);
 
-    roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;(allQuestions.subList(<span class="k">0</span>, QUESTIONS_PER_ROUND));
-    currentIndex = <span class="k">0</span>;
-    score = <span class="k">0</span>;
+    roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;(allQuestions.subList(0, <span class="t">QUESTIONS_PER_ROUND</span>));
+    currentIndex = 0;
+    score = 0;
 
-    llResult.setVisibility(<span class="t">View</span>.GONE);
-    svQuestion.setVisibility(<span class="t">View</span>.VISIBLE);
+    llResult.setVisibility(<span class="t">View</span>.<span class="t">GONE</span>);
+    svQuestion.setVisibility(<span class="t">View</span>.<span class="t">VISIBLE</span>);
 
     showQuestion();
-    Log.d(TAG, <span class="s">"round started"</span>);
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"round started"</span>);
 }</pre>
 
 <h3>MainActivity, vollständig</h3>
 <pre><span class="k">package</span> ch.wiss.m335.quiz;
 
-<span class="k">import</span> android.content.Intent;
-<span class="k">import</span> android.os.Bundle;
-<span class="k">import</span> android.util.Log;
-<span class="k">import</span> android.widget.Button;
-<span class="k">import</span> android.widget.TextView;
+<span class="k">import</span> android.content.<span class="t">Intent</span>;
+<span class="k">import</span> android.os.<span class="t">Bundle</span>;
+<span class="k">import</span> android.util.<span class="t">Log</span>;
+<span class="k">import</span> android.widget.<span class="t">Button</span>;
+<span class="k">import</span> android.widget.<span class="t">TextView</span>;
 
-<span class="k">import</span> androidx.activity.EdgeToEdge;
-<span class="k">import</span> androidx.activity.result.ActivityResultLauncher;
-<span class="k">import</span> androidx.activity.result.contract.ActivityResultContracts;
-<span class="k">import</span> androidx.appcompat.app.AppCompatActivity;
-<span class="k">import</span> androidx.core.graphics.Insets;
-<span class="k">import</span> androidx.core.view.ViewCompat;
-<span class="k">import</span> androidx.core.view.WindowInsetsCompat;
+<span class="k">import</span> androidx.activity.<span class="t">EdgeToEdge</span>;
+<span class="k">import</span> androidx.activity.result.<span class="t">ActivityResultLauncher</span>;
+<span class="k">import</span> androidx.activity.result.contract.<span class="t">ActivityResultContracts</span>;
+<span class="k">import</span> androidx.appcompat.app.<span class="t">AppCompatActivity</span>;
+<span class="k">import</span> androidx.core.graphics.<span class="t">Insets</span>;
+<span class="k">import</span> androidx.core.view.<span class="t">ViewCompat</span>;
+<span class="k">import</span> androidx.core.view.<span class="t">WindowInsetsCompat</span>;
 
 <span class="c">/**
  * Der Startbildschirm der Quiz-App.
@@ -286,7 +289,7 @@ btnBackToMain.setOnClickListener(v -&gt; finish());</pre>
  * Was hier mit Absicht noch fehlt: dieser Punktestand lebt nur in zwei
  * Feldern. Er überlebt das Beenden der App nicht.
  */</span>
-<span class="k">public class</span> <span class="t">MainActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span> {
+<span class="k">public</span> <span class="k">class</span> <span class="t">MainActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span> {
 
     <span class="c">/**
      * Log-Tag für das ganze Modul 335.
@@ -296,19 +299,19 @@ btnBackToMain.setOnClickListener(v -&gt; finish());</pre>
      * Freitext über alle Spalten, und damit träfe "M335" jede Zeile
      * unserer App statt nur die selbst geschriebenen.
      */</span>
-    <span class="k">private static final</span> <span class="t">String</span> TAG = <span class="s">"Modul335"</span>;
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="v">TAG</span> = <span class="s">"Modul335"</span>;
 
     <span class="c">/** Bedeutet: es wurde noch keine Runde zu Ende gespielt. */</span>
-    <span class="k">private static final int</span> NO_ROUND_YET = -<span class="k">1</span>;
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="k">int</span> <span class="v">NO_ROUND_YET</span> = -1;
 
     <span class="c">/** Die Anzeige des letzten Punktestands, unter dem Titel. */</span>
-    <span class="k">private</span> <span class="t">TextView</span> tvLastScore;
+    <span class="k">private</span> <span class="t">TextView</span> <span class="v">tvLastScore</span>;
 
     <span class="c">/** Die Punkte der letzten beendeten Runde, oder NO_ROUND_YET. */</span>
-    <span class="k">private int</span> lastScore = NO_ROUND_YET;
+    <span class="k">private</span> <span class="k">int</span> <span class="v">lastScore</span> = <span class="v">NO_ROUND_YET</span>;
 
     <span class="c">/** Wie viele Fragen die letzte beendete Runde hatte. */</span>
-    <span class="k">private int</span> lastTotal;
+    <span class="k">private</span> <span class="k">int</span> <span class="v">lastTotal</span>;
 
     <span class="c">/**
      * Der Kanal, über den die GameActivity ihr Ergebnis zurückgibt.
@@ -317,54 +320,54 @@ btnBackToMain.setOnClickListener(v -&gt; finish());</pre>
      * onActivityResult ist seit API 30 veraltet. Der Launcher muss in
      * onCreate entstehen und nicht erst beim Klick.
      */</span>
-    <span class="k">private</span> <span class="t">ActivityResultLauncher</span>&lt;<span class="t">Intent</span>&gt; gameLauncher;
+    <span class="k">private</span> <span class="t">ActivityResultLauncher</span>&lt;<span class="t">Intent</span>&gt; <span class="v">gameLauncher</span>;
 
-    <span class="k">@Override</span>
-    <span class="k">protected void</span> onCreate(<span class="t">Bundle</span> savedInstanceState) {
+    <span class="a">@Override</span>
+    <span class="k">protected</span> <span class="k">void</span> <span class="m">onCreate</span>(<span class="t">Bundle</span> savedInstanceState) {
         <span class="k">super</span>.onCreate(savedInstanceState);
         <span class="t">EdgeToEdge</span>.enable(<span class="k">this</span>);
-        setContentView(R.layout.activity_main);
+        setContentView(<span class="t">R</span>.layout.activity_main);
 
-        <span class="c">// 16dp eigener Rand, in Pixel umgerechnet über die Dichte des Geräts.</span>
-        <span class="k">final int</span> extraPadding = <span class="t">Math</span>.round(<span class="k">16</span> * getResources().getDisplayMetrics().density);
+        <span class="l">// 16dp eigener Rand, in Pixel umgerechnet über die Dichte des Geräts.</span>
+        <span class="k">final</span> <span class="k">int</span> <span class="v">extraPadding</span> = <span class="t">Math</span>.round(16 * getResources().getDisplayMetrics().density);
 
-        <span class="c">// Wichtig: der eigene Rand wird zu den System-Insets dazugerechnet.</span>
-        <span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(R.id.clMain), (v, insets) -&gt; {
+        <span class="l">// Wichtig: der eigene Rand wird zu den System-Insets dazugerechnet.</span>
+        <span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(<span class="t">R</span>.id.clMain), (v, insets) -&gt; {
             <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.<span class="t">Type</span>.systemBars());
             v.setPadding(
-                    systemBars.left + extraPadding,
-                    systemBars.top + extraPadding,
-                    systemBars.right + extraPadding,
-                    systemBars.bottom + extraPadding);
+                    systemBars.left + <span class="v">extraPadding</span>,
+                    systemBars.top + <span class="v">extraPadding</span>,
+                    systemBars.right + <span class="v">extraPadding</span>,
+                    systemBars.bottom + <span class="v">extraPadding</span>);
             <span class="k">return</span> insets;
         });
 
-        tvLastScore = findViewById(R.id.tvLastScore);
+        <span class="v">tvLastScore</span> = findViewById(<span class="t">R</span>.id.<span class="v">tvLastScore</span>);
 
-        gameLauncher = registerForActivityResult(
+        <span class="v">gameLauncher</span> = registerForActivityResult(
                 <span class="k">new</span> <span class="t">ActivityResultContracts</span>.<span class="t">StartActivityForResult</span>(),
                 result -&gt; {
-                    <span class="c">// Wer die GameActivity mitten in der Runde verlässt,
-                    // schickt kein Ergebnis. Dann bleibt der alte Text stehen.</span>
-                    <span class="k">if</span> (result.getResultCode() == RESULT_OK &amp;&amp; result.getData() != <span class="k">null</span>) {
-                        lastScore = result.getData().getIntExtra(<span class="t">GameActivity</span>.EXTRA_SCORE, <span class="k">0</span>);
-                        lastTotal = result.getData().getIntExtra(<span class="t">GameActivity</span>.EXTRA_TOTAL, <span class="k">0</span>);
+                    <span class="l">// Wer die GameActivity mitten in der Runde verlässt,</span>
+                    <span class="l">// schickt kein Ergebnis. Dann bleibt der alte Text stehen.</span>
+                    <span class="k">if</span> (result.getResultCode() == <span class="t">RESULT_OK</span> &amp;&amp; result.getData() != <span class="k">null</span>) {
+                        <span class="v">lastScore</span> = result.getData().getIntExtra(<span class="t">GameActivity</span>.<span class="t">EXTRA_SCORE</span>, 0);
+                        <span class="v">lastTotal</span> = result.getData().getIntExtra(<span class="t">GameActivity</span>.<span class="t">EXTRA_TOTAL</span>, 0);
                         showLastScore();
-                        Log.d(TAG, <span class="s">"result received, score="</span> + lastScore + <span class="s">"/"</span> + lastTotal);
+                        <span class="t">Log</span>.d(<span class="v">TAG</span>, <span class="s">"result received, score="</span> + <span class="v">lastScore</span> + <span class="s">"/"</span> + <span class="v">lastTotal</span>);
                     }
                 });
 
-        <span class="t">Button</span> btnPlay = findViewById(R.id.btnPlay);
-        <span class="t">Button</span> btnAbout = findViewById(R.id.btnAbout);
+        <span class="t">Button</span> btnPlay = findViewById(<span class="t">R</span>.id.btnPlay);
+        <span class="t">Button</span> btnAbout = findViewById(<span class="t">R</span>.id.btnAbout);
 
-        <span class="c">// Spielen erwartet ein Ergebnis, darum der Launcher. Über die App
-        // erwartet keines, darum weiterhin das einfache startActivity.</span>
-        btnPlay.setOnClickListener(v -&gt; gameLauncher.launch(<span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">GameActivity</span>.<span class="k">class</span>)));
+        <span class="l">// Spielen erwartet ein Ergebnis, darum der Launcher. Über die App</span>
+        <span class="l">// erwartet keines, darum weiterhin das einfache startActivity.</span>
+        btnPlay.setOnClickListener(v -&gt; <span class="v">gameLauncher</span>.launch(<span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">GameActivity</span>.<span class="k">class</span>)));
         btnAbout.setOnClickListener(v -&gt; startActivity(<span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">AboutActivity</span>.<span class="k">class</span>)));
 
         showLastScore();
 
-        Log.d(TAG, <span class="s">"MainActivity onCreate"</span>);
+        <span class="t">Log</span>.d(<span class="v">TAG</span>, <span class="s">"MainActivity onCreate"</span>);
     }
 
     <span class="c">/**
@@ -373,11 +376,11 @@ btnBackToMain.setOnClickListener(v -&gt; finish());</pre>
      * Es gibt genau eine Stelle, die diesen Text setzt. Sonst müsste man
      * bei jeder Änderung an mehreren Orten suchen.
      */</span>
-    <span class="k">private void</span> showLastScore() {
-        <span class="k">if</span> (lastScore == NO_ROUND_YET) {
-            tvLastScore.setText(getString(R.string.last_score_none));
+    <span class="k">private</span> <span class="k">void</span> <span class="m">showLastScore</span>() {
+        <span class="k">if</span> (<span class="v">lastScore</span> == <span class="v">NO_ROUND_YET</span>) {
+            <span class="v">tvLastScore</span>.setText(getString(<span class="t">R</span>.string.last_score_none));
         } <span class="k">else</span> {
-            tvLastScore.setText(getString(R.string.last_score_format, lastScore, lastTotal));
+            <span class="v">tvLastScore</span>.setText(getString(<span class="t">R</span>.string.last_score_format, <span class="v">lastScore</span>, <span class="v">lastTotal</span>));
         }
     }
 }</pre>
@@ -425,9 +428,9 @@ btnBackToMain.setOnClickListener(v -&gt; finish());</pre>
 
 <div class="ue">
 <p class="t">Übung 1, die Prüfung wegnehmen</p>
-<pre><span class="c">// so sieht es ohne die Prüfung aus</span>
+<pre><span class="l">// so sieht es ohne die Prüfung aus</span>
 <span class="k">if</span> (result.getData() != <span class="k">null</span>) {
-    lastScore = result.getData().getIntExtra(<span class="t">GameActivity</span>.EXTRA_SCORE, <span class="k">0</span>);
+    lastScore = result.getData().getIntExtra(<span class="t">GameActivity</span>.<span class="t">EXTRA_SCORE</span>, 0);
     ...
 }</pre>
 <p><b>Was du siehst:</b> Nach dem Abbruch mitten in der Runde steht oben <b>Letzte Runde: 0 von 0 Punkten.</b> Dein gutes Ergebnis von vorhin ist weg.</p>
@@ -500,6 +503,9 @@ btnBackToMain.setOnClickListener(v -&gt; finish());</pre>
 <p>Zuerst der <b>05AB Wissenscheck</b> über beide Aufträge des Vormittags.</p>
 <p>Danach <b>05C</b>. Dort bekommt der Spielbildschirm einen dritten Bereich, in dem du die Kategorie wählst. Und aus den verstreuten <code>setVisibility</code>-Aufrufen wird endlich eine einzige Methode.</p>
 
+<!--M335:WEITER-->
+<nav class="weiter"><div class="reihe"><span>Zu 05B</span><a href="05b.html">Auftrag</a></div><a class="vor" href="05c.html"><span>Weiter</span>05C Drei Zustände und die Kategoriewahl</a></nav>
+<!--/M335:WEITER-->
 <p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 05B MainActivity und Ergebnis zurück &middot; Version 3 vom 05.09.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
 
 </div>
@@ -508,6 +514,52 @@ btnBackToMain.setOnClickListener(v -&gt; finish());</pre>
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
 <script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
 /* ------------------------------------------------------------------
    M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
 
@@ -618,7 +670,15 @@ btnBackToMain.setOnClickListener(v -&gt; finish());</pre>
     heads.forEach(function (h) {
       eintraege.push({
         el: h,
-        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
         stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
       });
     });

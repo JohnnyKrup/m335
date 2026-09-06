@@ -4,17 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>M335 Room verstehen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
 <!--M335:STIL-->
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/stil/rahmen.css">
-<link rel="stylesheet" href="/stil/dokument.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
 <!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
 <header class="site-header"><div class="in">
-<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
-<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
 <button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
@@ -46,7 +49,7 @@
 
 <p>So hängen die Bausteine zusammen. Von oben nach unten, und jede Stufe kennt nur die darunter.</p>
 
-<pre><span class="c">   DEINE ACTIVITY       holt sich das Dao und ruft eine Methode
+<pre><span class="d">   DEINE ACTIVITY       holt sich das Dao und ruft eine Methode
         |
         |  QuizDatabase.getInstance(this).questionDao()
         v
@@ -85,7 +88,7 @@
 
 <p>In deinem Projekt liegen zwei Klassen nebeneinander, die fast dasselbe beschreiben:</p>
 
-<pre><span class="c">model/Question.java         seit 03D, ohne Datenbank
+<pre><span class="d">model/Question.java         seit 03D, ohne Datenbank
 data/QuestionEntity.java    seit 07C, mit Room</span></pre>
 
 <div class="warn">
@@ -119,14 +122,14 @@ data/QuestionEntity.java    seit 07C, mit Room</span></pre>
 
 <p>Das hier ist die Form, die du in jedem Room-Projekt wiederfindest.</p>
 
-<pre><span class="c">data/
+<pre><span class="d">data/
   QuestionEntity.java     @Entity      eine pro Tabelle
   QuestionDao.java        @Dao         eine pro Tabelle
   QuizDatabase.java       @Database    genau eine pro App</span></pre>
 
 <p><b>Bei mehreren Tabellen wächst es so:</b></p>
 
-<pre><span class="c">data/
+<pre><span class="d">data/
   QuestionEntity.java     @Entity
   QuestionDao.java        @Dao
   HighscoreEntity.java    @Entity
@@ -135,17 +138,17 @@ data/QuestionEntity.java    seit 07C, mit Room</span></pre>
 
 <p>In der Datenbank-Klasse stünde dann:</p>
 
-<pre><span class="k">@Database</span>(entities = {<span class="t">QuestionEntity</span>.<span class="k">class</span>, <span class="t">HighscoreEntity</span>.<span class="k">class</span>}, version = <span class="s">1</span>)
-<span class="k">public abstract class</span> <span class="t">QuizDatabase</span> <span class="k">extends</span> <span class="t">RoomDatabase</span> {
-    <span class="k">public abstract</span> <span class="t">QuestionDao</span> questionDao();
-    <span class="k">public abstract</span> <span class="t">HighscoreDao</span> highscoreDao();
+<pre><span class="a">@Database</span>(entities = {<span class="t">QuestionEntity</span>.<span class="k">class</span>, <span class="t">HighscoreEntity</span>.<span class="k">class</span>}, version = 1)
+<span class="k">public</span> <span class="k">abstract</span> <span class="k">class</span> <span class="t">QuizDatabase</span> <span class="k">extends</span> <span class="t">RoomDatabase</span> {
+    <span class="k">public</span> <span class="k">abstract</span> <span class="t">QuestionDao</span> questionDao();
+    <span class="k">public</span> <span class="k">abstract</span> <span class="t">HighscoreDao</span> highscoreDao();
 }</pre>
 
 <h3>Und in einer grossen App kommt noch eine Schicht dazu</h3>
 
 <p>Die offizielle Architektur-Empfehlung von Android setzt zwischen das Dao und den Bildschirm noch eine Klasse, das <b>Repository</b>. Sie ist der einzige Eingang zu den Daten, und sie entscheidet, ob eine Antwort aus der Datenbank oder aus dem Netz kommt.</p>
 
-<pre><span class="c">Bildschirm  ->  Repository  ->  Dao  ->  Datenbank
+<pre><span class="d">Bildschirm  ->  Repository  ->  Dao  ->  Datenbank
                      |
                      +--------->  Netz</span></pre>
 
@@ -347,13 +350,13 @@ data/QuestionEntity.java    seit 07C, mit Room</span></pre>
 
 <div class="ue">
 <p class="t">Übung 3, erklären</p>
-<p style="margin:0">Erklär einem Lerngspänli in zwei Sätzen, warum es bei Room eine dritte Klasse gibt und in Spring Boot nicht. <b>Ohne die Wörter <i>einfacher</i>, <i>moderner</i> und <i>besser</i>.</b> <b>So prüfst du:</b> in deiner Antwort kommt vor, was Spring an dieser Stelle für dich erledigt.</p>
+<p style="margin:0">Erklär einer anderen Person in zwei Sätzen, warum es bei Room eine dritte Klasse gibt und in Spring Boot nicht. <b>Ohne die Wörter <i>einfacher</i>, <i>moderner</i> und <i>besser</i>.</b> <b>So prüfst du:</b> in deiner Antwort kommt vor, was Spring an dieser Stelle für dich erledigt.</p>
 </div>
 
 
 <h2>09 Wo das im Ganzen steht</h2>
 
-<pre><span class="c">   Was der Benutzer sieht       Listen verstehen
+<pre><span class="d">   Was der Benutzer sieht       Listen verstehen
         ^                       Adapter, ViewHolder, die einzelne Zeile
         |
    Welche Ablage, und warum     Daten aufbewahren
@@ -408,6 +411,9 @@ data/QuestionEntity.java    seit 07C, mit Room</span></pre>
 </div>
 
 
+<!--M335:WEITER-->
+<nav class="weiter"><a class="zurueck" href="daten.html"><span>Zurück</span>Wo deine App ihre Daten ablegt</a><a class="vor" href="listen.html"><span>Weiter</span>Listen verstehen</a></nav>
+<!--/M335:WEITER-->
 <p class="foot">Modul 335 | Nachschlagen | Room verstehen | Version 2 | 04.09.2026</p>
 
 </div>
@@ -416,6 +422,52 @@ data/QuestionEntity.java    seit 07C, mit Room</span></pre>
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
 <script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
 /* ------------------------------------------------------------------
    M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
 
@@ -526,7 +578,15 @@ data/QuestionEntity.java    seit 07C, mit Room</span></pre>
     heads.forEach(function (h) {
       eintraege.push({
         el: h,
-        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
         stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
       });
     });

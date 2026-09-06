@@ -4,17 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>03D Die Datenklasse Question</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
 <!--M335:STIL-->
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/stil/rahmen.css">
-<link rel="stylesheet" href="/stil/dokument.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
 <!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
 <header class="site-header"><div class="in">
-<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
-<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
 <button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
@@ -117,22 +120,22 @@
  * WISS-Quiz aus Modul 295. Dadurch kann die App später Fragen direkt
  * vom Server übernehmen, ohne dass etwas umbenannt werden muss.
  */</span>
-<span class="k">public class</span> <span class="t">Question</span> {
+<span class="k">public</span> <span class="k">class</span> <span class="t">Question</span> {
 
     <span class="c">/** Der Fragetext, zum Beispiel "Was ist die Hauptstadt der Schweiz?". */</span>
-    <span class="k">private</span> <span class="t">String</span> text;
+    <span class="k">private</span> <span class="t">String</span> <span class="v">text</span>;
 
     <span class="c">/** Die vier möglichen Antworten in der Reihenfolge der Buttons. */</span>
-    <span class="k">private</span> <span class="t">String</span>[] answers;
+    <span class="k">private</span> <span class="t">String</span>[] <span class="v">answers</span>;
 
     <span class="c">/** Die richtige Antwort als Text. Muss in answers enthalten sein. */</span>
-    <span class="k">private</span> <span class="t">String</span> correctAnswer;
+    <span class="k">private</span> <span class="t">String</span> <span class="v">correctAnswer</span>;
 
     <span class="c">/** Kategorie: Sport, Technologie, Geographie oder Geschichte. */</span>
-    <span class="k">private</span> <span class="t">String</span> category;
+    <span class="k">private</span> <span class="t">String</span> <span class="v">category</span>;
 
     <span class="c">/** Schwierigkeit: "leicht", "mittel" oder "schwer". */</span>
-    <span class="k">private</span> <span class="t">String</span> difficulty;</pre>
+    <span class="k">private</span> <span class="t">String</span> <span class="v">difficulty</span>;</pre>
 <div class="note">
 <p><b>Warum alle Felder <code>private</code> sind.</b> Von aussen soll niemand einfach <code>frage.correctAnswer = "irgendwas"</code> schreiben können. Wer den Wert braucht, geht über einen Getter. Wer ihn ändern dürfte, bekäme einen Setter, und diese Klasse hat mit Absicht keine.</p>
 <p>Eine Frage ändert sich nicht, während sie auf dem Bildschirm steht.</p>
@@ -154,7 +157,7 @@
 <p>Er nimmt alle fünf Werte entgegen und legt sie in die Felder. Die Reihenfolge der Parameter ist die Reihenfolge der Felder oben.</p>
 <pre><span class="k">public</span> <span class="t">Question</span>(<span class="t">String</span> text, <span class="t">String</span>[] answers, <span class="t">String</span> correctAnswer,
                 <span class="t">String</span> category, <span class="t">String</span> difficulty) {
-    <span class="c">// hier die fünf Zuweisungen</span>
+    <span class="l">// hier die fünf Zuweisungen</span>
 }</pre>
 <div class="tip">
 <p><b>Der Kurzweg.</b> Android Studio schreibt dir den Konstruktor selbst. Cursor in die Klasse setzen, dann <code>Alt</code> und <code>Einfg</code>, dann <code>Constructor</code>, dann alle fünf Felder auswählen. Schau dir das Ergebnis trotzdem genau an, du musst es lesen können.</p>
@@ -182,7 +185,7 @@
  * @param givenAnswer die Antwort, die der Spieler angetippt hat
  * @return true, wenn die Antwort richtig ist
  */</span>
-<span class="k">public boolean</span> isCorrect(<span class="t">String</span> givenAnswer) {
+<span class="k">public</span> <span class="k">boolean</span> <span class="m">isCorrect</span>(<span class="t">String</span> givenAnswer) {
     <span class="k">return</span> correctAnswer.equals(givenAnswer);
 }</pre>
 <div class="info">
@@ -196,7 +199,7 @@
 <p><span class="n">A5</span><b>Die fünf Getter. Ab hier selbst.</b></p>
 <p><code>getText</code>, <code>getAnswers</code>, <code>getCorrectAnswer</code>, <code>getCategory</code>, <code>getDifficulty</code>. Jeder mit einer kurzen Javadoc-Zeile.</p>
 <pre><span class="c">/** @return der Fragetext */</span>
-<span class="k">public</span> <span class="t">String</span> getText() {
+<span class="k">public</span> <span class="t">String</span> <span class="m">getText</span>() {
     <span class="k">return</span> text;
 }</pre>
 <p>Auch hier hilft <code>Alt</code> und <code>Einfg</code>, dann <code>Getter</code>. Die Javadoc-Zeilen schreibst du selbst.</p>
@@ -323,12 +326,12 @@ tvQuestion = findViewById(R.id.tvQuestion);</pre>
  * Genau eine Methode füllt den Bildschirm. Wer den Text an mehreren
  * Stellen setzt, vergisst irgendwann eine davon.
  */</span>
-<span class="k">private void</span> showQuestion() {
+<span class="k">private</span> <span class="k">void</span> <span class="m">showQuestion</span>() {
     tvCategory.setText(currentQuestion.getCategory());
     tvQuestion.setText(currentQuestion.getText());
 
     <span class="t">String</span>[] answers = currentQuestion.getAnswers();
-    <span class="k">for</span> (<span class="k">int</span> i = <span class="s">0</span>; i &lt; answerButtons.length; i++) {
+    <span class="k">for</span> (<span class="k">int</span> i = 0; i &lt; answerButtons.length; i++) {
         answerButtons[i].setText(answers[i]);
     }
 }</pre>
@@ -407,7 +410,7 @@ Log.d(TAG, <span class="s">"MainActivity onCreate, Frage aus dem Objekt"</span>)
 
 <div class="ue">
 <div class="t">Übung 3, erklären</div>
-<p>Erkläre einem Lerngspänli in eigenen Worten, warum <code>isCorrect</code> in <code>Question</code> steht und nicht in <code>MainActivity</code>.</p>
+<p>Erkläre einer anderen Person in eigenen Worten, warum <code>isCorrect</code> in <code>Question</code> steht und nicht in <code>MainActivity</code>.</p>
 <p><b>So prüfst du:</b> Dein Gegenüber kann danach eine zweite Methode nennen, die aus demselben Grund in die Datenklasse gehören würde.</p>
 </div>
 
@@ -485,6 +488,9 @@ Log.d(TAG, <span class="s">"MainActivity onCreate, Frage aus dem Objekt"</span>)
 </table>
 
 
+<!--M335:WEITER-->
+<nav class="weiter"><div class="reihe"><span>Zu 03D</span><a href="03d-loesung.html">Lösung</a></div><a class="vor" href="04a.html"><span>Weiter</span>04A Die Fragenliste und die Runde</a></nav>
+<!--/M335:WEITER-->
 <p class="foot">Modul 335 | Tag 2 Vormittag | Auftrag 03D | Version 2 | 14.08.2026</p>
 
 </div>
@@ -493,6 +499,52 @@ Log.d(TAG, <span class="s">"MainActivity onCreate, Frage aus dem Objekt"</span>)
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
 <script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
 /* ------------------------------------------------------------------
    M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
 
@@ -603,7 +655,15 @@ Log.d(TAG, <span class="s">"MainActivity onCreate, Frage aus dem Objekt"</span>)
     heads.forEach(function (h) {
       eintraege.push({
         el: h,
-        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
         stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
       });
     });

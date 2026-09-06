@@ -4,17 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>M335 Rückruf verstehen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
 <!--M335:STIL-->
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/stil/rahmen.css">
-<link rel="stylesheet" href="/stil/dokument.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
 <!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
 <header class="site-header"><div class="in">
-<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
-<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
 <button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
@@ -31,7 +34,7 @@
 
 <p>Du hast einen Knopf im Layout. Du willst wissen, wann jemand darauf tippt. Das Naheliegende wäre, ihn zu fragen.</p>
 
-<pre><span class="c">// So geht es NICHT. Diese Methode gibt es nicht.</span>
+<pre><span class="l">// So geht es NICHT. Diese Methode gibt es nicht.</span>
 <span class="k">if</span> (btnNext.wasClicked()) {
     showNextQuestion();
 }</pre>
@@ -61,7 +64,7 @@
 
 <p>Zuerst der kurze Fall, der Knopf. Zwei Zeitpunkte, und zwischen ihnen liegt das Warten.</p>
 
-<pre><span class="c">   ZEITPUNKT 1   onCreate läuft
+<pre><span class="d">   ZEITPUNKT 1   onCreate läuft
         |
         |  btnNext.setOnClickListener(v -> onNextClicked());
         |        du gibst dem Knopf einen Zettel
@@ -85,28 +88,28 @@
 
 <p>Und jetzt der lange Fall, das Ergebnis aus einem zweiten Bildschirm. Der Zettel geht denselben Weg, nur liegt zwischen Abgabe und Anruf eine ganze Activity.</p>
 
-<pre><span class="c">   MainActivity, onCreate
+<pre>   <span class="t">MainActivity</span>, onCreate
         |
-        |  gameLauncher = registerForActivityResult(..., result -> { ... });
-        |        du meldest den Zettel bei ANDROID an, nicht bei der GameActivity
+        |  gameLauncher = registerForActivityResult(..., result -&gt; { ... });
+        |        du meldest den <span class="t">Zettel</span> bei <span class="t">ANDROID</span> an, nicht bei der <span class="t">GameActivity</span>
         v
    +---------------+
-   |    ANDROID    |  merkt sich: MainActivity wartet auf ein Ergebnis
+   |    <span class="t">ANDROID</span>    |  merkt sich: <span class="t">MainActivity</span> wartet auf ein <span class="t">Ergebnis</span>
    +---------------+
         |
-        |  gameLauncher.launch(new Intent(this, GameActivity.class));
+        |  gameLauncher.launch(<span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">GameActivity</span>.<span class="k">class</span>));
         v
-   GameActivity     läuft, spielt eine Runde, dauert Minuten
+   <span class="t">GameActivity</span>     läuft, spielt eine <span class="t">Runde</span>, dauert <span class="t">Minuten</span>
         |
-        |  setResult(RESULT_OK, data);
+        |  setResult(<span class="t">RESULT_OK</span>, data);
         |  finish();
         v
    +---------------+
-   |    ANDROID    |  jetzt erst wird ausgeliefert
+   |    <span class="t">ANDROID</span>    |  jetzt erst wird ausgeliefert
    +---------------+
         |
         v
-   result -> { ... }   DEIN Rückruf läuft in der MainActivity</span></pre>
+   result -&gt; { ... }   <span class="t">DEIN</span> <span class="t">Rückruf</span> läuft in der <span class="t">MainActivity</span></pre>
 
 <div class="warn">
 <p><b>Die GameActivity kennt deinen Rückruf nicht.</b> Sie bekommt ihn nicht übergeben, sie sieht ihn nie, sie weiss nicht einmal, wer sie gestartet hat. Sie sagt nur <i>mein Ergebnis ist das hier</i> und endet. Android stellt die Verbindung her. <b>Das ist der grosse Unterschied zum Knopf</b>, und Abschnitt 05 sagt, warum es so gebaut ist.</p>
@@ -128,7 +131,7 @@
 
 <h3>Der Knopf, die einfachste Form</h3>
 
-<pre><span class="c">// in onCreate, aus deinem WissQuiz</span>
+<pre><span class="d">// in onCreate, aus deinem WissQuiz</span>
 button.setOnClickListener(v -&gt; onAnswerClicked(v));</pre>
 
 <p>Eine Zeile, alle vier Teile drin. Der Auslöser ist <code>button</code>. Die Anmeldung ist <code>setOnClickListener</code>. Der Rückruf ist alles rechts vom Pfeil. Das Mitgebrachte ist <code>v</code>, also der Knopf, auf den wirklich getippt wurde.</p>
@@ -141,20 +144,20 @@ button.setOnClickListener(v -&gt; onAnswerClicked(v));</pre>
 
 <p>Hier stehen die vier Teile nicht mehr beieinander. Sie sind über drei Stellen verteilt.</p>
 
-<pre><span class="c">// Teil 1, das Feld der Klasse</span>
+<pre><span class="l">// Teil 1, das Feld der Klasse</span>
 <span class="k">private</span> <span class="t">ActivityResultLauncher</span>&lt;<span class="t">Intent</span>&gt; gameLauncher;
 
-<span class="c">// Teil 2, die Anmeldung. In onCreate, nicht später</span>
+<span class="l">// Teil 2, die Anmeldung. In onCreate, nicht später</span>
 gameLauncher = registerForActivityResult(
-        <span class="k">new</span> <span class="t">ActivityResultContracts</span>.StartActivityForResult(),
+        <span class="k">new</span> <span class="t">ActivityResultContracts</span>.<span class="t">StartActivityForResult</span>(),
         result -&gt; {
-            <span class="k">if</span> (result.getResultCode() == RESULT_OK &amp;&amp; result.getData() != <span class="k">null</span>) {
-                lastScore = result.getData().getIntExtra(<span class="t">GameActivity</span>.EXTRA_SCORE, <span class="s">0</span>);
+            <span class="k">if</span> (result.getResultCode() == <span class="t">RESULT_OK</span> &amp;&amp; result.getData() != <span class="k">null</span>) {
+                lastScore = result.getData().getIntExtra(<span class="t">GameActivity</span>.<span class="t">EXTRA_SCORE</span>, 0);
                 showLastScore();
             }
         });
 
-<span class="c">// Teil 3, das Auslösen. Im Klick-Rückruf des Knopfes</span>
+<span class="l">// Teil 3, das Auslösen. Im Klick-Rückruf des Knopfes</span>
 btnPlay.setOnClickListener(v -&gt; gameLauncher.launch(<span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">GameActivity</span>.<span class="k">class</span>)));</pre>
 
 <p><b>Schau dir die letzte Zeile genau an.</b> Dort stecken zwei Rückrufe ineinander. Der äussere ist der Klick. Der innere ist der Launcher, und der ist zu diesem Zeitpunkt längst angemeldet.</p>
@@ -167,14 +170,14 @@ btnPlay.setOnClickListener(v -&gt; gameLauncher.launch(<span class="k">new</span
 
 <p><b>Also beschreibt der Adapter, welchen Zettel er annimmt.</b> Genau eine Methode, mehr nicht.</p>
 
-<pre><span class="c">// im QuestionAdapter, aus 08C</span>
-<span class="k">public interface</span> <span class="t">OnQuestionClickListener</span> {
+<pre><span class="l">// im QuestionAdapter, aus 08C</span>
+<span class="k">public</span> <span class="k">interface</span> <span class="t">OnQuestionClickListener</span> {
     <span class="k">void</span> onQuestionClick(<span class="t">QuestionEntity</span> question);
 }
 
-<span class="k">private final</span> <span class="t">OnQuestionClickListener</span> listener;
+<span class="k">private</span> <span class="k">final</span> <span class="t">OnQuestionClickListener</span> listener;
 
-<span class="k">public</span> <span class="t">QuestionAdapter</span>(<span class="t">OnQuestionClickListener</span> listener) {
+<span class="k">public</span> <span class="m">QuestionAdapter</span>(<span class="t">OnQuestionClickListener</span> listener) {
     <span class="k">this</span>.listener = listener;
 }</pre>
 
@@ -184,15 +187,15 @@ btnPlay.setOnClickListener(v -&gt; gameLauncher.launch(<span class="k">new</span
 
 <p>Die Activity gibt sich beim Bauen des Adapters selbst mit.</p>
 
-<pre><span class="c">// AdminActivity</span>
-<span class="k">public class</span> <span class="t">AdminActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span>
+<pre><span class="l">// AdminActivity</span>
+<span class="k">public</span> <span class="k">class</span> <span class="t">AdminActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span>
         <span class="k">implements</span> <span class="t">QuestionAdapter</span>.<span class="t">OnQuestionClickListener</span> {
 
     adapter = <span class="k">new</span> <span class="t">QuestionAdapter</span>(<span class="k">this</span>);
 
-    <span class="k">public void</span> onQuestionClick(<span class="t">QuestionEntity</span> question) {
+    <span class="k">public</span> <span class="k">void</span> <span class="m">onQuestionClick</span>(<span class="t">QuestionEntity</span> question) {
         <span class="t">Intent</span> intent = <span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">QuestionEditActivity</span>.<span class="k">class</span>);
-        intent.putExtra(<span class="t">QuestionEditActivity</span>.EXTRA_QUESTION_ID, question.getId());
+        intent.putExtra(<span class="t">QuestionEditActivity</span>.<span class="t">EXTRA_QUESTION_ID</span>, question.getId());
         startActivity(intent);
     }
 }</pre>
@@ -262,10 +265,10 @@ btnPlay.setOnClickListener(v -&gt; gameLauncher.launch(<span class="k">new</span
 
 <p>Falls dir React schon begegnet ist, kennst du das Muster dort unter einem anderen Namen. Eine Komponente bekommt eine Funktion als Attribut mitgegeben und ruft sie auf, wenn etwas passiert.</p>
 
-<pre><span class="c">// React, in der Parent-Komponente</span>
-&lt;Game onFinish={(score) =&gt; setScore(score)} /&gt;
+<pre>// React, in der Parent-Komponente
+&lt;<span class="g">Game</span> onFinish={(score) =&gt; setScore(score)} /&gt;
 
-<span class="c">// React, in der Child-Komponente</span>
+// React, in der Child-Komponente
 props.onFinish(42);</pre>
 
 <p><b>Das ist derselbe Gedanke.</b> Das Child entscheidet nicht, was mit dem Ergebnis geschieht. Es meldet nur, dass es fertig ist. Wer das Ergebnis auswertet, steht ganz woanders.</p>
@@ -342,14 +345,14 @@ props.onFinish(42);</pre>
 
 <div class="ue">
 <p class="t">Übung 4, erklären</p>
-<p style="margin:0">Erklär einem Lerngspänli in zwei Sätzen, warum es keine Methode <code>button.wasClicked()</code> gibt. <b>Ohne die Wörter <i>Callback</i>, <i>Listener</i> und <i>Event</i>.</b> <b>So prüfst du:</b> in deiner Antwort kommt vor, was der Bildschirm in der Zwischenzeit täte.</p>
+<p style="margin:0">Erklär einer anderen Person in zwei Sätzen, warum es keine Methode <code>button.wasClicked()</code> gibt. <b>Ohne die Wörter <i>Callback</i>, <i>Listener</i> und <i>Event</i>.</b> <b>So prüfst du:</b> in deiner Antwort kommt vor, was der Bildschirm in der Zwischenzeit täte.</p>
 </div>
 
 <h2>09 Wo das im Ganzen steht</h2>
 
 <p>Der Rückruf ist kein Sonderfall in deiner App. <b>Er ist die Bauweise.</b> Alles, was deine App je tut, läuft in einem Rückruf, den jemand anders auslöst.</p>
 
-<pre><span class="c">   ANDROID startet deine App
+<pre><span class="d">   ANDROID startet deine App
         |
         |  onCreate(...)              das ist selbst schon ein Rückruf
         v                             du rufst diese Methode nie auf
@@ -396,6 +399,9 @@ props.onFinish(42);</pre>
 <p><b>Die Antworten stehen alle auf diesem Blatt.</b> Wenn du eine nicht findest, hast du den Abschnitt überschlagen, und genau der ist der, den du brauchst.</p>
 </div>
 
+<!--M335:WEITER-->
+<nav class="weiter"><a class="zurueck" href="activity.html"><span>Zurück</span>Die Activity von innen</a><a class="vor" href="layouts.html"><span>Weiter</span>Layouts verstehen</a></nav>
+<!--/M335:WEITER-->
 <p class="foot">Modul 335 | Nachschlagen | Rückruf verstehen | Version 1 | 05.09.2026</p>
 
 </div>
@@ -404,6 +410,52 @@ props.onFinish(42);</pre>
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
 <script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
 /* ------------------------------------------------------------------
    M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
 
@@ -514,7 +566,15 @@ props.onFinish(42);</pre>
     heads.forEach(function (h) {
       eintraege.push({
         el: h,
-        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
         stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
       });
     });

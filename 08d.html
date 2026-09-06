@@ -3,160 +3,118 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>08D Testplan</title>
+<title>08D Auftrag: Testplan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
 <!--M335:STIL-->
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/stil/rahmen.css">
-<link rel="stylesheet" href="/stil/dokument.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
 <!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
 <header class="site-header"><div class="in">
-<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
-<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
 <button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
 <div class="wrap">
 
-<h1>08D Testplan</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Block 16. Zeitbudget 35 Minuten. Version 2 vom 26.08.2026.</p>
+<h1>08D Auftrag: Testplan</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 4 Nachmittag. Arbeitszeit 35 Minuten. Version 5 vom 06.09.2026.</p>
 
-<h2>01 Einführung</h2>
+<p>Du schreibst einen Testfall, führst ihn durch und schärfst drei Formulierungen. Gearbeitet wird auf Papier, auf dem <a href="08d-arbeitsblatt.html">Arbeitsblatt 08D</a>. Fertig bist du, wenn Testfall 1 mit allen sieben Feldern dasteht und die drei Übungen von Teil B beantwortet sind. Warum das so geht, steht in der <a href="08d-einfuehrung.html">Einführung zu 08D</a>.</p>
 
-<h3>Lernziele</h3>
+<h3 class="teil">Teil A, dein erster Testfall <span class="time">20 Minuten</span></h3>
+
+<h4 class="brauchst">Was du brauchst</h4>
 <table>
-<tr><th>HANOK</th><th>Ziel</th></tr>
-<tr><td>5.1</td><td>Kennt Testverfahren zur Überprüfung der funktionalen Anforderungen von Apps auf mobilen Geräten</td></tr>
-<tr><td>5.2</td><td>Kennt Testverfahren zur Überprüfung der nicht-funktionalen Anforderungen wie Portabilität, Ergonomie, Sicherheit und User Experience</td></tr>
+<tr><th>Baustein</th><th>Wofür</th></tr>
+<tr><td>Feld 1, Testfall-Nr</td><td>Eine Nummer, sonst nichts</td></tr>
+<tr><td>Feld 2, Titel</td><td>Ein Satz, der sagt, was geprüft wird</td></tr>
+<tr><td>Feld 3, Vorbedingungen</td><td>Was gelten muss, bevor der erste Schritt beginnt</td></tr>
+<tr><td>Feld 4, Testablauf</td><td>Nummerierte Schritte, jeder eine einzelne Handlung</td></tr>
+<tr><td>Feld 5, Erwartetes Ergebnis</td><td>Was sichtbar sein soll. Wird vor der Durchführung geschrieben</td></tr>
+<tr><td>Feld 6, Tatsächliches Ergebnis</td><td>Was wirklich passiert ist. Wird nach der Durchführung geschrieben</td></tr>
+<tr><td>Feld 7, Befund</td><td>Bestanden oder nicht bestanden, plus die Folgerung</td></tr>
+<tr><td>Dein Arbeitsblatt</td><td>Vier leere Formulare, alle mit diesen sieben Feldern</td></tr>
 </table>
 
-<p>Nach diesem Auftrag kannst du:</p>
-<ul>
-<li>Du schreibst einen Testfall mit allen sieben Feldern, bevor du testest.</li>
-<li>Du unterscheidest das erwartete vom tatsächlichen Ergebnis und weisst, warum die Reihenfolge zählt.</li>
-<li>Du formulierst ein erwartetes Ergebnis so, dass jemand anders es überprüfen kann.</li>
-<li>Du führst deinen eigenen Testfall an deiner App durch und trägst den Befund ein.</li>
-<li>Du erkennst, dass ein fehlgeschlagener Test ein Erfolg ist und kein Versagen.</li>
-</ul>
+<p>Was in jedes Feld hineingehört und was nicht, steht in der Einführung in der Tabelle der sieben Felder. Leg sie neben dich.</p>
 
-<h3>Das brauchst du vorher</h3>
-<ul>
-<li>Dein Projekt <b>WissQuiz</b> nach 08C. Es muss laufen, sonst hast du nichts zu testen.</li>
-<li>Der Emulator ist gestartet.</li>
-<li>Das Arbeitsblatt <b>08D Testplan</b> aus Google Classroom, ausgedruckt oder als Kopie.</li>
-</ul>
-
-<h3>Woran du merkst, dass du fertig bist</h3>
-
-<div class="tip">
-<p><b>Du gibst nichts ab. Das Arbeitsblatt gehört dir.</b> Du bekommst in Google Classroom eine eigene Kopie, damit du die Formulare ausfüllen kannst. Eingesammelt wird sie nicht. Am Prüfungstag hilft dir nur, was du selbst geübt hast.</p>
-</div>
-
-<p>Fertig bist du, wenn das auf deinem Blatt steht:</p>
-<ul>
-<li><b>Testfall 1</b>, vollständig ausgefüllt. Den schreibt ihr gemeinsam im Unterricht.</li>
-<li><b>Testfall 2</b>, als Entwurf in Übung 4. Die Durchführung ist Hausaufgabe.</li>
-<li><b>Testfall 3 und 4</b>, selbst geschrieben und selbst durchgeführt. Hausaufgabe auf Tag 5.</li>
-<li>Die Antworten zu Übung 1 bis 3.</li>
-</ul>
-
-<div class="note">
-<p><b>Dazu kommt ein Leseauftrag auf Tag 5</b>, und er hat mit dem Testplan nichts zu tun. Das Blatt <b>Sensoren und Veröffentlichen</b> steht bei den Grundlagen, es dauert rund 16 Minuten. Am Schluss stehen fünf Fragen, und genau die kommen in 09B im Plenum dran.</p>
-<p><b>Dafür gibt es an der Prüfung null Punkte</b>, und das sagen wir offen. Es sind die zwei Themen des Rahmenlehrplans, die keinen eigenen Unterrichtsblock bekommen haben.</p>
-</div>
-
-<div class="info">
-<p><b>Warum du das lernst.</b> In der Leistungsbeurteilung stehen dazu zwei Aufgaben, und zusammen sind sie <b>sechs Punkte</b>. Der Wortlaut auf dem Prüfungsblatt:</p>
-<table>
-<tr><th>Wo</th><th>Was dort steht</th><th>Zeit und Punkte</th></tr>
-<tr><td>Aufgabe 5</td><td><i>Erstelle einen Testplan mit 4 aussagekräftigen Testfällen für das Editieren neuer und existierender Module.</i></td><td>15 Minuten, 4 Punkte</td></tr>
-<tr><td>Aufgabe 7</td><td><i>Teste deine App und dokumentiere die Ergebnisse (ggf. fails) im Testplan in Aufgabe 5.</i></td><td>10 Minuten, 2 Punkte</td></tr>
-</table>
-<p><b>Vier Testfälle, nicht zwei.</b> Darum hat dein Arbeitsblatt vier Formulare. Und das Formular dort hat genau dieselben sieben Felder wie hier.</p>
-<div class="warn">
-<p><b>Lies die zweite Zeile nochmals.</b> Das Wort <i>ggf. fails</i> steht so auf dem Prüfungsblatt. Ein fehlgeschlagener Test ist dort ausdrücklich vorgesehen.</p>
-<p>Punkte gibt es für die <b>Dokumentation</b> der Durchführung. Wer das Feld <i>Tatsächliches Ergebnis</i> leer lässt, hat nicht getestet, und dann fehlen die zwei Punkte aus Aufgabe 7.</p>
-</div>
-</div>
-
-<h2>02 Auftrag</h2>
-
-<h3>Ausgangslage</h3>
-
-<p>Du hast über vier Kurstage eine App gebaut. Du hast sie dabei laufend ausprobiert. Trotzdem hast du bis jetzt nicht <b>getestet</b>, sondern <b>geschaut, ob es geht</b>. Das ist nicht dasselbe.</p>
-
-<p>Der Unterschied liegt in einem einzigen Punkt: Beim Testen schreibst du <b>vorher</b> auf, was passieren soll. Danach probierst du es aus. Stimmen die beiden überein, ist der Test bestanden.</p>
-
-<div class="note">
-<p><b>Warum die Reihenfolge alles entscheidet.</b> Wer erst tippt und dann aufschreibt, was passiert ist, hat nichts geprüft. Er hat beschrieben.</p>
-<p>Dein Gehirn ist erstaunlich gut darin, ein Ergebnis nachträglich für richtig zu halten. Es heisst "das habe ich so erwartet", sobald es das Ergebnis gesehen hat. Ein Testfall schützt dich davor, indem er dich zwingt, dich vorher festzulegen.</p>
-</div>
-
-<h3>Die sieben Felder</h3>
-
-<p>Das Formular ist immer dasselbe, in dieser Aufgabe und in der Prüfung. Sieben Felder, jedes mit einer eigenen Aufgabe.</p>
-
-<table>
-<tr><th>Feld</th><th>Was hineingehört</th><th>Was nicht</th></tr>
-<tr><td><b>Testfall-Nr</b></td><td>Eine Nummer. 1, 2, 3</td><td>Nichts anderes</td></tr>
-<tr><td><b>Titel</b></td><td>Ein Satz, der sagt, was geprüft wird. "Zweimal auf dieselbe Antwort tippen zählt nur einmal"</td><td>"Test 1" oder "Antworten". Das sagt nichts</td></tr>
-<tr><td><b>Vorbedingungen</b></td><td>Was vor dem ersten Schritt gelten muss. "App ist installiert, Datenbank enthält die 30 Startfragen, Emulator läuft"</td><td>Der erste Schritt selbst. "App öffnen" ist Ablauf, nicht Vorbedingung</td></tr>
-<tr><td><b>Testablauf</b></td><td>Nummerierte Schritte, jeder eine einzelne Handlung. So genau, dass jemand anders sie ohne Rückfrage nachmachen kann</td><td>"App testen". Das ist kein Ablauf, das ist eine Absicht</td></tr>
-<tr><td><b>Erwartetes Ergebnis</b></td><td>Was sichtbar sein soll, nachdem der letzte Schritt ausgeführt wurde. Überprüfbar formuliert</td><td>"Es funktioniert". Woran erkennt man das? Beschreib, was auf dem Bildschirm steht</td></tr>
-<tr><td><b>Tatsächliches Ergebnis</b></td><td>Was wirklich passiert ist. Erst nach der Durchführung ausfüllen</td><td>Eine Abschrift des erwarteten Ergebnisses, ohne dass du getestet hast</td></tr>
-<tr><td><b>Befund</b></td><td>Bestanden oder nicht bestanden, plus die Folgerung. Bei nicht bestanden: was du daraus schliesst</td><td>Ein leeres Feld oder nur "ok"</td></tr>
-</table>
-
-<div class="tip">
-<p><b>Die Trennlinie zwischen Feld 5 und Feld 6 ist die wichtigste im ganzen Formular.</b> Feld 5 füllst du am Schreibtisch aus, bevor du den Emulator anfasst. Feld 6 füllst du danach aus, mit dem, was du wirklich gesehen hast.</p>
-<p>Deck Feld 5 zu, während du testest, wenn du dir selbst nicht traust. Das ist kein Witz, Testerinnen und Tester machen das.</p>
-</div>
-
-<h3>Denkfragen</h3>
-<p>Beantworte sie im Kopf, bevor du weiterliest. Zwei Minuten.</p>
-<ol>
-<li>Warum genügt es nicht, den Testfall erst nach dem Ausprobieren aufzuschreiben?</li>
-<li>Du schreibst als erwartetes Ergebnis "die App stürzt nicht ab". Was ist daran unbrauchbar?</li>
-<li>Warum ist ein Test, der fehlschlägt, für das Projekt wertvoller als einer, der besteht?</li>
-</ol>
+<p>Die Felder 1 bis 5 füllst du in A1 aus, am Tisch. Die Felder 6 und 7 in A2, am Emulator. Diese Reihenfolge ist der ganze Auftrag.</p>
 
 <div class="step">
-<p><span class="n">A1</span><b>Testfall 1, gemeinsam.</b> <span class="time">15 Min</span></p>
-<p>Die Vorgabe steht fest, das Thema ist:</p>
-<p><b>Was passiert, wenn du im Spiel zweimal auf dieselbe Antwort tippst?</b></p>
-<p>Wir füllen die Felder 1 bis 5 gemeinsam aus, <b>bevor</b> jemand den Emulator anfasst. Schreib mit. Die Felder 6 und 7 bleiben zuerst leer.</p>
-<p>Überleg dir vorher selbst eine Antwort auf diese Frage:</p>
+<p><span class="n">A1</span><b>Testfall 1, die Felder 1 bis 5.</b> <span class="time">15 Min</span></p>
+
+<p>Das Thema ist vorgegeben. Es lautet: was passiert, wenn du im Spiel zweimal auf dieselbe Antwort tippst?</p>
+
+<p>Leg dich zuerst selbst fest. Eine dieser drei Möglichkeiten trifft zu:</p>
 <ul>
-<li>Zählt der zweite Tipp noch einen Punkt dazu?</li>
-<li>Ändert sich die Farbe der Knöpfe ein zweites Mal?</li>
-<li>Passiert gar nichts?</li>
+<li>Der zweite Tipp zählt noch einen Punkt dazu.</li>
+<li>Die Farbe der Knöpfe ändert sich ein zweites Mal.</li>
+<li>Es passiert nichts.</li>
 </ul>
-<p>Leg dich fest, bevor du es ausprobierst. Genau darum geht es in diesem Auftrag.</p>
+
+<p>Schreib deine Wahl an den Rand deines Blattes, bevor du weitermachst. Sie ist nachher dein Vergleich.</p>
+
+<p>Danach füllt ihr die Felder 1 bis 5 gemeinsam aus. Schreib mit, in dieser Reihenfolge:</p>
+<ol>
+<li>Die Nummer, also 1.</li>
+<li>Den Titel. Ein Satz über das Verhalten, nicht über den Bildschirm.</li>
+<li>Die Vorbedingungen. Was muss gelten, damit dein Ablauf überhaupt starten kann? Denk an die Kategorie, an die Anzahl Fragen darin und daran, dass keine Runde läuft.</li>
+<li>Den Testablauf. Nummeriert. Der Punktestand wird mehr als einmal abgelesen, sonst kannst du nachher nicht unterscheiden, ob der zweite Tipp nichts getan hat oder schon der erste.</li>
+<li>Das erwartete Ergebnis. Was steht nach dem letzten Schritt auf dem Bildschirm, in welcher Farbe, und welcher Knopf ist sichtbar?</li>
+</ol>
+
+<p>Die Felder 6 und 7 bleiben leer.</p>
+
+<p><b>Der Emulator bleibt in A1 zu.</b> Ein Testfall wird vorher geschrieben, sonst beschreibt er nur, was ohnehin passiert ist.</p>
 </div>
 
 <div class="step">
 <p><span class="n">A2</span><b>Testfall 1 durchführen.</b> <span class="time">5 Min</span></p>
-<p>Jetzt an den Emulator. Führ die Schritte aus deinem Testablauf aus, genau in dieser Reihenfolge und ohne Abkürzung.</p>
+
+<p>Jetzt an den Emulator. Führ die Schritte aus deinem Testablauf aus, genau in dieser Reihenfolge und ohne Abkürzung. Wenn ein Schritt unklar ist, ist das schon ein Befund. Notier ihn.</p>
+
 <p>Danach füllst du Feld 6 aus, mit dem, was wirklich passiert ist. Und Feld 7 mit deinem Befund.</p>
+
+<p>Verhält sich deine App anders als erwartet, schreib das hin und ändere Feld 5 nicht nachträglich. Feld 5 ist deine Vermutung von vorhin, und die bleibt stehen, auch wenn sie falsch war. Genau der Unterschied zwischen den zwei Feldern ist das Ergebnis dieses Auftrags.</p>
 </div>
 
 <div class="chk">
-<p><b>So prüfst du deinen Testfall 1.</b></p>
-<ul>
-<li>Jemand anders könnte deinen Testablauf nachmachen, ohne dich zu fragen.</li>
-<li>Dein erwartetes Ergebnis nennt etwas Sichtbares, keine Vermutung über den Code.</li>
-<li>Feld 6 unterscheidet sich sprachlich von Feld 5. Steht dort wörtlich dasselbe, hast du wahrscheinlich abgeschrieben statt getestet.</li>
-<li>Dein Befund sagt bestanden oder nicht bestanden, nicht nur "ok".</li>
-</ul>
+<p><b>So prüfst du Teil A.</b></p>
+<ol>
+<li>Dein Titel nennt das geprüfte Verhalten und nicht nur den Bildschirm.</li>
+<li>Unter Vorbedingungen steht nichts, was du selbst tust. <code>App öffnen</code> ist ein Schritt, keine Vorbedingung.</li>
+<li>Jeder Schritt im Ablauf ist eine einzelne Handlung, nummeriert. Jemand anders könnte ihn nachmachen, ohne dich zu fragen.</li>
+<li>Dein erwartetes Ergebnis nennt etwas Sichtbares auf dem Bildschirm, keine Vermutung über den Code.</li>
+<li>Feld 6 unterscheidet sich sprachlich von Feld 5 und sagt, was du gesehen hast.</li>
+<li>Dein Befund sagt bestanden oder nicht bestanden, nicht nur <code>ok</code>. Bei nicht bestanden steht dazu, was du daraus schliesst.</li>
+<li>Vergleich mit deiner Wahl vom Rand des Blattes.</li>
+</ol>
 </div>
 
-<h3>Übungen</h3>
+<h3 class="teil">Teil B, drei Formulierungen schärfen <span class="time">15 Minuten</span></h3>
 
-<div class="ue">
-<div class="t">Übung 1, drei kaputte Felder reparieren</div>
+<h4 class="brauchst">Was du brauchst</h4>
+<table>
+<tr><th>Baustein</th><th>Wofür</th></tr>
+<tr><td>Die Spalte <i>Was nicht</i></td><td>Die dritte Spalte der Feldtabelle in der Einführung. Sie nennt zu jedem Feld den typischen Fehler</td></tr>
+<tr><td>Dein Arbeitsblatt</td><td>Zu jeder der drei Übungen gibt es dort ein leeres Feld für deine Version</td></tr>
+<tr><td>Deine App nach 08C</td><td>Für B3 liest du die Meldungen aus dem Formular für eine neue Frage ab</td></tr>
+</table>
+
+<p>Die drei Übungen sind kurz, und sie treffen genau die drei Felder, an denen in der Leistungsbeurteilung am meisten Punkte verloren gehen. B1 den Titel und den Ablauf, B2 die Vorbedingungen, B3 das erwartete Ergebnis. Du schreibst sie auf dein Arbeitsblatt, in die dafür vorgesehenen Felder.</p>
+
+<div class="step">
+<p><span class="n">B1</span><b>Drei kaputte Felder reparieren.</b> <span class="time">5 Min</span></p>
+
 <p>Diese drei Einträge stammen aus echten Schülerarbeiten. Jeder hat genau einen Fehler. Schreib jeden neu.</p>
+
 <table>
 <tr><th>Feld</th><th>Der Eintrag</th></tr>
 <tr><td>Titel</td><td>Test Formular</td></tr>
@@ -165,76 +123,125 @@
 </table>
 </div>
 
-<div class="ue">
-<div class="t">Übung 2, Vorbedingung gegen Ablauf</div>
+<div class="step">
+<p><span class="n">B2</span><b>Vorbedingung gegen Ablauf.</b> <span class="time">4 Min</span></p>
+
 <p>Sortier diese fünf Sätze in die zwei Felder ein. Drei gehören in die Vorbedingungen, zwei in den Testablauf.</p>
+
 <ul>
 <li>Der Emulator läuft.</li>
-<li>Tippe auf "Fragen verwalten".</li>
+<li>Tippe auf <code>Fragen verwalten</code>.</li>
 <li>In der Liste stehen 30 Fragen.</li>
 <li>Tippe auf die erste Zeile.</li>
 <li>Die App ist frisch installiert und wurde noch nie geöffnet.</li>
 </ul>
 </div>
 
-<div class="ue">
-<div class="t">Übung 3, ein erwartetes Ergebnis schärfen</div>
-<p>Ein Testfall prüft, ob das Formular leere Eingaben abfängt. Als erwartetes Ergebnis steht dort:</p>
-<p><b>"Es kommt eine Fehlermeldung."</b></p>
-<p>Schreib es so um, dass jemand anders es ohne Rückfrage überprüfen kann. Denk an: <b>wie viele</b> Meldungen, <b>wo</b> sie stehen, <b>was</b> darin steht und was <b>nicht</b> passieren darf.</p>
+<div class="step">
+<p><span class="n">B3</span><b>Ein erwartetes Ergebnis schärfen.</b> <span class="time">6 Min</span></p>
+
+<p>Ein Testfall prüft, ob das Formular leere Eingaben abfängt. Als erwartetes Ergebnis steht dort nur dieser eine Satz:</p>
+
+<p><i>Es kommt eine Fehlermeldung.</i></p>
+
+<p>Schreib ihn so um, dass jemand anders ihn ohne Rückfrage überprüfen kann. Vier Fragen helfen dir dabei: wie viele Meldungen, wo sie stehen, was darin steht, und was dabei nicht passieren darf.</p>
+
+<p>Schau dafür nach. Öffne in deiner App <code>Fragen verwalten</code>, tipp den Plus-Knopf an und dann ohne eine einzige Eingabe auf <code>Frage speichern</code>. Lies die Meldungen ab, Feld für Feld von oben nach unten.</p>
 </div>
 
+<div class="chk">
+<p><b>So prüfst du Teil B.</b></p>
+<ol>
+<li>Dein neuer Titel taugt auch dann noch, wenn vier Testfälle nebeneinander liegen.</li>
+<li>Dein neuer Testablauf hat mehr als einen Schritt, und jeder ist nummeriert.</li>
+<li>In deinem erwarteten Ergebnis kommt weder <code>eigentlich</code> noch <code>sollte</code> vor.</li>
+<li>In deinen Vorbedingungen steht kein Satz, der eine Aufforderung ist, und alle drei können gleichzeitig gelten.</li>
+<li>Deine Version nennt eine Anzahl Meldungen.</li>
+<li>Sie sagt zu jeder Meldung, unter welchem Feld sie steht.</li>
+<li>Sie zitiert den Wortlaut, also <code>Mindestens 10 Zeichen.</code> und <code>Diese Antwort ist Pflicht.</code></li>
+<li>Sie sagt auch, was unterbleibt: es wird nichts gespeichert, und die Anzahl der Fragen in der Überschrift bleibt gleich.</li>
+<li>Antwort 3 und 4 sind seit 08C optional. In deiner Version stehen sie ohne Meldung da.</li>
+</ol>
+</div>
+
+<h3 class="teil">Optionale weitere Übungen</h3>
+
+<p>Freiwillig, daheim. Bei der Zusatzaufgabe steht ein Prompt dabei, wenn du mit einer KI arbeiten willst.</p>
+
 <div class="ue">
-<div class="t">Übung 4, dein Testfall 2 als Entwurf</div>
-<p>Wähl eines dieser drei Themen und schreib die Felder 1 bis 5. Die Durchführung ist die Hausaufgabe.</p>
+<div class="t">Testfall 2, Entwurf und Durchführung <span class="time">12 Min</span></div>
+<p>Wähl eines dieser drei Themen und schreib die Felder 1 bis 5. Danach führst du ihn durch und füllst die Felder 6 und 7 aus.</p>
 <ul>
 <li>Eine Frage anlegen und prüfen, dass sie im Spiel auftaucht.</li>
-<li>Eine Frage löschen, im Dialog auf <b>Behalten</b> tippen und prüfen, dass die Frage danach noch da ist.</li>
+<li>Eine Frage löschen, im Dialog auf <code>Behalten</code> tippen und prüfen, dass die Frage danach noch da ist.</li>
 <li>Eine Frage mit nur zwei Antworten anlegen und prüfen, dass im Spiel nur zwei Antwortknöpfe erscheinen.</li>
 </ul>
+<p><b>So prüfst du:</b> Feld 6 ist keine Abschrift von Feld 5, und dein Befund zieht einen Schluss.</p>
 </div>
-
-<h3>Zusatzaufgabe für Schnelle</h3>
 
 <div class="ue">
-<div class="t">Ein Testfall, der etwas findet</div>
-<p>Die bisherigen Testfälle prüfen den geraden Weg. Interessant wird es daneben.</p>
-<p>Schreib einen Testfall, bei dem du <b>zwei Regeln gleichzeitig verletzt</b>. Zum Beispiel einen zu kurzen Fragetext <b>und</b> vier gleiche Antworten. Oder ein leeres Formular, bei dem Antwort 1 als richtig markiert ist.</p>
-<p>Solche Fälle finden Fehler, die einzeln nie auffallen. Einer davon steckt in deiner eigenen App. Er steht als Testfall 3 im Lösungsmaterial, aber schau erst hin, wenn du selbst gesucht hast.</p>
-<p><b>Zu den vier gleichen Antworten.</b> Diese Regel gibt es nur, wenn du Übung 2 aus 08B gebaut hast. Hast du sie nicht, wird die Frage gespeichert. Schreib den Testfall trotzdem. Ein Testfall, der eine <b>fehlende</b> Regel sichtbar macht, ist genauso wertvoll wie einer, der eine kaputte findet.</p>
-<p><b>Für Sehrschnelle:</b> Schreib zusätzlich einen Testfall zu einer nicht-funktionalen Anforderung. Also nicht "was tut die App", sondern "wie fühlt sie sich an". Zum Beispiel: Ist der Löschen-Knopf so gestaltet, dass man ihn nicht versehentlich für Speichern hält? Das ist HANOK 5.2.</p>
+<div class="t">Testfall 3 und 4 <span class="time">15 Min</span></div>
+<p>Zwei weitere Testfälle zum Anlegen und Ändern von Fragen, beide vollständig und beide durchgeführt. Die Formulare dafür stehen auf deinem Arbeitsblatt. Damit hast du dieselbe Menge geschrieben, die die LB verlangt.</p>
+<p><b>So prüfst du:</b> Auf deinem Blatt sind vier Formulare ausgefüllt, und in keinem davon ist Feld 6 leer.</p>
 </div>
 
-<h3>Wenn etwas nicht funktioniert</h3>
+<div class="ue">
+<div class="t">Zusatzaufgabe für Schnelle, ein Testfall der etwas findet</div>
+<p>Zuerst die vier Testfälle fertig. Die bisherigen prüfen den geraden Weg. Interessant wird es daneben.</p>
+<p>Schreib einen Testfall, bei dem du zwei Regeln gleichzeitig verletzt. Zum Beispiel einen zu kurzen Fragetext und dazu vier gleiche Antworten. Oder ein leeres Formular, bei dem Antwort 1 als richtig markiert ist. Solche Fälle finden Fehler, die einzeln nie auffallen. Einer davon steckt in deiner eigenen App.</p>
+<p>Die Regel gegen gleiche Antworten gibt es nur, wenn du Übung 2 aus 08B gebaut hast. Hast du sie nicht, wird die Frage gespeichert. Schreib den Testfall trotzdem. Ein Testfall, der eine fehlende Regel sichtbar macht, ist genauso viel wert wie einer, der eine kaputte findet.</p>
+<p>Für Sehrschnelle: schreib zusätzlich einen Testfall zu einer nicht-funktionalen Anforderung. Also nicht, was die App tut, sondern wie sie sich anfühlt. Zum Beispiel: ist der Knopf <code>Diese Frage löschen</code> so gestaltet, dass man ihn nicht versehentlich für <code>Frage speichern</code> hält? Das ist HANOK 5.2.</p>
+<p><b>So prüfst du:</b> Für deinen eigenen Fall gibt es keine Musterlösung. Ein Beispiel zu HANOK 5.2 steht im Lösungsmaterial.</p>
+<pre>Rolle: Du bist Testerin mit Erfahrung. Ich bin Lernender und übe
+Testfälle für eine Android-App zu schreiben.
+
+Ablauf:
+1. Ich schicke dir meinen Testfall mit sieben Feldern:
+   Nummer, Titel, Vorbedingungen, Testablauf, erwartetes
+   Ergebnis, tatsächliches Ergebnis, Befund.
+2. Du prüfst nur diese drei Fragen und nennst zu jeder einen Satz:
+   Steht in den Vorbedingungen etwas, das eine Aufforderung ist?
+   Könnte eine fremde Person den Ablauf nachmachen ohne Rückfrage?
+   Nennt das erwartete Ergebnis etwas Sichtbares mit Wortlaut?
+3. Ich schreibe den Testfall neu, du prüfst wieder.
+
+Regeln: Du schreibst keinen Testfall für mich und schlägst keine
+Formulierung vor.
+
+Ziel: Der Auftrag ist zu Ende, wenn du bei allen drei Fragen
+nichts mehr zu beanstanden hast.</pre>
+</div>
+
+<div class="ue">
+<div class="t">Leseauftrag, Sensoren und Veröffentlichen <span class="time">16 Min</span></div>
+<p>Dieser Leseauftrag hat mit dem Testplan nichts zu tun. Das Blatt <b>Sensoren und Veröffentlichen</b> steht bei den Grundlagen. Am Schluss stehen fünf Fragen, und genau die kommen in 09B im Plenum dran.</p>
+<p>Dafür gibt es in der Leistungsbeurteilung null Punkte, und das sagen wir offen. Es sind die zwei Themen des Rahmenlehrplans, die keinen eigenen Unterrichtsblock bekommen haben.</p>
+<p><b>So prüfst du:</b> Du kannst die fünf Fragen am Schluss des Blattes ohne Nachschlagen beantworten.</p>
+</div>
+
+<div class="ue">
+<div class="t">Die zwei Wissenschecks <span class="time">je etwa 5 Min</span></div>
+<p>08AB und 08C. Unbenotet, beliebig wiederholbar, kein Fälligkeitsdatum. Sie sind dein eigenes Signal, ob der Stoff sitzt.</p>
+</div>
+
+<h3 class="teil">Wenn etwas nicht funktioniert</h3>
 <table>
-<tr><th>Problem</th><th>Das hilft</th></tr>
-<tr><td>Mir fällt kein erwartetes Ergebnis ein</td><td>Beschreib den Bildschirm, wie er nach dem letzten Schritt aussehen soll. Welcher Text steht wo. Welcher Knopf ist aktiv</td></tr>
-<tr><td>Mein Test besteht immer</td><td>Dann prüfst du den geraden Weg. Nimm einen Fall, bei dem der Benutzer etwas falsch macht</td></tr>
-<tr><td>Mein Test schlägt fehl und ich weiss nicht, ob mein Code oder mein Testfall falsch ist</td><td>Genau das ist der Befund. Schreib beide Möglichkeiten hin. Das ist eine vollwertige Antwort</td></tr>
-<tr><td>Die App stürzt beim Testen ab</td><td>Logcat auf <code>Modul335</code> filtern, die rote Stelle suchen. Der Absturz ist dein tatsächliches Ergebnis</td></tr>
+<tr><th>Symptom</th><th>Wahrscheinliche Ursache</th><th>Was du machst</th></tr>
+<tr><td>Mir fällt kein erwartetes Ergebnis ein</td><td>Du denkst an den Code statt an den Bildschirm</td><td>Beschreib den Bildschirm, wie er nach dem letzten Schritt aussehen soll. Welcher Text steht wo, welcher Knopf ist sichtbar</td></tr>
+<tr><td>Mein Test besteht immer</td><td>Du prüfst nur den geraden Weg</td><td>Nimm einen Fall, bei dem der Benutzer etwas falsch macht. Leeres Formular, doppelte Antwort, zu kurzer Text</td></tr>
+<tr><td>Mein Test schlägt fehl und ich weiss nicht, ob mein Code oder mein Testfall falsch ist</td><td>Kein Fehler. Genau das ist der Befund</td><td>Schreib beide Möglichkeiten in Feld 7. Das ist eine vollwertige Antwort</td></tr>
+<tr><td>Die App stürzt beim Testen ab</td><td>Ein Fund</td><td>Der Absturz ist dein tatsächliches Ergebnis. Logcat auf <code>Modul335</code> filtern und die rote Stelle in den Befund schreiben</td></tr>
+<tr><td>Feld 6 klingt genau wie Feld 5</td><td>Abgeschrieben statt durchgeführt</td><td>Feld 5 zudecken, den Ablauf nochmals durchgehen und Feld 6 neu schreiben</td></tr>
+<tr><td>Feld 6 ist leer</td><td>Dein Testfall ist ein Entwurf und noch kein Test</td><td>Durchführen. Ein Testfall ohne Durchführung ist eine Absichtserklärung, und in der Leistungsbeurteilung hängen daran die zwei Punkte aus Aufgabe 7</td></tr>
+<tr><td>Deine Vorbedingungen widersprechen sich</td><td>Zwei Sätze können nicht gleichzeitig gelten</td><td>Nacheinander lesen und den überflüssigen streichen. Sonst fällt es erst bei der Durchführung auf, und dann ist die Zeit weg</td></tr>
+<tr><td>Unter Antwort 1 steht in B3 eine andere Meldung als erwartet</td><td>Kein Fehler in deinem Testfall</td><td>Schreib genau hin, was dort steht. Warum es so ist, steht im Lösungsmaterial beim dritten Testfall</td></tr>
+<tr><td>Das Formular für eine neue Frage lässt sich leer speichern</td><td>Die Prüfungen aus 08B fehlen</td><td>Auch das ist ein Befund. Trag ihn ein, statt den Testfall umzuschreiben</td></tr>
 </table>
 
-<div class="warn">
-<p><b>Feld 6 leer bedeutet null Punkte für diesen Testfall.</b> Auch dann, wenn alles andere schön ausgefüllt ist. Ein Testfall ohne Durchführung ist eine Absichtserklärung, kein Test.</p>
-</div>
-
-<h2>03 Guide</h2>
-
-<h3>Die Beiträge in Google Classroom</h3>
-<ul>
-<li><b>08D Arbeitsblatt Testplan.</b> Aufgabe, für jeden eine Kopie. Dort stehen die leeren Formulare. Nur zum Verteilen, es wird nichts eingesammelt.</li>
-<li><b>Die zwei Wissenschecks des Halbtags, 08AB und 08C.</b> Unbenotet, beliebig wiederholbar, kein Fälligkeitsdatum. Sie laufen als Hausaufgabe auf Tag 5.</li>
-<li><b>Sensoren und Veröffentlichen.</b> Material unter Nachschlagen. Der Leseauftrag auf Tag 5.</li>
-</ul>
-
-<h2>04 Unterrichtsmittel</h2>
-<ul>
-<li>Dein Projekt <b>WissQuiz</b> nach 08C.</li>
-<li>Das Formular der Leistungsbeurteilung, Aufgabe 5. Es ist dasselbe wie hier.</li>
-<li><b>Sensoren und Veröffentlichen</b>, das Nachschlageblatt. <b>Der Leseauftrag auf Tag 5</b>, rund 16 Minuten.</li>
-</ul>
-
-<p class="foot">Modul 335 | Tag 4 Nachmittag | Auftrag 08D | Version 2 | 26.08.2026</p>
+<!--M335:WEITER-->
+<nav class="weiter"><div class="reihe"><span>Zu 08D</span><a href="08d-einfuehrung.html">Einführung</a><a href="08d-arbeitsblatt.html">Arbeitsblatt</a><a href="08d-loesung.html">Lösung</a></div><a class="vor" href="09a-einfuehrung.html"><span>Weiter</span>09A, Einführung</a></nav>
+<!--/M335:WEITER-->
+<p class="foot">Modul 335 | Tag 4 Nachmittag | Auftrag 08D | Version 5 | 06.09.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->
@@ -242,6 +249,52 @@
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
 <script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
 /* ------------------------------------------------------------------
    M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
 
@@ -352,7 +405,15 @@
     heads.forEach(function (h) {
       eintraege.push({
         el: h,
-        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
         stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
       });
     });

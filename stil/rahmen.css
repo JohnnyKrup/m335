@@ -42,7 +42,7 @@
    Wer die Breite hier aendert, aendert sie auch im Skript in
    web-bau/rahmen/fuss.html, dort steht dieselbe Zahl.
    ------------------------------------------------------------------ */
-  .m335-nav{position:fixed;z-index:30;font:13.5px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+  .m335-nav{position:fixed;z-index:30;font:10pt/1.45 Arial,Helvetica,sans-serif}
   .m335-nav ol{list-style:none;margin:0;padding:0}
   /* Die Startseite gibt jedem li einen Rahmen und flex mit. Das darf
      nicht in das Verzeichnis durchschlagen, darum hier zuruecksetzen. */
@@ -53,15 +53,15 @@
      res/layout/activity_question_edit.xml, an denen der Browser von sich
      aus keine Trennstelle sieht. Ohne diese Regel ragt so ein Eintrag aus
      der Leiste heraus und erzeugt eine waagrechte Bildlaufleiste. */
-  .m335-nav a{display:block;padding:4px 10px;color:#52514e;text-decoration:none;
+  .m335-nav a{display:block;padding:4px 10px;color:#434343;text-decoration:none;
     border-left:2px solid transparent;border-radius:0 4px 4px 0;
     overflow-wrap:break-word;word-break:normal;hyphens:auto}
-  .m335-nav a:hover{background:#f0eee9;color:#0b0b0b}
-  .m335-nav .n2>a{font-weight:600;color:#0b0b0b;margin-top:9px}
-  .m335-nav .n3>a{padding-left:18px;font-size:13px}
-  .m335-nav .n3.teil>a{padding-left:10px;font-weight:600;color:#26241f}
-  .m335-nav a.hier{border-left-color:#26241f;background:#f0eee9;color:#0b0b0b}
-  .m335-nav .kopfzeile{font:700 10.5px/1 system-ui,-apple-system,sans-serif;letter-spacing:.11em;
+  .m335-nav a:hover{background:#eeeeec;color:#000000}
+  .m335-nav .n2>a{font-family:"Oswald","Arial Narrow",Arial,sans-serif;font-weight:400;font-size:11pt;color:#0b5394;margin-top:9px}
+  .m335-nav .n3>a{padding-left:18px;font-size:9.5pt}
+  .m335-nav .n3.teil>a{padding-left:10px;font-family:"Oswald","Arial Narrow",Arial,sans-serif;font-weight:400;font-size:10.5pt;color:#0b5394}
+  .m335-nav a.hier{border-left-color:#0b5394;background:#eef3f8;color:#000000}
+  .m335-nav .kopfzeile{font:400 9.5pt/1 "Oswald","Arial Narrow",Arial,sans-serif;letter-spacing:.09em;
     color:#898781;padding:0 10px;margin:0 0 10px}
 
   /* Breiter Bildschirm: fest am Rand */
@@ -121,13 +121,15 @@
 
   /* Rahmen und Bedienelemente weg */
   .site-header,.site-footer,.druck-knopf,.kopf-rechts,
-  .m335-nav,.m335-nav-knopf{display:none !important}
+  .m335-nav,.m335-nav-knopf,.weiter{display:none !important}
 
   /* Eine Ueberschrift bleibt bei ihrem Text */
   h1,h2,h3,h4{break-after:avoid;page-break-after:avoid;color:#000 !important}
   h1{font-size:19pt !important}
   h2{font-size:14pt !important;margin-top:20pt !important;
     border-top:1.5pt solid #000 !important;break-before:auto}
+  .sub + h2{border-top:0 !important;margin-top:8pt !important;padding-top:0 !important}
+  .sub + h3.teil{border-top:0 !important;margin-top:8pt !important;padding-top:0 !important}
   h3{font-size:11.5pt !important}
   h3.teil{font-size:13pt !important;margin-top:18pt !important;
     border-top:1pt solid #000 !important;padding-top:7pt !important}
@@ -141,20 +143,24 @@
     font-size:8.4pt !important;line-height:1.4 !important;padding:6pt 8pt !important;
     white-space:pre-wrap !important;word-break:break-word !important;
     overflow:visible !important;margin:0 0 9pt !important}
-  pre .k,pre .t,pre .s,pre .a{color:#000 !important}
-  pre .c{color:#555 !important;font-style:italic !important}
+  pre .k,pre .t,pre .g,pre .s,pre .a,pre .m,pre .v,pre .d{color:#000 !important}
+  pre .k{font-weight:700 !important}
+  pre .c,pre .l{color:#555 !important;font-style:italic !important}
   code{background:#fff !important;border:.5pt solid #999 !important;
     padding:0 2pt !important;font-size:8.8pt !important}
   pre code{border:0 !important;padding:0 !important}
 
   /* Die Kaesten, die etwas verlangen: Rahmen und kraeftiger Balken links.
      Sie tragen auf Papier dieselbe Wortmarke wie am Bildschirm. */
-  .step,.chk,.ue,.warn,.warte{
+  .step{background:#fff !important;border:0 !important;
+    padding:0 !important;margin:0 0 9pt !important;
+    break-inside:avoid;page-break-inside:avoid}
+  .chk,.ue,.warn,.warte{
     background:#fff !important;border:.6pt solid #444 !important;
     border-left:2.5pt solid #000 !important;border-radius:0 !important;
     padding:6pt 9pt 7pt !important;margin:0 0 9pt !important;
     break-inside:avoid;page-break-inside:avoid}
-  .step::before,.chk::before,.warn::before,.warte::before{
+  .chk::before,.warn::before,.warte::before{
     color:#000 !important;font-size:7.2pt !important;margin-bottom:4pt !important}
 
   /* Die Hintergrundkaesten bleiben auch auf Papier leise:
@@ -165,8 +171,8 @@
     padding:0 0 0 7pt !important;margin:0 0 8pt 6pt !important;
     break-inside:avoid;page-break-inside:avoid}
   .tip b,.note b,.warn b,.info b,.chk b,.warte b{color:#000 !important}
-  .step .n,.time{background:#fff !important;color:#000 !important;
-    border:.6pt solid #000 !important}
+  .step .n{background:#fff !important;color:#000 !important;border:0 !important}
+  .time{background:#fff !important;color:#333 !important;border:0 !important}
 
   /* Die Auftragskarte gehoert aufs Papier, sie sagt die Zeit und die Teile. */
   .karte{background:#fff !important;border:.7pt solid #666 !important;

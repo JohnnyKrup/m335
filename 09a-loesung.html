@@ -3,111 +3,80 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>09A Lösungsmaterial, Generalprobe Teil B</title>
+<title>09A Lösung: Generalprobe Teil B</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
 <!--M335:STIL-->
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/stil/rahmen.css">
-<link rel="stylesheet" href="/stil/dokument.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
 <!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
 <header class="site-header"><div class="in">
-<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
-<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
 <button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
 <div class="wrap">
-<h1>09A Lösungsmaterial, Generalprobe Teil B</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Tag 5 Vormittag. Version 2 vom 04.09.2026.</p>
-<p class="sub">Zum Durchlesen brauchst du etwa 16 Minuten.</p>
 
-<h2>01 Wie du dieses Material heute benutzt</h2>
+<h1>09A Lösung: Generalprobe Teil B</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 5 Vormittag. Lösungsmaterial zum Auftrag 09A. Version 5 vom 06.09.2026.</p>
 
-<div class="warn">
-<p><b>Dieses Material ist ab der ersten Minute offen, anders als sonst.</b> Das ist keine Einladung, es abzutippen. Es ist ein Netz.</p>
-<p><b>Die Regel: hängst du an einem Schritt länger als zehn Minuten, schaust du nach.</b> Du holst dir genau die Stelle, du baust weiter, und du notierst dir, <b>wo</b> du nachgeschaut hast.</p>
-</div>
+<p>Unten stehen die Dateien vollständig, so wie sie nach 09A aussehen können. Die Namen sind meine, deine dürfen andere sein.</p>
 
-<p>Warum das so ist: heute geht es nicht um die App. Es geht um die Frage, wie weit du in 75 Minuten kommst und wo du hängen bleibst. <b>Diese Antwort bekommst du nur, wenn du weiterkommst.</b> Wer sechzig Minuten an einer Room-Meldung sitzt, weiss am Schluss nur, dass er an einer Room-Meldung gesessen hat.</p>
-
-<p>Dein notiertes <b>Wo</b> ist die Eingabe für den Reparaturblock in 09B. Die Lehrperson sammelt die Stellen an der Wandtafel, und der Block nach der Pause behandelt die, die am häufigsten vorkommen.</p>
-
-<div class="tip">
-<p><b>Der ehrlichste Weg ist auch der schnellste.</b> Wer sich notiert, dass er beim Dao nachschauen musste, bekommt am Nachmittag genau das erklärt. Wer es verschweigt, sitzt am Prüfungstag wieder davor.</p>
-</div>
-
-<h2>02 Die Antworten auf die Denkfragen</h2>
-
-<h3>Frage 1, warum der Betrag kein Feld ist</h3>
-<p><b>Weil du ihn jederzeit ausrechnen kannst.</b> Menge mal Preis. Ein Feld dafür wäre eine zweite Wahrheit.</p>
-<p>Das Problem beim Speichern: sobald jemand die Menge ändert, stimmt der gespeicherte Betrag nicht mehr. Du müsstest ihn an jeder Stelle nachziehen, an der Menge oder Preis geändert werden. Vergisst du eine, zeigt deine App eine Zahl an, die falsch ist, und nichts meldet sich.</p>
-<p><b>Der Merksatz: ins Datenmodell gehört, was du nicht wieder ausrechnen kannst.</b> Denselben Fehler gibt es an der Prüfung mit dem Notendurchschnitt, und du hattest ihn schon in 06A mit dem Rang in der Rangliste.</p>
-
-<h3>Frage 2, Integer statt int</h3>
-<p>Ein <code>int</code> kann nicht leer sein. Er ist immer eine Zahl, und wenn du nichts hineinschreibst, ist er <code>0</code>.</p>
-<p><b>In der Liste steht dann bei einem Eintrag ohne Preis der Betrag <code>0.00</code>.</b> Und das ist eine andere Aussage als ein leeres Feld. <code>0.00</code> heisst, der Artikel koste nichts. Leer heisst, es weiss noch niemand.</p>
-<p>Ein <code>Integer</code> kann <code>null</code> sein, und Room legt die Spalte dann als leer an. Im Database Inspector siehst du den Unterschied direkt.</p>
-<p><b>Der zweite Weg ist auch richtig</b>, also <code>int</code> mit der Regel, dass <code>0</code> für nicht eingetragen steht. Dann musst du diese Regel aber an jeder Stelle mitdenken, an der du den Wert liest. Die Prüfung verlangt nur, dass du dich entscheidest und es begründen kannst.</p>
-
-<h3>Frage 3, der dritte Start</h3>
-<p><b>Es kommt darauf an, ob deine Methode <code>count()</code> prüft.</b></p>
-<ul>
-<li>Mit der Prüfung: fünf Einträge. Der Startbestand läuft nur beim allerersten Start, danach findet er eine gefüllte Tabelle und kehrt um.</li>
-<li>Ohne die Prüfung: fünfzehn. Bei jedem Start kommen fünf dazu.</li>
-</ul>
-<p>Das ist genau der Fehler aus 08A. <b>Und der Nachsatz von damals gilt weiter: einen Tippfehler zu korrigieren und neu zu starten repariert die falschen Daten nicht.</b> Sie stehen schon in der Datenbank. Ein Startbestand ist keine Reparatur.</p>
-
-<h2>03 Vergleichsliste, dein eigener Code</h2>
+<h2>Prüfliste</h2>
 
 <p>Geh die Punkte an deinen eigenen Dateien durch. Das ist der einzige Ort, an dem du deine Arbeit gegen einen Massstab hältst.</p>
 
 <table>
 <tr><th class="num">Nr</th><th>Das prüfst du</th><th>Warum es zählt</th></tr>
-<tr><td class="num">1</td><td>Deine Entity hat genau die Felder aus deinem Datenmodell von 07A. <b>Kein Feld für den Betrag</b></td><td>Ein gespeicherter Betrag ist eine zweite Wahrheit. Siehe Denkfrage 1</td></tr>
+<tr><td class="num">1</td><td>Deine Entity hat genau die Felder aus deinem Datenmodell von 07A. Kein Feld für den Betrag</td><td>Menge mal Preis lässt sich jederzeit ausrechnen. Ins Datenmodell gehört, was du nicht wieder ausrechnen kannst. Ein gespeicherter Betrag ist eine zweite Wahrheit</td></tr>
 <tr><td class="num">2</td><td>An der <code>id</code> steht <code>@PrimaryKey(autoGenerate = true)</code>, und du setzt sie nirgends selbst</td><td>Ohne <code>autoGenerate</code> bleiben alle ids 0, und ab dem zweiten <code>insert</code> gibt es einen Konflikt</td></tr>
-<tr><td class="num">3</td><td>Menge und Preis haben einen Typ, der <b>leer</b> sein kann</td><td>Steht so in der Beschreibung. Sonst zeigt deine Liste <code>0.00</code> statt nichts</td></tr>
+<tr><td class="num">3</td><td>Menge und Preis haben einen Typ, der leer sein kann</td><td>Steht so in der Beschreibung. Sonst zeigt deine Liste <code>0.00</code> statt nichts, und das hiesse, der Artikel koste nichts</td></tr>
 <tr><td class="num">4</td><td>Dein Dao hat <b>sechs</b> Methoden, und über jeder steht eine Annotation</td><td>Dieselben sechs wie in 07C. Ein Dao ist der Vertrag mit der Tabelle, und den schreibt man einmal ganz</td></tr>
-<tr><td class="num">5</td><td>In deinen <code>@Query</code>-Texten steht der <b>Tabellenname</b>, nicht der Klassenname</td><td>SQL kennt deine Java-Klasse nicht. Der Fehler kommt erst beim Bauen, dafür deutlich</td></tr>
+<tr><td class="num">5</td><td>In deinen <code>@Query</code>-Texten steht der Tabellenname, nicht der Klassenname</td><td>SQL kennt deine Java-Klasse nicht. Der Fehler kommt erst beim Bauen, dafür deutlich</td></tr>
 <tr><td class="num">6</td><td>Die Datenbank-Klasse hat genau ein Feld <code>instance</code>, und <code>getInstance</code> ist <code>synchronized</code></td><td>Es gibt eine Datenbank pro App. Zwei gleichzeitig gebaute Verbindungen sind ein Fehler, den man erst spät bemerkt</td></tr>
-<tr><td class="num">7</td><td><b>Dein Startbestand prüft <code>count()</code> und kehrt um, wenn schon etwas da ist</b></td><td>Der wichtigste Punkt dieser Liste. Ohne ihn wächst deine Tabelle bei jedem Start. Siehe 08A</td></tr>
-<tr><td class="num">8</td><td>Bei <b>zwei</b> deiner fünf Einträge fehlen Menge und Preis</td><td>Nur damit siehst du, ob dein Betrag richtig entscheidet. Mit fünf vollständigen Einträgen sieht eine falsche Bau-Methode richtig aus</td></tr>
-<tr><td class="num">9</td><td><b><code>removeAllViews</code> steht als erste Zeile deiner Bau-Methode</b></td><td>Ohne sie wird die Liste bei jedem Laden länger, und es stürzt nichts ab. Derselbe Fehler wie in 04B</td></tr>
-<tr><td class="num">10</td><td>Beim <code>inflate</code> ist das dritte Argument ein <code>false</code>, und die drei <code>findViewById</code> laufen auf <code>row</code></td><td>Mit <code>true</code> hängt die Zeile zweimal, das gibt eine <code>IllegalStateException</code>. Ohne <code>row</code> sucht Android im falschen Layout und liefert <code>null</code></td></tr>
-<tr><td class="num">11</td><td>Der Betrag wird in der Schleife gerechnet, <b>nach einer Prüfung auf beide Werte</b>, und bleibt sonst leer</td><td>Das ist die einzige Stelle mit Logik in diesem Auftrag. Am Prüfungstag ist es der Durchschnitt, und dort gibt es dafür einen eigenen Punkt</td></tr>
-<tr><td class="num">12</td><td>Der Betrag hat <b>genau zwei</b> Stellen nach dem Punkt, und der Text kommt aus <code>strings.xml</code></td><td>Ohne die Vorgabe steht dort eine Zahl mit zehn Stellen. Und sichtbare Texte gehören nie in den Java-Code</td></tr>
-<tr><td class="num">13</td><td>Die ScrollView hat <code>layout_height="0dp"</code> und ist oben <b>und unten</b> verbunden</td><td><b>Dreh das Gerät und schau nach.</b> Im Hochformat sieht man den Fehler nie, im Querformat sofort. Im Bewertungsraster 2 Punkte</td></tr>
-<tr><td class="num">14</td><td>Jede neue Klasse hat einen <b>Klassenkommentar</b>, der sagt wofür sie da ist</td><td>Steht im Prüfungsblatt. Im Bewertungsraster 2 Punkte</td></tr>
-<tr><td class="num">15</td><td>Jedes Feld und jede Methode hat Javadoc, <b>auch die Getter und Setter</b></td><td>Was <code>Alt+Insert</code> erzeugt, bringt keines mit. Bei fünf Feldern sind das zehn Methoden auf einen Schlag</td></tr>
+<tr><td class="num">7</td><td>Beim Bauen der Datenbank steht <code>allowMainThreadQueries()</code></td><td>Eine bewusste Entscheidung für diesen Kurs. Bei einer echten App gehört die Abfrage in einen eigenen Thread, und das sagst du am besten dazu</td></tr>
+<tr><td class="num">8</td><td>Dein Startbestand prüft <code>count()</code> und kehrt um, wenn schon etwas da ist</td><td>Der wichtigste Punkt dieser Liste. Ohne ihn wächst deine Tabelle bei jedem Start. Ein Startbestand ist keine Reparatur, er läuft nur beim allerersten Mal. Siehe 08A</td></tr>
+<tr><td class="num">9</td><td>Bei <b>zwei</b> deiner fünf Einträge fehlen Menge und Preis</td><td>Nur damit siehst du, ob dein Betrag richtig entscheidet. Mit fünf vollständigen Einträgen sieht eine falsche Bau-Methode richtig aus</td></tr>
+<tr><td class="num">10</td><td><code>removeAllViews</code> steht als <b>erste</b> Zeile deiner Bau-Methode</td><td>Ohne sie wird die Liste bei jedem Laden länger, und es stürzt nichts ab. Derselbe Fehler wie in 04B</td></tr>
+<tr><td class="num">11</td><td>Beim <code>inflate</code> ist das dritte Argument ein <code>false</code>, und die drei <code>findViewById</code> laufen auf <code>row</code></td><td>Mit <code>true</code> hängt die Zeile zweimal, das gibt eine <code>IllegalStateException</code>. Ohne <code>row</code> sucht Android im falschen Layout und liefert <code>null</code></td></tr>
+<tr><td class="num">12</td><td>Der Betrag wird in der Schleife gerechnet, nach einer Prüfung auf beide Werte, und bleibt sonst leer</td><td>Das ist die einzige Stelle mit Logik in diesem Auftrag. An der Prüfung ist es der Durchschnitt, und dort gibt es dafür einen eigenen Punkt</td></tr>
+<tr><td class="num">13</td><td>Der Betrag hat genau <b>zwei</b> Stellen nach dem Punkt, und der Text kommt aus <code>strings.xml</code></td><td>Ohne die Vorgabe steht dort eine Zahl mit zehn Stellen. Und sichtbare Texte gehören nie in den Java-Code</td></tr>
+<tr><td class="num">14</td><td>Die ScrollView hat <code>layout_height="0dp"</code> und ist oben und unten verbunden</td><td>Dreh das Gerät und schau nach. Im Hochformat sieht man den Fehler nie, im Querformat sofort. Im Bewertungsraster 2 Punkte</td></tr>
+<tr><td class="num">15</td><td>Jede neue Klasse hat einen Klassenkommentar, der sagt wofür sie da ist</td><td>Steht im Prüfungsblatt. Im Bewertungsraster 2 Punkte</td></tr>
+<tr><td class="num">16</td><td>Jedes Feld und jede Methode hat Javadoc, auch die Getter und Setter</td><td>Was <code>Alt+Insert</code> erzeugt, bringt keines mit. Bei fünf Feldern sind das zehn Methoden auf einen Schlag</td></tr>
 </table>
 
-<div class="tip">
-<p><b>Wenn du nur einen Punkt prüfst, dann Nummer 7.</b> Er ist der einzige, dessen Fehlen du erst beim zweiten Start siehst, und dann sieht es aus wie ein Fehler beim Anzeigen.</p>
-</div>
+<p>Wenn du nur einen Punkt prüfst, dann Nummer 8. Er ist der einzige, dessen Fehlen du erst beim zweiten Start siehst, und dann sieht es aus wie ein Fehler beim Anzeigen.</p>
 
-<p><b>Wenn ein Punkt bei dir anders ist und trotzdem funktioniert, entscheide selbst. Aber du solltest sagen können, warum.</b> Genau das wird in der Leistungsbeurteilung gefragt.</p>
+<p>Ist ein Punkt bei dir anders und funktioniert trotzdem, entscheide selbst. Aber du solltest sagen können, warum.</p>
 
-<h2>04 Erlaubte Abweichungen</h2>
+<h2>Erlaubte Abweichungen</h2>
 
 <p>Der Code unten ist eine Lösung, nicht die Lösung. Diese Dinge dürfen bei dir anders sein, ohne dass etwas fehlt:</p>
 <ul>
-<li><b>Alle Namen.</b> Deine Klassen dürfen anders heissen, deine Methoden auch. Wichtig ist, dass ein Name sagt, was die Sache tut.</li>
-<li><b>Die Reihenfolge der Methoden in einer Datei</b> und die Reihenfolge der Importe. In Java ist beides egal. Im Kurs gilt das Zeitungsprinzip, also <code>onCreate</code> zuoberst und die Helfer darunter.</li>
-<li><b>Die Sortierung in deiner Methode, die alle Einträge holt.</b> Nach Laden, nach Artikel, nach <code>id</code>. Du musst nur sagen können, wonach.</li>
-<li><b>Welche fünf Artikel im Startbestand stehen.</b></li>
-<li><b>Ob beim Betrag eine Währung steht</b> oder nur die Zahl.</li>
-<li><b>Ob es einen Helfer für den Startbestand gibt</b> oder fünfmal fünf Zeilen untereinander.</li>
+<li>Alle Namen. Deine Klassen dürfen anders heissen, deine Methoden auch. Wichtig ist, dass ein Name sagt, was die Sache tut.</li>
+<li>Die Reihenfolge der Methoden in einer Datei und die Reihenfolge der Importe. In Java ist beides egal. Im Kurs gilt das Zeitungsprinzip, also <code>onCreate</code> zuoberst und die Helfer darunter.</li>
+<li>Die Sortierung in deiner Methode, die alle Einträge holt. Nach Laden, nach Artikel, nach <code>id</code>. Du musst nur sagen können, wonach.</li>
+<li>Welche fünf Artikel im Startbestand stehen.</li>
+<li>Ob beim Betrag eine Währung steht oder nur die Zahl.</li>
+<li>Ob es einen Helfer für den Startbestand gibt oder fünfmal fünf Zeilen untereinander.</li>
 </ul>
 
 <div class="warn">
-<p><b>Was nicht abweichen darf</b>, weil es sonst still kaputt geht: das <code>removeAllViews</code> zuoberst, das <code>false</code> beim <code>inflate</code>, das <code>row</code> vor <code>findViewById</code>, und die Prüfung mit <code>count()</code> im Startbestand.</p>
+<p>Was nicht abweichen darf, weil es sonst still kaputt geht: das <code>removeAllViews</code> zuoberst, das <code>false</code> beim <code>inflate</code>, das <code>row</code> vor <code>findViewById</code>, und die Prüfung mit <code>count()</code> im Startbestand.</p>
 </div>
 
-<h2>05 Der vollständige Code</h2>
-<p>Eine mögliche Lösung, in der Reihenfolge, in der du sie gebaut hast. Die Namen sind meine, deine dürfen andere sein. Siehe Abschnitt 04.</p>
-<h3>Schritt 1, die Entity</h3>
-<p>Fünf Felder, genau die aus deinem Datenmodell von 07A. Dazu die <code>id</code>, die Room selbst vergibt. <b>Menge und Preis sind <code>Integer</code> und <code>Double</code></b>, damit sie leer sein können.</p>
+<h2>Der vollständige Code</h2>
+<p>Eine mögliche Lösung, in der Reihenfolge, in der du sie gebaut hast.</p>
+
+<h2>ShoppingItem.java</h2>
+<p>Fünf Felder, genau die aus deinem Datenmodell von 07A. Dazu die <code>id</code>, die Room selbst vergibt. Menge und Preis sind <code>Integer</code> und <code>Double</code>, damit sie leer sein können.</p>
 <pre><span class="k">package</span> ch.wiss.m335.einkauf.data;
 
 <span class="k">import</span> androidx.room.<span class="t">ColumnInfo</span>;
@@ -142,16 +111,16 @@
      * hier 0, und Room ersetzt die 0 durch die nächste freie Nummer.
      */</span>
     <span class="a">@PrimaryKey</span>(autoGenerate = <span class="k">true</span>)
-    <span class="k">private</span> <span class="k">int</span> id;
+    <span class="k">private</span> <span class="k">int</span> <span class="v">id</span>;
 
     <span class="c">/** Der Artikel, Pflichtfeld, mindestens 4 Zeichen. */</span>
-    <span class="k">private</span> <span class="t">String</span> article;
+    <span class="k">private</span> <span class="t">String</span> <span class="v">article</span>;
 
     <span class="c">/** Der Laden, Pflichtfeld, mindestens 4 Zeichen. */</span>
-    <span class="k">private</span> <span class="t">String</span> shop;
+    <span class="k">private</span> <span class="t">String</span> <span class="v">shop</span>;
 
     <span class="c">/** Die Menge, darf null sein, solange sie nicht eingetragen ist. */</span>
-    <span class="k">private</span> <span class="t">Integer</span> quantity;
+    <span class="k">private</span> <span class="t">Integer</span> <span class="v">quantity</span>;
 
     <span class="c">/**
      * Der Preis pro Stück, darf null sein.
@@ -161,60 +130,61 @@
      * Du siehst den Unterschied gleich im Database Inspector.
      */</span>
     <span class="a">@ColumnInfo</span>(name = <span class="s">"price_per_unit"</span>)
-    <span class="k">private</span> <span class="t">Double</span> pricePerUnit;
+    <span class="k">private</span> <span class="t">Double</span> <span class="v">pricePerUnit</span>;
 
     <span class="c">/** @return die Nummer des Eintrags */</span>
-    <span class="k">public</span> <span class="k">int</span> getId() {
-        <span class="k">return</span> id;
+    <span class="k">public</span> <span class="k">int</span> <span class="m">getId</span>() {
+        <span class="k">return</span> <span class="v">id</span>;
     }
 
     <span class="c">/** @param id die Nummer des Eintrags */</span>
-    <span class="k">public</span> <span class="k">void</span> setId(<span class="k">int</span> id) {
-        <span class="k">this</span>.id = id;
+    <span class="k">public</span> <span class="k">void</span> <span class="m">setId</span>(<span class="k">int</span> <span class="v">id</span>) {
+        <span class="k">this</span>.<span class="v">id</span> = <span class="v">id</span>;
     }
 
     <span class="c">/** @return der Artikel */</span>
-    <span class="k">public</span> <span class="t">String</span> getArticle() {
-        <span class="k">return</span> article;
+    <span class="k">public</span> <span class="t">String</span> <span class="m">getArticle</span>() {
+        <span class="k">return</span> <span class="v">article</span>;
     }
 
     <span class="c">/** @param article der Artikel */</span>
-    <span class="k">public</span> <span class="k">void</span> setArticle(<span class="t">String</span> article) {
-        <span class="k">this</span>.article = article;
+    <span class="k">public</span> <span class="k">void</span> <span class="m">setArticle</span>(<span class="t">String</span> <span class="v">article</span>) {
+        <span class="k">this</span>.<span class="v">article</span> = <span class="v">article</span>;
     }
 
     <span class="c">/** @return der Laden */</span>
-    <span class="k">public</span> <span class="t">String</span> getShop() {
-        <span class="k">return</span> shop;
+    <span class="k">public</span> <span class="t">String</span> <span class="m">getShop</span>() {
+        <span class="k">return</span> <span class="v">shop</span>;
     }
 
     <span class="c">/** @param shop der Laden */</span>
-    <span class="k">public</span> <span class="k">void</span> setShop(<span class="t">String</span> shop) {
-        <span class="k">this</span>.shop = shop;
+    <span class="k">public</span> <span class="k">void</span> <span class="m">setShop</span>(<span class="t">String</span> <span class="v">shop</span>) {
+        <span class="k">this</span>.<span class="v">shop</span> = <span class="v">shop</span>;
     }
 
     <span class="c">/** @return die Menge, oder null wenn sie nicht eingetragen ist */</span>
-    <span class="k">public</span> <span class="t">Integer</span> getQuantity() {
-        <span class="k">return</span> quantity;
+    <span class="k">public</span> <span class="t">Integer</span> <span class="m">getQuantity</span>() {
+        <span class="k">return</span> <span class="v">quantity</span>;
     }
 
     <span class="c">/** @param quantity die Menge, oder null */</span>
-    <span class="k">public</span> <span class="k">void</span> setQuantity(<span class="t">Integer</span> quantity) {
-        <span class="k">this</span>.quantity = quantity;
+    <span class="k">public</span> <span class="k">void</span> <span class="m">setQuantity</span>(<span class="t">Integer</span> <span class="v">quantity</span>) {
+        <span class="k">this</span>.<span class="v">quantity</span> = <span class="v">quantity</span>;
     }
 
     <span class="c">/** @return der Preis pro Stück, oder null wenn er nicht eingetragen ist */</span>
-    <span class="k">public</span> <span class="t">Double</span> getPricePerUnit() {
-        <span class="k">return</span> pricePerUnit;
+    <span class="k">public</span> <span class="t">Double</span> <span class="m">getPricePerUnit</span>() {
+        <span class="k">return</span> <span class="v">pricePerUnit</span>;
     }
 
     <span class="c">/** @param pricePerUnit der Preis pro Stück, oder null */</span>
-    <span class="k">public</span> <span class="k">void</span> setPricePerUnit(<span class="t">Double</span> pricePerUnit) {
-        <span class="k">this</span>.pricePerUnit = pricePerUnit;
+    <span class="k">public</span> <span class="k">void</span> <span class="m">setPricePerUnit</span>(<span class="t">Double</span> <span class="v">pricePerUnit</span>) {
+        <span class="k">this</span>.<span class="v">pricePerUnit</span> = <span class="v">pricePerUnit</span>;
     }
 }</pre>
-<h3>Schritt 1, das Dao</h3>
-<p>Sechs Methoden, dieselben wie im <code>QuestionDao</code> aus 07C. Heute ruft nur <code>getAll</code>, <code>insert</code> und <code>count</code> jemand auf. Die anderen drei stehen trotzdem da, denn ein Vertrag mit einer Tabelle wird einmal ganz geschrieben.</p>
+
+<h2>ShoppingItemDao.java</h2>
+<p>Sechs Methoden, dieselben wie im <code>QuestionDao</code> aus 07C. Aufgerufen werden hier nur <code>getAll</code>, <code>insert</code> und <code>count</code>. Die anderen drei stehen trotzdem da, denn ein Vertrag mit einer Tabelle wird einmal ganz geschrieben.</p>
 <pre><span class="k">package</span> ch.wiss.m335.einkauf.data;
 
 <span class="k">import</span> androidx.room.<span class="t">Dao</span>;
@@ -309,8 +279,9 @@
     <span class="a">@Query</span>(<span class="s">"SELECT COUNT(*) FROM shopping_items"</span>)
     <span class="k">int</span> count();
 }</pre>
-<h3>Schritt 1 und 2, die Datenbank-Klasse</h3>
-<p>Der Startbestand aus Schritt 2 steckt in derselben Datei. <b>Die Zeile mit <code>count()</code> ist der Kern</b>, ohne sie wächst die Tabelle bei jedem Start.</p>
+
+<h2>ShoppingDatabase.java</h2>
+<p>Der Startbestand aus Schritt 2 steckt in derselben Datei. Die Zeile mit <code>count()</code> ist der Kern, ohne sie wächst die Tabelle bei jedem Start.</p>
 <pre><span class="k">package</span> ch.wiss.m335.einkauf.data;
 
 <span class="k">import</span> android.content.<span class="t">Context</span>;
@@ -342,13 +313,13 @@
 <span class="k">public</span> <span class="k">abstract</span> <span class="k">class</span> <span class="t">ShoppingDatabase</span> <span class="k">extends</span> <span class="t">RoomDatabase</span> {
 
     <span class="c">/** Log-Tag für das ganze Modul 335. */</span>
-    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="t">TAG</span> = <span class="s">"Modul335"</span>;
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="v">TAG</span> = <span class="s">"Modul335"</span>;
 
     <span class="c">/** Der Dateiname der Datenbank auf dem Gerät. */</span>
-    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="t">DB_NAME</span> = <span class="s">"shopping.db"</span>;
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="v">DB_NAME</span> = <span class="s">"shopping.db"</span>;
 
     <span class="c">/** Die eine Datenbank. Wird beim ersten Zugriff gebaut. */</span>
-    <span class="k">private</span> <span class="k">static</span> <span class="t">ShoppingDatabase</span> instance;
+    <span class="k">private</span> <span class="k">static</span> <span class="t">ShoppingDatabase</span> <span class="v">instance</span>;
 
     <span class="c">/**
      * Der Zugriff auf die Tabelle shopping_items.
@@ -373,20 +344,20 @@
      * @param context irgendein Context, zum Beispiel eine Activity
      * @return die eine Datenbank der App
      */</span>
-    <span class="k">public</span> <span class="k">static</span> <span class="k">synchronized</span> <span class="t">ShoppingDatabase</span> getInstance(<span class="t">Context</span> context) {
-        <span class="k">if</span> (instance == <span class="k">null</span>) {
+    <span class="k">public</span> <span class="k">static</span> <span class="k">synchronized</span> <span class="t">ShoppingDatabase</span> <span class="m">getInstance</span>(<span class="t">Context</span> context) {
+        <span class="k">if</span> (<span class="v">instance</span> == <span class="k">null</span>) {
             <span class="t">Context</span> appContext = context.getApplicationContext();
 
-            instance = <span class="t">Room</span>.databaseBuilder(appContext, <span class="t">ShoppingDatabase</span>.<span class="k">class</span>, <span class="t">DB_NAME</span>)
+            <span class="v">instance</span> = <span class="t">Room</span>.databaseBuilder(appContext, <span class="t">ShoppingDatabase</span>.<span class="k">class</span>, <span class="v">DB_NAME</span>)
                     .allowMainThreadQueries()
                     .build();
 
             seedIfEmpty();
 
-            <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"database opened, name="</span> + <span class="t">DB_NAME</span>
-                    + <span class="s">", items="</span> + instance.shoppingItemDao().count());
+            <span class="t">Log</span>.d(<span class="v">TAG</span>, <span class="s">"database opened, name="</span> + <span class="v">DB_NAME</span>
+                    + <span class="s">", items="</span> + <span class="v">instance</span>.shoppingItemDao().count());
         }
-        <span class="k">return</span> instance;
+        <span class="k">return</span> <span class="v">instance</span>;
     }
 
     <span class="c">/**
@@ -400,12 +371,12 @@
      * So siehst du gleich beim ersten Start, dass der Betrag nur dort steht,
      * wo beides eingetragen ist.
      */</span>
-    <span class="k">private</span> <span class="k">static</span> <span class="k">void</span> seedIfEmpty() {
-        <span class="t">ShoppingItemDao</span> dao = instance.shoppingItemDao();
+    <span class="k">private</span> <span class="k">static</span> <span class="k">void</span> <span class="m">seedIfEmpty</span>() {
+        <span class="t">ShoppingItemDao</span> dao = <span class="v">instance</span>.shoppingItemDao();
 
         <span class="k">int</span> existing = dao.count();
         <span class="k">if</span> (existing &gt; 0) {
-            <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"seed skipped, count="</span> + existing);
+            <span class="t">Log</span>.d(<span class="v">TAG</span>, <span class="s">"seed skipped, count="</span> + existing);
             <span class="k">return</span>;
         }
 
@@ -415,7 +386,7 @@
         dao.insert(newItem(<span class="s">"Zahnpasta"</span>, <span class="s">"Coop"</span>, <span class="k">null</span>, <span class="k">null</span>));
         dao.insert(newItem(<span class="s">"Batterien AA"</span>, <span class="s">"Interdiscount"</span>, <span class="k">null</span>, <span class="k">null</span>));
 
-        <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"seed done, count="</span> + dao.count());
+        <span class="t">Log</span>.d(<span class="v">TAG</span>, <span class="s">"seed done, count="</span> + dao.count());
     }
 
     <span class="c">/**
@@ -439,10 +410,11 @@
         <span class="k">return</span> item;
     }
 }</pre>
-<h3>Schritt 3, das Layout der Startseite</h3>
-<p>Die Überschrift oben, darunter die ScrollView mit <code>0dp</code> und der Verbindung nach unten, und darin das leere LinearLayout. <b>Diese eine Angabe entscheidet über das Querformat.</b></p>
+
+<h2><code class="pfad">res/layout/activity_main.xml</code></h2>
+<p>Die Überschrift oben, darunter die ScrollView mit <code>0dp</code> und der Verbindung nach unten, und darin das leere LinearLayout. Diese eine Angabe entscheidet über das Querformat.</p>
 <pre>&lt;?xml version=<span class="s">"1.0"</span> encoding=<span class="s">"utf-8"</span>?&gt;
-<span class="c">&lt;!--
+<span class="d">&lt;!--
   Die Startseite. Oben eine Überschrift, darunter die Liste.
 
   Die Liste ist ein LinearLayout, das hier leer dasteht. Gefüllt wird es im
@@ -494,10 +466,11 @@
     &lt;/<span class="t">ScrollView</span>&gt;
 
 &lt;/<span class="t">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</pre>
-<h3>Schritt 3, die Texte</h3>
+
+<h2><code class="pfad">res/values/strings.xml</code></h2>
 <p>Der Platzhalter <code>%1$.2f</code> ist die Stelle, an der die zwei Nachkommastellen festgelegt werden.</p>
-<pre>&lt;<span class="t">resources</span>&gt;
-    &lt;<span class="t">string</span> name=<span class="s">"app_name"</span>&gt;Einkaufsliste&lt;/<span class="t">string</span>&gt;
+<pre>&lt;<span class="g">resources</span>&gt;
+    &lt;<span class="g">string</span> name=<span class="s">"app_name"</span>&gt;Einkaufsliste&lt;/<span class="g">string</span>&gt;
 
     <span class="c">&lt;!--
       Alle sichtbaren Texte gehören hierher, nicht in die Layouts und
@@ -507,7 +480,7 @@
       Beispiele: title_main, btn_save, hint_article, error_required
     --&gt;</span>
 
-    &lt;<span class="t">string</span> name=<span class="s">"title_main"</span>&gt;Meine Einkaufsliste&lt;/<span class="t">string</span>&gt;
+    &lt;<span class="g">string</span> name=<span class="s">"title_main"</span>&gt;Meine Einkaufsliste&lt;/<span class="g">string</span>&gt;
 
     <span class="c">&lt;!--
       Der Betrag rechts in der Zeile.
@@ -516,11 +489,12 @@
       nach dem Punkt. Ohne die 2 stünde dort 7.6000000000000005, denn so
       genau rechnet ein double.
     --&gt;</span>
-    &lt;<span class="t">string</span> name=<span class="s">"amount_format"</span>&gt;%1$.2f CHF&lt;/<span class="t">string</span>&gt;
+    &lt;<span class="g">string</span> name=<span class="s">"amount_format"</span>&gt;%1$.2f CHF&lt;/<span class="g">string</span>&gt;
 
-&lt;/<span class="t">resources</span>&gt;</pre>
-<h3>Schritt 3, die MainActivity</h3>
-<p>Der obere Teil ist unverändert aus dem Starter-Projekt. Neu sind das eine Feld, die zwei Zeilen am Schluss von <code>onCreate</code> und die zwei Methoden darunter. <b>Es gibt keine zweite Klasse.</b></p>
+&lt;/<span class="g">resources</span>&gt;</pre>
+
+<h2>MainActivity.java</h2>
+<p>Der obere Teil ist unverändert aus dem Starter-Projekt. Neu sind das eine Feld, die zwei Zeilen am Schluss von <code>onCreate</code> und die zwei Methoden darunter. Es gibt keine zweite Klasse.</p>
 <pre><span class="k">package</span> ch.wiss.m335.einkauf;
 
 <span class="k">import</span> android.os.<span class="t">Bundle</span>;
@@ -562,39 +536,39 @@
      * alle Spalten, und damit träfe "M335" jede Zeile deiner App statt nur
      * die selbst geschriebenen.
      */</span>
-    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="t">TAG</span> = <span class="s">"Modul335"</span>;
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="v">TAG</span> = <span class="s">"Modul335"</span>;
 
     <span class="c">/**
      * Der Behälter für die Zeilen.
      *
      * Im Layout ist er leer. Gefüllt wird er in buildItemList.
      */</span>
-    <span class="k">private</span> <span class="t">LinearLayout</span> llItems;
+    <span class="k">private</span> <span class="t">LinearLayout</span> <span class="v">llItems</span>;
 
     <span class="a">@Override</span>
-    <span class="k">protected</span> <span class="k">void</span> onCreate(<span class="t">Bundle</span> savedInstanceState) {
+    <span class="k">protected</span> <span class="k">void</span> <span class="m">onCreate</span>(<span class="t">Bundle</span> savedInstanceState) {
         <span class="k">super</span>.onCreate(savedInstanceState);
         <span class="t">EdgeToEdge</span>.enable(<span class="k">this</span>);
         setContentView(<span class="t">R</span>.layout.activity_main);
 
-        <span class="c">// Der Rand für Statusleiste und Navigationsleiste. Ohne diesen</span>
-        <span class="c">// Block liegt dein oberstes Element unter der Uhr. Das Gerüst</span>
-        <span class="c">// ist fertig, du musst es nicht anfassen.</span>
-        <span class="k">final</span> <span class="k">int</span> extraPadding = <span class="t">Math</span>.round(16 * getResources().getDisplayMetrics().density);
+        <span class="l">// Der Rand für Statusleiste und Navigationsleiste. Ohne diesen</span>
+        <span class="l">// Block liegt dein oberstes Element unter der Uhr. Das Gerüst</span>
+        <span class="l">// ist fertig, du musst es nicht anfassen.</span>
+        <span class="k">final</span> <span class="k">int</span> <span class="v">extraPadding</span> = <span class="t">Math</span>.round(16 * getResources().getDisplayMetrics().density);
 
         <span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(<span class="t">R</span>.id.clMain), (v, insets) -&gt; {
             <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.<span class="t">Type</span>.systemBars());
             v.setPadding(
-                    systemBars.left + extraPadding,
-                    systemBars.top + extraPadding,
-                    systemBars.right + extraPadding,
-                    systemBars.bottom + extraPadding);
+                    systemBars.left + <span class="v">extraPadding</span>,
+                    systemBars.top + <span class="v">extraPadding</span>,
+                    systemBars.right + <span class="v">extraPadding</span>,
+                    systemBars.bottom + <span class="v">extraPadding</span>);
             <span class="k">return</span> insets;
         });
 
-        <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"MainActivity onCreate"</span>);
+        <span class="t">Log</span>.d(<span class="v">TAG</span>, <span class="s">"MainActivity onCreate"</span>);
 
-        llItems = findViewById(<span class="t">R</span>.id.llItems);
+        <span class="v">llItems</span> = findViewById(<span class="t">R</span>.id.<span class="v">llItems</span>);
 
         loadItems();
     }
@@ -606,14 +580,14 @@
      * Formular gibt, muss die Liste nach der Rückkehr neu geladen werden, und
      * dann steht der Aufruf einfach ein zweites Mal in onResume.
      */</span>
-    <span class="k">private</span> <span class="k">void</span> loadItems() {
+    <span class="k">private</span> <span class="k">void</span> <span class="m">loadItems</span>() {
         <span class="t">List</span>&lt;<span class="t">ShoppingItem</span>&gt; items = <span class="t">ShoppingDatabase</span>.getInstance(<span class="k">this</span>)
                 .shoppingItemDao()
                 .getAll();
 
         buildItemList(items);
 
-        <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"items loaded, total="</span> + items.size());
+        <span class="t">Log</span>.d(<span class="v">TAG</span>, <span class="s">"items loaded, total="</span> + items.size());
     }
 
     <span class="c">/**
@@ -631,12 +605,12 @@
      * @param items die Einträge, die angezeigt werden sollen
      */</span>
     <span class="k">private</span> <span class="k">void</span> buildItemList(<span class="t">List</span>&lt;<span class="t">ShoppingItem</span>&gt; items) {
-        llItems.removeAllViews();
+        <span class="v">llItems</span>.removeAllViews();
 
         <span class="t">LayoutInflater</span> inflater = <span class="t">LayoutInflater</span>.from(<span class="k">this</span>);
 
         <span class="k">for</span> (<span class="t">ShoppingItem</span> item : items) {
-            <span class="t">View</span> row = inflater.inflate(<span class="t">R</span>.layout.item_shopping, llItems, <span class="k">false</span>);
+            <span class="t">View</span> row = inflater.inflate(<span class="t">R</span>.layout.item_shopping, <span class="v">llItems</span>, <span class="k">false</span>);
 
             <span class="t">TextView</span> tvArticle = row.findViewById(<span class="t">R</span>.id.tvArticle);
             <span class="t">TextView</span> tvShop = row.findViewById(<span class="t">R</span>.id.tvShop);
@@ -645,10 +619,10 @@
             tvArticle.setText(item.getArticle());
             tvShop.setText(item.getShop());
 
-            <span class="c">// Der Betrag wird gerechnet und nirgends gespeichert. Nur wenn</span>
-            <span class="c">// beide Werte da sind. Fehlt einer, bleibt das Feld leer. Ein</span>
-            <span class="c">// leerer Text und nicht 0.00, denn 0.00 hiesse, der Eintrag</span>
-            <span class="c">// koste nichts.</span>
+            <span class="l">// Der Betrag wird gerechnet und nirgends gespeichert. Nur wenn</span>
+            <span class="l">// beide Werte da sind. Fehlt einer, bleibt das Feld leer. Ein</span>
+            <span class="l">// leerer Text und nicht 0.00, denn 0.00 hiesse, der Eintrag</span>
+            <span class="l">// koste nichts.</span>
             <span class="k">if</span> (item.getQuantity() != <span class="k">null</span> &amp;&amp; item.getPricePerUnit() != <span class="k">null</span>) {
                 <span class="k">double</span> amount = item.getQuantity() * item.getPricePerUnit();
                 tvAmount.setText(getString(<span class="t">R</span>.string.amount_format, amount));
@@ -656,12 +630,13 @@
                 tvAmount.setText(<span class="s">""</span>);
             }
 
-            llItems.addView(row);
+            <span class="v">llItems</span>.addView(row);
         }
     }
 }</pre>
-<h3>Zum Vergleich, das fertige Zeilenlayout</h3>
-<p>Diese Datei war schon im Starter-Projekt. <b>Am Prüfungstag zeichnest du sie selbst</b>, darum lohnt sich ein Blick auf den linken Block mit <code>layout_weight="1"</code>.</p>
+
+<h2><code class="pfad">res/layout/item_shopping.xml</code></h2>
+<p>Diese Datei war schon im Starter-Projekt. An der Prüfung zeichnest du sie selbst, darum lohnt sich ein Blick auf den linken Block mit <code>layout_weight="1"</code>.</p>
 <pre>&lt;?xml version=<span class="s">"1.0"</span> encoding=<span class="s">"utf-8"</span>?&gt;
 <span class="c">&lt;!--
   Eine Zeile der Einkaufsliste. Diese Datei ist fertig, du baust sie nicht.
@@ -675,7 +650,7 @@
   allen Platz, der nach dem Betrag übrig bleibt. Der Betrag rechts steht
   dadurch immer am Rand, egal wie lang der Artikelname ist.
 --&gt;</span>
-&lt;<span class="t">LinearLayout</span> xmlns:android=<span class="s">"http://schemas.android.com/apk/res/android"</span>
+&lt;<span class="g">LinearLayout</span> xmlns:android=<span class="s">"http://schemas.android.com/apk/res/android"</span>
     xmlns:tools=<span class="s">"http://schemas.android.com/tools"</span>
     android:layout_width=<span class="s">"match_parent"</span>
     android:layout_height=<span class="s">"wrap_content"</span>
@@ -684,13 +659,13 @@
     android:paddingTop=<span class="s">"12dp"</span>
     android:paddingBottom=<span class="s">"12dp"</span>&gt;
 
-    &lt;<span class="t">LinearLayout</span>
+    &lt;<span class="g">LinearLayout</span>
         android:layout_width=<span class="s">"0dp"</span>
         android:layout_height=<span class="s">"wrap_content"</span>
         android:layout_weight=<span class="s">"1"</span>
         android:orientation=<span class="s">"vertical"</span>&gt;
 
-        &lt;<span class="t">TextView</span>
+        &lt;<span class="g">TextView</span>
             android:id=<span class="s">"@+id/tvArticle"</span>
             android:layout_width=<span class="s">"match_parent"</span>
             android:layout_height=<span class="s">"wrap_content"</span>
@@ -699,7 +674,7 @@
             android:textSize=<span class="s">"16sp"</span>
             tools:text=<span class="s">"Vollkornbrot"</span> /&gt;
 
-        &lt;<span class="t">TextView</span>
+        &lt;<span class="g">TextView</span>
             android:id=<span class="s">"@+id/tvShop"</span>
             android:layout_width=<span class="s">"match_parent"</span>
             android:layout_height=<span class="s">"wrap_content"</span>
@@ -709,9 +684,9 @@
             android:textSize=<span class="s">"12sp"</span>
             tools:text=<span class="s">"Migros"</span> /&gt;
 
-    &lt;/<span class="t">LinearLayout</span>&gt;
+    &lt;/<span class="g">LinearLayout</span>&gt;
 
-    &lt;<span class="t">TextView</span>
+    &lt;<span class="g">TextView</span>
         android:id=<span class="s">"@+id/tvAmount"</span>
         android:layout_width=<span class="s">"wrap_content"</span>
         android:layout_height=<span class="s">"wrap_content"</span>
@@ -719,45 +694,42 @@
         android:textSize=<span class="s">"16sp"</span>
         tools:text=<span class="s">"7.60"</span> /&gt;
 
-&lt;/<span class="t">LinearLayout</span>&gt;</pre>
+&lt;/<span class="g">LinearLayout</span>&gt;</pre>
 
-<h2>06 Mögliche falsche KI-Rückmeldungen</h2>
+<h2>Mögliche falsche KI-Rückmeldungen</h2>
 
 <p>Das ist eine Prüfliste und keine Anklage. Es ist nicht sicher, dass jede KI diese Fehler macht. Aber jeder davon ist im Zusammenhang mit Room und mit Listen schon vorgekommen, und jeder kostet dich Zeit unter der Uhr.</p>
 
 <table>
 <tr><th>Was eine KI vorschlagen kann</th><th>Warum es hier nicht passt</th></tr>
-<tr><td><code>kapt(...)</code> statt <code>annotationProcessor(...)</code> für den Room-Compiler</td><td><b>KSP und kapt gelten für Kotlin.</b> Wir arbeiten mit Java. Im Starter-Projekt steht die richtige Zeile schon drin, ändere sie nicht</td></tr>
+<tr><td><code>kapt(...)</code> statt <code>annotationProcessor(...)</code> für den Room-Compiler</td><td>KSP und kapt gelten für Kotlin. Wir arbeiten mit Java. Im Starter-Projekt steht die richtige Zeile schon drin, ändere sie nicht</td></tr>
 <tr><td>Das Dao gibt <code>LiveData&lt;List&lt;...&gt;&gt;</code> oder <code>Flow</code> zurück</td><td>Beides ist sauber und beides braucht einen Beobachter, den du dann auch schreiben musst. Im Kurs liefert das Dao eine einfache <code>List</code></td></tr>
-<tr><td>Die Abfrage gehört in einen eigenen Thread, mit <code>ExecutorService</code> oder Coroutines</td><td><b>Richtig gedacht und für eine echte App auch richtig.</b> Im Kurs gilt <code>allowMainThreadQueries()</code>, und das ist eine bewusste Entscheidung. Sag sie an der Prüfung dazu, dann ist es kein Mangel</td></tr>
-<tr><td>Die Entity als <code>record</code> oder mit Konstruktor und ohne Setter</td><td>Room braucht entweder Getter und Setter oder einen Konstruktor, der zu allen Feldern passt. <b>Die record-Falle hattest du schon in 03D</b></td></tr>
-<tr><td><code>fallbackToDestructiveMigration()</code> gegen die Schema-Meldung</td><td>Es funktioniert, und es <b>löscht deine Daten still</b>, bei jeder Änderung an der Entity. Für den Kurs ist <b>Clear storage</b> ehrlicher, denn dort siehst du, was passiert</td></tr>
-<tr><td>Ein <code>RecyclerView</code> mit Adapter statt der Schleife</td><td><b>Nicht falsch, im Gegenteil.</b> Für lange Listen ist es der richtige Weg, und du hast ihn in 06C gebaut. Hier kostet er dich zwanzig Minuten und bringt keinen Punkt mehr. <b>Unter Zeitdruck baust du das Kürzere</b></td></tr>
-<tr><td><code>String.format("%.2f", betrag)</code> direkt im Java-Code</td><td>Läuft, aber der sichtbare Text steht dann nicht in <code>strings.xml</code>. <b>Im Bewertungsraster ist das die Zeile über die Formularfelder und die Standards</b></td></tr>
+<tr><td>Die Abfrage gehört in einen eigenen Thread, mit <code>ExecutorService</code> oder Coroutines</td><td>Richtig gedacht und für eine echte App auch richtig. Im Kurs gilt <code>allowMainThreadQueries()</code>, und das ist eine bewusste Entscheidung. Sag sie an der Prüfung dazu, dann ist es kein Mangel</td></tr>
+<tr><td>Die Entity als <code>record</code> oder mit Konstruktor und ohne Setter</td><td>Room braucht entweder Getter und Setter oder einen Konstruktor, der zu allen Feldern passt. Die record-Falle hattest du schon in 03D</td></tr>
+<tr><td><code>fallbackToDestructiveMigration()</code> gegen die Schema-Meldung</td><td>Es funktioniert, und es löscht deine Daten still, bei jeder Änderung an der Entity. Für den Kurs ist Clear storage ehrlicher, denn dort siehst du, was passiert</td></tr>
+<tr><td>Ein <code>RecyclerView</code> mit Adapter statt der Schleife</td><td>Nicht falsch, im Gegenteil. Für lange Listen ist es der richtige Weg, und du hast ihn in 06C gebaut. Hier kostet er dich zwanzig Minuten und bringt keinen Punkt mehr. Unter Zeitdruck baust du das Kürzere</td></tr>
+<tr><td><code>String.format("%.2f", betrag)</code> direkt im Java-Code</td><td>Läuft, aber der sichtbare Text steht dann nicht in <code>strings.xml</code>. Im Bewertungsraster ist das die Zeile über die Formularfelder und die Standards</td></tr>
 <tr><td>ViewBinding statt <code>findViewById</code></td><td>Muss erst in <code>build.gradle.kts</code> eingeschaltet werden. Ist im Kurs nicht behandelt und kostet dich unter der Uhr mehr, als es bringt</td></tr>
-<tr><td>Die Liste kommt ohne ScrollView aus, oder die ScrollView bekommt <code>wrap_content</code></td><td>Sieht im Hochformat gleich aus. <b>Im Querformat ist die Liste unten abgeschnitten</b>, und das sind 2 Punkte im Raster</td></tr>
+<tr><td>Die Liste kommt ohne ScrollView aus, oder die ScrollView bekommt <code>wrap_content</code></td><td>Sieht im Hochformat gleich aus. Im Querformat ist die Liste unten abgeschnitten, und das sind 2 Punkte im Raster</td></tr>
 </table>
+<p>Die Frage, die alle diese Zeilen beantwortet: kannst du erklären, was diese Zeile tut und warum sie da steht? Wenn nein, nimm die Version, die du erklären kannst.</p>
 
-<div class="tip">
-<p><b>Die Frage, die alle diese Zeilen beantwortet:</b> kannst du erklären, was diese Zeile tut und warum sie da steht? Wenn nein, nimm die Version, die du erklären kannst. An der Prüfung sitzt niemand neben dir, aber du unterschreibst am Schluss, dass du deine Quellen kennzeichnest.</p>
-</div>
-
-<h2>07 Wie es weitergeht</h2>
-
-<p><b>Nach der Pause kommt 09B.</b> Der Reparaturblock behandelt genau die Stellen, an denen ihr heute nachschauen musstet. Bring deinen Befund mit, sonst repariert der Block etwas, das bei dir gar nicht kaputt war.</p>
-
-<p>Danach der Rückblick, und dort spannt sich der Bogen von deiner ersten Zeile in 01B bis zu dieser Datenbank. <b>Am Nachmittag folgt die Leistungsbeurteilung.</b></p>
-
+<h2>Wie es weitergeht</h2>
+<p>Nach der Pause kommt 09B. Der Reparaturblock behandelt genau die Stellen, an denen ihr nachschauen musstet. Bring deinen Befund mit, sonst repariert der Block etwas, das bei dir gar nicht kaputt war.</p>
+<p>Danach der Rückblick, und dort spannt sich der Bogen von deiner ersten Zeile in 01B bis zu dieser Datenbank.</p>
 <div class="warn">
-<p><b>Drei Dinge für den Prüfungstag, die heute nichts gekostet haben und dort viel kosten können.</b></p>
+<p>Drei Dinge für die Prüfung, die hier nichts gekostet haben und dort viel kosten können.</p>
 <ul>
-<li><b>Prüf am Vorabend, ob dein Emulator startet.</b> Nicht am Morgen.</li>
-<li><b>Fang mit dem Papierteil an.</b> 22 der 48 Punkte gibt es ohne eine Zeile Code, und sie brauchen weder Compiler noch Glück.</li>
-<li><b>Schreib das Javadoc beim Schreiben.</b> Wer es sich für den Schluss aufhebt, kommt nie dazu, und es sind 2 Punkte.</li>
+<li>Prüf vorher, ob dein Emulator startet. Nicht erst kurz davor.</li>
+<li>Fang mit dem Papierteil an. 22 der 48 Punkte gibt es ohne eine Zeile Code, und sie brauchen weder Compiler noch Glück.</li>
+<li>Schreib das Javadoc beim Schreiben. Wer es sich für den Schluss aufhebt, kommt nie dazu, und es sind 2 Punkte.</li>
 </ul>
 </div>
 
-<p class="foot">Modul 335 | Tag 5 Vormittag | Lösungsmaterial 09A | Version 2 | 04.09.2026</p>
+<!--M335:WEITER-->
+<nav class="weiter"><div class="reihe"><span>Zu 09A</span><a href="09a-einfuehrung.html">Einführung</a><a href="09a.html">Auftrag</a></div><a class="vor" href="09b-einfuehrung.html"><span>Weiter</span>09B, Einführung</a></nav>
+<!--/M335:WEITER-->
+<p class="foot">Modul 335 | Tag 5 Vormittag | Lösung 09A | Version 5 | 06.09.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->
@@ -765,6 +737,52 @@
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
 <script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
 /* ------------------------------------------------------------------
    M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
 
@@ -875,7 +893,15 @@
     heads.forEach(function (h) {
       eintraege.push({
         el: h,
-        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
         stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
       });
     });

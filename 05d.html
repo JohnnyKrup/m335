@@ -4,17 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>05D Der beste Wert bleibt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
 <!--M335:STIL-->
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/stil/rahmen.css">
-<link rel="stylesheet" href="/stil/dokument.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
 <!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
 <header class="site-header"><div class="in">
-<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
-<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
 <button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
@@ -85,18 +88,18 @@
 </table>
 
 <h4>Wer wen ruft</h4>
-<pre><span class="c">// wenn eine Runde fertig ist</span>
+<pre><span class="d">// wenn eine Runde fertig ist</span>
 GameActivity.showResult()
-└─ <span class="t">ScoreStorage</span>.saveIfBetter(this, score)
-   └─ die Datei auf dem Gerät
++- <span class="t">ScoreStorage</span>.saveIfBetter(this, score)
+   +- die Datei auf dem Gerät
 
-<span class="c">// wenn das Menü etwas anzeigen soll</span>
+<span class="d">// wenn das Menü etwas anzeigen soll</span>
 MainActivity.showBestScore()
-└─ <span class="t">ScoreStorage</span>.getBestScore(this)
-   └─ dieselbe Datei
++- <span class="t">ScoreStorage</span>.getBestScore(this)
+   +- dieselbe Datei
 
-<span class="c">// und die eigentliche Frage dieses Auftrags:</span>
-<span class="c">// wer ruft showBestScore auf, und wann?</span></pre>
+<span class="d">// und die eigentliche Frage dieses Auftrags:</span>
+<span class="d">// wer ruft showBestScore auf, und wann?</span></pre>
 
 <div class="info">
 <p><b>Die Activity kennt die Datei nicht.</b> Sie kennt nur zwei Methoden. Wo die Werte wirklich liegen, wie die Ablage heisst und unter welchem Schlüssel etwas steht, weiss allein <code>ScoreStorage</code>.</p>
@@ -142,19 +145,19 @@ MainActivity.showBestScore()
  * (HIER: zwei bis drei Zeilen, was SharedPreferences sind
  *  und wie lange sie halten)
  */</span>
-<span class="k">public final class</span> <span class="t">ScoreStorage</span> {
+<span class="k">public</span> <span class="k">final</span> <span class="k">class</span> <span class="t">ScoreStorage</span> {
 
     <span class="c">/** Der Name der XML-Datei im Ordner der App. */</span>
-    <span class="k">private static final</span> <span class="t">String</span> PREFS_NAME = <span class="s">"m335_quiz"</span>;
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="v">PREFS_NAME</span> = <span class="s">"m335_quiz"</span>;
 
     <span class="c">/** Der Schlüssel, unter dem der beste Wert liegt. */</span>
-    <span class="k">private static final</span> <span class="t">String</span> KEY_BEST_SCORE = <span class="s">"bestScore"</span>;
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="v">KEY_BEST_SCORE</span> = <span class="s">"bestScore"</span>;
 
     <span class="c">/** Bedeutet: es wurde noch nie eine Runde beendet. */</span>
-    <span class="k">public static final int</span> NO_SCORE_YET = -<span class="k">1</span>;
+    <span class="k">public</span> <span class="k">static</span> <span class="k">final</span> <span class="k">int</span> <span class="v">NO_SCORE_YET</span> = -1;
 
     <span class="c">/** Diese Klasse wird nie erzeugt, sie hat nur statische Methoden. */</span>
-    <span class="k">private</span> <span class="t">ScoreStorage</span>() {
+    <span class="k">private</span> <span class="m">ScoreStorage</span>() {
     }
 
     <span class="c">/**
@@ -163,8 +166,8 @@ MainActivity.showBestScore()
      * @param context irgendein Context, meistens die Activity
      * @return der beste Wert, oder NO_SCORE_YET wenn noch keiner da ist
      */</span>
-    <span class="k">public static int</span> getBestScore(<span class="t">Context</span> context) {
-        <span class="k">return</span> prefs(context).getInt(KEY_BEST_SCORE, NO_SCORE_YET);
+    <span class="k">public</span> <span class="k">static</span> <span class="k">int</span> <span class="m">getBestScore</span>(<span class="t">Context</span> context) {
+        <span class="k">return</span> prefs(context).getInt(<span class="v">KEY_BEST_SCORE</span>, <span class="v">NO_SCORE_YET</span>);
     }
 
     <span class="c">/**
@@ -174,12 +177,12 @@ MainActivity.showBestScore()
      * @param score   der Punktestand der eben beendeten Runde
      * @return true, wenn ein neuer Bestwert gespeichert wurde
      */</span>
-    <span class="k">public static boolean</span> saveIfBetter(<span class="t">Context</span> context, <span class="k">int</span> score) {
+    <span class="k">public</span> <span class="k">static</span> <span class="k">boolean</span> <span class="m">saveIfBetter</span>(<span class="t">Context</span> context, <span class="k">int</span> score) {
         <span class="k">if</span> (score &lt;= getBestScore(context)) {
-            <span class="k">return false</span>;
+            <span class="k">return</span> <span class="k">false</span>;
         }
-        prefs(context).edit().putInt(KEY_BEST_SCORE, score).apply();
-        <span class="k">return true</span>;
+        prefs(context).edit().putInt(<span class="v">KEY_BEST_SCORE</span>, score).apply();
+        <span class="k">return</span> <span class="k">true</span>;
     }
 
     <span class="c">/**
@@ -188,8 +191,8 @@ MainActivity.showBestScore()
      * @param context irgendein Context, meistens die Activity
      * @return die Ablage dieser App
      */</span>
-    <span class="k">private static</span> <span class="t">SharedPreferences</span> prefs(<span class="t">Context</span> context) {
-        <span class="k">return</span> context.getSharedPreferences(PREFS_NAME, <span class="t">Context</span>.MODE_PRIVATE);
+    <span class="k">private</span> <span class="k">static</span> <span class="t">SharedPreferences</span> <span class="m">prefs</span>(<span class="t">Context</span> context) {
+        <span class="k">return</span> context.getSharedPreferences(<span class="v">PREFS_NAME</span>, <span class="t">Context</span>.<span class="t">MODE_PRIVATE</span>);
     }
 }</pre>
 <div class="note">
@@ -207,8 +210,8 @@ MainActivity.showBestScore()
 <div class="step">
 <p><span class="n">A2</span><b>Die Runde speichert ihr Ergebnis.</b></p>
 <p>In <code>GameActivity.java</code>, in der Methode <code>showResult</code>, nach dem Aufruf von <code>publishResult()</code>:</p>
-<pre><span class="c">// Der beste Wert wird hier gespeichert und nicht im Menü.
-// Hier entsteht das Ergebnis.</span>
+<pre><span class="l">// Der beste Wert wird hier gespeichert und nicht im Menü.</span>
+<span class="l">// Hier entsteht das Ergebnis.</span>
 <span class="k">boolean</span> isNewBest = <span class="t">ScoreStorage</span>.saveIfBetter(<span class="k">this</span>, score);</pre>
 <p>Und die Log-Zeile am Ende derselben Methode wird länger, damit du den Rückgabewert siehst:</p>
 <pre>Log.d(TAG, <span class="s">"round finished, score="</span> + score + <span class="s">" newBest="</span> + isNewBest);</pre>
@@ -231,10 +234,10 @@ MainActivity.showBestScore()
 <div class="step">
 <p><span class="n">A3</span><b>Die zweite Zeile im Menü.</b></p>
 <p>In <code>strings.xml</code>, bei den Texten des Startbildschirms:</p>
-<pre>&lt;<span class="t">string</span> name=<span class="s">"best_score_none"</span>&gt;Noch kein Bestwert.&lt;/<span class="t">string</span>&gt;
-&lt;<span class="t">string</span> name=<span class="s">"best_score_format"</span>&gt;Bester Wert: %1$d Punkte.&lt;/<span class="t">string</span>&gt;</pre>
+<pre>&lt;<span class="g">string</span> name=<span class="s">"best_score_none"</span>&gt;Noch kein Bestwert.&lt;/<span class="g">string</span>&gt;
+&lt;<span class="g">string</span> name=<span class="s">"best_score_format"</span>&gt;Bester Wert: %1$d Punkte.&lt;/<span class="g">string</span>&gt;</pre>
 <p>In <code>activity_main.xml</code>, <b>über</b> der TextView <code>tvLastScore</code>:</p>
-<pre>&lt;<span class="t">TextView</span>
+<pre>&lt;<span class="g">TextView</span>
     android:id=<span class="s">"@+id/tvBestScore"</span>
     android:layout_width=<span class="s">"match_parent"</span>
     android:layout_height=<span class="s">"wrap_content"</span>
@@ -248,15 +251,15 @@ MainActivity.showBestScore()
 <span class="k">private</span> <span class="t">TextView</span> tvBestScore;</pre>
 <p>Und die Methode, die diese Anzeige füllt. Sie kommt zu den anderen <code>show</code>-Methoden ans Ende der Klasse:</p>
 <pre><span class="c">/** Schreibt den besten Wert aus SharedPreferences in die Anzeige. */</span>
-<span class="k">private void</span> showBestScore() {
+<span class="k">private</span> <span class="k">void</span> <span class="m">showBestScore</span>() {
     <span class="k">int</span> best = <span class="t">ScoreStorage</span>.getBestScore(<span class="k">this</span>);
-    <span class="k">if</span> (best == <span class="t">ScoreStorage</span>.NO_SCORE_YET) {
-        tvBestScore.setText(getString(R.string.best_score_none));
+    <span class="k">if</span> (best == <span class="t">ScoreStorage</span>.<span class="t">NO_SCORE_YET</span>) {
+        tvBestScore.setText(getString(<span class="t">R</span>.string.best_score_none));
     } <span class="k">else</span> {
-        tvBestScore.setText(getString(R.string.best_score_format, best));
+        tvBestScore.setText(getString(<span class="t">R</span>.string.best_score_format, best));
     }
 
-    Log.d(TAG, <span class="s">"best score read, value="</span> + best);
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"best score read, value="</span> + best);
 }</pre>
 <p>Zum Schluss der Aufruf. Er kommt <b>ans Ende von <code>onCreate</code></b>, direkt neben <code>showLastScore();</code>:</p>
 <pre>showBestScore();
@@ -308,8 +311,8 @@ showLastScore();</pre>
  * Also nach dem Start, nach der Rückkehr aus der GameActivity und nach
  * dem Wechsel aus einer anderen App.
  */</span>
-<span class="k">@Override</span>
-<span class="k">protected void</span> onResume() {
+<span class="a">@Override</span>
+<span class="k">protected</span> <span class="k">void</span> <span class="m">onResume</span>() {
     <span class="k">super</span>.onResume();
     showBestScore();
 }</pre>
@@ -362,9 +365,9 @@ showLastScore();</pre>
 </div>
 <p><b>Das kennst du schon.</b> Genau dieselbe Sache hattest du in 04A beim Fragebereich. Die Lösung ist dieselbe: eine <code>ScrollView</code> um den ganzen Inhalt.</p>
 <p>In <code>activity_main.xml</code> legst du eine <code>ScrollView</code> um das <code>LinearLayout</code> <code>llMenu</code>:</p>
-<pre>&lt;<span class="c">!-- Das Menü steckt in einer ScrollView, damit es im Querformat
-     nicht unten abgeschnitten wird. --</span>&gt;
-&lt;<span class="t">ScrollView</span>
+<pre><span class="c">&lt;!-- Das Menü steckt in einer ScrollView, damit es im Querformat
+     nicht unten abgeschnitten wird. --&gt;</span>
+&lt;<span class="g">ScrollView</span>
     android:id=<span class="s">"@+id/svMenu"</span>
     android:layout_width=<span class="s">"0dp"</span>
     android:layout_height=<span class="s">"0dp"</span>
@@ -373,10 +376,10 @@ showLastScore();</pre>
     app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
     app:layout_constraintTop_toTopOf=<span class="s">"parent"</span>&gt;
 
-    &lt;<span class="c">!-- hier hinein kommt dein llMenu, unverändert bis auf die
-         vier Zeilen unten --</span>&gt;
+    <span class="c">&lt;!-- hier hinein kommt dein llMenu, unverändert bis auf die
+         vier Zeilen unten --&gt;</span>
 
-&lt;/<span class="t">ScrollView</span>&gt;</pre>
+&lt;/<span class="g">ScrollView</span>&gt;</pre>
 <p>Und am <code>LinearLayout</code> <code>llMenu</code> ändern sich vier Zeilen. Die Anker braucht es nicht mehr, denn jetzt sitzt es in der ScrollView und nicht mehr direkt im ConstraintLayout:</p>
 <table>
 <tr><th>Weg</th><th>Neu</th></tr>
@@ -418,23 +421,23 @@ showLastScore();</pre>
 <p><span class="n">B3</span><b>Der Zettel für den Neubau.</b></p>
 <p>Android bietet dir für genau diesen Fall ein <code>Bundle</code> an. Zwei Schlüssel zuerst, zu den anderen Konstanten in <code>MainActivity</code>:</p>
 <pre><span class="c">/** Schlüssel für die Punkte der letzten Runde im Bundle. */</span>
-<span class="k">private static final</span> <span class="t">String</span> KEY_LAST_SCORE = <span class="s">"lastScore"</span>;
+<span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="t">KEY_LAST_SCORE</span> = <span class="s">"lastScore"</span>;
 
 <span class="c">/** Schlüssel für die Anzahl Fragen der letzten Runde im Bundle. */</span>
-<span class="k">private static final</span> <span class="t">String</span> KEY_LAST_TOTAL = <span class="s">"lastTotal"</span>;</pre>
+<span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="t">KEY_LAST_TOTAL</span> = <span class="s">"lastTotal"</span>;</pre>
 <p>Und die Methode, unter <code>onResume</code>:</p>
 <pre><span class="c">/**
  * Legt die Werte weg, die den Neubau dieser Activity überstehen sollen.
  *
  * @param outState der Zettel, den der Neubau später zurückbekommt
  */</span>
-<span class="k">@Override</span>
-<span class="k">protected void</span> onSaveInstanceState(@<span class="t">NonNull</span> <span class="t">Bundle</span> outState) {
+<span class="a">@Override</span>
+<span class="k">protected</span> <span class="k">void</span> <span class="m">onSaveInstanceState</span>(<span class="a">@NonNull</span> <span class="t">Bundle</span> outState) {
     <span class="k">super</span>.onSaveInstanceState(outState);
-    outState.putInt(KEY_LAST_SCORE, lastScore);
-    outState.putInt(KEY_LAST_TOTAL, lastTotal);
+    outState.putInt(<span class="t">KEY_LAST_SCORE</span>, lastScore);
+    outState.putInt(<span class="t">KEY_LAST_TOTAL</span>, lastTotal);
 
-    Log.d(TAG, <span class="s">"state saved, lastScore="</span> + lastScore + <span class="s">"/"</span> + lastTotal);
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"state saved, lastScore="</span> + lastScore + <span class="s">"/"</span> + lastTotal);
 }</pre>
 <p>Der Import von <code>NonNull</code> kommt mit <code>Alt</code> und <code>Enter</code>, es ist der aus <code>androidx.annotation</code>.</p>
 <div class="warn">
@@ -446,13 +449,13 @@ showLastScore();</pre>
 <p><span class="n">B4</span><b>Den Zettel wieder lesen.</b></p>
 <p>Der Zettel kommt genau dort zurück, wo du ihn seit 01B jeden Tag siehst und noch nie gebraucht hast: als Parameter von <code>onCreate</code>.</p>
 <p>In <code>onCreate</code>, nach den <code>findViewById</code>-Zeilen und <b>vor</b> dem Aufruf von <code>showLastScore()</code>:</p>
-<pre><span class="c">// Der Neubau bringt seinen Zettel mit. Beim allerersten Start ist er
-// null, dann bleiben die Felder auf ihrem Anfangswert.</span>
+<pre><span class="l">// Der Neubau bringt seinen Zettel mit. Beim allerersten Start ist er</span>
+<span class="l">// null, dann bleiben die Felder auf ihrem Anfangswert.</span>
 <span class="k">if</span> (savedInstanceState != <span class="k">null</span>) {
-    lastScore = savedInstanceState.getInt(KEY_LAST_SCORE, NO_ROUND_YET);
-    lastTotal = savedInstanceState.getInt(KEY_LAST_TOTAL, <span class="k">0</span>);
+    lastScore = savedInstanceState.getInt(<span class="t">KEY_LAST_SCORE</span>, <span class="t">NO_ROUND_YET</span>);
+    lastTotal = savedInstanceState.getInt(<span class="t">KEY_LAST_TOTAL</span>, 0);
 
-    Log.d(TAG, <span class="s">"state restored, lastScore="</span> + lastScore + <span class="s">"/"</span> + lastTotal);
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"state restored, lastScore="</span> + lastScore + <span class="s">"/"</span> + lastTotal);
 }</pre>
 <div class="note">
 <p><b>Die Prüfung auf <code>null</code> ist Pflicht.</b> Beim allerersten Start gibt es keinen Zettel, dann ist der Parameter <code>null</code>. Ohne die Prüfung stürzt die App beim Start ab, und zwar immer.</p>
@@ -496,7 +499,7 @@ showLastScore();</pre>
 <p><span class="n">C1</span><b>Der Klassenkommentar der MainActivity stimmt nicht mehr.</b></p>
 <p>Lies den Javadoc-Block über <code>public class MainActivity</code>. Der letzte Absatz stammt aus 05B und ist seit heute nur noch <b>halb</b> wahr.</p>
 <p>Der Rahmen, den Inhalt formulierst du selbst:</p>
-<pre><span class="c">/**
+<pre><span class="d">/**
  * Der Startbildschirm der Quiz-App.
  *
  * (DER TEIL AUS 04B, 05A UND 05B BLEIBT STEHEN)
@@ -558,7 +561,7 @@ showLastScore();</pre>
 
 <div class="ue">
 <div class="t">Übung 3, erklären</div>
-<p>Erkläre einem Lerngspänli, warum der beste Wert in <code>onResume</code> gelesen wird und nicht in <code>onCreate</code>.</p>
+<p>Erkläre einer anderen Person, warum der beste Wert in <code>onResume</code> gelesen wird und nicht in <code>onCreate</code>.</p>
 <p><b>So prüfst du:</b> Dein Gegenüber kann sagen, was am Bildschirm passiert, wenn man es doch in <code>onCreate</code> macht, und warum der Fehler manchmal nicht auftritt.</p>
 </div>
 
@@ -655,6 +658,9 @@ showLastScore();</pre>
 </table>
 
 
+<!--M335:WEITER-->
+<nav class="weiter"><div class="reihe"><span>Zu 05D</span><a href="05d-loesung.html">Lösung</a></div><a class="vor" href="06a.html"><span>Weiter</span>06A Datenmodell zeichnen</a></nav>
+<!--/M335:WEITER-->
 <p class="foot">Modul 335 | Tag 3 Vormittag | Auftrag 05D | Version 1 | 16.08.2026</p>
 
 </div>
@@ -663,6 +669,52 @@ showLastScore();</pre>
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
 <script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
 /* ------------------------------------------------------------------
    M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
 
@@ -773,7 +825,15 @@ showLastScore();</pre>
     heads.forEach(function (h) {
       eintraege.push({
         el: h,
-        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
         stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
       });
     });

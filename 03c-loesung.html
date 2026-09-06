@@ -4,17 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>03C Lösung, Klick auswerten</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
 <!--M335:STIL-->
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/stil/rahmen.css">
-<link rel="stylesheet" href="/stil/dokument.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
 <!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
 <header class="site-header"><div class="in">
-<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
-<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
 <button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
@@ -122,20 +125,20 @@
 
 <pre><span class="k">package</span> ch.wiss.m335.quiz;
 
-<span class="k">import</span> android.content.res.ColorStateList;
-<span class="k">import</span> android.graphics.Color;
-<span class="k">import</span> android.os.Bundle;
-<span class="k">import</span> android.util.Log;
-<span class="k">import</span> android.view.View;
-<span class="k">import</span> android.widget.Button;
-<span class="k">import</span> android.widget.TextView;
+<span class="k">import</span> android.content.res.<span class="t">ColorStateList</span>;
+<span class="k">import</span> android.graphics.<span class="t">Color</span>;
+<span class="k">import</span> android.os.<span class="t">Bundle</span>;
+<span class="k">import</span> android.util.<span class="t">Log</span>;
+<span class="k">import</span> android.view.<span class="t">View</span>;
+<span class="k">import</span> android.widget.<span class="t">Button</span>;
+<span class="k">import</span> android.widget.<span class="t">TextView</span>;
 
-<span class="k">import</span> androidx.activity.EdgeToEdge;
-<span class="k">import</span> androidx.appcompat.app.AppCompatActivity;
-<span class="k">import</span> androidx.core.content.ContextCompat;
-<span class="k">import</span> androidx.core.graphics.Insets;
-<span class="k">import</span> androidx.core.view.ViewCompat;
-<span class="k">import</span> androidx.core.view.WindowInsetsCompat;
+<span class="k">import</span> androidx.activity.<span class="t">EdgeToEdge</span>;
+<span class="k">import</span> androidx.appcompat.app.<span class="t">AppCompatActivity</span>;
+<span class="k">import</span> androidx.core.content.<span class="t">ContextCompat</span>;
+<span class="k">import</span> androidx.core.graphics.<span class="t">Insets</span>;
+<span class="k">import</span> androidx.core.view.<span class="t">ViewCompat</span>;
+<span class="k">import</span> androidx.core.view.<span class="t">WindowInsetsCompat</span>;
 
 <span class="c">/**
  * Der Spielbildschirm der Quiz-App.
@@ -151,7 +154,7 @@
  * System bis unter Statusleiste und Navigationsleiste. Ohne diesen Block
  * liegt die Kopfzeile unter der Uhr.
  */</span>
-<span class="k">public class</span> <span class="t">MainActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span> {
+<span class="k">public</span> <span class="k">class</span> <span class="t">MainActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span> {
 
     <span class="c">/**
      * Log-Tag für das ganze Modul 335.
@@ -161,13 +164,13 @@
      * Freitext über alle Spalten, und damit träfe "M335" jede Zeile
      * unserer App statt nur die selbst geschriebenen.
      */</span>
-    <span class="k">private static final</span> <span class="t">String</span> TAG = <span class="s">"Modul335"</span>;
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="v">TAG</span> = <span class="s">"Modul335"</span>;
 
     <span class="c">/** Die Anzeige des Punktestands oben rechts. */</span>
-    <span class="k">private</span> <span class="t">TextView</span> tvScore;
+    <span class="k">private</span> <span class="t">TextView</span> <span class="v">tvScore</span>;
 
     <span class="c">/** Die vier Antwort-Buttons in der Reihenfolge des Layouts. */</span>
-    <span class="k">private</span> <span class="t">Button</span>[] answerButtons;
+    <span class="k">private</span> <span class="t">Button</span>[] <span class="v">answerButtons</span>;
 
     <span class="c">/**
      * Die richtige Antwort als Text.
@@ -176,53 +179,53 @@
      * bleibt die Prüfung auch dann korrekt, wenn die Antworten später
      * gemischt angezeigt werden.
      */</span>
-    <span class="k">private</span> <span class="t">String</span> correctAnswer;
+    <span class="k">private</span> <span class="t">String</span> <span class="v">correctAnswer</span>;
 
     <span class="c">/** Erreichte Punkte. Bei einer einzigen Frage höchstens einer. */</span>
-    <span class="k">private int</span> score = <span class="s">0</span>;
+    <span class="k">private</span> <span class="k">int</span> <span class="v">score</span> = 0;
 
-    <span class="k">@Override</span>
-    <span class="k">protected void</span> onCreate(<span class="t">Bundle</span> savedInstanceState) {
+    <span class="a">@Override</span>
+    <span class="k">protected</span> <span class="k">void</span> <span class="m">onCreate</span>(<span class="t">Bundle</span> savedInstanceState) {
         <span class="k">super</span>.onCreate(savedInstanceState);
-        EdgeToEdge.enable(<span class="k">this</span>);
-        setContentView(R.layout.activity_main);
+        <span class="t">EdgeToEdge</span>.enable(<span class="k">this</span>);
+        setContentView(<span class="t">R</span>.layout.activity_main);
 
-        <span class="c">// 16dp eigener Rand, in Pixel umgerechnet über die Dichte des Geräts.</span>
-        <span class="k">final int</span> extraPadding = <span class="t">Math</span>.round(<span class="k">16</span> * getResources().getDisplayMetrics().density);
+        <span class="l">// 16dp eigener Rand, in Pixel umgerechnet über die Dichte des Geräts.</span>
+        <span class="k">final</span> <span class="k">int</span> <span class="v">extraPadding</span> = <span class="t">Math</span>.round(16 * getResources().getDisplayMetrics().density);
 
-        <span class="c">// Wichtig: der eigene Rand wird zu den System-Insets dazugerechnet.</span>
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.clMain), (v, insets) -&gt; {
-            <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.Type.systemBars());
+        <span class="l">// Wichtig: der eigene Rand wird zu den System-Insets dazugerechnet.</span>
+        <span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(<span class="t">R</span>.id.clMain), (v, insets) -&gt; {
+            <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.<span class="t">Type</span>.systemBars());
             v.setPadding(
-                    systemBars.left + extraPadding,
-                    systemBars.top + extraPadding,
-                    systemBars.right + extraPadding,
-                    systemBars.bottom + extraPadding);
+                    systemBars.left + <span class="v">extraPadding</span>,
+                    systemBars.top + <span class="v">extraPadding</span>,
+                    systemBars.right + <span class="v">extraPadding</span>,
+                    systemBars.bottom + <span class="v">extraPadding</span>);
             <span class="k">return</span> insets;
         });
 
-        tvScore = findViewById(R.id.tvScore);
+        <span class="v">tvScore</span> = findViewById(<span class="t">R</span>.id.<span class="v">tvScore</span>);
 
-        <span class="c">// Die vier Buttons in ein Array. Alles, was danach kommt, läuft in
-        // einer Schleife. Vier Mal derselbe Code wäre vier Mal die Chance,
-        // eine Zeile zu vergessen.</span>
-        answerButtons = <span class="k">new</span> <span class="t">Button</span>[]{
-                findViewById(R.id.btnAnswer1),
-                findViewById(R.id.btnAnswer2),
-                findViewById(R.id.btnAnswer3),
-                findViewById(R.id.btnAnswer4)
+        <span class="l">// Die vier Buttons in ein Array. Alles, was danach kommt, läuft in</span>
+        <span class="l">// einer Schleife. Vier Mal derselbe Code wäre vier Mal die Chance,</span>
+        <span class="l">// eine Zeile zu vergessen.</span>
+        <span class="v">answerButtons</span> = <span class="k">new</span> <span class="t">Button</span>[]{
+                findViewById(<span class="t">R</span>.id.btnAnswer1),
+                findViewById(<span class="t">R</span>.id.btnAnswer2),
+                findViewById(<span class="t">R</span>.id.btnAnswer3),
+                findViewById(<span class="t">R</span>.id.btnAnswer4)
         };
 
-        <span class="c">// Die richtige Antwort steht in strings.xml, damit der Text nur an
-        // einer Stelle steht. Später kommt sie aus dem Question-Objekt.</span>
-        correctAnswer = getString(R.string.q1_answer3);
+        <span class="l">// Die richtige Antwort steht in strings.xml, damit der Text nur an</span>
+        <span class="l">// einer Stelle steht. Später kommt sie aus dem Question-Objekt.</span>
+        <span class="v">correctAnswer</span> = getString(<span class="t">R</span>.string.q1_answer3);
 
-        <span class="k">for</span> (<span class="t">Button</span> button : answerButtons) {
+        <span class="k">for</span> (<span class="t">Button</span> button : <span class="v">answerButtons</span>) {
             button.setOnClickListener(v -&gt; onAnswerClicked(v));
         }
 
         showScore();
-        Log.d(TAG, <span class="s">"MainActivity onCreate, Spielbildschirm bereit"</span>);
+        <span class="t">Log</span>.d(<span class="v">TAG</span>, <span class="s">"MainActivity onCreate, Spielbildschirm bereit"</span>);
     }
 
     <span class="c">/**
@@ -230,19 +233,19 @@
      *
      * @param view der Button, der angetippt wurde
      */</span>
-    <span class="k">private void</span> onAnswerClicked(<span class="t">View</span> view) {
+    <span class="k">private</span> <span class="k">void</span> <span class="m">onAnswerClicked</span>(<span class="t">View</span> view) {
         <span class="t">String</span> givenAnswer = ((<span class="t">Button</span>) view).getText().toString();
-        <span class="k">boolean</span> isCorrect = correctAnswer.equals(givenAnswer);
+        <span class="k">boolean</span> isCorrect = <span class="v">correctAnswer</span>.equals(givenAnswer);
 
         <span class="k">if</span> (isCorrect) {
-            score++;
+            <span class="v">score</span>++;
             showScore();
         }
 
         markAnswers(givenAnswer);
         lockAnswers();
 
-        Log.d(TAG, <span class="s">"answer="</span> + givenAnswer + <span class="s">" correct="</span> + isCorrect);
+        <span class="t">Log</span>.d(<span class="v">TAG</span>, <span class="s">"answer="</span> + givenAnswer + <span class="s">" correct="</span> + isCorrect);
     }
 
     <span class="c">/**
@@ -251,13 +254,13 @@
      *
      * @param givenAnswer die Antwort, die der Spieler angetippt hat
      */</span>
-    <span class="k">private void</span> markAnswers(<span class="t">String</span> givenAnswer) {
-        <span class="k">for</span> (<span class="t">Button</span> button : answerButtons) {
+    <span class="k">private</span> <span class="k">void</span> <span class="m">markAnswers</span>(<span class="t">String</span> givenAnswer) {
+        <span class="k">for</span> (<span class="t">Button</span> button : <span class="v">answerButtons</span>) {
             <span class="t">String</span> text = button.getText().toString();
-            <span class="k">if</span> (text.equals(correctAnswer)) {
-                markButton(button, R.color.answer_correct);
-            } <span class="k">else if</span> (text.equals(givenAnswer)) {
-                markButton(button, R.color.answer_wrong);
+            <span class="k">if</span> (text.equals(<span class="v">correctAnswer</span>)) {
+                markButton(button, <span class="t">R</span>.color.answer_correct);
+            } <span class="k">else</span> <span class="k">if</span> (text.equals(givenAnswer)) {
+                markButton(button, <span class="t">R</span>.color.answer_wrong);
             }
         }
     }
@@ -268,17 +271,17 @@
      * @param button   der Button, der eingefärbt wird
      * @param colorRes die Farbe aus colors.xml
      */</span>
-    <span class="k">private void</span> markButton(<span class="t">Button</span> button, <span class="k">int</span> colorRes) {
+    <span class="k">private</span> <span class="k">void</span> <span class="m">markButton</span>(<span class="t">Button</span> button, <span class="k">int</span> colorRes) {
         <span class="k">int</span> color = <span class="t">ContextCompat</span>.getColor(<span class="k">this</span>, colorRes);
 
-        <span class="c">// Achtung: das heutige Template erzeugt einen MaterialButton.
-        // setBackgroundColor ignoriert er stillschweigend. Nichts stürzt ab,
-        // es passiert nur einfach nichts. Richtig ist setBackgroundTintList.</span>
+        <span class="l">// Achtung: das heutige Template erzeugt einen MaterialButton.</span>
+        <span class="l">// setBackgroundColor ignoriert er stillschweigend. Nichts stürzt ab,</span>
+        <span class="l">// es passiert nur einfach nichts. Richtig ist setBackgroundTintList.</span>
         button.setBackgroundTintList(<span class="t">ColorStateList</span>.valueOf(color));
 
-        <span class="c">// Die Textfarbe wird ausdrücklich gesetzt, weil ein gesperrter
-        // Button seine Schrift sonst blass zeichnet.</span>
-        button.setTextColor(<span class="t">Color</span>.WHITE);
+        <span class="l">// Die Textfarbe wird ausdrücklich gesetzt, weil ein gesperrter</span>
+        <span class="l">// Button seine Schrift sonst blass zeichnet.</span>
+        button.setTextColor(<span class="t">Color</span>.<span class="t">WHITE</span>);
     }
 
     <span class="c">/**
@@ -288,15 +291,15 @@
      * und bekommt zwei Punkte für eine Frage. Genau dieser Fall wird am
      * Tag 4 der erste Testfall.
      */</span>
-    <span class="k">private void</span> lockAnswers() {
-        <span class="k">for</span> (<span class="t">Button</span> button : answerButtons) {
+    <span class="k">private</span> <span class="k">void</span> <span class="m">lockAnswers</span>() {
+        <span class="k">for</span> (<span class="t">Button</span> button : <span class="v">answerButtons</span>) {
             button.setEnabled(<span class="k">false</span>);
         }
     }
 
     <span class="c">/** Schreibt den aktuellen Punktestand in die Anzeige oben rechts. */</span>
-    <span class="k">private void</span> showScore() {
-        tvScore.setText(getString(R.string.score_format, score));
+    <span class="k">private</span> <span class="k">void</span> <span class="m">showScore</span>() {
+        <span class="v">tvScore</span>.setText(getString(<span class="t">R</span>.string.score_format, <span class="v">score</span>));
     }
 }</pre>
 
@@ -304,17 +307,17 @@
 <h2>Die zwei Ressourcendateien</h2>
 <p><code>app/src/main/res/values/colors.xml</code>:</p>
 <pre>&lt;?xml version=<span class="s">"1.0"</span> encoding=<span class="s">"utf-8"</span>?&gt;
-&lt;<span class="t">resources</span>&gt;
-    &lt;<span class="t">color</span> name=<span class="s">"black"</span>&gt;#FF000000&lt;/<span class="t">color</span>&gt;
-    &lt;<span class="t">color</span> name=<span class="s">"white"</span>&gt;#FFFFFFFF&lt;/<span class="t">color</span>&gt;
+&lt;<span class="g">resources</span>&gt;
+    &lt;<span class="g">color</span> name=<span class="s">"black"</span>&gt;#FF000000&lt;/<span class="g">color</span>&gt;
+    &lt;<span class="g">color</span> name=<span class="s">"white"</span>&gt;#FFFFFFFF&lt;/<span class="g">color</span>&gt;
 
     <span class="c">&lt;!-- Markierung der Antworten in der Spielrunde. --&gt;</span>
-    &lt;<span class="t">color</span> name=<span class="s">"answer_correct"</span>&gt;#0CA30C&lt;/<span class="t">color</span>&gt;
-    &lt;<span class="t">color</span> name=<span class="s">"answer_wrong"</span>&gt;#D03B3B&lt;/<span class="t">color</span>&gt;
-&lt;/<span class="t">resources</span>&gt;</pre>
+    &lt;<span class="g">color</span> name=<span class="s">"answer_correct"</span>&gt;#0CA30C&lt;/<span class="g">color</span>&gt;
+    &lt;<span class="g">color</span> name=<span class="s">"answer_wrong"</span>&gt;#D03B3B&lt;/<span class="g">color</span>&gt;
+&lt;/<span class="g">resources</span>&gt;</pre>
 
 <p>In <code>strings.xml</code> ist eine Zeile dazugekommen:</p>
-<pre>&lt;<span class="t">string</span> name=<span class="s">"score_format"</span>&gt;Punkte %1$d&lt;/<span class="t">string</span>&gt;</pre>
+<pre>&lt;<span class="g">string</span> name=<span class="s">"score_format"</span>&gt;Punkte %1$d&lt;/<span class="g">string</span>&gt;</pre>
 
 
 <h2>Was sich gegenüber 03B geändert hat</h2>
@@ -340,7 +343,7 @@
 <div class="ue">
 <p class="t">Übung 2, eine Runde neu starten</p>
 <pre><span class="c">/** Gibt alle vier Antwort-Buttons wieder frei und nimmt die Farbe weg. */</span>
-<span class="k">private void</span> resetRound() {
+<span class="k">private</span> <span class="k">void</span> <span class="m">resetRound</span>() {
     <span class="k">for</span> (<span class="t">Button</span> button : answerButtons) {
         button.setEnabled(<span class="k">true</span>);
         button.setBackgroundTintList(<span class="k">null</span>);
@@ -398,6 +401,9 @@
 <p>Dein Spiel steht nach einem Klick still. Es gibt keinen Weiter-Knopf, weil es keine zweite Frage gibt. Und es gibt keine zweite Frage, weil die eine fest in <code>strings.xml</code> steht.</p>
 <p>Genau da setzt der nächste Auftrag an. Eine <b>Datenklasse</b> <code>Question</code> hält Fragetext, vier Antworten und die richtige zusammen. Danach ist eine zweite Frage nur noch ein weiteres Objekt, und die fünf Zeilen <code>q1_…</code> fliegen wieder raus.</p>
 
+<!--M335:WEITER-->
+<nav class="weiter"><div class="reihe"><span>Zu 03C</span><a href="03c.html">Auftrag</a></div><a class="vor" href="03d.html"><span>Weiter</span>03D Die Datenklasse Question</a></nav>
+<!--/M335:WEITER-->
 <p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 03C Klick auswerten &middot; Version 2 vom 14.08.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
 
 </div>
@@ -406,6 +412,52 @@
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
 <script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
 /* ------------------------------------------------------------------
    M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
 
@@ -516,7 +568,15 @@
     heads.forEach(function (h) {
       eintraege.push({
         el: h,
-        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
         stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
       });
     });

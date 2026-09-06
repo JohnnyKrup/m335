@@ -4,17 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>M335 Bildschirme wechseln</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
 <!--M335:STIL-->
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/stil/rahmen.css">
-<link rel="stylesheet" href="/stil/dokument.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
 <!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
 <header class="site-header"><div class="in">
-<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
-<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
 <button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
@@ -31,7 +34,7 @@
 
 <p>Bis jetzt hatte deine App einen Bildschirm. Eine Activity, ein Layout, fertig. Jetzt sollen es zwei werden, und dein erster Reflex aus Java ist falsch.</p>
 
-<pre><span class="c">// So nicht. Das ist kein Tippfehler, das ist der falsche Gedanke.</span>
+<pre><span class="l">// So nicht. Das ist kein Tippfehler, das ist der falsche Gedanke.</span>
 <span class="k">new</span> <span class="t">GameActivity</span>();</pre>
 
 <p>Eine Activity ist <b>kein gewöhnliches Objekt</b>. Sie braucht ein Fenster, sie braucht einen Platz auf dem Bildschirm, sie braucht jemanden, der ihren Lebenszyklus führt. Das alles kannst du ihr nicht geben. Nur Android kann das.</p>
@@ -52,7 +55,7 @@
 
 <p>So läuft eine Bitte durch. Von oben nach unten, und ab der Mitte macht Android alles allein.</p>
 
-<pre><span class="c">   DEIN CODE               in der MainActivity, im Listener
+<pre><span class="d">   DEIN CODE               in der MainActivity, im Listener
         |
         |  new Intent(this, GameActivity.class)
         |                     die Bitte: von wo aus, wohin
@@ -76,7 +79,7 @@
 
 <p>Und was mit dem ersten Bildschirm passiert, zeigt das zweite Bild. Android legt die Bildschirme <b>aufeinander</b>, wie Blätter auf einem Stapel.</p>
 
-<pre><span class="c">   Du bist zweimal weitergegangen
+<pre><span class="d">   Du bist zweimal weitergegangen
 
         AboutActivity     zuoberst, das siehst du gerade
         GameActivity      darunter, wartet
@@ -106,9 +109,9 @@
 
 <p><b>Das Manifest ist das Verzeichnis aller Bildschirme deiner App.</b> Android liest es beim Installieren, nicht beim Übersetzen. Was nicht darin steht, gibt es für Android nicht.</p>
 
-<pre><span class="c">&lt;activity</span>
-<span class="t">    android:name</span>=<span class="s">".GameActivity"</span>
-<span class="t">    android:exported</span>=<span class="s">"false"</span> <span class="c">/&gt;</span></pre>
+<pre>&lt;<span class="g">activity</span>
+    android:name=<span class="s">".GameActivity"</span>
+    android:exported=<span class="s">"false"</span> /&gt;</pre>
 
 <p><b>Der Punkt vor dem Namen steht für dein Paket.</b> <code>.GameActivity</code> heisst also <code>ch.wiss.m335.quiz.GameActivity</code>. Und <code>exported</code> sagt, ob andere Apps diesen Bildschirm öffnen dürfen. Bei allem ausser dem Startbildschirm ist das <code>false</code>.</p>
 
@@ -118,7 +121,7 @@
 
 <h3>Der Intent und startActivity</h3>
 
-<pre><span class="t">btnPlay</span>.setOnClickListener(v -&gt; startActivity(<span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">GameActivity</span>.<span class="k">class</span>)));</pre>
+<pre>btnPlay.setOnClickListener(v -&gt; startActivity(<span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">GameActivity</span>.<span class="k">class</span>)));</pre>
 
 <p><code>new Intent(this, GameActivity.class)</code> ist ein Zettel mit zwei Angaben. <b>Von wo aus</b>, das ist <code>this</code>, und <b>wohin</b>, das ist die Klasse. <code>startActivity</code> gibt den Zettel an Android weiter. Danach ist dein Code fertig, und die Zeile darunter läuft sofort weiter.</p>
 
@@ -165,7 +168,7 @@
 <h3>Auf dem Hinweg</h3>
 
 <pre><span class="t">Intent</span> intent = <span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">QuestionEditActivity</span>.<span class="k">class</span>);
-intent.putExtra(<span class="t">QuestionEditActivity</span>.EXTRA_QUESTION_ID, question.getId());
+intent.putExtra(<span class="t">QuestionEditActivity</span>.<span class="t">EXTRA_QUESTION_ID</span>, question.getId());
 startActivity(intent);</pre>
 
 <p>Drüben holst du den Wert wieder heraus.</p>
@@ -183,8 +186,8 @@ startActivity(intent);</pre>
 <p>Der Rückweg ist aufwendiger, und der Grund dafür steht in Abschnitt 07. Der zweite Bildschirm legt sein Ergebnis bereit.</p>
 
 <pre><span class="t">Intent</span> data = <span class="k">new</span> <span class="t">Intent</span>();
-data.putExtra(EXTRA_SCORE, score);
-setResult(RESULT_OK, data);</pre>
+data.putExtra(<span class="t">EXTRA_SCORE</span>, score);
+setResult(<span class="t">RESULT_OK</span>, data);</pre>
 
 <div class="note">
 <p style="margin:0"><b>Ein <code>new Intent()</code> ohne Ziel ist kein Fahrplan.</b> Es ist nur der Behälter. Wohin es geht, weiss Android schon, denn es kennt den Stapel.</p>
@@ -198,12 +201,12 @@ setResult(RESULT_OK, data);</pre>
 
 <pre><span class="k">private</span> <span class="t">ActivityResultLauncher</span>&lt;<span class="t">Intent</span>&gt; gameLauncher;
 
-<span class="c">// in onCreate, nicht erst beim Klick</span>
+<span class="l">// in onCreate, nicht erst beim Klick</span>
 gameLauncher = registerForActivityResult(
         <span class="k">new</span> <span class="t">ActivityResultContracts</span>.<span class="t">StartActivityForResult</span>(),
         result -&gt; {
-            <span class="k">if</span> (result.getResultCode() == RESULT_OK &amp;&amp; result.getData() != <span class="k">null</span>) {
-                lastScore = result.getData().getIntExtra(<span class="t">GameActivity</span>.EXTRA_SCORE, <span class="s">0</span>);
+            <span class="k">if</span> (result.getResultCode() == <span class="t">RESULT_OK</span> &amp;&amp; result.getData() != <span class="k">null</span>) {
+                lastScore = result.getData().getIntExtra(<span class="t">GameActivity</span>.<span class="t">EXTRA_SCORE</span>, 0);
             }
         });</pre>
 
@@ -283,7 +286,7 @@ gameLauncher = registerForActivityResult(
 
 <h2>10 Wo das im Ganzen steht</h2>
 
-<pre><span class="c">   Ein Bildschirm             Die Activity von innen
+<pre><span class="d">   Ein Bildschirm             Die Activity von innen
         |                     onCreate, findViewById, this
         |
         v
@@ -313,6 +316,9 @@ gameLauncher = registerForActivityResult(
 <p><b>Die Antworten stehen alle auf diesem Blatt.</b> Wenn du eine nicht findest, hast du den Abschnitt überschlagen, und genau der ist der, den du brauchst.</p>
 </div>
 
+<!--M335:WEITER-->
+<nav class="weiter"><a class="zurueck" href="constraints.html"><span>Zurück</span>Constraints verstehen</a><a class="vor" href="ressourcen.html"><span>Weiter</span>Ressourcen und R</a></nav>
+<!--/M335:WEITER-->
 <p class="foot">Modul 335 | Nachschlagen | Bildschirme wechseln | Version 2 | 04.09.2026</p>
 
 </div>
@@ -321,6 +327,52 @@ gameLauncher = registerForActivityResult(
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
 <script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
 /* ------------------------------------------------------------------
    M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
 
@@ -431,7 +483,15 @@ gameLauncher = registerForActivityResult(
     heads.forEach(function (h) {
       eintraege.push({
         el: h,
-        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
         stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
       });
     });

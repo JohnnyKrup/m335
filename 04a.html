@@ -4,17 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>04A Die Fragenliste und die Runde</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
 <!--M335:STIL-->
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/stil/rahmen.css">
-<link rel="stylesheet" href="/stil/dokument.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
 <!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
 <header class="site-header"><div class="in">
-<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
-<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
 <button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
@@ -92,14 +95,14 @@
 <div class="step">
 <p><span class="n">A1</span><b>Die neuen Texte in <code>strings.xml</code>.</b></p>
 <p>Vier neue Einträge. Alles davon ist Beschriftung, also gehört es hierhin und nicht ins Objekt.</p>
-<pre>&lt;<span class="t">string</span> name=<span class="s">"progress_format"</span>&gt;Frage %1$d von %2$d&lt;/<span class="t">string</span>&gt;
+<pre>&lt;<span class="g">string</span> name=<span class="s">"progress_format"</span>&gt;Frage %1$d von %2$d&lt;/<span class="g">string</span>&gt;
 
-&lt;!-- Beschriftungen der Knöpfe. --&gt;
-&lt;<span class="t">string</span> name=<span class="s">"btn_next"</span>&gt;Weiter&lt;/<span class="t">string</span>&gt;
-&lt;<span class="t">string</span> name=<span class="s">"btn_restart"</span>&gt;Nochmals spielen&lt;/<span class="t">string</span>&gt;
+<span class="c">&lt;!-- Beschriftungen der Knöpfe. --&gt;</span>
+&lt;<span class="g">string</span> name=<span class="s">"btn_next"</span>&gt;Weiter&lt;/<span class="g">string</span>&gt;
+&lt;<span class="g">string</span> name=<span class="s">"btn_restart"</span>&gt;Nochmals spielen&lt;/<span class="g">string</span>&gt;
 
-&lt;!-- Ergebnisbereich. --&gt;
-&lt;<span class="t">string</span> name=<span class="s">"result_format"</span>&gt;Du hast %1$d von %2$d Punkten erreicht.&lt;/<span class="t">string</span>&gt;</pre>
+<span class="c">&lt;!-- Ergebnisbereich. --&gt;</span>
+&lt;<span class="g">string</span> name=<span class="s">"result_format"</span>&gt;Du hast %1$d von %2$d Punkten erreicht.&lt;/<span class="g">string</span>&gt;</pre>
 <div class="tip">
 <p><b>Die Platzhalter <code>%1$d</code> und <code>%2$d</code> kennst du aus 03B.</b> Die Ziffer sagt, das wievielte Argument gemeint ist, das <code>d</code> sagt, dass es eine ganze Zahl ist. Bei <code>result_format</code> hast du zwei davon.</p>
 </div>
@@ -122,7 +125,7 @@
 <p><span class="n">A2</span><b>Die Konstante und die zwei Listen.</b></p>
 <p>Neue Felder in <code>MainActivity</code>. Sie kommen zu <code>currentQuestion</code> dazu, das bleibt.</p>
 <pre><span class="c">/** So viele Fragen hat eine Runde. */</span>
-<span class="k">private static final int</span> QUESTIONS_PER_ROUND = <span class="k">5</span>;
+<span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="k">int</span> <span class="t">QUESTIONS_PER_ROUND</span> = 5;
 
 <span class="c">/** Der ganze Fragenbestand. Später kommt er aus einer Datenbank. */</span>
 <span class="k">private</span> <span class="t">List</span>&lt;<span class="t">Question</span>&gt; allQuestions;
@@ -131,7 +134,7 @@
 <span class="k">private</span> <span class="t">List</span>&lt;<span class="t">Question</span>&gt; roundQuestions;
 
 <span class="c">/** Welche Frage der Runde gerade dran ist, beginnend bei 0. */</span>
-<span class="k">private int</span> currentIndex;</pre>
+<span class="k">private</span> <span class="k">int</span> currentIndex;</pre>
 <div class="note">
 <p><b>Warum die 5 eine Konstante ist und keine Zahl im Code.</b> Die Fünf taucht an zwei Orten auf, beim Ausschneiden der Runde und in der Anzeige. Eine Zahl, die an zwei Orten stehen muss, ist eine Zahl, die man an einem Ort vergisst.</p>
 <p><code>static final</code> und Grossbuchstaben sind die übliche Schreibweise dafür. Dein <code>TAG</code> ganz oben ist schon eine.</p>
@@ -161,7 +164,7 @@
  *
  * @return alle sieben Fragen der Kategorie Technologie, nie null
  */</span>
-<span class="k">private</span> <span class="t">List</span>&lt;<span class="t">Question</span>&gt; createQuestions() {
+<span class="k">private</span> <span class="t">List</span>&lt;<span class="t">Question</span>&gt; <span class="m">createQuestions</span>() {
     <span class="t">List</span>&lt;<span class="t">Question</span>&gt; questions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;();
 
     questions.add(<span class="k">new</span> <span class="t">Question</span>(
@@ -253,11 +256,11 @@ Log.d(TAG, <span class="s">"question bank loaded, size="</span> + allQuestions.s
 </div>
 <div class="warn">
 <p><b>Deine App läuft immer noch nicht.</b> Für diesen einen Test brauchst du eine Krücke. Sie fliegt in C1 wieder raus, darum schreibst du sie <b>mit den zwei Kommentarzeilen</b> hin. Dann findest du sie später auf einen Blick.</p>
-<pre><span class="c">// KRUECKE, fliegt in C1 wieder raus</span>
+<pre><span class="d">// KRUECKE, fliegt in C1 wieder raus</span>
 currentQuestion = allQuestions.get(<span class="k">0</span>);
 showQuestion();
 showScore();
-<span class="c">// ENDE KRUECKE</span></pre>
+<span class="d">// ENDE KRUECKE</span></pre>
 <p>Der Block gehört ans Ende von <code>onCreate</code>, dorthin wo bisher <code>showQuestion()</code> und <code>showScore()</code> standen. Die zwei bisherigen Aufrufe nimmst du damit in den Block auf, du schreibst sie nicht ein zweites Mal.</p>
 </div>
 </div>
@@ -293,7 +296,7 @@ showScore();
 <li>Alle bisherigen Views wandern als Children in dieses LinearLayout. Dabei fallen <b>alle</b> <code>app:layout_constraint...</code>-Zeilen weg, denn im LinearLayout gibt es keine Anker.</li>
 </ol>
 <p>Die Kopfzeile mit Kategorie und Punkten war bisher mit Ankern gebaut. Im LinearLayout brauchst du dafür ein waagrechtes LinearLayout <code>llHeader</code>. Dazu kommt die neue Anzeige <code>tvProgress</code>.</p>
-<pre>&lt;<span class="t">ScrollView</span>
+<pre>&lt;<span class="g">ScrollView</span>
     android:id=<span class="s">"@+id/svQuestion"</span>
     android:layout_width=<span class="s">"0dp"</span>
     android:layout_height=<span class="s">"0dp"</span>
@@ -302,19 +305,19 @@ showScore();
     app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
     app:layout_constraintTop_toTopOf=<span class="s">"parent"</span>&gt;
 
-    &lt;<span class="t">LinearLayout</span>
+    &lt;<span class="g">LinearLayout</span>
         android:id=<span class="s">"@+id/llQuestion"</span>
         android:layout_width=<span class="s">"match_parent"</span>
         android:layout_height=<span class="s">"wrap_content"</span>
         android:orientation=<span class="s">"vertical"</span>&gt;
 
-        &lt;<span class="t">LinearLayout</span>
+        &lt;<span class="g">LinearLayout</span>
             android:id=<span class="s">"@+id/llHeader"</span>
             android:layout_width=<span class="s">"match_parent"</span>
             android:layout_height=<span class="s">"wrap_content"</span>
             android:orientation=<span class="s">"horizontal"</span>&gt;
 
-            &lt;<span class="t">TextView</span>
+            &lt;<span class="g">TextView</span>
                 android:id=<span class="s">"@+id/tvCategory"</span>
                 android:layout_width=<span class="s">"0dp"</span>
                 android:layout_height=<span class="s">"wrap_content"</span>
@@ -323,7 +326,7 @@ showScore();
                 android:textStyle=<span class="s">"bold"</span>
                 tools:text=<span class="s">"Technologie"</span> /&gt;
 
-            &lt;<span class="t">TextView</span>
+            &lt;<span class="g">TextView</span>
                 android:id=<span class="s">"@+id/tvScore"</span>
                 android:layout_width=<span class="s">"wrap_content"</span>
                 android:layout_height=<span class="s">"wrap_content"</span>
@@ -331,9 +334,9 @@ showScore();
                 android:textStyle=<span class="s">"bold"</span>
                 tools:text=<span class="s">"Punkte 0"</span> /&gt;
 
-        &lt;/<span class="t">LinearLayout</span>&gt;
+        &lt;/<span class="g">LinearLayout</span>&gt;
 
-        &lt;<span class="t">TextView</span>
+        &lt;<span class="g">TextView</span>
             android:id=<span class="s">"@+id/tvProgress"</span>
             android:layout_width=<span class="s">"match_parent"</span>
             android:layout_height=<span class="s">"wrap_content"</span>
@@ -345,9 +348,9 @@ showScore();
              Bei allen dreien alle app:layout_constraint-Zeilen löschen.
              Breite überall auf match_parent. --&gt;</span>
 
-    &lt;/<span class="t">LinearLayout</span>&gt;
+    &lt;/<span class="g">LinearLayout</span>&gt;
 
-&lt;/<span class="t">ScrollView</span>&gt;</pre>
+&lt;/<span class="g">ScrollView</span>&gt;</pre>
 <div class="tip">
 <p><b><code>layout_weight="1"</code> bei <code>tvCategory</code> kennst du aus 02B.</b> Die Kategorie nimmt allen Platz, der übrig bleibt, und drückt damit die Punkte nach rechts. Deshalb steht ihre Breite auf <code>0dp</code>.</p>
 </div>
@@ -442,30 +445,30 @@ showScore();
 <p>Das ist der Teil, den man beim ersten Mal übersieht. Die neuen Methoden rufen sich gegenseitig auf.</p>
 
 <pre>onCreate()
-└─ startRound()                     <span class="c">// die einzige Zeile, die etwas startet</span>
-     ├─ Runde ausschneiden, currentIndex und score auf 0
-     ├─ llResult auf GONE, svQuestion auf VISIBLE
-     └─ showQuestion()
-          ├─ Frage aus der Runde holen
-          ├─ Fortschritt, Kategorie und Fragetext setzen
-          ├─ <span class="s">showScore()</span>              <span class="c">// hier drin, darum nicht nochmals oben</span>
-          ├─ die vier Buttons füllen und zurücksetzen
-          └─ btnNext auf GONE
++- startRound()                     <span class="d">// die einzige Zeile, die etwas startet</span>
+     +- Runde ausschneiden, currentIndex und score auf 0
+     +- llResult auf GONE, svQuestion auf VISIBLE
+     +- showQuestion()
+          +- Frage aus der Runde holen
+          +- Fortschritt, Kategorie und Fragetext setzen
+          +- <span class="s">showScore()</span>              <span class="d">// hier drin, darum nicht nochmals oben</span>
+          +- die vier Buttons füllen und zurücksetzen
+          +- btnNext auf GONE
 
 Klick auf eine Antwort
-└─ onAnswerClicked()
-     ├─ bei richtig: score++ und <span class="s">showScore()</span>
-     ├─ markAnswers()
-     ├─ lockAnswers()
-     └─ btnNext auf VISIBLE
++- onAnswerClicked()
+     +- bei richtig: score++ und <span class="s">showScore()</span>
+     +- markAnswers()
+     +- lockAnswers()
+     +- btnNext auf VISIBLE
 
 Klick auf Weiter
-└─ onNextClicked()
-     ├─ noch Fragen übrig  →  showQuestion()
-     └─ Runde zu Ende      →  showResult()
++- onNextClicked()
+     +- noch Fragen übrig  >  showQuestion()
+     +- Runde zu Ende      >  showResult()
 
 Klick auf Nochmals spielen
-└─ startRound()                     <span class="c">// dieselbe Methode wie beim Start</span></pre>
++- startRound()                     <span class="d">// dieselbe Methode wie beim Start</span></pre>
 
 <div class="tip">
 <p><b>Genau daran erkennst du, was aus <code>onCreate</code> raus muss.</b> <code>showScore()</code> steht in der Kette unterhalb von <code>showQuestion()</code>, und das steht unterhalb von <code>startRound()</code>. Wer <code>showScore()</code> zusätzlich in <code>onCreate</code> stehen lässt, ruft es zweimal auf. Der erste Aufruf wird vom zweiten sofort überschrieben und tut nichts.</p>
@@ -496,33 +499,33 @@ Klick auf Nochmals spielen
  * Punktestand und Zähler gehen auf null zurück. Danach ist wieder der
  * Fragebereich sichtbar und der Ergebnisbereich verschwunden.
  */</span>
-<span class="k">private void</span> startRound() {
-    roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;(allQuestions.subList(<span class="k">0</span>, QUESTIONS_PER_ROUND));
-    currentIndex = <span class="k">0</span>;
-    score = <span class="k">0</span>;
+<span class="k">private</span> <span class="k">void</span> <span class="m">startRound</span>() {
+    roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;(allQuestions.subList(0, <span class="t">QUESTIONS_PER_ROUND</span>));
+    currentIndex = 0;
+    score = 0;
 
-    llResult.setVisibility(<span class="t">View</span>.GONE);
-    svQuestion.setVisibility(<span class="t">View</span>.VISIBLE);
+    llResult.setVisibility(<span class="t">View</span>.<span class="t">GONE</span>);
+    svQuestion.setVisibility(<span class="t">View</span>.<span class="t">VISIBLE</span>);
 
     showQuestion();
-    Log.d(TAG, <span class="s">"round started"</span>);
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"round started"</span>);
 }</pre>
 <p>Jetzt baust du <code>showQuestion</code> um. Bisher nahm es <code>currentQuestion</code> als gegeben. Ab jetzt holt es sich die Frage selbst aus der Runde.</p>
-<pre><span class="k">private void</span> showQuestion() {
+<pre><span class="k">private</span> <span class="k">void</span> <span class="m">showQuestion</span>() {
     currentQuestion = roundQuestions.get(currentIndex);
 
-    tvProgress.setText(getString(R.string.progress_format,
-            currentIndex + <span class="k">1</span>, roundQuestions.size()));
+    tvProgress.setText(getString(<span class="t">R</span>.string.progress_format,
+            currentIndex + 1, roundQuestions.size()));
     tvCategory.setText(currentQuestion.getCategory());
     tvQuestion.setText(currentQuestion.getText());
     showScore();
 
     <span class="t">String</span>[] answers = currentQuestion.getAnswers();
-    <span class="k">for</span> (<span class="k">int</span> i = <span class="k">0</span>; i &lt; answerButtons.length; i++) {
+    <span class="k">for</span> (<span class="k">int</span> i = 0; i &lt; answerButtons.length; i++) {
         answerButtons[i].setText(answers[i]);
     }
 
-    btnNext.setVisibility(<span class="t">View</span>.GONE);
+    btnNext.setVisibility(<span class="t">View</span>.<span class="t">GONE</span>);
 }</pre>
 <p>Dazu die fünf Views holen, die dein Code jetzt braucht. <b>Felder und <code>findViewById</code> gehören wie immer zusammen</b>, also legst du zuerst fünf Felder an. Die Typen sind:</p>
 <table>
@@ -562,7 +565,7 @@ btnRestart.setOnClickListener(v -&gt; startRound());</pre>
 <div class="step">
 <p><span class="n">C2</span><b>Weiter drücken. Schau genau hin.</b></p>
 <p>Ergänz <code>onNextClicked</code> vorläufig mit zwei Zeilen, damit du überhaupt weiterkommst:</p>
-<pre><span class="k">private void</span> onNextClicked() {
+<pre><span class="k">private</span> <span class="k">void</span> <span class="m">onNextClicked</span>() {
     currentIndex++;
     showQuestion();
 }</pre>
@@ -596,11 +599,11 @@ btnRestart.setOnClickListener(v -&gt; startRound());</pre>
 <span class="c">/** Die Textfarbe der Buttons im Auslieferungszustand. */</span>
 <span class="k">private</span> <span class="t">ColorStateList</span> defaultButtonTextColors;</pre>
 <p>Gefüllt werden sie in <code>onCreate</code>, direkt nachdem das Array <code>answerButtons</code> steht:</p>
-<pre><span class="c">// Den Auslieferungszustand sichern, bevor irgendetwas eingefärbt wird.</span>
+<pre><span class="d">// Den Auslieferungszustand sichern, bevor irgendetwas eingefärbt wird.</span>
 defaultButtonTint = answerButtons[<span class="k">0</span>].getBackgroundTintList();
 defaultButtonTextColors = answerButtons[<span class="k">0</span>].getTextColors();</pre>
 <p>Und die Schleife in <code>showQuestion</code> bekommt drei Zeilen dazu:</p>
-<pre><span class="k">for</span> (<span class="k">int</span> i = <span class="k">0</span>; i &lt; answerButtons.length; i++) {
+<pre><span class="k">for</span> (<span class="k">int</span> i = 0; i &lt; answerButtons.length; i++) {
     <span class="t">Button</span> button = answerButtons[i];
     button.setText(answers[i]);
     button.setEnabled(<span class="k">true</span>);
@@ -618,7 +621,7 @@ defaultButtonTextColors = answerButtons[<span class="k">0</span>].getTextColors(
  * Erst hochzählen, dann prüfen, dann entscheiden. Eine Liste mit
  * fünf Einträgen hat die Plätze 0 bis 4.
  */</span>
-<span class="k">private void</span> onNextClicked() {
+<span class="k">private</span> <span class="k">void</span> <span class="m">onNextClicked</span>() {
     currentIndex++;
     <span class="k">if</span> (currentIndex &lt; roundQuestions.size()) {
         showQuestion();
@@ -628,13 +631,13 @@ defaultButtonTextColors = answerButtons[<span class="k">0</span>].getTextColors(
 }
 
 <span class="c">/** Blendet den Fragebereich aus und den Ergebnisbereich ein. */</span>
-<span class="k">private void</span> showResult() {
-    tvResult.setText(getString(R.string.result_format, score, roundQuestions.size()));
+<span class="k">private</span> <span class="k">void</span> <span class="m">showResult</span>() {
+    tvResult.setText(getString(<span class="t">R</span>.string.result_format, score, roundQuestions.size()));
 
-    svQuestion.setVisibility(<span class="t">View</span>.GONE);
-    llResult.setVisibility(<span class="t">View</span>.VISIBLE);
+    svQuestion.setVisibility(<span class="t">View</span>.<span class="t">GONE</span>);
+    llResult.setVisibility(<span class="t">View</span>.<span class="t">VISIBLE</span>);
 
-    Log.d(TAG, <span class="s">"round finished, score="</span> + score);
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"round finished, score="</span> + score);
 }</pre>
 <div class="warn">
 <p><b>Ausgeblendet wird <code>svQuestion</code>, nicht <code>llQuestion</code>.</b> Wer das LinearLayout versteckt, hat danach eine leere, aber weiterhin sichtbare ScrollView über dem Ergebnis liegen. Sie fängt jede Berührung ab, und der Knopf "Nochmals spielen" reagiert nicht mehr.</p>
@@ -646,7 +649,7 @@ defaultButtonTextColors = answerButtons[<span class="k">0</span>].getTextColors(
 <p><span class="n">C4</span><b>Die Kommentare nachziehen.</b></p>
 <p>Ganz oben in <code>MainActivity</code> steht ein Javadoc-Block, der die Klasse beschreibt. Lies ihn durch. Er stammt aus 03B und behauptet Dinge, die längst nicht mehr stimmen, etwa dass der Bildschirm auf nichts reagiert.</p>
 <p>Schreib ihn neu, in drei bis fünf Zeilen. Er soll sagen, was die Klasse <b>heute</b> tut. Ein Vorschlag als Rahmen, den Inhalt formulierst du selbst:</p>
-<pre><span class="c">/**
+<pre><span class="d">/**
  * Der Spielbildschirm der Quiz-App.
  *
  * &lt;hier: was neu ist. Fragenbestand als Liste, Runde ueber fuenf
@@ -695,7 +698,7 @@ defaultButtonTextColors = answerButtons[<span class="k">0</span>].getTextColors(
 
 <div class="ue">
 <div class="t">Übung 3, erklären</div>
-<p>Erkläre einem Lerngspänli, warum <code>showQuestion</code> die vier Buttons zurücksetzen muss, obwohl im Layout nirgends etwas von grün oder gesperrt steht.</p>
+<p>Erkläre einer anderen Person, warum <code>showQuestion</code> die vier Buttons zurücksetzen muss, obwohl im Layout nirgends etwas von grün oder gesperrt steht.</p>
 <p><b>So prüfst du:</b> Dein Gegenüber kann eine zweite Stelle in deinem Projekt nennen, an der dasselbe Prinzip gilt.</p>
 </div>
 
@@ -782,6 +785,9 @@ defaultButtonTextColors = answerButtons[<span class="k">0</span>].getTextColors(
 </table>
 
 
+<!--M335:WEITER-->
+<nav class="weiter"><div class="reihe"><span>Zu 04A</span><a href="04a-loesung.html">Lösung</a></div><a class="vor" href="04b.html"><span>Weiter</span>04B Alle Fragen als Liste</a></nav>
+<!--/M335:WEITER-->
 <p class="foot">Modul 335 | Tag 2 Nachmittag | Auftrag 04A | Version 3 | 15.08.2026</p>
 
 </div>
@@ -790,6 +796,52 @@ defaultButtonTextColors = answerButtons[<span class="k">0</span>].getTextColors(
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
 <script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
 /* ------------------------------------------------------------------
    M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
 
@@ -900,7 +952,15 @@ defaultButtonTextColors = answerButtons[<span class="k">0</span>].getTextColors(
     heads.forEach(function (h) {
       eintraege.push({
         el: h,
-        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
         stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
       });
     });

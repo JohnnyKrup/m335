@@ -4,17 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>05A Lösung Zweite Activity und Intent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
 <!--M335:STIL-->
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/stil/rahmen.css">
-<link rel="stylesheet" href="/stil/dokument.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
 <!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
 <header class="site-header"><div class="in">
-<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
-<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
 <button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
@@ -97,11 +100,11 @@
 <p><b>Android, mit einem Stapel.</b> Jede gestartete Activity kommt oben drauf. Die Zurück-Taste nimmt die oberste weg. Danach ist wieder die sichtbar, die darunter liegt.</p>
 <pre>App gestartet          Auf Spielen getippt      Zurück gedrückt
 
-                       ┌──────────────┐
-                       │ GameActivity │  ← oben
-┌──────────────┐       ├──────────────┤         ┌──────────────┐
-│ MainActivity │       │ MainActivity │         │ MainActivity │
-└──────────────┘       └──────────────┘         └──────────────┘</pre>
+                       +--------------+
+                       | GameActivity |  < oben
++--------------+       +--------------+         +--------------+
+| MainActivity |       | MainActivity |         | MainActivity |
++--------------+       +--------------+         +--------------+</pre>
 <p><b>Zurück heisst also nicht "zur MainActivity".</b> Zurück heisst "eine Stufe tiefer im Stapel". Dass du im Menü landest, liegt nur daran, dass es dort liegt.</p>
 <p><b>Der Beleg dafür ist Übung 2.</b> Wer den Einstiegspunkt auf die AboutActivity verschiebt, landet beim Zurückdrücken ausserhalb der App. Nicht weil etwas kaputt wäre, sondern weil dann nichts mehr darunter liegt.</p>
 <p><b>Warum das zählt:</b> Der Stapel erklärt auch, warum deine MainActivity beim Spielen nicht endet, sondern nur in den Hintergrund geht. Genau darauf baut 05B auf.</p>
@@ -113,9 +116,9 @@
 <div class="ue">
 <p class="t">B4, der Absturz beim ersten Tippen auf Spielen</p>
 <p><b>Was du siehst:</b> Die App verschwindet, das Gerät meldet, dass WissQuiz beendet wurde. Im Logcat steht rot:</p>
-<pre>android.content.ActivityNotFoundException: Unable to find explicit activity class
-{ch.wiss.m335.quiz/ch.wiss.m335.quiz.GameActivity}; have you declared this
-activity in your AndroidManifest.xml?</pre>
+<pre>android.content.<span class="t">ActivityNotFoundException</span>: <span class="t">Unable</span> to find explicit activity <span class="k">class</span>
+{ch.wiss.m335.quiz/ch.wiss.m335.quiz.<span class="t">GameActivity</span>}; have you declared <span class="k">this</span>
+activity in your <span class="t">AndroidManifest</span>.xml?</pre>
 <p><b>Was die Beobachtung zeigt:</b> Die Meldung nennt die Lösung im Klartext, und zwar als Frage. Hast du diese Activity in deinem Manifest angemeldet? Nein, hattest du nicht.</p>
 <p><b>Das ist die freundlichste Fehlermeldung, die Android hat.</b> Lies sie einmal ganz. Nicht jede ist so höflich, und wer diese hier überliest, überliest auch die anderen.</p>
 <p><b>Die häufigsten Fehlbeobachtungen:</b></p>
@@ -137,16 +140,16 @@ activity in your AndroidManifest.xml?</pre>
 <h3>MainActivity.java, vollständig</h3>
 <pre><span class="k">package</span> ch.wiss.m335.quiz;
 
-<span class="k">import</span> android.content.Intent;
-<span class="k">import</span> android.os.Bundle;
-<span class="k">import</span> android.util.Log;
-<span class="k">import</span> android.widget.Button;
+<span class="k">import</span> android.content.<span class="t">Intent</span>;
+<span class="k">import</span> android.os.<span class="t">Bundle</span>;
+<span class="k">import</span> android.util.<span class="t">Log</span>;
+<span class="k">import</span> android.widget.<span class="t">Button</span>;
 
-<span class="k">import</span> androidx.activity.EdgeToEdge;
-<span class="k">import</span> androidx.appcompat.app.AppCompatActivity;
-<span class="k">import</span> androidx.core.graphics.Insets;
-<span class="k">import</span> androidx.core.view.ViewCompat;
-<span class="k">import</span> androidx.core.view.WindowInsetsCompat;
+<span class="k">import</span> androidx.activity.<span class="t">EdgeToEdge</span>;
+<span class="k">import</span> androidx.appcompat.app.<span class="t">AppCompatActivity</span>;
+<span class="k">import</span> androidx.core.graphics.<span class="t">Insets</span>;
+<span class="k">import</span> androidx.core.view.<span class="t">ViewCompat</span>;
+<span class="k">import</span> androidx.core.view.<span class="t">WindowInsetsCompat</span>;
 
 <span class="c">/**
  * Der Startbildschirm der Quiz-App.
@@ -166,7 +169,7 @@ activity in your AndroidManifest.xml?</pre>
  * GameActivity los und bekommt nichts zurück. Wie die Runde ausgegangen
  * ist, erfährt er nicht.
  */</span>
-<span class="k">public class</span> <span class="t">MainActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span> {
+<span class="k">public</span> <span class="k">class</span> <span class="t">MainActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span> {
 
     <span class="c">/**
      * Log-Tag für das ganze Modul 335.
@@ -176,37 +179,37 @@ activity in your AndroidManifest.xml?</pre>
      * Freitext über alle Spalten, und damit träfe "M335" jede Zeile
      * unserer App statt nur die selbst geschriebenen.
      */</span>
-    <span class="k">private static final</span> <span class="t">String</span> TAG = <span class="s">"Modul335"</span>;
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="v">TAG</span> = <span class="s">"Modul335"</span>;
 
-    <span class="k">@Override</span>
-    <span class="k">protected void</span> onCreate(<span class="t">Bundle</span> savedInstanceState) {
+    <span class="a">@Override</span>
+    <span class="k">protected</span> <span class="k">void</span> <span class="m">onCreate</span>(<span class="t">Bundle</span> savedInstanceState) {
         <span class="k">super</span>.onCreate(savedInstanceState);
         <span class="t">EdgeToEdge</span>.enable(<span class="k">this</span>);
-        setContentView(R.layout.activity_main);
+        setContentView(<span class="t">R</span>.layout.activity_main);
 
-        <span class="c">// 16dp eigener Rand, in Pixel umgerechnet über die Dichte des Geräts.</span>
-        <span class="k">final int</span> extraPadding = <span class="t">Math</span>.round(<span class="k">16</span> * getResources().getDisplayMetrics().density);
+        <span class="l">// 16dp eigener Rand, in Pixel umgerechnet über die Dichte des Geräts.</span>
+        <span class="k">final</span> <span class="k">int</span> <span class="v">extraPadding</span> = <span class="t">Math</span>.round(16 * getResources().getDisplayMetrics().density);
 
-        <span class="c">// Wichtig: der eigene Rand wird zu den System-Insets dazugerechnet.</span>
-        <span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(R.id.clMain), (v, insets) -&gt; {
+        <span class="l">// Wichtig: der eigene Rand wird zu den System-Insets dazugerechnet.</span>
+        <span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(<span class="t">R</span>.id.clMain), (v, insets) -&gt; {
             <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.<span class="t">Type</span>.systemBars());
             v.setPadding(
-                    systemBars.left + extraPadding,
-                    systemBars.top + extraPadding,
-                    systemBars.right + extraPadding,
-                    systemBars.bottom + extraPadding);
+                    systemBars.left + <span class="v">extraPadding</span>,
+                    systemBars.top + <span class="v">extraPadding</span>,
+                    systemBars.right + <span class="v">extraPadding</span>,
+                    systemBars.bottom + <span class="v">extraPadding</span>);
             <span class="k">return</span> insets;
         });
 
-        <span class="t">Button</span> btnPlay = findViewById(R.id.btnPlay);
-        <span class="t">Button</span> btnAbout = findViewById(R.id.btnAbout);
+        <span class="t">Button</span> btnPlay = findViewById(<span class="t">R</span>.id.btnPlay);
+        <span class="t">Button</span> btnAbout = findViewById(<span class="t">R</span>.id.btnAbout);
 
-        <span class="c">// Ein Intent nennt zwei Dinge: von wo aus und wohin. Mehr braucht
-        // ein Start ohne Rückgabe nicht.</span>
+        <span class="l">// Ein Intent nennt zwei Dinge: von wo aus und wohin. Mehr braucht</span>
+        <span class="l">// ein Start ohne Rückgabe nicht.</span>
         btnPlay.setOnClickListener(v -&gt; startActivity(<span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">GameActivity</span>.<span class="k">class</span>)));
         btnAbout.setOnClickListener(v -&gt; startActivity(<span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">AboutActivity</span>.<span class="k">class</span>)));
 
-        Log.d(TAG, <span class="s">"MainActivity onCreate"</span>);
+        <span class="t">Log</span>.d(<span class="v">TAG</span>, <span class="s">"MainActivity onCreate"</span>);
     }
 }</pre>
 
@@ -216,35 +219,35 @@ activity in your AndroidManifest.xml?</pre>
 </div>
 
 <h3>AndroidManifest.xml, der application-Block</h3>
-<pre>&lt;<span class="t">application</span> ... &gt;
+<pre>&lt;<span class="g">application</span> ... &gt;
 
-    &lt;<span class="c">!-- Nur diese Activity hat den intent-filter. Sie ist der Start. --</span>&gt;
-    &lt;<span class="t">activity</span>
+    <span class="c">&lt;!-- Nur diese Activity hat den intent-filter. Sie ist der Start. --&gt;</span>
+    &lt;<span class="g">activity</span>
         android:name=<span class="s">".MainActivity"</span>
         android:exported=<span class="s">"true"</span>
         android:windowSoftInputMode=<span class="s">"adjustResize"</span>&gt;
-        &lt;<span class="t">intent-filter</span>&gt;
-            &lt;<span class="t">action</span> android:name=<span class="s">"android.intent.action.MAIN"</span> /&gt;
+        &lt;<span class="g">intent</span>-filter&gt;
+            &lt;<span class="g">action</span> android:name=<span class="s">"android.intent.action.MAIN"</span> /&gt;
 
-            &lt;<span class="t">category</span> android:name=<span class="s">"android.intent.category.LAUNCHER"</span> /&gt;
-        &lt;/<span class="t">intent-filter</span>&gt;
-    &lt;/<span class="t">activity</span>&gt;
+            &lt;<span class="g">category</span> android:name=<span class="s">"android.intent.category.LAUNCHER"</span> /&gt;
+        &lt;/<span class="g">intent</span>-filter&gt;
+    &lt;/<span class="g">activity</span>&gt;
 
-    &lt;<span class="c">!--
+    <span class="c">&lt;!--
       Jede weitere Activity braucht einen eigenen Eintrag. Ohne ihn
       gibt es beim Start eine ActivityNotFoundException. exported
       bleibt false, weil sie nur aus der eigenen App gestartet wird.
-    --</span>&gt;
-    &lt;<span class="t">activity</span>
+    --&gt;</span>
+    &lt;<span class="g">activity</span>
         android:name=<span class="s">".GameActivity"</span>
         android:exported=<span class="s">"false"</span>
         android:windowSoftInputMode=<span class="s">"adjustResize"</span> /&gt;
 
-    &lt;<span class="t">activity</span>
+    &lt;<span class="g">activity</span>
         android:name=<span class="s">".AboutActivity"</span>
         android:exported=<span class="s">"false"</span> /&gt;
 
-&lt;/<span class="t">application</span>&gt;</pre>
+&lt;/<span class="g">application</span>&gt;</pre>
 
 <div class="info">
 <p><b>Warum die AboutActivity kein <code>windowSoftInputMode</code> braucht.</b> Diese Angabe regelt, was passiert, wenn die Bildschirmtastatur aufgeht. Auf Über die App tippt niemand etwas ein, also gibt es dort keine Tastatur.</p>
@@ -309,7 +312,7 @@ Log.d(TAG, <span class="s">"GameActivity onCreate, question bank size="</span> +
 <div class="ue">
 <p class="t">Übung 1, dein Name auf der Seite</p>
 <p>Ein neuer Eintrag in <code>strings.xml</code>:</p>
-<pre>&lt;<span class="t">string</span> name=<span class="s">"about_author"</span>&gt;Gebaut von Vorname Nachname, Klasse XY.&lt;/<span class="t">string</span>&gt;</pre>
+<pre>&lt;<span class="g">string</span> name=<span class="s">"about_author"</span>&gt;Gebaut von Vorname Nachname, Klasse XY.&lt;/<span class="g">string</span>&gt;</pre>
 <p>Und eine sechste TextView in <code>activity_about.xml</code>, gebaut wie die anderen:</p>
 <pre>&lt;<span class="t">TextView</span>
     android:id=<span class="s">"@+id/tvAboutAuthor"</span>
@@ -324,20 +327,20 @@ Log.d(TAG, <span class="s">"GameActivity onCreate, question bank size="</span> +
 <div class="ue">
 <p class="t">Übung 2, den Einstiegspunkt verschieben</p>
 <p>Der ganze Block wandert, und <code>exported</code> muss mitwandern:</p>
-<pre>&lt;<span class="t">activity</span>
+<pre>&lt;<span class="g">activity</span>
     android:name=<span class="s">".MainActivity"</span>
     android:exported=<span class="s">"false"</span>
     android:windowSoftInputMode=<span class="s">"adjustResize"</span> /&gt;
 
-&lt;<span class="t">activity</span>
+&lt;<span class="g">activity</span>
     android:name=<span class="s">".AboutActivity"</span>
     android:exported=<span class="s">"true"</span>&gt;
-    &lt;<span class="t">intent-filter</span>&gt;
-        &lt;<span class="t">action</span> android:name=<span class="s">"android.intent.action.MAIN"</span> /&gt;
+    &lt;<span class="g">intent</span>-filter&gt;
+        &lt;<span class="g">action</span> android:name=<span class="s">"android.intent.action.MAIN"</span> /&gt;
 
-        &lt;<span class="t">category</span> android:name=<span class="s">"android.intent.category.LAUNCHER"</span> /&gt;
-    &lt;/<span class="t">intent-filter</span>&gt;
-&lt;/<span class="t">activity</span>&gt;</pre>
+        &lt;<span class="g">category</span> android:name=<span class="s">"android.intent.category.LAUNCHER"</span> /&gt;
+    &lt;/<span class="g">intent</span>-filter&gt;
+&lt;/<span class="g">activity</span>&gt;</pre>
 <p><b>Was du siehst:</b> Die App startet direkt mit Über die App. Es gibt keinen Weg ins Menü, denn dorthin führt kein Knopf. Und die Zurück-Taste beendet die App, statt irgendwohin zu führen.</p>
 <p><b>Das ist der Beleg zu Denkfrage 4.</b> Der Stapel hat nur einen Eintrag. Zurück nimmt ihn weg, und dann ist nichts mehr da.</p>
 <div class="warn">
@@ -398,6 +401,9 @@ Log.d(TAG, <span class="s">"GameActivity onCreate, question bank size="</span> +
 <p>In <b>05B</b> bekommt das Menü seinen Rückkanal. Nach der Runde steht auf dem Startbildschirm, wie viele Punkte du hattest. Dabei lernst du zwei Dinge, die zusammengehören: wie eine Activity ein Ergebnis zurückgibt, und wann sie es tun muss.</p>
 <p>Danach der <b>05AB Wissenscheck</b> über beide Aufträge des Vormittags.</p>
 
+<!--M335:WEITER-->
+<nav class="weiter"><div class="reihe"><span>Zu 05A</span><a href="05a.html">Auftrag</a></div><a class="vor" href="05b.html"><span>Weiter</span>05B MainActivity und Ergebnis zurück</a></nav>
+<!--/M335:WEITER-->
 <p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 05A Zweite Activity und Intent &middot; Version 1 vom 16.08.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
 
 </div>
@@ -406,6 +412,52 @@ Log.d(TAG, <span class="s">"GameActivity onCreate, question bank size="</span> +
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
 <script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
 /* ------------------------------------------------------------------
    M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
 
@@ -516,7 +568,15 @@ Log.d(TAG, <span class="s">"GameActivity onCreate, question bank size="</span> +
     heads.forEach(function (h) {
       eintraege.push({
         el: h,
-        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
         stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
       });
     });

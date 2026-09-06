@@ -4,17 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>05B MainActivity und Ergebnis zurück</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
 <!--M335:STIL-->
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/stil/rahmen.css">
-<link rel="stylesheet" href="/stil/dokument.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
 <!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
 <header class="site-header"><div class="in">
-<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
-<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
 <button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
@@ -81,16 +84,16 @@
 <p>Heute wandert kein Code. Es kommen fünf Stellen dazu, verteilt auf zwei Klassen. Wichtig ist, <b>welche Stelle wem gehört</b>.</p>
 
 <pre>GameActivity                          MainActivity
-────────────                          ────────────
-EXTRA_SCORE, EXTRA_TOTAL   ───lesen──▶  gameLauncher
-   <span class="c">die zwei Schlüssel</span>                   <span class="c">wartet auf das Ergebnis</span>
+------------                          ------------
+EXTRA_SCORE, EXTRA_TOTAL   ---lesen-->  gameLauncher
+   <span class="d">die zwei Schlüssel</span>                   <span class="d">wartet auf das Ergebnis</span>
 
 publishResult()                        lastScore, lastTotal
-   <span class="c">setResult, sobald die</span>                <span class="c">zwei Felder</span>
-   <span class="c">Runde fertig ist</span>
+   <span class="d">setResult, sobald die</span>                <span class="d">zwei Felder</span>
+   <span class="d">Runde fertig ist</span>
                                        showLastScore()
-btnBackToMain                             <span class="c">setzt den Text</span>
-   <span class="c">ruft nur finish()</span></pre>
+btnBackToMain                             <span class="d">setzt den Text</span>
+   <span class="d">ruft nur finish()</span></pre>
 
 <h4>Der Weg eines Punktestands</h4>
 <table>
@@ -129,7 +132,7 @@ btnBackToMain                             <span class="c">setzt den Text</span>
 <div class="step">
 <p><span class="n">A1</span><b>Ein neuer Text und ein neuer Knopf.</b></p>
 <p>In <code>strings.xml</code>:</p>
-<pre>&lt;<span class="t">string</span> name=<span class="s">"btn_back_to_main"</span>&gt;Zurück zum Start&lt;/<span class="t">string</span>&gt;</pre>
+<pre>&lt;<span class="g">string</span> name=<span class="s">"btn_back_to_main"</span>&gt;Zurück zum Start&lt;/<span class="g">string</span>&gt;</pre>
 <p>In <code>activity_game.xml</code>, in <code>llResult</code>, <b>direkt unter</b> <code>btnRestart</code>:</p>
 <pre>&lt;<span class="t">Button</span>
     android:id=<span class="s">"@+id/btnBackToMain"</span>
@@ -159,10 +162,10 @@ btnBackToMain                             <span class="c">setzt den Text</span>
  * Der Paketname davor ist Gewohnheit, kein Zwang. Ein Intent kann von
  * überall kommen, und "SCORE" allein wäre kein eindeutiger Name.
  */</span>
-<span class="k">public static final</span> <span class="t">String</span> EXTRA_SCORE = <span class="s">"ch.wiss.m335.quiz.SCORE"</span>;
+<span class="k">public</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="t">EXTRA_SCORE</span> = <span class="s">"ch.wiss.m335.quiz.SCORE"</span>;
 
 <span class="c">/** Schlüssel für die Anzahl Fragen der Runde im Ergebnis-Intent. */</span>
-<span class="k">public static final</span> <span class="t">String</span> EXTRA_TOTAL = <span class="s">"ch.wiss.m335.quiz.TOTAL"</span>;</pre>
+<span class="k">public</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="t">EXTRA_TOTAL</span> = <span class="s">"ch.wiss.m335.quiz.TOTAL"</span>;</pre>
 <div class="note">
 <p><b>Hier steht zum ersten Mal <code>public</code> statt <code>private</code>.</b> Das ist kein Zufall. Diese zwei Namen muss die <code>MainActivity</code> lesen können, denn sonst weiss sie nicht, unter welchem Schlüssel sie suchen soll.</p>
 <p><b>Und darum stehen sie hier und nicht dort.</b> Wer etwas hinterlegt, bestimmt den Namen. Die andere Seite holt ihn sich mit <code>GameActivity.EXTRA_SCORE</code>. So gibt es die Zeichenfolge im ganzen Projekt genau einmal.</p>
@@ -189,13 +192,13 @@ btnBackToMain                             <span class="c">setzt den Text</span>
  *
  * Ausgeliefert wird es erst, wenn diese Activity endet.
  */</span>
-<span class="k">private void</span> publishResult() {
+<span class="k">private</span> <span class="k">void</span> <span class="m">publishResult</span>() {
     <span class="t">Intent</span> data = <span class="k">new</span> <span class="t">Intent</span>();
-    data.putExtra(EXTRA_SCORE, score);
-    data.putExtra(EXTRA_TOTAL, roundQuestions.size());
-    setResult(RESULT_OK, data);
+    data.putExtra(<span class="t">EXTRA_SCORE</span>, score);
+    data.putExtra(<span class="t">EXTRA_TOTAL</span>, roundQuestions.size());
+    setResult(<span class="t">RESULT_OK</span>, data);
 
-    Log.d(TAG, <span class="s">"result published, score="</span> + score + <span class="s">"/"</span> + roundQuestions.size());
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"result published, score="</span> + score + <span class="s">"/"</span> + roundQuestions.size());
 }</pre>
 <div class="info">
 <p><b>Dieser Intent hat kein Ziel.</b> Vergleich ihn mit dem aus 05A. Dort stand <code>new Intent(this, GameActivity.class)</code>, also von wo und wohin. Hier steht nur <code>new Intent()</code>.</p>
@@ -251,10 +254,10 @@ btnBackToMain                             <span class="c">setzt den Text</span>
 <div class="step">
 <p><span class="n">B1</span><b>Zwei Texte und die Anzeige.</b></p>
 <p>In <code>strings.xml</code>:</p>
-<pre>&lt;<span class="t">string</span> name=<span class="s">"last_score_none"</span>&gt;Noch keine Runde gespielt.&lt;/<span class="t">string</span>&gt;
-&lt;<span class="t">string</span> name=<span class="s">"last_score_format"</span>&gt;Letzte Runde: %1$d von %2$d Punkten.&lt;/<span class="t">string</span>&gt;</pre>
+<pre>&lt;<span class="g">string</span> name=<span class="s">"last_score_none"</span>&gt;Noch keine Runde gespielt.&lt;/<span class="g">string</span>&gt;
+&lt;<span class="g">string</span> name=<span class="s">"last_score_format"</span>&gt;Letzte Runde: %1$d von %2$d Punkten.&lt;/<span class="g">string</span>&gt;</pre>
 <p>In <code>activity_main.xml</code>, zwischen <code>tvTitle</code> und <code>btnPlay</code>:</p>
-<pre>&lt;<span class="t">TextView</span>
+<pre>&lt;<span class="g">TextView</span>
     android:id=<span class="s">"@+id/tvLastScore"</span>
     android:layout_width=<span class="s">"match_parent"</span>
     android:layout_height=<span class="s">"wrap_content"</span>
@@ -281,27 +284,27 @@ btnBackToMain                             <span class="c">setzt den Text</span>
 <p><span class="n">B2</span><b>Die Felder und die Methode im Menü.</b></p>
 <p>In <code>MainActivity.java</code>, unter dem Feld <code>TAG</code>:</p>
 <pre><span class="c">/** Bedeutet: es wurde noch keine Runde zu Ende gespielt. */</span>
-<span class="k">private static final int</span> NO_ROUND_YET = -<span class="k">1</span>;
+<span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="k">int</span> <span class="t">NO_ROUND_YET</span> = -1;
 
 <span class="c">/** Die Anzeige des letzten Punktestands, unter dem Titel. */</span>
 <span class="k">private</span> <span class="t">TextView</span> tvLastScore;
 
 <span class="c">/** Die Punkte der letzten beendeten Runde, oder NO_ROUND_YET. */</span>
-<span class="k">private int</span> lastScore = NO_ROUND_YET;
+<span class="k">private</span> <span class="k">int</span> lastScore = <span class="t">NO_ROUND_YET</span>;
 
 <span class="c">/** Wie viele Fragen die letzte beendete Runde hatte. */</span>
-<span class="k">private int</span> lastTotal;</pre>
+<span class="k">private</span> <span class="k">int</span> lastTotal;</pre>
 <p>Und die Methode, ans Ende der Klasse:</p>
 <pre><span class="c">/**
  * Schreibt den letzten Punktestand in die Anzeige.
  *
  * Es gibt genau eine Stelle, die diesen Text setzt.
  */</span>
-<span class="k">private void</span> showLastScore() {
-    <span class="k">if</span> (lastScore == NO_ROUND_YET) {
-        tvLastScore.setText(getString(R.string.last_score_none));
+<span class="k">private</span> <span class="k">void</span> <span class="m">showLastScore</span>() {
+    <span class="k">if</span> (lastScore == <span class="t">NO_ROUND_YET</span>) {
+        tvLastScore.setText(getString(<span class="t">R</span>.string.last_score_none));
     } <span class="k">else</span> {
-        tvLastScore.setText(getString(R.string.last_score_format, lastScore, lastTotal));
+        tvLastScore.setText(getString(<span class="t">R</span>.string.last_score_format, lastScore, lastTotal));
     }
 }</pre>
 <div class="note">
@@ -333,16 +336,16 @@ btnBackToMain                             <span class="c">setzt den Text</span>
  */</span>
 <span class="k">private</span> <span class="t">ActivityResultLauncher</span>&lt;<span class="t">Intent</span>&gt; gameLauncher;</pre>
 <p>Und in <code>onCreate</code>, <b>vor</b> den zwei Knöpfen:</p>
-<pre>tvLastScore = findViewById(R.id.tvLastScore);
+<pre>tvLastScore = findViewById(<span class="t">R</span>.id.tvLastScore);
 
 gameLauncher = registerForActivityResult(
         <span class="k">new</span> <span class="t">ActivityResultContracts</span>.<span class="t">StartActivityForResult</span>(),
         result -&gt; {
-            <span class="k">if</span> (result.getResultCode() == RESULT_OK &amp;&amp; result.getData() != <span class="k">null</span>) {
-                lastScore = result.getData().getIntExtra(<span class="t">GameActivity</span>.EXTRA_SCORE, <span class="k">0</span>);
-                lastTotal = result.getData().getIntExtra(<span class="t">GameActivity</span>.EXTRA_TOTAL, <span class="k">0</span>);
+            <span class="k">if</span> (result.getResultCode() == <span class="t">RESULT_OK</span> &amp;&amp; result.getData() != <span class="k">null</span>) {
+                lastScore = result.getData().getIntExtra(<span class="t">GameActivity</span>.<span class="t">EXTRA_SCORE</span>, 0);
+                lastTotal = result.getData().getIntExtra(<span class="t">GameActivity</span>.<span class="t">EXTRA_TOTAL</span>, 0);
                 showLastScore();
-                Log.d(TAG, <span class="s">"result received, score="</span> + lastScore + <span class="s">"/"</span> + lastTotal);
+                <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"result received, score="</span> + lastScore + <span class="s">"/"</span> + lastTotal);
             }
         });</pre>
 <p>Der Knopf <b>Spielen</b> startet ab jetzt über den Launcher. Der Knopf <b>Über die App</b> bleibt, wie er war, denn von dort kommt nichts zurück:</p>
@@ -432,7 +435,7 @@ Log.d(TAG, <span class="s">"round finished, score="</span> + score);</pre>
 <p>Falsch ist die Zahl nicht, die erste Runde ging wirklich so aus. Aber sie kommt zum falschen Zeitpunkt, und das verwirrt.</p>
 </div>
 <p>Also nimmst du das alte Ergebnis zurück, sobald eine neue Runde beginnt. In <code>startRound</code>, als <b>erste</b> Zeile im Methodenrumpf:</p>
-<pre><span class="c">// Eine neue Runde macht das alte Ergebnis ungültig, bis sie fertig ist.</span>
+<pre><span class="d">// Eine neue Runde macht das alte Ergebnis ungültig, bis sie fertig ist.</span>
 setResult(RESULT_CANCELED);</pre>
 <div class="note">
 <p><b>Was diese Zeile zurücksetzt, und was nicht.</b> Sie setzt einzig die <b>Ergebnis-Marke der GameActivity</b> zurück, also das, was beim Beenden ausgeliefert wird. Sie rührt weder den Text im Menü an noch die Felder <code>lastScore</code> und <code>lastTotal</code>. Der alte Text bleibt danach stehen, weil der Rückweg zwar läuft, aber nicht mehr auf <code>RESULT_OK</code> trifft.</p>
@@ -451,7 +454,7 @@ setResult(RESULT_CANCELED);</pre>
 <p><span class="n">C3</span><b>Die Kommentare nachziehen.</b></p>
 <p>Wie am Ende jedes Umbaus, und heute für <b>beide</b> Klassen. Der Rahmen, den Inhalt formulierst du selbst.</p>
 <p><b>In der <code>GameActivity</code>:</b></p>
-<pre><span class="c">/**
+<pre><span class="d">/**
  * Der Spielbildschirm der Quiz-App.
  *
  * (DER TEIL AUS 05A BLEIBT STEHEN)
@@ -460,7 +463,7 @@ setResult(RESULT_CANCELED);</pre>
  *  publishResult läuft)
  */</span></pre>
 <p><b>In der <code>MainActivity</code>:</b></p>
-<pre><span class="c">/**
+<pre><span class="d">/**
  * Der Startbildschirm der Quiz-App.
  *
  * (DER TEIL AUS 05A BLEIBT STEHEN)
@@ -508,7 +511,7 @@ setResult(RESULT_CANCELED);</pre>
 
 <div class="ue">
 <div class="t">Übung 3, erklären</div>
-<p>Erkläre einem Lerngspänli den Unterschied zwischen <code>setResult</code> und <code>finish</code>.</p>
+<p>Erkläre einer anderen Person den Unterschied zwischen <code>setResult</code> und <code>finish</code>.</p>
 <p><b>So prüfst du:</b> Dein Gegenüber kann sagen, was passiert, wenn man das eine ohne das andere aufruft, und zwar für beide Richtungen.</p>
 </div>
 
@@ -602,6 +605,9 @@ setResult(RESULT_CANCELED);</pre>
 </table>
 
 
+<!--M335:WEITER-->
+<nav class="weiter"><div class="reihe"><span>Zu 05B</span><a href="05b-loesung.html">Lösung</a></div><a class="vor" href="05c.html"><span>Weiter</span>05C Drei Zustände und die Kategoriewahl</a></nav>
+<!--/M335:WEITER-->
 <p class="foot">Modul 335 | Tag 3 Vormittag | Auftrag 05B | Version 3 | 05.09.2026</p>
 
 </div>
@@ -610,6 +616,52 @@ setResult(RESULT_CANCELED);</pre>
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
 <script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
 /* ------------------------------------------------------------------
    M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
 
@@ -720,7 +772,15 @@ setResult(RESULT_CANCELED);</pre>
     heads.forEach(function (h) {
       eintraege.push({
         el: h,
-        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
         stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
       });
     });

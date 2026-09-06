@@ -4,17 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>03D Lösung, Die Datenklasse Question</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
 <!--M335:STIL-->
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/stil/rahmen.css">
-<link rel="stylesheet" href="/stil/dokument.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
 <!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
 <header class="site-header"><div class="in">
-<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
-<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
 <button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
@@ -134,22 +137,22 @@
  *
  * Noch ohne Datenbank. Die Fragen stehen fest im Code.
  */</span>
-<span class="k">public class</span> <span class="t">Question</span> {
+<span class="k">public</span> <span class="k">class</span> <span class="t">Question</span> {
 
     <span class="c">/** Der Fragetext, zum Beispiel "Was ist die Hauptstadt der Schweiz?". */</span>
-    <span class="k">private</span> <span class="t">String</span> text;
+    <span class="k">private</span> <span class="t">String</span> <span class="v">text</span>;
 
     <span class="c">/** Die vier möglichen Antworten in der Reihenfolge der Buttons. */</span>
-    <span class="k">private</span> <span class="t">String</span>[] answers;
+    <span class="k">private</span> <span class="t">String</span>[] <span class="v">answers</span>;
 
     <span class="c">/** Die richtige Antwort als Text. Muss in answers enthalten sein. */</span>
-    <span class="k">private</span> <span class="t">String</span> correctAnswer;
+    <span class="k">private</span> <span class="t">String</span> <span class="v">correctAnswer</span>;
 
     <span class="c">/** Kategorie: Sport, Technologie, Geographie oder Geschichte. */</span>
-    <span class="k">private</span> <span class="t">String</span> category;
+    <span class="k">private</span> <span class="t">String</span> <span class="v">category</span>;
 
     <span class="c">/** Schwierigkeit: "leicht", "mittel" oder "schwer". */</span>
-    <span class="k">private</span> <span class="t">String</span> difficulty;
+    <span class="k">private</span> <span class="t">String</span> <span class="v">difficulty</span>;
 
     <span class="c">/**
      * Erzeugt eine neue Frage.
@@ -160,13 +163,13 @@
      * @param category      die Kategorie
      * @param difficulty    die Schwierigkeit
      */</span>
-    <span class="k">public</span> <span class="t">Question</span>(<span class="t">String</span> text, <span class="t">String</span>[] answers, <span class="t">String</span> correctAnswer,
-                    <span class="t">String</span> category, <span class="t">String</span> difficulty) {
-        <span class="k">this</span>.text = text;
-        <span class="k">this</span>.answers = answers;
-        <span class="k">this</span>.correctAnswer = correctAnswer;
-        <span class="k">this</span>.category = category;
-        <span class="k">this</span>.difficulty = difficulty;
+    <span class="k">public</span> <span class="t">Question</span>(<span class="t">String</span> <span class="v">text</span>, <span class="t">String</span>[] <span class="v">answers</span>, <span class="t">String</span> <span class="v">correctAnswer</span>,
+                    <span class="t">String</span> <span class="v">category</span>, <span class="t">String</span> <span class="v">difficulty</span>) {
+        <span class="k">this</span>.<span class="v">text</span> = <span class="v">text</span>;
+        <span class="k">this</span>.<span class="v">answers</span> = <span class="v">answers</span>;
+        <span class="k">this</span>.<span class="v">correctAnswer</span> = <span class="v">correctAnswer</span>;
+        <span class="k">this</span>.<span class="v">category</span> = <span class="v">category</span>;
+        <span class="k">this</span>.<span class="v">difficulty</span> = <span class="v">difficulty</span>;
     }
 
     <span class="c">/**
@@ -178,33 +181,33 @@
      * @param givenAnswer die Antwort, die der Spieler angetippt hat
      * @return true, wenn die Antwort richtig ist
      */</span>
-    <span class="k">public boolean</span> isCorrect(<span class="t">String</span> givenAnswer) {
-        <span class="k">return</span> correctAnswer.equals(givenAnswer);
+    <span class="k">public</span> <span class="k">boolean</span> <span class="m">isCorrect</span>(<span class="t">String</span> givenAnswer) {
+        <span class="k">return</span> <span class="v">correctAnswer</span>.equals(givenAnswer);
     }
 
     <span class="c">/** @return der Fragetext */</span>
-    <span class="k">public</span> <span class="t">String</span> getText() {
-        <span class="k">return</span> text;
+    <span class="k">public</span> <span class="t">String</span> <span class="m">getText</span>() {
+        <span class="k">return</span> <span class="v">text</span>;
     }
 
     <span class="c">/** @return die vier Antworten */</span>
-    <span class="k">public</span> <span class="t">String</span>[] getAnswers() {
-        <span class="k">return</span> answers;
+    <span class="k">public</span> <span class="t">String</span>[] <span class="m">getAnswers</span>() {
+        <span class="k">return</span> <span class="v">answers</span>;
     }
 
     <span class="c">/** @return die richtige Antwort als Text */</span>
-    <span class="k">public</span> <span class="t">String</span> getCorrectAnswer() {
-        <span class="k">return</span> correctAnswer;
+    <span class="k">public</span> <span class="t">String</span> <span class="m">getCorrectAnswer</span>() {
+        <span class="k">return</span> <span class="v">correctAnswer</span>;
     }
 
     <span class="c">/** @return die Kategorie */</span>
-    <span class="k">public</span> <span class="t">String</span> getCategory() {
-        <span class="k">return</span> category;
+    <span class="k">public</span> <span class="t">String</span> <span class="m">getCategory</span>() {
+        <span class="k">return</span> <span class="v">category</span>;
     }
 
     <span class="c">/** @return die Schwierigkeit */</span>
-    <span class="k">public</span> <span class="t">String</span> getDifficulty() {
-        <span class="k">return</span> difficulty;
+    <span class="k">public</span> <span class="t">String</span> <span class="m">getDifficulty</span>() {
+        <span class="k">return</span> <span class="v">difficulty</span>;
     }
 }</pre>
 
@@ -231,8 +234,8 @@
 <span class="k">private</span> <span class="t">Question</span> currentQuestion;</pre>
 
 <p>Das Objekt in <code>onCreate</code>:</p>
-<pre><span class="c">// Die eine Frage, mit der gespielt wird. Eine andere Frage ist ab
-// jetzt eine andere Zeile, sonst ändert sich nichts.</span>
+<pre><span class="l">// Die eine Frage, mit der gespielt wird. Eine andere Frage ist ab</span>
+<span class="l">// jetzt eine andere Zeile, sonst ändert sich nichts.</span>
 currentQuestion = <span class="k">new</span> <span class="t">Question</span>(
         <span class="s">"Was bedeutet die Abkürzung HTTP?"</span>,
         <span class="k">new</span> <span class="t">String</span>[]{
@@ -252,25 +255,25 @@ currentQuestion = <span class="k">new</span> <span class="t">Question</span>(
  * Genau eine Methode füllt den Bildschirm. Wer den Text an mehreren
  * Stellen setzt, vergisst irgendwann eine davon.
  */</span>
-<span class="k">private void</span> showQuestion() {
+<span class="k">private</span> <span class="k">void</span> <span class="m">showQuestion</span>() {
     tvCategory.setText(currentQuestion.getCategory());
     tvQuestion.setText(currentQuestion.getText());
 
     <span class="t">String</span>[] answers = currentQuestion.getAnswers();
-    <span class="k">for</span> (<span class="k">int</span> i = <span class="s">0</span>; i &lt; answerButtons.length; i++) {
+    <span class="k">for</span> (<span class="k">int</span> i = 0; i &lt; answerButtons.length; i++) {
         answerButtons[i].setText(answers[i]);
     }
 }</pre>
 
 <p>Die zwei Stellen, an denen jetzt die Frage gefragt wird:</p>
-<pre><span class="c">// in onAnswerClicked</span>
+<pre><span class="l">// in onAnswerClicked</span>
 <span class="k">boolean</span> isCorrect = currentQuestion.isCorrect(givenAnswer);
 
-<span class="c">// in markAnswers</span>
+<span class="l">// in markAnswers</span>
 <span class="k">if</span> (currentQuestion.isCorrect(text)) {
-    markButton(button, R.color.answer_correct);
-} <span class="k">else if</span> (text.equals(givenAnswer)) {
-    markButton(button, R.color.answer_wrong);
+    markButton(button, <span class="t">R</span>.color.answer_correct);
+} <span class="k">else</span> <span class="k">if</span> (text.equals(givenAnswer)) {
+    markButton(button, <span class="t">R</span>.color.answer_wrong);
 }</pre>
 
 <div class="tip">
@@ -280,25 +283,25 @@ currentQuestion = <span class="k">new</span> <span class="t">Question</span>(
 
 <h2>Die zwei Ressourcendateien</h2>
 <p><code>strings.xml</code> ist auf zwei Einträge geschrumpft:</p>
-<pre>&lt;<span class="t">resources</span>&gt;
-    &lt;<span class="t">string</span> name=<span class="s">"app_name"</span>&gt;WissQuiz&lt;/<span class="t">string</span>&gt;
+<pre>&lt;<span class="g">resources</span>&gt;
+    &lt;<span class="g">string</span> name=<span class="s">"app_name"</span>&gt;WissQuiz&lt;/<span class="g">string</span>&gt;
 
     <span class="c">&lt;!-- Kopfzeile des Spielbildschirms. --&gt;</span>
-    &lt;<span class="t">string</span> name=<span class="s">"score_format"</span>&gt;Punkte %1$d&lt;/<span class="t">string</span>&gt;
-&lt;/<span class="t">resources</span>&gt;</pre>
+    &lt;<span class="g">string</span> name=<span class="s">"score_format"</span>&gt;Punkte %1$d&lt;/<span class="g">string</span>&gt;
+&lt;/<span class="g">resources</span>&gt;</pre>
 
 <p>Im Layout haben sechs Views von <code>android:text</code> auf <code>tools:text</code> gewechselt:</p>
-<pre>&lt;<span class="t">TextView</span>
+<pre>&lt;<span class="g">TextView</span>
     android:id=<span class="s">"@+id/tvCategory"</span>
     …
     tools:text=<span class="s">"Technologie"</span> /&gt;
 
-&lt;<span class="t">TextView</span>
+&lt;<span class="g">TextView</span>
     android:id=<span class="s">"@+id/tvQuestion"</span>
     …
     tools:text=<span class="s">"Was bedeutet die Abkürzung HTTP?"</span> /&gt;
 
-&lt;<span class="t">Button</span>
+&lt;<span class="g">Button</span>
     android:id=<span class="s">"@+id/btnAnswer1"</span>
     …
     tools:text=<span class="s">"Antwort 1"</span> /&gt;</pre>
@@ -335,16 +338,16 @@ currentQuestion = <span class="k">new</span> <span class="t">Question</span>(
  * @return true, wenn genau vier Antworten da sind und die richtige
  *         Antwort unter ihnen vorkommt
  */</span>
-<span class="k">public boolean</span> isValid() {
-    <span class="k">if</span> (answers == <span class="k">null</span> || answers.length != <span class="s">4</span>) {
-        <span class="k">return false</span>;
+<span class="k">public</span> <span class="k">boolean</span> <span class="m">isValid</span>() {
+    <span class="k">if</span> (answers == <span class="k">null</span> || answers.length != 4) {
+        <span class="k">return</span> <span class="k">false</span>;
     }
     <span class="k">for</span> (<span class="t">String</span> answer : answers) {
         <span class="k">if</span> (correctAnswer.equals(answer)) {
-            <span class="k">return true</span>;
+            <span class="k">return</span> <span class="k">true</span>;
         }
     }
-    <span class="k">return false</span>;
+    <span class="k">return</span> <span class="k">false</span>;
 }</pre>
 <p>Beachte zwei Dinge. Erstens steht die Prüfung <b>in der Klasse</b>, aus demselben Grund wie <code>isCorrect</code>. Zweitens prüft sie zuerst auf <code>null</code>, sonst stürzt die Längenabfrage ab, bevor sie <code>false</code> zurückgeben kann.</p>
 <p><b>Warum das später wichtig wird:</b> Am Tag 4 tippt der Benutzer selbst Fragen ein. Dann brauchst du genau so eine Prüfung, bevor gespeichert wird.</p>
@@ -396,6 +399,9 @@ currentQuestion = <span class="k">new</span> <span class="t">Question</span>(
 <p>Eine Frage ist jetzt ein Objekt. Der nächste Schritt liegt auf der Hand: <b>mehrere</b> Objekte in einer Liste, ein Weiter-Knopf, und eine Runde über fünf Fragen.</p>
 <p>Ab dann zählt der Punktestand wirklich, und die Sperre der Buttons muss vor jeder neuen Frage wieder aufgehoben werden. Deine Übung 2 aus 03C war der Vorlauf dazu.</p>
 
+<!--M335:WEITER-->
+<nav class="weiter"><div class="reihe"><span>Zu 03D</span><a href="03d.html">Auftrag</a></div><a class="vor" href="04a.html"><span>Weiter</span>04A Die Fragenliste und die Runde</a></nav>
+<!--/M335:WEITER-->
 <p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 03D Die Datenklasse Question &middot; Version 3 vom 14.08.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
 
 </div>
@@ -404,6 +410,52 @@ currentQuestion = <span class="k">new</span> <span class="t">Question</span>(
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
 <script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
 /* ------------------------------------------------------------------
    M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
 
@@ -514,7 +566,15 @@ currentQuestion = <span class="k">new</span> <span class="t">Question</span>(
     heads.forEach(function (h) {
       eintraege.push({
         el: h,
-        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
         stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
       });
     });

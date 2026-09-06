@@ -33,9 +33,12 @@
   .art{font:600 10.5px/1.5 system-ui,sans-serif;letter-spacing:.03em;text-transform:uppercase;
        padding:2px 8px;border-radius:20px;white-space:nowrap;flex:0 0 auto;width:104px;text-align:center}
   .a-auftrag{background:#e4e2f5;color:#3a2d86;border:1px solid #bdb5e0}
+  .a-einfuehrung{background:#f1f0f7;color:#4a417a;border:1px solid #d5d1e8}
   .a-loesung{background:var(--ok-bg);color:#046004;border:1px solid #a9d4b4}
   .a-nach{background:var(--acc-bg);color:#1a5aa8;border:1px solid #a8c6e8}
   .a-hilfe{background:#fbf0df;color:#8a560f;border:1px solid #e3c894}
+  .a-blatt{background:#f2f1ee;color:#5a5852;border:1px solid #cfcdc5}
+  .a-check{background:#e8f1e9;color:#1d5c2c;border:1px solid #b6d4bd}
   a{color:var(--acc);text-decoration:none;font-weight:600}
   a:hover{text-decoration:underline}
   .zeit{margin-left:auto;font:12.5px ui-monospace,Menlo,Consolas,monospace;
@@ -58,14 +61,14 @@
   }
 </style>
 <!--M335:STIL-->
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/stil/rahmen.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
 <!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
 <header class="site-header"><div class="in">
-<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
 <span class="kopf-rechts"><button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
@@ -91,118 +94,130 @@
 
 <h2 id="tag1">Tag 1, Vormittag <span class="tag">Vom Zuschauer zum Bauenden</span></h2>
 <ul>
-  <li><span class="art a-auftrag">Auftrag</span><a href="/01a">01A Mobile Applikationen</a><span class="zeit">45 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/01a-loesung">01A Lösung</a><span class="zeit">10 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="01a.html">01A Mobile Applikationen</a><span class="zeit">45 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="01a-loesung.html">01A Lösung</a><span class="zeit">10 Min</span></li>
 
-  <li><span class="art a-auftrag">Auftrag</span><a href="/01b">01B Android Studio und erster Code</a><span class="zeit">30 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/01b-loesung">01B Lösung</a><span class="zeit">10 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="01b.html">01B Android Studio und erster Code</a><span class="zeit">30 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="01b-loesung.html">01B Lösung</a><span class="zeit">10 Min</span></li>
 
-  <li><span class="art a-auftrag">Auftrag</span><a href="/01c">01C Buttons und Events</a><span class="zeit">65 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/01c-loesung">01C Lösung</a><span class="zeit">15 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="01c.html">01C Buttons und Events</a><span class="zeit">65 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="01c-loesung.html">01C Lösung</a><span class="zeit">15 Min</span></li>
 </ul>
 
 
 <h2>Tag 1, Nachmittag <span class="tag">Der Bauplan vor dem Bauen</span></h2>
 <ul>
-  <li><span class="art a-auftrag">Auftrag</span><a href="/02a">02A Die drei Unterlagen</a><span class="zeit">115 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/02a-loesung">02A Lösung</a><span class="zeit">15 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="02a.html">02A Die drei Unterlagen</a><span class="zeit">115 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="02a-loesung.html">02A Lösung</a><span class="zeit">15 Min</span></li>
 
-  <li><span class="art a-auftrag">Auftrag</span><a href="/02b">02B Formular bauen</a><span class="zeit">65 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/02b-loesung">02B Lösung</a><span class="zeit">20 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="02b.html">02B Formular bauen</a><span class="zeit">65 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="02b-loesung.html">02B Lösung</a><span class="zeit">20 Min</span></li>
 </ul>
 
 
 <h2 id="tag2">Tag 2, Vormittag <span class="tag">Von festem Text zu echten Daten</span></h2>
 <ul>
-  <li><span class="art a-auftrag">Auftrag</span><a href="/03a">03A Das Projektgerüst</a><span class="zeit">30 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/03a-loesung">03A Lösung</a><span class="zeit">10 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="03a.html">03A Das Projektgerüst</a><span class="zeit">30 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="03a-loesung.html">03A Lösung</a><span class="zeit">10 Min</span></li>
 
-  <li><span class="art a-auftrag">Auftrag</span><a href="/03b">03B Der Spielbildschirm</a><span class="zeit">50 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/03b-loesung">03B Lösung</a><span class="zeit">15 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="03b.html">03B Der Spielbildschirm</a><span class="zeit">50 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="03b-loesung.html">03B Lösung</a><span class="zeit">15 Min</span></li>
 
-  <li><span class="art a-auftrag">Auftrag</span><a href="/03c">03C Klick auswerten</a><span class="zeit">45 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/03c-loesung">03C Lösung</a><span class="zeit">15 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="03c.html">03C Klick auswerten</a><span class="zeit">45 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="03c-loesung.html">03C Lösung</a><span class="zeit">15 Min</span></li>
 
-  <li><span class="art a-auftrag">Auftrag</span><a href="/03d">03D Die Datenklasse Question</a><span class="zeit">45 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/03d-loesung">03D Lösung</a><span class="zeit">15 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="03d.html">03D Die Datenklasse Question</a><span class="zeit">45 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="03d-loesung.html">03D Lösung</a><span class="zeit">15 Min</span></li>
 </ul>
 
 
 <h2>Tag 2, Nachmittag <span class="tag">Aus einer Frage wird ein Spiel</span></h2>
 <ul>
-  <li><span class="art a-auftrag">Auftrag</span><a href="/04a">04A Die Fragenliste und die Runde</a><span class="zeit">55 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/04a-loesung">04A Lösung</a><span class="zeit">15 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="04a.html">04A Die Fragenliste und die Runde</a><span class="zeit">55 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="04a-loesung.html">04A Lösung</a><span class="zeit">15 Min</span></li>
 
-  <li><span class="art a-auftrag">Auftrag</span><a href="/04b">04B Alle Fragen als Liste</a><span class="zeit">35 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/04b-loesung">04B Lösung</a><span class="zeit">12 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="04b.html">04B Alle Fragen als Liste</a><span class="zeit">35 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="04b-loesung.html">04B Lösung</a><span class="zeit">12 Min</span></li>
 
-  <li><span class="art a-auftrag">Auftrag</span><a href="/04c">04C User Stories</a><span class="zeit">25 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/04c-loesung">04C Lösung</a><span class="zeit">5 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="04c.html">04C User Stories</a><span class="zeit">25 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="04c-loesung.html">04C Lösung</a><span class="zeit">5 Min</span></li>
 
-  <li><span class="art a-auftrag">Auftrag</span><a href="/04d">04D Mockups</a><span class="zeit">50 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/04d-loesung">04D Lösung</a><span class="zeit">6 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="04d.html">04D Mockups</a><span class="zeit">50 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="04d-loesung.html">04D Lösung</a><span class="zeit">6 Min</span></li>
 </ul>
 
 
 <h2 id="tag3">Tag 3, Vormittag <span class="tag">Von einem Bildschirm zur App</span></h2>
 <ul>
-  <li><span class="art a-auftrag">Auftrag</span><a href="/05a">05A Zweite Activity und Intent</a><span class="zeit">40 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/05a-loesung">05A Lösung</a><span class="zeit">13 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="05a.html">05A Zweite Activity und Intent</a><span class="zeit">40 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="05a-loesung.html">05A Lösung</a><span class="zeit">13 Min</span></li>
 
-  <li><span class="art a-auftrag">Auftrag</span><a href="/05b">05B MainActivity und Ergebnis zurück</a><span class="zeit">40 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/05b-loesung">05B Lösung</a><span class="zeit">14 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="05b.html">05B MainActivity und Ergebnis zurück</a><span class="zeit">40 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="05b-loesung.html">05B Lösung</a><span class="zeit">14 Min</span></li>
 
-  <li><span class="art a-auftrag">Auftrag</span><a href="/05c">05C Drei Zustände und die Kategoriewahl</a><span class="zeit">45 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/05c-loesung">05C Lösung</a><span class="zeit">15 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="05c.html">05C Drei Zustände und die Kategoriewahl</a><span class="zeit">45 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="05c-loesung.html">05C Lösung</a><span class="zeit">15 Min</span></li>
 
-  <li><span class="art a-auftrag">Auftrag</span><a href="/05d">05D Der beste Wert bleibt</a><span class="zeit">45 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/05d-loesung">05D Lösung</a><span class="zeit">15 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="05d.html">05D Der beste Wert bleibt</a><span class="zeit">45 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="05d-loesung.html">05D Lösung</a><span class="zeit">15 Min</span></li>
 </ul>
 
 
 <h2>Tag 3, Nachmittag <span class="tag">Vom Bildschirm zur Datenanwendung</span></h2>
 <ul>
-  <li><span class="art a-auftrag">Auftrag</span><a href="/06a">06A Datenmodell zeichnen</a><span class="zeit">40 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/06a-loesung">06A Lösung</a><span class="zeit">8 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="06a.html">06A Datenmodell zeichnen</a><span class="zeit">40 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="06a-loesung.html">06A Lösung</a><span class="zeit">8 Min</span></li>
 
-  <li><span class="art a-auftrag">Auftrag</span><a href="/06b">06B Validierung und inputType</a><span class="zeit">50 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/06b-loesung">06B Lösung</a><span class="zeit">16 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="06b.html">06B Validierung und inputType</a><span class="zeit">50 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="06b-loesung.html">06B Lösung</a><span class="zeit">16 Min</span></li>
 
-  <li><span class="art a-auftrag">Auftrag</span><a href="/06c">06C RecyclerView und Rangliste</a><span class="zeit">90 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/06c-loesung">06C Lösung</a><span class="zeit">25 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="06c.html">06C RecyclerView und Rangliste</a><span class="zeit">90 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="06c-loesung.html">06C Lösung</a><span class="zeit">25 Min</span></li>
 </ul>
 
 
 <h2 id="tag4">Tag 4, Vormittag <span class="tag">Vom Spielzeug zur Datenanwendung</span></h2>
 <ul>
-  <li><span class="art a-auftrag">Auftrag</span><a href="/07a">07A Generalprobe Planungsteil</a><span class="zeit">45 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/07a-loesung">07A Lösung</a><span class="zeit">14 Min</span></li>
-  <li><span class="art a-auftrag">Auftrag</span><a href="/07b">07B Wert rechts und Filter</a><span class="zeit">35 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/07b-loesung">07B Lösung</a><span class="zeit">12 Min</span></li>
-  <li><span class="art a-auftrag">Auftrag</span><a href="/07c">07C Room, Entity und Dao</a><span class="zeit">90 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/07c-loesung">07C Lösung</a><span class="zeit">15 Min</span></li>
+  <li><span class="art a-einfuehrung">Einführung</span><a href="07a-einfuehrung.html">07A, Einführung</a><span class="zeit">10 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="07a.html">07A Generalprobe Planungsteil</a><span class="zeit">45 Min</span></li>
+  <li><span class="art a-blatt">Arbeitsblatt</span><a href="07a-arbeitsblatt.html">07A Arbeitsblatt zum Ausdrucken</a><span class="zeit">Papier</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="07a-loesung.html">07A Lösung</a><span class="zeit">14 Min</span></li>
+  <li><span class="art a-einfuehrung">Einführung</span><a href="07b-einfuehrung.html">07B, Einführung</a><span class="zeit">10 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="07b.html">07B Wert rechts und Filter</a><span class="zeit">35 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="07b-loesung.html">07B Lösung</a><span class="zeit">12 Min</span></li>
+  <li><span class="art a-einfuehrung">Einführung</span><a href="07c-einfuehrung.html">07C, Einführung</a><span class="zeit">10 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="07c.html">07C Room, Entity und Dao</a><span class="zeit">90 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="07c-loesung.html">07C Lösung</a><span class="zeit">15 Min</span></li>
+  <li><span class="art a-check">Wissenscheck</span><a href="wissenscheck-07abc.html">Wissenscheck 07ABC, Selbstkontrolle</a><span class="zeit">16 Min</span></li>
 </ul>
 
 
 <h2>Tag 4, Nachmittag <span class="tag">Vom Spielzeug zur Datenanwendung</span></h2>
 <ul>
-  <li><span class="art a-auftrag">Auftrag</span><a href="/08a">08A assets einlesen, AdminActivity</a><span class="zeit">45 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/08a-loesung">08A Lösung</a><span class="zeit">12 Min</span></li>
-  <li><span class="art a-auftrag">Auftrag</span><a href="/08b">08B Neue Frage anlegen</a><span class="zeit">45 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/08b-loesung">08B Lösung</a><span class="zeit">14 Min</span></li>
-  <li><span class="art a-auftrag">Auftrag</span><a href="/08c">08C Bearbeiten und löschen</a><span class="zeit">55 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/08c-loesung">08C Lösung</a><span class="zeit">14 Min</span></li>
-  <li><span class="art a-auftrag">Auftrag</span><a href="/08d">08D Erster Testfall</a><span class="zeit">35 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/08d-loesung">08D Lösung</a><span class="zeit">8 Min</span></li>
+  <li><span class="art a-einfuehrung">Einführung</span><a href="08a-einfuehrung.html">08A, Einführung</a><span class="zeit">10 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="08a.html">08A assets einlesen, AdminActivity</a><span class="zeit">45 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="08a-loesung.html">08A Lösung</a><span class="zeit">12 Min</span></li>
+  <li><span class="art a-einfuehrung">Einführung</span><a href="08b-einfuehrung.html">08B, Einführung</a><span class="zeit">10 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="08b.html">08B Neue Frage anlegen</a><span class="zeit">45 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="08b-loesung.html">08B Lösung</a><span class="zeit">14 Min</span></li>
+  <li><span class="art a-einfuehrung">Einführung</span><a href="08c-einfuehrung.html">08C, Einführung</a><span class="zeit">10 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="08c.html">08C Bearbeiten und löschen</a><span class="zeit">55 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="08c-loesung.html">08C Lösung</a><span class="zeit">14 Min</span></li>
+  <li><span class="art a-einfuehrung">Einführung</span><a href="08d-einfuehrung.html">08D, Einführung</a><span class="zeit">10 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="08d.html">08D Erster Testfall</a><span class="zeit">35 Min</span></li>
+  <li><span class="art a-blatt">Arbeitsblatt</span><a href="08d-arbeitsblatt.html">08D Arbeitsblatt zum Ausdrucken</a><span class="zeit">Papier</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="08d-loesung.html">08D Lösung</a><span class="zeit">8 Min</span></li>
 </ul>
 
 
 <h2 id="tag5">Tag 5, Vormittag <span class="tag">Nur noch üben</span></h2>
 <ul>
-  <li><span class="art a-auftrag">Auftrag</span><a href="/09a">09A Generalprobe Teil B</a><span class="zeit">75 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/09a-loesung">09A Lösung</a><span class="zeit">18 Min</span></li>
-  <li><span class="art a-auftrag">Auftrag</span><a href="/09b">09B Reparatur und Rückblick</a><span class="zeit">90 Min</span></li>
-  <li><span class="art a-loesung">Lösung</span><a href="/09b-loesung">09B Lösung</a><span class="zeit">20 Min</span></li>
+  <li><span class="art a-einfuehrung">Einführung</span><a href="09a-einfuehrung.html">09A, Einführung</a><span class="zeit">10 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="09a.html">09A Generalprobe Teil B</a><span class="zeit">75 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="09a-loesung.html">09A Lösung</a><span class="zeit">18 Min</span></li>
+  <li><span class="art a-einfuehrung">Einführung</span><a href="09b-einfuehrung.html">09B, Einführung</a><span class="zeit">10 Min</span></li>
+  <li><span class="art a-auftrag">Auftrag</span><a href="09b.html">09B Reparatur und Rückblick</a><span class="zeit">90 Min</span></li>
+  <li><span class="art a-loesung">Lösung</span><a href="09b-loesung.html">09B Lösung</a><span class="zeit">20 Min</span></li>
 </ul>
 
 
@@ -211,27 +226,27 @@
 <p style="margin:0 0 14px"><b>Die Blätter bauen aufeinander auf.</b> Stufe 1 setzt nichts voraus, jede weitere Stufe setzt die darüber voraus. <b>Wenn dir auf einem Blatt etwas fehlt, findest du es meist eine Stufe weiter oben.</b> Du musst sie nicht der Reihe nach lesen, es hilft aber zu wissen, wo du gerade bist.</p>
 
 <ul>
-  <li><span class="art a-nach">Stufe 1</span><a href="/apps">Wie Apps aufgebaut sind</a><span class="zeit">11 Min lesen</span></li>
-  <li><span class="art a-nach">Stufe 2</span><a href="/xml">XML verstehen</a><span class="zeit">9 Min lesen</span></li>
-  <li><span class="art a-nach">Stufe 2</span><a href="/activity">Die Activity von innen</a><span class="zeit">10 Min lesen</span></li>
-  <li><span class="art a-nach">Stufe 3</span><a href="/rueckruf">Rückruf verstehen</a><span class="zeit">17 Min lesen</span></li>
-  <li><span class="art a-nach">Stufe 3</span><a href="/layouts">Layouts verstehen</a><span class="zeit">13 Min lesen</span></li>
-  <li><span class="art a-nach">Stufe 3</span><a href="/constraints">Constraints verstehen</a><span class="zeit">11 Min lesen</span></li>
-  <li><span class="art a-nach">Stufe 3</span><a href="/wechsel">Bildschirme wechseln</a><span class="zeit">10 Min lesen</span></li>
-  <li><span class="art a-nach">Stufe 3</span><a href="/ressourcen">Ressourcen und R</a><span class="zeit">9 Min lesen</span></li>
-  <li><span class="art a-nach">Stufe 4</span><a href="/persistenz">Daten aufbewahren</a><span class="zeit">8 Min lesen</span></li>
-  <li><span class="art a-nach">Stufe 4</span><a href="/daten">Wo deine App ihre Daten ablegt</a><span class="zeit">8 Min lesen</span></li>
-  <li><span class="art a-nach">Stufe 4</span><a href="/room">Room verstehen</a><span class="zeit">18 Min lesen</span></li>
-  <li><span class="art a-nach">Stufe 4</span><a href="/listen">Listen verstehen</a><span class="zeit">19 Min lesen</span></li>
-  <li><span class="art a-nach">Am Rand</span><a href="/lesen">Sensoren und Veröffentlichen</a><span class="zeit">16 Min lesen</span></li>
-  <li><span class="art a-nach">Material</span><a href="/fragen">Der Fragenbestand</a><span class="zeit">zum Kopieren</span></li>
+  <li><span class="art a-nach">Stufe 1</span><a href="apps.html">Wie Apps aufgebaut sind</a><span class="zeit">11 Min lesen</span></li>
+  <li><span class="art a-nach">Stufe 2</span><a href="xml.html">XML verstehen</a><span class="zeit">9 Min lesen</span></li>
+  <li><span class="art a-nach">Stufe 2</span><a href="activity.html">Die Activity von innen</a><span class="zeit">10 Min lesen</span></li>
+  <li><span class="art a-nach">Stufe 3</span><a href="rueckruf.html">Rückruf verstehen</a><span class="zeit">17 Min lesen</span></li>
+  <li><span class="art a-nach">Stufe 3</span><a href="layouts.html">Layouts verstehen</a><span class="zeit">13 Min lesen</span></li>
+  <li><span class="art a-nach">Stufe 3</span><a href="constraints.html">Constraints verstehen</a><span class="zeit">11 Min lesen</span></li>
+  <li><span class="art a-nach">Stufe 3</span><a href="wechsel.html">Bildschirme wechseln</a><span class="zeit">10 Min lesen</span></li>
+  <li><span class="art a-nach">Stufe 3</span><a href="ressourcen.html">Ressourcen und R</a><span class="zeit">9 Min lesen</span></li>
+  <li><span class="art a-nach">Stufe 4</span><a href="persistenz.html">Daten aufbewahren</a><span class="zeit">8 Min lesen</span></li>
+  <li><span class="art a-nach">Stufe 4</span><a href="daten.html">Wo deine App ihre Daten ablegt</a><span class="zeit">8 Min lesen</span></li>
+  <li><span class="art a-nach">Stufe 4</span><a href="room.html">Room verstehen</a><span class="zeit">18 Min lesen</span></li>
+  <li><span class="art a-nach">Stufe 4</span><a href="listen.html">Listen verstehen</a><span class="zeit">19 Min lesen</span></li>
+  <li><span class="art a-nach">Am Rand</span><a href="lesen.html">Sensoren und Veröffentlichen</a><span class="zeit">16 Min lesen</span></li>
+  <li><span class="art a-nach">Material</span><a href="fragen.html">Der Fragenbestand</a><span class="zeit">zum Kopieren</span></li>
 </ul>
 
 <p style="margin:12px 0 0;font-size:14px;color:var(--muted)"><b>Am Rand</b> heisst: gehört zum Modul, hängt aber an keiner Stufe. <b>Material</b> ist kein Nachschlageblatt, sondern Rohstoff zum Kopieren.</p>
 
 <h2>Hilfe <span class="tag">Wenn etwas klemmt</span></h2>
 <ul>
-  <li><span class="art a-hilfe">Hilfe</span><a href="/emulator">Emulator streikt</a><span class="zeit">4 Min lesen</span></li>
+  <li><span class="art a-hilfe">Hilfe</span><a href="emulator.html">Emulator streikt</a><span class="zeit">4 Min lesen</span></li>
 </ul>
 
 <p class="foot">Modul 335 Mobile Applikationen &middot; WISS &middot; Die Wissenschecks und die Abgaben laufen über Google Classroom &middot; Die Skizzen sind eigene schematische Nachzeichnungen, keine Bildschirmfotos.</p>
@@ -242,6 +257,52 @@
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
 <script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
 /* ------------------------------------------------------------------
    M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
 
@@ -352,7 +413,15 @@
     heads.forEach(function (h) {
       eintraege.push({
         el: h,
-        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
         stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
       });
     });

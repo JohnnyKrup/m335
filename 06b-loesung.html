@@ -4,17 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>06B Lösung, Validierung und inputType</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
 <!--M335:STIL-->
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/stil/rahmen.css">
-<link rel="stylesheet" href="/stil/dokument.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
 <!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
 <header class="site-header"><div class="in">
-<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
-<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
 <button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
@@ -94,16 +97,16 @@
  * Diese Klasse ist das Ergebnis des Datenmodells, das du in 06A auf Papier
  * gezeichnet hast.
  */</span>
-<span class="k">public class</span> <span class="t">HighscoreEntry</span> {
+<span class="k">public</span> <span class="k">class</span> <span class="t">HighscoreEntry</span> {
 
     <span class="c">/** Der eingegebene Name. Pflichtfeld, mindestens drei Zeichen. */</span>
-    <span class="k">private final</span> <span class="t">String</span> name;
+    <span class="k">private</span> <span class="k">final</span> <span class="t">String</span> <span class="v">name</span>;
 
     <span class="c">/** Die erreichten Punkte. */</span>
-    <span class="k">private final int</span> score;
+    <span class="k">private</span> <span class="k">final</span> <span class="k">int</span> <span class="v">score</span>;
 
     <span class="c">/** "Alle" oder eine der vier Kategorien. Bestimmt die Rangliste. */</span>
-    <span class="k">private final</span> <span class="t">String</span> category;
+    <span class="k">private</span> <span class="k">final</span> <span class="t">String</span> <span class="v">category</span>;
 
     <span class="c">/**
      * Erzeugt einen neuen Eintrag.
@@ -112,25 +115,25 @@
      * @param score    die erreichten Punkte
      * @param category die gespielte Kategorie
      */</span>
-    <span class="k">public</span> <span class="t">HighscoreEntry</span>(<span class="t">String</span> name, <span class="k">int</span> score, <span class="t">String</span> category) {
-        <span class="k">this</span>.name = name;
-        <span class="k">this</span>.score = score;
-        <span class="k">this</span>.category = category;
+    <span class="k">public</span> <span class="m">HighscoreEntry</span>(<span class="t">String</span> <span class="v">name</span>, <span class="k">int</span> <span class="v">score</span>, <span class="t">String</span> <span class="v">category</span>) {
+        <span class="k">this</span>.<span class="v">name</span> = <span class="v">name</span>;
+        <span class="k">this</span>.<span class="v">score</span> = <span class="v">score</span>;
+        <span class="k">this</span>.<span class="v">category</span> = <span class="v">category</span>;
     }
 
     <span class="c">/** @return der Name des Spielers */</span>
-    <span class="k">public</span> <span class="t">String</span> getName() {
-        <span class="k">return</span> name;
+    <span class="k">public</span> <span class="t">String</span> <span class="m">getName</span>() {
+        <span class="k">return</span> <span class="v">name</span>;
     }
 
     <span class="c">/** @return die erreichten Punkte */</span>
-    <span class="k">public int</span> getScore() {
-        <span class="k">return</span> score;
+    <span class="k">public</span> <span class="k">int</span> <span class="m">getScore</span>() {
+        <span class="k">return</span> <span class="v">score</span>;
     }
 
     <span class="c">/** @return die gespielte Kategorie */</span>
-    <span class="k">public</span> <span class="t">String</span> getCategory() {
-        <span class="k">return</span> category;
+    <span class="k">public</span> <span class="t">String</span> <span class="m">getCategory</span>() {
+        <span class="k">return</span> <span class="v">category</span>;
     }
 }</pre>
 
@@ -145,18 +148,18 @@
 
 <pre><span class="k">package</span> ch.wiss.m335.quiz.data;
 
-<span class="k">import</span> android.content.Context;
-<span class="k">import</span> android.content.SharedPreferences;
-<span class="k">import</span> android.util.Log;
+<span class="k">import</span> android.content.<span class="t">Context</span>;
+<span class="k">import</span> android.content.<span class="t">SharedPreferences</span>;
+<span class="k">import</span> android.util.<span class="t">Log</span>;
 
-<span class="k">import</span> org.json.JSONArray;
-<span class="k">import</span> org.json.JSONException;
-<span class="k">import</span> org.json.JSONObject;
+<span class="k">import</span> org.json.<span class="t">JSONArray</span>;
+<span class="k">import</span> org.json.<span class="t">JSONException</span>;
+<span class="k">import</span> org.json.<span class="t">JSONObject</span>;
 
-<span class="k">import</span> java.util.ArrayList;
-<span class="k">import</span> java.util.List;
+<span class="k">import</span> java.util.<span class="t">ArrayList</span>;
+<span class="k">import</span> java.util.<span class="t">List</span>;
 
-<span class="k">import</span> ch.wiss.m335.quiz.model.HighscoreEntry;
+<span class="k">import</span> ch.wiss.m335.quiz.model.<span class="t">HighscoreEntry</span>;
 
 <span class="c">/**
  * Speichert die Rangliste in SharedPreferences.
@@ -177,28 +180,28 @@
  * Rangliste nicht. Die Regel: ganze kleine Liste am Stück gleich
  * SharedPreferences, einzeln bearbeitbare Datensätze gleich Datenbank.
  */</span>
-<span class="k">public final class</span> <span class="t">HighscoreStorage</span> {
+<span class="k">public</span> <span class="k">final</span> <span class="k">class</span> <span class="t">HighscoreStorage</span> {
 
-    <span class="k">private static final</span> <span class="t">String</span> TAG = <span class="s">"Modul335"</span>;
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="v">TAG</span> = <span class="s">"Modul335"</span>;
 
     <span class="c">/** Dieselbe Ablage wie beim besten Wert. */</span>
-    <span class="k">private static final</span> <span class="t">String</span> PREFS_NAME = <span class="s">"m335_quiz"</span>;
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="v">PREFS_NAME</span> = <span class="s">"m335_quiz"</span>;
 
     <span class="c">/** Der Schlüssel, unter dem der ganze JSON-Text liegt. */</span>
-    <span class="k">private static final</span> <span class="t">String</span> KEY_HIGHSCORES = <span class="s">"highscores"</span>;
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="v">KEY_HIGHSCORES</span> = <span class="s">"highscores"</span>;
 
-    <span class="c">// Die Namen der Felder im JSON. Beim Schreiben und beim Lesen
-    // dieselben, darum als Konstante.</span>
-    <span class="k">private static final</span> <span class="t">String</span> FIELD_NAME = <span class="s">"name"</span>;
-    <span class="k">private static final</span> <span class="t">String</span> FIELD_SCORE = <span class="s">"score"</span>;
-    <span class="k">private static final</span> <span class="t">String</span> FIELD_CATEGORY = <span class="s">"category"</span>;
+    <span class="l">// Die Namen der Felder im JSON. Beim Schreiben und beim Lesen</span>
+    <span class="l">// dieselben, darum als Konstante.</span>
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="v">FIELD_NAME</span> = <span class="s">"name"</span>;
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="v">FIELD_SCORE</span> = <span class="s">"score"</span>;
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="v">FIELD_CATEGORY</span> = <span class="s">"category"</span>;
 
     <span class="c">/** Diese Klasse wird nie erzeugt, sie hat nur statische Methoden. */</span>
-    <span class="k">private</span> <span class="t">HighscoreStorage</span>() {
+    <span class="k">private</span> <span class="m">HighscoreStorage</span>() {
     }
 
-    <span class="k">private static</span> <span class="t">SharedPreferences</span> prefs(<span class="t">Context</span> context) {
-        <span class="k">return</span> context.getSharedPreferences(PREFS_NAME, <span class="t">Context</span>.MODE_PRIVATE);
+    <span class="k">private</span> <span class="k">static</span> <span class="t">SharedPreferences</span> <span class="m">prefs</span>(<span class="t">Context</span> context) {
+        <span class="k">return</span> context.getSharedPreferences(<span class="v">PREFS_NAME</span>, <span class="t">Context</span>.<span class="t">MODE_PRIVATE</span>);
     }
 
     <span class="c">/**
@@ -207,23 +210,23 @@
      * @param context irgendein Context
      * @return alle Einträge in der Reihenfolge des Speicherns, nie null
      */</span>
-    <span class="k">public static</span> <span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; getAll(<span class="t">Context</span> context) {
+    <span class="k">public</span> <span class="k">static</span> <span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; <span class="m">getAll</span>(<span class="t">Context</span> context) {
         <span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; entries = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;();
-        <span class="t">String</span> text = prefs(context).getString(KEY_HIGHSCORES, <span class="s">"[]"</span>);
+        <span class="t">String</span> text = prefs(context).getString(<span class="v">KEY_HIGHSCORES</span>, <span class="s">"[]"</span>);
 
         <span class="k">try</span> {
             <span class="t">JSONArray</span> array = <span class="k">new</span> <span class="t">JSONArray</span>(text);
-            <span class="k">for</span> (<span class="k">int</span> i = <span class="k">0</span>; i &lt; array.length(); i++) {
+            <span class="k">for</span> (<span class="k">int</span> i = 0; i &lt; array.length(); i++) {
                 <span class="t">JSONObject</span> object = array.getJSONObject(i);
                 entries.add(<span class="k">new</span> <span class="t">HighscoreEntry</span>(
-                        object.getString(FIELD_NAME),
-                        object.getInt(FIELD_SCORE),
-                        object.getString(FIELD_CATEGORY)));
+                        object.getString(<span class="v">FIELD_NAME</span>),
+                        object.getInt(<span class="v">FIELD_SCORE</span>),
+                        object.getString(<span class="v">FIELD_CATEGORY</span>)));
             }
         } <span class="k">catch</span> (<span class="t">JSONException</span> e) {
-            <span class="c">// Kaputter Text, zum Beispiel nach einem misslungenen Umbau.
-            // Lieber eine leere Liste als ein Absturz beim Start.</span>
-            <span class="t">Log</span>.e(TAG, <span class="s">"highscores unreadable, starting empty"</span>, e);
+            <span class="l">// Kaputter Text, zum Beispiel nach einem misslungenen Umbau.</span>
+            <span class="l">// Lieber eine leere Liste als ein Absturz beim Start.</span>
+            <span class="t">Log</span>.e(<span class="v">TAG</span>, <span class="s">"highscores unreadable, starting empty"</span>, e);
         }
 
         <span class="k">return</span> entries;
@@ -239,11 +242,11 @@
      * @param context irgendein Context
      * @param entry   der neue Eintrag
      */</span>
-    <span class="k">public static void</span> add(<span class="t">Context</span> context, <span class="t">HighscoreEntry</span> entry) {
+    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="m">add</span>(<span class="t">Context</span> context, <span class="t">HighscoreEntry</span> entry) {
         <span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; entries = getAll(context);
         entries.add(entry);
         saveAll(context, entries);
-        <span class="t">Log</span>.d(TAG, <span class="s">"highscore added, total="</span> + entries.size());
+        <span class="t">Log</span>.d(<span class="v">TAG</span>, <span class="s">"highscore added, total="</span> + entries.size());
     }
 
     <span class="c">/**
@@ -252,23 +255,23 @@
      * @param context irgendein Context
      * @param entries die vollständige Liste
      */</span>
-    <span class="k">private static void</span> saveAll(<span class="t">Context</span> context, <span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; entries) {
+    <span class="k">private</span> <span class="k">static</span> <span class="k">void</span> saveAll(<span class="t">Context</span> context, <span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; entries) {
         <span class="t">JSONArray</span> array = <span class="k">new</span> <span class="t">JSONArray</span>();
 
         <span class="k">try</span> {
             <span class="k">for</span> (<span class="t">HighscoreEntry</span> entry : entries) {
                 <span class="t">JSONObject</span> object = <span class="k">new</span> <span class="t">JSONObject</span>();
-                object.put(FIELD_NAME, entry.getName());
-                object.put(FIELD_SCORE, entry.getScore());
-                object.put(FIELD_CATEGORY, entry.getCategory());
+                object.put(<span class="v">FIELD_NAME</span>, entry.getName());
+                object.put(<span class="v">FIELD_SCORE</span>, entry.getScore());
+                object.put(<span class="v">FIELD_CATEGORY</span>, entry.getCategory());
                 array.put(object);
             }
         } <span class="k">catch</span> (<span class="t">JSONException</span> e) {
-            <span class="t">Log</span>.e(TAG, <span class="s">"highscores not writable"</span>, e);
+            <span class="t">Log</span>.e(<span class="v">TAG</span>, <span class="s">"highscores not writable"</span>, e);
             <span class="k">return</span>;
         }
 
-        prefs(context).edit().putString(KEY_HIGHSCORES, array.toString()).apply();
+        prefs(context).edit().putString(<span class="v">KEY_HIGHSCORES</span>, array.toString()).apply();
     }
 }</pre>
 
@@ -276,30 +279,30 @@
 
 <p><code>saveAll</code> ist die Umkehrung von <code>getAll</code>. Wenn deine Version anders aussieht und funktioniert, ist sie richtig.</p>
 
-<pre><span class="k">private static void</span> saveAll(<span class="t">Context</span> context, <span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; entries) {
+<pre><span class="k">private</span> <span class="k">static</span> <span class="k">void</span> saveAll(<span class="t">Context</span> context, <span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; entries) {
     <span class="t">JSONArray</span> array = <span class="k">new</span> <span class="t">JSONArray</span>();
 
     <span class="k">try</span> {
         <span class="k">for</span> (<span class="t">HighscoreEntry</span> entry : entries) {
             <span class="t">JSONObject</span> object = <span class="k">new</span> <span class="t">JSONObject</span>();
-            object.put(FIELD_NAME, entry.getName());
-            object.put(FIELD_SCORE, entry.getScore());
-            object.put(FIELD_CATEGORY, entry.getCategory());
+            object.put(<span class="t">FIELD_NAME</span>, entry.getName());
+            object.put(<span class="t">FIELD_SCORE</span>, entry.getScore());
+            object.put(<span class="t">FIELD_CATEGORY</span>, entry.getCategory());
             array.put(object);
         }
     } <span class="k">catch</span> (<span class="t">JSONException</span> e) {
-        <span class="t">Log</span>.e(TAG, <span class="s">"highscores not writable"</span>, e);
+        <span class="t">Log</span>.e(<span class="t">TAG</span>, <span class="s">"highscores not writable"</span>, e);
         <span class="k">return</span>;
     }
 
-    prefs(context).edit().putString(KEY_HIGHSCORES, array.toString()).apply();
+    prefs(context).edit().putString(<span class="t">KEY_HIGHSCORES</span>, array.toString()).apply();
 }
 
-<span class="k">public static void</span> add(<span class="t">Context</span> context, <span class="t">HighscoreEntry</span> entry) {
+<span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="m">add</span>(<span class="t">Context</span> context, <span class="t">HighscoreEntry</span> entry) {
     <span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; entries = getAll(context);
     entries.add(entry);
     saveAll(context, entries);
-    <span class="t">Log</span>.d(TAG, <span class="s">"highscore added, total="</span> + entries.size());
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"highscore added, total="</span> + entries.size());
 }</pre>
 
 <div class="tip">
@@ -331,9 +334,9 @@
 
 <p>Vier Zeilen, und drei davon sind der ganze Punkt dieses Auftrags.</p>
 
-<pre>entries = getAll(context);      <span class="c">// ALLE lesen</span>
-entries.add(entry);             <span class="c">// einen ändern</span>
-saveAll(context, entries);      <span class="c">// ALLE zurückschreiben</span></pre>
+<pre>entries = getAll(context);      <span class="d">// ALLE lesen</span>
+entries.add(entry);             <span class="d">// einen ändern</span>
+saveAll(context, entries);      <span class="d">// ALLE zurückschreiben</span></pre>
 
 <p>Es gibt keinen anderen Weg. SharedPreferences kennen einen Schlüssel und einen Wert. Der Wert ist hier der ganze Text mit der ganzen Liste darin. Man kann nicht einen Teil davon anfassen.</p>
 
@@ -346,27 +349,27 @@ saveAll(context, entries);      <span class="c">// ALLE zurückschreiben</span><
 
 <h3>Der Ergebnisbereich, vorher und nachher</h3>
 
-<pre><span class="c">// vorher, nach 05D</span>
-LinearLayout llResult          <span class="c">// 0dp mal 0dp, vier Anker, visibility gone</span>
-  ├─ TextView tvResult
-  ├─ Button btnRestart
-  ├─ Button btnBackToMain
-  ├─ TextView tvListTitle
-  └─ ScrollView svQuestionList
-       └─ LinearLayout llQuestionList
+<pre><span class="d">// vorher, nach 05D</span>
+LinearLayout llResult          <span class="d">// 0dp mal 0dp, vier Anker, visibility gone</span>
+  +- TextView tvResult
+  +- Button btnRestart
+  +- Button btnBackToMain
+  +- TextView tvListTitle
+  +- ScrollView svQuestionList
+       +- LinearLayout llQuestionList
 
-<span class="c">// nachher, 06B</span>
-ScrollView svResult            <span class="c">// 0dp mal 0dp, vier Anker, visibility gone</span>
-  └─ LinearLayout llResult     <span class="c">// match_parent mal wrap_content</span>
-       ├─ TextView tvResult
-       ├─ TextInputLayout tilPlayerName      <span class="c">// NEU</span>
-       │    └─ TextInputEditText etPlayerName  <span class="c">// NEU</span>
-       ├─ Button btnSaveScore                <span class="c">// NEU</span>
-       ├─ TextView tvSaved                   <span class="c">// NEU, gone</span>
-       ├─ Button btnRestart
-       ├─ Button btnBackToMain
-       ├─ TextView tvListTitle
-       └─ LinearLayout llQuestionList        <span class="c">// ohne eigene ScrollView</span></pre>
+<span class="d">// nachher, 06B</span>
+ScrollView svResult            <span class="d">// 0dp mal 0dp, vier Anker, visibility gone</span>
+  +- LinearLayout llResult     <span class="d">// match_parent mal wrap_content</span>
+       +- TextView tvResult
+       +- TextInputLayout tilPlayerName      <span class="d">// NEU</span>
+       |    +- TextInputEditText etPlayerName  <span class="d">// NEU</span>
+       +- Button btnSaveScore                <span class="d">// NEU</span>
+       +- TextView tvSaved                   <span class="d">// NEU, gone</span>
+       +- Button btnRestart
+       +- Button btnBackToMain
+       +- TextView tvListTitle
+       +- LinearLayout llQuestionList        <span class="d">// ohne eigene ScrollView</span></pre>
 
 <div class="tip">
 <p><b>Der Trick beim Umbau:</b> die vier Anker, <code>0dp</code> mal <code>0dp</code> und <code>visibility="gone"</code> wandern von <code>llResult</code> auf <code>svResult</code>. Das <code>llResult</code> behält nur noch <code>match_parent</code>, <code>wrap_content</code> und <code>orientation</code>.</p>
@@ -375,11 +378,11 @@ ScrollView svResult            <span class="c">// 0dp mal 0dp, vier Anker, visib
 
 <h3>Die fünf neuen Strings</h3>
 
-<pre>&lt;string name=<span class="s">"hint_player_name"</span>&gt;Dein Name&lt;/string&gt;
-&lt;string name=<span class="s">"btn_save_score"</span>&gt;In die Rangliste eintragen&lt;/string&gt;
-&lt;string name=<span class="s">"error_name_required"</span>&gt;Bitte gib deinen Namen ein.&lt;/string&gt;
-&lt;string name=<span class="s">"error_name_too_short"</span>&gt;Mindestens drei Zeichen.&lt;/string&gt;
-&lt;string name=<span class="s">"score_saved"</span>&gt;Eingetragen. Du stehst jetzt in der Rangliste.&lt;/string&gt;</pre>
+<pre>&lt;<span class="g">string</span> name=<span class="s">"hint_player_name"</span>&gt;Dein Name&lt;/<span class="g">string</span>&gt;
+&lt;<span class="g">string</span> name=<span class="s">"btn_save_score"</span>&gt;In die Rangliste eintragen&lt;/<span class="g">string</span>&gt;
+&lt;<span class="g">string</span> name=<span class="s">"error_name_required"</span>&gt;Bitte gib deinen Namen ein.&lt;/<span class="g">string</span>&gt;
+&lt;<span class="g">string</span> name=<span class="s">"error_name_too_short"</span>&gt;Mindestens drei Zeichen.&lt;/<span class="g">string</span>&gt;
+&lt;<span class="g">string</span> name=<span class="s">"score_saved"</span>&gt;Eingetragen. Du stehst jetzt in der Rangliste.&lt;/<span class="g">string</span>&gt;</pre>
 
 <p>Beachte die zwei Fehlermeldungen: sie sagen, <b>was zu tun ist</b>, nicht was falsch war. Nicht "Ungültige Eingabe", sondern "Mindestens drei Zeichen". Das ist der Unterschied zwischen einer Meldung und einer Hilfe.</p>
 
@@ -393,13 +396,13 @@ ScrollView svResult            <span class="c">// 0dp mal 0dp, vier Anker, visib
 
 <p>Das ist die Stelle, an der zwei Dinge zusammenkommen, die seit dem ersten Tag im Projekt stehen und sich bis heute nie in die Quere kamen.</p>
 
-<pre><span class="c">// AndroidManifest.xml, bei der GameActivity, seit 01B</span>
+<pre><span class="l">// AndroidManifest.xml, bei der GameActivity, seit 01B</span>
 android:windowSoftInputMode=<span class="s">"adjustResize"</span>
 
-<span class="c">// GameActivity.onCreate, aus der Projektvorlage, bis heute nie angefasst</span>
+<span class="l">// GameActivity.onCreate, aus der Projektvorlage, bis heute nie angefasst</span>
 <span class="t">EdgeToEdge</span>.enable(<span class="k">this</span>);
-<span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(R.id.clGame), (v, insets) -&gt; {
-    <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.Type.systemBars());
+<span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(<span class="t">R</span>.id.clGame), (v, insets) -&gt; {
+    <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.<span class="t">Type</span>.systemBars());
     v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
     <span class="k">return</span> insets;
 });</pre>
@@ -431,30 +434,30 @@ android:windowSoftInputMode=<span class="s">"adjustResize"</span>
 
 <h3>Was dazukommt</h3>
 
-<pre><span class="c">// Importe</span>
-<span class="k">import</span> android.view.inputmethod.EditorInfo;
-<span class="k">import</span> com.google.android.material.textfield.TextInputEditText;
-<span class="k">import</span> com.google.android.material.textfield.TextInputLayout;
-<span class="k">import</span> ch.wiss.m335.quiz.data.HighscoreStorage;
-<span class="k">import</span> ch.wiss.m335.quiz.model.HighscoreEntry;
+<pre><span class="l">// Importe</span>
+<span class="k">import</span> android.view.inputmethod.<span class="t">EditorInfo</span>;
+<span class="k">import</span> com.google.android.material.textfield.<span class="t">TextInputEditText</span>;
+<span class="k">import</span> com.google.android.material.textfield.<span class="t">TextInputLayout</span>;
+<span class="k">import</span> ch.wiss.m335.quiz.data.<span class="t">HighscoreStorage</span>;
+<span class="k">import</span> ch.wiss.m335.quiz.model.<span class="t">HighscoreEntry</span>;
 
-<span class="c">// Konstante</span>
+<span class="l">// Konstante</span>
 <span class="c">/** So viele Zeichen braucht ein Name mindestens. */</span>
-<span class="k">private static final int</span> MIN_NAME_LENGTH = <span class="k">3</span>;
+<span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="k">int</span> <span class="t">MIN_NAME_LENGTH</span> = 3;
 
-<span class="c">// Felder, llResult wird zu svResult und wechselt den Typ</span>
+<span class="l">// Felder, llResult wird zu svResult und wechselt den Typ</span>
 <span class="k">private</span> <span class="t">ScrollView</span> svResult;
 <span class="k">private</span> <span class="t">TextInputLayout</span> tilPlayerName;
 <span class="k">private</span> <span class="t">TextInputEditText</span> etPlayerName;
 <span class="k">private</span> <span class="t">Button</span> btnSaveScore;
 <span class="k">private</span> <span class="t">TextView</span> tvSaved;
-<span class="k">private boolean</span> scoreSaved = <span class="k">false</span>;</pre>
+<span class="k">private</span> <span class="k">boolean</span> scoreSaved = <span class="k">false</span>;</pre>
 
 <h4>Die Verkabelung in onCreate</h4>
 
 <p>Die erste Zeile <b>ersetzt</b> die bestehende, die vier darunter sind neu. Sie stehen bei den anderen <code>findViewById</code>-Aufrufen.</p>
 
-<pre><span class="c">// war vorher: llResult = findViewById(R.id.llResult);</span>
+<pre><span class="d">// war vorher: llResult = findViewById(R.id.llResult);</span>
 svResult = findViewById(R.id.svResult);
 tilPlayerName = findViewById(R.id.tilPlayerName);
 etPlayerName = findViewById(R.id.etPlayerName);
@@ -465,13 +468,13 @@ tvSaved = findViewById(R.id.tvSaved);</pre>
 
 <pre>btnSaveScore.setOnClickListener(v -&gt; onSaveScoreClicked());
 
-<span class="c">// freiwillig, die Aktionstaste unten rechts auf der Tastatur</span>
+<span class="l">// freiwillig, die Aktionstaste unten rechts auf der Tastatur</span>
 etPlayerName.setOnEditorActionListener((v, actionId, event) -&gt; {
-    <span class="k">if</span> (actionId == <span class="t">EditorInfo</span>.IME_ACTION_DONE) {
+    <span class="k">if</span> (actionId == <span class="t">EditorInfo</span>.<span class="t">IME_ACTION_DONE</span>) {
         onSaveScoreClicked();
-        <span class="k">return true</span>;
+        <span class="k">return</span> <span class="k">true</span>;
     }
-    <span class="k">return false</span>;
+    <span class="k">return</span> <span class="k">false</span>;
 });</pre>
 
 <div class="note">
@@ -489,7 +492,7 @@ etPlayerName.setOnEditorActionListener((v, actionId, event) -&gt; {
  * Zwei Wächter am Anfang. Der erste verhindert den zweiten Eintrag, der
  * zweite bricht ab, wenn der Name nicht taugt.
  */</span>
-<span class="k">private void</span> onSaveScoreClicked() {
+<span class="k">private</span> <span class="k">void</span> <span class="m">onSaveScoreClicked</span>() {
     <span class="k">if</span> (scoreSaved) {
         <span class="k">return</span>;
     }
@@ -503,7 +506,7 @@ etPlayerName.setOnEditorActionListener((v, actionId, event) -&gt; {
     scoreSaved = <span class="k">true</span>;
     updateSaveArea();
 
-    <span class="t">Log</span>.d(TAG, <span class="s">"highscore saved for "</span> + name);
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"highscore saved for "</span> + name);
 }
 
 <span class="c">/**
@@ -514,22 +517,22 @@ etPlayerName.setOnEditorActionListener((v, actionId, event) -&gt; {
  *
  * @return true, wenn der Name brauchbar ist
  */</span>
-<span class="k">private boolean</span> isNameValid() {
+<span class="k">private</span> <span class="k">boolean</span> <span class="m">isNameValid</span>() {
     <span class="t">String</span> name = currentName();
 
     <span class="k">if</span> (name.isEmpty()) {
-        tilPlayerName.setError(getString(R.string.error_name_required));
-        <span class="k">return false</span>;
+        tilPlayerName.setError(getString(<span class="t">R</span>.string.error_name_required));
+        <span class="k">return</span> <span class="k">false</span>;
     }
-    <span class="k">if</span> (name.length() &lt; MIN_NAME_LENGTH) {
-        tilPlayerName.setError(getString(R.string.error_name_too_short));
-        <span class="k">return false</span>;
+    <span class="k">if</span> (name.length() &lt; <span class="t">MIN_NAME_LENGTH</span>) {
+        tilPlayerName.setError(getString(<span class="t">R</span>.string.error_name_too_short));
+        <span class="k">return</span> <span class="k">false</span>;
     }
 
-    <span class="c">// Ohne diese Zeile bleibt die alte Fehlermeldung stehen, auch wenn
-    // die Eingabe inzwischen stimmt.</span>
+    <span class="l">// Ohne diese Zeile bleibt die alte Fehlermeldung stehen, auch wenn</span>
+    <span class="l">// die Eingabe inzwischen stimmt.</span>
     tilPlayerName.setError(<span class="k">null</span>);
-    <span class="k">return true</span>;
+    <span class="k">return</span> <span class="k">true</span>;
 }
 
 <span class="c">/**
@@ -541,7 +544,7 @@ etPlayerName.setOnEditorActionListener((v, actionId, event) -&gt; {
  *
  * @return der eingegebene Name ohne Leerzeichen am Rand
  */</span>
-<span class="k">private</span> <span class="t">String</span> currentName() {
+<span class="k">private</span> <span class="t">String</span> <span class="m">currentName</span>() {
     <span class="k">return</span> etPlayerName.getText() == <span class="k">null</span> ? <span class="s">""</span> : etPlayerName.getText().toString().trim();
 }
 
@@ -551,10 +554,10 @@ etPlayerName.setOnEditorActionListener((v, actionId, event) -&gt; {
  * Genau eine Methode entscheidet darüber, wie beim showState. Wer die
  * Sperre an drei Stellen einzeln setzt, vergisst eine davon.
  */</span>
-<span class="k">private void</span> updateSaveArea() {
+<span class="k">private</span> <span class="k">void</span> <span class="m">updateSaveArea</span>() {
     btnSaveScore.setEnabled(!scoreSaved);
     etPlayerName.setEnabled(!scoreSaved);
-    tvSaved.setVisibility(scoreSaved ? <span class="t">View</span>.VISIBLE : <span class="t">View</span>.GONE);
+    tvSaved.setVisibility(scoreSaved ? <span class="t">View</span>.<span class="t">VISIBLE</span> : <span class="t">View</span>.<span class="t">GONE</span>);
     <span class="k">if</span> (scoreSaved) {
         tilPlayerName.setError(<span class="k">null</span>);
     }
@@ -565,17 +568,17 @@ etPlayerName.setOnEditorActionListener((v, actionId, event) -&gt; {
 <pre>selectedCategory = (<span class="t">String</span>) spnCategory.getSelectedItem();
 categoryQuestions = <span class="t">QuestionBank</span>.byCategory(selectedCategory);
 
-<span class="c">// Neue Runde, neuer Eintrag. Ohne diese drei Zeilen bliebe der
-// Speichern-Knopf ab der zweiten Runde für immer gesperrt.</span>
+<span class="l">// Neue Runde, neuer Eintrag. Ohne diese drei Zeilen bliebe der</span>
+<span class="l">// Speichern-Knopf ab der zweiten Runde für immer gesperrt.</span>
 scoreSaved = <span class="k">false</span>;
 etPlayerName.setText(<span class="s">""</span>);
 updateSaveArea();</pre>
 
 <h3>Die eine Zeile in showState</h3>
 
-<pre><span class="c">// vorher</span>
+<pre><span class="d">// vorher</span>
 llResult.setVisibility(state == <span class="t">GameState</span>.RESULT ? <span class="t">View</span>.VISIBLE : <span class="t">View</span>.GONE);
-<span class="c">// nachher</span>
+<span class="d">// nachher</span>
 svResult.setVisibility(state == <span class="t">GameState</span>.RESULT ? <span class="t">View</span>.VISIBLE : <span class="t">View</span>.GONE);</pre>
 
 <h2>Die Stelle aus C4, aufgelöst</h2>
@@ -585,9 +588,9 @@ svResult.setVisibility(state == <span class="t">GameState</span>.RESULT ? <span 
 <p><b>Warum:</b> für <code>length()</code> ist ein Leerzeichen ein Zeichen wie jedes andere. <code>"   ".length()</code> ist 3, und 3 ist nicht kleiner als <code>MIN_NAME_LENGTH</code>. Die Prüfung hat genau das getan, was dasteht.</p>
 
 <p><b>Die Reparatur, eine Zeile:</b></p>
-<pre><span class="c">// vorher</span>
+<pre><span class="l">// vorher</span>
 <span class="k">return</span> etPlayerName.getText() == <span class="k">null</span> ? <span class="s">""</span> : etPlayerName.getText().toString();
-<span class="c">// nachher</span>
+<span class="l">// nachher</span>
 <span class="k">return</span> etPlayerName.getText() == <span class="k">null</span> ? <span class="s">""</span> : etPlayerName.getText().toString().trim();</pre>
 
 <div class="warn">
@@ -605,15 +608,15 @@ svResult.setVisibility(state == <span class="t">GameState</span>.RESULT ? <span 
 <div class="ue">
 <p class="t">Übung 1, eine dritte Prüfung</p>
 <p>Ein neuer String:</p>
-<pre>&lt;string name=<span class="s">"error_name_only_digits"</span>&gt;Ein Name besteht nicht nur aus Ziffern.&lt;/string&gt;</pre>
+<pre>&lt;<span class="g">string</span> name=<span class="s">"error_name_only_digits"</span>&gt;Ein Name besteht nicht nur aus Ziffern.&lt;/<span class="g">string</span>&gt;</pre>
 <p>Und ein dritter Block in <code>isNameValid</code>, <b>vor</b> dem <code>setError(null)</code>:</p>
 <pre><span class="k">if</span> (name.matches(<span class="s">"\\d+"</span>)) {
-    tilPlayerName.setError(getString(R.string.error_name_only_digits));
-    <span class="k">return false</span>;
+    tilPlayerName.setError(getString(<span class="t">R</span>.string.error_name_only_digits));
+    <span class="k">return</span> <span class="k">false</span>;
 }</pre>
 <p>Ohne regulären Ausdruck geht es genauso:</p>
 <pre><span class="k">boolean</span> onlyDigits = <span class="k">true</span>;
-<span class="k">for</span> (<span class="k">int</span> i = <span class="k">0</span>; i &lt; name.length(); i++) {
+<span class="k">for</span> (<span class="k">int</span> i = 0; i &lt; name.length(); i++) {
     <span class="k">if</span> (!<span class="t">Character</span>.isDigit(name.charAt(i))) {
         onlyDigits = <span class="k">false</span>;
         <span class="k">break</span>;
@@ -709,6 +712,9 @@ svResult.setVisibility(state == <span class="t">GameState</span>.RESULT ? <span 
 
 <p>Am Tag 4 kommt dann der Gegenbeweis zu heute. Dieselbe Aufgabe, aber mit einer Datenbank: was heute vierzig Zeilen braucht, kostet dort eine.</p>
 
+<!--M335:WEITER-->
+<nav class="weiter"><div class="reihe"><span>Zu 06B</span><a href="06b.html">Auftrag</a></div><a class="vor" href="06c.html"><span>Weiter</span>06C RecyclerView und Rangliste</a></nav>
+<!--/M335:WEITER-->
 <p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 06B Validierung und inputType &middot; Version 1 vom 19.08.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
 
 </div>
@@ -717,6 +723,52 @@ svResult.setVisibility(state == <span class="t">GameState</span>.RESULT ? <span 
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
 <script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
 /* ------------------------------------------------------------------
    M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
 
@@ -827,7 +879,15 @@ svResult.setVisibility(state == <span class="t">GameState</span>.RESULT ? <span 
     heads.forEach(function (h) {
       eintraege.push({
         el: h,
-        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
         stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
       });
     });

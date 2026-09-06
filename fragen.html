@@ -4,17 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Der Fragenbestand</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
 <!--M335:STIL-->
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/stil/rahmen.css">
-<link rel="stylesheet" href="/stil/dokument.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
 <!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
 <header class="site-header"><div class="in">
-<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
-<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
 <button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
@@ -79,45 +82,45 @@
 <span class="k">import</span> java.util.<span class="t">Arrays</span>;
 <span class="k">import</span> java.util.<span class="t">List</span>;
 
-<span class="c">/**</span>
-<span class="c"> * Der Fragenbestand der App.</span>
-<span class="c"> *</span>
-<span class="c"> * Stufe 3: alle 30 Fragen stehen fest im Code. Das ist mit Absicht</span>
-<span class="c"> * umständlich. Wer eine Frage ändern will, muss die App neu bauen.</span>
-<span class="c"> * Genau darum kommt in Stufe 7 eine Datenbank dazu.</span>
-<span class="c"> *</span>
-<span class="c"> * Die Fragen stammen aus questions_m335.json, dem Export des WISS-Quiz</span>
-<span class="c"> * aus Modul 295.</span>
-<span class="c"> */</span>
+<span class="c">/**
+ * Der Fragenbestand der App.
+ *
+ * Stufe 3: alle 30 Fragen stehen fest im Code. Das ist mit Absicht
+ * umständlich. Wer eine Frage ändern will, muss die App neu bauen.
+ * Genau darum kommt in Stufe 7 eine Datenbank dazu.
+ *
+ * Die Fragen stammen aus questions_m335.json, dem Export des WISS-Quiz
+ * aus Modul 295.
+ */</span>
 <span class="k">public</span> <span class="k">final</span> <span class="k">class</span> <span class="t">QuestionBank</span> {
 
-<span class="c">    /** Der Eintrag in der Auswahl, der keine Kategorie einschränkt. */</span>
-    <span class="k">public</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> CATEGORY_ALL = <span class="s">&quot;Alle&quot;</span>;
+    <span class="c">/** Der Eintrag in der Auswahl, der keine Kategorie einschränkt. */</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="v">CATEGORY_ALL</span> = <span class="s">"Alle"</span>;
 
-<span class="c">    /** Diese Klasse wird nie erzeugt, sie hat nur statische Methoden. */</span>
-    <span class="k">private</span> <span class="t">QuestionBank</span>() {
+    <span class="c">/** Diese Klasse wird nie erzeugt, sie hat nur statische Methoden. */</span>
+    <span class="k">private</span> <span class="m">QuestionBank</span>() {
     }
 
-<span class="c">    /**</span>
-<span class="c">     * Liefert die Einträge für die Kategorieauswahl.</span>
-<span class="c">     *</span>
-<span class="c">     * &quot;Alle&quot; steht bewusst zuoberst. Es ist der Normalfall, und der</span>
-<span class="c">     * schnellste Weg soll der kürzeste sein.</span>
-<span class="c">     *</span>
-<span class="c">     * @return die fünf Einträge in Anzeigereihenfolge</span>
-<span class="c">     */</span>
-    <span class="k">public</span> <span class="k">static</span> <span class="t">List</span>&lt;<span class="t">String</span>&gt; categories() {
-        <span class="k">return</span> <span class="t">Arrays</span>.asList(CATEGORY_ALL, <span class="s">&quot;Sport&quot;</span>, <span class="s">&quot;Technologie&quot;</span>, <span class="s">&quot;Geographie&quot;</span>, <span class="s">&quot;Geschichte&quot;</span>);
+    <span class="c">/**
+     * Liefert die Einträge für die Kategorieauswahl.
+     *
+     * "Alle" steht bewusst zuoberst. Es ist der Normalfall, und der
+     * schnellste Weg soll der kürzeste sein.
+     *
+     * @return die fünf Einträge in Anzeigereihenfolge
+     */</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="t">List</span>&lt;<span class="t">String</span>&gt; <span class="m">categories</span>() {
+        <span class="k">return</span> <span class="t">Arrays</span>.asList(<span class="v">CATEGORY_ALL</span>, <span class="s">"Sport"</span>, <span class="s">"Technologie"</span>, <span class="s">"Geographie"</span>, <span class="s">"Geschichte"</span>);
     }
 
-<span class="c">    /**</span>
-<span class="c">     * Liefert alle Fragen einer Kategorie.</span>
-<span class="c">     *</span>
-<span class="c">     * @param category eine Kategorie oder CATEGORY_ALL</span>
-<span class="c">     * @return die passenden Fragen, nie null</span>
-<span class="c">     */</span>
-    <span class="k">public</span> <span class="k">static</span> <span class="t">List</span>&lt;<span class="t">Question</span>&gt; byCategory(<span class="t">String</span> category) {
-        <span class="k">if</span> (CATEGORY_ALL.equals(category)) {
+    <span class="c">/**
+     * Liefert alle Fragen einer Kategorie.
+     *
+     * @param category eine Kategorie oder CATEGORY_ALL
+     * @return die passenden Fragen, nie null
+     */</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="t">List</span>&lt;<span class="t">Question</span>&gt; <span class="m">byCategory</span>(<span class="t">String</span> category) {
+        <span class="k">if</span> (<span class="v">CATEGORY_ALL</span>.equals(category)) {
             <span class="k">return</span> createAll();
         }
         <span class="t">List</span>&lt;<span class="t">Question</span>&gt; result = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;();
@@ -129,157 +132,159 @@
         <span class="k">return</span> result;
     }
 
-<span class="c">    /**</span>
-<span class="c">     * Baut den ganzen Fragenbestand auf.</span>
-<span class="c">     *</span>
-<span class="c">     * @return alle 30 Fragen, nie null</span>
-<span class="c">     */</span>
-    <span class="k">public</span> <span class="k">static</span> <span class="t">List</span>&lt;<span class="t">Question</span>&gt; createAll() {
+    <span class="c">/**
+     * Baut den ganzen Fragenbestand auf.
+     *
+     * @return alle 30 Fragen, nie null
+     */</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="t">List</span>&lt;<span class="t">Question</span>&gt; <span class="m">createAll</span>() {
         <span class="t">List</span>&lt;<span class="t">Question</span>&gt; questions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;();
 
 
-<span class="c">        // Sport</span>
+        <span class="l">// Sport</span>
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;Wie viele Spieler stehen pro Mannschaft beim Fussball gleichzeitig auf dem Platz?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;11&quot;</span>, <span class="s">&quot;12&quot;</span>, <span class="s">&quot;9&quot;</span>, <span class="s">&quot;10&quot;</span>},
-                <span class="s">&quot;11&quot;</span>, <span class="s">&quot;Sport&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+                <span class="s">"Wie viele Spieler stehen pro Mannschaft beim Fussball gleichzeitig auf dem Platz?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"11"</span>, <span class="s">"12"</span>, <span class="s">"9"</span>, <span class="s">"10"</span>},
+                <span class="s">"11"</span>, <span class="s">"Sport"</span>, <span class="s">"leicht"</span>));
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;In welcher Sportart wird der Stanley Cup vergeben?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;American Football&quot;</span>, <span class="s">&quot;Eishockey&quot;</span>, <span class="s">&quot;Basketball&quot;</span>, <span class="s">&quot;Baseball&quot;</span>},
-                <span class="s">&quot;Eishockey&quot;</span>, <span class="s">&quot;Sport&quot;</span>, <span class="s">&quot;mittel&quot;</span>));
+                <span class="s">"In welcher Sportart wird der Stanley Cup vergeben?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"American Football"</span>, <span class="s">"Eishockey"</span>, <span class="s">"Basketball"</span>, <span class="s">"Baseball"</span>},
+                <span class="s">"Eishockey"</span>, <span class="s">"Sport"</span>, <span class="s">"mittel"</span>));
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;Welcher Schweizer Tennisspieler gewann insgesamt 20 Grand-Slam-Einzeltitel?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Stan Wawrinka&quot;</span>, <span class="s">&quot;Marc Rosset&quot;</span>, <span class="s">&quot;Heinz Günthardt&quot;</span>, <span class="s">&quot;Roger Federer&quot;</span>},
-                <span class="s">&quot;Roger Federer&quot;</span>, <span class="s">&quot;Sport&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+                <span class="s">"Welcher Schweizer Tennisspieler gewann insgesamt 20 Grand-Slam-Einzeltitel?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"Stan Wawrinka"</span>, <span class="s">"Marc Rosset"</span>, <span class="s">"Heinz Günthardt"</span>, <span class="s">"Roger Federer"</span>},
+                <span class="s">"Roger Federer"</span>, <span class="s">"Sport"</span>, <span class="s">"leicht"</span>));
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;Alle wie viele Jahre finden die Olympischen Sommerspiele statt?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;2&quot;</span>, <span class="s">&quot;4&quot;</span>, <span class="s">&quot;3&quot;</span>, <span class="s">&quot;5&quot;</span>},
-                <span class="s">&quot;4&quot;</span>, <span class="s">&quot;Sport&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+                <span class="s">"Alle wie viele Jahre finden die Olympischen Sommerspiele statt?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"2"</span>, <span class="s">"4"</span>, <span class="s">"3"</span>, <span class="s">"5"</span>},
+                <span class="s">"4"</span>, <span class="s">"Sport"</span>, <span class="s">"leicht"</span>));
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;Wo fanden die Olympischen Sommerspiele 2016 statt?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Peking&quot;</span>, <span class="s">&quot;London&quot;</span>, <span class="s">&quot;Tokio&quot;</span>, <span class="s">&quot;Rio de Janeiro&quot;</span>},
-                <span class="s">&quot;Rio de Janeiro&quot;</span>, <span class="s">&quot;Sport&quot;</span>, <span class="s">&quot;mittel&quot;</span>));
+                <span class="s">"Wo fanden die Olympischen Sommerspiele 2016 statt?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"Peking"</span>, <span class="s">"London"</span>, <span class="s">"Tokio"</span>, <span class="s">"Rio de Janeiro"</span>},
+                <span class="s">"Rio de Janeiro"</span>, <span class="s">"Sport"</span>, <span class="s">"mittel"</span>));
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;Wie viele Punkte braucht eine Mannschaft mindestens, um einen regulären Satz im Volleyball (Sätze 1 bis 4) zu gewinnen?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;25&quot;</span>, <span class="s">&quot;15&quot;</span>, <span class="s">&quot;30&quot;</span>, <span class="s">&quot;21&quot;</span>},
-                <span class="s">&quot;25&quot;</span>, <span class="s">&quot;Sport&quot;</span>, <span class="s">&quot;schwer&quot;</span>));
+                <span class="s">"Wie viele Punkte braucht eine Mannschaft mindestens, um einen regulären Satz im Volleyball (Sätze 1 bis 4) zu gewinnen?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"25"</span>, <span class="s">"15"</span>, <span class="s">"30"</span>, <span class="s">"21"</span>},
+                <span class="s">"25"</span>, <span class="s">"Sport"</span>, <span class="s">"schwer"</span>));
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;Wie viele Ringe hat das olympische Symbol?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;5&quot;</span>, <span class="s">&quot;3&quot;</span>, <span class="s">&quot;4&quot;</span>, <span class="s">&quot;6&quot;</span>},
-                <span class="s">&quot;5&quot;</span>, <span class="s">&quot;Sport&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+                <span class="s">"Wie viele Ringe hat das olympische Symbol?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"5"</span>, <span class="s">"3"</span>, <span class="s">"4"</span>, <span class="s">"6"</span>},
+                <span class="s">"5"</span>, <span class="s">"Sport"</span>, <span class="s">"leicht"</span>));
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;In welchem Sport gibt es einen Slam Dunk?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Basketball&quot;</span>, <span class="s">&quot;Volleyball&quot;</span>, <span class="s">&quot;Tennis&quot;</span>, <span class="s">&quot;Handball&quot;</span>},
-                <span class="s">&quot;Basketball&quot;</span>, <span class="s">&quot;Sport&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+                <span class="s">"In welchem Sport gibt es einen Slam Dunk?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"Basketball"</span>, <span class="s">"Volleyball"</span>, <span class="s">"Tennis"</span>, <span class="s">"Handball"</span>},
+                <span class="s">"Basketball"</span>, <span class="s">"Sport"</span>, <span class="s">"leicht"</span>));
 
-<span class="c">        // Technologie</span>
+        <span class="l">// Technologie</span>
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;Was bedeutet die Abkürzung HTTP?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;HyperText Transmission Program&quot;</span>, <span class="s">&quot;HyperText Transfer Program&quot;</span>,
-                        <span class="s">&quot;HyperText Transfer Protocol&quot;</span>, <span class="s">&quot;HyperText Transmission Protocol&quot;</span>},
-                <span class="s">&quot;HyperText Transfer Protocol&quot;</span>, <span class="s">&quot;Technologie&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+                <span class="s">"Was bedeutet die Abkürzung HTTP?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"HyperText Transmission Program"</span>, <span class="s">"HyperText Transfer Program"</span>,
+                        <span class="s">"HyperText Transfer Protocol"</span>, <span class="s">"HyperText Transmission Protocol"</span>},
+                <span class="s">"HyperText Transfer Protocol"</span>, <span class="s">"Technologie"</span>, <span class="s">"leicht"</span>));
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;Wer gründete zusammen mit Paul Allen das Unternehmen Microsoft?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Steve Ballmer&quot;</span>, <span class="s">&quot;Bill Gates&quot;</span>, <span class="s">&quot;Steve Jobs&quot;</span>, <span class="s">&quot;Larry Ellison&quot;</span>},
-                <span class="s">&quot;Bill Gates&quot;</span>, <span class="s">&quot;Technologie&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+                <span class="s">"Wer gründete zusammen mit Paul Allen das Unternehmen Microsoft?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"Steve Ballmer"</span>, <span class="s">"Bill Gates"</span>, <span class="s">"Steve Jobs"</span>, <span class="s">"Larry Ellison"</span>},
+                <span class="s">"Bill Gates"</span>, <span class="s">"Technologie"</span>, <span class="s">"leicht"</span>));
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;In welchem Jahr stellte Apple das erste iPhone der Öffentlichkeit vor?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;2005&quot;</span>, <span class="s">&quot;2006&quot;</span>, <span class="s">&quot;2008&quot;</span>, <span class="s">&quot;2007&quot;</span>},
-                <span class="s">&quot;2007&quot;</span>, <span class="s">&quot;Technologie&quot;</span>, <span class="s">&quot;mittel&quot;</span>));
+                <span class="s">"In welchem Jahr stellte Apple das erste iPhone der Öffentlichkeit vor?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"2005"</span>, <span class="s">"2006"</span>, <span class="s">"2008"</span>, <span class="s">"2007"</span>},
+                <span class="s">"2007"</span>, <span class="s">"Technologie"</span>, <span class="s">"mittel"</span>));
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;Welche Programmiersprache wurde von Guido van Rossum entwickelt?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Python&quot;</span>, <span class="s">&quot;PHP&quot;</span>, <span class="s">&quot;Ruby&quot;</span>, <span class="s">&quot;Perl&quot;</span>},
-                <span class="s">&quot;Python&quot;</span>, <span class="s">&quot;Technologie&quot;</span>, <span class="s">&quot;schwer&quot;</span>));
+                <span class="s">"Welche Programmiersprache wurde von Guido van Rossum entwickelt?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"Python"</span>, <span class="s">"PHP"</span>, <span class="s">"Ruby"</span>, <span class="s">"Perl"</span>},
+                <span class="s">"Python"</span>, <span class="s">"Technologie"</span>, <span class="s">"schwer"</span>));
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;Wofür steht die Abkürzung GPU im Computerbereich?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;General Processing Unit&quot;</span>, <span class="s">&quot;Global Processing Utility&quot;</span>,
-                        <span class="s">&quot;Graphics Processing Unit&quot;</span>, <span class="s">&quot;Graphical Power Unit&quot;</span>},
-                <span class="s">&quot;Graphics Processing Unit&quot;</span>, <span class="s">&quot;Technologie&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+                <span class="s">"Wofür steht die Abkürzung GPU im Computerbereich?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"General Processing Unit"</span>, <span class="s">"Global Processing Utility"</span>,
+                        <span class="s">"Graphics Processing Unit"</span>, <span class="s">"Graphical Power Unit"</span>},
+                <span class="s">"Graphics Processing Unit"</span>, <span class="s">"Technologie"</span>, <span class="s">"leicht"</span>));
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;Welche Sprache wird primär für Spring Boot verwendet?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Java&quot;</span>, <span class="s">&quot;Python&quot;</span>, <span class="s">&quot;Ruby&quot;</span>, <span class="s">&quot;PHP&quot;</span>},
-                <span class="s">&quot;Java&quot;</span>, <span class="s">&quot;Technologie&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+                <span class="s">"Welche Sprache wird primär für Spring Boot verwendet?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"Java"</span>, <span class="s">"Python"</span>, <span class="s">"Ruby"</span>, <span class="s">"PHP"</span>},
+                <span class="s">"Java"</span>, <span class="s">"Technologie"</span>, <span class="s">"leicht"</span>));
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;Welche HTTP-Methode wird typischerweise zum Erstellen einer Ressource verwendet?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;DELETE&quot;</span>, <span class="s">&quot;POST&quot;</span>, <span class="s">&quot;GET&quot;</span>, <span class="s">&quot;HEAD&quot;</span>},
-                <span class="s">&quot;POST&quot;</span>, <span class="s">&quot;Technologie&quot;</span>, <span class="s">&quot;mittel&quot;</span>));
+                <span class="s">"Welche HTTP-Methode wird typischerweise zum Erstellen einer Ressource verwendet?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"DELETE"</span>, <span class="s">"POST"</span>, <span class="s">"GET"</span>, <span class="s">"HEAD"</span>},
+                <span class="s">"POST"</span>, <span class="s">"Technologie"</span>, <span class="s">"mittel"</span>));
 
-<span class="c">        // Geographie</span>
+        <span class="l">// Geographie</span>
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;Wie heisst die Hauptstadt von Australien?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Perth&quot;</span>, <span class="s">&quot;Sydney&quot;</span>, <span class="s">&quot;Canberra&quot;</span>, <span class="s">&quot;Melbourne&quot;</span>},
-                <span class="s">&quot;Canberra&quot;</span>, <span class="s">&quot;Geographie&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+                <span class="s">"Wie heisst die Hauptstadt von Australien?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"Perth"</span>, <span class="s">"Sydney"</span>, <span class="s">"Canberra"</span>, <span class="s">"Melbourne"</span>},
+                <span class="s">"Canberra"</span>, <span class="s">"Geographie"</span>, <span class="s">"leicht"</span>));
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;Welcher Fluss ist der längste in Europa?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Donau&quot;</span>, <span class="s">&quot;Rhein&quot;</span>, <span class="s">&quot;Dnepr&quot;</span>, <span class="s">&quot;Wolga&quot;</span>},
-                <span class="s">&quot;Wolga&quot;</span>, <span class="s">&quot;Geographie&quot;</span>, <span class="s">&quot;mittel&quot;</span>));
+                <span class="s">"Welcher Fluss ist der längste in Europa?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"Donau"</span>, <span class="s">"Rhein"</span>, <span class="s">"Dnepr"</span>, <span class="s">"Wolga"</span>},
+                <span class="s">"Wolga"</span>, <span class="s">"Geographie"</span>, <span class="s">"mittel"</span>));
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;Welcher ist der tiefste See der Erde?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Lake Superior&quot;</span>, <span class="s">&quot;Tanganjikasee&quot;</span>, <span class="s">&quot;Baikalsee&quot;</span>, <span class="s">&quot;Kaspisches Meer&quot;</span>},
-                <span class="s">&quot;Baikalsee&quot;</span>, <span class="s">&quot;Geographie&quot;</span>, <span class="s">&quot;mittel&quot;</span>));
+                <span class="s">"Welcher ist der tiefste See der Erde?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"Lake Superior"</span>, <span class="s">"Tanganjikasee"</span>, <span class="s">"Baikalsee"</span>, <span class="s">"Kaspisches Meer"</span>},
+                <span class="s">"Baikalsee"</span>, <span class="s">"Geographie"</span>, <span class="s">"mittel"</span>));
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;In welchem Land liegt die Atacama-Wüste?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Argentinien&quot;</span>, <span class="s">&quot;Chile&quot;</span>, <span class="s">&quot;Peru&quot;</span>, <span class="s">&quot;Bolivien&quot;</span>},
-                <span class="s">&quot;Chile&quot;</span>, <span class="s">&quot;Geographie&quot;</span>, <span class="s">&quot;mittel&quot;</span>));
+                <span class="s">"In welchem Land liegt die Atacama-Wüste?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"Argentinien"</span>, <span class="s">"Chile"</span>, <span class="s">"Peru"</span>, <span class="s">"Bolivien"</span>},
+                <span class="s">"Chile"</span>, <span class="s">"Geographie"</span>, <span class="s">"mittel"</span>));
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;Was ist die Hauptstadt der Schweiz?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Genf&quot;</span>, <span class="s">&quot;Basel&quot;</span>, <span class="s">&quot;Bern&quot;</span>, <span class="s">&quot;Zürich&quot;</span>},
-                <span class="s">&quot;Bern&quot;</span>, <span class="s">&quot;Geographie&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+                <span class="s">"Was ist die Hauptstadt der Schweiz?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"Genf"</span>, <span class="s">"Basel"</span>, <span class="s">"Bern"</span>, <span class="s">"Zürich"</span>},
+                <span class="s">"Bern"</span>, <span class="s">"Geographie"</span>, <span class="s">"leicht"</span>));
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;Welcher Ozean ist der grösste der Welt?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Indischer Ozean&quot;</span>, <span class="s">&quot;Pazifik&quot;</span>, <span class="s">&quot;Atlantik&quot;</span>, <span class="s">&quot;Arktischer Ozean&quot;</span>},
-                <span class="s">&quot;Pazifik&quot;</span>, <span class="s">&quot;Geographie&quot;</span>, <span class="s">&quot;mittel&quot;</span>));
+                <span class="s">"Welcher Ozean ist der grösste der Welt?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"Indischer Ozean"</span>, <span class="s">"Pazifik"</span>, <span class="s">"Atlantik"</span>, <span class="s">"Arktischer Ozean"</span>},
+                <span class="s">"Pazifik"</span>, <span class="s">"Geographie"</span>, <span class="s">"mittel"</span>));
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;Was ist die Hauptstadt von Spanien?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Paris&quot;</span>, <span class="s">&quot;Bern&quot;</span>, <span class="s">&quot;Rom&quot;</span>, <span class="s">&quot;Madrid&quot;</span>},
-                <span class="s">&quot;Madrid&quot;</span>, <span class="s">&quot;Geographie&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+                <span class="s">"Was ist die Hauptstadt von Spanien?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"Paris"</span>, <span class="s">"Bern"</span>, <span class="s">"Rom"</span>, <span class="s">"Madrid"</span>},
+                <span class="s">"Madrid"</span>, <span class="s">"Geographie"</span>, <span class="s">"leicht"</span>));
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;Welches ist das höchste Gebirge der Welt?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Rocky Mountains&quot;</span>, <span class="s">&quot;Himalaya&quot;</span>, <span class="s">&quot;Alpen&quot;</span>, <span class="s">&quot;Anden&quot;</span>},
-                <span class="s">&quot;Himalaya&quot;</span>, <span class="s">&quot;Geographie&quot;</span>, <span class="s">&quot;mittel&quot;</span>));
+                <span class="s">"Welches ist das höchste Gebirge der Welt?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"Rocky Mountains"</span>, <span class="s">"Himalaya"</span>, <span class="s">"Alpen"</span>, <span class="s">"Anden"</span>},
+                <span class="s">"Himalaya"</span>, <span class="s">"Geographie"</span>, <span class="s">"mittel"</span>));
 
-<span class="c">        // Geschichte</span>
+        <span class="l">// Geschichte</span>
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;In welchem Jahr fiel die Berliner Mauer?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;1990&quot;</span>, <span class="s">&quot;1991&quot;</span>, <span class="s">&quot;1989&quot;</span>, <span class="s">&quot;1987&quot;</span>},
-                <span class="s">&quot;1989&quot;</span>, <span class="s">&quot;Geschichte&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+                <span class="s">"In welchem Jahr fiel die Berliner Mauer?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"1990"</span>, <span class="s">"1991"</span>, <span class="s">"1989"</span>, <span class="s">"1987"</span>},
+                <span class="s">"1989"</span>, <span class="s">"Geschichte"</span>, <span class="s">"leicht"</span>));
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;In welchem Jahr wurde die Schweizerische Eidgenossenschaft gegründet?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;1291&quot;</span>, <span class="s">&quot;1351&quot;</span>, <span class="s">&quot;1499&quot;</span>, <span class="s">&quot;1315&quot;</span>},
-                <span class="s">&quot;1291&quot;</span>, <span class="s">&quot;Geschichte&quot;</span>, <span class="s">&quot;mittel&quot;</span>));
+                <span class="s">"In welchem Jahr wurde die Schweizerische Eidgenossenschaft gegründet?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"1291"</span>, <span class="s">"1351"</span>, <span class="s">"1499"</span>, <span class="s">"1315"</span>},
+                <span class="s">"1291"</span>, <span class="s">"Geschichte"</span>, <span class="s">"mittel"</span>));
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;Wer war der erste Bundeskanzler der Bundesrepublik Deutschland?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Kurt Georg Kiesinger&quot;</span>, <span class="s">&quot;Ludwig Erhard&quot;</span>,
-                        <span class="s">&quot;Willy Brandt&quot;</span>, <span class="s">&quot;Konrad Adenauer&quot;</span>},
-                <span class="s">&quot;Konrad Adenauer&quot;</span>, <span class="s">&quot;Geschichte&quot;</span>, <span class="s">&quot;mittel&quot;</span>));
+                <span class="s">"Wer war der erste Bundeskanzler der Bundesrepublik Deutschland?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"Kurt Georg Kiesinger"</span>, <span class="s">"Ludwig Erhard"</span>,
+                        <span class="s">"Willy Brandt"</span>, <span class="s">"Konrad Adenauer"</span>},
+                <span class="s">"Konrad Adenauer"</span>, <span class="s">"Geschichte"</span>, <span class="s">"mittel"</span>));
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;Welches Reich endete 1453 mit der Eroberung Konstantinopels?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Heiliges Römisches Reich&quot;</span>, <span class="s">&quot;Mongolisches Reich&quot;</span>,
-                        <span class="s">&quot;Byzantinisches Reich&quot;</span>, <span class="s">&quot;Persisches Reich&quot;</span>},
-                <span class="s">&quot;Byzantinisches Reich&quot;</span>, <span class="s">&quot;Geschichte&quot;</span>, <span class="s">&quot;schwer&quot;</span>));
+                <span class="s">"Welches Reich endete 1453 mit der Eroberung Konstantinopels?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"Heiliges Römisches Reich"</span>, <span class="s">"Mongolisches Reich"</span>,
+                        <span class="s">"Byzantinisches Reich"</span>, <span class="s">"Persisches Reich"</span>},
+                <span class="s">"Byzantinisches Reich"</span>, <span class="s">"Geschichte"</span>, <span class="s">"schwer"</span>));
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;In welchem Jahr begann der Dreissigjährige Krieg?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;1648&quot;</span>, <span class="s">&quot;1608&quot;</span>, <span class="s">&quot;1618&quot;</span>, <span class="s">&quot;1625&quot;</span>},
-                <span class="s">&quot;1618&quot;</span>, <span class="s">&quot;Geschichte&quot;</span>, <span class="s">&quot;mittel&quot;</span>));
+                <span class="s">"In welchem Jahr begann der Dreissigjährige Krieg?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"1648"</span>, <span class="s">"1608"</span>, <span class="s">"1618"</span>, <span class="s">"1625"</span>},
+                <span class="s">"1618"</span>, <span class="s">"Geschichte"</span>, <span class="s">"mittel"</span>));
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;Wer verfasste das politische Werk &#x27;Der Fürst&#x27; (Il Principe)?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;Dante Alighieri&quot;</span>, <span class="s">&quot;Niccolo Machiavelli&quot;</span>,
-                        <span class="s">&quot;Thomas Hobbes&quot;</span>, <span class="s">&quot;Erasmus von Rotterdam&quot;</span>},
-                <span class="s">&quot;Niccolo Machiavelli&quot;</span>, <span class="s">&quot;Geschichte&quot;</span>, <span class="s">&quot;schwer&quot;</span>));
+                <span class="s">"Wer verfasste das politische Werk &amp;#x27;Der Fürst&amp;#x27; (Il Principe)?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"Dante Alighieri"</span>, <span class="s">"Niccolo Machiavelli"</span>,
+                        <span class="s">"Thomas Hobbes"</span>, <span class="s">"Erasmus von Rotterdam"</span>},
+                <span class="s">"Niccolo Machiavelli"</span>, <span class="s">"Geschichte"</span>, <span class="s">"schwer"</span>));
         questions.add(<span class="k">new</span> <span class="t">Question</span>(
-                <span class="s">&quot;In welchem Jahr endete der Zweite Weltkrieg in Europa?&quot;</span>,
-                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">&quot;1945&quot;</span>, <span class="s">&quot;1944&quot;</span>, <span class="s">&quot;1943&quot;</span>, <span class="s">&quot;1946&quot;</span>},
-                <span class="s">&quot;1945&quot;</span>, <span class="s">&quot;Geschichte&quot;</span>, <span class="s">&quot;leicht&quot;</span>));
+                <span class="s">"In welchem Jahr endete der Zweite Weltkrieg in Europa?"</span>,
+                <span class="k">new</span> <span class="t">String</span>[]{<span class="s">"1945"</span>, <span class="s">"1944"</span>, <span class="s">"1943"</span>, <span class="s">"1946"</span>},
+                <span class="s">"1945"</span>, <span class="s">"Geschichte"</span>, <span class="s">"leicht"</span>));
 
         <span class="k">return</span> questions;
     }
-}
-</pre>
+}</pre>
 
 <div class="note">
 <p><b>Wenn du dreissig Mal <code>questions.add(new Question(...))</code> untereinander siehst, ist das der Punkt.</b> Es ist stur, es ist lang, und es funktioniert. Merk dir das Gefühl. Am Tag 4 wirst du es wiedererkennen, wenn dieselben Daten aus einer Datenbank kommen.</p>
 </div>
 
+<!--M335:WEITER-->
+<nav class="weiter"><a class="zurueck" href="lesen.html"><span>Zurück</span>Sensoren und Veröffentlichen</a><a class="vor" href="emulator.html"><span>Weiter</span>Emulator streikt</a></nav>
+<!--/M335:WEITER-->
 <p class="foot">Modul 335 Mobile Applikationen &middot; Material Der Fragenbestand &middot; Version 1 vom 16.08.2026 &middot; Die Fragen stammen aus dem WISS-Quiz, Bezeichner im Code englisch</p>
 
 </div>
@@ -288,6 +293,52 @@
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
 <script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
 /* ------------------------------------------------------------------
    M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
 
@@ -398,7 +449,15 @@
     heads.forEach(function (h) {
       eintraege.push({
         el: h,
-        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
         stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
       });
     });

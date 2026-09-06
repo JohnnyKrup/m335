@@ -4,17 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>03A Lösung, Das Projektgerüst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
 <!--M335:STIL-->
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/stil/rahmen.css">
-<link rel="stylesheet" href="/stil/dokument.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
 <!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
 <header class="site-header"><div class="in">
-<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
-<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
 <button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
@@ -90,7 +93,7 @@
 <p class="t">C1 gegen C2, die App stürzt nach dem Umbenennen ab</p>
 <p><b>Was du siehst:</b> Die App startet gar nicht sichtbar. Der Emulator zeigt kurz nichts oder eine Meldung <code>WissQuiz keeps stopping</code>.</p>
 <p><b>Was im Logcat steht:</b></p>
-<pre><span class="c">Caused by: java.lang.NullPointerException: Attempt to invoke virtual method
+<pre><span class="d">Caused by: java.lang.NullPointerException: Attempt to invoke virtual method
   'void android.view.View.setPadding(int, int, int, int)' on a null object reference
     at ch.wiss.m335.quiz.MainActivity.lambda$onCreate$0(MainActivity.java:38)</span></pre>
 <p><b>Die Ursache:</b> <code>findViewById(R.id.main)</code> findet nichts mehr und gibt <code>null</code> zurück. Der Listener bekommt <code>null</code> und ruft darauf <code>setPadding</code> auf.</p>
@@ -150,14 +153,14 @@
 
 <pre><span class="k">package</span> ch.wiss.m335.quiz;
 
-<span class="k">import</span> android.os.Bundle;
-<span class="k">import</span> android.util.Log;
+<span class="k">import</span> android.os.<span class="t">Bundle</span>;
+<span class="k">import</span> android.util.<span class="t">Log</span>;
 
-<span class="k">import</span> androidx.activity.EdgeToEdge;
-<span class="k">import</span> androidx.appcompat.app.AppCompatActivity;
-<span class="k">import</span> androidx.core.graphics.Insets;
-<span class="k">import</span> androidx.core.view.ViewCompat;
-<span class="k">import</span> androidx.core.view.WindowInsetsCompat;
+<span class="k">import</span> androidx.activity.<span class="t">EdgeToEdge</span>;
+<span class="k">import</span> androidx.appcompat.app.<span class="t">AppCompatActivity</span>;
+<span class="k">import</span> androidx.core.graphics.<span class="t">Insets</span>;
+<span class="k">import</span> androidx.core.view.<span class="t">ViewCompat</span>;
+<span class="k">import</span> androidx.core.view.<span class="t">WindowInsetsCompat</span>;
 
 <span class="c">/**
  * Startbildschirm der Quiz-App.
@@ -170,7 +173,7 @@
  * System bis unter Statusleiste und Navigationsleiste. Ohne diesen Block
  * liegt der Titel unter der Uhr.
  */</span>
-<span class="k">public class</span> <span class="t">MainActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span> {
+<span class="k">public</span> <span class="k">class</span> <span class="t">MainActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span> {
 
     <span class="c">/**
      * Log-Tag für das ganze Modul 335.
@@ -180,41 +183,41 @@
      * Freitext über alle Spalten, und damit träfe "M335" jede Zeile
      * unserer App statt nur die selbst geschriebenen.
      */</span>
-    <span class="k">private static final</span> <span class="t">String</span> TAG = <span class="s">"Modul335"</span>;
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="v">TAG</span> = <span class="s">"Modul335"</span>;
 
-    <span class="k">@Override</span>
-    <span class="k">protected void</span> onCreate(<span class="t">Bundle</span> savedInstanceState) {
+    <span class="a">@Override</span>
+    <span class="k">protected</span> <span class="k">void</span> <span class="m">onCreate</span>(<span class="t">Bundle</span> savedInstanceState) {
         <span class="k">super</span>.onCreate(savedInstanceState);
-        EdgeToEdge.enable(<span class="k">this</span>);
-        setContentView(R.layout.activity_main);
+        <span class="t">EdgeToEdge</span>.enable(<span class="k">this</span>);
+        setContentView(<span class="t">R</span>.layout.activity_main);
 
-        <span class="c">// 16dp eigener Rand, in Pixel umgerechnet über die Dichte des Geräts.</span>
-        <span class="k">final int</span> extraPadding = <span class="t">Math</span>.round(<span class="k">16</span> * getResources().getDisplayMetrics().density);
+        <span class="l">// 16dp eigener Rand, in Pixel umgerechnet über die Dichte des Geräts.</span>
+        <span class="k">final</span> <span class="k">int</span> <span class="v">extraPadding</span> = <span class="t">Math</span>.round(16 * getResources().getDisplayMetrics().density);
 
-        <span class="c">// Wichtig: der eigene Rand wird zu den System-Insets dazugerechnet.
-        // Wer hier nur setPadding(extraPadding, ...) schreibt, verliert den
-        // Abstand zur Statusleiste wieder.</span>
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.clMain), (v, insets) -&gt; {
-            <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.Type.systemBars());
+        <span class="l">// Wichtig: der eigene Rand wird zu den System-Insets dazugerechnet.</span>
+        <span class="l">// Wer hier nur setPadding(extraPadding, ...) schreibt, verliert den</span>
+        <span class="l">// Abstand zur Statusleiste wieder.</span>
+        <span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(<span class="t">R</span>.id.clMain), (v, insets) -&gt; {
+            <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.<span class="t">Type</span>.systemBars());
             v.setPadding(
-                    systemBars.left + extraPadding,
-                    systemBars.top + extraPadding,
-                    systemBars.right + extraPadding,
-                    systemBars.bottom + extraPadding);
+                    systemBars.left + <span class="v">extraPadding</span>,
+                    systemBars.top + <span class="v">extraPadding</span>,
+                    systemBars.right + <span class="v">extraPadding</span>,
+                    systemBars.bottom + <span class="v">extraPadding</span>);
             <span class="k">return</span> insets;
         });
 
-        Log.d(TAG, <span class="s">"MainActivity onCreate, das Projekt steht"</span>);
+        <span class="t">Log</span>.d(<span class="v">TAG</span>, <span class="s">"MainActivity onCreate, das Projekt steht"</span>);
     }
 }</pre>
 
 
 <h2>Die zwei Ressourcendateien</h2>
 <p>Datei <code>app/src/main/res/values/strings.xml</code>.</p>
-<pre>&lt;<span class="t">resources</span>&gt;
-    &lt;<span class="t">string</span> name=<span class="s">"app_name"</span>&gt;WissQuiz&lt;/<span class="t">string</span>&gt;
-    &lt;<span class="t">string</span> name=<span class="s">"stage_hint"</span>&gt;Das Projekt steht.&lt;/<span class="t">string</span>&gt;
-&lt;/<span class="t">resources</span>&gt;</pre>
+<pre>&lt;<span class="g">resources</span>&gt;
+    &lt;<span class="g">string</span> name=<span class="s">"app_name"</span>&gt;WissQuiz&lt;/<span class="g">string</span>&gt;
+    &lt;<span class="g">string</span> name=<span class="s">"stage_hint"</span>&gt;Das Projekt steht.&lt;/<span class="g">string</span>&gt;
+&lt;/<span class="g">resources</span>&gt;</pre>
 
 <p><b>Am Manifest hast du nichts geändert.</b> Das Template liefert es fertig, samt <code>intent-filter</code> und der Zeile <code>android:windowSoftInputMode="adjustResize"</code> am <code>&lt;activity&gt;</code>-Element. Angeschaut hast du es trotzdem, weil dort ab dem Auftrag mit der zweiten Activity jedes Mal etwas dazukommt.</p>
 
@@ -235,10 +238,10 @@
 
 <div class="ue">
 <p class="t">Übung 1, eine zweite Log-Zeile</p>
-<pre><span class="k">@Override</span>
-<span class="k">protected void</span> onPause() {
+<pre><span class="a">@Override</span>
+<span class="k">protected</span> <span class="k">void</span> <span class="m">onPause</span>() {
     <span class="k">super</span>.onPause();
-    Log.d(TAG, <span class="s">"MainActivity onPause, die App geht in den Hintergrund"</span>);
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"MainActivity onPause, die App geht in den Hintergrund"</span>);
 }</pre>
 <p>Die Methode gehört in dieselbe Klasse, ausserhalb von <code>onCreate</code>. Der Aufruf <code>super.onPause()</code> ist Pflicht. Ohne ihn wirft Android beim Verlassen eine Ausnahme, weil die Basisklasse ihre eigene Arbeit nicht machen konnte.</p>
 <p><b>Was du dabei nebenbei siehst:</b> Eine Activity hat einen Lebenszyklus. <code>onCreate</code> läuft einmal beim Erzeugen, <code>onPause</code> jedes Mal beim Verlassen. Am Tag 3 nutzt du das aus, wenn der beste Wert nach der Rückkehr aktuell sein muss.</p>
@@ -246,7 +249,7 @@
 
 <div class="ue">
 <p class="t">Übung 2, der Rand wird grösser</p>
-<pre><span class="k">final int</span> extraPadding = <span class="t">Math</span>.round(<span class="k">40</span> * getResources().getDisplayMetrics().density);</pre>
+<pre><span class="k">final</span> <span class="k">int</span> extraPadding = <span class="t">Math</span>.round(40 * getResources().getDisplayMetrics().density);</pre>
 <p>Genau eine Zahl. Die <code>16</code> wird zur <code>40</code>.</p>
 <p><b>Warum das die richtige Stelle ist:</b> Der Wert steht an einem Ort und wird an vier Stellen benutzt. Wer stattdessen die vier Werte im <code>setPadding</code> einzeln anpasst, hat dieselbe Zahl viermal im Code und vergisst beim nächsten Mal eine davon.</p>
 </div>
@@ -292,6 +295,9 @@
 <p><b>Punkt 5 ist der wichtigste.</b> Wenn der Filter <code>tag:Modul335</code> etwas zeigt, sind Paketname, Log-Tag und Emulator-Verbindung alle drei in Ordnung. Ab hier ist jeder Fehler ein eigener.</p>
 </div>
 
+<!--M335:WEITER-->
+<nav class="weiter"><div class="reihe"><span>Zu 03A</span><a href="03a.html">Auftrag</a></div><a class="vor" href="03b.html"><span>Weiter</span>03B Der Spielbildschirm</a></nav>
+<!--/M335:WEITER-->
 <p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 03A Das Projektgerüst &middot; Version 3 vom 14.08.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
 
 </div>
@@ -300,6 +306,52 @@
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
 <script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
 /* ------------------------------------------------------------------
    M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
 
@@ -410,7 +462,15 @@
     heads.forEach(function (h) {
       eintraege.push({
         el: h,
-        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
         stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
       });
     });

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>08B Einführung: Neue Frage anlegen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
+<!--M335:STIL-->
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
+<button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>08B Einführung: Neue Frage anlegen</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 4 Nachmittag. Einführung, etwa 10 Minuten. Version 4 vom 05.09.2026.</p>
+
+<p>In 08B baust du den ersten Bildschirm, mit dem jemand deiner App etwas hinzufügen kann. Bis jetzt hat sie Daten nur gelesen.</p>
+
+<h2>Wo du stehst</h2>
+
+<p>Deine Fragenliste läuft seit 08A. Sie zeigt dreissig Fragen, und alle dreissig kommen aus derselben Datei. Sie sind beim ersten Start einmalig in die Datenbank gewandert.</p>
+
+<p>Was fehlt, ist eine einunddreissigste. Willst du eine Frage dazu, musst du die Datei ändern, die App neu bauen und die Datenbank leeren. Genau dieser Umstand war in 07C der Grund für die Datenbank. Eingelöst wird er in 08B.</p>
+
+<table>
+<tr><th>Was</th><th>08A, dein Stand</th><th>08B, nachher</th></tr>
+<tr><td>Bildschirme</td><td>vier</td><td><b>fünf</b></td></tr>
+<tr><td>Die Fragenliste</td><td>zeigt dreissig Fragen</td><td>zeigt so viele, wie in der Tabelle stehen</td></tr>
+<tr><td>Unten rechts in der Liste</td><td>nichts</td><td>ein runder Knopf, er öffnet das Formular</td></tr>
+<tr><td>Deine Datenbank</td><td>wird gelesen, mit <code>getAll</code> und <code>count</code></td><td>wird auch <b>geschrieben</b>, mit <code>insert</code></td></tr>
+<tr><td>Eingaben prüfen</td><td><b>ein</b> Feld, das Namensfeld aus 06B</td><td><b>fünf</b> Felder in einer Methode</td></tr>
+<tr><td><code>onResume</code> in der AdminActivity</td><td>vorsichtshalber da</td><td><b>nötig</b>, und in B2 siehst du warum</td></tr>
+</table>
+
+<p>Der Bildschirm, den du baust, heisst <code>QuestionEditActivity</code>. Nicht <code>QuestionNewActivity</code>, und das mit Absicht. In 08B legt er nur an. In 08C bekommt derselbe Bildschirm eine <code>id</code> mit und ändert damit eine bestehende Frage.</p>
+
+<h2>Alles prüfen, dann berichten</h2>
+
+<p>Deine <code>isNameValid</code> aus 06B steigt beim ersten Fehler mit <code>return false</code> aus. Bei einem einzigen Feld ist das genau richtig. Ein Feld kann nur einen Fehler auf einmal haben.</p>
+
+<p>Dein Formular hat fünf Felder. Steigt die Prüfung beim ersten Fehler aus, sieht der Benutzer eine Meldung, füllt das Feld, tippt auf Speichern und sieht die nächste. Bei fünf leeren Feldern sind das fünf Runden.</p>
+
+<p>Die andere Bauart merkt sich in einer Variablen, dass etwas nicht stimmt, und prüft weiter. Ausgestiegen wird erst am Schluss. Ein Compiler macht es genauso, sonst müsstest du dein Programm für jeden Fehler einzeln neu bauen.</p>
+
+<p>Dazu gehört eine zweite Änderung. Solange die Methode beim ersten Fehler aussteigt, kommt sie nach dem <code>return</code> nicht mehr an ihrer Aufräumzeile vorbei. Läuft sie immer durch, würde die nächste Regel die Meldung der vorherigen sofort wieder löschen. Jede Regel braucht darum ihr eigenes <code>else</code> mit <code>setError(null)</code>. Die zwei Änderungen gehören zusammen, eine allein ergibt eine Prüfung, die gar nichts mehr anzeigt.</p>
+
+<p>So hängen die Methoden von Teil B zusammen:</p>
+
+<pre>Jemand tippt auf Frage speichern
+onSaveClicked()
+   isFormValid()            --&gt; prüft die Eingaben
+      textOf(feld)          --&gt; liest ein Feld aus
+   stimmt etwas nicht: hier ist Schluss, die Meldungen stehen
+
+   alles in Ordnung:
+   new QuestionEntity()     --&gt; ein leeres Objekt
+      textOf(feld)          --&gt; für jedes der fünf Felder
+      selectedAnswerIndex() --&gt; welcher Knopf ist gewählt
+   questionDao().insert()   --&gt; die neue Zeile in der Tabelle
+   finish()                 --&gt; zurück zur Liste
+
+Und in der Liste, ganz von selbst
+AdminActivity.onResume()
+   questionDao().getAll()   --&gt; lädt neu, deine Frage ist dabei</pre>
+
+<p>Die letzte Zeile ist die, die überrascht. Niemand ruft <code>onResume</code> auf. Es passiert von selbst, sobald der Bildschirm wieder erscheint. <code>finish()</code> baut die Liste nicht neu auf, es deckt sie nur wieder auf.</p>
+
+<h2>Ein Wort, zwei Bedeutungen</h2>
+
+<p>In der Kategorieauswahl deines Formulars gibt es <b>kein</b> <code>Alle</code>. Die Auswahl hat vier Einträge und nicht fünf.</p>
+
+<table>
+<tr><th>Wo</th><th>Einträge</th><th>Warum</th></tr>
+<tr><td>Kategoriewahl beim <b>Spielen</b></td><td>fünf, mit <code>Alle</code> zuoberst</td><td><code>Alle</code> ist eine Angabe für eine <b>Runde</b>: misch mir Fragen aus allen Kategorien</td></tr>
+<tr><td>Kategoriewahl im <b>Formular</b></td><td><b>vier</b>, ohne <code>Alle</code></td><td>Hier beschreibst du <b>eine einzelne Frage</b>. Sie gehört zu genau einer Kategorie</td></tr>
+</table>
+
+<div class="warn">Wer <code>Alle</code> im Formular trotzdem anbietet, produziert Fragen mit der Kategorie <code>Alle</code>. Die tauchen danach in keiner echten Kategorie mehr auf. Kein Compiler meldet das, und in der Liste sieht die Frage völlig normal aus.</div>
+
+<h2>Das brauchst du vorher</h2>
+
+<ul>
+<li>Dein Projekt <b>WissQuiz</b> nach 08A. Der Knopf <b>Fragen verwalten</b> öffnet die Liste, und der Titel oben zeigt <code>Fragen (30)</code>.</li>
+<li>Deine Methode <code>isNameValid</code> in der <code>GameActivity</code> aus 06B. Du brauchst sie als <b>Vorlage</b>, nicht zum Ändern.</li>
+<li>Deine Methode <code>insert</code> im <code>QuestionDao</code> aus 07C. In 08B ruft sie zum ersten Mal jemand auf.</li>
+</ul>
+
+<p>Die Vorbereitung dauert eine Minute. Starte deine App und öffne <b>Fragen verwalten</b>. Oben muss <code>Fragen (30)</code> stehen, darunter dreissig Zeilen. Steht dort <code>Fragen (0)</code> und der leere Zustand, ist dein Startbestand nicht geladen. Der Grund steht im Logcat unter <code>tag:Modul335</code>.</p>
+
+<h2>Der Plan für die 45 Minuten</h2>
+
+<table>
+<tr><th>Schritt</th><th>Was du machst</th><th class="num">Min</th></tr>
+<tr><td class="pre">A1</td><td>Die Texte und das Layout des Formulars</td><td class="num">10</td></tr>
+<tr><td class="pre">A2</td><td>Die Klasse dazu und der Eintrag im Manifest</td><td class="num">4</td></tr>
+<tr><td class="pre">A3</td><td>Der runde Knopf, der das Formular öffnet</td><td class="num">4</td></tr>
+<tr><td class="pre">B1</td><td>Die Felder einsammeln, die zwei Auswahlen füllen</td><td class="num">7</td></tr>
+<tr><td class="pre">B2</td><td>Speichern und zurück</td><td class="num">6</td></tr>
+<tr><td class="pre">B3</td><td>Die Prüfung. Das schreibst du selbst</td><td class="num">10</td></tr>
+</table>
+
+<p>Vier Bausteine sind wirklich neu, und drei davon sind je eine Zeile. Alles andere ist Zusammensetzen.</p>
+
+<h2>Lernziele</h2>
+
+<table>
+<tr><th class="num">HANOK</th><th>Ziel</th></tr>
+<tr><td class="num">1.1</td><td>Ergonomische Standards und Prinzipien der Interaktion kennen und anwenden</td></tr>
+<tr><td class="num">1.3</td><td>Geräteeigenschaften und Eingabeoptionen kennen und einsetzen</td></tr>
+<tr><td class="num">2.4</td><td>Persistenzlösungen auf mobilen Devices kennen und situationsgerecht einsetzen</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>ein Formular aus mehreren Eingabefeldern bauen und vollständig auslesen,</li>
+<li>begründen, wie eine Prüfung mit mehreren Regeln aufgebaut sein muss,</li>
+<li>mit <code>insert</code> eine neue Zeile in deine Datenbank schreiben,</li>
+<li>erklären, warum die frisch angelegte Frage sofort in der Liste steht,</li>
+<li>den Unterschied zwischen <code>onCreate</code> und <code>onResume</code> an einem Fall benennen, in dem er wirklich zählt.</li>
+</ul>
+
+<!--M335:WEITER-->
+<nav class="weiter"><div class="reihe"><span>Zu 08B</span><a href="08b.html">Auftrag</a><a href="08b-loesung.html">Lösung</a></div><a class="vor" href="08c-einfuehrung.html"><span>Weiter</span>08C, Einführung</a></nav>
+<!--/M335:WEITER-->
+<p class="foot">Modul 335 | Tag 4 Nachmittag | Einführung 08B | Version 4 | 05.09.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
+/* ------------------------------------------------------------------
+   M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
+
+   Warum hier und nicht als eigene Datei: dieser Baustein geht ueber
+   web-bau/rahmen/fuss.html in jede Seite. Inline heisst, dass bauen.js
+   nichts Zusaetzliches kopieren muss.
+
+   Zwei Faelle:
+     Startseite   nimmt die sechs Links aus .schnellnav und baut daraus
+                  dasselbe schwebende Verzeichnis. Keine Auftragskarte.
+     Auftragsseite markiert Teil A bis C, vergibt jeder Ueberschrift eine
+                  id, baut oben die Auftragskarte und daneben das Verzeichnis.
+
+   Das Aussehen steht in web-bau/stil/rahmen.css unter m335-nav.
+   ------------------------------------------------------------------ */
+(function () {
+  var wrap = document.querySelector('.wrap');
+  if (!wrap) return;
+
+  var text = function (el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); };
+  var esc  = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+
+  // Die Startseite ist daran zu erkennen, dass ihr der Rueckweg im Kopf fehlt.
+  var istStart = !document.querySelector('.site-header .back');
+  var eintraege = [];
+
+  if (istStart) {
+    // ------------------------------------------------------------ Startseite
+    var schnell = wrap.querySelector('.schnellnav');
+    if (!schnell) return;
+    [].slice.call(schnell.querySelectorAll('a')).forEach(function (a) {
+      var ziel = document.getElementById(a.getAttribute('href').slice(1));
+      if (ziel) eintraege.push({ el: ziel, text: text(a), stufe: 'n2' });
+    });
+    if (eintraege.length < 2) return;
+
+  } else {
+    // --------------------------------------------------------- Auftragsseite
+    var heads = [].slice.call(wrap.querySelectorAll('h2, h3'));
+
+    // 1 und 2: Teil A bis C markieren, jeder Ueberschrift eine id geben.
+    // Die Quellen haben keine.
+    var vergeben = {};
+    heads.forEach(function (h, i) {
+      if (h.tagName === 'H3' && /^Teil [A-Z]\b/.test(text(h))) h.classList.add('teil');
+      if (h.id) { vergeben[h.id] = true; return; }
+      var roh = text(h).toLowerCase()
+        .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+        .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+      var id = roh || ('abschnitt-' + i);
+      if (vergeben[id]) id = id + '-' + i;
+      vergeben[id] = true;
+      h.id = id;
+    });
+
+    // 3: Die Auftragskarte. Sie sagt in einem Bildschirm, wie lange der
+    // Auftrag dauert und aus welchen Teilen er besteht. Alles daran steht
+    // schon auf der Seite, die Karte stellt es nur neu zusammen.
+    var subs = [].slice.call(wrap.querySelectorAll('.sub'));
+    var bloecke = heads.filter(function (h) { return h.querySelector('.time'); });
+    var budget = '', zusatz = '';
+
+    subs.forEach(function (p) {
+      if (budget) return;
+      var m = p.innerHTML.match(/Zeitbudget\s+([^.<]+)\./);
+      if (!m) return;
+      var stuecke = m[1].split(/,\s*dazu\s*/);
+      budget = stuecke[0].trim();
+      if (stuecke[1]) zusatz = 'dazu ' + stuecke[1].trim();
+      p.innerHTML = p.innerHTML.replace(m[0], '').replace(/\s{2,}/g, ' ').trim();
+    });
+
+    if (budget || bloecke.length) {
+      var karte = document.createElement('div');
+      karte.className = 'karte';
+      var inhalt = '';
+      if (budget) {
+        inhalt += '<p class="zeit"><span class="pill">' + esc(budget) + '</span>';
+        if (zusatz) inhalt += '<span class="pill neben">' + esc(zusatz) + '</span>';
+        inhalt += '</p>';
+      }
+      if (bloecke.length) {
+        inhalt += '<p class="t">DAS MACHST DU</p><ol>';
+        bloecke.forEach(function (b) {
+          var uhr = b.querySelector('.time');
+          var min = uhr ? text(uhr) : '';
+          var t = text(b).replace(min, '').replace(/\s+/g, ' ').replace(/\s+,/g, ',').trim();
+          t = t.replace(/[,;]\s*$/, '');
+          var teil = t.match(/^([^,]+),\s*(.*)$/);
+          var wo = teil ? teil[1] : t;
+          var rest = teil ? teil[2] : '';
+          inhalt += '<li><a href="#' + b.id + '"><span class="wo">' + esc(wo) + '</span>'
+                  + (rest ? ' ' + esc(rest) : '') + '</a>'
+                  + '<span class="min">' + esc(min) + '</span></li>';
+        });
+        inhalt += '</ol>';
+      }
+      karte.innerHTML = inhalt;
+      // Steht oben ein Zielbild, gehoert die Karte darunter. Erst sehen, was
+      // entsteht, dann lesen, wie lange es dauert.
+      var anker = wrap.querySelector('figure.zielbild')
+                || (subs.length ? subs[subs.length - 1] : wrap.firstElementChild);
+      anker.parentNode.insertBefore(karte, anker.nextSibling);
+    }
+
+    // Unter vier Ueberschriften lohnt sich kein Verzeichnis.
+    if (heads.length < 4) return;
+    heads.forEach(function (h) {
+      eintraege.push({
+        el: h,
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
+        stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
+      });
+    });
+  }
+
+  // ---------------------------------------------------------------- 4
+  var nav = document.createElement('nav');
+  nav.className = 'm335-nav';
+  nav.setAttribute('aria-label', 'Inhalt dieser Seite');
+
+  var html = '<p class="kopfzeile">AUF DIESER SEITE</p>'
+           + '<button type="button" class="schliessen" aria-label="Verzeichnis schliessen">Schliessen</button><ol>';
+  eintraege.forEach(function (e) {
+    html += '<li class="' + e.stufe + '"><a href="#' + e.el.id + '">' + esc(e.text) + '</a></li>';
+  });
+  nav.innerHTML = html + '</ol>';
+
+  var knopf = document.createElement('button');
+  knopf.type = 'button';
+  knopf.className = 'm335-nav-knopf';
+  knopf.textContent = 'Inhalt';
+
+  document.body.appendChild(nav);
+  document.body.appendChild(knopf);
+
+  var links = [].slice.call(nav.querySelectorAll('a'));
+
+  // Breit: die Leiste steht fest am Rand. Schmal: sie liegt hinter dem Knopf.
+  var breit = window.matchMedia('(min-width: 1380px)');
+  function umschalten() {
+    if (breit.matches) {
+      nav.className = 'm335-nav seitlich';
+      nav.hidden = false;
+      knopf.style.display = 'none';
+    } else {
+      nav.className = 'm335-nav klappe';
+      nav.hidden = true;
+      knopf.style.display = '';
+    }
+  }
+  umschalten();
+  if (breit.addEventListener) breit.addEventListener('change', umschalten);
+  else if (breit.addListener) breit.addListener(umschalten);
+
+  knopf.addEventListener('click', function () { nav.hidden = !nav.hidden; });
+  nav.querySelector('.schliessen').addEventListener('click', function () { nav.hidden = true; });
+  nav.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && !breit.matches) nav.hidden = true;
+  });
+
+  // Welcher Abschnitt ist gerade dran. Gesucht ist der letzte Eintrag, der
+  // oberhalb der Lesekante liegt. Die Kante liegt knapp unter dem klebenden
+  // Kopfbereich.
+  var laeuft = false;
+  function markieren() {
+    laeuft = false;
+    var kante = 96, treffer = 0;
+    for (var i = 0; i < eintraege.length; i++) {
+      if (eintraege[i].el.getBoundingClientRect().top <= kante) treffer = i;
+      else break;
+    }
+    for (var j = 0; j < links.length; j++) links[j].classList.toggle('hier', j === treffer);
+    var a = links[treffer];
+    if (a && breit.matches) {
+      var r = a.getBoundingClientRect(), n = nav.getBoundingClientRect();
+      if (r.top < n.top + 8 || r.bottom > n.bottom - 8) a.scrollIntoView({ block: 'nearest' });
+    }
+  }
+  function anstossen() {
+    if (laeuft) return;
+    laeuft = true;
+    window.requestAnimationFrame(markieren);
+  }
+  window.addEventListener('scroll', anstossen, { passive: true });
+  window.addEventListener('resize', anstossen);
+  markieren();
+})();
+</script>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>

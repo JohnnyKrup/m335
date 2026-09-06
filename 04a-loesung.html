@@ -4,24 +4,27 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>04A Lösung, Die Fragenliste und die Runde</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
 <!--M335:STIL-->
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/stil/rahmen.css">
-<link rel="stylesheet" href="/stil/dokument.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
 <!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
 <header class="site-header"><div class="in">
-<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
-<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
 <button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
 <div class="wrap">
 
 <h1>04A Lösung, Die Fragenliste und die Runde</h1>
-<p class="sub">Lösungsmaterial zum Auftrag 04A. Modul 335, Tag 2 Nachmittag. Version 4 vom 04.09.2026.</p>
+<p class="sub">Lösungsmaterial zum Auftrag 04A. Modul 335, Tag 2 Nachmittag. Version 4 vom 05.09.2026.</p>
 <p class="sub"><b>Zum Durchlesen brauchst du etwa 15 Minuten.</b> Das ist ein Richtwert. Such dir die Stelle, die du brauchst.</p>
 
 <div class="info">
@@ -142,30 +145,30 @@
 <p>Der Überblick aus dem Auftrag, hier nochmals als Ganzes. Wenn deine App etwas doppelt macht oder eine Zeile wirkungslos scheint, such die Stelle hier.</p>
 
 <pre>onCreate()
-└─ startRound()                     <span class="c">// die einzige Zeile, die etwas startet</span>
-     ├─ Runde ausschneiden, currentIndex und score auf 0
-     ├─ llResult auf GONE, svQuestion auf VISIBLE
-     └─ showQuestion()
-          ├─ Frage aus der Runde holen
-          ├─ Fortschritt, Kategorie und Fragetext setzen
-          ├─ <span class="s">showScore()</span>
-          ├─ die vier Buttons füllen und zurücksetzen
-          └─ btnNext auf GONE
++- startRound()                     <span class="d">// die einzige Zeile, die etwas startet</span>
+     +- Runde ausschneiden, currentIndex und score auf 0
+     +- llResult auf GONE, svQuestion auf VISIBLE
+     +- showQuestion()
+          +- Frage aus der Runde holen
+          +- Fortschritt, Kategorie und Fragetext setzen
+          +- <span class="s">showScore()</span>
+          +- die vier Buttons füllen und zurücksetzen
+          +- btnNext auf GONE
 
 Klick auf eine Antwort
-└─ onAnswerClicked()
-     ├─ bei richtig: score++ und <span class="s">showScore()</span>
-     ├─ markAnswers()  ──►  markButton()
-     ├─ lockAnswers()
-     └─ btnNext auf VISIBLE
++- onAnswerClicked()
+     +- bei richtig: score++ und <span class="s">showScore()</span>
+     +- markAnswers()  -->  markButton()
+     +- lockAnswers()
+     +- btnNext auf VISIBLE
 
 Klick auf Weiter
-└─ onNextClicked()
-     ├─ noch Fragen übrig  →  showQuestion()
-     └─ Runde zu Ende      →  showResult()
++- onNextClicked()
+     +- noch Fragen übrig  >  showQuestion()
+     +- Runde zu Ende      >  showResult()
 
 Klick auf Nochmals spielen
-└─ startRound()                     <span class="c">// dieselbe Methode wie beim Start</span></pre>
++- startRound()                     <span class="d">// dieselbe Methode wie beim Start</span></pre>
 
 <div class="tip">
 <p><b>Die Kette beantwortet die häufigste Frage dieses Auftrags:</b> was darf in <code>onCreate</code> stehen bleiben? Antwort: alles, was <b>einrichtet</b>. Views holen, Farben sichern, Klicks verdrahten, Fragen laden. Und dann eine einzige Zeile, die alles in Gang setzt.</p>
@@ -192,7 +195,7 @@ Klick auf Nochmals spielen
 
 <h3>Die neuen Felder</h3>
 <pre><span class="c">/** So viele Fragen hat eine Runde. */</span>
-<span class="k">private static final int</span> QUESTIONS_PER_ROUND = <span class="k">5</span>;
+<span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="k">int</span> <span class="t">QUESTIONS_PER_ROUND</span> = 5;
 
 <span class="c">/** Der Fragebereich. Wird als Ganzes ein- und ausgeblendet. */</span>
 <span class="k">private</span> <span class="t">ScrollView</span> svQuestion;
@@ -230,29 +233,29 @@ Klick auf Nochmals spielen
 <span class="k">private</span> <span class="t">List</span>&lt;<span class="t">Question</span>&gt; roundQuestions;
 
 <span class="c">/** Welche Frage der Runde gerade dran ist, beginnend bei 0. */</span>
-<span class="k">private int</span> currentIndex;</pre>
+<span class="k">private</span> <span class="k">int</span> currentIndex;</pre>
 
 <h3>Das Ende von onCreate</h3>
-<pre>svQuestion = findViewById(R.id.svQuestion);
-llResult = findViewById(R.id.llResult);
-tvCategory = findViewById(R.id.tvCategory);
-tvScore = findViewById(R.id.tvScore);
-tvProgress = findViewById(R.id.tvProgress);
-tvQuestion = findViewById(R.id.tvQuestion);
-tvResult = findViewById(R.id.tvResult);
-btnNext = findViewById(R.id.btnNext);
-btnRestart = findViewById(R.id.btnRestart);
+<pre>svQuestion = findViewById(<span class="t">R</span>.id.svQuestion);
+llResult = findViewById(<span class="t">R</span>.id.llResult);
+tvCategory = findViewById(<span class="t">R</span>.id.tvCategory);
+tvScore = findViewById(<span class="t">R</span>.id.tvScore);
+tvProgress = findViewById(<span class="t">R</span>.id.tvProgress);
+tvQuestion = findViewById(<span class="t">R</span>.id.tvQuestion);
+tvResult = findViewById(<span class="t">R</span>.id.tvResult);
+btnNext = findViewById(<span class="t">R</span>.id.btnNext);
+btnRestart = findViewById(<span class="t">R</span>.id.btnRestart);
 
 answerButtons = <span class="k">new</span> <span class="t">Button</span>[]{
-        findViewById(R.id.btnAnswer1),
-        findViewById(R.id.btnAnswer2),
-        findViewById(R.id.btnAnswer3),
-        findViewById(R.id.btnAnswer4)
+        findViewById(<span class="t">R</span>.id.btnAnswer1),
+        findViewById(<span class="t">R</span>.id.btnAnswer2),
+        findViewById(<span class="t">R</span>.id.btnAnswer3),
+        findViewById(<span class="t">R</span>.id.btnAnswer4)
 };
 
-<span class="c">// Den Auslieferungszustand sichern, bevor irgendetwas eingefärbt wird.</span>
-defaultButtonTint = answerButtons[<span class="k">0</span>].getBackgroundTintList();
-defaultButtonTextColors = answerButtons[<span class="k">0</span>].getTextColors();
+<span class="l">// Den Auslieferungszustand sichern, bevor irgendetwas eingefärbt wird.</span>
+defaultButtonTint = answerButtons[0].getBackgroundTintList();
+defaultButtonTextColors = answerButtons[0].getTextColors();
 
 <span class="k">for</span> (<span class="t">Button</span> button : answerButtons) {
     button.setOnClickListener(v -&gt; onAnswerClicked(v));
@@ -261,7 +264,7 @@ btnNext.setOnClickListener(v -&gt; onNextClicked());
 btnRestart.setOnClickListener(v -&gt; startRound());
 
 allQuestions = createQuestions();
-Log.d(TAG, <span class="s">"question bank loaded, size="</span> + allQuestions.size());
+<span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"question bank loaded, size="</span> + allQuestions.size());
 
 startRound();</pre>
 
@@ -277,16 +280,16 @@ startRound();</pre>
  * Punktestand und Zähler gehen auf null zurück. Danach ist wieder der
  * Fragebereich sichtbar und der Ergebnisbereich verschwunden.
  */</span>
-<span class="k">private void</span> startRound() {
-    roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;(allQuestions.subList(<span class="k">0</span>, QUESTIONS_PER_ROUND));
-    currentIndex = <span class="k">0</span>;
-    score = <span class="k">0</span>;
+<span class="k">private</span> <span class="k">void</span> <span class="m">startRound</span>() {
+    roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;(allQuestions.subList(0, <span class="t">QUESTIONS_PER_ROUND</span>));
+    currentIndex = 0;
+    score = 0;
 
-    llResult.setVisibility(<span class="t">View</span>.GONE);
-    svQuestion.setVisibility(<span class="t">View</span>.VISIBLE);
+    llResult.setVisibility(<span class="t">View</span>.<span class="t">GONE</span>);
+    svQuestion.setVisibility(<span class="t">View</span>.<span class="t">VISIBLE</span>);
 
     showQuestion();
-    Log.d(TAG, <span class="s">"round started"</span>);
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"round started"</span>);
 }
 
 <span class="c">/**
@@ -295,7 +298,7 @@ startRound();</pre>
  * Erst hochzählen, dann prüfen, dann entscheiden. Eine Liste mit
  * fünf Einträgen hat die Plätze 0 bis 4.
  */</span>
-<span class="k">private void</span> onNextClicked() {
+<span class="k">private</span> <span class="k">void</span> <span class="m">onNextClicked</span>() {
     currentIndex++;
     <span class="k">if</span> (currentIndex &lt; roundQuestions.size()) {
         showQuestion();
@@ -305,13 +308,13 @@ startRound();</pre>
 }
 
 <span class="c">/** Blendet den Fragebereich aus und den Ergebnisbereich ein. */</span>
-<span class="k">private void</span> showResult() {
-    tvResult.setText(getString(R.string.result_format, score, roundQuestions.size()));
+<span class="k">private</span> <span class="k">void</span> <span class="m">showResult</span>() {
+    tvResult.setText(getString(<span class="t">R</span>.string.result_format, score, roundQuestions.size()));
 
-    svQuestion.setVisibility(<span class="t">View</span>.GONE);
-    llResult.setVisibility(<span class="t">View</span>.VISIBLE);
+    svQuestion.setVisibility(<span class="t">View</span>.<span class="t">GONE</span>);
+    llResult.setVisibility(<span class="t">View</span>.<span class="t">VISIBLE</span>);
 
-    Log.d(TAG, <span class="s">"round finished, score="</span> + score);
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"round finished, score="</span> + score);
 }</pre>
 <p><code>createQuestions</code> steht vollständig im Auftrag, Schritt A3.</p>
 
@@ -323,17 +326,17 @@ startRound();</pre>
  * vier Buttons gehört dazu, denn Markierung und Sperre der Vorfrage
  * kleben sonst am Button.
  */</span>
-<span class="k">private void</span> showQuestion() {
+<span class="k">private</span> <span class="k">void</span> <span class="m">showQuestion</span>() {
     currentQuestion = roundQuestions.get(currentIndex);
 
-    tvProgress.setText(getString(R.string.progress_format,
-            currentIndex + <span class="k">1</span>, roundQuestions.size()));
+    tvProgress.setText(getString(<span class="t">R</span>.string.progress_format,
+            currentIndex + 1, roundQuestions.size()));
     tvCategory.setText(currentQuestion.getCategory());
     tvQuestion.setText(currentQuestion.getText());
     showScore();
 
     <span class="t">String</span>[] answers = currentQuestion.getAnswers();
-    <span class="k">for</span> (<span class="k">int</span> i = <span class="k">0</span>; i &lt; answerButtons.length; i++) {
+    <span class="k">for</span> (<span class="k">int</span> i = 0; i &lt; answerButtons.length; i++) {
         <span class="t">Button</span> button = answerButtons[i];
         button.setText(answers[i]);
         button.setEnabled(<span class="k">true</span>);
@@ -341,7 +344,7 @@ startRound();</pre>
         button.setTextColor(defaultButtonTextColors);
     }
 
-    btnNext.setVisibility(<span class="t">View</span>.GONE);
+    btnNext.setVisibility(<span class="t">View</span>.<span class="t">GONE</span>);
 }</pre>
 
 <div class="tip">
@@ -353,21 +356,21 @@ startRound();</pre>
 <h2>Das fertige Layout</h2>
 <p>Der Aufbau als Baum, so wie ihn der Component Tree zeigt.</p>
 <pre><span class="t">ConstraintLayout</span> clMain
-│
-├─ <span class="t">ScrollView</span> svQuestion              <span class="c">// 0dp x 0dp, vier Anker am Parent</span>
-│    └─ <span class="t">LinearLayout</span> llQuestion       <span class="c">// vertical, match_parent x wrap_content</span>
-│         ├─ <span class="t">LinearLayout</span> llHeader     <span class="c">// horizontal</span>
-│         │    ├─ <span class="t">TextView</span> tvCategory   <span class="c">// 0dp, weight 1</span>
-│         │    └─ <span class="t">TextView</span> tvScore      <span class="c">// wrap_content, rechts</span>
-│         ├─ <span class="t">TextView</span> tvProgress
-│         ├─ <span class="t">TextView</span> tvQuestion
-│         ├─ <span class="t">LinearLayout</span> llAnswers
-│         │    └─ btnAnswer1 bis btnAnswer4
-│         └─ <span class="t">Button</span> btnNext            <span class="c">// visibility="gone" im XML</span>
-│
-└─ <span class="t">LinearLayout</span> llResult             <span class="c">// 0dp x 0dp, vier Anker, visibility="gone"</span>
-     ├─ <span class="t">TextView</span> tvResult
-     └─ <span class="t">Button</span> btnRestart</pre>
+|
++- <span class="t">ScrollView</span> svQuestion              <span class="d">// 0dp x 0dp, vier Anker am Parent</span>
+|    +- <span class="t">LinearLayout</span> llQuestion       <span class="d">// vertical, match_parent x wrap_content</span>
+|         +- <span class="t">LinearLayout</span> llHeader     <span class="d">// horizontal</span>
+|         |    +- <span class="t">TextView</span> tvCategory   <span class="d">// 0dp, weight 1</span>
+|         |    +- <span class="t">TextView</span> tvScore      <span class="d">// wrap_content, rechts</span>
+|         +- <span class="t">TextView</span> tvProgress
+|         +- <span class="t">TextView</span> tvQuestion
+|         +- <span class="t">LinearLayout</span> llAnswers
+|         |    +- btnAnswer1 bis btnAnswer4
+|         +- <span class="t">Button</span> btnNext            <span class="d">// visibility="gone" im XML</span>
+|
++- <span class="t">LinearLayout</span> llResult             <span class="d">// 0dp x 0dp, vier Anker, visibility="gone"</span>
+     +- <span class="t">TextView</span> tvResult
+     +- <span class="t">Button</span> btnRestart</pre>
 
 <div class="info">
 <p><b>Warum <code>llResult</code> auch <code>0dp</code> in der Höhe hat und oben <b>und</b> unten verankert ist.</b> Jetzt brauchst du das noch nicht zwingend, in 04B schon. In 04B kommt eine ScrollView hinein, und eine ScrollView in einem Parent mit <code>wrap_content</code> wächst mit ihrem Inhalt und scrollt nie.</p>
@@ -413,26 +416,26 @@ startRound();</pre>
 
 <div class="ue">
 <p class="t">Übung 1, die Runde verlängern</p>
-<pre><span class="k">private static final int</span> QUESTIONS_PER_ROUND = <span class="k">7</span>;</pre>
+<pre><span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="k">int</span> <span class="t">QUESTIONS_PER_ROUND</span> = 7;</pre>
 <p>Eine Zeile. Die Anzeige "Frage 1 von 7" stimmt automatisch mit, denn sie liest <code>roundQuestions.size()</code> und nicht die Konstante.</p>
 <p><b>Was bei 8 passiert:</b> Die App stürzt beim Start ab.</p>
 <pre>IndexOutOfBoundsException: toIndex = 8</pre>
 <p><code>subList(0, 8)</code> auf einer Liste mit sieben Einträgen gibt es nicht. Der Bestand ist die Grenze.</p>
 <p><b>Der Punkt der Übung:</b> Du siehst zwei Dinge auf einmal. Erstens, wie viel eine Konstante wert ist, denn die Fünf stand nur an einer Stelle. Zweitens, dass eine Konstante keine Prüfung ersetzt. Sauber wäre:</p>
-<pre><span class="k">int</span> count = <span class="t">Math</span>.min(QUESTIONS_PER_ROUND, allQuestions.size());
-roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;(allQuestions.subList(<span class="k">0</span>, count));</pre>
+<pre><span class="k">int</span> count = <span class="t">Math</span>.min(<span class="t">QUESTIONS_PER_ROUND</span>, allQuestions.size());
+roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;(allQuestions.subList(0, count));</pre>
 <p>Genau diese Zeile brauchst du am Tag 4 wirklich, wenn der Benutzer selbst Fragen anlegt und löscht.</p>
 </div>
 
 <div class="ue">
 <p class="t">Übung 2, der letzte Knopf heisst anders</p>
 <p>Neu in <code>strings.xml</code>:</p>
-<pre>&lt;<span class="t">string</span> name=<span class="s">"btn_result"</span>&gt;Ergebnis&lt;/<span class="t">string</span>&gt;</pre>
+<pre>&lt;<span class="g">string</span> name=<span class="s">"btn_result"</span>&gt;Ergebnis&lt;/<span class="g">string</span>&gt;</pre>
 <p>Und in <code>showQuestion</code>, zusammen mit dem Rest der Aufräumarbeit:</p>
-<pre><span class="k">if</span> (currentIndex == roundQuestions.size() - <span class="k">1</span>) {
-    btnNext.setText(R.string.btn_result);
+<pre><span class="k">if</span> (currentIndex == roundQuestions.size() - 1) {
+    btnNext.setText(<span class="t">R</span>.string.btn_result);
 } <span class="k">else</span> {
-    btnNext.setText(R.string.btn_next);
+    btnNext.setText(<span class="t">R</span>.string.btn_next);
 }</pre>
 <div class="note">
 <p><b>Der <code>else</code>-Zweig ist der eigentliche Inhalt dieser Übung.</b> Wer ihn weglässt, hat nach der ersten Runde für immer "Ergebnis" auf dem Knopf stehen. Es ist derselbe Fehler wie der grüne Rest aus C2, nur an einer anderen Stelle.</p>
@@ -440,8 +443,8 @@ roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;
 </div>
 <div class="note">
 <p><b>Die Variante, die fast alle zuerst bauen.</b> Man setzt den Text nicht in <code>showQuestion</code>, sondern in <code>onAnswerClicked</code>, weil der Knopf ja erst dort erscheint:</p>
-<pre><span class="k">if</span> (currentIndex + <span class="k">1</span> == roundQuestions.size()) {
-    btnNext.setText(R.string.btn_result);
+<pre><span class="k">if</span> (currentIndex + 1 == roundQuestions.size()) {
+    btnNext.setText(<span class="t">R</span>.string.btn_result);
 }</pre>
 <p>Das läuft, und zwar genau eine Runde lang. Danach steht für immer <b>Ergebnis</b> auf dem Knopf, denn es gibt keine Stelle mehr, die ihn zurücksetzt. In <code>showQuestion</code> mit <code>else</code> hast du beide Fälle an einem Ort, und der Ort ist derselbe, an dem du auch die Buttons zurücksetzt.</p>
 </div>
@@ -499,7 +502,10 @@ roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;
 <p>Gebaut wird sie zu Fuss: eine Schleife erzeugt pro Frage eine TextView und hängt sie mit <code>addView</code> an. Bei sieben Zeilen läuft das gut. Denk schon mal darüber nach, was bei fünfhundert Zeilen passiert.</p>
 <p>Danach kommt der <b>04AB Wissenscheck</b> über beide Aufträge.</p>
 
-<p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 04A Die Fragenliste und die Runde &middot; Version 4 vom 04.09.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
+<!--M335:WEITER-->
+<nav class="weiter"><div class="reihe"><span>Zu 04A</span><a href="04a.html">Auftrag</a></div><a class="vor" href="04b.html"><span>Weiter</span>04B Alle Fragen als Liste</a></nav>
+<!--/M335:WEITER-->
+<p class="foot">Modul 335 Mobile Applikationen &middot; Lösungsmaterial zum Auftrag 04A Die Fragenliste und die Runde &middot; Version 4 vom 05.09.2026 &middot; Bezeichner im Code englisch, sichtbare Texte deutsch</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->
@@ -507,6 +513,52 @@ roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
 <script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
 /* ------------------------------------------------------------------
    M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
 
@@ -617,7 +669,15 @@ roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;
     heads.forEach(function (h) {
       eintraege.push({
         el: h,
-        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
         stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
       });
     });

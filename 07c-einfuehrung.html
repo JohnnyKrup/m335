@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>07C Einführung: Room, Entity und Dao</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
+<!--M335:STIL-->
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
+<button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>07C Einführung: Room, Entity und Dao</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 4 Vormittag. Einführung, etwa 10 Minuten. Version 6 vom 06.09.2026.</p>
+
+<p>In 07C bekommt deine App eine Datenbank. Auf dem Bildschirm wirst du davon nichts sehen, und trotzdem ist es der Block, an dem in der Leistungsbeurteilung am meisten hängt.</p>
+
+<h2>Wo du stehst</h2>
+
+<p>Deine App hat dreissig Fragen, und sie stehen alle fest im Code. In <code>QuestionBank.createAll()</code> steht dreissig Mal <code>questions.add(new Question(...))</code>. Das war bis 07B in Ordnung, denn es war der einfachste Weg.</p>
+
+<p>Jetzt ist es der Weg, der nicht mehr weitergeht. Wer eine Frage ändern will, muss den Code ändern und die App neu bauen. Wer eine Frage dazulegen will, ebenso. Und der Benutzer der App kann gar nichts.</p>
+
+<p>In 06A hast du das schon einmal aufgeschrieben. Du hast auf Papier ein Datenmodell für die Fragen gezeichnet, mit Feldern, Typen und einem Schlüssel. In 07C wird genau daraus eine Tabelle, und du wirst sehen, wie wenig dazwischen liegt.</p>
+
+<table>
+<tr><th>Was</th><th>07B, dein Stand</th><th>07C, nachher</th></tr>
+<tr><td>Wo die Fragen liegen</td><td>fest im Code, in <code>QuestionBank</code></td><td><b>noch immer dort.</b> Der Umzug beginnt in 08A</td></tr>
+<tr><td>Eine Datenbank</td><td>gibt es nicht</td><td>gibt es, und sie ist leer</td></tr>
+<tr><td>Eine Frage ist</td><td>ein Java-Objekt</td><td>zusätzlich eine <b>Zeile in einer Tabelle</b></td></tr>
+<tr><td>Die vier Antworten</td><td>ein <code>String[]</code></td><td>in der Tabelle <b>vier einzelne Spalten</b></td></tr>
+<tr><td>Eine Frage hat eine Nummer</td><td>nein</td><td>ja, eine <code>id</code>, und die vergibt die Datenbank</td></tr>
+<tr><td>Fremde Bibliotheken</td><td>alle kamen mit dem Template</td><td><b>eine trägst du selbst ein</b></td></tr>
+<tr><td>Auf dem Bildschirm</td><td></td><td><b>gar nichts Neues</b></td></tr>
+</table>
+
+<h2>Zwei Klassen für dieselbe Frage</h2>
+
+<p>Am Ende von 07C liegen in deinem Projekt zwei Klassen, die beide eine Frage beschreiben. Das sieht nach doppelt aus, ist aber nur der Zwischenstand. Gelöscht wird erst, wenn die Datenbank die Fragen wirklich liefert.</p>
+
+<table>
+<tr><th>Datei</th><th>Was sie ist</th><th>Wie lange es sie gibt</th></tr>
+<tr><td class="pfad">model/Question</td><td>Die Frage im laufenden Spiel</td><td>Bis 08C. Dann holt das Spiel seine Fragen aus der Datenbank, und die Klasse fällt weg</td></tr>
+<tr><td class="pfad">data/QuestionEntity</td><td>Die Frage als Zeile in der Tabelle</td><td>Ab heute, und sie bleibt</td></tr>
+<tr><td class="pfad">model/QuestionBank</td><td>Die dreissig Fragen, fest im Code</td><td>Ab 08A nur noch der Startbestand. Ab 08C bleibt davon nur die Liste der Kategorien</td></tr>
+</table>
+
+<p>In 07C wird also nichts ersetzt und nichts weggeräumt. Die Tabelle ist leer, und dein Spiel läuft weiter wie bisher.</p>
+
+<h2>Du beschreibst, Room baut</h2>
+
+<p>Room ist eine Bibliothek für eine lokale Datenbank auf dem Gerät. Sie braucht drei Klassen, und jede beantwortet genau eine Frage.</p>
+
+<pre>QuestionEntity   Was steht in einer Zeile?          Teil A
+QuestionDao      Was kann ich mit den Zeilen tun?   Teil B
+QuizDatabase     Wo liegen die Tabellen?            Teil C</pre>
+
+<table>
+<tr><th>Klasse</th><th>Ist bei dir ein</th><th>Room macht daraus</th></tr>
+<tr><td><code>QuestionEntity</code></td><td>Klasse mit Feldern</td><td>eine Tabelle mit Spalten</td></tr>
+<tr><td><code>QuestionDao</code></td><td>Interface</td><td>eine Klasse mit fertigen Abfragen</td></tr>
+<tr><td><code>QuizDatabase</code></td><td>abstrakte Klasse</td><td><code>QuizDatabase_Impl</code>, das Objekt, das du wirklich benutzt</td></tr>
+</table>
+
+<p>Dreimal dasselbe Muster. Du beschreibst, was gelten soll, und ein Programm schreibt den Code dazu. Dieses Programm heisst <code>room-compiler</code>, es läuft beim Bauen und nicht in der fertigen App. Genau darum trägst du in A1 zwei Zeilen ein und nicht eine.</p>
+
+<p>Du schreibst in diesem Block also viel und rufst fast nichts auf. Von sechs Zugriffen im Dao läuft am Ende genau einer. Das ist Absicht, und die Begründung steht im Auftrag bei B2.</p>
+
+<h2>Das kennst du schon, und zwar aus Modul 294</h2>
+
+<p>In Modul 294 hast du mit <code>json-server</code> gearbeitet. Dort lag eine Datei <code>db.json</code>, und du hast über HTTP darauf zugegriffen.</p>
+
+<table>
+<tr><th>Modul 294, <code>json-server</code></th><th>Modul 335, Room</th><th>Was gleich bleibt</th></tr>
+<tr><td>eine Datei auf einem Server</td><td>eine Datei auf dem Gerät</td><td>die Daten überleben den Neustart</td></tr>
+<tr><td><code>GET /questions</code></td><td><code>SELECT * FROM questions</code></td><td>du sagst was du willst, nicht wie</td></tr>
+<tr><td><code>POST /questions</code></td><td><code>@Insert</code></td><td>der Server vergibt die id, hier die Datenbank</td></tr>
+<tr><td><code>PUT</code> und <code>DELETE</code></td><td><code>@Update</code> und <code>@Delete</code></td><td>dieselben vier Grundoperationen</td></tr>
+</table>
+
+<p>Diese vier heissen zusammen CRUD, also Create, Read, Update und Delete. In 294 sind sie dir als HTTP-Methoden begegnet, hier begegnen sie dir als Annotationen. Der Unterschied, auf den es ankommt: in 294 lief der Server auf einem anderen Rechner, und du musstest damit rechnen, dass er antwortet oder eben nicht. Room läuft auf demselben Gerät wie deine App. Es gibt keine Verbindung, die abreissen kann.</p>
+
+<p>Das SQL kennst du aus dem SQL-Modul und auch aus Modul 295. Neu ist nur der Ort, an dem es steht.</p>
+
+<h2>Das brauchst du vorher</h2>
+
+<ul>
+<li>Dein Projekt <b>WissQuiz</b> nach 07B. Die Rangliste läuft, sie hat einen Filter, die Punktzahl steht rechts.</li>
+<li>Deine Klasse <code class="pfad">model/Question.java</code> aus 03D. Du brauchst sie als <b>Vorlage</b>, nicht zum Ändern.</li>
+<li>Dein <b>Datenmodell aus 06A</b>, auf Papier. Die Felder, die du dort hergeleitet hast, sind die Spalten deiner Tabelle.</li>
+<li>Internet für den ersten Sync. Room wird dabei heruntergeladen, und das dauert einmalig ein paar Minuten.</li>
+</ul>
+
+<h2>Der Plan für die 90 Minuten</h2>
+
+<table>
+<tr><th>Schritt</th><th>Was du machst</th><th class="num">Min</th></tr>
+<tr><td class="pre">A1</td><td>Die Abhängigkeit eintragen, im Katalog und in der Bestellung</td><td class="num">10</td></tr>
+<tr><td class="pre">A2</td><td>Aus <code>Question</code> wird <code>QuestionEntity</code>, die Tabelle als Klasse</td><td class="num">16</td></tr>
+<tr><td class="pre">B1</td><td>Das Dao anlegen. Anlegen, lesen, zählen</td><td class="num">15</td></tr>
+<tr><td class="pre">B2</td><td>Ändern, löschen, einzeln holen</td><td class="num">11</td></tr>
+<tr><td class="pre">C1</td><td>Die Klasse <code>QuizDatabase</code>, die es genau einmal gibt</td><td class="num">16</td></tr>
+<tr><td class="pre">C2</td><td>Öffnen, zählen, in die Tabelle hineinschauen</td><td class="num">11</td></tr>
+<tr><td class="pre">C3</td><td>Javadoc und veraltete Kommentare nachziehen</td><td class="num">5</td></tr>
+</table>
+
+<p>Zwölf von dreizehn Bausteinen sind neu. Dafür baust du keinen einzigen Bildschirm und hast die ganze Zeit für eine Sache.</p>
+
+<h2>Lernziele</h2>
+
+<table>
+<tr><th class="num">HANOK</th><th>Ziel</th></tr>
+<tr><td class="num">2.3</td><td>Gängige App-Architekturen kennen und einsetzen, hier die Trennung von Daten und Anzeige</td></tr>
+<tr><td class="num">2.4</td><td>Persistenzlösungen einsetzen, hier eine lokale Datenbank mit Room</td></tr>
+<tr><td class="num">3.2</td><td>Das Framework und seine APIs kennen und anwenden, hier Room und der Annotation Processor</td></tr>
+</table>
+
+<p>Nach diesem Auftrag kannst du:</p>
+<ul>
+<li>eine Abhängigkeit selbst eintragen und sagen, warum es dafür zwei Dateien braucht,</li>
+<li>aus einer gewöhnlichen Java-Klasse eine Tabelle machen,</li>
+<li>ein Dao mit allen vier Grundoperationen schreiben und erklären, wer den Code dahinter schreibt,</li>
+<li>eine Datenbank-Klasse bauen, die es genau einmal gibt,</li>
+<li>erklären, wann du eine Datenbank nimmst und wann <code>SharedPreferences</code> reicht.</li>
+</ul>
+
+<!--M335:WEITER-->
+<nav class="weiter"><div class="reihe"><span>Zu 07C</span><a href="07c.html">Auftrag</a><a href="07c-loesung.html">Lösung</a></div><a class="vor" href="wissenscheck-07abc.html"><span>Weiter</span>Wissenscheck 07ABC, Selbstkontrolle</a></nav>
+<!--/M335:WEITER-->
+<p class="foot">Modul 335 | Tag 4 Vormittag | Einführung 07C | Version 6 | 06.09.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
+/* ------------------------------------------------------------------
+   M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
+
+   Warum hier und nicht als eigene Datei: dieser Baustein geht ueber
+   web-bau/rahmen/fuss.html in jede Seite. Inline heisst, dass bauen.js
+   nichts Zusaetzliches kopieren muss.
+
+   Zwei Faelle:
+     Startseite   nimmt die sechs Links aus .schnellnav und baut daraus
+                  dasselbe schwebende Verzeichnis. Keine Auftragskarte.
+     Auftragsseite markiert Teil A bis C, vergibt jeder Ueberschrift eine
+                  id, baut oben die Auftragskarte und daneben das Verzeichnis.
+
+   Das Aussehen steht in web-bau/stil/rahmen.css unter m335-nav.
+   ------------------------------------------------------------------ */
+(function () {
+  var wrap = document.querySelector('.wrap');
+  if (!wrap) return;
+
+  var text = function (el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); };
+  var esc  = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+
+  // Die Startseite ist daran zu erkennen, dass ihr der Rueckweg im Kopf fehlt.
+  var istStart = !document.querySelector('.site-header .back');
+  var eintraege = [];
+
+  if (istStart) {
+    // ------------------------------------------------------------ Startseite
+    var schnell = wrap.querySelector('.schnellnav');
+    if (!schnell) return;
+    [].slice.call(schnell.querySelectorAll('a')).forEach(function (a) {
+      var ziel = document.getElementById(a.getAttribute('href').slice(1));
+      if (ziel) eintraege.push({ el: ziel, text: text(a), stufe: 'n2' });
+    });
+    if (eintraege.length < 2) return;
+
+  } else {
+    // --------------------------------------------------------- Auftragsseite
+    var heads = [].slice.call(wrap.querySelectorAll('h2, h3'));
+
+    // 1 und 2: Teil A bis C markieren, jeder Ueberschrift eine id geben.
+    // Die Quellen haben keine.
+    var vergeben = {};
+    heads.forEach(function (h, i) {
+      if (h.tagName === 'H3' && /^Teil [A-Z]\b/.test(text(h))) h.classList.add('teil');
+      if (h.id) { vergeben[h.id] = true; return; }
+      var roh = text(h).toLowerCase()
+        .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+        .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+      var id = roh || ('abschnitt-' + i);
+      if (vergeben[id]) id = id + '-' + i;
+      vergeben[id] = true;
+      h.id = id;
+    });
+
+    // 3: Die Auftragskarte. Sie sagt in einem Bildschirm, wie lange der
+    // Auftrag dauert und aus welchen Teilen er besteht. Alles daran steht
+    // schon auf der Seite, die Karte stellt es nur neu zusammen.
+    var subs = [].slice.call(wrap.querySelectorAll('.sub'));
+    var bloecke = heads.filter(function (h) { return h.querySelector('.time'); });
+    var budget = '', zusatz = '';
+
+    subs.forEach(function (p) {
+      if (budget) return;
+      var m = p.innerHTML.match(/Zeitbudget\s+([^.<]+)\./);
+      if (!m) return;
+      var stuecke = m[1].split(/,\s*dazu\s*/);
+      budget = stuecke[0].trim();
+      if (stuecke[1]) zusatz = 'dazu ' + stuecke[1].trim();
+      p.innerHTML = p.innerHTML.replace(m[0], '').replace(/\s{2,}/g, ' ').trim();
+    });
+
+    if (budget || bloecke.length) {
+      var karte = document.createElement('div');
+      karte.className = 'karte';
+      var inhalt = '';
+      if (budget) {
+        inhalt += '<p class="zeit"><span class="pill">' + esc(budget) + '</span>';
+        if (zusatz) inhalt += '<span class="pill neben">' + esc(zusatz) + '</span>';
+        inhalt += '</p>';
+      }
+      if (bloecke.length) {
+        inhalt += '<p class="t">DAS MACHST DU</p><ol>';
+        bloecke.forEach(function (b) {
+          var uhr = b.querySelector('.time');
+          var min = uhr ? text(uhr) : '';
+          var t = text(b).replace(min, '').replace(/\s+/g, ' ').replace(/\s+,/g, ',').trim();
+          t = t.replace(/[,;]\s*$/, '');
+          var teil = t.match(/^([^,]+),\s*(.*)$/);
+          var wo = teil ? teil[1] : t;
+          var rest = teil ? teil[2] : '';
+          inhalt += '<li><a href="#' + b.id + '"><span class="wo">' + esc(wo) + '</span>'
+                  + (rest ? ' ' + esc(rest) : '') + '</a>'
+                  + '<span class="min">' + esc(min) + '</span></li>';
+        });
+        inhalt += '</ol>';
+      }
+      karte.innerHTML = inhalt;
+      // Steht oben ein Zielbild, gehoert die Karte darunter. Erst sehen, was
+      // entsteht, dann lesen, wie lange es dauert.
+      var anker = wrap.querySelector('figure.zielbild')
+                || (subs.length ? subs[subs.length - 1] : wrap.firstElementChild);
+      anker.parentNode.insertBefore(karte, anker.nextSibling);
+    }
+
+    // Unter vier Ueberschriften lohnt sich kein Verzeichnis.
+    if (heads.length < 4) return;
+    heads.forEach(function (h) {
+      eintraege.push({
+        el: h,
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
+        stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
+      });
+    });
+  }
+
+  // ---------------------------------------------------------------- 4
+  var nav = document.createElement('nav');
+  nav.className = 'm335-nav';
+  nav.setAttribute('aria-label', 'Inhalt dieser Seite');
+
+  var html = '<p class="kopfzeile">AUF DIESER SEITE</p>'
+           + '<button type="button" class="schliessen" aria-label="Verzeichnis schliessen">Schliessen</button><ol>';
+  eintraege.forEach(function (e) {
+    html += '<li class="' + e.stufe + '"><a href="#' + e.el.id + '">' + esc(e.text) + '</a></li>';
+  });
+  nav.innerHTML = html + '</ol>';
+
+  var knopf = document.createElement('button');
+  knopf.type = 'button';
+  knopf.className = 'm335-nav-knopf';
+  knopf.textContent = 'Inhalt';
+
+  document.body.appendChild(nav);
+  document.body.appendChild(knopf);
+
+  var links = [].slice.call(nav.querySelectorAll('a'));
+
+  // Breit: die Leiste steht fest am Rand. Schmal: sie liegt hinter dem Knopf.
+  var breit = window.matchMedia('(min-width: 1380px)');
+  function umschalten() {
+    if (breit.matches) {
+      nav.className = 'm335-nav seitlich';
+      nav.hidden = false;
+      knopf.style.display = 'none';
+    } else {
+      nav.className = 'm335-nav klappe';
+      nav.hidden = true;
+      knopf.style.display = '';
+    }
+  }
+  umschalten();
+  if (breit.addEventListener) breit.addEventListener('change', umschalten);
+  else if (breit.addListener) breit.addListener(umschalten);
+
+  knopf.addEventListener('click', function () { nav.hidden = !nav.hidden; });
+  nav.querySelector('.schliessen').addEventListener('click', function () { nav.hidden = true; });
+  nav.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && !breit.matches) nav.hidden = true;
+  });
+
+  // Welcher Abschnitt ist gerade dran. Gesucht ist der letzte Eintrag, der
+  // oberhalb der Lesekante liegt. Die Kante liegt knapp unter dem klebenden
+  // Kopfbereich.
+  var laeuft = false;
+  function markieren() {
+    laeuft = false;
+    var kante = 96, treffer = 0;
+    for (var i = 0; i < eintraege.length; i++) {
+      if (eintraege[i].el.getBoundingClientRect().top <= kante) treffer = i;
+      else break;
+    }
+    for (var j = 0; j < links.length; j++) links[j].classList.toggle('hier', j === treffer);
+    var a = links[treffer];
+    if (a && breit.matches) {
+      var r = a.getBoundingClientRect(), n = nav.getBoundingClientRect();
+      if (r.top < n.top + 8 || r.bottom > n.bottom - 8) a.scrollIntoView({ block: 'nearest' });
+    }
+  }
+  function anstossen() {
+    if (laeuft) return;
+    laeuft = true;
+    window.requestAnimationFrame(markieren);
+  }
+  window.addEventListener('scroll', anstossen, { passive: true });
+  window.addEventListener('resize', anstossen);
+  markieren();
+})();
+</script>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>

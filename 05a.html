@@ -4,17 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>05A Zweite Activity und Intent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
 <!--M335:STIL-->
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/stil/rahmen.css">
-<link rel="stylesheet" href="/stil/dokument.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
 <!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
 <header class="site-header"><div class="in">
-<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
-<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
 <button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
@@ -94,15 +97,15 @@
 <p><b>Die Bilanz:</b> von deiner heutigen MainActivity bleibt genau eines übrig, das Gerüst von <code>onCreate</code>. Alles andere zieht um. Darum kopierst du die Klasse, statt sie abzutippen.</p>
 
 <h4>Der Bauplan der Bildschirme</h4>
-<pre>MainActivity   <span class="c">// das Menü, der Start</span>
-   │
-   ├─ Spielen ──────────▶ <span class="t">GameActivity</span>    <span class="c">// Frage, Ergebnis, Liste</span>
-   │
-   ├─ Rangliste ────────▶ gesperrt, kommt später
-   │
-   ├─ Fragen verwalten ─▶ gesperrt, kommt später
-   │
-   └─ Über die App ─────▶ <span class="t">AboutActivity</span>   <span class="c">// nur Text</span></pre>
+<pre>MainActivity   <span class="d">// das Menü, der Start</span>
+   |
+   +- Spielen ----------> <span class="t">GameActivity</span>    <span class="d">// Frage, Ergebnis, Liste</span>
+   |
+   +- Rangliste --------> gesperrt, kommt später
+   |
+   +- Fragen verwalten -> gesperrt, kommt später
+   |
+   +- Über die App -----> <span class="t">AboutActivity</span>   <span class="d">// nur Text</span></pre>
 <p>Beachte, dass heute alle Pfeile nur in eine Richtung zeigen. Das Menü schickt los und erfährt nichts über den Ausgang. Das ist das Thema von 05B.</p>
 
 <h4>Welches <code>onCreate</code> läuft wann</h4>
@@ -210,13 +213,13 @@
 
 <div class="step">
 <p><span class="n">B1</span><b>Sechs neue Texte in <code>strings.xml</code>.</b></p>
-<pre>&lt;<span class="c">!-- Startbildschirm, das Menü. --</span>&gt;
-&lt;<span class="t">string</span> name=<span class="s">"menu_title"</span>&gt;WissQuiz&lt;/<span class="t">string</span>&gt;
-&lt;<span class="t">string</span> name=<span class="s">"btn_play"</span>&gt;Spielen&lt;/<span class="t">string</span>&gt;
-&lt;<span class="t">string</span> name=<span class="s">"btn_ranking"</span>&gt;Rangliste&lt;/<span class="t">string</span>&gt;
-&lt;<span class="t">string</span> name=<span class="s">"btn_questions"</span>&gt;Fragen verwalten&lt;/<span class="t">string</span>&gt;
-&lt;<span class="t">string</span> name=<span class="s">"btn_about"</span>&gt;Über die App&lt;/<span class="t">string</span>&gt;
-&lt;<span class="t">string</span> name=<span class="s">"menu_hint"</span>&gt;Rangliste und Fragen verwalten kommen später.&lt;/<span class="t">string</span>&gt;</pre>
+<pre><span class="c">&lt;!-- Startbildschirm, das Menü. --&gt;</span>
+&lt;<span class="g">string</span> name=<span class="s">"menu_title"</span>&gt;WissQuiz&lt;/<span class="g">string</span>&gt;
+&lt;<span class="g">string</span> name=<span class="s">"btn_play"</span>&gt;Spielen&lt;/<span class="g">string</span>&gt;
+&lt;<span class="g">string</span> name=<span class="s">"btn_ranking"</span>&gt;Rangliste&lt;/<span class="g">string</span>&gt;
+&lt;<span class="g">string</span> name=<span class="s">"btn_questions"</span>&gt;Fragen verwalten&lt;/<span class="g">string</span>&gt;
+&lt;<span class="g">string</span> name=<span class="s">"btn_about"</span>&gt;Über die App&lt;/<span class="g">string</span>&gt;
+&lt;<span class="g">string</span> name=<span class="s">"menu_hint"</span>&gt;Rangliste und Fragen verwalten kommen später.&lt;/<span class="g">string</span>&gt;</pre>
 <p>Die Faustregel aus 03D gilt weiter. Was der Benutzer liest, gehört nach <code>strings.xml</code>. Was der Code entscheidet, gehört in den Code.</p>
 </div>
 
@@ -323,16 +326,16 @@
 <p>Jetzt der grosse Schritt. <b>Ersetze den ganzen Inhalt von <code>MainActivity.java</code></b> durch das hier. Alles, was du löschst, steht seit A1 in <code>GameActivity.java</code>.</p>
 <pre><span class="k">package</span> ch.wiss.m335.quiz;
 
-<span class="k">import</span> android.content.Intent;
-<span class="k">import</span> android.os.Bundle;
-<span class="k">import</span> android.util.Log;
-<span class="k">import</span> android.widget.Button;
+<span class="k">import</span> android.content.<span class="t">Intent</span>;
+<span class="k">import</span> android.os.<span class="t">Bundle</span>;
+<span class="k">import</span> android.util.<span class="t">Log</span>;
+<span class="k">import</span> android.widget.<span class="t">Button</span>;
 
-<span class="k">import</span> androidx.activity.EdgeToEdge;
-<span class="k">import</span> androidx.appcompat.app.AppCompatActivity;
-<span class="k">import</span> androidx.core.graphics.Insets;
-<span class="k">import</span> androidx.core.view.ViewCompat;
-<span class="k">import</span> androidx.core.view.WindowInsetsCompat;
+<span class="k">import</span> androidx.activity.<span class="t">EdgeToEdge</span>;
+<span class="k">import</span> androidx.appcompat.app.<span class="t">AppCompatActivity</span>;
+<span class="k">import</span> androidx.core.graphics.<span class="t">Insets</span>;
+<span class="k">import</span> androidx.core.view.<span class="t">ViewCompat</span>;
+<span class="k">import</span> androidx.core.view.<span class="t">WindowInsetsCompat</span>;
 
 <span class="c">/**
  * Der Startbildschirm der Quiz-App.
@@ -340,7 +343,7 @@
  * (HIER: was aus diesem Bildschirm geworden ist, zwei bis drei Zeilen.
  *  Du füllst das in C5 aus.)
  */</span>
-<span class="k">public class</span> <span class="t">MainActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span> {
+<span class="k">public</span> <span class="k">class</span> <span class="t">MainActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span> {
 
     <span class="c">/**
      * Log-Tag für das ganze Modul 335.
@@ -350,35 +353,35 @@
      * Freitext über alle Spalten, und damit träfe "M335" jede Zeile
      * unserer App statt nur die selbst geschriebenen.
      */</span>
-    <span class="k">private static final</span> <span class="t">String</span> TAG = <span class="s">"Modul335"</span>;
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="v">TAG</span> = <span class="s">"Modul335"</span>;
 
-    <span class="k">@Override</span>
-    <span class="k">protected void</span> onCreate(<span class="t">Bundle</span> savedInstanceState) {
+    <span class="a">@Override</span>
+    <span class="k">protected</span> <span class="k">void</span> <span class="m">onCreate</span>(<span class="t">Bundle</span> savedInstanceState) {
         <span class="k">super</span>.onCreate(savedInstanceState);
         <span class="t">EdgeToEdge</span>.enable(<span class="k">this</span>);
-        setContentView(R.layout.activity_main);
+        setContentView(<span class="t">R</span>.layout.activity_main);
 
-        <span class="c">// 16dp eigener Rand, in Pixel umgerechnet über die Dichte des Geräts.</span>
-        <span class="k">final int</span> extraPadding = <span class="t">Math</span>.round(<span class="k">16</span> * getResources().getDisplayMetrics().density);
+        <span class="l">// 16dp eigener Rand, in Pixel umgerechnet über die Dichte des Geräts.</span>
+        <span class="k">final</span> <span class="k">int</span> <span class="v">extraPadding</span> = <span class="t">Math</span>.round(16 * getResources().getDisplayMetrics().density);
 
-        <span class="c">// Wichtig: der eigene Rand wird zu den System-Insets dazugerechnet.</span>
-        <span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(R.id.clMain), (v, insets) -&gt; {
+        <span class="l">// Wichtig: der eigene Rand wird zu den System-Insets dazugerechnet.</span>
+        <span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(<span class="t">R</span>.id.clMain), (v, insets) -&gt; {
             <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.<span class="t">Type</span>.systemBars());
             v.setPadding(
-                    systemBars.left + extraPadding,
-                    systemBars.top + extraPadding,
-                    systemBars.right + extraPadding,
-                    systemBars.bottom + extraPadding);
+                    systemBars.left + <span class="v">extraPadding</span>,
+                    systemBars.top + <span class="v">extraPadding</span>,
+                    systemBars.right + <span class="v">extraPadding</span>,
+                    systemBars.bottom + <span class="v">extraPadding</span>);
             <span class="k">return</span> insets;
         });
 
-        <span class="t">Button</span> btnPlay = findViewById(R.id.btnPlay);
+        <span class="t">Button</span> btnPlay = findViewById(<span class="t">R</span>.id.btnPlay);
 
-        <span class="c">// Ein Intent nennt zwei Dinge: von wo aus und wohin.
-        // Mehr braucht ein Start ohne Rückgabe nicht.</span>
+        <span class="l">// Ein Intent nennt zwei Dinge: von wo aus und wohin.</span>
+        <span class="l">// Mehr braucht ein Start ohne Rückgabe nicht.</span>
         btnPlay.setOnClickListener(v -&gt; startActivity(<span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">GameActivity</span>.<span class="k">class</span>)));
 
-        Log.d(TAG, <span class="s">"MainActivity onCreate"</span>);
+        <span class="t">Log</span>.d(<span class="v">TAG</span>, <span class="s">"MainActivity onCreate"</span>);
     }
 }</pre>
 <div class="note">
@@ -415,12 +418,12 @@
 <div class="step">
 <p><span class="n">B5</span><b>Der Eintrag im Manifest.</b></p>
 <p>In <code>AndroidManifest.xml</code>, im <code>&lt;application&gt;</code>-Block, <b>unter</b> dem bestehenden <code>&lt;/activity&gt;</code> der MainActivity:</p>
-<pre>&lt;<span class="c">!--
+<pre><span class="c">&lt;!--
   Jede weitere Activity braucht einen eigenen Eintrag. Ohne ihn
   gibt es beim Start eine ActivityNotFoundException. exported
   bleibt false, weil sie nur aus der eigenen App gestartet wird.
---</span>&gt;
-&lt;<span class="t">activity</span>
+--&gt;</span>
+&lt;<span class="g">activity</span>
     android:name=<span class="s">".GameActivity"</span>
     android:exported=<span class="s">"false"</span>
     android:windowSoftInputMode=<span class="s">"adjustResize"</span> /&gt;</pre>
@@ -464,12 +467,12 @@
 
 <div class="step">
 <p><span class="n">C1</span><b>Die Texte in <code>strings.xml</code>.</b></p>
-<pre>&lt;<span class="c">!-- Bildschirm Über die App. --</span>&gt;
-&lt;<span class="t">string</span> name=<span class="s">"about_title"</span>&gt;Über die App&lt;/<span class="t">string</span>&gt;
-&lt;<span class="t">string</span> name=<span class="s">"about_intro"</span>&gt;WissQuiz ist die Übungs-App aus dem Modul 335 Mobile Applikationen an der WISS.&lt;/<span class="t">string</span>&gt;
-&lt;<span class="t">string</span> name=<span class="s">"about_module"</span>&gt;Sie entsteht Schritt für Schritt im Unterricht. Jeder Auftrag baut ein Stück dazu.&lt;/<span class="t">string</span>&gt;
-&lt;<span class="t">string</span> name=<span class="s">"about_tech"</span>&gt;Gebaut mit Android Studio und Java. Die Fragen stehen zurzeit fest im Code.&lt;/<span class="t">string</span>&gt;
-&lt;<span class="t">string</span> name=<span class="s">"about_back"</span>&gt;Mit der Zurück-Taste kommst du ins Menü.&lt;/<span class="t">string</span>&gt;</pre>
+<pre><span class="c">&lt;!-- Bildschirm Über die App. --&gt;</span>
+&lt;<span class="g">string</span> name=<span class="s">"about_title"</span>&gt;Über die App&lt;/<span class="g">string</span>&gt;
+&lt;<span class="g">string</span> name=<span class="s">"about_intro"</span>&gt;WissQuiz ist die Übungs-App aus dem Modul 335 Mobile Applikationen an der WISS.&lt;/<span class="g">string</span>&gt;
+&lt;<span class="g">string</span> name=<span class="s">"about_module"</span>&gt;Sie entsteht Schritt für Schritt im Unterricht. Jeder Auftrag baut ein Stück dazu.&lt;/<span class="g">string</span>&gt;
+&lt;<span class="g">string</span> name=<span class="s">"about_tech"</span>&gt;Gebaut mit Android Studio und Java. Die Fragen stehen zurzeit fest im Code.&lt;/<span class="g">string</span>&gt;
+&lt;<span class="g">string</span> name=<span class="s">"about_back"</span>&gt;Mit der Zurück-Taste kommst du ins Menü.&lt;/<span class="g">string</span>&gt;</pre>
 </div>
 
 
@@ -561,14 +564,14 @@
 <p>Neue Java-Klasse im Paket <code>ch.wiss.m335.quiz</code>. Rechtsklick auf das Paket, dann <b>New</b>, dann <b>Java Class</b>.</p>
 <pre><span class="k">package</span> ch.wiss.m335.quiz;
 
-<span class="k">import</span> android.os.Bundle;
-<span class="k">import</span> android.util.Log;
+<span class="k">import</span> android.os.<span class="t">Bundle</span>;
+<span class="k">import</span> android.util.<span class="t">Log</span>;
 
-<span class="k">import</span> androidx.activity.EdgeToEdge;
-<span class="k">import</span> androidx.appcompat.app.AppCompatActivity;
-<span class="k">import</span> androidx.core.graphics.Insets;
-<span class="k">import</span> androidx.core.view.ViewCompat;
-<span class="k">import</span> androidx.core.view.WindowInsetsCompat;
+<span class="k">import</span> androidx.activity.<span class="t">EdgeToEdge</span>;
+<span class="k">import</span> androidx.appcompat.app.<span class="t">AppCompatActivity</span>;
+<span class="k">import</span> androidx.core.graphics.<span class="t">Insets</span>;
+<span class="k">import</span> androidx.core.view.<span class="t">ViewCompat</span>;
+<span class="k">import</span> androidx.core.view.<span class="t">WindowInsetsCompat</span>;
 
 <span class="c">/**
  * Der einfachste Bildschirm der App.
@@ -581,32 +584,32 @@
  * Zurück geht es mit der System-Zurück-Taste. Dafür braucht es keine
  * einzige Zeile Code.
  */</span>
-<span class="k">public class</span> <span class="t">AboutActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span> {
+<span class="k">public</span> <span class="k">class</span> <span class="t">AboutActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span> {
 
     <span class="c">/** Log-Tag für das ganze Modul 335. Derselbe wie in den anderen Activities. */</span>
-    <span class="k">private static final</span> <span class="t">String</span> TAG = <span class="s">"Modul335"</span>;
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="v">TAG</span> = <span class="s">"Modul335"</span>;
 
-    <span class="k">@Override</span>
-    <span class="k">protected void</span> onCreate(<span class="t">Bundle</span> savedInstanceState) {
+    <span class="a">@Override</span>
+    <span class="k">protected</span> <span class="k">void</span> <span class="m">onCreate</span>(<span class="t">Bundle</span> savedInstanceState) {
         <span class="k">super</span>.onCreate(savedInstanceState);
         <span class="t">EdgeToEdge</span>.enable(<span class="k">this</span>);
-        setContentView(R.layout.activity_about);
+        setContentView(<span class="t">R</span>.layout.activity_about);
 
-        <span class="c">// 16dp eigener Rand, in Pixel umgerechnet über die Dichte des Geräts.</span>
-        <span class="k">final int</span> extraPadding = <span class="t">Math</span>.round(<span class="k">16</span> * getResources().getDisplayMetrics().density);
+        <span class="l">// 16dp eigener Rand, in Pixel umgerechnet über die Dichte des Geräts.</span>
+        <span class="k">final</span> <span class="k">int</span> <span class="v">extraPadding</span> = <span class="t">Math</span>.round(16 * getResources().getDisplayMetrics().density);
 
-        <span class="c">// Wichtig: der eigene Rand wird zu den System-Insets dazugerechnet.</span>
-        <span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(R.id.clAbout), (v, insets) -&gt; {
+        <span class="l">// Wichtig: der eigene Rand wird zu den System-Insets dazugerechnet.</span>
+        <span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(<span class="t">R</span>.id.clAbout), (v, insets) -&gt; {
             <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.<span class="t">Type</span>.systemBars());
             v.setPadding(
-                    systemBars.left + extraPadding,
-                    systemBars.top + extraPadding,
-                    systemBars.right + extraPadding,
-                    systemBars.bottom + extraPadding);
+                    systemBars.left + <span class="v">extraPadding</span>,
+                    systemBars.top + <span class="v">extraPadding</span>,
+                    systemBars.right + <span class="v">extraPadding</span>,
+                    systemBars.bottom + <span class="v">extraPadding</span>);
             <span class="k">return</span> insets;
         });
 
-        Log.d(TAG, <span class="s">"AboutActivity onCreate"</span>);
+        <span class="t">Log</span>.d(<span class="v">TAG</span>, <span class="s">"AboutActivity onCreate"</span>);
     }
 }</pre>
 <div class="tip">
@@ -629,7 +632,7 @@
 <p><span class="n">C5</span><b>Die Kommentare nachziehen.</b></p>
 <p>Wie am Ende jedes Umbaus. Heute sind es zwei Klassen.</p>
 <p><b>In der <code>MainActivity</code></b> ersetzt du die Platzhalterzeile aus B3. Der Rahmen, den Inhalt formulierst du selbst:</p>
-<pre><span class="c">/**
+<pre><span class="d">/**
  * Der Startbildschirm der Quiz-App.
  *
  * (HIER: was diese Klasse bis 04B war und was jetzt noch übrig ist)
@@ -672,7 +675,7 @@
 
 <div class="ue">
 <div class="t">Übung 3, erklären</div>
-<p>Erkläre einem Lerngspänli, warum eine fehlerfreie Java-Klasse nicht genügt, damit Android sie starten kann.</p>
+<p>Erkläre einer anderen Person, warum eine fehlerfreie Java-Klasse nicht genügt, damit Android sie starten kann.</p>
 <p><b>So prüfst du:</b> Dein Gegenüber kann sagen, <b>wann</b> Android das Manifest liest und warum der Compiler von der Lücke nichts merkt.</p>
 </div>
 
@@ -763,6 +766,9 @@
 </table>
 
 
+<!--M335:WEITER-->
+<nav class="weiter"><div class="reihe"><span>Zu 05A</span><a href="05a-loesung.html">Lösung</a></div><a class="vor" href="05b.html"><span>Weiter</span>05B MainActivity und Ergebnis zurück</a></nav>
+<!--/M335:WEITER-->
 <p class="foot">Modul 335 | Tag 3 Vormittag | Auftrag 05A | Version 1 | 16.08.2026</p>
 
 </div>
@@ -771,6 +777,52 @@
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
 <script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
 /* ------------------------------------------------------------------
    M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
 
@@ -881,7 +933,15 @@
     heads.forEach(function (h) {
       eintraege.push({
         el: h,
-        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
         stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
       });
     });

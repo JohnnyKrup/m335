@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wissenscheck 07ABC: Planen, anzeigen, speichern</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
+<!--M335:STIL-->
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
+<button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>Wissenscheck 07ABC: Planen, anzeigen, speichern</h1>
+
+<p class="sub">Modul 335 Mobile Applikationen, Tag 4. Selbstkontrolle zu 07A, 07B und 07C. Version 1 vom 06.09.2026.</p>
+
+<p>Dreizehn Fragen, etwa 16 Minuten. Keine Note, keine Abgabe. Du klickst eine Antwort an und siehst sofort, ob sie stimmt, dazu die Begründung. Steht bei einer Frage <i>mehrere Antworten</i>, wählst du alle passenden aus und klickst danach auf Prüfen.</p>
+
+<p class="wc-stand" id="wcStand">0 von 13 beantwortet</p>
+
+<div class="wc-frage" data-mehrfach="0">
+
+<p class="wc-nr">Frage 1 von 13</p>
+
+<p>In 07A hast du die Generalprobe geschrieben. Wie viele User Stories verlangt das Prüfungsblatt in Aufgabe 1?</p>
+
+<div class="wc-antworten">
+
+<button type="button" class="wc-a" data-richtig="1">Genau drei, jede mit Akzeptanzkriterien.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Genau zwei, jede mit Akzeptanzkriterien.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Mindestens eine pro Funktion der App, also so viele wie nötig.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Das steht nicht im Blatt, die Anzahl ist dir überlassen.</button>
+
+</div>
+
+<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Das Prüfungsblatt sagt wörtlich <i>drei valide User-Stories inkl. Akzeptanzkriterien</i>. Diese eine Zeile trägt 6 Punkte, mehr als jede andere im Raster.</p></div>
+
+</div>
+
+<div class="wc-frage" data-mehrfach="0">
+
+<p class="wc-nr">Frage 2 von 13</p>
+
+<p>Welcher dieser vier Sätze ist ein messbares Akzeptanzkriterium für die Einkaufsliste?</p>
+
+<div class="wc-antworten">
+
+<button type="button" class="wc-a" data-richtig="1">Nach dem Speichern steht der Eintrag in der Liste auf der Startseite.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Die Liste der Einträge ist übersichtlich.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Das Speichern funktioniert korrekt.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Die Pflichtfelder werden geprüft.</button>
+
+</div>
+
+<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Ein messbares Kriterium hat die Form: wenn ich X mache, steht danach Y auf dem Bildschirm. Übersichtlich und korrekt sind Urteile, dort gibt es nichts nachzuschauen.</p></div>
+
+</div>
+
+<div class="wc-frage" data-mehrfach="0">
+
+<p class="wc-nr">Frage 3 von 13</p>
+
+<p>Dein Datenmodell für die Einkaufsliste braucht ein Schlüsselfeld. In keinem Satz der Beschreibung steht das Wort Schlüssel. Woraus folgt es trotzdem?</p>
+
+<div class="wc-antworten">
+
+<button type="button" class="wc-a" data-richtig="1">Aus dem Satz, dass ein bestehender Eintrag angetippt, geändert und wieder gespeichert wird.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Aus dem Satz, dass die Datenhaltung nur lokal erfolgen soll.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Daraus, dass eine Datenbank benutzt wird. Jede Tabelle braucht einen Primärschlüssel.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Daraus, dass Artikel und Laden Pflichtfelder sind.</button>
+
+</div>
+
+<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Wird ein einzelner Datensatz geändert oder gelöscht, muss die App ihn benennen können. Der Artikelname taugt dafür nicht, denn genau er ändert sich beim Ändern.</p></div>
+
+</div>
+
+<div class="wc-frage" data-mehrfach="0">
+
+<p class="wc-nr">Frage 4 von 13</p>
+
+<p>Eine KI schlägt dir für Aufgabe 2 ein Modell mit zwei Tabellen vor, eine für den Eintrag und eine für den Laden, verbunden über eine shopId. Sie nennt das die saubere Lösung. Was gilt in dieser Prüfung?</p>
+
+<div class="wc-antworten">
+
+<button type="button" class="wc-a" data-richtig="1">Der Vorschlag ist fachlich nicht falsch, kostet hier aber Zeit und bringt keinen Punkt. Das Blatt verlangt KISS, ohne Normalisierung.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Der Vorschlag ist fachlich falsch. Zwei Tabellen sind bei so wenig Daten immer ein Fehler.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Der Vorschlag ist richtig und gibt zusätzliche Punkte, weil er mehr Wissen zeigt.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Der Vorschlag ist richtig, aber nur wenn du ihn als ERD zeichnest und nicht als Klassendiagramm.</button>
+
+</div>
+
+<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Fachlich nicht falsch, hier aber nicht verlangt. Das Prüfungsblatt sagt wörtlich <i>KISS, ohne Normalisierung</i>. Du baust, was verlangt ist.</p></div>
+
+</div>
+
+<div class="wc-frage" data-mehrfach="0">
+
+<p class="wc-nr">Frage 5 von 13</p>
+
+<p>In 07B hast du die Rangliste auf eine einzelne Kategorie gefiltert, zum Beispiel auf Sport. Was ist dabei mit den Rangnummern links passiert?</p>
+
+<div class="wc-antworten">
+
+<button type="button" class="wc-a" data-richtig="1">Sie haben neu bei 1 angefangen. Der beste Sport-Eintrag stand auf Rang 1.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Sie sind gleich geblieben. Ein Eintrag mit Rang 7 stand weiterhin auf Rang 7.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Sie sind verschwunden, weil die Position in der gefilterten Liste nicht mehr stimmt.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Sie haben rückwärts gezählt, weil zuerst sortiert und dann gefiltert wird.</button>
+
+</div>
+
+<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Die Rangnummer kommt aus <code>position + 1</code> im Adapter, also aus der Liste, die gerade angezeigt wird. Der Rang gehört zur Liste, nicht zum Eintrag.</p></div>
+
+</div>
+
+<div class="wc-frage" data-mehrfach="1">
+
+<p class="wc-nr">Frage 6 von 13, mehrere Antworten</p>
+
+<p>In der Ranglisten-Zeile steht die Punktzahl rechts, und das Wort rechts kommt im Layout nirgends vor. Welche Angaben sorgen dafür? Mehrere Antworten sind richtig.</p>
+
+<div class="wc-antworten">
+
+<button type="button" class="wc-a" data-richtig="1">layout_width="0dp" am mittleren Block.</button>
+
+<button type="button" class="wc-a" data-richtig="1">layout_weight="1" am mittleren Block.</button>
+
+<button type="button" class="wc-a" data-richtig="0">gravity="end" an der Punktzahl.</button>
+
+<button type="button" class="wc-a" data-richtig="0">layout_marginStart="12dp" an der Punktzahl.</button>
+
+</div>
+
+<button type="button" class="wc-knopf wc-pruefen">Prüfen</button>
+
+<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Die beiden wirken nur als Paar. <code>0dp</code> plus <code>weight</code> heisst: nimm allen freien Platz. Was danach kommt, wird dadurch an den Rand geschoben.</p></div>
+
+</div>
+
+<div class="wc-frage" data-mehrfach="0">
+
+<p class="wc-nr">Frage 7 von 13</p>
+
+<p>Du willst auf die Auswahl im Filter-Spinner reagieren. Eine KI schlägt dir spnFilter.setOnItemClickListener(...) vor. Was passiert damit?</p>
+
+<div class="wc-antworten">
+
+<button type="button" class="wc-a" data-richtig="1">Das Projekt baut, aber die App wirft zur Laufzeit eine Ausnahme. Beim Spinner heisst der Baustein setOnItemSelectedListener.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Das Projekt baut nicht. Der Compiler kennt die Methode am Spinner nicht.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Es funktioniert, ist aber unsauber. Die Auswahl kommt erst beim zweiten Antippen an.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Es funktioniert nur, solange der Spinner höchstens fünf Einträge hat.</button>
+
+</div>
+
+<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Der Compiler lässt es durch, weil die Methode am Vorfahren existiert. Ein Spinner hat aber immer eine Auswahl, darum heisst der Baustein <code>setOnItemSelectedListener</code>.</p></div>
+
+</div>
+
+<div class="wc-frage" data-mehrfach="0">
+
+<p class="wc-nr">Frage 8 von 13</p>
+
+<p>In 07C hast du am Ende von Teil C die App gestartet. Ein CREATE TABLE hast du nirgends geschrieben. Was stand danach im Logcat?</p>
+
+<div class="wc-antworten">
+
+<button type="button" class="wc-a" data-richtig="1">database opened, name=quiz.db, questions=0</button>
+
+<button type="button" class="wc-a" data-richtig="0">Ein Absturz mit der Meldung no such table: questions</button>
+
+<button type="button" class="wc-a" data-richtig="0">database opened, name=quiz.db, questions=-1</button>
+
+<button type="button" class="wc-a" data-richtig="0">Gar nichts. Ohne Tabelle läuft die Zeile mit dem Log nicht.</button>
+
+</div>
+
+<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p><code>build()</code> legt noch keine Datei an. Erst der erste echte Zugriff erzeugt Datei und Tabelle, und das ist der <code>count()</code>-Aufruf in derselben Zeile.</p></div>
+
+</div>
+
+<div class="wc-frage" data-mehrfach="1">
+
+<p class="wc-nr">Frage 9 von 13, mehrere Antworten</p>
+
+<p>Room braucht in 07C zwei Zeilen in build.gradle.kts. Welche Aussagen dazu stimmen? Mehrere Antworten sind richtig.</p>
+
+<div class="wc-antworten">
+
+<button type="button" class="wc-a" data-richtig="1">Die Zeilen gehören in die Datei mit der Klammer (Module :app), nicht in die mit (Project: WissQuiz).</button>
+
+<button type="button" class="wc-a" data-richtig="1">Eine der beiden ist implementation, damit dein Code die Room-Klassen benutzen darf.</button>
+
+<button type="button" class="wc-a" data-richtig="1">Die andere ist annotationProcessor, damit Room beim Bauen den Code hinter deinen Annotationen schreibt.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Beide Zeilen könnten auch implementation heissen. Der Unterschied ist reine Gewohnheit.</button>
+
+</div>
+
+<button type="button" class="wc-knopf wc-pruefen">Prüfen</button>
+
+<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p><code>implementation</code> bringt die Bibliothek in deine App, <code>annotationProcessor</code> bringt das Werkzeug in den Bau. Ohne das zweite entsteht kein <code>QuizDatabase_Impl</code>.</p></div>
+
+</div>
+
+<div class="wc-frage" data-mehrfach="0">
+
+<p class="wc-nr">Frage 10 von 13</p>
+
+<p>Du vertippst dich in einem @Query und schreibst FROM question statt FROM questions. Wann erfährst du davon?</p>
+
+<div class="wc-antworten">
+
+<button type="button" class="wc-a" data-richtig="1">Beim Bauen. Room prüft deine Abfragen gegen deine Tabelle, bevor die App läuft.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Beim Start der App, sobald die Datenbank geöffnet wird.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Beim ersten Aufruf genau dieser Methode.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Gar nicht. SQL in einem String wird nirgends geprüft.</button>
+
+</div>
+
+<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Room liest deine Abfragen schon beim Bauen und vergleicht sie mit deiner Entity. Du schreibst mehr hin, und dafür wird mehr geprüft.</p></div>
+
+</div>
+
+<div class="wc-frage" data-mehrfach="0">
+
+<p class="wc-nr">Frage 11 von 13</p>
+
+<p>In getInstance steht Context appContext = context.getApplicationContext(). Warum nicht einfach die Activity, die übergeben wurde?</p>
+
+<div class="wc-antworten">
+
+<button type="button" class="wc-a" data-richtig="1">Weil instance ein statisches Feld ist. Es würde die Activity für immer festhalten, auch wenn sie längst geschlossen ist.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Weil Room es so verlangt. Mit einer Activity lässt sich keine Datenbank öffnen.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Weil eine Activity keinen Zugriff auf Dateien hat.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Weil es kürzer und lesbarer ist.</button>
+
+</div>
+
+<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Ein statisches Feld lebt so lange wie die App. Eine Activity darin könnte Android nie mehr aufräumen, auch wenn der Bildschirm längst weg ist.</p></div>
+
+</div>
+
+<div class="wc-frage" data-mehrfach="0">
+
+<p class="wc-nr">Frage 12 von 13</p>
+
+<p>In QuestionEntity steht @NonNull an mehreren Stellen. An welcher Art von Stelle gehört die Annotation hin?</p>
+
+<div class="wc-antworten">
+
+<button type="button" class="wc-a" data-richtig="1">An den Feldern und an den Parametern der Setter, also dort, wo ein null hereinkommen könnte.</button>
+
+<button type="button" class="wc-a" data-richtig="0">An allen Gettern, damit der Aufrufer weiss, dass er nie null zurückbekommt.</button>
+
+<button type="button" class="wc-a" data-richtig="0">An jedem Feld, Getter und Setter der Klasse, sonst ist es nicht konsequent.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Nur an der Klasse selbst. Dann gilt sie für alles darin.</button>
+
+</div>
+
+<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Die Annotation gehört dorthin, wo ein <code>null</code> hereinkommen kann, also ans Feld und an den Parameter des Setters. Ein Getter gibt nur heraus, was schon drin ist.</p></div>
+
+</div>
+
+<div class="wc-frage" data-mehrfach="1">
+
+<p class="wc-nr">Frage 13 von 13, mehrere Antworten</p>
+
+<p>In der Leistungsbeurteilung musst du zwei Möglichkeiten zur lokalen Speicherung nennen, dich für eine entscheiden und begründen. Welche Aussagen dazu stimmen? Mehrere Antworten sind richtig.</p>
+
+<div class="wc-antworten">
+
+<button type="button" class="wc-a" data-richtig="1">Die zweite Möglichkeit muss dastehen, auch wenn du sie nicht nimmst. Dafür gibt es eine eigene Zeile im Raster.</button>
+
+<button type="button" class="wc-a" data-richtig="1">Eine gute Begründung nennt eine Eigenschaft deiner Daten, zum Beispiel dass ein einzelner Eintrag geändert wird.</button>
+
+<button type="button" class="wc-a" data-richtig="1">SharedPreferences passt für einen einzelnen Wert, eine Datenbank für viele gleichartige Dinge, die man suchen und einzeln ändern will.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Room ist der moderne Weg auf Android, das ist eine tragfähige Begründung.</button>
+
+</div>
+
+<button type="button" class="wc-knopf wc-pruefen">Prüfen</button>
+
+<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Im Raster stehen zwei getrennte Zeilen: die begründete Wahl mit 2 Punkten und die genannte Alternative mit 1 Punkt. <i>Room ist modern</i> ist ein Urteil über die Technik, keine Eigenschaft deiner Daten.</p></div>
+
+</div>
+
+
+
+<p class="wc-stand" id="wcEnde">&nbsp;</p>
+
+<p><button type="button" class="wc-knopf" id="wcNeu">Nochmals von vorn</button></p>
+
+
+
+
+
+<script>
+/* ------------------------------------------------------------------
+   M335 Wissenscheck. Eine Antwort anklicken, Auflösung sofort.
+   Die Fragen stehen im HTML, das Skript wertet nur aus.
+   ------------------------------------------------------------------ */
+(function () {
+  var fragen = [].slice.call(document.querySelectorAll('.wc-frage'));
+  if (!fragen.length) return;
+  var stand = document.getElementById('wcStand');
+  var ende  = document.getElementById('wcEnde');
+  var neu   = document.getElementById('wcNeu');
+  var beantwortet = 0, richtige = 0;
+
+  function mischenEinfach(el) {
+    var kinder = [].slice.call(el.children);
+    kinder.sort(function () { return Math.random() - 0.5; });
+    kinder.forEach(function (k) { el.appendChild(k); });
+  }
+
+  function standSchreiben() {
+    stand.textContent = beantwortet + ' von ' + fragen.length + ' beantwortet, '
+                      + richtige + ' richtig';
+    if (beantwortet === fragen.length) {
+      ende.textContent = 'Fertig. ' + richtige + ' von ' + fragen.length + ' richtig.';
+    } else {
+      ende.innerHTML = '&nbsp;';
+    }
+  }
+
+  function aufloesen(frage, warRichtig) {
+    var knoepfe = [].slice.call(frage.querySelectorAll('.wc-a'));
+    knoepfe.forEach(function (k) {
+      k.disabled = true;
+      k.classList.remove('gewaehlt');
+      if (k.dataset.richtig === '1') k.classList.add('istrichtig');
+      else if (k.dataset.gewaehlt === '1') k.classList.add('istfalsch');
+    });
+    var pruefen = frage.querySelector('.wc-pruefen');
+    if (pruefen) pruefen.hidden = true;
+    var loesung = frage.querySelector('.wc-loesung');
+    loesung.classList.toggle('daneben', !warRichtig);
+    loesung.querySelector('.t').textContent = warRichtig ? 'RICHTIG' : 'NICHT GANZ';
+    loesung.hidden = false;
+    frage.dataset.fertig = '1';
+    beantwortet++;
+    if (warRichtig) richtige++;
+    standSchreiben();
+  }
+
+  fragen.forEach(function (frage) {
+    var mehrfach = frage.dataset.mehrfach === '1';
+    var feld = frage.querySelector('.wc-antworten');
+    mischenEinfach(feld);
+    var knoepfe = [].slice.call(frage.querySelectorAll('.wc-a'));
+
+    knoepfe.forEach(function (k) {
+      k.addEventListener('click', function () {
+        if (frage.dataset.fertig === '1') return;
+        if (!mehrfach) {
+          k.dataset.gewaehlt = '1';
+          aufloesen(frage, k.dataset.richtig === '1');
+          return;
+        }
+        var an = k.dataset.gewaehlt === '1';
+        k.dataset.gewaehlt = an ? '0' : '1';
+        k.classList.toggle('gewaehlt', !an);
+      });
+    });
+
+    var pruefen = frage.querySelector('.wc-pruefen');
+    if (pruefen) {
+      pruefen.hidden = false;
+      pruefen.addEventListener('click', function () {
+        if (frage.dataset.fertig === '1') return;
+        var stimmt = knoepfe.every(function (k) {
+          return (k.dataset.richtig === '1') === (k.dataset.gewaehlt === '1');
+        });
+        var etwasGewaehlt = knoepfe.some(function (k) { return k.dataset.gewaehlt === '1'; });
+        if (!etwasGewaehlt) return;
+        aufloesen(frage, stimmt);
+      });
+    }
+  });
+
+  neu.addEventListener('click', function () {
+    beantwortet = 0; richtige = 0;
+    fragen.forEach(function (frage) {
+      delete frage.dataset.fertig;
+      frage.querySelector('.wc-loesung').hidden = true;
+      var pruefen = frage.querySelector('.wc-pruefen');
+      if (pruefen) pruefen.hidden = false;
+      mischenEinfach(frage.querySelector('.wc-antworten'));
+      [].slice.call(frage.querySelectorAll('.wc-a')).forEach(function (k) {
+        k.disabled = false;
+        k.dataset.gewaehlt = '0';
+        k.classList.remove('gewaehlt', 'istrichtig', 'istfalsch');
+      });
+    });
+    standSchreiben();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  standSchreiben();
+})();
+</script>
+
+<!--M335:WEITER-->
+<nav class="weiter"><a class="zurueck" href="07c-loesung.html"><span>Zurück</span>07C Lösung</a><a class="vor" href="08a-einfuehrung.html"><span>Weiter</span>08A, Einführung</a></nav>
+<!--/M335:WEITER-->
+<p class="foot">Modul 335 | Tag 4 | Wissenscheck 07ABC | Version 1 | 06.09.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
+/* ------------------------------------------------------------------
+   M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
+
+   Warum hier und nicht als eigene Datei: dieser Baustein geht ueber
+   web-bau/rahmen/fuss.html in jede Seite. Inline heisst, dass bauen.js
+   nichts Zusaetzliches kopieren muss.
+
+   Zwei Faelle:
+     Startseite   nimmt die sechs Links aus .schnellnav und baut daraus
+                  dasselbe schwebende Verzeichnis. Keine Auftragskarte.
+     Auftragsseite markiert Teil A bis C, vergibt jeder Ueberschrift eine
+                  id, baut oben die Auftragskarte und daneben das Verzeichnis.
+
+   Das Aussehen steht in web-bau/stil/rahmen.css unter m335-nav.
+   ------------------------------------------------------------------ */
+(function () {
+  var wrap = document.querySelector('.wrap');
+  if (!wrap) return;
+
+  var text = function (el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); };
+  var esc  = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+
+  // Die Startseite ist daran zu erkennen, dass ihr der Rueckweg im Kopf fehlt.
+  var istStart = !document.querySelector('.site-header .back');
+  var eintraege = [];
+
+  if (istStart) {
+    // ------------------------------------------------------------ Startseite
+    var schnell = wrap.querySelector('.schnellnav');
+    if (!schnell) return;
+    [].slice.call(schnell.querySelectorAll('a')).forEach(function (a) {
+      var ziel = document.getElementById(a.getAttribute('href').slice(1));
+      if (ziel) eintraege.push({ el: ziel, text: text(a), stufe: 'n2' });
+    });
+    if (eintraege.length < 2) return;
+
+  } else {
+    // --------------------------------------------------------- Auftragsseite
+    var heads = [].slice.call(wrap.querySelectorAll('h2, h3'));
+
+    // 1 und 2: Teil A bis C markieren, jeder Ueberschrift eine id geben.
+    // Die Quellen haben keine.
+    var vergeben = {};
+    heads.forEach(function (h, i) {
+      if (h.tagName === 'H3' && /^Teil [A-Z]\b/.test(text(h))) h.classList.add('teil');
+      if (h.id) { vergeben[h.id] = true; return; }
+      var roh = text(h).toLowerCase()
+        .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+        .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+      var id = roh || ('abschnitt-' + i);
+      if (vergeben[id]) id = id + '-' + i;
+      vergeben[id] = true;
+      h.id = id;
+    });
+
+    // 3: Die Auftragskarte. Sie sagt in einem Bildschirm, wie lange der
+    // Auftrag dauert und aus welchen Teilen er besteht. Alles daran steht
+    // schon auf der Seite, die Karte stellt es nur neu zusammen.
+    var subs = [].slice.call(wrap.querySelectorAll('.sub'));
+    var bloecke = heads.filter(function (h) { return h.querySelector('.time'); });
+    var budget = '', zusatz = '';
+
+    subs.forEach(function (p) {
+      if (budget) return;
+      var m = p.innerHTML.match(/Zeitbudget\s+([^.<]+)\./);
+      if (!m) return;
+      var stuecke = m[1].split(/,\s*dazu\s*/);
+      budget = stuecke[0].trim();
+      if (stuecke[1]) zusatz = 'dazu ' + stuecke[1].trim();
+      p.innerHTML = p.innerHTML.replace(m[0], '').replace(/\s{2,}/g, ' ').trim();
+    });
+
+    if (budget || bloecke.length) {
+      var karte = document.createElement('div');
+      karte.className = 'karte';
+      var inhalt = '';
+      if (budget) {
+        inhalt += '<p class="zeit"><span class="pill">' + esc(budget) + '</span>';
+        if (zusatz) inhalt += '<span class="pill neben">' + esc(zusatz) + '</span>';
+        inhalt += '</p>';
+      }
+      if (bloecke.length) {
+        inhalt += '<p class="t">DAS MACHST DU</p><ol>';
+        bloecke.forEach(function (b) {
+          var uhr = b.querySelector('.time');
+          var min = uhr ? text(uhr) : '';
+          var t = text(b).replace(min, '').replace(/\s+/g, ' ').replace(/\s+,/g, ',').trim();
+          t = t.replace(/[,;]\s*$/, '');
+          var teil = t.match(/^([^,]+),\s*(.*)$/);
+          var wo = teil ? teil[1] : t;
+          var rest = teil ? teil[2] : '';
+          inhalt += '<li><a href="#' + b.id + '"><span class="wo">' + esc(wo) + '</span>'
+                  + (rest ? ' ' + esc(rest) : '') + '</a>'
+                  + '<span class="min">' + esc(min) + '</span></li>';
+        });
+        inhalt += '</ol>';
+      }
+      karte.innerHTML = inhalt;
+      // Steht oben ein Zielbild, gehoert die Karte darunter. Erst sehen, was
+      // entsteht, dann lesen, wie lange es dauert.
+      var anker = wrap.querySelector('figure.zielbild')
+                || (subs.length ? subs[subs.length - 1] : wrap.firstElementChild);
+      anker.parentNode.insertBefore(karte, anker.nextSibling);
+    }
+
+    // Unter vier Ueberschriften lohnt sich kein Verzeichnis.
+    if (heads.length < 4) return;
+    heads.forEach(function (h) {
+      eintraege.push({
+        el: h,
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
+        stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
+      });
+    });
+  }
+
+  // ---------------------------------------------------------------- 4
+  var nav = document.createElement('nav');
+  nav.className = 'm335-nav';
+  nav.setAttribute('aria-label', 'Inhalt dieser Seite');
+
+  var html = '<p class="kopfzeile">AUF DIESER SEITE</p>'
+           + '<button type="button" class="schliessen" aria-label="Verzeichnis schliessen">Schliessen</button><ol>';
+  eintraege.forEach(function (e) {
+    html += '<li class="' + e.stufe + '"><a href="#' + e.el.id + '">' + esc(e.text) + '</a></li>';
+  });
+  nav.innerHTML = html + '</ol>';
+
+  var knopf = document.createElement('button');
+  knopf.type = 'button';
+  knopf.className = 'm335-nav-knopf';
+  knopf.textContent = 'Inhalt';
+
+  document.body.appendChild(nav);
+  document.body.appendChild(knopf);
+
+  var links = [].slice.call(nav.querySelectorAll('a'));
+
+  // Breit: die Leiste steht fest am Rand. Schmal: sie liegt hinter dem Knopf.
+  var breit = window.matchMedia('(min-width: 1380px)');
+  function umschalten() {
+    if (breit.matches) {
+      nav.className = 'm335-nav seitlich';
+      nav.hidden = false;
+      knopf.style.display = 'none';
+    } else {
+      nav.className = 'm335-nav klappe';
+      nav.hidden = true;
+      knopf.style.display = '';
+    }
+  }
+  umschalten();
+  if (breit.addEventListener) breit.addEventListener('change', umschalten);
+  else if (breit.addListener) breit.addListener(umschalten);
+
+  knopf.addEventListener('click', function () { nav.hidden = !nav.hidden; });
+  nav.querySelector('.schliessen').addEventListener('click', function () { nav.hidden = true; });
+  nav.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && !breit.matches) nav.hidden = true;
+  });
+
+  // Welcher Abschnitt ist gerade dran. Gesucht ist der letzte Eintrag, der
+  // oberhalb der Lesekante liegt. Die Kante liegt knapp unter dem klebenden
+  // Kopfbereich.
+  var laeuft = false;
+  function markieren() {
+    laeuft = false;
+    var kante = 96, treffer = 0;
+    for (var i = 0; i < eintraege.length; i++) {
+      if (eintraege[i].el.getBoundingClientRect().top <= kante) treffer = i;
+      else break;
+    }
+    for (var j = 0; j < links.length; j++) links[j].classList.toggle('hier', j === treffer);
+    var a = links[treffer];
+    if (a && breit.matches) {
+      var r = a.getBoundingClientRect(), n = nav.getBoundingClientRect();
+      if (r.top < n.top + 8 || r.bottom > n.bottom - 8) a.scrollIntoView({ block: 'nearest' });
+    }
+  }
+  function anstossen() {
+    if (laeuft) return;
+    laeuft = true;
+    window.requestAnimationFrame(markieren);
+  }
+  window.addEventListener('scroll', anstossen, { passive: true });
+  window.addEventListener('resize', anstossen);
+  markieren();
+})();
+</script>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>

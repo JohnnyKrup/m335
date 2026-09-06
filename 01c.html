@@ -4,17 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>01C Buttons und Events</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
 <!--M335:STIL-->
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/stil/rahmen.css">
-<link rel="stylesheet" href="/stil/dokument.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
 <!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
 <header class="site-header"><div class="in">
-<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
-<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
 <button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
@@ -120,8 +123,8 @@
 <div class="step">
 <p><span class="n">1.2</span><b>Das Layout einsetzen.</b></p>
 <p>Öffne <code>app / res / layout / activity_main.xml</code> und wechsle oben rechts auf die Ansicht <code>Code</code>. Ersetze den <b>gesamten</b> Inhalt der Datei durch den Code unten.</p>
-<pre>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;<span class="t">androidx.constraintlayout.widget.ConstraintLayout</span>
+<pre>&lt;?xml version=<span class="s">"1.0"</span> encoding=<span class="s">"utf-8"</span>?&gt;
+&lt;<span class="g">androidx.constraintlayout.widget.ConstraintLayout</span>
     xmlns:android=<span class="s">"http://schemas.android.com/apk/res/android"</span>
     xmlns:app=<span class="s">"http://schemas.android.com/apk/res-auto"</span>
     xmlns:tools=<span class="s">"http://schemas.android.com/tools"</span>
@@ -130,7 +133,7 @@
     android:layout_height=<span class="s">"match_parent"</span>
     tools:context=<span class="s">".MainActivity"</span>&gt;
 
-    &lt;<span class="t">LinearLayout</span>
+    &lt;<span class="g">LinearLayout</span>
         android:layout_width=<span class="s">"0dp"</span>
         android:layout_height=<span class="s">"wrap_content"</span>
         android:orientation=<span class="s">"vertical"</span>
@@ -139,40 +142,40 @@
         app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
         app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span>&gt;
 
-        &lt;<span class="t">EditText</span>
+        &lt;<span class="g">EditText</span>
             android:id=<span class="s">"@+id/etName"</span>
             android:layout_width=<span class="s">"match_parent"</span>
             android:layout_height=<span class="s">"wrap_content"</span>
             android:hint=<span class="s">"Dein Name"</span>
             android:inputType=<span class="s">"textPersonName"</span> /&gt;
 
-        &lt;<span class="t">Button</span>
+        &lt;<span class="g">Button</span>
             android:id=<span class="s">"@+id/btnGreet"</span>
             android:layout_width=<span class="s">"match_parent"</span>
             android:layout_height=<span class="s">"wrap_content"</span>
             android:text=<span class="s">"Begrüssen"</span> /&gt;
 
-        &lt;<span class="t">Button</span>
+        &lt;<span class="g">Button</span>
             android:id=<span class="s">"@+id/btnCount"</span>
             android:layout_width=<span class="s">"match_parent"</span>
             android:layout_height=<span class="s">"wrap_content"</span>
             android:text=<span class="s">"Zeichen zählen"</span> /&gt;
 
-        &lt;<span class="t">Button</span>
+        &lt;<span class="g">Button</span>
             android:id=<span class="s">"@+id/btnClear"</span>
             android:layout_width=<span class="s">"match_parent"</span>
             android:layout_height=<span class="s">"wrap_content"</span>
             android:text=<span class="s">"Löschen"</span> /&gt;
 
-        &lt;<span class="t">TextView</span>
+        &lt;<span class="g">TextView</span>
             android:id=<span class="s">"@+id/tvOutput"</span>
             android:layout_width=<span class="s">"match_parent"</span>
             android:layout_height=<span class="s">"wrap_content"</span>
             android:layout_marginTop=<span class="s">"24dp"</span>
             android:textSize=<span class="s">"18sp"</span> /&gt;
 
-    &lt;/<span class="t">LinearLayout</span>&gt;
-&lt;/<span class="t">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</pre>
+    &lt;/<span class="g">LinearLayout</span>&gt;
+&lt;/<span class="g">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</pre>
 <p>Starte die App einmal. Es passiert noch nichts, aber alle fünf Elemente müssen sichtbar sein.</p>
 </div>
 
@@ -200,7 +203,7 @@
 <div class="step">
 <p><span class="n">2.1</span><b>Ein Tag für deine Log-Meldungen.</b></p>
 <p>Ergänze über der Methode <code>onCreate</code> ein Klassenattribut:</p>
-<pre><span class="k">private static final</span> <span class="t">String</span> TAG = <span class="s">"M335"</span>;</pre>
+<pre><span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="t">TAG</span> = <span class="s">"M335"</span>;</pre>
 <p>Der Tag ist ein frei wählbarer Text. Er kennzeichnet deine eigenen Meldungen, damit du sie später im Logcat wiederfindest. Im ganzen Modul benutzen wir <code>M335</code>.</p>
 </div>
 
@@ -219,15 +222,15 @@
 <div class="step">
 <p><span class="n">2.2</span><b>Der Button bekommt einen Zuhörer.</b></p>
 <p>Ergänze am <b>Ende</b> der Methode <code>onCreate</code>, also nach dem bestehenden Block mit dem Pfeil:</p>
-<pre><span class="t">EditText</span> etName = findViewById(R.id.etName);
-<span class="t">TextView</span> tvOutput = findViewById(R.id.tvOutput);
-<span class="t">Button</span> btnGreet = findViewById(R.id.btnGreet);
+<pre><span class="t">EditText</span> etName = findViewById(<span class="t">R</span>.id.etName);
+<span class="t">TextView</span> tvOutput = findViewById(<span class="t">R</span>.id.tvOutput);
+<span class="t">Button</span> btnGreet = findViewById(<span class="t">R</span>.id.btnGreet);
 
 btnGreet.setOnClickListener(v -&gt; {
     <span class="t">String</span> name = etName.getText().toString();
-    Log.d(TAG, <span class="s">"Greet clicked. Name: "</span> + name);
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"Greet clicked. Name: "</span> + name);
     tvOutput.setText(<span class="s">"Hallo "</span> + name + <span class="s">"!"</span>);
-    Toast.makeText(<span class="k">this</span>, <span class="s">"Hallo "</span> + name + <span class="s">"!"</span>, Toast.LENGTH_LONG).show();
+    <span class="t">Toast</span>.makeText(<span class="k">this</span>, <span class="s">"Hallo "</span> + name + <span class="s">"!"</span>, <span class="t">Toast</span>.<span class="t">LENGTH_LONG</span>).show();
 });</pre>
 </div>
 
@@ -279,16 +282,16 @@ btnGreet.setOnClickListener(v -&gt; {
 
 <div class="step">
 <p><span class="n">3.1</span><b>Ergänzen, immer noch am Ende von <code>onCreate</code>.</b></p>
-<pre><span class="t">Button</span> btnCount = findViewById(R.id.btnCount);
+<pre><span class="t">Button</span> btnCount = findViewById(<span class="t">R</span>.id.btnCount);
 btnCount.setOnClickListener(v -&gt; {
     <span class="t">String</span> name = etName.getText().toString();
-    Log.d(TAG, <span class="s">"Count clicked."</span>);
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"Count clicked."</span>);
     tvOutput.setText(<span class="s">"Dein Name hat "</span> + name.length() + <span class="s">" Zeichen."</span>);
 });
 
-<span class="t">Button</span> btnClear = findViewById(R.id.btnClear);
+<span class="t">Button</span> btnClear = findViewById(<span class="t">R</span>.id.btnClear);
 btnClear.setOnClickListener(v -&gt; {
-    Log.d(TAG, <span class="s">"Clear clicked."</span>);
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"Clear clicked."</span>);
     etName.setText(<span class="s">""</span>);
     tvOutput.setText(<span class="s">""</span>);
 });</pre>
@@ -314,7 +317,7 @@ btnClear.setOnClickListener(v -&gt; {
 
 <div class="step">
 <p><span class="n">4.1</span><b>Die Klasse wird zum Zuhörer.</b></p>
-<pre><span class="k">public class</span> <span class="t">MainActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span>
+<pre><span class="k">public</span> <span class="k">class</span> <span class="t">MainActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span>
         <span class="k">implements</span> <span class="t">View</span>.<span class="t">OnClickListener</span> {</pre>
 <p>Android Studio meckert sofort, weil eine Methode fehlt. Drück <b>Alt und Enter</b> und wähle <code>Implement methods</code>. Es entsteht eine leere Methode <code>onClick</code>.</p>
 <p>Beim Import fragt Android Studio nach, weil es zwei Interfaces mit dem Namen <code>OnClickListener</code> gibt. Wähle <code>android.view.View.OnClickListener</code>.</p>
@@ -323,12 +326,12 @@ btnClear.setOnClickListener(v -&gt; {
 <div class="step">
 <p><span class="n">4.2</span><b>Die drei Listener-Blöcke ersetzen.</b></p>
 <p>Lösch deine drei Listener-Blöcke aus <code>onCreate</code>. Ersetz sie durch:</p>
-<pre>etName = findViewById(R.id.etName);
-tvOutput = findViewById(R.id.tvOutput);
+<pre>etName = findViewById(<span class="t">R</span>.id.etName);
+tvOutput = findViewById(<span class="t">R</span>.id.tvOutput);
 
-findViewById(R.id.btnGreet).setOnClickListener(<span class="k">this</span>);
-findViewById(R.id.btnCount).setOnClickListener(<span class="k">this</span>);
-findViewById(R.id.btnClear).setOnClickListener(<span class="k">this</span>);</pre>
+findViewById(<span class="t">R</span>.id.btnGreet).setOnClickListener(<span class="k">this</span>);
+findViewById(<span class="t">R</span>.id.btnCount).setOnClickListener(<span class="k">this</span>);
+findViewById(<span class="t">R</span>.id.btnClear).setOnClickListener(<span class="k">this</span>);</pre>
 </div>
 
 <div class="note">
@@ -353,17 +356,17 @@ findViewById(R.id.btnClear).setOnClickListener(<span class="k">this</span>);</pr
 <pre><span class="k">int</span> id = v.getId();
 <span class="t">String</span> name = etName.getText().toString();
 
-<span class="k">if</span> (id == R.id.btnGreet) {
-    Log.d(TAG, <span class="s">"Greet clicked. Name: "</span> + name);
+<span class="k">if</span> (id == <span class="t">R</span>.id.btnGreet) {
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"Greet clicked. Name: "</span> + name);
     tvOutput.setText(<span class="s">"Hallo "</span> + name + <span class="s">"!"</span>);
-    Toast.makeText(<span class="k">this</span>, <span class="s">"Hallo "</span> + name + <span class="s">"!"</span>, Toast.LENGTH_LONG).show();
+    <span class="t">Toast</span>.makeText(<span class="k">this</span>, <span class="s">"Hallo "</span> + name + <span class="s">"!"</span>, <span class="t">Toast</span>.<span class="t">LENGTH_LONG</span>).show();
 
-} <span class="k">else if</span> (id == R.id.btnCount) {
-    Log.d(TAG, <span class="s">"Count clicked."</span>);
+} <span class="k">else</span> <span class="k">if</span> (id == <span class="t">R</span>.id.btnCount) {
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"Count clicked."</span>);
     tvOutput.setText(<span class="s">"Dein Name hat "</span> + name.length() + <span class="s">" Zeichen."</span>);
 
-} <span class="k">else if</span> (id == R.id.btnClear) {
-    Log.d(TAG, <span class="s">"Clear clicked."</span>);
+} <span class="k">else</span> <span class="k">if</span> (id == <span class="t">R</span>.id.btnClear) {
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"Clear clicked."</span>);
     etName.setText(<span class="s">""</span>);
     tvOutput.setText(<span class="s">""</span>);
 }</pre>
@@ -434,7 +437,7 @@ findViewById(R.id.btnClear).setOnClickListener(<span class="k">this</span>);</pr
 
 <div class="ue">
 <p class="t">Übung 3, erklären</p>
-<p>Erkläre einem Lerngspänli in eigenen Worten, warum <code>etName</code> in Variante 2 ein Klassenattribut sein muss, in Variante 1 aber nicht.</p>
+<p>Erkläre einer anderen Person in eigenen Worten, warum <code>etName</code> in Variante 2 ein Klassenattribut sein muss, in Variante 1 aber nicht.</p>
 <p><b>So prüfst du:</b> Dein Gegenüber kann danach selbst sagen, wo eine lokale Variable lebt und wo nicht.</p>
 </div>
 
@@ -576,6 +579,9 @@ findViewById(R.id.btnClear).setOnClickListener(<span class="k">this</span>);</pr
 </table>
 
 
+<!--M335:WEITER-->
+<nav class="weiter"><div class="reihe"><span>Zu 01C</span><a href="01c-loesung.html">Lösung</a></div><a class="vor" href="02a.html"><span>Weiter</span>02A Die drei Unterlagen</a></nav>
+<!--/M335:WEITER-->
 <p class="foot">Modul 335 | Tag 1 Vormittag | Auftrag 01C | Version 5 | 11.08.2026</p>
 
 </div>
@@ -584,6 +590,52 @@ findViewById(R.id.btnClear).setOnClickListener(<span class="k">this</span>);</pr
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
 <script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
 /* ------------------------------------------------------------------
    M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
 
@@ -694,7 +746,15 @@ findViewById(R.id.btnClear).setOnClickListener(<span class="k">this</span>);</pr
     heads.forEach(function (h) {
       eintraege.push({
         el: h,
-        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
         stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
       });
     });

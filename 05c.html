@@ -4,24 +4,27 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>05C Drei Zustände und die Kategoriewahl</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
 <!--M335:STIL-->
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/stil/rahmen.css">
-<link rel="stylesheet" href="/stil/dokument.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
 <!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
 <header class="site-header"><div class="in">
-<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
-<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
 <button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
 <div class="wrap">
 
 <h1>05C Drei Zustände und die Kategoriewahl</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Tag 3 Vormittag. Zeitbudget 45 Minuten. Version 3 vom 04.09.2026.</p>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 3 Vormittag. Zeitbudget 45 Minuten. Version 3 vom 05.09.2026.</p>
 
 
 <h2>01 Einführung</h2>
@@ -92,9 +95,9 @@
 
 <h4>Wohin das führt</h4>
 <pre>ConstraintLayout clGame
-├─ <span class="t">LinearLayout</span> llCategory   <span class="c">// Zustand 1, neu in Teil B</span>
-├─ <span class="t">ScrollView</span> svQuestion     <span class="c">// Zustand 2</span>
-└─ <span class="t">LinearLayout</span> llResult       <span class="c">// Zustand 3</span>
++- <span class="t">LinearLayout</span> llCategory   <span class="d">// Zustand 1, neu in Teil B</span>
++- <span class="t">ScrollView</span> svQuestion     <span class="d">// Zustand 2</span>
++- <span class="t">LinearLayout</span> llResult       <span class="d">// Zustand 3</span>
 
 Alle drei an denselben vier Ankern, alle gleich gross,
 alle übereinander. Genau einer ist sichtbar.</pre>
@@ -120,22 +123,22 @@ alle übereinander. Genau einer ist sichtbar.</pre>
 <p><span class="n">A1</span><b>Der enum und die neue Methode.</b></p>
 <p>In <code>GameActivity.java</code>, unter dem Feld <code>QUESTIONS_PER_ROUND</code>:</p>
 <pre><span class="c">/** Die Zustände, die dieser Bildschirm kennt. */</span>
-<span class="k">private</span> <span class="k">enum</span> <span class="t">GameState</span> { QUESTION, RESULT }</pre>
+<span class="k">private</span> <span class="k">enum</span> <span class="t">GameState</span> { <span class="t">QUESTION</span>, <span class="t">RESULT</span> }</pre>
 <p>Und die Methode, ans Ende der Klasse. <b>Tipp sie genau so ab, sie ist in dieser Form noch nicht fertig.</b></p>
 <pre><span class="c">/**
  * Schaltet den Bildschirm auf einen Zustand um.
  *
  * Das ist die einzige Stelle, die über Sichtbarkeit entscheidet.
  */</span>
-<span class="k">private void</span> showState(<span class="t">GameState</span> state) {
-    <span class="k">if</span> (state == <span class="t">GameState</span>.QUESTION) {
-        svQuestion.setVisibility(<span class="t">View</span>.VISIBLE);
+<span class="k">private</span> <span class="k">void</span> <span class="m">showState</span>(<span class="t">GameState</span> state) {
+    <span class="k">if</span> (state == <span class="t">GameState</span>.<span class="t">QUESTION</span>) {
+        svQuestion.setVisibility(<span class="t">View</span>.<span class="t">VISIBLE</span>);
     }
-    <span class="k">if</span> (state == <span class="t">GameState</span>.RESULT) {
-        llResult.setVisibility(<span class="t">View</span>.VISIBLE);
+    <span class="k">if</span> (state == <span class="t">GameState</span>.<span class="t">RESULT</span>) {
+        llResult.setVisibility(<span class="t">View</span>.<span class="t">VISIBLE</span>);
     }
 
-    Log.d(TAG, <span class="s">"showState "</span> + state);
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"showState "</span> + state);
 }</pre>
 <div class="note">
 <p><b>Ein <code>enum</code> ist ein eigener Typ mit fest benannten Werten.</b> <code>GameState.QUESTION</code> ist kein Text und keine Zahl, sondern ein Wert dieses Typs.</p>
@@ -182,19 +185,19 @@ alle übereinander. Genau einer ist sichtbar.</pre>
 <div class="step">
 <p><span class="n">A4</span><b>Die Methode setzt alle Bereiche.</b></p>
 <p>Ersetze den Rumpf von <code>showState</code> durch das hier:</p>
-<pre><span class="k">private void</span> showState(<span class="t">GameState</span> state) {
-    svQuestion.setVisibility(state == <span class="t">GameState</span>.QUESTION ? <span class="t">View</span>.VISIBLE : <span class="t">View</span>.GONE);
-    llResult.setVisibility(state == <span class="t">GameState</span>.RESULT ? <span class="t">View</span>.VISIBLE : <span class="t">View</span>.GONE);
+<pre><span class="k">private</span> <span class="k">void</span> <span class="m">showState</span>(<span class="t">GameState</span> state) {
+    svQuestion.setVisibility(state == <span class="t">GameState</span>.<span class="t">QUESTION</span> ? <span class="t">View</span>.<span class="t">VISIBLE</span> : <span class="t">View</span>.<span class="t">GONE</span>);
+    llResult.setVisibility(state == <span class="t">GameState</span>.<span class="t">RESULT</span> ? <span class="t">View</span>.<span class="t">VISIBLE</span> : <span class="t">View</span>.<span class="t">GONE</span>);
 
-    Log.d(TAG, <span class="s">"showState "</span> + state);
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"showState "</span> + state);
 }</pre>
 <h4>Das Fragezeichen und der Doppelpunkt</h4>
 <p><code>Bedingung ? a : b</code> ist ein <code>if</code> in einer Zeile, das einen <b>Wert</b> liefert. Es liest sich als Frage: stimmt die Bedingung? Dann <code>a</code>, sonst <code>b</code>.</p>
-<pre><span class="c">// diese zwei Zeilen bedeuten dasselbe</span>
-svQuestion.setVisibility(state == <span class="t">GameState</span>.QUESTION ? <span class="t">View</span>.VISIBLE : <span class="t">View</span>.GONE);
+<pre><span class="l">// diese zwei Zeilen bedeuten dasselbe</span>
+svQuestion.setVisibility(state == <span class="t">GameState</span>.<span class="t">QUESTION</span> ? <span class="t">View</span>.<span class="t">VISIBLE</span> : <span class="t">View</span>.<span class="t">GONE</span>);
 
-<span class="k">if</span> (state == <span class="t">GameState</span>.QUESTION) { svQuestion.setVisibility(<span class="t">View</span>.VISIBLE); }
-<span class="k">else</span> { svQuestion.setVisibility(<span class="t">View</span>.GONE); }</pre>
+<span class="k">if</span> (state == <span class="t">GameState</span>.<span class="t">QUESTION</span>) { svQuestion.setVisibility(<span class="t">View</span>.<span class="t">VISIBLE</span>); }
+<span class="k">else</span> { svQuestion.setVisibility(<span class="t">View</span>.<span class="t">GONE</span>); }</pre>
 <p>Nimm ihn nur dort, wo genau ein Wert von genau einer Bedingung abhängt. Für alles Grössere bleibt das normale <code>if</code> lesbarer.</p>
 <div class="note">
 <p><b>Der Kern des Auftrags steht in diesen zwei Zeilen.</b> Jede von ihnen entscheidet über <b>einen</b> Bereich, und zwar bei <b>jedem</b> Aufruf. Kein Bereich bleibt aus Versehen stehen, weil niemand an ihn gedacht hat.</p>
@@ -274,9 +277,9 @@ svQuestion.setVisibility(state == <span class="t">GameState</span>.QUESTION ? <s
 <div class="step">
 <p><span class="n">B3</span><b>Zwei neue Texte und der dritte Bereich im Layout.</b></p>
 <p>In <code>strings.xml</code>:</p>
-<pre>&lt;<span class="c">!-- Kategoriewahl im Spielbildschirm. --</span>&gt;
-&lt;<span class="t">string</span> name=<span class="s">"choose_category"</span>&gt;Welche Kategorie willst du spielen?&lt;/<span class="t">string</span>&gt;
-&lt;<span class="t">string</span> name=<span class="s">"btn_start"</span>&gt;Runde starten&lt;/<span class="t">string</span>&gt;</pre>
+<pre><span class="c">&lt;!-- Kategoriewahl im Spielbildschirm. --&gt;</span>
+&lt;<span class="g">string</span> name=<span class="s">"choose_category"</span>&gt;Welche Kategorie willst du spielen?&lt;/<span class="g">string</span>&gt;
+&lt;<span class="g">string</span> name=<span class="s">"btn_start"</span>&gt;Runde starten&lt;/<span class="g">string</span>&gt;</pre>
 <p>In <code>activity_game.xml</code>, <b>vor</b> der <code>ScrollView</code> <code>svQuestion</code>, als erstes Child des ConstraintLayouts:</p>
 <pre>&lt;<span class="t">LinearLayout</span>
     android:id=<span class="s">"@+id/llCategory"</span>
@@ -341,7 +344,7 @@ svQuestion.setVisibility(state == <span class="t">GameState</span>.QUESTION ? <s
 <pre>btnStart.setOnClickListener(v -&gt; onStartClicked());
 
 spnCategory.setAdapter(<span class="k">new</span> <span class="t">ArrayAdapter</span>&lt;&gt;(<span class="k">this</span>,
-        android.R.layout.simple_spinner_dropdown_item, <span class="t">QuestionBank</span>.categories()));</pre>
+        android.<span class="t">R</span>.layout.simple_spinner_dropdown_item, <span class="t">QuestionBank</span>.categories()));</pre>
 <div class="note">
 <p><b>Ein Adapter ist eine Brücke.</b> Auf der einen Seite deine <code>List&lt;String&gt;</code>, auf der anderen die Zeilen, die der Spinner zeichnet. Der Spinner kennt deine Liste nicht, der Adapter übersetzt.</p>
 <p><b><code>android.R.layout</code> mit dem Punkt davor ist nicht dein <code>R</code>.</b> Das ist die Ressourcensammlung von Android selbst. <code>simple_spinner_dropdown_item</code> ist ein fertiges Zeilenlayout, das dir das System schenkt.</p>
@@ -352,7 +355,7 @@ spnCategory.setAdapter(<span class="k">new</span> <span class="t">ArrayAdapter</
 <div class="step">
 <p><span class="n">B5</span><b>Der dritte Zustand. Eine Zeile.</b></p>
 <p>Im <code>enum</code>, als erster Wert:</p>
-<pre><span class="k">private</span> <span class="k">enum</span> <span class="t">GameState</span> { CHOOSE_CATEGORY, QUESTION, RESULT }</pre>
+<pre><span class="k">private</span> <span class="k">enum</span> <span class="t">GameState</span> { <span class="t">CHOOSE_CATEGORY</span>, <span class="t">QUESTION</span>, <span class="t">RESULT</span> }</pre>
 <p>Und in <code>showState</code>, als erste Zeile im Rumpf:</p>
 <pre>llCategory.setVisibility(state == <span class="t">GameState</span>.CHOOSE_CATEGORY ? <span class="t">View</span>.VISIBLE : <span class="t">View</span>.GONE);</pre>
 <div class="tip">
@@ -379,33 +382,33 @@ spnCategory.setAdapter(<span class="k">new</span> <span class="t">ArrayAdapter</
  *
  * Gemischt wird eine Kopie des Bestands, nicht der Bestand selbst.
  */</span>
-<span class="k">private void</span> onStartClicked() {
+<span class="k">private</span> <span class="k">void</span> <span class="m">onStartClicked</span>() {
     selectedCategory = (<span class="t">String</span>) spnCategory.getSelectedItem();
     categoryQuestions = <span class="t">QuestionBank</span>.byCategory(selectedCategory);
 
     <span class="t">List</span>&lt;<span class="t">Question</span>&gt; pool = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;(categoryQuestions);
     <span class="t">Collections</span>.shuffle(pool);
 
-    <span class="k">int</span> count = <span class="t">Math</span>.min(QUESTIONS_PER_ROUND, pool.size());
-    roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;(pool.subList(<span class="k">0</span>, count));
+    <span class="k">int</span> count = <span class="t">Math</span>.min(<span class="t">QUESTIONS_PER_ROUND</span>, pool.size());
+    roundQuestions = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;(pool.subList(0, count));
 
-    Log.d(TAG, <span class="s">"category="</span> + selectedCategory + <span class="s">", bank="</span> + categoryQuestions.size()
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"category="</span> + selectedCategory + <span class="s">", bank="</span> + categoryQuestions.size()
             + <span class="s">", round="</span> + count);
 
     startRound();
 }</pre>
 <p>Und <code>startRound</code> stellt jetzt keine Fragen mehr zusammen, es startet nur noch. Die Zeile mit <code>subList</code> darin fällt weg:</p>
-<pre><span class="k">private void</span> startRound() {
-    <span class="c">// Eine neue Runde macht das alte Ergebnis ungültig, bis sie fertig ist.</span>
-    setResult(RESULT_CANCELED);
+<pre><span class="k">private</span> <span class="k">void</span> <span class="m">startRound</span>() {
+    <span class="l">// Eine neue Runde macht das alte Ergebnis ungültig, bis sie fertig ist.</span>
+    setResult(<span class="t">RESULT_CANCELED</span>);
 
-    currentIndex = <span class="k">0</span>;
-    score = <span class="k">0</span>;
+    currentIndex = 0;
+    score = 0;
 
     showQuestion();
-    showState(<span class="t">GameState</span>.QUESTION);
+    showState(<span class="t">GameState</span>.<span class="t">QUESTION</span>);
 
-    Log.d(TAG, <span class="s">"round started"</span>);
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"round started"</span>);
 }</pre>
 <p>Drei Zeilen ganz am Schluss von <code>onCreate</code> ändern sich. Der Aufruf <code>startRound();</code> fällt weg, dafür kommt:</p>
 <pre>showState(<span class="t">GameState</span>.CHOOSE_CATEGORY);</pre>
@@ -441,7 +444,7 @@ spnCategory.setAdapter(<span class="k">new</span> <span class="t">ArrayAdapter</
 <p><span class="n">C1</span><b>Der Klassenkommentar stimmt nicht mehr.</b></p>
 <p>Lies den Javadoc-Block über <code>public class GameActivity</code>. Er stammt aus 05A und 05B. Zwei Sätze darin sind seit heute <b>falsch</b>, und einer fehlt ganz.</p>
 <p>Der Rahmen, den Inhalt formulierst du selbst:</p>
-<pre><span class="c">/**
+<pre><span class="d">/**
  * Der Spielbildschirm der Quiz-App.
  *
  * (DER TEIL AUS 05A UND 05B BLEIBT STEHEN)
@@ -502,7 +505,7 @@ spnCategory.setAdapter(<span class="k">new</span> <span class="t">ArrayAdapter</
 
 <div class="ue">
 <div class="t">Übung 3, erklären</div>
-<p>Erkläre einem Lerngspänli, warum <code>showState</code> auch die Bereiche setzt, die sich gar nicht ändern.</p>
+<p>Erkläre einer anderen Person, warum <code>showState</code> auch die Bereiche setzt, die sich gar nicht ändern.</p>
 <p><b>So prüfst du:</b> Dein Gegenüber kann sagen, was passiert, wenn man es weglässt, und zwar mit dem Beispiel aus A3.</p>
 </div>
 
@@ -596,7 +599,10 @@ spnCategory.setAdapter(<span class="k">new</span> <span class="t">ArrayAdapter</
 </table>
 
 
-<p class="foot">Modul 335 | Tag 3 Vormittag | Auftrag 05C | Version 3 | 04.09.2026</p>
+<!--M335:WEITER-->
+<nav class="weiter"><div class="reihe"><span>Zu 05C</span><a href="05c-loesung.html">Lösung</a></div><a class="vor" href="05d.html"><span>Weiter</span>05D Der beste Wert bleibt</a></nav>
+<!--/M335:WEITER-->
+<p class="foot">Modul 335 | Tag 3 Vormittag | Auftrag 05C | Version 3 | 05.09.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->
@@ -604,6 +610,52 @@ spnCategory.setAdapter(<span class="k">new</span> <span class="t">ArrayAdapter</
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
 <script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
 /* ------------------------------------------------------------------
    M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
 
@@ -714,7 +766,15 @@ spnCategory.setAdapter(<span class="k">new</span> <span class="t">ArrayAdapter</
     heads.forEach(function (h) {
       eintraege.push({
         el: h,
-        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
         stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
       });
     });

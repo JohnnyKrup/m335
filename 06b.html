@@ -4,17 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>06B Validierung und inputType</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
 <!--M335:STIL-->
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/stil/rahmen.css">
-<link rel="stylesheet" href="/stil/dokument.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
 <!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
 <header class="site-header"><div class="in">
-<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
-<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
 <button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
@@ -129,16 +132,16 @@
 
 <p><b>Das Format kennst du.</b> JSON hast du in 294 gegen den json-server und in 295 gegen Spring Boot benutzt. Neu ist nur, wie man JSON in Java <b>baut</b> statt es geliefert zu bekommen. Das sind vier Aufrufe:</p>
 
-<pre><span class="c">// schreiben</span>
+<pre><span class="l">// schreiben</span>
 <span class="t">JSONObject</span> o = <span class="k">new</span> <span class="t">JSONObject</span>();
-o.put(<span class="s">"titel"</span>, <span class="s">"Sport"</span>);      <span class="c">// Feld hinein</span>
+o.put(<span class="s">"titel"</span>, <span class="s">"Sport"</span>);      <span class="l">// Feld hinein</span>
 <span class="t">JSONArray</span> a = <span class="k">new</span> <span class="t">JSONArray</span>();
-a.put(o);                        <span class="c">// Objekt in die Liste</span>
-<span class="t">String</span> text = a.toString();       <span class="c">// die ganze Liste als Text</span>
+a.put(o);                        <span class="l">// Objekt in die Liste</span>
+<span class="t">String</span> text = a.toString();       <span class="l">// die ganze Liste als Text</span>
 
-<span class="c">// lesen, genau umgekehrt</span>
+<span class="l">// lesen, genau umgekehrt</span>
 <span class="t">JSONArray</span> a2 = <span class="k">new</span> <span class="t">JSONArray</span>(text);
-<span class="t">JSONObject</span> o2 = a2.getJSONObject(<span class="k">0</span>);
+<span class="t">JSONObject</span> o2 = a2.getJSONObject(0);
 <span class="t">String</span> titel = o2.getString(<span class="s">"titel"</span>);</pre>
 
 <p>Mehr ist es nicht. Leg jetzt die Klasse <code>HighscoreStorage</code> im Paket <code>ch.wiss.m335.quiz.data</code> an, neben <code>ScoreStorage</code>. Gebaut wie diese: privater Konstruktor, nur statische Methoden, dieselbe Ablage <code>m335_quiz</code>, ein eigener Schlüssel <code>highscores</code>.</p>
@@ -147,23 +150,23 @@ a.put(o);                        <span class="c">// Objekt in die Liste</span>
 
 <p><code>getAll</code> ist neu genug, dass du es nicht raten sollst. Übernimm es:</p>
 
-<pre><span class="k">public static</span> <span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; getAll(<span class="t">Context</span> context) {
+<pre><span class="k">public</span> <span class="k">static</span> <span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; <span class="m">getAll</span>(<span class="t">Context</span> context) {
     <span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; entries = <span class="k">new</span> <span class="t">ArrayList</span>&lt;&gt;();
-    <span class="t">String</span> text = prefs(context).getString(KEY_HIGHSCORES, <span class="s">"[]"</span>);
+    <span class="t">String</span> text = prefs(context).getString(<span class="t">KEY_HIGHSCORES</span>, <span class="s">"[]"</span>);
 
     <span class="k">try</span> {
         <span class="t">JSONArray</span> array = <span class="k">new</span> <span class="t">JSONArray</span>(text);
-        <span class="k">for</span> (<span class="k">int</span> i = <span class="k">0</span>; i &lt; array.length(); i++) {
+        <span class="k">for</span> (<span class="k">int</span> i = 0; i &lt; array.length(); i++) {
             <span class="t">JSONObject</span> object = array.getJSONObject(i);
             entries.add(<span class="k">new</span> <span class="t">HighscoreEntry</span>(
-                    object.getString(FIELD_NAME),
-                    object.getInt(FIELD_SCORE),
-                    object.getString(FIELD_CATEGORY)));
+                    object.getString(<span class="t">FIELD_NAME</span>),
+                    object.getInt(<span class="t">FIELD_SCORE</span>),
+                    object.getString(<span class="t">FIELD_CATEGORY</span>)));
         }
     } <span class="k">catch</span> (<span class="t">JSONException</span> e) {
-        <span class="c">// Kaputter Text, zum Beispiel nach einem misslungenen Umbau.
-        // Lieber eine leere Liste als ein Absturz beim Start.</span>
-        <span class="t">Log</span>.e(TAG, <span class="s">"highscores unreadable, starting empty"</span>, e);
+        <span class="l">// Kaputter Text, zum Beispiel nach einem misslungenen Umbau.</span>
+        <span class="l">// Lieber eine leere Liste als ein Absturz beim Start.</span>
+        <span class="t">Log</span>.e(<span class="t">TAG</span>, <span class="s">"highscores unreadable, starting empty"</span>, e);
     }
 
     <span class="k">return</span> entries;
@@ -178,28 +181,28 @@ a.put(o);                        <span class="c">// Objekt in die Liste</span>
 <p>Du hast alles, was du brauchst. Schreib es.</p>
 </div>
 
-<pre><span class="k">private static void</span> saveAll(<span class="t">Context</span> context, <span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; entries) {
+<pre><span class="k">private</span> <span class="k">static</span> <span class="k">void</span> saveAll(<span class="t">Context</span> context, <span class="t">List</span>&lt;<span class="t">HighscoreEntry</span>&gt; entries) {
     <span class="t">JSONArray</span> array = <span class="k">new</span> <span class="t">JSONArray</span>();
 
     <span class="k">try</span> {
-        ... hier läufst du über entries und baust pro Eintrag
-            ein JSONObject mit drei Feldern, das du ans array hängst ...
+        ... hier läufst du über entries und baust pro <span class="t">Eintrag</span>
+            ein <span class="t">JSONObject</span> mit drei <span class="t">Feldern</span>, das du ans array hängst ...
     } <span class="k">catch</span> (<span class="t">JSONException</span> e) {
-        <span class="t">Log</span>.e(TAG, <span class="s">"highscores not writable"</span>, e);
+        <span class="t">Log</span>.e(<span class="t">TAG</span>, <span class="s">"highscores not writable"</span>, e);
         <span class="k">return</span>;
     }
 
-    ... hier schreibst du array.toString() unter KEY_HIGHSCORES
-        in die Preferences, genau wie in ScoreStorage ...
+    ... hier schreibst du array.toString() unter <span class="t">KEY_HIGHSCORES</span>
+        in die <span class="t">Preferences</span>, genau wie in <span class="t">ScoreStorage</span> ...
 }</pre>
 
 <p>Und dann noch <code>add</code>, die Methode, die deine <code>GameActivity</code> gleich aufrufen wird. Sie hat vier Zeilen und du weisst, welche:</p>
 
-<pre><span class="k">public static void</span> add(<span class="t">Context</span> context, <span class="t">HighscoreEntry</span> entry) {
-    ... hol die ganze Liste ...
-    ... häng den neuen Eintrag an ...
-    ... schreib die ganze Liste zurück ...
-    <span class="t">Log</span>.d(TAG, <span class="s">"highscore added, total="</span> + entries.size());
+<pre><span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="m">add</span>(<span class="t">Context</span> context, <span class="t">HighscoreEntry</span> entry) {
+    ... hol die ganze <span class="t">Liste</span> ...
+    ... häng den neuen <span class="t">Eintrag</span> an ...
+    ... schreib die ganze <span class="t">Liste</span> zurück ...
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"highscore added, total="</span> + entries.size());
 }</pre>
 
 <div class="warn">
@@ -276,11 +279,11 @@ a.put(o);                        <span class="c">// Objekt in die Liste</span>
     tools:visibility=<span class="s">"visible"</span> /&gt;</pre>
 
 <p>Dazu fünf neue Einträge in <code>strings.xml</code>:</p>
-<pre>&lt;string name=<span class="s">"hint_player_name"</span>&gt;Dein Name&lt;/string&gt;
-&lt;string name=<span class="s">"btn_save_score"</span>&gt;In die Rangliste eintragen&lt;/string&gt;
-&lt;string name=<span class="s">"error_name_required"</span>&gt;Bitte gib deinen Namen ein.&lt;/string&gt;
-&lt;string name=<span class="s">"error_name_too_short"</span>&gt;Mindestens drei Zeichen.&lt;/string&gt;
-&lt;string name=<span class="s">"score_saved"</span>&gt;Eingetragen. Du stehst jetzt in der Rangliste.&lt;/string&gt;</pre>
+<pre>&lt;<span class="g">string</span> name=<span class="s">"hint_player_name"</span>&gt;Dein Name&lt;/<span class="g">string</span>&gt;
+&lt;<span class="g">string</span> name=<span class="s">"btn_save_score"</span>&gt;In die Rangliste eintragen&lt;/<span class="g">string</span>&gt;
+&lt;<span class="g">string</span> name=<span class="s">"error_name_required"</span>&gt;Bitte gib deinen Namen ein.&lt;/<span class="g">string</span>&gt;
+&lt;<span class="g">string</span> name=<span class="s">"error_name_too_short"</span>&gt;Mindestens drei Zeichen.&lt;/<span class="g">string</span>&gt;
+&lt;<span class="g">string</span> name=<span class="s">"score_saved"</span>&gt;Eingetragen. Du stehst jetzt in der Rangliste.&lt;/<span class="g">string</span>&gt;</pre>
 
 <h4>Warum zwei Elemente ineinander</h4>
 <table>
@@ -317,14 +320,14 @@ a.put(o);                        <span class="c">// Objekt in die Liste</span>
 <div class="step">
 <p><span class="n">B2</span><b>Der Ergebnisbereich braucht eine ScrollView.</b> <span class="time">4 Min</span></p>
 <p>Der Bereich ist gewachsen: Punktzahl, Namensfeld, drei Knöpfe, Bestätigung und die Fragenliste. Dazu schiebt die Tastatur beim Tippen den halben Bildschirm hoch.</p>
-<pre><span class="c">// vorher</span>
-LinearLayout llResult          <span class="c">// 0dp hoch, an allen vier Ankern</span>
-  └─ ScrollView svQuestionList <span class="c">// nur die Fragenliste scrollte</span>
+<pre><span class="d">// vorher</span>
+LinearLayout llResult          <span class="d">// 0dp hoch, an allen vier Ankern</span>
+  +- ScrollView svQuestionList <span class="d">// nur die Fragenliste scrollte</span>
 
-<span class="c">// jetzt</span>
-ScrollView svResult            <span class="c">// 0dp mal 0dp, an allen vier Ankern</span>
-  └─ LinearLayout llResult     <span class="c">// wrap_content, der ganze Bereich scrollt</span>
-       └─ LinearLayout llQuestionList   <span class="c">// ohne eigene ScrollView</span></pre>
+<span class="d">// jetzt</span>
+ScrollView svResult            <span class="d">// 0dp mal 0dp, an allen vier Ankern</span>
+  +- LinearLayout llResult     <span class="d">// wrap_content, der ganze Bereich scrollt</span>
+       +- LinearLayout llQuestionList   <span class="d">// ohne eigene ScrollView</span></pre>
 <p>Konkret: eine <code>ScrollView</code> mit der id <code>svResult</code> aussen herum, die vier Anker und <code>android:visibility="gone"</code> wandern von <code>llResult</code> dorthin. <code>llResult</code> wird <code>match_parent</code> mal <code>wrap_content</code>. Die innere <code>svQuestionList</code> verschwindet, das <code>llQuestionList</code> darin bleibt.</p>
 <div class="warn">
 <p><b>Zwei ScrollViews ineinander sind fast immer ein Fehler.</b> Beide wollen die Wischgeste haben, und das Ergebnis ist ein Bereich, der sich nur mit Mühe bewegen lässt. Wenn der äussere Bereich ohnehin scrollen muss, nimmt man dem inneren die ScrollView weg.</p>
@@ -350,8 +353,8 @@ ScrollView svResult            <span class="c">// 0dp mal 0dp, an allen vier Ank
 
 <h4>Der Block, den du seit 01B mit dir herumträgst</h4>
 <p>Ganz am Anfang von <code>onCreate</code> steht dieser Abschnitt. Er kam mit der Projektvorlage, du hast ihn nie angefasst, und heute gibt es zum ersten Mal einen Grund, ihn zu lesen:</p>
-<pre><span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(R.id.clGame), (v, insets) -&gt; {
-    <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.Type.systemBars());
+<pre><span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(<span class="t">R</span>.id.clGame), (v, insets) -&gt; {
+    <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.<span class="t">Type</span>.systemBars());
     v.setPadding(...);
     <span class="k">return</span> insets;
 });</pre>
@@ -388,19 +391,19 @@ ScrollView svResult            <span class="c">// 0dp mal 0dp, an allen vier Ank
 <p>In Teil C entstehen vier Methoden. Sie rufen einander auf, und wer die Kette nicht kennt, ruft am Schluss die falsche an der falschen Stelle auf.</p>
 
 <pre>Klick auf btnSaveScore  ODER  Haken auf der Tastatur
-        │
-        └─ onSaveScoreClicked()
-               ├─ scoreSaved schon true?  →  nichts tun, fertig
-               ├─ isNameValid()
-               │      └─ currentName()          <span class="c">// liest und trimmt</span>
-               │      └─ tilPlayerName.setError(...)  <span class="c">// bei Fehler</span>
-               │
-               ├─ HighscoreStorage.add(...)     <span class="c">// nur wenn gültig</span>
-               └─ updateSaveArea()              <span class="c">// sperrt Feld und Knopf</span>
+        |
+        +- onSaveScoreClicked()
+               +- scoreSaved schon true?  >  nichts tun, fertig
+               +- isNameValid()
+               |      +- currentName()          <span class="d">// liest und trimmt</span>
+               |      +- tilPlayerName.setError(...)  <span class="d">// bei Fehler</span>
+               |
+               +- HighscoreStorage.add(...)     <span class="d">// nur wenn gültig</span>
+               +- updateSaveArea()              <span class="d">// sperrt Feld und Knopf</span>
 
 Klick auf btnStart
-        └─ onStartClicked()
-               └─ scoreSaved = false, Feld leeren, updateSaveArea()</pre>
+        +- onStartClicked()
+               +- scoreSaved = false, Feld leeren, updateSaveArea()</pre>
 
 <div class="tip">
 <p><b>Die Regel dahinter:</b> <code>updateSaveArea</code> ist die <b>einzige</b> Stelle, die über Knopf, Feld und Bestätigung entscheidet. Genau wie <code>showState</code> die einzige Stelle für die drei Bereiche ist.</p>
@@ -426,7 +429,7 @@ Klick auf btnStart
 <p><code>llResult</code> wird zu <code>svResult</code> und wechselt den Typ von <code>LinearLayout</code> auf <code>ScrollView</code>.</p>
 <p><b>Und dann die Verkabelung in <code>onCreate</code>.</b> Ohne sie ist jedes neue Feld <code>null</code>, und der Knopf tut beim Antippen gar nichts.</p>
 <p>Bei den bestehenden <code>findViewById</code>-Zeilen: die Zeile für den Ergebnisbereich <b>ersetzt du</b>, sie bekommt einen neuen Namen und eine neue id. Die vier darunter sind neu.</p>
-<pre><span class="c">// war vorher: llResult = findViewById(R.id.llResult);</span>
+<pre><span class="d">// war vorher: llResult = findViewById(R.id.llResult);</span>
 svResult = findViewById(R.id.svResult);
 tilPlayerName = findViewById(R.id.tilPlayerName);
 etPlayerName = findViewById(R.id.etPlayerName);
@@ -439,14 +442,14 @@ tvSaved = findViewById(R.id.tvSaved);</pre>
 <p><b>Ein Knopf ohne Listener ist ein Bild von einem Knopf.</b> Wer eine neue Methode schreibt, die auf einen Klick reagieren soll, prüft sofort: ruft sie überhaupt jemand auf?</p>
 </div>
 <p>Und die Aktionstaste, <b>freiwillig, wenn du Zeit hast</b>. Sie ist neu, darum hier vollständig:</p>
-<pre><span class="c">// Die Aktionstaste unten rechts auf der Tastatur löst dasselbe aus</span>
-<span class="c">// wie der Knopf. Wer tippt, will nicht zur Maus greifen.</span>
+<pre><span class="l">// Die Aktionstaste unten rechts auf der Tastatur löst dasselbe aus</span>
+<span class="l">// wie der Knopf. Wer tippt, will nicht zur Maus greifen.</span>
 etPlayerName.setOnEditorActionListener((v, actionId, event) -&gt; {
-    <span class="k">if</span> (actionId == <span class="t">EditorInfo</span>.IME_ACTION_DONE) {
+    <span class="k">if</span> (actionId == <span class="t">EditorInfo</span>.<span class="t">IME_ACTION_DONE</span>) {
         onSaveScoreClicked();
-        <span class="k">return true</span>;
+        <span class="k">return</span> <span class="k">true</span>;
     }
-    <span class="k">return false</span>;
+    <span class="k">return</span> <span class="k">false</span>;
 });</pre>
 <p>Das <code>return true</code> heisst: ich habe die Taste verarbeitet, gib sie nicht weiter. Ein <code>return false</code> würde das Ereignis durchreichen, und die Tastatur zeigt zusätzlich ihr Standardverhalten.</p>
 </div>
@@ -454,24 +457,24 @@ etPlayerName.setOnEditorActionListener((v, actionId, event) -&gt; {
 <div class="step">
 <p><span class="n">C2</span><b>Die Prüfung.</b> <span class="time">5 Min</span></p>
 <p>Zwei Methoden. Die erste liest den Text aus dem Feld, die zweite prüft ihn.</p>
-<pre><span class="k">private</span> <span class="t">String</span> currentName() {
-    <span class="c">// Kommt in C4 nochmals dran.</span>
+<pre><span class="k">private</span> <span class="t">String</span> <span class="m">currentName</span>() {
+    <span class="l">// Kommt in C4 nochmals dran.</span>
     <span class="k">return</span> etPlayerName.getText() == <span class="k">null</span> ? <span class="s">""</span> : etPlayerName.getText().toString();
 }</pre>
-<pre><span class="k">private boolean</span> isNameValid() {
+<pre><span class="k">private</span> <span class="k">boolean</span> <span class="m">isNameValid</span>() {
     <span class="t">String</span> name = currentName();
 
     <span class="k">if</span> (name.isEmpty()) {
-        tilPlayerName.setError(getString(R.string.error_name_required));
-        <span class="k">return false</span>;
+        tilPlayerName.setError(getString(<span class="t">R</span>.string.error_name_required));
+        <span class="k">return</span> <span class="k">false</span>;
     }
-    <span class="k">if</span> (name.length() &lt; MIN_NAME_LENGTH) {
-        tilPlayerName.setError(getString(R.string.error_name_too_short));
-        <span class="k">return false</span>;
+    <span class="k">if</span> (name.length() &lt; <span class="t">MIN_NAME_LENGTH</span>) {
+        tilPlayerName.setError(getString(<span class="t">R</span>.string.error_name_too_short));
+        <span class="k">return</span> <span class="k">false</span>;
     }
 
     tilPlayerName.setError(<span class="k">null</span>);
-    <span class="k">return true</span>;
+    <span class="k">return</span> <span class="k">true</span>;
 }</pre>
 <div class="note">
 <p><b>Die wichtigste Zeile ist die drittletzte.</b> <code>setError(null)</code> im gültigen Fall.</p>
@@ -482,7 +485,7 @@ etPlayerName.setOnEditorActionListener((v, actionId, event) -&gt; {
 
 <div class="step">
 <p><span class="n">C3</span><b>Das Eintragen und die Sperre.</b> <span class="time">4 Min</span></p>
-<pre><span class="k">private void</span> onSaveScoreClicked() {
+<pre><span class="k">private</span> <span class="k">void</span> <span class="m">onSaveScoreClicked</span>() {
     <span class="k">if</span> (scoreSaved) {
         <span class="k">return</span>;
     }
@@ -496,12 +499,12 @@ etPlayerName.setOnEditorActionListener((v, actionId, event) -&gt; {
     scoreSaved = <span class="k">true</span>;
     updateSaveArea();
 
-    <span class="t">Log</span>.d(TAG, <span class="s">"highscore saved for "</span> + name);
+    <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"highscore saved for "</span> + name);
 }</pre>
-<pre><span class="k">private void</span> updateSaveArea() {
+<pre><span class="k">private</span> <span class="k">void</span> <span class="m">updateSaveArea</span>() {
     btnSaveScore.setEnabled(!scoreSaved);
     etPlayerName.setEnabled(!scoreSaved);
-    tvSaved.setVisibility(scoreSaved ? <span class="t">View</span>.VISIBLE : <span class="t">View</span>.GONE);
+    tvSaved.setVisibility(scoreSaved ? <span class="t">View</span>.<span class="t">VISIBLE</span> : <span class="t">View</span>.<span class="t">GONE</span>);
     <span class="k">if</span> (scoreSaved) {
         tilPlayerName.setError(<span class="k">null</span>);
     }
@@ -581,7 +584,7 @@ etPlayerName.setOnEditorActionListener((v, actionId, event) -&gt; {
 
 <div class="ue">
 <div class="t">Übung 2, erklären</div>
-<p>Erklär einem Lerngspänli in zwei Sätzen, warum <code>setError</code> auf das <code>TextInputLayout</code> gehört und nicht auf das <code>TextInputEditText</code>. Beide Aufrufe kompilieren, beide zeigen etwas an.</p>
+<p>Erklär einer anderen Person in zwei Sätzen, warum <code>setError</code> auf das <code>TextInputLayout</code> gehört und nicht auf das <code>TextInputEditText</code>. Beide Aufrufe kompilieren, beide zeigen etwas an.</p>
 <p><b>So prüfst du:</b> Wenn dein Gegenüber danach nicht sagen kann, <b>wo</b> die Meldung jeweils erscheint, war es zu allgemein.</p>
 </div>
 
@@ -674,6 +677,9 @@ etPlayerName.setOnEditorActionListener((v, actionId, event) -&gt; {
 <li>Das Formular der Leistungsbeurteilung, Teil B Aufgabe 5.</li>
 </ul>
 
+<!--M335:WEITER-->
+<nav class="weiter"><div class="reihe"><span>Zu 06B</span><a href="06b-loesung.html">Lösung</a></div><a class="vor" href="06c.html"><span>Weiter</span>06C RecyclerView und Rangliste</a></nav>
+<!--/M335:WEITER-->
 <p class="foot">Modul 335 | Tag 3 Nachmittag | Auftrag 06B | Version 1 | 19.08.2026</p>
 
 </div>
@@ -682,6 +688,52 @@ etPlayerName.setOnEditorActionListener((v, actionId, event) -&gt; {
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
 <script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
 /* ------------------------------------------------------------------
    M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
 
@@ -792,7 +844,15 @@ etPlayerName.setOnEditorActionListener((v, actionId, event) -&gt; {
     heads.forEach(function (h) {
       eintraege.push({
         el: h,
-        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
         stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
       });
     });

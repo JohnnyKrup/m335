@@ -4,17 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>02B Formular bauen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
 <!--M335:STIL-->
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/stil/rahmen.css">
-<link rel="stylesheet" href="/stil/dokument.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
 <!--/M335:STIL-->
 </head>
 <body>
 <!--M335:RAHMEN-KOPF-->
 <header class="site-header"><div class="in">
-<a href="/" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
-<span class="kopf-rechts"><a href="/" class="back">&larr; &Uuml;bersicht</a>
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
 <button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
 </div></header>
 <!--/M335:RAHMEN-KOPF-->
@@ -150,7 +153,7 @@
 <div class="step">
 <p><span class="n">A3</span><b>Den Formularbereich anlegen.</b></p>
 <p>Setze in das ConstraintLayout ein LinearLayout. Es hält die drei Feldpaare untereinander.</p>
-<pre>&lt;<span class="t">LinearLayout</span>
+<pre>&lt;<span class="g">LinearLayout</span>
     android:id=<span class="s">"@+id/llForm"</span>
     android:layout_width=<span class="s">"0dp"</span>
     android:layout_height=<span class="s">"wrap_content"</span>
@@ -161,7 +164,7 @@
 
     <span class="c">&lt;!-- hier kommen die Feldpaare hinein --&gt;</span>
 
-&lt;/<span class="t">LinearLayout</span>&gt;</pre>
+&lt;/<span class="g">LinearLayout</span>&gt;</pre>
 <p><b>Lies die Breite genau.</b> <code>0dp</code> heisst hier nicht "null breit". Im ConstraintLayout heisst <code>0dp</code>: spann dich zwischen deine beiden waagrechten Constraints. Die sind Start an Start und Ende an Ende des Parent. Also über die ganze Breite.</p>
 </div>
 
@@ -174,13 +177,13 @@
 
 <div class="step">
 <p><span class="n">A4</span><b>Das erste Feldpaar. Diesen Block bekommst du vorgegeben.</b></p>
-<pre>&lt;<span class="t">TextView</span>
+<pre>&lt;<span class="g">TextView</span>
     android:id=<span class="s">"@+id/tvFirstName"</span>
     android:layout_width=<span class="s">"match_parent"</span>
     android:layout_height=<span class="s">"wrap_content"</span>
     android:text=<span class="s">"Vorname"</span> /&gt;
 
-&lt;<span class="t">EditText</span>
+&lt;<span class="g">EditText</span>
     android:id=<span class="s">"@+id/etFirstName"</span>
     android:layout_width=<span class="s">"match_parent"</span>
     android:layout_height=<span class="s">"wrap_content"</span>
@@ -224,7 +227,7 @@
 <div class="step">
 <p><span class="n">B1</span><b>Die Buttonreihe unten anheften.</b></p>
 <p>Ein zweites LinearLayout, diesmal waagrecht, geklebt an den unteren Rand.</p>
-<pre>&lt;<span class="t">LinearLayout</span>
+<pre>&lt;<span class="g">LinearLayout</span>
     android:id=<span class="s">"@+id/llButtons"</span>
     android:layout_width=<span class="s">"0dp"</span>
     android:layout_height=<span class="s">"wrap_content"</span>
@@ -233,14 +236,14 @@
     app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span>
     app:layout_constraintBottom_toBottomOf=<span class="s">"parent"</span>&gt;
 
-&lt;/<span class="t">LinearLayout</span>&gt;</pre>
+&lt;/<span class="g">LinearLayout</span>&gt;</pre>
 <p>Beachte: keine Constraint nach oben. Das Element hängt nur unten. Genau darum bleibt es unten kleben, egal wie lang das Formular oben wird.</p>
 </div>
 
 <div class="step">
 <p><span class="n">B2</span><b>Vier Buttons hinein. Zuerst absichtlich falsch.</b></p>
 <p>Schreib alle vier Buttons mit <code>wrap_content</code>. Ja, wirklich. Du machst das gleich wieder rückgängig, aber du sollst zuerst sehen, was passiert.</p>
-<pre>&lt;<span class="t">Button</span>
+<pre>&lt;<span class="g">Button</span>
     android:id=<span class="s">"@+id/btnCancel"</span>
     android:layout_width=<span class="s">"wrap_content"</span>
     android:layout_height=<span class="s">"wrap_content"</span>
@@ -361,8 +364,8 @@
 <p><span class="n">C2</span><b>Die Ursache finden.</b></p>
 <p>Es ändert sich nichts. Dein XML ist nicht falsch. Es wird überschrieben.</p>
 <p>Öffne <code>MainActivity.java</code>. Dort steht ein Block, den die Vorlage erzeugt hat:</p>
-<pre><span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -&gt; {
-    <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.Type.systemBars());
+<pre><span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(<span class="t">R</span>.id.main), (v, insets) -&gt; {
+    <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.<span class="t">Type</span>.systemBars());
     v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
     <span class="k">return</span> insets;
 });</pre>
@@ -376,7 +379,7 @@
 <p><span class="n">C3</span><b>Den Rand dort setzen, wo er wirkt.</b></p>
 <p>Nimm die Zeile <code>android:padding="5dp"</code> aus dem XML wieder heraus. Sie ist wirkungslos und damit irreführend.</p>
 <p>Erweitere stattdessen den Java-Block so, dass zu jeder Seite dein eigener Rand dazukommt.</p>
-<pre><span class="k">final</span> <span class="k">int</span> extraPadding = <span class="t">Math</span>.round(<span class="s">5</span> * getResources().getDisplayMetrics().density);</pre>
+<pre><span class="k">final</span> <span class="k">int</span> extraPadding = <span class="t">Math</span>.round(5 * getResources().getDisplayMetrics().density);</pre>
 <p>Diese Zeile setzt du <b>vor</b> den Listener. Danach benutzt du <code>extraPadding</code> in <code>setPadding</code> und addierst ihn zu jedem der vier Werte. Den genauen Aufruf schreibst du selbst.</p>
 <div class="warn">
 <p><b>Warum die Rechnung mit <code>density</code> nötig ist.</b> Im XML schreibst du <code>dp</code>, und Android rechnet für dich um. In Java nimmt <code>setPadding</code> aber <b>Pixel</b>. Würdest du dort einfach <code>5</code> schreiben, wären das 5 echte Pixel. Auf einem heutigen Telefon mit hoher Auflösung ist das ein Rand, den man nicht sieht. <code>density</code> ist der Umrechnungsfaktor des Geräts. Auf einem Medium Phone liegt er bei 2.75, aus 5 dp werden also rund 14 Pixel.</p>
@@ -431,7 +434,7 @@
 
 <div class="ue">
 <div class="t">Übung 4, erklären</div>
-<p>Erkläre einem Lerngspänli in eigenen Worten, warum <code>android:layout_width="0dp"</code> im ConstraintLayout etwas völlig anderes bedeutet als im LinearLayout. Nimm dein eigenes Layout als Beispiel und zeig auf beide Stellen.</p>
+<p>Erkläre einer anderen Person in eigenen Worten, warum <code>android:layout_width="0dp"</code> im ConstraintLayout etwas völlig anderes bedeutet als im LinearLayout. Nimm dein eigenes Layout als Beispiel und zeig auf beide Stellen.</p>
 <p><b>So prüfst du:</b> Dein Gegenüber kann die Frage danach selbst beantworten, ohne nachzuschauen.</p>
 </div>
 
@@ -516,6 +519,9 @@
 </table>
 
 
+<!--M335:WEITER-->
+<nav class="weiter"><div class="reihe"><span>Zu 02B</span><a href="02b-loesung.html">Lösung</a></div><a class="vor" href="03a.html"><span>Weiter</span>03A Das Projektgerüst</a></nav>
+<!--/M335:WEITER-->
 <p class="foot">Modul 335 | Tag 1 Nachmittag | Auftrag 02B | Version 3 | 11.08.2026</p>
 
 </div>
@@ -524,6 +530,52 @@
 <span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
 </div></footer>
 <script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
 /* ------------------------------------------------------------------
    M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
 
@@ -634,7 +686,15 @@
     heads.forEach(function (h) {
       eintraege.push({
         el: h,
-        text: text(h).replace(/\s*\d+\s*(Min|Minuten)\.?$/i, ''),
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
         stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
       });
     });
