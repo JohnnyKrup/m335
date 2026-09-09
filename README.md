@@ -58,3 +58,44 @@ auseinanderlaufen.
 
 Dazu die Leistungsbeurteilung, die Generalprobe und das Starter-Projekt. Diese
 Instrumente verlieren ihren Zweck, wenn man sie vorher gesehen hat.
+
+## Der Passwortschutz
+
+Die Seite ist nicht mehr öffentlich. `middleware.js` steht als Edge Middleware
+vor allen Adressen. Ohne gültigen Cookie liefert Vercel keinen Inhalt aus,
+sondern eine Login Seite. Erst nach richtigem Passwort setzt die Middleware
+einen signierten Cookie, der 30 Tage hält.
+
+Geschützt ist wirklich alles: HTML, Bilder, CSS und die Dateien im
+Ordner `dateien\`. Frei bleiben nur `robots.txt` und `favicon.svg`.
+`robots.txt` sperrt zusätzlich alle Suchmaschinen aus, `vercel.json` setzt
+dazu den Kopfzeileneintrag `X-Robots-Tag: noindex`.
+
+### Einmal einrichten bei Vercel
+
+Im Projekt unter **Settings**, **Environment Variables** zwei Einträge anlegen,
+je für Production, Preview und Development:
+
+| Name | Wert |
+|---|---|
+| `M335_PASSWORT` | das Passwort für die Klasse |
+| `M335_SECRET` | eine lange Zufallszeichenkette, mindestens 32 Zeichen |
+
+`M335_SECRET` bekommst du zum Beispiel mit `openssl rand -hex 32`. Diesen Wert
+sieht niemand ausser Vercel, er dient nur zum Signieren des Cookies.
+
+Nach dem Anlegen einmal **Redeploy** auslösen, sonst kennt die laufende
+Fassung die Variablen noch nicht. Fehlt `M335_PASSWORT`, antwortet die Seite
+mit einem Hinweis und Status 503 statt Inhalt auszuliefern.
+
+### Das Passwort wechseln
+
+Wert von `M335_PASSWORT` ändern und neu deployen. Das Passwort fliesst in die
+Signatur ein, darum werden alle bestehenden Cookies sofort ungültig und alle
+müssen sich neu anmelden.
+
+### Was der Schutz nicht leistet
+
+Es gibt keine Benutzerverwaltung. Wer das Passwort weitergibt, gibt den Zugang
+weiter. Für den Zweck reicht das: die Unterlagen stehen nicht mehr offen im
+Netz und tauchen in keiner Suchmaschine auf.
