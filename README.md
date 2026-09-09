@@ -78,19 +78,19 @@ je für Production, Preview und Development:
 
 | Name | Wert |
 |---|---|
-| `M335_PASSWORT` | das Passwort für die Klasse |
+| `M335_PASSWORD` | das Passwort für die Klasse |
 | `M335_SECRET` | eine lange Zufallszeichenkette, mindestens 32 Zeichen |
 
 `M335_SECRET` bekommst du zum Beispiel mit `openssl rand -hex 32`. Diesen Wert
 sieht niemand ausser Vercel, er dient nur zum Signieren des Cookies.
 
 Nach dem Anlegen einmal **Redeploy** auslösen, sonst kennt die laufende
-Fassung die Variablen noch nicht. Fehlt `M335_PASSWORT`, antwortet die Seite
+Fassung die Variablen noch nicht. Fehlt `M335_PASSWORD`, antwortet die Seite
 mit einem Hinweis und Status 503 statt Inhalt auszuliefern.
 
 ### Das Passwort wechseln
 
-Wert von `M335_PASSWORT` ändern und neu deployen. Das Passwort fliesst in die
+Wert von `M335_PASSWORD` ändern und neu deployen. Das Passwort fliesst in die
 Signatur ein, darum werden alle bestehenden Cookies sofort ungültig und alle
 müssen sich neu anmelden.
 

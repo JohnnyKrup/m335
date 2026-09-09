@@ -28,6 +28,11 @@
 
 <p>Du baust den Bildschirm, der die Fragen zeigt, und füllst danach die Datenbank zum ersten Mal. Warum das so geht, steht in der <a href="08a-einfuehrung.html">Einführung zu 08A</a>. Fertig bist du, wenn deine Fragenliste den Zähler im Titel zeigt und darunter dreissig Zeilen stehen.</p>
 
+<figure class="bild hoch zielbild">
+<img src="images/08a-fragenliste.png" alt="Der Bildschirm mit der Fragenliste. Oben der Titel Fragen (30), darunter die Fragen. Jede Zeile zeigt oben den Fragetext und darunter Kategorie und Schwierigkeit, zum Beispiel Geographie, leicht" width="766" height="1135">
+<figcaption><b>Das baust du.</b> Jede Zeile zeigt oben den Fragetext und darunter Kategorie und Schwierigkeit.</figcaption>
+</figure>
+
 <h3 class="teil">Teil A, die Fragenliste <span class="time">20 Minuten</span></h3>
 
 <h4 class="brauchst">Was du brauchst</h4>
@@ -127,7 +132,7 @@
 <tr><td>Klassenname und Klassen-Javadoc</td><td>sprechen von der Fragenverwaltung, nicht von Über die App</td></tr>
 </table>
 
-<p>Den <code>TAG</code> und den Insets-Block übernimmst du unverändert. Das <code>| Type.ime()</code> aus der <code>GameActivity</code> nicht, dieser Bildschirm hat kein Eingabefeld.</p>
+<p>Den <code>TAG</code> und den Insets-Block übernimmst du unverändert.</p>
 
 <p>Viertens der Eintrag im Manifest, bei den anderen Activities:</p>
 
@@ -194,13 +199,10 @@
 <tr><td class="pre">position + 1</td><td>weg. Eine Frage hat keinen Rang, ihre Stelle in der Liste bedeutet nichts</td></tr>
 <tr><td class="pre">setEntries(...)</td><td class="pre">setQuestions(...)</td></tr>
 <tr><td>Import <code>model.HighscoreEntry</code> und <code>model.QuestionBank</code></td><td>Import <code>data.QuestionEntity</code></td></tr>
-<tr><td>Klassen-Javadoc spricht von der Rangliste</td><td>spricht von den Fragen</td></tr>
-<tr><td>Javadoc <i>Sucht die vier TextViews</i> und <i>mit den vier TextViews darin</i></td><td>zwei, an beiden Stellen</td></tr>
+<tr><td>Javadoc und Klassenkommentar</td><td>ziehst du auf die Fragen nach</td></tr>
 </table>
 
-<p>Das <code>Context context = holder.itemView.getContext()</code> bleibt, du brauchst es für den <code>question_meta_format</code>.</p>
-
-<div class="warn"><b>Die letzten beiden Zeilen der Tabelle melden sich nie von selbst.</b> Ein Javadoc, das von vier TextViews spricht, obwohl es zwei sind, ist für den Compiler in Ordnung. Such nach den Wörtern <code>vier</code> und <code>drei</code>, sobald du kopiert hast.</div>
+<p>Der <code>Context context = holder.itemView.getContext()</code> bleibt, du brauchst ihn für den <code>question_meta_format</code>.</p>
 
 <p>Drittens der Klick, der einzige neue Teil. Er kommt in den Adapter, weil nur dort eine einzelne Zeile bekannt ist. Ganz oben in der Klasse, vor dem ViewHolder:</p>
 
@@ -236,7 +238,7 @@ holder.itemView.setOnClickListener(v -&gt; listener.onQuestionClick(question));<
 <div class="step">
 <p><span class="n">A3</span><b>Verkabeln, zählen, leerer Zustand.</b> <span class="time">4 Min</span></p>
 
-<p>Die Felder, oben in der Klasse:</p>
+<p>Zurück in der <code>AdminActivity</code>. Die Felder gehören oben in die Klasse:</p>
 
 <pre><span class="c">/** Der Titel oben. Er trägt die Anzahl Fragen. */</span>
 <span class="k">private</span> <span class="t">TextView</span> tvAdminTitle;
@@ -323,7 +325,7 @@ rvQuestions.setAdapter(adapter);</pre>
 <ol>
 <li>Im Menü ist kein Knopf mehr grau, und der Hinweistext unten ist weg.</li>
 <li>In der Vorschau von <code>item_question.xml</code> stehen zwei Zeilen untereinander, oben die Frage, darunter <code>Geographie, leicht</code>.</li>
-<li>Im ganzen <code>QuestionAdapter</code> steht nirgends mehr <code>vier</code>, <code>drei</code> oder <code>Rangliste</code>.</li>
+<li>Im ganzen <code>QuestionAdapter</code> steht nirgends mehr etwas von der Rangliste.</li>
 <li>Im Klassenkommentar der <code>AdminActivity</code> steht nichts mehr von Über die App.</li>
 <li>Starte und öffne <code>Fragen verwalten</code>. Der Titel lautet <code>Fragen (0)</code>, darunter steht mittig <code>Noch keine Frage in der Datenbank.</code></li>
 <li>Im Logcat unter <code>tag:Modul335</code> stehen <code>AdminActivity onCreate</code> und <code>questions loaded, total=0</code>.</li>
@@ -417,9 +419,9 @@ rvQuestions.setAdapter(adapter);</pre>
 
 <p>Die runde Klammer nach <code>try</code> schliesst am Ende automatisch, was du darin öffnest. Ohne <code>StandardCharsets.UTF_8</code> kommen deine Umlaute kaputt an.</p>
 
-<p>Und jetzt das Einlesen. Deine Vorlage ist <code>HighscoreStorage.getAll</code> aus 06B, öffne sie zuerst. Zwei Dinge sind hier anders. In jeder Frage steckt ein zweites <code>JSONArray</code> mit den vier Antworten, und das Ergebnis geht nicht in eine Liste, sondern ins Dao.</p>
+<p>Und jetzt das Einlesen. Deine Vorlage ist <code>HighscoreStorage.getAll</code> aus 06B. Zwei Dinge sind hier anders. In jeder Frage steckt ein zweites <code>JSONArray</code> mit den vier Antworten, und das Ergebnis geht nicht in eine Liste, sondern ins Dao.</p>
 
-<p>Der Rahmen. Füll ihn in eigenen Worten und mit eigenem Code:</p>
+<p>Erstell die Methode nach der Beschreibung im Rahmen, mit eigenem Code:</p>
 
 <pre><span class="c">/**
  * Füllt die Tabelle mit dem Startbestand aus assets.
@@ -454,16 +456,15 @@ rvQuestions.setAdapter(adapter);</pre>
     }
 }</pre>
 
-<div class="warn">
-<p><b>Bei den vier <code>setAnswer</code>-Zeilen passiert der Fehler dieses Auftrags.</b> Sie sehen fast gleich aus, und wer die erste dreimal kopiert, vergisst leicht die Zahl. Viermal <code>setAnswer1</code> meldet niemand. Die App läuft, die Liste zeigt dreissig Fragen, und drei Antworten sind leer.</p>
+<div class="note">
 <p>Die acht Setter heissen <code>setText</code>, <code>setAnswer1</code> bis <code>setAnswer4</code>, <code>setCorrectAnswer</code>, <code>setCategory</code>, <code>setDifficulty</code>. Der Schlüssel <code>answers</code> wird auf vier Setter verteilt, die <code>id</code> wird weggeworfen.</p>
 </div>
 </div>
 
 <div class="step">
-<p><span class="n">B3</span><b>Aufrufen, und dann schau genau hin.</b> <span class="time">7 Min</span></p>
+<p><span class="n">B3</span><b>Aufrufen und den Zähler beobachten.</b> <span class="time">7 Min</span></p>
 
-<p>Der Aufruf, und eine Zeile wandert. Beides in deiner <code>getInstance</code>, innerhalb des <code>if (instance == null)</code>. Dort steht seit 07C das hier, direkt nach dem <code>build()</code>:</p>
+<p>Der Aufruf kommt in deine <code>getInstance</code>, innerhalb des <code>if (instance == null)</code>. Eine bestehende Zeile ändert dabei ihren Platz. Dort steht seit 07C das hier, direkt nach dem <code>build()</code>:</p>
 
 <pre><span class="d">// build() legt die Datei noch nicht an. Das passiert erst beim
 // ersten Zugriff, also bei count() gleich hier darunter.</span>
@@ -488,10 +489,6 @@ rvQuestions.setAdapter(adapter);</pre>
 <p>Der Titel lautet jetzt <code>Fragen (30)</code>, und darunter stehen dreissig Zeilen. Im Logcat steht <code>seed done, count=30</code>.</p>
 
 <p>Und jetzt der eigentliche Teil dieses Schritts. Drück nochmals auf <code>Run</code>, warte den Neustart ab und öffne <code>Fragen verwalten</code> wieder. Schau auf den Zähler im Titel.</p>
-
-<p>Beantworte zwei Fragen für dich, bevor du weiterliest. Was steht jetzt in der Klammer, und ist das ein Fehler oder nicht? Und die schwerere: an welcher Stelle genau sind die Fragen dazugekommen?</p>
-
-<h4>Die Auflösung</h4>
 
 <p>Es steht <code>Fragen (60)</code> da. Beim dritten Start werden es neunzig.</p>
 

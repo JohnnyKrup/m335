@@ -349,7 +349,7 @@ annotationProcessor(libs.room.compiler)</pre>
 
 <p>Den Import holst du mit Alt+Enter.</p>
 
-<p>Bevor du startest, leg dich fest. Du hast nirgends ein <code>CREATE TABLE</code> ausgeführt, auf dem Gerät gibt es keine Datei. Was passiert beim <code>count()</code>? Ein Absturz mit <code>no such table</code>, die Zahl <code>0</code> oder die Zahl <code>-1</code>? Dann starte und schau im Logcat nach.</p>
+<p>Du hast nirgends ein <code>CREATE TABLE</code> ausgeführt, auf dem Gerät gibt es keine Datei. Starte die App und schau im Logcat, was <code>count()</code> meldet.</p>
 
 <p>Es ist die Zahl <code>0</code>. Das <code>build()</code> hat nur vorbereitet. Erst dein <code>count()</code> greift zu, und da merkt Room, dass es <code>quiz.db</code> noch nicht gibt. Also legt es die Datei an, führt das <code>CREATE TABLE</code> aus und zählt. Deine Tabelle entsteht beim ersten Zugriff.</p>
 
@@ -404,7 +404,7 @@ annotationProcessor(libs.room.compiler)</pre>
 
 <p><code>QuestionBank</code> darf noch nicht sagen, die Fragen lägen in der Datenbank. Die Tabelle ist leer, das Spiel holt sie weiterhin von hier. Schreib hin, was stimmt: es gibt jetzt eine Datenbank, und der Umzug beginnt in 08A.</p>
 
-<p>Zum Schluss zwei Fragen an deinen eigenen Text. Steht im Klassenkommentar von <code>QuizDatabase</code>, warum es die Klasse nur einmal gibt? Und liefert die Suche nach <code>Stufe 7</code> keinen falschen Treffer mehr?</p>
+<p>Zum Schluss zwei Stellen im eigenen Text. Im Klassenkommentar von <code>QuizDatabase</code> steht, warum es die Klasse nur einmal gibt. Und die Suche nach <code>Stufe 7</code> liefert keinen falschen Treffer mehr.</p>
 </div>
 
 <h3 class="teil">Optionale weitere Übungen</h3>

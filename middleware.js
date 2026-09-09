@@ -1,87 +1,87 @@
 /* ------------------------------------------------------------------
-   M335 middleware.js
-   Passwortschutz fuer die ganze Seite, ohne Benutzerverwaltung.
+   Modul 335 middleware.js
+   Password gate in front of the whole site. No user management.
 
-   Ohne gueltigen Cookie liefert Vercel keinen Inhalt aus, sondern eine
-   Login Seite. Erst nach richtigem Passwort wird ein signierter Cookie
-   gesetzt und die eigentliche Seite freigegeben.
+   Without a valid cookie Vercel serves no content, only a login page.
+   A correct password sets a signed cookie that lasts 30 days.
 
-   Zwei Environment Variables muessen bei Vercel gesetzt sein:
-     M335_PASSWORT   das Passwort, das die Schueler bekommen
-     M335_SECRET     eine lange Zufallszeichenkette zum Signieren
+   Two environment variables have to be set in Vercel:
+     M335_PASSWORD   the password handed out to the class
+     M335_SECRET     a long random string used for signing
 
-   Wer das Passwort aendert, macht damit alle bestehenden Cookies
-   ungueltig, weil das Passwort in die Signatur einfliesst.
+   The password is part of the signing key. Changing it invalidates
+   every cookie that is already out there, which is intended.
    ------------------------------------------------------------------ */
 
 export const config = {
   matcher: ['/((?!_vercel|robots\\.txt|favicon\\.svg).*)'],
 };
 
-const COOKIE = 'm335_zugang';
-const TAGE = 30;
+const COOKIE_NAME = 'm335_access';
+const DAYS = 30;
 
-/* ---------------------------------------------------------- Signatur */
+/* --------------------------------------------------------- Signing */
 
-async function schluessel(geheim) {
+async function signingKey(secret) {
   return crypto.subtle.importKey(
     'raw',
-    new TextEncoder().encode(geheim),
+    new TextEncoder().encode(secret),
     { name: 'HMAC', hash: 'SHA-256' },
     false,
     ['sign']
   );
 }
 
-async function signieren(text, geheim) {
-  const sig = await crypto.subtle.sign('HMAC', await schluessel(geheim), new TextEncoder().encode(text));
-  return [...new Uint8Array(sig)].map((b) => b.toString(16).padStart(2, '0')).join('');
+async function sign(text, secret) {
+  const mac = await crypto.subtle.sign('HMAC', await signingKey(secret), new TextEncoder().encode(text));
+  return [...new Uint8Array(mac)].map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
-function gleich(a, b) {
+/* Compares without leaking the position of the first difference. */
+function equals(a, b) {
   if (typeof a !== 'string' || typeof b !== 'string' || a.length !== b.length) return false;
   let diff = 0;
   for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
   return diff === 0;
 }
 
-async function cookieBauen(geheim) {
-  const ablauf = String(Date.now() + TAGE * 24 * 60 * 60 * 1000);
-  return ablauf + '.' + (await signieren(ablauf, geheim));
+/* ---------------------------------------------------------- Cookie */
+
+async function createCookieValue(secret) {
+  const expiry = String(Date.now() + DAYS * 24 * 60 * 60 * 1000);
+  return expiry + '.' + (await sign(expiry, secret));
 }
 
-async function cookieGueltig(wert, geheim) {
-  if (!wert) return false;
-  const punkt = wert.indexOf('.');
-  if (punkt < 1) return false;
-  const ablauf = wert.slice(0, punkt);
-  const sig = wert.slice(punkt + 1);
-  if (!/^\d+$/.test(ablauf) || Number(ablauf) < Date.now()) return false;
-  return gleich(sig, await signieren(ablauf, geheim));
+async function isCookieValid(value, secret) {
+  if (!value) return false;
+  const dot = value.indexOf('.');
+  if (dot < 1) return false;
+  const expiry = value.slice(0, dot);
+  const signature = value.slice(dot + 1);
+  if (!/^\d+$/.test(expiry) || Number(expiry) < Date.now()) return false;
+  return equals(signature, await sign(expiry, secret));
 }
 
-/* ------------------------------------------------------------ Cookie */
-
-function cookieLesen(kopf, name) {
-  if (!kopf) return '';
-  for (const teil of kopf.split(';')) {
-    const i = teil.indexOf('=');
+function readCookie(header, name) {
+  if (!header) return '';
+  for (const part of header.split(';')) {
+    const i = part.indexOf('=');
     if (i < 0) continue;
-    if (teil.slice(0, i).trim() === name) return teil.slice(i + 1).trim();
+    if (part.slice(0, i).trim() === name) return part.slice(i + 1).trim();
   }
   return '';
 }
 
-/* Weiterreichen an die statische Datei. Das ist genau das, was next()
-   aus dem Paket @vercel/edge macht, nur ohne die Abhaengigkeit. */
-function weiter() {
+/* Hands the request on to the static file. This is exactly what
+   next() from the @vercel/edge package does, without the dependency. */
+function passThrough() {
   return new Response(null, { headers: { 'x-middleware-next': '1' } });
 }
 
-/* -------------------------------------------------------- Login Seite */
+/* ------------------------------------------------------- Login page */
 
-function loginSeite(fehler) {
-  const meldung = fehler
+function loginPage(failed) {
+  const message = failed
     ? '<p class="fehler">Das Passwort stimmt nicht. Versuch es noch einmal.</p>'
     : '';
   return `<!DOCTYPE html>
@@ -124,19 +124,19 @@ Modul 335 Mobile Applikationen
 </div>
 <h1>Zugang zu den Unterlagen</h1>
 <p>Diese Seiten sind nur für die Klasse. Gib das Passwort ein, das du im Unterricht bekommen hast.</p>
-${meldung}
+${message}
 <form method="post" action="">
 <label for="pw">Passwort</label>
 <input id="pw" name="passwort" type="password" autocomplete="current-password" autofocus required>
 <button type="submit">Weiter</button>
 </form>
-<p class="fuss">Dein Browser merkt sich den Zugang ${TAGE} Tage lang.</p>
+<p class="fuss">Dein Browser merkt sich den Zugang ${DAYS} Tage lang.</p>
 </main>
 </body>
 </html>`;
 }
 
-function seiteAusliefern(html, status) {
+function htmlResponse(html, status) {
   return new Response(html, {
     status,
     headers: {
@@ -147,46 +147,48 @@ function seiteAusliefern(html, status) {
   });
 }
 
-/* ------------------------------------------------------------ Ablauf */
+/* ----------------------------------------------------------- Entry */
 
 export default async function middleware(request) {
-  const passwort = process.env.M335_PASSWORT;
-  const secret = (process.env.M335_SECRET || '') + '|' + (passwort || '');
+  const password = process.env.M335_PASSWORD;
+  const secret = (process.env.M335_SECRET || '') + '|' + (password || '');
 
-  if (!passwort) {
+  /* No password configured means the gate is not finished. Refuse
+     rather than silently serving the material. */
+  if (!password) {
     return new Response(
-      'Der Passwortschutz ist nicht fertig eingerichtet. Es fehlt die Environment Variable M335_PASSWORT.',
+      'Der Passwortschutz ist nicht fertig eingerichtet. Es fehlt die Environment Variable M335_PASSWORD.',
       { status: 503, headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' } }
     );
   }
 
-  const cookie = cookieLesen(request.headers.get('cookie'), COOKIE);
-  if (await cookieGueltig(cookie, secret)) return weiter();
+  const cookie = readCookie(request.headers.get('cookie'), COOKIE_NAME);
+  if (await isCookieValid(cookie, secret)) return passThrough();
 
   if (request.method === 'POST') {
-    let eingabe = '';
+    let entered = '';
     try {
-      const daten = await request.formData();
-      eingabe = String(daten.get('passwort') || '');
+      const form = await request.formData();
+      entered = String(form.get('passwort') || '');
     } catch {
-      eingabe = '';
+      entered = '';
     }
 
-    if (gleich(eingabe, passwort)) {
+    if (equals(entered, password)) {
       const url = new URL(request.url);
-      const antwort = new Response(null, {
+      const response = new Response(null, {
         status: 303,
         headers: { Location: url.pathname + url.search, 'Cache-Control': 'no-store' },
       });
-      antwort.headers.append(
+      response.headers.append(
         'Set-Cookie',
-        `${COOKIE}=${await cookieBauen(secret)}; Path=/; Max-Age=${TAGE * 24 * 60 * 60}; HttpOnly; Secure; SameSite=Lax`
+        `${COOKIE_NAME}=${await createCookieValue(secret)}; Path=/; Max-Age=${DAYS * 24 * 60 * 60}; HttpOnly; Secure; SameSite=Lax`
       );
-      return antwort;
+      return response;
     }
 
-    return seiteAusliefern(loginSeite(true), 401);
+    return htmlResponse(loginPage(true), 401);
   }
 
-  return seiteAusliefern(loginSeite(false), 401);
+  return htmlResponse(loginPage(false), 401);
 }
