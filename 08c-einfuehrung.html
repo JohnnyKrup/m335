@@ -30,9 +30,9 @@
 
 <h2>Wo du stehst</h2>
 
-<p>Seit 08B kann deine App Fragen anlegen. Ändern kann sie keine, und wegwerfen auch nicht. Ein Tippfehler im Fragetext bleibt darum für immer stehen.</p>
+<p>Seit 08B kann deine App Fragen anlegen. Ändern kann sie keine, und löschen auch nicht. Ein Tippfehler im Fragetext bleibt darum für immer stehen.</p>
 
-<p>Die zweite Lücke ist grösser. Dein Spiel hat von deiner Datenbank noch nie etwas gehört. Es holt seine Fragen weiterhin aus <code>QuestionBank</code>, also fest aus dem Code. Deine selbst angelegte Frage kommt darum nie dran. Das war in 08A und 08B so angekündigt, und in 08C wird es eingelöst.</p>
+<p>Die zweite Lücke ist grösser. Dein Spiel hat von deiner Datenbank noch nie etwas gehört. Es holt seine Fragen weiterhin aus <code>QuestionBank</code>, also fest aus dem Code. Deine selbst angelegte Frage kommt darum nie dran. Das war in 08A und 08B so angekündigt, und in 08C wird das Problem gelöst.</p>
 
 <table>
 <tr><th>Was</th><th>08B, dein Stand</th><th>08C, nachher</th></tr>
@@ -49,18 +49,18 @@
 
 <p>Du baust keinen zweiten Bildschirm. Deine <code>QuestionEditActivity</code> aus 08B bekommt eine zweite Aufgabe dazu. Welche der zwei gerade gilt, hängt an einer einzigen Zahl.</p>
 
-<pre>   Liste                     Formular
-   -----                     --------
-   runder Knopf    -------&gt;  Intent ohne Extra
-                             questionId = 0
-                             showMode  : Neue Frage, kein Löschen
-                             speichern : insert
+<pre>   Liste                        Formular
+   -----                        --------
+   abgerundeter Knopf -------&gt;  Intent ohne Extra
+                                questionId = 0
+                                showMode  : Neue Frage, kein Löschen
+                                speichern : insert
 
-   Klick auf Zeile -------&gt;  Intent mit id=7
-                             questionId = 7
-                             showMode  : Frage bearbeiten, Löschen da
-                             loadQuestion füllt die Felder
-                             speichern : setId + update</pre>
+   Klick auf Zeile    -------&gt;  Intent mit id=7
+                                questionId = 7
+                                showMode  : Frage bearbeiten, Löschen da
+                                loadQuestion füllt die Felder
+                                speichern : setId + update</pre>
 
 <p>Room vergibt seine ids ab 1. Also kann <code>0</code> nie eine echte Frage meinen. Damit braucht es kein zweites Feld, das sich den Zustand merkt.</p>
 
@@ -68,7 +68,7 @@
 
 <h2>Damit ist CRUD vollständig</h2>
 
-<p>Die vier Grundoperationen auf Daten heissen zusammen <b>CRUD</b>. Dein <code>QuestionDao</code> hat sie seit 07C alle vier. Aufgerufen hast du bisher zwei davon.</p>
+<p>Die vier Grundoperationen auf Daten heissen zusammen <b>CRUD</b>. Dein <code>QuestionDao</code> hat seit 07C alle vier. Aufgerufen hast du bisher zwei davon.</p>
 
 <table>
 <tr><th>Buchstabe</th><th>Heisst</th><th>Deine Methode</th><th>Seit wann in Gebrauch</th></tr>
@@ -97,12 +97,12 @@
 <h2>Das brauchst du vorher</h2>
 
 <ul>
-<li>Dein Projekt <b>WissQuiz</b> nach 08B. Der Knopf <b>Fragen verwalten</b> öffnet die Liste, der runde Knopf unten rechts öffnet das leere Formular, und eine neue Frage landet in der Liste.</li>
+<li>Dein Projekt <b>WissQuiz</b> nach 08B. Der Knopf <b>Fragen verwalten</b> öffnet die Liste, der abgerundete Knopf unten rechts öffnet das leere Formular, und eine neue Frage landet in der Liste.</li>
 <li>Deine Methode <code>selectedAnswerIndex</code> in der <code>QuestionEditActivity</code> aus 08B. Du brauchst sie als <b>Vorlage</b>, nicht zum Ändern. In A2 baust du die Gegenrichtung dazu.</li>
 <li>Deine Methoden <code>update</code>, <code>delete</code> und <code>findById</code> im <code>QuestionDao</code> aus 07C. In 08C ruft sie zum ersten Mal jemand auf.</li>
 </ul>
 
-<p>Die Vorbereitung dauert eine Minute. Starte deine App, öffne <b>Fragen verwalten</b> und leg über den runden Knopf eine Testfrage an. Sie muss danach in der Liste stehen. Klappt das nicht, fehlt die Grundlage. Der Grund steht im Logcat unter <code>tag:Modul335</code>.</p>
+<p>Die Vorbereitung dauert eine Minute. Starte deine App, öffne <b>Fragen verwalten</b> und leg über den abgerundeten Knopf eine Testfrage an. Sie muss danach in der Liste stehen. Klappt das nicht, fehlt die Grundlage. Der Grund steht im Logcat unter <code>tag:Modul335</code>.</p>
 
 <h2>Der Plan für die 55 Minuten</h2>
 

@@ -28,6 +28,11 @@
 
 <p>Du machst deine Fragenverwaltung vollständig und stellst das Spiel auf die Datenbank um. Warum das so geht, steht in der <a href="08c-einfuehrung.html">Einführung zu 08C</a>. Fertig bist du, wenn du eine Frage aus der Liste antippen, ändern und speichern kannst, wenn der Löschen-Knopf sie wirklich entfernt, und wenn deine eigene Frage im Spiel drankommt.</p>
 
+<figure class="bild hoch zielbild">
+<img src="images/08c-edit-questions.png" alt="Das Formular im Bearbeiten-Modus. Oben der Titel Frage bearbeiten, darunter die gefüllten Felder einer bestehenden Frage, der markierte Knopf steht auf Antwort 3, unten Kategorie Geographie und Schwierigkeit leicht" width="502" height="1058">
+<figcaption><b>Das baust du.</b> Der Titel sagt, welcher der zwei Zustände gerade gilt. Die Felder tragen die Werte der Frage, die du angetippt hast.</figcaption>
+</figure>
+
 <h3 class="teil">Teil A, ein Bildschirm mit zwei Aufgaben <span class="time">23 Minuten</span></h3>
 
 <h4 class="brauchst">Was du brauchst</h4>
@@ -185,6 +190,11 @@ btnDeleteQuestion.setVisibility(editing ? <span class="t">View</span>.<span clas
     finish();
 }</pre></div>
 
+<figure class="bild hoch">
+<img src="images/08c-delete-question.png" alt="Dasselbe Formular, nach unten gescrollt. Unter dem Knopf Frage speichern steht Abbrechen, darunter in Rot Diese Frage löschen" width="503" height="1073">
+<figcaption>Dasselbe Formular, weiter unten. Der Löschen-Knopf steht zuunterst, unter <code>Abbrechen</code>, und ist als einziger rot.</figcaption>
+</figure>
+
 <div class="chk">
 <p><b>So prüfst du Teil A.</b></p>
 <ol>
@@ -192,7 +202,7 @@ btnDeleteQuestion.setVisibility(editing ? <span class="t">View</span>.<span clas
 <li>Tipp diese Zeile an. Oben steht <code>Frage bearbeiten</code>, der Fragetext und alle vier Antworten stehen in ihren Feldern, unten steht der Löschen-Knopf.</li>
 <li>Der markierte Knopf passt zur richtigen Antwort und steht nicht auf Nummer 1.</li>
 <li>Im Logcat unter <code>tag:Modul335</code> stehen zwei Zeilen untereinander, <code>question clicked, id=7</code> und <code>QuestionEditActivity onCreate, id=7</code>. Die zwei Zahlen sind gleich.</li>
-<li>Geh zurück und tipp den runden Knopf an. Das Formular ist leer, oben steht <code>Neue Frage</code>, der Löschen-Knopf ist nicht da. Im Logcat steht <code>id=0</code>.</li>
+<li>Geh zurück und tipp den abgerundeten Knopf an. Das Formular ist leer, oben steht <code>Neue Frage</code>, der Löschen-Knopf ist nicht da. Im Logcat steht <code>id=0</code>.</li>
 <li>Geh zurück und tipp wieder die erste Zeile an. Änder im Fragetext ein Wort und speicher. Such deine geänderte Frage in der Liste und vergleich sie mit dem, was du aufgeschrieben hast.</li>
 <li>Leg eine Wegwerf-Frage an, tipp sie an, tipp auf <code>Diese Frage löschen</code> und wähl <code>Behalten</code>. Nichts passiert. Nochmals, diesmal <code>Löschen</code>. Die Frage ist weg, und der Zähler oben ist um eins kleiner.</li>
 </ol>
