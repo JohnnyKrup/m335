@@ -127,7 +127,7 @@
 <tr><td>Abstand oben</td><td>fällt weg, nur der Fragetext hat ihn</td></tr>
 </table>
 
-<div class="warn"><b>Eine vergessene Beschriftung meldet niemand.</b> Beim Kopieren der vier Blöcke bleibt sie leicht stehen. Im Formular stehen dann viermal die Worte Antwort 1 untereinander.</div>
+<p><b>Die Beschriftung ist bei jedem der vier Blöcke eine andere.</b> Beim Kopieren bleibt sie leicht stehen, und im Formular steht dann viermal Antwort 1 untereinander.</p>
 
 <p>Unter <code>tilAnswer4</code> eine <code>TextView</code> mit <code>label_correct_answer</code>, 15sp und fett, darunter die Auswahl:</p>
 
@@ -366,7 +366,7 @@ findViewById(<span class="t">R</span>.id.btnCancelQuestion).setOnClickListener(v
 
 <pre>findViewById(<span class="t">R</span>.id.btnSaveQuestion).setOnClickListener(v -&gt; onSaveClicked());</pre>
 
-<div class="warn"><b>Die <code>id</code> wird nicht gesetzt, und das ist die wichtigste Zeile, die hier fehlt.</b> Room vergibt sie beim Einfügen selbst und gibt sie zurück. Wer <code>question.setId(1)</code> schreibt, überschreibt die Frage Nummer 1 aus dem Startbestand. Ohne Fehlermeldung.</div>
+<div class="warn"><b>Die <code>id</code> setzt du nicht.</b> Room vergibt sie beim Einfügen selbst und gibt sie zurück. Wer <code>question.setId(1)</code> schreibt, überschreibt damit die Frage 1 aus dem Startbestand. Ohne Fehlermeldung.</div>
 </div>
 
 <p>Du hast der Fragenliste nirgends gesagt, dass sie neu laden soll. <code>finish()</code> schliesst nur das Formular, die Liste darunter war nie weg, also läuft <code>onResume</code> und nicht <code>onCreate</code>. Ausprobieren kannst du es in Übung 1.</p>
