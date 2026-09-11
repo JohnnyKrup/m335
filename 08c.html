@@ -54,7 +54,7 @@
 <pre><span class="k">public</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="t">EXTRA_QUESTION_ID</span> = <span class="s">"question_id"</span>;</pre>
 <p>Dann das neue Feld, zu den anderen Feldern:</p>
 <pre><span class="k">private</span> <span class="k">int</span> questionId = 0;</pre>
-<p>Jetzt der Klick. In deiner <code>AdminActivity</code> gibt es seit 08A die Methode <code>onQuestionClick</code>. Bisher schreibt sie nur eine Log-Zeile. Ersetz ihren Rumpf durch diesen:</p>
+<p>Jetzt der Klick. In deiner <code>AdminActivity</code> gibt es seit 08A die Methode <code>onQuestionClick</code>. Bisher schreibt sie nur eine Log-Zeile. Ersetz ihren Body durch diesen:</p>
 <pre><span class="a">@Override</span>
 <span class="k">public</span> <span class="k">void</span> <span class="m">onQuestionClick</span>(<span class="t">QuestionEntity</span> question) {
     <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"question clicked, id="</span> + question.getId());
@@ -165,10 +165,10 @@ btnDeleteQuestion.setVisibility(editing ? <span class="t">View</span>.<span clas
     <span class="t">Log</span>.d(<span class="t">TAG</span>, <span class="s">"question inserted, id="</span> + newId);
 }</pre>
 <div class="warn">
-<p>Das <code>question.setId(questionId)</code> widerspricht dem, was in 08B galt. Dort war ein <code>setId</code> ein Fehler, denn Room vergibt die <code>id</code> beim Anlegen selbst. Beim Ändern ist es umgekehrt. Ohne <code>id</code> findet <code>update</code> keine Zeile und tut still gar nichts. Kein Absturz, keine Meldung, und deine Änderung ist weg.</p>
+<p>Das <code>question.setId(questionId)</code> widerspricht dem, was in 08B galt. Dort war <code>setId</code> ein Fehler, denn Room vergibt die <code>id</code> beim Anlegen selbst. Beim Ändern ist es umgekehrt. Ohne <code>id</code> findet <code>update</code> keine Zeile und tut still gar nichts. Kein Absturz, keine Meldung, und deine Änderung ist weg.</p>
 </div>
 
-<p>Zum Schluss das Löschen. Zwei Methoden, die erste fragt, die zweite löscht. Eine einzige ginge nicht, denn der Dialog wartet nicht. Der harmlose Knopf steht links, als <code>NegativeButton</code>. Wer schnell tippt, behält seine Frage:</p>
+<p>Zum Schluss das Löschen. Zwei Methoden, die erste fragt, die zweite löscht. Eine einzige ginge nicht, denn der Dialog wartet nicht. Der harmlose Knopf steht links, als <code>NegativeButton</code>:</p>
 <pre><span class="k">private</span> <span class="k">void</span> <span class="m">onDeleteClicked</span>() {
     <span class="k">new</span> <span class="t">AlertDialog</span>.<span class="t">Builder</span>(<span class="k">this</span>)
             .setTitle(<span class="t">R</span>.string.dialog_delete_title)
@@ -240,9 +240,9 @@ btnDeleteQuestion.setVisibility(editing ? <span class="t">View</span>.<span clas
 
 <p><b>Die Auflösung. Nummer 2 stimmt.</b> Schau dir deine <code>loadQuestion</code> an. Sie füllt den Fragetext, die vier Antworten und den Radiobutton. Die zwei Spinner kommen darin nicht vor. Ein Spinner steht darum weiter auf seinem ersten Eintrag, und <code>onSaveClicked</code> liest gehorsam genau das aus:</p>
 <pre>question.setCategory((<span class="t">String</span>) spnEditCategory.getSelectedItem());</pre>
-<p>Das ist keine Schlamperei, sondern ein Muster. Ein Textfeld füllst du mit <code>setText</code>, und der Name der Methode sagt dir, was passiert. Ein Spinner hat kein <code>setText</code>. Er will eine Position und keinen Text, und darum vergisst man ihn.</p>
+<p>Ein Textfeld füllst du mit <code>setText</code>, und der Name der Methode sagt dir, was passiert. Ein Spinner hat kein <code>setText</code>. Er will eine Position und keinen Text.</p>
 
-<p>Dass die Frage in der Liste gesprungen ist, war dein Glück. Dein <code>getAll</code> sortiert mit <code>ORDER BY category, id</code>. Ohne die Sortierung wäre der Fehler an derselben Stelle stehen geblieben.</p>
+<p>Dein <code>getAll</code> sortiert mit <code>ORDER BY category, id</code>. Ohne die Sortierung wäre der Fehler an derselben Stelle stehen geblieben.</p>
 
 <p>Jetzt der Umbau. Du brauchst die Liste der Kategorien beim Füllen wieder. Bisher entsteht sie in <code>onCreate</code> und verschwindet gleich im Adapter. Mach ein Feld daraus, belege es vor den zwei <code>setAdapter</code>-Zeilen und benutz es in der ersten davon:</p>
 <pre><span class="k">private</span> <span class="t">List</span>&lt;<span class="t">String</span>&gt; categories;
@@ -313,7 +313,7 @@ answerLayouts[3].setError(<span class="k">null</span>);
 
 <p>Deine <code>GameActivity</code> ruft an genau einer Stelle <code>QuestionBank.byCategory</code>. Diese Zeile hängt am ganzen Rest: sie liefert <code>List&lt;Question&gt;</code>, und darum ist alles danach vom Typ <code>Question</code>.</p>
 
-<p>Zuerst die neue Abfrage im <code>QuestionDao</code>, zwischen <code>getAll</code> und <code>findById</code>. Wer die Abfrage als Text zusammenklebt statt mit dem Platzhalter, macht sie für eine SQL-Injection offen. Das kennst du aus 295:</p>
+<p>Zuerst die neue Abfrage im <code>QuestionDao</code>, zwischen <code>getAll</code> und <code>findById</code>. Wichtig ist der Platzhalter <code>:category</code>. Room übergibt den Wert getrennt von der Abfrage, und SQLite behandelt ihn darum immer als Wert. Klebst du den Wert stattdessen als Text in die Abfrage, liest SQLite ihn als Teil der Abfrage. Aus dem Wert <code>Sport' OR '1'='1</code> wird dann eine Bedingung, die immer wahr ist, und du bekommst alle Zeilen statt einer Kategorie. Das ist eine SQL-Injection, und du kennst sie aus 295:</p>
 <pre><span class="a">@Query</span>(<span class="s">"SELECT * FROM questions WHERE category = :category ORDER BY category, id"</span>)
 <span class="t">List</span>&lt;<span class="t">QuestionEntity</span>&gt; getByCategory(<span class="t">String</span> category);</pre>
 <p>Dann die Typen in der <code>GameActivity</code>. Der Compiler zeigt dir jede Stelle, sobald die erste umgestellt ist. Der Import von <code>model.Question</code> fällt weg, dafür kommen <code>data.QuestionDao</code>, <code>data.QuestionEntity</code> und <code>data.QuizDatabase</code>:</p>

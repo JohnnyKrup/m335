@@ -49,40 +49,63 @@
 <li>Alle selbst erstellten Klassen und Methoden sind Javadoc-kompatibel zu dokumentieren.</li>
 </ul>
 
-<h3 class="teil">Der Einstieg <span class="time">3 Minuten</span></h3>
+<h3 class="teil">Der Einstieg <span class="time">2 Minuten</span></h3>
+
+<p>Leg dein Blatt aus 07A neben die Tastatur. Darauf stehen dein Datenmodell und deine Mockups, und du arbeitest heute damit.</p>
+
+<h3 class="teil">Schritt 0, das Projekt anlegen <span class="time">12 Minuten</span></h3>
 
 <h4 class="brauchst">Was du brauchst</h4>
 <table>
-<tr><th>Was im Starter-Projekt da ist</th><th>Wofür</th></tr>
-<tr><td class="pre">MainActivity</td><td>Die Startseite. Leer bis auf den Rand-Block für die Statusleiste</td></tr>
-<tr><td class="pre">ItemEditActivity</td><td>Das Formular. Bleibt leer. Es steht schon im Manifest</td></tr>
-<tr><td class="pre">activity_main.xml</td><td>Leer, mit der id <code>clMain</code> am Root-Element</td></tr>
-<tr><td class="pre">item_shopping.xml</td><td>Fertig. Die Zeile der Liste, mit <code>tvArticle</code>, <code>tvShop</code> und <code>tvAmount</code></td></tr>
-<tr><td class="pre">build.gradle.kts</td><td>Room ist bereits eingetragen, samt <code>annotationProcessor</code></td></tr>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">Empty Views Activity</td><td>Die Vorlage. Nicht <code>Empty Activity</code>, die ist Compose und hat kein XML-Layout</td></tr>
+<tr><td class="pre">build.gradle.kts (Module :app)</td><td>Die längere der zwei. In ihr steht ein Block <code>dependencies</code></td></tr>
+<tr><td class="pre">libs.versions.toml</td><td>Der Katalog. Dort steht die Room-Version, wie in 07C</td></tr>
+<tr><td class="pre">item_shopping.xml</td><td>Das Zeilenlayout. Es steht fertig im Lösungsmaterial</td></tr>
 </table>
 
 <div class="step">
-<p><span class="n">0</span><b>Projekt öffnen, einmal bauen, Blatt aus 07A hinlegen.</b> <span class="time">3 Min</span></p>
+<p><span class="n">0</span><b>Neues Projekt, Room eintragen, Zeilenlayout holen.</b> <span class="time">12 Min</span></p>
 
-<p>Entpack das ZIP, öffne den Ordner <code>Einkaufsliste</code> in Android Studio und warte, bis Gradle fertig ist. Dann <code>Ctrl+F9</code>. Schau dir an, was da ist. Es ist wenig, und an der Prüfung ist es genauso.</p>
+<p>An der Prüfung bekommst du kein vorbereitetes Projekt. Du beginnst mit <code>File</code>, <code>New</code>, <code>New Project</code>, so wie in 01C und 02B.</p>
 
-<p>Das Zeilenlayout <code>item_shopping.xml</code> ist fertig und du baust es nicht. Es würde zwölf Minuten von der Datenbank wegnehmen, und du hast es in 06C und 07B zweimal gebaut. Schau es dir trotzdem an, vor allem den linken Block mit <code>layout_weight="1"</code>.</p>
+<table>
+<tr><td>Vorlage</td><td class="pre">Empty Views Activity</td></tr>
+<tr><td>Name</td><td class="pre">Einkaufsliste</td></tr>
+<tr><td>Paket</td><td class="pre">ch.wiss.m335.einkauf</td></tr>
+<tr><td>Sprache</td><td class="pre">Java</td></tr>
+<tr><td>Minimum SDK</td><td class="pre">API 26</td></tr>
+<tr><td>Build configuration language</td><td class="pre">Kotlin DSL (build.gradle.kts)</td></tr>
+</table>
+
+<p>Warte, bis unten in der Statusleiste kein Fortschrittsbalken mehr läuft. Fang nicht vorher an zu tippen.</p>
+
+<p>Dann drei Handgriffe:</p>
+
+<ol>
+<li><b>Room eintragen.</b> Die zwei Zeilen in die <code>build.gradle.kts</code> mit dem Block <code>dependencies</code>, dazu die Version im Katalog. Derselbe Handgriff wie in 07C A1. Danach <code>Sync Now</code>.</li>
+<li><b>Die id am Root-Element.</b> Die Vorlage nennt sie <code>main</code>. Benenn sie in <code>clMain</code> um, in <code class="pfad">activity_main.xml</code> und in der Zeile mit <code>findViewById</code> in der <code>MainActivity</code>. Der Rest dieses Auftrags nennt sie so.</li>
+<li><b>Das Zeilenlayout holen.</b> Leg <code class="pfad">res/layout/item_shopping.xml</code> an und kopier den Inhalt aus dem Lösungsmaterial. Du hast so ein Layout in 06C und 07B zweimal gebaut. Heute würde es dich zwölf Minuten kosten, die du für die Datenbank brauchst.</li>
+</ol>
+
+<p>Zum Schluss <code>Ctrl+F9</code>.</p>
 </div>
 
 <div class="warn">
-<p><b>Android Studio schlägt dir beim Öffnen vielleicht vor, das Android Gradle Plugin zu aktualisieren</b>, mit einem Knopf namens <b>Start AGP Upgrade Assistant</b>. Klick das weg und fass es nicht an.</p>
+<p><b>Android Studio schlägt dir vielleicht vor, das Android Gradle Plugin zu aktualisieren</b>, mit einem Knopf namens <b>Start AGP Upgrade Assistant</b>. Klick das weg und fass es nicht an.</p>
 <p>Der Assistent ändert deine Bau-Dateien. Läuft dabei etwas schief, baut dein Projekt gar nicht mehr, und der Fehler sieht aus wie ein Fehler in deinem Code. Die Meldung sagt nichts über dein Projekt aus. An der Prüfung steht sie ebenfalls da, gleiche Antwort.</p>
 </div>
 
 <div class="chk">
-<p><b>So prüfst du den Einstieg.</b></p>
+<p><b>So prüfst du Schritt 0.</b></p>
 <ol>
-<li>Die App startet. Der Bildschirm ist leer und trägt oben den Namen Einkaufsliste.</li>
-<li>Im Logcat steht unter <code>tag:Modul335</code> die Zeile <code>MainActivity onCreate</code>.</li>
+<li>Die App startet auf dem Emulator und zeigt den Text aus der Vorlage.</li>
+<li>Tipp probeweise <code>import androidx.room.</code> und schau, ob die Vorschlagsliste <code>Entity</code> und <code>Dao</code> anbietet. Danach die Zeile wieder löschen.</li>
+<li><code class="pfad">res/layout/item_shopping.xml</code> ist da und lässt sich in der Vorschau anzeigen.</li>
 </ol>
 </div>
 
-<h3 class="teil">Schritt 1, die Datenschicht <span class="time">35 Minuten</span></h3>
+<h3 class="teil">Schritt 1, die Datenschicht <span class="time">31 Minuten</span></h3>
 
 <h4 class="brauchst">Was du brauchst</h4>
 <table>
@@ -98,13 +121,13 @@
 </table>
 
 <div class="step">
-<p><span class="n">1</span><b>Deine drei Klassen für die Datenhaltung.</b> <span class="time">35 Min</span></p>
+<p><span class="n">1</span><b>Deine drei Klassen für die Datenhaltung.</b> <span class="time">31 Min</span></p>
 
 <h4>Was du baust</h4>
 <p>Ein Paket <code>data</code> unter <code>ch.wiss.m335.einkauf</code>, darin drei Dateien.</p>
 <ol>
 <li>Die Entity. Sie hat genau die Felder aus deinem Datenmodell von 07A. Nimm das Blatt hervor und tipp ab, was du gezeichnet hast. Dazu ein Primärschlüssel, den Room vergibt.</li>
-<li>Das Dao. Ein Interface mit <b>sechs</b> Methoden: anlegen, ändern, löschen, alle holen, eine über die <code>id</code> holen, zählen. Dieselben sechs wie in deinem <code>QuestionDao</code> aus 07C.</li>
+<li>Das Dao. Ein Interface mit <b>fünf</b> Methoden: anlegen, ändern, löschen, alle holen, zählen. Dein <code>QuestionDao</code> aus 07C hat dieselben, dazu <code>findById</code>. Das brauchst du heute nicht, denn du baust kein Formular.</li>
 <li>Die Datenbank-Klasse. Abstract, mit <code>getInstance</code> und dem einen Feld <code>instance</code>. Wie deine <code>QuizDatabase</code>.</li>
 </ol>
 
@@ -130,7 +153,7 @@
 <p><b>So prüfst du Schritt 1.</b> Starte die App. Im Logcat steht unter <code>tag:Modul335</code> deine Zeile aus <code>getInstance</code> mit der Anzahl 0.</p>
 </div>
 
-<h3 class="teil">Schritt 2, der Startbestand <span class="time">12 Minuten</span></h3>
+<h3 class="teil">Schritt 2, der Startbestand <span class="time">10 Minuten</span></h3>
 
 <h4 class="brauchst">Was du brauchst</h4>
 <table>
@@ -142,7 +165,7 @@
 </table>
 
 <div class="step">
-<p><span class="n">2</span><b>Fünf Beispieleinträge beim allerersten Start.</b> <span class="time">12 Min</span></p>
+<p><span class="n">2</span><b>Fünf Beispieleinträge beim allerersten Start.</b> <span class="time">10 Min</span></p>
 
 <p>Ohne Formular kommt nichts in die Datenbank, und ohne Daten siehst du in Schritt 3 nichts. Also legst du fünf Einträge im Code an, wie in 08A den Startbestand der Fragen. Nimm eigene Artikel und eigene Läden, das ist schneller als abschreiben. Zwei Bedingungen musst du einhalten:</p>
 <ul>
@@ -163,7 +186,7 @@
 </ol>
 </div>
 
-<h3 class="teil">Schritt 3, die Liste auf dem Bildschirm <span class="time">25 Minuten</span></h3>
+<h3 class="teil">Schritt 3, die Liste auf dem Bildschirm <span class="time">23 Minuten</span></h3>
 
 <p>Die Liste baust du zu Fuss und nicht mit einem Adapter. Eine Schleife, eine Zeile pro Eintrag, fertig. Derselbe Weg wie in 04B, und <code>buildQuestionList</code> in deiner <code>GameActivity</code> ist die Vorlage.</p>
 
@@ -184,7 +207,7 @@
 </table>
 
 <div class="step">
-<p><span class="n">3</span><b>Das Layout, die Bau-Methode, die Verdrahtung.</b> <span class="time">25 Min</span></p>
+<p><span class="n">3</span><b>Das Layout, die Bau-Methode, die Verdrahtung.</b> <span class="time">23 Min</span></p>
 
 <h4>Das Layout</h4>
 <p>In <code>activity_main.xml</code> kommt eine Überschrift, darunter eine ScrollView, und darin ein leeres LinearLayout. Der Text der Überschrift gehört in <code>strings.xml</code>, wie jeder sichtbare Text.</p>
@@ -224,7 +247,7 @@
 </ol>
 </div>
 
-<h3 class="teil">Die Auswertung <span class="time">15 Minuten</span></h3>
+<h3 class="teil">Die Auswertung <span class="time">12 Minuten</span></h3>
 
 <p>Ab hier läuft die Uhr nicht mehr. Diese fünfzehn Minuten sind der Ertrag, nicht die App.</p>
 
@@ -280,7 +303,7 @@
 
 <table>
 <tr><th>Symptom</th><th>Wahrscheinliche Ursache</th><th>Was du machst</th></tr>
-<tr><td>Nach einem Klick auf <i>Start AGP Upgrade Assistant</i> baut gar nichts mehr</td><td>Der Assistent hat deine Bau-Dateien geändert</td><td>Über <code>Ctrl+Z</code> oder den lokalen Verlauf zurück, sonst das ZIP neu entpacken</td></tr>
+<tr><td>Nach einem Klick auf <i>Start AGP Upgrade Assistant</i> baut gar nichts mehr</td><td>Der Assistent hat deine Bau-Dateien geändert</td><td>Über <code>Ctrl+Z</code> oder den lokalen Verlauf zurück, sonst das Projekt neu anlegen</td></tr>
 <tr><td><code>cannot find symbol</code> beim Namen deiner Datenbank mit dem Anhang <code>_Impl</code></td><td>Das Projekt ist nicht neu gebaut. Room erzeugt diese Klasse erst beim Bauen</td><td><code>Ctrl+F9</code>. Siehe Schritt 1</td></tr>
 <tr><td><code>Cannot figure out how to save this field into database</code></td><td>Ein Feld hat einen Typ, den Room nicht kennt</td><td>Room kann Zahlen, Text und die Hüllklassen dazu. Alles andere braucht einen Umweg. Siehe Schritt 1</td></tr>
 <tr><td>Alle ids bleiben 0, ab dem zweiten <code>insert</code> gibt es einen Konflikt</td><td>An der <code>id</code> fehlt <code>autoGenerate = true</code></td><td>Ergänzen und danach Clear storage. Siehe Schritt 1</td></tr>
