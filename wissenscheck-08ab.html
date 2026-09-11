@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Wissenscheck 07ABC: Planen, anzeigen, speichern</title>
+<title>Wissenscheck 08AB: Startbestand und neue Frage</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
@@ -23,308 +23,219 @@
 <!--/M335:RAHMEN-KOPF-->
 <div class="wrap">
 
-<h1>Wissenscheck 07ABC: Planen, anzeigen, speichern</h1>
+<h1>Wissenscheck 08AB: Startbestand und neue Frage</h1>
 
-<p class="sub">Modul 335 Mobile Applikationen, Tag 4. Selbstkontrolle zu 07A, 07B und 07C. Version 1 vom 06.09.2026.</p>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 4 Nachmittag. Selbstkontrolle zu 08A und 08B. Version 1 vom 11.09.2026.</p>
 
-<p>Dreizehn Fragen, etwa 16 Minuten. Keine Note, keine Abgabe. Du klickst eine Antwort an und siehst sofort, ob sie stimmt, dazu die Begründung. Steht bei einer Frage <i>mehrere Antworten</i>, wählst du alle passenden aus und klickst danach auf Prüfen.</p>
+<p>Neun Fragen, etwa 11 Minuten. Keine Note, keine Abgabe. Du klickst eine Antwort an und siehst sofort, ob sie stimmt, dazu die Begründung. Steht bei einer Frage <i>mehrere Antworten</i>, wählst du alle passenden aus und klickst danach auf Prüfen.</p>
 
-<p class="wc-stand" id="wcStand">0 von 13 beantwortet</p>
-
-<div class="wc-frage" data-mehrfach="0">
-
-<p class="wc-nr">Frage 1 von 13</p>
-
-<p>In 07A hast du die Generalprobe geschrieben. Wie viele User Stories verlangt das Prüfungsblatt in Aufgabe 1?</p>
-
-<div class="wc-antworten">
-
-<button type="button" class="wc-a" data-richtig="1">Genau drei, jede mit Akzeptanzkriterien.</button>
-
-<button type="button" class="wc-a" data-richtig="0">Genau zwei, jede mit Akzeptanzkriterien.</button>
-
-<button type="button" class="wc-a" data-richtig="0">Mindestens eine pro Funktion der App, also so viele wie nötig.</button>
-
-<button type="button" class="wc-a" data-richtig="0">Das steht nicht im Blatt, die Anzahl ist dir überlassen.</button>
-
-</div>
-
-<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Das Prüfungsblatt sagt wörtlich <i>drei valide User-Stories inkl. Akzeptanzkriterien</i>. Diese eine Zeile trägt 6 Punkte, mehr als jede andere im Raster.</p></div>
-
-</div>
+<p class="wc-stand" id="wcStand">0 von 9 beantwortet</p>
 
 <div class="wc-frage" data-mehrfach="0">
 
-<p class="wc-nr">Frage 2 von 13</p>
+<p class="wc-nr">Frage 1 von 9</p>
 
-<p>Welcher dieser vier Sätze ist ein messbares Akzeptanzkriterium für die Einkaufsliste?</p>
+<p>Dein Startbestand steht in einer Datei unter assets, und die Fragen haben dort eine eigene id. Warum wird diese id beim Einlesen verworfen?</p>
 
 <div class="wc-antworten">
 
-<button type="button" class="wc-a" data-richtig="1">Nach dem Speichern steht der Eintrag in der Liste auf der Startseite.</button>
+<button type="button" class="wc-a" data-richtig="1">Weil Room die id selbst vergibt. Eine id aus der Datei könnte mit einer Frage kollidieren, die jemand selbst angelegt hat.</button>
 
-<button type="button" class="wc-a" data-richtig="0">Die Liste der Einträge ist übersichtlich.</button>
+<button type="button" class="wc-a" data-richtig="0">Weil Room ids aus einer Datei grundsätzlich nicht übernehmen kann.</button>
 
-<button type="button" class="wc-a" data-richtig="0">Das Speichern funktioniert korrekt.</button>
+<button type="button" class="wc-a" data-richtig="0">Weil die id in der Datei ein Text ist und in der Tabelle eine Zahl.</button>
 
-<button type="button" class="wc-a" data-richtig="0">Die Pflichtfelder werden geprüft.</button>
+<button type="button" class="wc-a" data-richtig="0">Weil sonst die Sortierung der Liste nicht mehr stimmt.</button>
 
 </div>
 
-<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Ein messbares Kriterium hat die Form: wenn ich X mache, steht danach Y auf dem Bildschirm. Übersichtlich und korrekt sind Urteile, dort gibt es nichts nachzuschauen.</p></div>
+<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Room vergibt die <code>id</code> selbst. Bringst du die ids aus der Datei mit, stösst die nächste selbst angelegte Frage genau dort an. Der Merksatz: wer die Nummern vergibt, vergibt sie alle.</p></div>
 
 </div>
 
 <div class="wc-frage" data-mehrfach="0">
 
-<p class="wc-nr">Frage 3 von 13</p>
+<p class="wc-nr">Frage 2 von 9</p>
 
-<p>Dein Datenmodell für die Einkaufsliste braucht ein Schlüsselfeld. In keinem Satz der Beschreibung steht das Wort Schlüssel. Woraus folgt es trotzdem?</p>
-
-<div class="wc-antworten">
-
-<button type="button" class="wc-a" data-richtig="1">Aus dem Satz, dass ein bestehender Eintrag angetippt, geändert und wieder gespeichert wird.</button>
-
-<button type="button" class="wc-a" data-richtig="0">Aus dem Satz, dass die Datenhaltung nur lokal erfolgen soll.</button>
-
-<button type="button" class="wc-a" data-richtig="0">Daraus, dass eine Datenbank benutzt wird. Jede Tabelle braucht einen Primärschlüssel.</button>
-
-<button type="button" class="wc-a" data-richtig="0">Daraus, dass Artikel und Laden Pflichtfelder sind.</button>
-
-</div>
-
-<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Wird ein einzelner Datensatz geändert oder gelöscht, muss die App ihn benennen können. Der Artikelname taugt dafür nicht, denn genau er ändert sich beim Ändern.</p></div>
-
-</div>
-
-<div class="wc-frage" data-mehrfach="0">
-
-<p class="wc-nr">Frage 4 von 13</p>
-
-<p>Eine KI schlägt dir für Aufgabe 2 ein Modell mit zwei Tabellen vor, eine für den Eintrag und eine für den Laden, verbunden über eine shopId. Sie nennt das die saubere Lösung. Was gilt in dieser Prüfung?</p>
+<p>In 08A hast du die App zum zweiten Mal gestartet, nachdem der Startbestand schon geladen war. Was stand danach im Titel der Fragenliste?</p>
 
 <div class="wc-antworten">
 
-<button type="button" class="wc-a" data-richtig="1">Der Vorschlag ist fachlich nicht falsch, kostet hier aber Zeit und bringt keinen Punkt. Das Blatt verlangt KISS, ohne Normalisierung.</button>
+<button type="button" class="wc-a" data-richtig="1">Fragen (30). Genau gleich wie beim ersten Start.</button>
 
-<button type="button" class="wc-a" data-richtig="0">Der Vorschlag ist fachlich falsch. Zwei Tabellen sind bei so wenig Daten immer ein Fehler.</button>
+<button type="button" class="wc-a" data-richtig="0">Fragen (60), denn der Startbestand wurde ein zweites Mal geladen.</button>
 
-<button type="button" class="wc-a" data-richtig="0">Der Vorschlag ist richtig und gibt zusätzliche Punkte, weil er mehr Wissen zeigt.</button>
+<button type="button" class="wc-a" data-richtig="0">Fragen (0), denn die Datenbank wird bei jedem Start geleert.</button>
 
-<button type="button" class="wc-a" data-richtig="0">Der Vorschlag ist richtig, aber nur wenn du ihn als ERD zeichnest und nicht als Klassendiagramm.</button>
-
-</div>
-
-<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Fachlich nicht falsch, hier aber nicht verlangt. Das Prüfungsblatt sagt wörtlich <i>KISS, ohne Normalisierung</i>. Du baust, was verlangt ist.</p></div>
+<button type="button" class="wc-a" data-richtig="0">Die App ist abgestürzt, weil die ids doppelt waren.</button>
 
 </div>
 
-<div class="wc-frage" data-mehrfach="0">
-
-<p class="wc-nr">Frage 5 von 13</p>
-
-<p>In 07B hast du die Rangliste auf eine einzelne Kategorie gefiltert, zum Beispiel auf Sport. Was ist dabei mit den Rangnummern links passiert?</p>
-
-<div class="wc-antworten">
-
-<button type="button" class="wc-a" data-richtig="1">Sie haben neu bei 1 angefangen. Der beste Sport-Eintrag stand auf Rang 1.</button>
-
-<button type="button" class="wc-a" data-richtig="0">Sie sind gleich geblieben. Ein Eintrag mit Rang 7 stand weiterhin auf Rang 7.</button>
-
-<button type="button" class="wc-a" data-richtig="0">Sie sind verschwunden, weil die Position in der gefilterten Liste nicht mehr stimmt.</button>
-
-<button type="button" class="wc-a" data-richtig="0">Sie haben rückwärts gezählt, weil zuerst sortiert und dann gefiltert wird.</button>
-
-</div>
-
-<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Die Rangnummer kommt aus <code>position + 1</code> im Adapter, also aus der Liste, die gerade angezeigt wird. Der Rang gehört zur Liste, nicht zum Eintrag.</p></div>
+<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p><code>seedIfEmpty</code> prüft mit <code>count() &gt; 0</code>, ob schon etwas drin ist. Ohne diese Zeile wächst die Tabelle bei jedem Start um dreissig Zeilen.</p></div>
 
 </div>
 
 <div class="wc-frage" data-mehrfach="1">
 
-<p class="wc-nr">Frage 6 von 13, mehrere Antworten</p>
+<p class="wc-nr">Frage 3 von 9, mehrere Antworten</p>
 
-<p>In der Ranglisten-Zeile steht die Punktzahl rechts, und das Wort rechts kommt im Layout nirgends vor. Welche Angaben sorgen dafür? Mehrere Antworten sind richtig.</p>
+<p>Welche drei Bausteine brauchst du zusammen, damit ein RecyclerView überhaupt etwas anzeigt?</p>
 
 <div class="wc-antworten">
 
-<button type="button" class="wc-a" data-richtig="1">layout_width="0dp" am mittleren Block.</button>
+<button type="button" class="wc-a" data-richtig="1">Ein Layout für eine einzelne Zeile</button>
 
-<button type="button" class="wc-a" data-richtig="1">layout_weight="1" am mittleren Block.</button>
+<button type="button" class="wc-a" data-richtig="1">Ein Adapter mit ViewHolder</button>
 
-<button type="button" class="wc-a" data-richtig="0">gravity="end" an der Punktzahl.</button>
+<button type="button" class="wc-a" data-richtig="1">Ein LayoutManager</button>
 
-<button type="button" class="wc-a" data-richtig="0">layout_marginStart="12dp" an der Punktzahl.</button>
+<button type="button" class="wc-a" data-richtig="0">Ein Eintrag im AndroidManifest</button>
+
+<button type="button" class="wc-a" data-richtig="0">Eine Sortierung im Dao</button>
 
 </div>
 
 <button type="button" class="wc-knopf wc-pruefen">Prüfen</button>
 
-<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Die beiden wirken nur als Paar. <code>0dp</code> plus <code>weight</code> heisst: nimm allen freien Platz. Was danach kommt, wird dadurch an den Rand geschoben.</p></div>
+<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Ohne alle drei zeigt die Liste nichts an. Die RecyclerView ist die Fläche, der Adapter füllt die Zeilen, und das Zeilenlayout sagt, wie eine Zeile aussieht.</p></div>
 
 </div>
 
 <div class="wc-frage" data-mehrfach="0">
 
-<p class="wc-nr">Frage 7 von 13</p>
+<p class="wc-nr">Frage 4 von 9</p>
 
-<p>Du willst auf die Auswahl im Filter-Spinner reagieren. Eine KI schlägt dir spnFilter.setOnItemClickListener(...) vor. Was passiert damit?</p>
+<p>Deine App legt Daten an drei Orten ab. Wo steht der Startbestand, den du in 08A eingelesen hast?</p>
 
 <div class="wc-antworten">
 
-<button type="button" class="wc-a" data-richtig="1">Das Projekt baut, aber die App wirft zur Laufzeit eine Ausnahme. Beim Spinner heisst der Baustein setOnItemSelectedListener.</button>
+<button type="button" class="wc-a" data-richtig="1">In assets. Der Ordner wird unverändert mit der App ausgeliefert, und Android prüft die Namen darin nicht.</button>
 
-<button type="button" class="wc-a" data-richtig="0">Das Projekt baut nicht. Der Compiler kennt die Methode am Spinner nicht.</button>
+<button type="button" class="wc-a" data-richtig="0">In res, wie alle Texte und Layouts auch.</button>
 
-<button type="button" class="wc-a" data-richtig="0">Es funktioniert, ist aber unsauber. Die Auswahl kommt erst beim zweiten Antippen an.</button>
+<button type="button" class="wc-a" data-richtig="0">In der Datenbank, sonst könnte man ihn nicht einlesen.</button>
 
-<button type="button" class="wc-a" data-richtig="0">Es funktioniert nur, solange der Spinner höchstens fünf Einträge hat.</button>
+<button type="button" class="wc-a" data-richtig="0">In SharedPreferences, zusammen mit dem besten Wert.</button>
 
 </div>
 
-<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Der Compiler lässt es durch, weil die Methode am Vorfahren existiert. Ein Spinner hat aber immer eine Auswahl, darum heisst der Baustein <code>setOnItemSelectedListener</code>.</p></div>
+<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Der Startbestand liegt in <code class="pfad">assets</code>. Der Compiler prüft den Dateinamen dort nicht, denn für ihn ist er ein Text wie jeder andere.</p></div>
 
 </div>
 
 <div class="wc-frage" data-mehrfach="0">
 
-<p class="wc-nr">Frage 8 von 13</p>
+<p class="wc-nr">Frage 5 von 9</p>
 
-<p>In 07C hast du am Ende von Teil C die App gestartet. Ein CREATE TABLE hast du nirgends geschrieben. Was stand danach im Logcat?</p>
+<p>Du fragst eine KI, wie du eine Datei aus dem Projekt einliest. Sie schlägt getResources().openRawResource(R.raw.questions_m335) vor. Was stimmt daran nicht?</p>
 
 <div class="wc-antworten">
 
-<button type="button" class="wc-a" data-richtig="1">database opened, name=quiz.db, questions=0</button>
+<button type="button" class="wc-a" data-richtig="1">Deine Datei liegt in assets und nicht in res/raw. Es gibt keine R-Nummer dafür, und der Compiler findet R.raw.questions_m335 nicht.</button>
 
-<button type="button" class="wc-a" data-richtig="0">Ein Absturz mit der Meldung no such table: questions</button>
+<button type="button" class="wc-a" data-richtig="0">Der Vorschlag funktioniert, ist aber langsamer als getAssets().</button>
 
-<button type="button" class="wc-a" data-richtig="0">database opened, name=quiz.db, questions=-1</button>
+<button type="button" class="wc-a" data-richtig="0">openRawResource gibt es seit Android 12 nicht mehr.</button>
 
-<button type="button" class="wc-a" data-richtig="0">Gar nichts. Ohne Tabelle läuft die Zeile mit dem Log nicht.</button>
+<button type="button" class="wc-a" data-richtig="0">Der Vorschlag funktioniert nur, wenn die Datei kleiner als ein Megabyte ist.</button>
 
 </div>
 
-<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p><code>build()</code> legt noch keine Datei an. Erst der erste echte Zugriff erzeugt Datei und Tabelle, und das ist der <code>count()</code>-Aufruf in derselben Zeile.</p></div>
+<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p><code>getResources().openRawResource</code> liest aus <code class="pfad">res/raw</code> und braucht eine <code>R</code>-Konstante. Deine Datei liegt in <code class="pfad">assets</code>, dort führt der Weg über <code>getAssets().open</code>.</p></div>
+
+</div>
+
+<div class="wc-frage" data-mehrfach="0">
+
+<p class="wc-nr">Frage 6 von 9</p>
+
+<p>In 08B hast du die Prüfung zuerst nach dem Muster deiner isNameValid aus 06B gebaut. Dann hast du auf Speichern getippt, ohne etwas einzutippen. Was war auf dem Bildschirm zu sehen?</p>
+
+<div class="wc-antworten">
+
+<button type="button" class="wc-a" data-richtig="1">Genau eine rote Meldung, beim Fragetext. Die vier Antwortfelder blieben unmarkiert.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Fünf rote Meldungen gleichzeitig, an jedem leeren Feld eine.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Gar keine Meldung. Die Frage wurde leer gespeichert.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Der Bildschirm hat sich geschlossen und die Liste zeigte eine leere Frage.</button>
+
+</div>
+
+<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Die erste Version stoppt beim ersten Fehler. Die Lernenden sehen dann nur eine Meldung, obwohl drei Felder leer sind.</p></div>
+
+</div>
+
+<div class="wc-frage" data-mehrfach="0">
+
+<p class="wc-nr">Frage 7 von 9</p>
+
+<p>Warum steht in deiner fertigen isFormValid am Ende valid = false statt return false?</p>
+
+<div class="wc-antworten">
+
+<button type="button" class="wc-a" data-richtig="1">Damit die Methode alle Regeln durchläuft und der Benutzer alle Fehler auf einmal sieht.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Weil return in einer Schleife nicht erlaubt ist.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Weil es schneller ist als ein frühes return.</button>
+
+<button type="button" class="wc-a" data-richtig="0">Weil die Methode sonst void sein müsste.</button>
+
+</div>
+
+<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Mit <code>valid = false</code> läuft die Methode weiter und markiert jedes fehlerhafte Feld. Ein <code>return false</code> würde nach dem ersten aussteigen.</p></div>
 
 </div>
 
 <div class="wc-frage" data-mehrfach="1">
 
-<p class="wc-nr">Frage 9 von 13, mehrere Antworten</p>
+<p class="wc-nr">Frage 8 von 9, mehrere Antworten</p>
 
-<p>Room braucht in 07C zwei Zeilen in build.gradle.kts. Welche Aussagen dazu stimmen? Mehrere Antworten sind richtig.</p>
+<p>Welche zwei Änderungen gehören beim Umbau von isFormValid zusammen?</p>
 
 <div class="wc-antworten">
 
-<button type="button" class="wc-a" data-richtig="1">Die Zeilen gehören in die Datei mit der Klammer (Module :app), nicht in die mit (Project: WissQuiz).</button>
+<button type="button" class="wc-a" data-richtig="1">valid = false statt return false</button>
 
-<button type="button" class="wc-a" data-richtig="1">Eine der beiden ist implementation, damit dein Code die Room-Klassen benutzen darf.</button>
+<button type="button" class="wc-a" data-richtig="1">Ein else mit setError(null) an jeder Regel</button>
 
-<button type="button" class="wc-a" data-richtig="1">Die andere ist annotationProcessor, damit Room beim Bauen den Code hinter deinen Annotationen schreibt.</button>
+<button type="button" class="wc-a" data-richtig="0">Die Reihenfolge der Regeln umdrehen</button>
 
-<button type="button" class="wc-a" data-richtig="0">Beide Zeilen könnten auch implementation heissen. Der Unterschied ist reine Gewohnheit.</button>
+<button type="button" class="wc-a" data-richtig="0">setError auf das TextInputEditText statt auf das TextInputLayout setzen</button>
 
 </div>
 
 <button type="button" class="wc-knopf wc-pruefen">Prüfen</button>
 
-<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p><code>implementation</code> bringt die Bibliothek in deine App, <code>annotationProcessor</code> bringt das Werkzeug in den Bau. Ohne das zweite entsteht kein <code>QuizDatabase_Impl</code>.</p></div>
-
-</div>
-
-<div class="wc-frage" data-mehrfach="0">
-
-<p class="wc-nr">Frage 10 von 13</p>
-
-<p>Du vertippst dich in einem @Query und schreibst FROM question statt FROM questions. Wann erfährst du davon?</p>
-
-<div class="wc-antworten">
-
-<button type="button" class="wc-a" data-richtig="1">Beim Bauen. Room prüft deine Abfragen gegen deine Tabelle, bevor die App läuft.</button>
-
-<button type="button" class="wc-a" data-richtig="0">Beim Start der App, sobald die Datenbank geöffnet wird.</button>
-
-<button type="button" class="wc-a" data-richtig="0">Beim ersten Aufruf genau dieser Methode.</button>
-
-<button type="button" class="wc-a" data-richtig="0">Gar nicht. SQL in einem String wird nirgends geprüft.</button>
-
-</div>
-
-<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Room liest deine Abfragen schon beim Bauen und vergleicht sie mit deiner Entity. Du schreibst mehr hin, und dafür wird mehr geprüft.</p></div>
-
-</div>
-
-<div class="wc-frage" data-mehrfach="0">
-
-<p class="wc-nr">Frage 11 von 13</p>
-
-<p>In getInstance steht Context appContext = context.getApplicationContext(). Warum nicht einfach die Activity, die übergeben wurde?</p>
-
-<div class="wc-antworten">
-
-<button type="button" class="wc-a" data-richtig="1">Weil instance ein statisches Feld ist. Es würde die Activity für immer festhalten, auch wenn sie längst geschlossen ist.</button>
-
-<button type="button" class="wc-a" data-richtig="0">Weil Room es so verlangt. Mit einer Activity lässt sich keine Datenbank öffnen.</button>
-
-<button type="button" class="wc-a" data-richtig="0">Weil eine Activity keinen Zugriff auf Dateien hat.</button>
-
-<button type="button" class="wc-a" data-richtig="0">Weil es kürzer und lesbarer ist.</button>
-
-</div>
-
-<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Ein statisches Feld lebt so lange wie die App. Eine Activity darin könnte Android nie mehr aufräumen, auch wenn der Bildschirm längst weg ist.</p></div>
-
-</div>
-
-<div class="wc-frage" data-mehrfach="0">
-
-<p class="wc-nr">Frage 12 von 13</p>
-
-<p>In QuestionEntity steht @NonNull an mehreren Stellen. An welcher Art von Stelle gehört die Annotation hin?</p>
-
-<div class="wc-antworten">
-
-<button type="button" class="wc-a" data-richtig="1">An den Feldern und an den Parametern der Setter, also dort, wo ein null hereinkommen könnte.</button>
-
-<button type="button" class="wc-a" data-richtig="0">An allen Gettern, damit der Aufrufer weiss, dass er nie null zurückbekommt.</button>
-
-<button type="button" class="wc-a" data-richtig="0">An jedem Feld, Getter und Setter der Klasse, sonst ist es nicht konsequent.</button>
-
-<button type="button" class="wc-a" data-richtig="0">Nur an der Klasse selbst. Dann gilt sie für alles darin.</button>
-
-</div>
-
-<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Die Annotation gehört dorthin, wo ein <code>null</code> hereinkommen kann, also ans Feld und an den Parameter des Setters. Ein Getter gibt nur heraus, was schon drin ist.</p></div>
+<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Die zwei gehören zusammen: die Variable am Anfang und das <code>return</code> am Ende. Wer nur eines ändert, hat eine Methode, die immer dasselbe meldet.</p></div>
 
 </div>
 
 <div class="wc-frage" data-mehrfach="1">
 
-<p class="wc-nr">Frage 13 von 13, mehrere Antworten</p>
+<p class="wc-nr">Frage 9 von 9, mehrere Antworten</p>
 
-<p>In der Leistungsbeurteilung musst du zwei Möglichkeiten zur lokalen Speicherung nennen, dich für eine entscheiden und begründen. Welche Aussagen dazu stimmen? Mehrere Antworten sind richtig.</p>
+<p>Welche zwei Angaben brauchst du zusammen, damit die Tastatur das Eingabefeld nicht zudeckt?</p>
 
 <div class="wc-antworten">
 
-<button type="button" class="wc-a" data-richtig="1">Die zweite Möglichkeit muss dastehen, auch wenn du sie nicht nimmst. Dafür gibt es eine eigene Zeile im Raster.</button>
+<button type="button" class="wc-a" data-richtig="1">android:windowSoftInputMode="adjustResize" am Eintrag im Manifest</button>
 
-<button type="button" class="wc-a" data-richtig="1">Eine gute Begründung nennt eine Eigenschaft deiner Daten, zum Beispiel dass ein einzelner Eintrag geändert wird.</button>
+<button type="button" class="wc-a" data-richtig="1">WindowInsetsCompat.Type.ime() im Insets-Block</button>
 
-<button type="button" class="wc-a" data-richtig="1">SharedPreferences passt für einen einzelnen Wert, eine Datenbank für viele gleichartige Dinge, die man suchen und einzeln ändern will.</button>
+<button type="button" class="wc-a" data-richtig="0">Eine ScrollView um den Inhalt</button>
 
-<button type="button" class="wc-a" data-richtig="0">Room ist der moderne Weg auf Android, das ist eine tragfähige Begründung.</button>
+<button type="button" class="wc-a" data-richtig="0">android:imeOptions am Eingabefeld</button>
 
 </div>
 
 <button type="button" class="wc-knopf wc-pruefen">Prüfen</button>
 
-<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Im Raster stehen zwei getrennte Zeilen: die begründete Wahl mit 2 Punkten und die genannte Alternative mit 1 Punkt. <i>Room ist modern</i> ist ein Urteil über die Technik, keine Eigenschaft deiner Daten.</p></div>
+<div class="wc-loesung" hidden><span class="t">AUFLÖSUNG</span><p>Beides zusammen: das Fenster muss den Platz der Tastatur kennen, und der Inhalt muss scrollen können. Fehlt eines, bleibt das Feld verdeckt.</p></div>
 
 </div>
-
-
-
 <p class="wc-stand" id="wcEnde">&nbsp;</p>
 
 <p><button type="button" class="wc-knopf" id="wcNeu">Nochmals von vorn</button></p>
@@ -440,9 +351,9 @@
 </script>
 
 <!--M335:WEITER-->
-<nav class="weiter"><a class="zurueck" href="07c-loesung.html"><span>Zurück</span>07C Lösung</a><a class="vor" href="wissenscheck-08ab.html"><span>Weiter</span>Wissenscheck 08AB, Selbstkontrolle</a></nav>
+<nav class="weiter"><a class="zurueck" href="wissenscheck-07abc.html"><span>Zurück</span>Wissenscheck 07ABC, Selbstkontrolle</a><a class="vor" href="08a-einfuehrung.html"><span>Weiter</span>08A, Einführung</a></nav>
 <!--/M335:WEITER-->
-<p class="foot">Modul 335 | Tag 4 | Wissenscheck 07ABC | Version 1 | 06.09.2026</p>
+<p class="foot">Modul 335 | Tag 4 Nachmittag | Wissenscheck 08AB | Version 1 | 11.09.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->
