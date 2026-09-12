@@ -24,7 +24,7 @@
 <div class="wrap">
 
 <h1>09A Auftrag: Generalprobe Teil B</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Tag 5 Vormittag. Arbeitszeit 90 Minuten. Version 5 vom 06.09.2026.</p>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 5 Vormittag. Arbeitszeit 180 Minuten. Version 5 vom 12.09.2026.</p>
 
 <p>Du programmierst die Einkaufsliste, die du in 07A auf Papier geplant hast. Warum das so gebaut ist, steht in der <a href="09a-einfuehrung.html">Einführung zu 09A</a>. Fertig bist du, wenn deine App fünf Einträge zeigt, bei dreien davon rechts ein Betrag steht und nach einem Neustart immer noch genau fünf Einträge da sind.</p>
 
@@ -49,9 +49,9 @@
 <li>Alle selbst erstellten Klassen und Methoden sind Javadoc-kompatibel zu dokumentieren.</li>
 </ul>
 
-<h3 class="teil">Der Einstieg <span class="time">2 Minuten</span></h3>
+<h3 class="teil">Der Einstieg <span class="time">5 Minuten</span></h3>
 
-<p>Leg dein Blatt aus 07A neben die Tastatur. Darauf stehen dein Datenmodell und deine Mockups, und du arbeitest heute damit.</p>
+<p>Leg dein Blatt aus 07A neben die Tastatur. Darauf stehen dein Datenmodell und deine zwei Mockups. Das ist deine Vorlage.</p>
 
 <h3 class="teil">Schritt 0, das Projekt anlegen <span class="time">12 Minuten</span></h3>
 
@@ -105,7 +105,7 @@
 </ol>
 </div>
 
-<h3 class="teil">Schritt 1, die Datenschicht <span class="time">31 Minuten</span></h3>
+<h3 class="teil">Schritt 1, die Datenschicht <span class="time">33 Minuten</span></h3>
 
 <h4 class="brauchst">Was du brauchst</h4>
 <table>
@@ -127,7 +127,7 @@
 <p>Ein Paket <code>data</code> unter <code>ch.wiss.m335.einkauf</code>, darin drei Dateien.</p>
 <ol>
 <li>Die Entity. Sie hat genau die Felder aus deinem Datenmodell von 07A. Nimm das Blatt hervor und tipp ab, was du gezeichnet hast. Dazu ein Primärschlüssel, den Room vergibt.</li>
-<li>Das Dao. Ein Interface mit <b>fünf</b> Methoden: anlegen, ändern, löschen, alle holen, zählen. Dein <code>QuestionDao</code> aus 07C hat dieselben, dazu <code>findById</code>. Das brauchst du heute nicht, denn du baust kein Formular.</li>
+<li>Das Dao. Ein Interface mit <b>sechs</b> Methoden: anlegen, ändern, löschen, eine holen, alle holen, zählen. Dieselben sechs wie in deinem <code>QuestionDao</code> aus 07C.</li>
 <li>Die Datenbank-Klasse. Abstract, mit <code>getInstance</code> und dem einen Feld <code>instance</code>. Wie deine <code>QuizDatabase</code>.</li>
 </ol>
 
@@ -141,7 +141,7 @@
 <p>Die Lösung geht den ersten Weg, weil er ohne Zusatzregel auskommt.</p>
 
 <h4>Javadoc</h4>
-<p>Jede Klasse, jedes Feld, jede Methode. Schreib es beim Schreiben, nicht danach. An der Prüfung gibt es dafür 2 von 26 Punkten. Achtung bei den Gettern und Settern: was <code>Alt+Insert</code> erzeugt, bringt kein Javadoc mit. Bei fünf Feldern sind das zehn Methoden auf einen Schlag.</p>
+<p>Jede Klasse, jedes Feld, jede Methode. Schreib es beim Schreiben, nicht danach. An der Prüfung gibt es dafür 2 Punkte. Achtung bei den Gettern und Settern: was <code>Alt+Insert</code> erzeugt, bringt kein Javadoc mit. Bei fünf Feldern sind das zehn Methoden auf einen Schlag.</p>
 
 <h4>Was Room dir meldet</h4>
 <p>Room meldet sich nur beim Bauen. Rote Namen im Editor sind normal, solange deine Klassen halb fertig sind. Was zählt, ist <code>Ctrl+F9</code>. Die Meldungen sind ausführlich, aber sie sagen fast immer genau, welches Feld nicht passt. Lies die erste Meldung ganz, nicht die letzte.</p>
@@ -186,7 +186,7 @@
 </ol>
 </div>
 
-<h3 class="teil">Schritt 3, die Liste auf dem Bildschirm <span class="time">23 Minuten</span></h3>
+<h3 class="teil">Schritt 3, die Liste auf dem Bildschirm <span class="time">30 Minuten</span></h3>
 
 <p>Die Liste baust du zu Fuss und nicht mit einem Adapter. Eine Schleife, eine Zeile pro Eintrag, fertig. Derselbe Weg wie in 04B, und <code>buildQuestionList</code> in deiner <code>GameActivity</code> ist die Vorlage.</p>
 
@@ -247,27 +247,156 @@
 </ol>
 </div>
 
-<h3 class="teil">Die Auswertung <span class="time">12 Minuten</span></h3>
 
-<p>Ab hier läuft die Uhr nicht mehr. Diese fünfzehn Minuten sind der Ertrag, nicht die App.</p>
+<h3 class="teil">Pause</h3>
+
+<p>Die Uhr hält an. An der Prüfung gibt es auch eine Pause. Danach geht es mit Schritt 4 weiter, dem Formular.</p>
+
+<h3 class="teil">Schritt 4, das Formular <span class="time">32 Minuten</span></h3>
+
+<p>Bis hier kommen Daten nur aus dem Startbestand. Jetzt bekommt die App einen zweiten Bildschirm, auf dem ein Eintrag von Hand entsteht. Deine Vorlage ist 08B, dort hast du dasselbe für eine neue Frage gebaut.</p>
+
+<h4 class="brauchst">Was du brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">New, Activity, Empty Views Activity</td><td>Android Studio legt Klasse, Layout und den Eintrag im Manifest zusammen an</td></tr>
+<tr><td class="pre">TextInputLayout, TextInputEditText</td><td>Ein Feld mit Beschriftung und Platz für eine Fehlermeldung. Aus 06B und 08B</td></tr>
+<tr><td class="pre">inputType</td><td>Entscheidet, welche Tastatur erscheint. Das ist die Rasterzeile über die optimierten Felder</td></tr>
+<tr><td class="pre">FloatingActionButton</td><td>Der Weg von der Liste zum Formular. Aus 08B</td></tr>
+<tr><td class="pre">Intent und startActivity</td><td>Der Wechsel zwischen zwei Activities. Aus 05A</td></tr>
+<tr><td class="pre">insert(...)</td><td>Deine Dao-Methode aus Schritt 1</td></tr>
+<tr><td class="pre">finish()</td><td>Schliesst den Bildschirm und bringt dich zur Liste zurück</td></tr>
+<tr><td class="pre">onResume</td><td>Lädt die Liste neu, wenn du vom Formular zurückkommst. Aus 08A</td></tr>
+</table>
+
+<div class="step">
+<p><span class="n">4</span><b>Zweiter Bildschirm, vier Felder, speichern.</b> <span class="time">32 Min</span></p>
+
+<h4>Der Weg hin und zurück</h4>
+<p>In <code>activity_main.xml</code> kommt ein FloatingActionButton unten rechts. Er startet die neue Activity über einen Intent. Mehr braucht der Hinweg nicht, denn beim Anlegen gibt es nichts mitzugeben.</p>
+<p>Der Rückweg läuft über <code>onResume</code>. Dort steht der Aufruf deiner Lade-Methode aus Schritt 3 ein zweites Mal. Ohne ihn zeigt die Liste den neuen Eintrag erst beim nächsten Start der App.</p>
+
+<h4>Die vier Felder</h4>
+<p>Artikel, Laden, Menge und Preis pro Stück. Jedes als TextInputLayout mit einem TextInputEditText darin. Die Beschriftungen gehören in <code>strings.xml</code>.</p>
+<p>Der <code>inputType</code> ist hier nicht Kosmetik, sondern eine eigene Rasterzeile mit 2 Punkten. Artikel und Laden bekommen Text, die Menge eine reine Zahl, der Preis eine Zahl mit Komma. Wer alles auf Text lässt, verliert diese zwei Punkte, obwohl die App läuft.</p>
+<p>Das Ganze gehört in eine ScrollView. Auf einem kleinen Gerät im Querformat liegen vier Felder und ein Knopf sonst teilweise unter dem Bildschirmrand, und der Knopf ist nicht erreichbar.</p>
+
+<h4>Speichern</h4>
+<p>Ein Knopf liest die vier Felder, baut einen Eintrag und ruft <code>insert</code>. Danach <code>finish()</code>.</p>
+<p>Menge und Preis dürfen leer bleiben, so steht es in der Beschreibung. Ein leeres Feld wird zu <code>null</code> und nicht zu <code>0</code>. Sonst steht in deiner Liste ein Betrag von <code>0.00</code>, und der Eintrag sieht aus, als koste er nichts. Dieselbe Entscheidung wie bei den Feldtypen in Schritt 1.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Schritt 4.</b></p>
+<ol>
+<li>Der Knopf auf der Liste öffnet das Formular.</li>
+<li>Tipp in das Feld für die Menge. Es erscheint eine Zahlentastatur, nicht die Buchstabentastatur.</li>
+<li>Trag alle vier Werte ein und speichere. Die Liste zeigt den neuen Eintrag sofort, mit dem Betrag rechts.</li>
+<li>Leg einen zweiten Eintrag an und lass Menge und Preis leer. In der Liste bleibt der Betrag leer, dort steht nicht <code>0.00</code>.</li>
+<li>Dreh das Gerät im Formular. Alle vier Felder und der Knopf sind erreichbar.</li>
+</ol>
+</div>
+
+<h3 class="teil">Schritt 5, die Fehlerbehandlung <span class="time">18 Minuten</span></h3>
+
+<p>Die Beschreibung verlangt, dass Fehleingaben vor dem Speichern abgefangen werden. Im Bewertungsraster ist das eine eigene Zeile mit 4 Punkten und damit die teuerste Einzelzeile des Formulars. Deine Vorlage ist 06B und 08B.</p>
+
+<h4 class="brauchst">Was du brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">setError("...")</td><td>Setzt die Meldung unter das Feld. Am TextInputLayout, nicht am TextInputEditText</td></tr>
+<tr><td class="pre">setError(null)</td><td>Räumt die Meldung weg. Erste Zeile deiner Prüfmethode</td></tr>
+<tr><td class="pre">getText().toString().trim()</td><td>Holt den Inhalt und schneidet Leerzeichen weg</td></tr>
+<tr><td class="pre">length() &lt; 4</td><td>Die Mindestlänge aus der Beschreibung</td></tr>
+<tr><td class="pre">eine eigene boolesche Methode</td><td>Prüft alle Felder und liefert, ob gespeichert werden darf</td></tr>
+</table>
+
+<div class="step">
+<p><span class="n">5</span><b>Meldungen am Feld, nicht als Toast.</b> <span class="time">18 Min</span></p>
+
+<h4>Wohin die Meldung gehört</h4>
+<p>Die Meldung steht unter dem Feld, das sie betrifft. Dafür ist das TextInputLayout da. Ein Toast erscheint kurz unten am Bildschirm und sagt nicht, welches Feld gemeint ist. Er läuft, und er kostet trotzdem Punkte, denn die Rasterzeile heisst <i>Fehlerbehandlung für Formularfelder</i>.</p>
+
+<h4>Was geprüft wird</h4>
+<p>Artikel und Laden sind Pflicht, beide mit mindestens vier Zeichen. Menge und Preis dürfen leer sein. Steht aber etwas darin, muss es eine Zahl sein.</p>
+<p>Alle Prüfungen laufen in einer eigenen Methode, die am Schluss liefert, ob gespeichert werden darf. Der Speichern-Knopf ruft sie auf und macht nichts, wenn sie <code>false</code> liefert.</p>
+
+<h4>Die zwei Stellen, an denen es schiefgeht</h4>
+<p>Die Methode darf nicht beim ersten Fehler zurückkehren. Sonst prüft sie zwei leere Felder und markiert nur das erste. Der Benutzer füllt es aus, tippt auf Speichern und bekommt den nächsten Fehler einzeln. Also alle Felder prüfen, das Ergebnis in einer Variablen sammeln und erst am Schluss zurückgeben.</p>
+<p>Und die alten Meldungen müssen weg, bevor neu geprüft wird. Ohne <code>setError(null)</code> zuoberst bleibt die Meldung am Feld stehen, auch nachdem der Benutzer sie behoben hat.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Schritt 5.</b></p>
+<ol>
+<li>Tipp auf Speichern, ohne etwas einzutragen. Unter dem Feld für den Artikel und unter dem für den Laden steht je eine Meldung. Gespeichert wird nichts.</li>
+<li>Trag bei beiden drei Zeichen ein und speichere. Beide Meldungen stehen wieder da.</li>
+<li>Trag beim Artikel vier Zeichen ein und speichere. Die Meldung beim Artikel ist weg, die beim Laden steht noch.</li>
+<li>Füll beide richtig aus und speichere. Der Eintrag steht in der Liste.</li>
+</ol>
+</div>
+
+<h3 class="teil">Schritt 6, einen Eintrag ändern <span class="time">15 Minuten</span></h3>
+
+<p>Ein bestehender Eintrag lässt sich antippen, ändern und wieder speichern. Du baust dafür keinen zweiten Bildschirm. Derselbe aus Schritt 4 erledigt beides. Deine Vorlage ist 08C.</p>
+
+<h4 class="brauchst">Was du brauchst</h4>
+<table>
+<tr><th>Baustein oder Name</th><th>Wofür</th></tr>
+<tr><td class="pre">row.setOnClickListener</td><td>Kommt in deine Bau-Methode aus Schritt 3, auf die fertige Zeile</td></tr>
+<tr><td class="pre">putExtra</td><td>Gibt die id des angetippten Eintrags mit. Aus 05A und 08C</td></tr>
+<tr><td class="pre">getIntExtra("...", -1)</td><td>Holt sie im Formular. Die -1 bedeutet, es ist ein neuer Eintrag</td></tr>
+<tr><td class="pre">findById(id)</td><td>Deine Dao-Methode aus Schritt 1. Jetzt wird sie gebraucht</td></tr>
+<tr><td class="pre">update(...)</td><td>Ändert die bestehende Zeile. Nicht insert</td></tr>
+</table>
+
+<div class="step">
+<p><span class="n">6</span><b>Dieselbe Activity, zwei Aufgaben.</b> <span class="time">15 Min</span></p>
+
+<h4>Der Weg zum Eintrag</h4>
+<p>In der Bau-Methode aus Schritt 3 bekommt jede fertige Zeile einen Klick-Empfänger. Er startet das Formular und gibt die id des Eintrags mit.</p>
+<p>Das Formular holt die id beim Start. Ist sie -1, ist es ein neuer Eintrag und alles bleibt wie in Schritt 4. Ist sie eine echte id, lädt es den Eintrag über <code>findById</code> und schreibt die vier Werte in die Felder.</p>
+
+<h4>Die Stelle, die Punkte kostet</h4>
+<p>Beim Speichern entscheidet dieselbe id, ob <code>insert</code> oder <code>update</code> läuft. Wer immer <code>insert</code> aufruft, bekommt eine zweite Zeile statt einer Änderung. Die App stürzt nicht ab, und in der Liste stehen danach zwei fast gleiche Einträge.</p>
+
+<h4>Was du nicht baust</h4>
+<p>Es gibt keinen Löschen-Knopf. Das Prüfungsblatt nennt das Löschen an keiner Stelle, und das Bewertungsraster hat keine Zeile dafür. Die Methode bleibt im Dao, ein Bildschirm dafür kostet nur Zeit.</p>
+</div>
+
+<div class="chk">
+<p><b>So prüfst du Schritt 6.</b></p>
+<ol>
+<li>Tipp eine Zeile der Liste an. Das Formular öffnet sich und die vier Felder sind gefüllt.</li>
+<li>Ändere den Laden und speichere. Die Liste zeigt den geänderten Laden und hat weiterhin gleich viele Zeilen.</li>
+<li>Tipp einen Eintrag ohne Menge und Preis an. Die zwei Felder sind leer und nicht mit <code>0</code> gefüllt.</li>
+<li>Trag dort Menge und Preis nach und speichere. In der Liste steht jetzt rechts ein Betrag.</li>
+<li>Leg über den Knopf einen neuen Eintrag an. Das Formular ist leer und es entsteht eine neue Zeile.</li>
+</ol>
+</div>
+
+<h3 class="teil">Die Auswertung <span class="time">15 Minuten</span></h3>
+
+<p>Ab hier läuft die Uhr nicht mehr. Der Ertrag dieses Vormittags ist dein Befund, nicht die App.</p>
 
 <h4>Dein Befund</h4>
-<p>Schreib dir das auf, es ist die Eingabe für 09B.</p>
+<p>Schreib dir das auf. Es sagt dir, womit du am Nachmittag anfängst.</p>
 <table>
 <tr><th>Frage</th><th>Deine Antwort</th></tr>
-<tr><td>Wie weit bist du in den 75 Minuten gekommen?</td><td>Schritt 1, 2 oder 3</td></tr>
+<tr><td>Wie weit bist du in den 150 Minuten gekommen?</td><td>Schritt 1 bis 6</td></tr>
+<tr><td>Was hat eine KI für dich gebaut, das du nicht erklären könntest?</td><td>die wichtigste Frage des Vormittags</td></tr>
 <tr><td>Bei welchem Schritt hast du ins Lösungsmaterial geschaut?</td><td>und an welcher Stelle genau</td></tr>
 <tr><td>Was hat am meisten Zeit gekostet?</td><td>eine Zeile genügt</td></tr>
 <tr><td>Was ging schneller, als du dachtest?</td><td>auch das ist ein Befund</td></tr>
 </table>
-<p>Wer nicht fertig geworden ist, hat den wertvolleren Befund. Er weiss jetzt, wo er an der Prüfung hängen bleibt.</p>
+<p>Wer nicht fertig geworden ist, hat den wertvolleren Befund. Er weiss jetzt, wo er an der Prüfung hängen bleibt. Wer fertig geworden ist, hat die zweite Frage zu beantworten.</p>
 
 <h4>Die drei Fragen zur KI</h4>
 <p>Das Prüfungsblatt verbietet eine KI nicht. Darum gehören diese drei Fragen dazu, die dritte ist die wichtigste:</p>
 <ol>
 <li>Wo hat sie dir geholfen? Nenn eine konkrete Stelle.</li>
 <li>Wo hat sie dich aufgehalten? Wo hat sie etwas geliefert, das nicht gepasst hat, und wie lange hat es gedauert, bis du es gemerkt hast?</li>
-<li>Welchen Code hast du übernommen, ohne ihn zu verstehen? Genau diese Stellen schaust du dir im Reparaturblock an.</li>
+<li>Welchen Code hast du übernommen, ohne ihn zu verstehen? Nimm eine Zeile davon weg und sag voraus, was passiert. Wer das kann, hat verstanden.</li>
 </ol>
 <p>Auf der letzten Seite der Prüfung unterschreibst du dazu die Eidesstattliche Erklärung. Der Wortlaut steht in den Bedingungen in der Einführung.</p>
 
@@ -278,25 +407,66 @@
 <tr><td>Datenmodell und Persistenz korrekt implementiert</td><td class="num">4</td><td>07C, Schritt 1</td></tr>
 <tr><td>Einträge werden in Liste angezeigt und aktualisiert</td><td class="num">2</td><td>04B, 06C, 08A, Schritt 3</td></tr>
 <tr><td>Der berechnete Wert wird rechts angezeigt</td><td class="num">1</td><td>07B, Schritt 3</td></tr>
-<tr><td>Querformat und Displaygrössen</td><td class="num">2</td><td>02B, Layout in Schritt 3</td></tr>
-<tr><td>Javadoc für alle Klassen und Funktionen</td><td class="num">2</td><td>in jedem Auftrag, in allen drei Schritten</td></tr>
-<tr><td>Neue Einträge hinzufügen</td><td class="num">4</td><td>08B</td></tr>
-<tr><td>Vorhandene Einträge editierbar</td><td class="num">4</td><td>08C</td></tr>
-<tr><td>Fehlerbehandlung für Formularfelder</td><td class="num">4</td><td>06B, 08B und 08C</td></tr>
-<tr><td>Formularfelder optimiert</td><td class="num">2</td><td>06B</td></tr>
+<tr><td>Querformat und Displaygrössen</td><td class="num">2</td><td>02B, Layout in Schritt 3 und Schritt 4</td></tr>
+<tr><td>Javadoc für alle Klassen und Funktionen</td><td class="num">2</td><td>in jedem Auftrag, in allen sechs Schritten</td></tr>
+<tr><td>Neue Einträge hinzufügen</td><td class="num">4</td><td>08B, Schritt 4</td></tr>
+<tr><td>Vorhandene Einträge editierbar</td><td class="num">4</td><td>08C, Schritt 6</td></tr>
+<tr><td>Fehlerbehandlung für Formularfelder</td><td class="num">4</td><td>06B, 08B, Schritt 5</td></tr>
+<tr><td>Formularfelder optimiert</td><td class="num">2</td><td>06B, Schritt 4</td></tr>
 <tr><td>App-Kompatibilität ab Android 8</td><td class="num">1</td><td>seit 01B, in deinem <code>build.gradle.kts</code></td></tr>
 </table>
-<p>In 09A hast du an 11 dieser 26 Punkte gearbeitet. Die anderen 15 stehen fertig in deinem WissQuiz-Projekt. Dazu kommen die 22 Punkte des Papierteils aus 04C, 04D, 06A, 07A und 08D.</p>
+<p>Es gibt keine Zeile ohne einen Eintrag rechts, und in 09A hast du an jeder gearbeitet.</p>
 
-<p>Du gibst nichts ab. Das Projekt bleibt bei dir, und du nimmst es an die Prüfung mit. Was zählt, ist dein Befund.</p>
+<p>Du gibst nichts ab. Das Projekt bleibt bei dir, und du nimmst es an die Prüfung mit.</p>
+
+
+<h3 class="teil">Der Abschluss <span class="time">10 Minuten</span></h3>
+
+<p>Der letzte Teil des Vormittags handelt nicht mehr von dieser App, sondern vom Nachmittag.</p>
+
+<h4>Die 48 Punkte und die Reihenfolge</h4>
+<p>Zu den Codepunkten oben kommen 22 Punkte für den Papierteil, also die Aufgaben 1 bis 5 und 7. Die hast du in 04C, 04D, 06A, 07A und 08D gebaut.</p>
+<p>Die Prüfung schlägt für ihre sieben Aufgaben zusammen 221 Minuten vor und gibt dir 3.5 Stunden, also 210. Das sind 11 Minuten zu wenig. Also entscheidet die Reihenfolge, und die steht nicht auf dem Blatt: erst die Aufgaben 1 bis 3, dann 4 und 5, danach programmieren, und Aufgabe 7 füllst du in den Testplan von Aufgabe 5 ein.</p>
+<p>Der Papierteil braucht keinen Compiler und keinen Emulator. Wer mit dem Programmieren anfängt und dabei die Zeit verliert, verliert 22 Punkte, die ohne eine Zeile Code zu haben sind.</p>
+
+<h4>Die sechs billigsten Punkte</h4>
+<p>Zusammen 10 von 48, und alle in wenigen Minuten zu holen:</p>
+<table>
+<tr><th>Was</th><th class="num">P</th></tr>
+<tr><td>Die zweite Persistenzmöglichkeit nennen, Aufgabe 3</td><td class="num">1</td></tr>
+<tr><td>Die Testdurchführung im Testplan eintragen, Aufgabe 7</td><td class="num">2</td></tr>
+<tr><td>Javadoc über jede Klasse und jede Methode</td><td class="num">2</td></tr>
+<tr><td>Die ScrollView um die Liste und um das Formular</td><td class="num">2</td></tr>
+<tr><td>Der <code>inputType</code> an den vier Feldern</td><td class="num">2</td></tr>
+<tr><td>Die Mindest-API im <code>build.gradle.kts</code> auf 26</td><td class="num">1</td></tr>
+</table>
+
+<h4>Bis zum Nachmittag</h4>
+<p>Emulator einmal starten. Beide Projekte einmal bauen und dabei die Meldung zum Android Gradle Plugin wegklicken. Unterlagen zurechtlegen, also dein Blatt aus 07A, die Grundlagenblätter und dieses Lösungsmaterial. Etwas essen. Nichts Neues mehr lernen.</p>
 
 <h3 class="teil">Wenn du früher fertig bist</h3>
 
+<p>Die ersten zwei Übungen bringen Punkte, die viele liegen lassen.</p>
+
+<div class="ue">
+<div class="t">Drehen und schrumpfen</div>
+<p>Dreh beide Bildschirme ins Querformat. Danach leg im Geräte-Manager ein kleines Gerät an, etwa ein Nexus 4, und starte die App darauf. Im Raster sind das zwei Zeilen mit zusammen 3 Punkten. Im Hochformat auf einem grossen Gerät sieht man keinen dieser Fehler.</p>
+</div>
+
+<div class="ue">
+<div class="t">Javadoc über alles</div>
+<p>Jede Klasse und jede Methode, auch die Getter und Setter. In eigenen Worten und nicht der Methodenname als Satz. Das Raster verlangt genau das, mit 2 Punkten.</p>
+</div>
+
 <div class="ue">
 <div class="t">Der leere Zustand</div>
-<p>Lösch über den Database Inspector alle fünf Zeilen und starte die App neu. Du siehst einen leeren Bildschirm ohne jede Erklärung. Das sieht auch der Benutzer, der die App zum ersten Mal öffnet.</p>
-<p>Bau eine TextView, die nur erscheint, wenn die Liste leer ist. Sie sagt in einem Satz, was zu tun ist. Umgeschaltet wird über <code>View.GONE</code> und <code>View.VISIBLE</code>, wie in 05C.</p>
-<p><b>So prüfst du:</b> Bei fünf Einträgen ist der Text weg und die Liste da. Bei null Einträgen ist es umgekehrt. Und beides muss beim Drehen des Geräts noch stimmen.</p>
+<p>Lösch über den Database Inspector alle Zeilen und starte die App neu. Du siehst einen leeren Bildschirm ohne jede Erklärung. Das sieht auch der Benutzer, der die App zum ersten Mal öffnet.</p>
+<p>Bau eine TextView, die nur erscheint, wenn die Liste leer ist. Sie sagt in einem Satz, was zu tun ist. Umgeschaltet wird über <code>View.GONE</code> und <code>View.VISIBLE</code>, wie in 05C. Punkte gibt es dafür keine.</p>
+</div>
+
+<div class="ue">
+<div class="t">Die Liste mit einem Adapter</div>
+<p>Bau die Liste ein zweites Mal, mit RecyclerView, Adapter und ViewHolder, wie in 06C. Das Bewertungsraster nennt keinen der beiden Wege, also gibt es auch dafür keinen Punkt. Es ist der Weg, den du in einer echten App nehmen würdest.</p>
 </div>
 
 <h3 class="teil">Wenn etwas nicht funktioniert</h3>
@@ -317,13 +487,20 @@
 <tr><td>Der Betrag steht bei allen fünf Zeilen, bei zweien als <code>0.00</code></td><td>Die Prüfung auf <code>null</code> fehlt, oder die Felder sind <code>int</code> und <code>double</code></td><td>Siehe Schritt 1 und Schritt 3. Nichts stürzt ab, es sieht nur falsch aus</td></tr>
 <tr><td>Im Betrag stehen zehn Stellen nach dem Punkt</td><td>Der Platzhalter im String hat keine Angabe zur Genauigkeit</td><td><code>%1$.2f</code> statt <code>%1$f</code>. Siehe Schritt 3</td></tr>
 <tr><td>Der Betrag steht nicht am rechten Rand, sondern gleich hinter dem Artikel</td><td>Kein Fehler aus diesem Auftrag. Du hast <code>item_shopping.xml</code> verändert</td><td>Der linke Block braucht <code>layout_width="0dp"</code> und <code>layout_weight="1"</code>. Die Datei war fertig, stell sie zurück</td></tr>
+<tr><td>Der neue Eintrag steht erst nach einem Neustart der App in der Liste</td><td>Der Aufruf der Lade-Methode fehlt in <code>onResume</code></td><td>Ergänzen. Siehe Schritt 4. Derselbe Fehler wie in 08B</td></tr>
+<tr><td><code>NumberFormatException</code> beim Speichern</td><td>Ein leeres Feld wird in eine Zahl umgewandelt</td><td>Vorher auf leer prüfen und <code>null</code> setzen. Siehe Schritt 4</td></tr>
+<tr><td>Die Fehlermeldung bleibt am Feld stehen, obwohl der Inhalt stimmt</td><td><code>setError(null)</code> fehlt am Anfang der Prüfmethode</td><td>Als erste Zeile ergänzen. Siehe Schritt 5</td></tr>
+<tr><td>Es wird immer nur ein Feld markiert, die anderen erst danach</td><td>Die Prüfmethode kehrt beim ersten Fehler zurück</td><td>Alle Felder prüfen, das Ergebnis sammeln, erst am Schluss zurückgeben. Siehe Schritt 5</td></tr>
+<tr><td>Beim Ändern entsteht eine zweite Zeile statt einer Änderung</td><td>Es läuft <code>insert</code> statt <code>update</code></td><td>An der id entscheiden. Siehe Schritt 6. Nichts stürzt ab</td></tr>
+<tr><td>Beim Antippen einer Zeile ist das Formular leer</td><td>Die id kommt nicht an. Der Schlüssel bei <code>putExtra</code> und bei <code>getIntExtra</code> ist nicht derselbe</td><td>Den Schlüssel als Konstante in der Activity ablegen und beide Stellen darauf zeigen lassen. Siehe Schritt 6</td></tr>
+<tr><td>Im Querformat ist der Speichern-Knopf im Formular nicht erreichbar</td><td>Die ScrollView um das Formular fehlt</td><td>Ergänzen. Siehe Schritt 4. Im Hochformat sieht man den Fehler nie</td></tr>
 <tr><td>Im Querformat ist die Liste unten abgeschnitten und lässt sich nicht scrollen</td><td>Die ScrollView fehlt ganz, oder sie hat <code>wrap_content</code> statt <code>0dp</code>, oder die untere Verbindung fehlt</td><td>Alle drei prüfen. Siehe Schritt 3. Im Hochformat sieht man den Fehler nie</td></tr>
 </table>
 
 <!--M335:WEITER-->
 <nav class="weiter"><div class="reihe"><span>Zu 09A</span><a href="09a-einfuehrung.html">Einführung</a><a href="09a-loesung.html">Lösung</a></div><a class="vor" href="09b-einfuehrung.html"><span>Weiter</span>09B, Einführung</a></nav>
 <!--/M335:WEITER-->
-<p class="foot">Modul 335 | Tag 5 Vormittag | Auftrag 09A | Version 5 | 06.09.2026</p>
+<p class="foot">Modul 335 | Tag 5 Vormittag | Auftrag 09A | Version 5 | 12.09.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->

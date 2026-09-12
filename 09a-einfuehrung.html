@@ -24,27 +24,28 @@
 <div class="wrap">
 
 <h1>09A Einführung: Generalprobe Teil B</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Tag 5 Vormittag. Einführung, etwa 10 Minuten. Version 4 vom 05.09.2026.</p>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 5 Vormittag. Einführung, etwa 10 Minuten. Version 4 vom 12.09.2026.</p>
 
-<p>In 07A hast du eine Einkaufsliste auf Papier geplant. In 09A programmierst du sie, vom leeren Projekt bis zur laufenden Liste, unter denselben Bedingungen wie an der Prüfung.</p>
+<p>In 07A hast du eine Einkaufsliste auf Papier geplant. In 09A programmierst du sie ganz, vom leeren Projekt bis zum Formular, unter denselben Bedingungen wie an der Prüfung.</p>
 
 <h2>Wo du stehst</h2>
 
 <p>07A war der Papierteil. Drei User Stories, ein Datenmodell, eine Begründung für die Speicherung, geschrieben unter echter Zeit. Das Blatt von damals brauchst du gleich wieder.</p>
 
-<p>Jetzt kommt der zweite Teil. Dieselbe App, dieselbe Beschreibung, nur programmierst du sie. Du hast 75 Minuten. An der Prüfung sind es für dieselbe Sache 150.</p>
+<p>Jetzt kommt der zweite Teil. Dieselbe App, dieselbe Beschreibung, nur programmierst du sie. Du hast 150 Minuten. An der Prüfung sind es für dieselbe App genau so viele.</p>
 
-<p>Die ganze Beschreibung in 75 Minuten zu bauen geht nicht, und das ist keine Schwäche der Probe, sondern eine Rechnung. Du baust die erste Hälfte, und zwar genau die, mit der auch die Prüfung anfängt.</p>
+<p>Gebaut wird die ganze Beschreibung, Punkt für Punkt:</p>
 
 <table>
 <tr><th>Aus der Beschreibung</th><th>In 09A</th></tr>
-<tr><td>Die Angaben speichern, nur lokal</td><td>ja, Schritt 1</td></tr>
-<tr><td>Die Startseite zeigt eine Übersicht mit Artikel und Laden</td><td>ja, Schritt 3</td></tr>
-<tr><td>Sind Menge und Preis vorhanden, wird der Betrag angezeigt</td><td>ja, Schritt 3</td></tr>
-<tr><td>Hoch- und Querformat</td><td>ja, das entscheidet sich im Layout von Schritt 3</td></tr>
-<tr><td>Javadoc</td><td>ja, bei jeder Klasse und jeder Methode, die du schreibst</td></tr>
-<tr><td>Einen Eintrag anlegen, Pflichtfelder, Mindestlänge, Fehleingaben abfangen</td><td>nein. Das hast du in 06B, 08B und 08C dreimal gebaut</td></tr>
-<tr><td>Einen Eintrag antippen, ändern, speichern</td><td>nein. Das ist 08C</td></tr>
+<tr><td>Die Angaben speichern, nur lokal</td><td>Schritt 1</td></tr>
+<tr><td>Die Startseite zeigt eine Übersicht mit Artikel und Laden</td><td>Schritt 3</td></tr>
+<tr><td>Sind Menge und Preis vorhanden, wird der Betrag angezeigt</td><td>Schritt 3</td></tr>
+<tr><td>Hoch- und Querformat</td><td>im Layout von Schritt 3 und Schritt 4</td></tr>
+<tr><td>Javadoc</td><td>bei jeder Klasse und jeder Methode, die du schreibst</td></tr>
+<tr><td>Einen Eintrag anlegen, Menge und Preis dürfen leer bleiben</td><td>Schritt 4</td></tr>
+<tr><td>Pflichtfelder, Mindestlänge, Fehleingaben abfangen</td><td>Schritt 5</td></tr>
+<tr><td>Einen Eintrag antippen, ändern, speichern</td><td>Schritt 6</td></tr>
 </table>
 
 <h2>Was hier gemessen wird</h2>
@@ -53,13 +54,14 @@
 
 <p>Darum ist das Lösungsmaterial von der ersten Minute an offen. Die Regel dazu steht im Auftrag. Hängst du an einem Schritt länger als zehn Minuten, schaust du nach und notierst dir, wo. Dieses Wo ist das Ergebnis des Vormittags, nicht die App.</p>
 
-<p>Von den 26 Punkten, die es an der Prüfung für den Code gibt, arbeitest du in 09A an 11 direkt. Die anderen 15 hast du in den Aufträgen 06B bis 08C schon einmal gebaut. Die vollständige Landkarte steht am Schluss des Auftrags.</p>
+<p>An der Prüfung gibt es für den Code 26 Punkte, verteilt auf zehn Zeilen im Bewertungsraster. In 09A arbeitest du an jeder dieser Zeilen. Die Landkarte dazu steht am Schluss des Auftrags.</p>
 
 <h2>Die Bedingungen</h2>
 
 <table>
 <tr><th>Punkt</th><th>Angabe</th><th>Woher</th></tr>
-<tr><td>Zeit</td><td>78 Minuten für die vier Schritte. Danach 12 Minuten Auswertung, ohne Uhr</td><td>Ablauf. Die Lehrperson sagt es an</td></tr>
+<tr><td>Zeit</td><td>150 Minuten für die sieben Schritte, geteilt durch die Pause. Danach 25 Minuten Auswertung und Abschluss, ohne Uhr</td><td>Ablauf. Die Lehrperson sagt es an</td></tr>
+<tr><td>Pause</td><td>Die Uhr hält an. An der Prüfung gibt es auch eine Pause</td><td>Ablauf</td></tr>
 <tr><td>Form</td><td>Einzelarbeit</td><td>Prüfungsblatt</td></tr>
 <tr><td>Erlaubt</td><td>Open Book. Das Internet, deine eigenen Unterlagen, dein eigenes Projekt WissQuiz</td><td>Prüfungsblatt</td></tr>
 <tr><td>KI</td><td>Das Prüfungsblatt verbietet sie nicht. Auf der letzten Seite unterschreibst du aber, dass Stellen "aus Veröffentlichungen oder aus anderweitigen fremden Äusserungen (inkl. ChatGPT)" gekennzeichnet sind</td><td>Prüfungsblatt, Eidesstattliche Erklärung</td></tr>
@@ -76,21 +78,25 @@
 </ul>
 
 <div class="warn">
-<p><b>Es gibt kein vorbereitetes Projekt, weder heute noch an der Prüfung.</b> Du legst es in Schritt 0 selbst an, trägst Room ein und holst dir das Zeilenlayout aus dem Lösungsmaterial. Zwölf Minuten sind dafür gerechnet, und an der Prüfung kostet dich derselbe Anfang dieselbe Zeit.</p>
+<p><b>Es gibt kein vorbereitetes Projekt, weder in 09A noch an der Prüfung.</b> Du legst es in Schritt 0 selbst an, trägst Room ein und holst dir das Zeilenlayout aus dem Lösungsmaterial. Zwölf Minuten sind dafür gerechnet, und an der Prüfung kostet dich derselbe Anfang dieselbe Zeit.</p>
 </div>
 
-<h2>Der Plan für die 90 Minuten</h2>
+<h2>Der Plan für den Vormittag</h2>
 
 <table>
 <tr><th>Schritt</th><th>Was du machst</th><th class="num">Min</th></tr>
 <tr><td class="pre">0</td><td>Das Projekt anlegen, Room eintragen, Zeilenlayout holen</td><td class="num">12</td></tr>
-<tr><td class="pre">1</td><td>Die Datenschicht. Entity, Dao, Datenbank-Klasse</td><td class="num">31</td></tr>
+<tr><td class="pre">1</td><td>Die Datenschicht. Entity, Dao, Datenbank-Klasse</td><td class="num">33</td></tr>
 <tr><td class="pre">2</td><td>Der Startbestand. Fünf Einträge beim allerersten Start</td><td class="num">10</td></tr>
-<tr><td class="pre">3</td><td>Die Liste auf dem Bildschirm, mit dem Betrag rechts</td><td class="num">23</td></tr>
-<tr><td class="pre">4</td><td>Die Auswertung. Befund und Landkarte, ohne Uhr</td><td class="num">12</td></tr>
+<tr><td class="pre">3</td><td>Die Liste auf dem Bildschirm, mit dem Betrag rechts</td><td class="num">30</td></tr>
+<tr><td></td><td><i>Pause. Die Uhr hält an</i></td><td class="num">30</td></tr>
+<tr><td class="pre">4</td><td>Das Formular. Zweiter Bildschirm, vier Felder, speichern</td><td class="num">32</td></tr>
+<tr><td class="pre">5</td><td>Die Fehlerbehandlung. Meldungen am Feld</td><td class="num">18</td></tr>
+<tr><td class="pre">6</td><td>Einen Eintrag ändern</td><td class="num">15</td></tr>
+<tr><td></td><td>Auswertung und Abschluss, ohne Uhr</td><td class="num">25</td></tr>
 </table>
 
-<p>Die 75 Minuten der Schritte 1 bis 3 laufen unter Zeit. Die Auswertung nicht. Es kommt nichts vor, was du noch nie gemacht hast.</p>
+<p>Es kommt nichts vor, was du noch nie gemacht hast.</p>
 
 <h2>Lernziele</h2>
 
@@ -115,7 +121,7 @@
 <!--M335:WEITER-->
 <nav class="weiter"><div class="reihe"><span>Zu 09A</span><a href="09a.html">Auftrag</a><a href="09a-loesung.html">Lösung</a></div><a class="vor" href="09b-einfuehrung.html"><span>Weiter</span>09B, Einführung</a></nav>
 <!--/M335:WEITER-->
-<p class="foot">Modul 335 | Tag 5 Vormittag | Einführung 09A | Version 4 | 05.09.2026</p>
+<p class="foot">Modul 335 | Tag 5 Vormittag | Einführung 09A | Version 4 | 12.09.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->
