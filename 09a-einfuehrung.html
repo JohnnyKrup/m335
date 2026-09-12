@@ -54,13 +54,13 @@
 
 <p>Darum ist das Lösungsmaterial von der ersten Minute an offen. Die Regel dazu steht im Auftrag. Hängst du an einem Schritt länger als zehn Minuten, schaust du nach und notierst dir, wo. Dieses Wo ist das Ergebnis des Vormittags, nicht die App.</p>
 
-<p>An der Prüfung gibt es für den Code 26 Punkte, verteilt auf zehn Zeilen im Bewertungsraster. In 09A arbeitest du an jeder dieser Zeilen. Die Landkarte dazu steht am Schluss des Auftrags.</p>
+<p>Die Landkarte am Schluss des Auftrags zeigt danach, welche Zeile des Bewertungsrasters du in welchem Schritt bedient hast.</p>
 
 <h2>Die Bedingungen</h2>
 
 <table>
 <tr><th>Punkt</th><th>Angabe</th><th>Woher</th></tr>
-<tr><td>Zeit</td><td>150 Minuten für die sieben Schritte, geteilt durch die Pause. Danach 25 Minuten Auswertung und Abschluss, ohne Uhr</td><td>Ablauf. Die Lehrperson sagt es an</td></tr>
+<tr><td>Zeit</td><td>Die sieben Schritte laufen unter der Uhr, geteilt durch die Pause. Die Minuten stehen in der Tabelle weiter unten</td><td>Ablauf. Die Lehrperson sagt es an</td></tr>
 <tr><td>Pause</td><td>Die Uhr hält an. An der Prüfung gibt es auch eine Pause</td><td>Ablauf</td></tr>
 <tr><td>Form</td><td>Einzelarbeit</td><td>Prüfungsblatt</td></tr>
 <tr><td>Erlaubt</td><td>Open Book. Das Internet, deine eigenen Unterlagen, dein eigenes Projekt WissQuiz</td><td>Prüfungsblatt</td></tr>
@@ -81,22 +81,27 @@
 <p><b>Es gibt kein vorbereitetes Projekt, weder in 09A noch an der Prüfung.</b> Du legst es in Schritt 0 selbst an, trägst Room ein und holst dir das Zeilenlayout aus dem Lösungsmaterial. Zwölf Minuten sind dafür gerechnet, und an der Prüfung kostet dich derselbe Anfang dieselbe Zeit.</p>
 </div>
 
-<h2>Der Plan für den Vormittag</h2>
+<h2>Warum der Codeteil so viel Zeit braucht</h2>
+
+<p>Aufgabe 6 der Leistungsbeurteilung gibt 150 Minuten und 26 Punkte. Sie besteht aus diesen Teilen, und 09A baut jeden davon.</p>
 
 <table>
-<tr><th>Schritt</th><th>Was du machst</th><th class="num">Min</th></tr>
-<tr><td class="pre">0</td><td>Das Projekt anlegen, Room eintragen, Zeilenlayout holen</td><td class="num">12</td></tr>
-<tr><td class="pre">1</td><td>Die Datenschicht. Entity, Dao, Datenbank-Klasse</td><td class="num">33</td></tr>
-<tr><td class="pre">2</td><td>Der Startbestand. Fünf Einträge beim allerersten Start</td><td class="num">10</td></tr>
-<tr><td class="pre">3</td><td>Die Liste auf dem Bildschirm, mit dem Betrag rechts</td><td class="num">30</td></tr>
-<tr><td></td><td><i>Pause. Die Uhr hält an</i></td><td class="num">30</td></tr>
-<tr><td class="pre">4</td><td>Das Formular. Zweiter Bildschirm, vier Felder, speichern</td><td class="num">32</td></tr>
-<tr><td class="pre">5</td><td>Die Fehlerbehandlung. Meldungen am Feld</td><td class="num">18</td></tr>
-<tr><td class="pre">6</td><td>Einen Eintrag ändern</td><td class="num">15</td></tr>
-<tr><td></td><td>Auswertung und Abschluss, ohne Uhr</td><td class="num">25</td></tr>
+<tr><th>Schritt</th><th>Was du baust</th><th class="num">Min</th><th class="num">P</th><th>Wo geübt</th></tr>
+<tr><td class="num">0</td><td>Projekt anlegen, Room eintragen, Zeilenlayout holen</td><td class="num">12</td><td class="num"></td><td>01C, 02B, 07C</td></tr>
+<tr><td class="num">1</td><td>Entity, Dao, Datenbank-Klasse</td><td class="num">33</td><td class="num">4</td><td>07C</td></tr>
+<tr><td class="num">2</td><td>Startbestand im Code</td><td class="num">10</td><td class="num"></td><td>08A</td></tr>
+<tr><td class="num">3</td><td>Liste zu Fuss, Betrag rechts</td><td class="num">30</td><td class="num">3</td><td>04B, 07B, 08A</td></tr>
+<tr><td class="num">4</td><td>Formular auf einem zweiten Bildschirm, speichern</td><td class="num">32</td><td class="num">6</td><td>05A, 06B, 08B</td></tr>
+<tr><td class="num">5</td><td>Fehlerbehandlung am Feld</td><td class="num">18</td><td class="num">4</td><td>06B, 08B</td></tr>
+<tr><td class="num">6</td><td>Einen Eintrag ändern</td><td class="num">15</td><td class="num">4</td><td>08C</td></tr>
+<tr><td></td><td>Durchgehend: Querformat, Mindest-API, Javadoc</td><td class="num"></td><td class="num">5</td><td>02B, 01B, jeder Auftrag</td></tr>
 </table>
 
-<p>Es kommt nichts vor, was du noch nie gemacht hast.</p>
+<p>Keine Zeile dieser Tabelle ist neu. Jede steht in einem Auftrag, den du schon gebaut hast.</p>
+
+<p>Zwei Zeilen haben keine Punkte, und das ist selbst eine Angabe. Schritt 0 bringt keinen einzigen Punkt und kostet 12 Minuten, darum lohnt er sich zu üben. Und Schritt 2 steht in keiner Zeile des Rasters. Er ist nur da, damit die Liste in Schritt 3 etwas anzeigen kann, bevor es ein Formular gibt. Wer an der Prüfung mit dem Formular anfängt, braucht ihn nicht.</p>
+
+<p>Die Pause liegt zwischen Schritt 3 und Schritt 4. Die Uhr hält an. Danach kommen noch 25 Minuten Auswertung und Abschluss, ebenfalls ohne Uhr.</p>
 
 <h2>Lernziele</h2>
 
