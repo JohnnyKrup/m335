@@ -24,7 +24,7 @@
 <div class="wrap">
 
 <h1>09A Auftrag: Generalprobe Teil B</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Tag 5 Vormittag. Arbeitszeit 180 Minuten. Version 5 vom 12.09.2026.</p>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 5 Vormittag. Arbeitszeit 180 Minuten, davon 150 unter Zeit. Version 5 vom 14.09.2026.</p>
 
 <p>Du programmierst die Einkaufsliste, die du in 07A auf Papier geplant hast. Warum das so gebaut ist, steht in der <a href="09a-einfuehrung.html">Einführung zu 09A</a>. Fertig bist du, wenn deine App fünf Einträge zeigt, bei dreien davon rechts ein Betrag steht und nach einem Neustart immer noch genau fünf Einträge da sind.</p>
 
@@ -118,10 +118,11 @@
 <tr><td class="pre">@Database(entities = {...})</td><td>An der abstrakten Datenbank-Klasse</td></tr>
 <tr><td class="pre">Room.databaseBuilder</td><td>Baut die Datenbank. Mit <code>allowMainThreadQueries()</code>, wie im ganzen Kurs</td></tr>
 <tr><td class="pre">Integer, Double</td><td>Die Hüllklassen. Sie können <code>null</code> sein, <code>int</code> und <code>double</code> nicht</td></tr>
+<tr><td class="pre">Log.d</td><td>Eine Zeile am Schluss von <code>getInstance</code>, die die Anzahl aus <code>count()</code> zeigt. Wie in 07C. Die Prüfung unten braucht sie</td></tr>
 </table>
 
 <div class="step">
-<p><span class="n">1</span><b>Deine drei Klassen für die Datenhaltung.</b> <span class="time">31 Min</span></p>
+<p><span class="n">1</span><b>Deine drei Klassen für die Datenhaltung.</b> <span class="time">33 Min</span></p>
 
 <h4>Was du baust</h4>
 <p>Ein Paket <code>data</code> unter <code>ch.wiss.m335.einkauf</code>, darin drei Dateien.</p>
@@ -138,7 +139,7 @@
 <li><code>Integer</code> und <code>Double</code>, dann ist nicht eingetragen gleich <code>null</code>.</li>
 <li><code>int</code> und <code>double</code> mit einer zusätzlichen Regel, was <code>0</code> bedeutet.</li>
 </ul>
-<p>Die Lösung geht den ersten Weg, weil er ohne Zusatzregel auskommt.</p>
+<p>Die Lösung nimmt <code>Integer</code> und <code>Double</code>, weil das ohne Zusatzregel auskommt. Hast du in 07A <code>int</code> und <code>double</code> gezeichnet, ist das kein Fehler. Dann schreibst du die Regel für die <code>0</code> dazu und hältst sie in Schritt 3 und 4 ein.</p>
 
 <h4>Javadoc</h4>
 <p>Jede Klasse, jedes Feld, jede Methode. Schreib es beim Schreiben, nicht danach. An der Prüfung gibt es dafür 2 Punkte. Achtung bei den Gettern und Settern: was <code>Alt+Insert</code> erzeugt, bringt kein Javadoc mit. Bei fünf Feldern sind das zehn Methoden auf einen Schlag.</p>
@@ -188,7 +189,7 @@
 
 <h3 class="teil">Schritt 3, die Liste auf dem Bildschirm <span class="time">30 Minuten</span></h3>
 
-<p>Die Liste baust du zu Fuss und nicht mit einem Adapter. Eine Schleife, eine Zeile pro Eintrag, fertig. Derselbe Weg wie in 04B, und <code>buildQuestionList</code> in deiner <code>GameActivity</code> ist die Vorlage.</p>
+<p>Die Liste baust du zu Fuss und nicht mit einem Adapter. Eine Schleife, eine Zeile pro Eintrag, fertig. Derselbe Weg wie in 04B. Die Vorlage ist <code>buildQuestionList</code>, in deinem WissQuiz steht sie inzwischen in der <code>GameActivity</code>.</p>
 
 <p>Warum nicht der RecyclerView: das Prüfungsblatt schreibt keine einzige Klasse vor. Es verlangt eine Liste und einen Wert rechts, und beide Wege liefern das. Bei fünf oder zwanzig Einträgen ist kein Unterschied zu sehen. Der Adapter ist nicht falsch, er ist hier nur teurer. Im Grundlagenblatt Listen verstehen sagt Abschnitt 05, wann welcher Weg gilt, Abschnitt 07 hat die vier Schritte für den kurzen. An der Prüfung darfst du dort nachschlagen, es ist Open Book.</p>
 
@@ -207,12 +208,13 @@
 </table>
 
 <div class="step">
-<p><span class="n">3</span><b>Das Layout, die Bau-Methode, die Verdrahtung.</b> <span class="time">23 Min</span></p>
+<p><span class="n">3</span><b>Das Layout, die Bau-Methode, die Verdrahtung.</b> <span class="time">30 Min</span></p>
 
 <h4>Das Layout</h4>
 <p>In <code>activity_main.xml</code> kommt eine Überschrift, darunter eine ScrollView, und darin ein leeres LinearLayout. Der Text der Überschrift gehört in <code>strings.xml</code>, wie jeder sichtbare Text.</p>
 <p>Die ScrollView bekommt <code>layout_height="0dp"</code> und wird oben an die Überschrift und unten an den Bildschirmrand gebunden. So bekommt sie allen Platz, der übrig bleibt. Das LinearLayout darin ist <code>match_parent</code> breit, <code>wrap_content</code> hoch und vertical.</p>
 <p>Hier entscheidet sich der Punkt fürs Querformat. Mit <code>wrap_content</code> an der ScrollView sieht im Hochformat alles gleich aus. Dreh das Gerät, und die Liste ist unten abgeschnitten. Im Bewertungsraster ist das eine eigene Zeile mit 2 Punkten.</p>
+<p>Der seitliche Rand gehört an die Überschrift und an das LinearLayout, zum Beispiel mit <code>paddingStart</code> und <code>paddingEnd</code>. Nicht an das Root-Element. Dessen Padding überschreibt der Insets-Block, den Android Studio in die <code>MainActivity</code> geschrieben hat.</p>
 
 <h4>Die Bau-Methode</h4>
 <p>Eine private Methode in der <code>MainActivity</code>, die eine Liste von Einträgen bekommt und daraus Zeilen macht. Deine Vorlage ist <code>buildQuestionList</code> aus 04B in der <code>GameActivity</code>. Der Aufbau ist derselbe, was anders wird, steht in der Tabelle:</p>
@@ -233,7 +235,7 @@
 
 <h4>Die Verdrahtung in der MainActivity</h4>
 <p>Ein Feld für das LinearLayout, in <code>onCreate</code> mit <code>findViewById</code> gesucht. Mehr braucht es nicht. Es gibt kein zweites Feld und keine zweite Klasse.</p>
-<p>Das Holen der Daten gehört in eine eigene Methode, nicht in <code>onCreate</code>. Sobald es ein Formular gibt, muss die Liste nach der Rückkehr neu geladen werden, und dann steht der Aufruf ein zweites Mal in <code>onResume</code>. So hast du es in 08A gebaut. Die eine Methode holt die Daten, die andere baut daraus Zeilen. So kannst du später die Herkunft der Daten ändern, ohne die Anzeige anzufassen.</p>
+<p>Das Holen der Daten gehört in eine eigene Methode, nicht in <code>onCreate</code>. Sobald es ein Formular gibt, muss die Liste nach der Rückkehr neu geladen werden, und dann ziehst du den Aufruf von <code>onCreate</code> nach <code>onResume</code> um. So hast du es in 08A gebaut. Die eine Methode holt die Daten, die andere baut daraus Zeilen. So kannst du später die Herkunft der Daten ändern, ohne die Anzeige anzufassen.</p>
 </div>
 
 <div class="chk">
@@ -266,7 +268,8 @@
 <tr><td class="pre">Intent und startActivity</td><td>Der Wechsel zwischen zwei Activities. Aus 05A</td></tr>
 <tr><td class="pre">insert(...)</td><td>Deine Dao-Methode aus Schritt 1</td></tr>
 <tr><td class="pre">finish()</td><td>Schliesst den Bildschirm und bringt dich zur Liste zurück</td></tr>
-<tr><td class="pre">onResume</td><td>Lädt die Liste neu, wenn du vom Formular zurückkommst. Aus 08A</td></tr>
+<tr><td class="pre">onResume</td><td>Lädt die Liste bei jedem Erscheinen, auch nach dem Formular. Der Aufruf zieht von <code>onCreate</code> hierher um. Aus 08A</td></tr>
+<tr><td class="pre">paddingBottom, clipToPadding</td><td>Platz unter der Liste, damit der Knopf im Querformat keine Zeile verdeckt</td></tr>
 </table>
 
 <div class="step">
@@ -274,12 +277,14 @@
 
 <h4>Der Weg hin und zurück</h4>
 <p>In <code>activity_main.xml</code> kommt ein FloatingActionButton unten rechts. Er startet die neue Activity über einen Intent. Mehr braucht der Hinweg nicht, denn beim Anlegen gibt es nichts mitzugeben.</p>
-<p>Der Rückweg läuft über <code>onResume</code>. Dort steht der Aufruf deiner Lade-Methode aus Schritt 3 ein zweites Mal. Ohne ihn zeigt die Liste den neuen Eintrag erst beim nächsten Start der App.</p>
+<p>Der Rückweg läuft über <code>onResume</code>. Verschieb den Aufruf deiner Lade-Methode aus Schritt 3 von <code>onCreate</code> dorthin. <code>onResume</code> läuft auch beim ersten Start, direkt nach <code>onCreate</code>. Fehlt der Aufruf dort, zeigt die Liste den neuen Eintrag erst beim nächsten Start der App. Steht er an beiden Stellen, baut die App die Liste bei jedem Start zweimal. Das stürzt nicht ab, du siehst es nur im Logcat.</p>
+<p>Der Knopf liegt über der Liste. Gib der ScrollView unten Platz mit <code>paddingBottom</code> und <code>clipToPadding="false"</code>. Sonst liegt er im Querformat über dem Betrag der letzten Zeile, und die Zeile lässt sich nicht darunter hervorscrollen.</p>
 
 <h4>Die vier Felder</h4>
 <p>Artikel, Laden, Menge und Preis pro Stück. Jedes als TextInputLayout mit einem TextInputEditText darin. Die Beschriftungen gehören in <code>strings.xml</code>.</p>
 <p>Der <code>inputType</code> ist hier nicht Kosmetik, sondern eine eigene Rasterzeile mit 2 Punkten. Artikel und Laden bekommen Text, die Menge eine reine Zahl, der Preis eine Zahl mit Komma. Wer alles auf Text lässt, verliert diese zwei Punkte, obwohl die App läuft.</p>
 <p>Das Ganze gehört in eine ScrollView. Auf einem kleinen Gerät im Querformat liegen vier Felder und ein Knopf sonst teilweise unter dem Bildschirmrand, und der Knopf ist nicht erreichbar.</p>
+<p>Android Studio legt das Layout der neuen Activity mit einem ConstraintLayout an, und das hat die id <code>main</code>. Der Insets-Block in der neuen Activity sucht genau diese id. Lass das Root-Element darum stehen und leg die ScrollView hinein, wie in 08B. Machst du die ScrollView selbst zum Root-Element, fehlt die id, und das Projekt baut nicht mehr.</p>
 
 <h4>Speichern</h4>
 <p>Ein Knopf liest die vier Felder, baut einen Eintrag und ruft <code>insert</code>. Danach <code>finish()</code>.</p>
@@ -294,6 +299,7 @@
 <li>Trag alle vier Werte ein und speichere. Die Liste zeigt den neuen Eintrag sofort, mit dem Betrag rechts.</li>
 <li>Leg einen zweiten Eintrag an und lass Menge und Preis leer. In der Liste bleibt der Betrag leer, dort steht nicht <code>0.00</code>.</li>
 <li>Dreh das Gerät im Formular. Alle vier Felder und der Knopf sind erreichbar.</li>
+<li>Leg so viele Einträge an, dass die Liste scrollt. Dreh das Gerät und scroll ganz nach unten. Der Betrag der letzten Zeile liegt nicht unter dem Knopf.</li>
 </ol>
 </div>
 
@@ -309,6 +315,8 @@
 <tr><td class="pre">getText().toString().trim()</td><td>Holt den Inhalt und schneidet Leerzeichen weg</td></tr>
 <tr><td class="pre">length() &lt; 4</td><td>Die Mindestlänge aus der Beschreibung</td></tr>
 <tr><td class="pre">eine eigene boolesche Methode</td><td>Prüft alle Felder und liefert, ob gespeichert werden darf</td></tr>
+<tr><td class="pre">Integer.parseInt, Double.parseDouble</td><td>Machen aus dem Text eine Zahl. Ist der Text keine Zahl, werfen sie eine <code>NumberFormatException</code></td></tr>
+<tr><td class="pre">try und catch</td><td>Fängt die Exception ab. Im <code>catch</code> setzt du die Meldung an das Feld, statt dass die App abstürzt</td></tr>
 </table>
 
 <div class="step">
@@ -319,6 +327,7 @@
 
 <h4>Was geprüft wird</h4>
 <p>Artikel und Laden sind Pflicht, beide mit mindestens vier Zeichen. Menge und Preis dürfen leer sein. Steht aber etwas darin, muss es eine Zahl sein.</p>
+<p>Der <code>inputType</code> lässt nur Ziffern zu, beim Preis dazu einen Punkt. Das reicht nicht, denn ein einzelner Punkt ist keine Zahl. Darum prüfst du den Inhalt mit <code>parseInt</code> und <code>parseDouble</code> in einem <code>try</code>. Wirft die Umwandlung eine Exception, setzt das <code>catch</code> die Meldung an das Feld.</p>
 <p>Alle Prüfungen laufen in einer eigenen Methode, die am Schluss liefert, ob gespeichert werden darf. Der Speichern-Knopf ruft sie auf und macht nichts, wenn sie <code>false</code> liefert.</p>
 
 <h4>Die zwei Stellen, an denen es schiefgeht</h4>
@@ -332,7 +341,8 @@
 <li>Tipp auf Speichern, ohne etwas einzutragen. Unter dem Feld für den Artikel und unter dem für den Laden steht je eine Meldung. Gespeichert wird nichts.</li>
 <li>Trag bei beiden drei Zeichen ein und speichere. Beide Meldungen stehen wieder da.</li>
 <li>Trag beim Artikel vier Zeichen ein und speichere. Die Meldung beim Artikel ist weg, die beim Laden steht noch.</li>
-<li>Füll beide richtig aus und speichere. Der Eintrag steht in der Liste.</li>
+<li>Füll beide richtig aus und tipp beim Preis nur einen Punkt ein. Speichere. Unter dem Preis steht eine Meldung, gespeichert wird nichts, und die App stürzt nicht ab.</li>
+<li>Lösch den Punkt wieder und speichere. Der Eintrag steht in der Liste.</li>
 </ol>
 </div>
 
@@ -345,7 +355,8 @@
 <tr><th>Baustein oder Name</th><th>Wofür</th></tr>
 <tr><td class="pre">row.setOnClickListener</td><td>Kommt in deine Bau-Methode aus Schritt 3, auf die fertige Zeile</td></tr>
 <tr><td class="pre">putExtra</td><td>Gibt die id des angetippten Eintrags mit. Aus 05A und 08C</td></tr>
-<tr><td class="pre">getIntExtra("...", -1)</td><td>Holt sie im Formular. Die -1 bedeutet, es ist ein neuer Eintrag</td></tr>
+<tr><td class="pre">getIntExtra("...", -1)</td><td>Holt sie im Formular. Die -1 bedeutet, es ist ein neuer Eintrag. In 08C war es die 0, beides geht, denn Room fängt bei 1 an</td></tr>
+<tr><td class="pre">String.valueOf(...)</td><td>Macht aus einer Zahl einen Text für das Feld. Nur aufrufen, wenn der Wert nicht <code>null</code> ist</td></tr>
 <tr><td class="pre">findById(id)</td><td>Deine Dao-Methode aus Schritt 1. Jetzt wird sie gebraucht</td></tr>
 <tr><td class="pre">update(...)</td><td>Ändert die bestehende Zeile. Nicht insert</td></tr>
 </table>
@@ -356,6 +367,7 @@
 <h4>Der Weg zum Eintrag</h4>
 <p>In der Bau-Methode aus Schritt 3 bekommt jede fertige Zeile einen Klick-Empfänger. Er startet das Formular und gibt die id des Eintrags mit.</p>
 <p>Das Formular holt die id beim Start. Ist sie -1, ist es ein neuer Eintrag und alles bleibt wie in Schritt 4. Ist sie eine echte id, lädt es den Eintrag über <code>findById</code> und schreibt die vier Werte in die Felder.</p>
+<p>Menge und Preis können <code>null</code> sein. <code>String.valueOf</code> auf ein <code>null</code> schreibt das Wort null ins Feld. Prüf darum vor dem <code>setText</code>, ob der Wert da ist, und lass das Feld sonst leer.</p>
 
 <h4>Die Stelle, die Punkte kostet</h4>
 <p>Beim Speichern entscheidet dieselbe id, ob <code>insert</code> oder <code>update</code> läuft. Wer immer <code>insert</code> aufruft, bekommt eine zweite Zeile statt einer Änderung. Die App stürzt nicht ab, und in der Liste stehen danach zwei fast gleiche Einträge.</p>
@@ -481,18 +493,23 @@
 <tr><td>Im Logcat steht <code>0</code>, obwohl dein Startbestand da ist</td><td><code>seedIfEmpty</code> wird nie aufgerufen, oder es steht nach der Log-Zeile</td><td>Reihenfolge in <code>getInstance</code> prüfen. Erst füllen, dann zählen. Siehe Schritt 2</td></tr>
 <tr><td>Nach dem zweiten Start stehen zehn Einträge</td><td>Die Prüfung mit <code>count()</code> fehlt in <code>seedIfEmpty</code></td><td>Ergänzen und danach Clear storage, sonst bleiben die zehn stehen. Derselbe Fehler wie in 08A</td></tr>
 <tr><td>Die Liste wird bei jedem Laden länger</td><td><code>removeAllViews</code> fehlt, oder es steht nicht zuoberst</td><td>Als erste Zeile der Bau-Methode. Siehe Schritt 3. Derselbe Fehler wie in 04B</td></tr>
-<tr><td>Der Bildschirm bleibt leer und nichts stürzt ab</td><td>Die Daten kommen aus der Datenbank, aber niemand baut daraus Zeilen</td><td>Den Aufruf deiner Lade-Methode in <code>onCreate</code> prüfen, und ob sie deine Bau-Methode aufruft. Dieser Fehler meldet sich nirgends</td></tr>
+<tr><td>Der Bildschirm bleibt leer und nichts stürzt ab</td><td>Die Daten kommen aus der Datenbank, aber niemand baut daraus Zeilen</td><td>Den Aufruf deiner Lade-Methode prüfen, bis Schritt 3 in <code>onCreate</code>, ab Schritt 4 in <code>onResume</code>, und ob sie deine Bau-Methode aufruft. Dieser Fehler meldet sich nirgends</td></tr>
 <tr><td><code>IllegalStateException: The specified child already has a parent</code></td><td>Beim <code>inflate</code> steht als drittes Argument <code>true</code> statt <code>false</code>. Die Zeile hängt dann zweimal</td><td>Auf <code>false</code> ändern. Derselbe Fehler wie in 06C</td></tr>
 <tr><td><code>NullPointerException</code> beim Setzen eines Textes</td><td>Eine id ist falsch geschrieben, oder du suchst mit <code>findViewById</code> statt mit <code>row.findViewById</code></td><td>Gegen <code>item_shopping.xml</code> halten. Die drei ids heissen <code>tvArticle</code>, <code>tvShop</code> und <code>tvAmount</code></td></tr>
 <tr><td>Der Betrag steht bei allen fünf Zeilen, bei zweien als <code>0.00</code></td><td>Die Prüfung auf <code>null</code> fehlt, oder die Felder sind <code>int</code> und <code>double</code></td><td>Siehe Schritt 1 und Schritt 3. Nichts stürzt ab, es sieht nur falsch aus</td></tr>
 <tr><td>Im Betrag stehen zehn Stellen nach dem Punkt</td><td>Der Platzhalter im String hat keine Angabe zur Genauigkeit</td><td><code>%1$.2f</code> statt <code>%1$f</code>. Siehe Schritt 3</td></tr>
 <tr><td>Der Betrag steht nicht am rechten Rand, sondern gleich hinter dem Artikel</td><td>Kein Fehler aus diesem Auftrag. Du hast <code>item_shopping.xml</code> verändert</td><td>Der linke Block braucht <code>layout_width="0dp"</code> und <code>layout_weight="1"</code>. Die Datei war fertig, stell sie zurück</td></tr>
 <tr><td>Der neue Eintrag steht erst nach einem Neustart der App in der Liste</td><td>Der Aufruf der Lade-Methode fehlt in <code>onResume</code></td><td>Ergänzen. Siehe Schritt 4. Derselbe Fehler wie in 08B</td></tr>
-<tr><td><code>NumberFormatException</code> beim Speichern</td><td>Ein leeres Feld wird in eine Zahl umgewandelt</td><td>Vorher auf leer prüfen und <code>null</code> setzen. Siehe Schritt 4</td></tr>
+<tr><td><code>NumberFormatException</code> beim Speichern</td><td>Ein leeres Feld wird in eine Zahl umgewandelt, oder im Feld steht keine Zahl, zum Beispiel nur ein Punkt</td><td>Vorher auf leer prüfen und <code>null</code> setzen, siehe Schritt 4. Den Inhalt mit <code>try</code> und <code>catch</code> prüfen, siehe Schritt 5</td></tr>
 <tr><td>Die Fehlermeldung bleibt am Feld stehen, obwohl der Inhalt stimmt</td><td><code>setError(null)</code> fehlt am Anfang der Prüfmethode</td><td>Als erste Zeile ergänzen. Siehe Schritt 5</td></tr>
 <tr><td>Es wird immer nur ein Feld markiert, die anderen erst danach</td><td>Die Prüfmethode kehrt beim ersten Fehler zurück</td><td>Alle Felder prüfen, das Ergebnis sammeln, erst am Schluss zurückgeben. Siehe Schritt 5</td></tr>
 <tr><td>Beim Ändern entsteht eine zweite Zeile statt einer Änderung</td><td>Es läuft <code>insert</code> statt <code>update</code></td><td>An der id entscheiden. Siehe Schritt 6. Nichts stürzt ab</td></tr>
 <tr><td>Beim Antippen einer Zeile ist das Formular leer</td><td>Die id kommt nicht an. Der Schlüssel bei <code>putExtra</code> und bei <code>getIntExtra</code> ist nicht derselbe</td><td>Den Schlüssel als Konstante in der Activity ablegen und beide Stellen darauf zeigen lassen. Siehe Schritt 6</td></tr>
+<tr><td>Im Feld für Menge oder Preis steht das Wort null</td><td><code>String.valueOf</code> wurde auf einen leeren Wert aufgerufen</td><td>Vor dem <code>setText</code> auf <code>null</code> prüfen. Siehe Schritt 6</td></tr>
+<tr><td><code>cannot find symbol</code> bei <code>R.id.main</code> in der neuen Activity</td><td>Die ScrollView ist zum Root-Element geworden, und die id <code>main</code> ist weg</td><td>Das Root-Element mit der id <code>main</code> wieder herstellen und die ScrollView hineinlegen. Siehe Schritt 4</td></tr>
+<tr><td>Im Logcat steht die Zeile zum Laden der Liste bei jedem Start zweimal</td><td>Die Lade-Methode wird in <code>onCreate</code> und in <code>onResume</code> aufgerufen</td><td>Den Aufruf in <code>onCreate</code> löschen. Siehe Schritt 4</td></tr>
+<tr><td>Im Querformat liegt der Knopf über dem Betrag der letzten Zeile</td><td>Unter der Liste ist kein Platz</td><td><code>paddingBottom</code> und <code>clipToPadding="false"</code> an der ScrollView. Siehe Schritt 4</td></tr>
+<tr><td>Die Liste klebt links und rechts am Bildschirmrand, obwohl am Root-Element ein Padding steht</td><td>Der Insets-Block überschreibt das Padding des Root-Elements</td><td>Den Rand an die Überschrift und an das LinearLayout setzen. Siehe Schritt 3</td></tr>
 <tr><td>Im Querformat ist der Speichern-Knopf im Formular nicht erreichbar</td><td>Die ScrollView um das Formular fehlt</td><td>Ergänzen. Siehe Schritt 4. Im Hochformat sieht man den Fehler nie</td></tr>
 <tr><td>Im Querformat ist die Liste unten abgeschnitten und lässt sich nicht scrollen</td><td>Die ScrollView fehlt ganz, oder sie hat <code>wrap_content</code> statt <code>0dp</code>, oder die untere Verbindung fehlt</td><td>Alle drei prüfen. Siehe Schritt 3. Im Hochformat sieht man den Fehler nie</td></tr>
 </table>
@@ -500,7 +517,7 @@
 <!--M335:WEITER-->
 <nav class="weiter"><div class="reihe"><span>Zu 09A</span><a href="09a-einfuehrung.html">Einführung</a><a href="09a-loesung.html">Lösung</a></div><a class="vor" href="09b-einfuehrung.html"><span>Weiter</span>09B, Einführung</a></nav>
 <!--/M335:WEITER-->
-<p class="foot">Modul 335 | Tag 5 Vormittag | Auftrag 09A | Version 5 | 12.09.2026</p>
+<p class="foot">Modul 335 | Tag 5 Vormittag | Auftrag 09A | Version 5 | 14.09.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->

@@ -24,9 +24,9 @@
 <div class="wrap">
 
 <h1>09A Lösung: Generalprobe Teil B</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Tag 5 Vormittag. Lösungsmaterial zum Auftrag 09A. Version 5 vom 06.09.2026.</p>
+<p class="sub">Modul 335 Mobile Applikationen, Tag 5 Vormittag. Lösungsmaterial zum Auftrag 09A. Version 5 vom 14.09.2026.</p>
 
-<p>Unten stehen die Dateien vollständig, so wie sie nach 09A aussehen können. Die Namen sind meine, deine dürfen andere sein.</p>
+<p>Unten stehen die Dateien vollständig, so wie sie nach 09A aussehen können, für alle sechs Schritte vom leeren Projekt bis zum Ändern eines Eintrags. Die Namen sind meine, deine dürfen andere sein.</p>
 
 <h2>Prüfliste</h2>
 
@@ -45,14 +45,27 @@
 <tr><td class="num">9</td><td>Bei <b>zwei</b> deiner fünf Einträge fehlen Menge und Preis</td><td>Nur damit siehst du, ob dein Betrag richtig entscheidet. Mit fünf vollständigen Einträgen sieht eine falsche Bau-Methode richtig aus</td></tr>
 <tr><td class="num">10</td><td><code>removeAllViews</code> steht als <b>erste</b> Zeile deiner Bau-Methode</td><td>Ohne sie wird die Liste bei jedem Laden länger, und es stürzt nichts ab. Derselbe Fehler wie in 04B</td></tr>
 <tr><td class="num">11</td><td>Beim <code>inflate</code> ist das dritte Argument ein <code>false</code>, und die drei <code>findViewById</code> laufen auf <code>row</code></td><td>Mit <code>true</code> hängt die Zeile zweimal, das gibt eine <code>IllegalStateException</code>. Ohne <code>row</code> sucht Android im falschen Layout und liefert <code>null</code></td></tr>
-<tr><td class="num">12</td><td>Der Betrag wird in der Schleife gerechnet, nach einer Prüfung auf beide Werte, und bleibt sonst leer</td><td>Das ist die einzige Stelle mit Logik in diesem Auftrag. An der Prüfung ist es der Durchschnitt, und dort gibt es dafür einen eigenen Punkt</td></tr>
+<tr><td class="num">12</td><td>Der Betrag wird in der Schleife gerechnet, nach einer Prüfung auf beide Werte, und bleibt sonst leer</td><td>Das ist die einzige Rechnung in diesem Auftrag. An der Prüfung ist es der Durchschnitt, und dort gibt es dafür einen eigenen Punkt</td></tr>
 <tr><td class="num">13</td><td>Der Betrag hat genau <b>zwei</b> Stellen nach dem Punkt, und der Text kommt aus <code>strings.xml</code></td><td>Ohne die Vorgabe steht dort eine Zahl mit zehn Stellen. Und sichtbare Texte gehören nie in den Java-Code</td></tr>
 <tr><td class="num">14</td><td>Die ScrollView hat <code>layout_height="0dp"</code> und ist oben und unten verbunden</td><td>Dreh das Gerät und schau nach. Im Hochformat sieht man den Fehler nie, im Querformat sofort. Im Bewertungsraster 2 Punkte</td></tr>
 <tr><td class="num">15</td><td>Jede neue Klasse hat einen Klassenkommentar, der sagt wofür sie da ist</td><td>Steht im Prüfungsblatt. Im Bewertungsraster 2 Punkte</td></tr>
 <tr><td class="num">16</td><td>Jedes Feld und jede Methode hat Javadoc, auch die Getter und Setter</td><td>Was <code>Alt+Insert</code> erzeugt, bringt keines mit. Bei fünf Feldern sind das zehn Methoden auf einen Schlag</td></tr>
+<tr><td class="num">17</td><td>Die Lade-Methode wird nur in <code>onResume</code> aufgerufen, nicht zusätzlich in <code>onCreate</code></td><td><code>onResume</code> läuft auch beim ersten Start. Steht der Aufruf an beiden Stellen, baut die App die Liste bei jedem Start und jeder Drehung zweimal. Im Logcat steht die Zeile dann doppelt</td></tr>
+<tr><td class="num">18</td><td>Im Layout des Formulars liegt die ScrollView im Root-Element mit der id <code>main</code></td><td>Der Insets-Block der neuen Activity sucht diese id. Ist die ScrollView selbst das Root-Element, baut das Projekt nicht mehr</td></tr>
+<tr><td class="num">19</td><td>Die vier Felder haben den passenden <code>inputType</code>: Text, <code>number</code>, <code>numberDecimal</code></td><td>Die Tastatur zeigt es beim Tippen. Im Bewertungsraster 2 Punkte</td></tr>
+<tr><td class="num">20</td><td>Ein leeres Feld für Menge oder Preis wird beim Speichern <code>null</code>, nicht <code>0</code></td><td>Sonst zeigt die Liste <code>0.00</code>. Dieselbe Entscheidung wie in Nummer 3</td></tr>
+<tr><td class="num">21</td><td>Die Prüfmethode setzt zuerst alle Meldungen auf <code>null</code> und kehrt nicht beim ersten Fehler zurück</td><td>Sonst bleibt eine alte Meldung stehen, oder von zwei Fehlern wird nur einer gezeigt</td></tr>
+<tr><td class="num">22</td><td>Die Meldung steht am <code>TextInputLayout</code>, nicht in einem Toast</td><td>Die Rasterzeile heisst Fehlerbehandlung für Formularfelder. Ein Toast sagt nicht, welches Feld gemeint ist</td></tr>
+<tr><td class="num">23</td><td>Steht in Menge oder Preis etwas, wird es mit <code>try</code> und <code>catch</code> auf eine Zahl geprüft</td><td>Ein einzelner Punkt passt durch den <code>inputType</code>, ist aber keine Zahl. Ohne die Prüfung stürzt die App beim Speichern ab</td></tr>
+<tr><td class="num">24</td><td>Der Schlüssel für die id steht als Konstante im Formular, und die <code>MainActivity</code> benutzt dieselbe Konstante</td><td>Ein vertippter Schlüssel meldet sich nirgends. Das Formular ist beim Antippen dann einfach leer</td></tr>
+<tr><td class="num">25</td><td>Beim Speichern entscheidet die id, ob <code>insert</code> oder <code>update</code> läuft</td><td>Wer immer <code>insert</code> aufruft, bekommt beim Ändern eine zweite Zeile. Nichts stürzt ab</td></tr>
+<tr><td class="num">26</td><td>Vor <code>String.valueOf</code> beim Füllen des Formulars steht eine Prüfung auf <code>null</code></td><td>Sonst steht das Wort null im Feld für Menge oder Preis</td></tr>
+<tr><td class="num">27</td><td>Unter der Liste ist Platz für den FloatingActionButton</td><td>Dreh das Gerät und scroll ganz nach unten. Der Betrag der letzten Zeile liegt nicht unter dem Knopf</td></tr>
 </table>
 
 <p>Wenn du nur einen Punkt prüfst, dann Nummer 8. Er ist der einzige, dessen Fehlen du erst beim zweiten Start siehst, und dann sieht es aus wie ein Fehler beim Anzeigen.</p>
+
+<p>Beim Formular ist es Nummer 25, aus demselben Grund. Nichts stürzt ab, und der Fehler sieht aus wie ein Fehler in der Liste.</p>
 
 <p>Ist ein Punkt bei dir anders und funktioniert trotzdem, entscheide selbst. Aber du solltest sagen können, warum.</p>
 
@@ -66,14 +79,33 @@
 <li>Welche fünf Artikel im Startbestand stehen.</li>
 <li>Ob beim Betrag eine Währung steht oder nur die Zahl.</li>
 <li>Ob es einen Helfer für den Startbestand gibt oder fünfmal fünf Zeilen untereinander.</li>
+<li>Ob das Formular zusätzlich einen Knopf zum Abbrechen hat. Der Zurück-Pfeil des Geräts tut dasselbe.</li>
+<li>Der Wortlaut der Fehlermeldungen, solange jede beim richtigen Feld steht.</li>
+<li>Ob der Standardwert für die id -1 ist wie hier oder 0 wie in 08C. Room fängt bei 1 an, beides geht.</li>
 </ul>
 
 <div class="warn">
-<p>Was nicht abweichen darf, weil es sonst still kaputt geht: das <code>removeAllViews</code> zuoberst, das <code>false</code> beim <code>inflate</code>, das <code>row</code> vor <code>findViewById</code>, und die Prüfung mit <code>count()</code> im Startbestand.</p>
+<p>Was nicht abweichen darf, weil es sonst still kaputt geht: das <code>removeAllViews</code> zuoberst, das <code>false</code> beim <code>inflate</code>, das <code>row</code> vor <code>findViewById</code>, die Prüfung mit <code>count()</code> im Startbestand, beim Formular das <code>setError(null)</code> vor der Prüfung und die Entscheidung zwischen <code>insert</code> und <code>update</code> an der id.</p>
 </div>
 
 <h2>Der vollständige Code</h2>
 <p>Eine mögliche Lösung, in der Reihenfolge, in der du sie gebaut hast.</p>
+
+<h2>Schritt 0, Room im Projekt</h2>
+<p>Android Studio legt das Projekt mit <code>Empty Views Activity</code> an, <code>minSdk = 26</code> steht danach schon in der <code class="pfad">build.gradle.kts</code> des Moduls <code>:app</code>. Dazu kommen zwei Stellen für Room, derselbe Handgriff wie in 07C A1. Zuerst der Katalog <code class="pfad">gradle/libs.versions.toml</code>. Die Version gehört unter <code>[versions]</code>, die zwei Bibliotheken unter <code>[libraries]</code>.</p>
+<pre><span class="c"># unter [versions]</span>
+room = <span class="s">"2.8.4"</span>
+
+<span class="c"># unter [libraries]</span>
+room-runtime = { group = <span class="s">"androidx.room"</span>, name = <span class="s">"room-runtime"</span>, version.ref = <span class="s">"room"</span> }
+room-compiler = { group = <span class="s">"androidx.room"</span>, name = <span class="s">"room-compiler"</span>, version.ref = <span class="s">"room"</span> }</pre>
+<p>Dann die zwei Zeilen im Block <code>dependencies</code> der längeren <code class="pfad">build.gradle.kts</code>, der vom Modul <code>:app</code>. Danach <code>Sync Now</code>.</p>
+<pre><span class="t">dependencies</span> {
+    <span class="l">// was Android Studio angelegt hat, bleibt stehen</span>
+    implementation(libs.room.runtime)
+    annotationProcessor(libs.room.compiler)
+}</pre>
+<p><code>annotationProcessor</code> und nicht <code>ksp</code> oder <code>kapt</code>. Die zwei gelten für Kotlin, dieses Projekt ist Java. Zum Schluss heisst die id am Root-Element von <code class="pfad">activity_main.xml</code> <code>clMain</code> statt <code>main</code>, und die Zeile mit <code>findViewById</code> in der <code>MainActivity</code> sucht denselben Namen.</p>
 
 <h2>ShoppingItem.java</h2>
 <p>Fünf Felder, genau die aus deinem Datenmodell von 07A. Dazu die <code>id</code>, die Room selbst vergibt. Menge und Preis sind <code>Integer</code> und <code>Double</code>, damit sie leer sein können.</p>
@@ -184,7 +216,7 @@
 }</pre>
 
 <h2>ShoppingItemDao.java</h2>
-<p>Sechs Methoden, dieselben wie im <code>QuestionDao</code> aus 07C. Aufgerufen werden hier nur <code>getAll</code>, <code>insert</code> und <code>count</code>. Die anderen drei stehen trotzdem da, denn ein Vertrag mit einer Tabelle wird einmal ganz geschrieben.</p>
+<p>Sechs Methoden, dieselben wie im <code>QuestionDao</code> aus 07C. Aufgerufen werden fünf davon: <code>getAll</code> und <code>count</code> für die Liste und den Startbestand, <code>insert</code> beim Anlegen, <code>findById</code> und <code>update</code> beim Ändern. <code>delete</code> steht trotzdem da, denn ein Vertrag mit einer Tabelle wird einmal ganz geschrieben.</p>
 <pre><span class="k">package</span> ch.wiss.m335.einkauf.data;
 
 <span class="k">import</span> androidx.room.<span class="t">Dao</span>;
@@ -223,7 +255,7 @@
      * @return die id, die Room vergeben hat
      */</span>
     <span class="a">@Insert</span>
-    <span class="k">long</span> insert(<span class="t">ShoppingItem</span> item);
+    <span class="k">long</span> <span class="m">insert</span>(<span class="t">ShoppingItem</span> item);
 
     <span class="c">/**
      * Speichert Änderungen an einem bestehenden Eintrag.
@@ -234,7 +266,7 @@
      * @param item der geänderte Eintrag, inklusive seiner id
      */</span>
     <span class="a">@Update</span>
-    <span class="k">void</span> update(<span class="t">ShoppingItem</span> item);
+    <span class="k">void</span> <span class="m">update</span>(<span class="t">ShoppingItem</span> item);
 
     <span class="c">/**
      * Löscht einen Eintrag.
@@ -244,7 +276,7 @@
      * @param item der zu löschende Eintrag
      */</span>
     <span class="a">@Delete</span>
-    <span class="k">void</span> delete(<span class="t">ShoppingItem</span> item);
+    <span class="k">void</span> <span class="m">delete</span>(<span class="t">ShoppingItem</span> item);
 
     <span class="c">/**
      * Liefert alle Einträge, nach Laden und dann nach Artikel sortiert.
@@ -255,7 +287,7 @@
      * @return alle Einträge, nie null
      */</span>
     <span class="a">@Query</span>(<span class="s">"SELECT * FROM shopping_items ORDER BY shop, article"</span>)
-    <span class="t">List</span>&lt;<span class="t">ShoppingItem</span>&gt; getAll();
+    <span class="t">List</span>&lt;<span class="t">ShoppingItem</span>&gt; <span class="m">getAll</span>();
 
     <span class="c">/**
      * Liefert einen einzelnen Eintrag.
@@ -266,7 +298,7 @@
      * @return der Eintrag, oder null wenn es ihn nicht gibt
      */</span>
     <span class="a">@Query</span>(<span class="s">"SELECT * FROM shopping_items WHERE id = :id"</span>)
-    <span class="t">ShoppingItem</span> findById(<span class="k">int</span> id);
+    <span class="t">ShoppingItem</span> <span class="m">findById</span>(<span class="k">int</span> id);
 
     <span class="c">/**
      * Zählt alle Einträge.
@@ -277,7 +309,7 @@
      * @return Anzahl Einträge in der Tabelle
      */</span>
     <span class="a">@Query</span>(<span class="s">"SELECT COUNT(*) FROM shopping_items"</span>)
-    <span class="k">int</span> count();
+    <span class="k">int</span> <span class="m">count</span>();
 }</pre>
 
 <h2>ShoppingDatabase.java</h2>
@@ -328,7 +360,7 @@
      *
      * @return das Dao, über das alle Abfragen laufen
      */</span>
-    <span class="k">public</span> <span class="k">abstract</span> <span class="t">ShoppingItemDao</span> shoppingItemDao();
+    <span class="k">public</span> <span class="k">abstract</span> <span class="t">ShoppingItemDao</span> <span class="m">shoppingItemDao</span>();
 
     <span class="c">/**
      * Liefert die Datenbank und baut sie beim ersten Aufruf.
@@ -400,7 +432,7 @@
      * @param pricePerUnit der Preis pro Stück, oder null
      * @return der fertige Eintrag, noch ohne id
      */</span>
-    <span class="k">private</span> <span class="k">static</span> <span class="t">ShoppingItem</span> newItem(<span class="t">String</span> article, <span class="t">String</span> shop,
+    <span class="k">private</span> <span class="k">static</span> <span class="t">ShoppingItem</span> <span class="m">newItem</span>(<span class="t">String</span> article, <span class="t">String</span> shop,
                                         <span class="t">Integer</span> quantity, <span class="t">Double</span> pricePerUnit) {
         <span class="t">ShoppingItem</span> item = <span class="k">new</span> <span class="t">ShoppingItem</span>();
         item.setArticle(article);
@@ -412,24 +444,25 @@
 }</pre>
 
 <h2><code class="pfad">res/layout/activity_main.xml</code></h2>
-<p>Die Überschrift oben, darunter die ScrollView mit <code>0dp</code> und der Verbindung nach unten, und darin das leere LinearLayout. Diese eine Angabe entscheidet über das Querformat.</p>
+<p>Die Überschrift oben, darunter die ScrollView mit <code>0dp</code> und der Verbindung nach unten, und darin das leere LinearLayout. Diese eine Angabe entscheidet über das Querformat. Der FloatingActionButton kommt in Schritt 4 dazu, und mit ihm der Platz unter der Liste. Der seitliche Rand steht an der Überschrift und am LinearLayout, weil der Insets-Block der Vorlage ein Padding am Root-Element überschreibt.</p>
 <pre>&lt;?xml version=<span class="s">"1.0"</span> encoding=<span class="s">"utf-8"</span>?&gt;
-<span class="d">&lt;!--
-  Die Startseite. Oben eine Überschrift, darunter die Liste.
+<span class="c">&lt;!--
+  Die Startseite. Oben eine Überschrift, darunter die Liste, unten rechts der
+  Knopf für einen neuen Eintrag.
 
-  Die Liste ist ein LinearLayout, das hier leer dasteht. Gefüllt wird es im
-  Java-Code, eine Zeile pro Eintrag. Darum hat es eine id und sonst nichts.
+  Die ScrollView hat layout_height="0dp" und ist oben an die Überschrift und
+  unten an den Bildschirmrand gebunden, damit das Querformat funktioniert.
 
-  Die ScrollView darum herum hat layout_height="0dp" und ist oben an die
-  Überschrift und unten an den Bildschirmrand gebunden. So bekommt sie allen
-  Platz, der übrig bleibt, und sie bekommt ihn auch im Querformat.
+  Der seitliche Rand steht an der Überschrift und am LinearLayout, nicht am
+  Root-Element. Dessen Padding überschreibt der Insets-Block in der
+  MainActivity mit setPadding, ein Padding im XML ginge dort verloren.
 
-  Wer statt 0dp ein wrap_content nimmt, sieht im Hochformat keinen
-  Unterschied und im Querformat eine Liste, die unten abgeschnitten ist und
-  sich nicht scrollen lässt.
+  paddingBottom mit clipToPadding="false" an der ScrollView lässt Platz unter
+  der letzten Zeile. Ohne das liegt der FloatingActionButton im Querformat
+  über dem Betrag der letzten Zeile, und sie lässt sich nicht darunter
+  hervorscrollen.
 --&gt;</span>
-&lt;<span class="t">androidx.constraintlayout.widget.ConstraintLayout</span>
-    xmlns:android=<span class="s">"http://schemas.android.com/apk/res/android"</span>
+&lt;<span class="g">androidx.constraintlayout.widget.ConstraintLayout</span> xmlns:android=<span class="s">"http://schemas.android.com/apk/res/android"</span>
     xmlns:app=<span class="s">"http://schemas.android.com/apk/res-auto"</span>
     xmlns:tools=<span class="s">"http://schemas.android.com/tools"</span>
     android:id=<span class="s">"@+id/clMain"</span>
@@ -437,66 +470,81 @@
     android:layout_height=<span class="s">"match_parent"</span>
     tools:context=<span class="s">".MainActivity"</span>&gt;
 
-    &lt;<span class="t">TextView</span>
+    &lt;<span class="g">TextView</span>
         android:id=<span class="s">"@+id/tvTitle"</span>
         android:layout_width=<span class="s">"0dp"</span>
         android:layout_height=<span class="s">"wrap_content"</span>
+        android:layout_marginStart=<span class="s">"16dp"</span>
+        android:layout_marginTop=<span class="s">"16dp"</span>
+        android:layout_marginEnd=<span class="s">"16dp"</span>
         android:text=<span class="s">"@string/title_main"</span>
         android:textSize=<span class="s">"20sp"</span>
         app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span>
         app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
         app:layout_constraintTop_toTopOf=<span class="s">"parent"</span> /&gt;
 
-    &lt;<span class="t">ScrollView</span>
+    &lt;<span class="g">ScrollView</span>
         android:id=<span class="s">"@+id/svItems"</span>
         android:layout_width=<span class="s">"0dp"</span>
         android:layout_height=<span class="s">"0dp"</span>
         android:layout_marginTop=<span class="s">"12dp"</span>
+        android:clipToPadding=<span class="s">"false"</span>
+        android:paddingBottom=<span class="s">"88dp"</span>
         app:layout_constraintBottom_toBottomOf=<span class="s">"parent"</span>
         app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span>
         app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
         app:layout_constraintTop_toBottomOf=<span class="s">"@id/tvTitle"</span>&gt;
 
-        &lt;<span class="t">LinearLayout</span>
+        &lt;<span class="g">LinearLayout</span>
             android:id=<span class="s">"@+id/llItems"</span>
             android:layout_width=<span class="s">"match_parent"</span>
             android:layout_height=<span class="s">"wrap_content"</span>
-            android:orientation=<span class="s">"vertical"</span> /&gt;
+            android:orientation=<span class="s">"vertical"</span>
+            android:paddingStart=<span class="s">"16dp"</span>
+            android:paddingEnd=<span class="s">"16dp"</span> /&gt;
 
-    &lt;/<span class="t">ScrollView</span>&gt;
+    &lt;/<span class="g">ScrollView</span>&gt;
 
-&lt;/<span class="t">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</pre>
+    &lt;<span class="g">com.google.android.material.floatingactionbutton.FloatingActionButton</span>
+        android:id=<span class="s">"@+id/fabNew"</span>
+        android:layout_width=<span class="s">"wrap_content"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:layout_margin=<span class="s">"16dp"</span>
+        android:contentDescription=<span class="s">"@string/btn_new_item"</span>
+        android:src=<span class="s">"@android:drawable/ic_input_add"</span>
+        app:layout_constraintBottom_toBottomOf=<span class="s">"parent"</span>
+        app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span> /&gt;
+
+&lt;/<span class="g">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</pre>
 
 <h2><code class="pfad">res/values/strings.xml</code></h2>
-<p>Der Platzhalter <code>%1$.2f</code> ist die Stelle, an der die zwei Nachkommastellen festgelegt werden.</p>
+<p>Der Platzhalter <code>%1$.2f</code> ist die Stelle, an der die zwei Nachkommastellen festgelegt werden. Dazu kommen die Texte des Formulars und die zwei Fehlermeldungen. <code>%1$d</code> in <code>error_too_short</code> ist die Mindestlänge, so steht die Zahl 4 nur an einer Stelle im Code.</p>
 <pre>&lt;<span class="g">resources</span>&gt;
     &lt;<span class="g">string</span> name=<span class="s">"app_name"</span>&gt;Einkaufsliste&lt;/<span class="g">string</span>&gt;
 
-    <span class="c">&lt;!--
-      Alle sichtbaren Texte gehören hierher, nicht in die Layouts und
-      nicht in den Java-Code. Trag deine Texte einfach unten an.
-
-      Namensschema: was_wofuer, alles klein, mit Unterstrich.
-      Beispiele: title_main, btn_save, hint_article, error_required
-    --&gt;</span>
-
     &lt;<span class="g">string</span> name=<span class="s">"title_main"</span>&gt;Meine Einkaufsliste&lt;/<span class="g">string</span>&gt;
 
-    <span class="c">&lt;!--
-      Der Betrag rechts in der Zeile.
-
-      %1$.2f heisst: der erste Wert, als Kommazahl mit genau zwei Stellen
-      nach dem Punkt. Ohne die 2 stünde dort 7.6000000000000005, denn so
-      genau rechnet ein double.
-    --&gt;</span>
+    <span class="c">&lt;!-- %1$.2f: der erste Wert, als Kommazahl mit genau zwei Stellen. --&gt;</span>
     &lt;<span class="g">string</span> name=<span class="s">"amount_format"</span>&gt;%1$.2f CHF&lt;/<span class="g">string</span>&gt;
 
+    &lt;<span class="g">string</span> name=<span class="s">"btn_new_item"</span>&gt;Neuer Eintrag&lt;/<span class="g">string</span>&gt;
+    &lt;<span class="g">string</span> name=<span class="s">"title_new"</span>&gt;Neuer Eintrag&lt;/<span class="g">string</span>&gt;
+    &lt;<span class="g">string</span> name=<span class="s">"title_edit"</span>&gt;Eintrag ändern&lt;/<span class="g">string</span>&gt;
+    &lt;<span class="g">string</span> name=<span class="s">"hint_article"</span>&gt;Artikel&lt;/<span class="g">string</span>&gt;
+    &lt;<span class="g">string</span> name=<span class="s">"hint_shop"</span>&gt;Laden&lt;/<span class="g">string</span>&gt;
+    &lt;<span class="g">string</span> name=<span class="s">"hint_quantity"</span>&gt;Menge&lt;/<span class="g">string</span>&gt;
+    &lt;<span class="g">string</span> name=<span class="s">"hint_price"</span>&gt;Preis pro Stück&lt;/<span class="g">string</span>&gt;
+    &lt;<span class="g">string</span> name=<span class="s">"btn_save"</span>&gt;Speichern&lt;/<span class="g">string</span>&gt;
+
+    &lt;<span class="g">string</span> name=<span class="s">"error_too_short"</span>&gt;Pflichtfeld, mindestens %1$d Zeichen&lt;/<span class="g">string</span>&gt;
+    &lt;<span class="g">string</span> name=<span class="s">"error_number"</span>&gt;Bitte eine gültige Zahl eingeben&lt;/<span class="g">string</span>&gt;
 &lt;/<span class="g">resources</span>&gt;</pre>
 
 <h2>MainActivity.java</h2>
-<p>Der obere Teil ist unverändert aus dem Starter-Projekt. Neu sind das eine Feld, die zwei Zeilen am Schluss von <code>onCreate</code> und die zwei Methoden darunter. Es gibt keine zweite Klasse.</p>
+<p>Der Insets-Block in <code>onCreate</code> ist so, wie Android Studio ihn anlegt, nur mit <code>clMain</code> statt <code>main</code>. Neu sind das Feld <code>llItems</code>, der Knopf zum Formular, <code>onResume</code> und die zwei Methoden darunter. Den Klick auf die Zeile bekommt die Bau-Methode in Schritt 6.</p>
 <pre><span class="k">package</span> ch.wiss.m335.einkauf;
 
+<span class="k">import</span> android.content.<span class="t">Intent</span>;
 <span class="k">import</span> android.os.<span class="t">Bundle</span>;
 <span class="k">import</span> android.util.<span class="t">Log</span>;
 <span class="k">import</span> android.view.<span class="t">LayoutInflater</span>;
@@ -510,6 +558,8 @@
 <span class="k">import</span> androidx.core.view.<span class="t">ViewCompat</span>;
 <span class="k">import</span> androidx.core.view.<span class="t">WindowInsetsCompat</span>;
 
+<span class="k">import</span> com.google.android.material.floatingactionbutton.<span class="t">FloatingActionButton</span>;
+
 <span class="k">import</span> java.util.<span class="t">List</span>;
 
 <span class="k">import</span> ch.wiss.m335.einkauf.data.<span class="t">ShoppingDatabase</span>;
@@ -518,67 +568,56 @@
 <span class="c">/**
  * Die Startseite. Zeigt alle Einträge der Einkaufsliste.
  *
- * Die Liste ist zu Fuss gebaut. Eine Schleife läuft über die Einträge und
- * hängt für jeden eine Zeile in das LinearLayout aus dem Layout. Bei fünf
- * oder zwanzig Einträgen ist das genau richtig.
- *
- * Bei fünfhundert Einträgen wäre es falsch, denn dann stünden fünfhundert
- * Zeilen im Speicher, von denen niemand mehr als fünfzehn sieht. Dafür gibt
- * es den RecyclerView mit einem Adapter, gebaut in 06C und 08A.
+ * Die Liste ist zu Fuss gebaut: eine Schleife hängt für jeden Eintrag eine
+ * Zeile in das LinearLayout aus dem Layout.
  */</span>
 <span class="k">public</span> <span class="k">class</span> <span class="t">MainActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span> {
 
-    <span class="c">/**
-     * Log-Tag für das ganze Modul 335.
-     *
-     * Bewusst nicht "M335". Diese Zeichenfolge steckt auch im Paketnamen
-     * ch.wiss.m335.einkauf. Das Suchfeld im Logcat sucht im Freitext über
-     * alle Spalten, und damit träfe "M335" jede Zeile deiner App statt nur
-     * die selbst geschriebenen.
-     */</span>
+    <span class="c">/** Log-Tag für das ganze Modul 335. */</span>
     <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="v">TAG</span> = <span class="s">"Modul335"</span>;
 
-    <span class="c">/**
-     * Der Behälter für die Zeilen.
-     *
-     * Im Layout ist er leer. Gefüllt wird er in buildItemList.
-     */</span>
+    <span class="c">/** Der Behälter für die Zeilen. Im Layout leer, gefüllt in buildItemList. */</span>
     <span class="k">private</span> <span class="t">LinearLayout</span> <span class="v">llItems</span>;
 
+    <span class="c">/**
+     * Baut den Bildschirm auf und verbindet den Knopf mit dem Formular.
+     *
+     * @param savedInstanceState der gespeicherte Zustand, hier nicht gebraucht
+     */</span>
     <span class="a">@Override</span>
     <span class="k">protected</span> <span class="k">void</span> <span class="m">onCreate</span>(<span class="t">Bundle</span> savedInstanceState) {
         <span class="k">super</span>.onCreate(savedInstanceState);
         <span class="t">EdgeToEdge</span>.enable(<span class="k">this</span>);
         setContentView(<span class="t">R</span>.layout.activity_main);
-
-        <span class="l">// Der Rand für Statusleiste und Navigationsleiste. Ohne diesen</span>
-        <span class="l">// Block liegt dein oberstes Element unter der Uhr. Das Gerüst</span>
-        <span class="l">// ist fertig, du musst es nicht anfassen.</span>
-        <span class="k">final</span> <span class="k">int</span> <span class="v">extraPadding</span> = <span class="t">Math</span>.round(16 * getResources().getDisplayMetrics().density);
-
         <span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(<span class="t">R</span>.id.clMain), (v, insets) -&gt; {
             <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.<span class="t">Type</span>.systemBars());
-            v.setPadding(
-                    systemBars.left + <span class="v">extraPadding</span>,
-                    systemBars.top + <span class="v">extraPadding</span>,
-                    systemBars.right + <span class="v">extraPadding</span>,
-                    systemBars.bottom + <span class="v">extraPadding</span>);
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             <span class="k">return</span> insets;
         });
 
-        <span class="t">Log</span>.d(<span class="v">TAG</span>, <span class="s">"MainActivity onCreate"</span>);
-
         <span class="v">llItems</span> = findViewById(<span class="t">R</span>.id.<span class="v">llItems</span>);
 
+        <span class="t">FloatingActionButton</span> fabNew = findViewById(<span class="t">R</span>.id.fabNew);
+        fabNew.setOnClickListener(v -&gt; <span class="m">startActivity</span>(<span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">ItemEditActivity</span>.<span class="k">class</span>)));
+    }
+
+    <span class="c">/**
+     * Lädt die Liste bei jedem Erscheinen des Bildschirms, auch nach der
+     * Rückkehr vom Formular.
+     *
+     * Der Aufruf steht nur hier und nicht zusätzlich in onCreate. onResume
+     * läuft auch beim ersten Start direkt nach onCreate. Mit einem zweiten
+     * Aufruf in onCreate würde die Liste bei jedem Start und jeder Drehung
+     * zweimal gebaut.
+     */</span>
+    <span class="a">@Override</span>
+    <span class="k">protected</span> <span class="k">void</span> <span class="m">onResume</span>() {
+        <span class="k">super</span>.onResume();
         loadItems();
     }
 
     <span class="c">/**
      * Holt alle Einträge aus der Datenbank und lässt sie anzeigen.
-     *
-     * Eine eigene Methode und nicht drei Zeilen in onCreate. Sobald es ein
-     * Formular gibt, muss die Liste nach der Rückkehr neu geladen werden, und
-     * dann steht der Aufruf einfach ein zweites Mal in onResume.
      */</span>
     <span class="k">private</span> <span class="k">void</span> <span class="m">loadItems</span>() {
         <span class="t">List</span>&lt;<span class="t">ShoppingItem</span>&gt; items = <span class="t">ShoppingDatabase</span>.getInstance(<span class="k">this</span>)
@@ -593,18 +632,13 @@
     <span class="c">/**
      * Baut für jeden Eintrag eine Zeile und hängt sie in llItems.
      *
-     * Das removeAllViews steht zuoberst und ist die Zeile, die man vergisst.
-     * Ohne sie hängt jeder Aufruf die Zeilen ein weiteres Mal an, und die
-     * Liste wird bei jedem Laden länger.
-     *
-     * Das dritte Argument von inflate ist false. Mit true hängt der Inflater
-     * die Zeile sofort selbst an, und das addView danach hängt sie ein
-     * zweites Mal an. Die Meldung dazu heisst "The specified child already
-     * has a parent".
+     * removeAllViews steht zuoberst, sonst wird die Liste bei jedem Laden
+     * länger. Das dritte Argument von inflate ist false, sonst hängt die Zeile
+     * zweimal.
      *
      * @param items die Einträge, die angezeigt werden sollen
      */</span>
-    <span class="k">private</span> <span class="k">void</span> buildItemList(<span class="t">List</span>&lt;<span class="t">ShoppingItem</span>&gt; items) {
+    <span class="k">private</span> <span class="k">void</span> <span class="m">buildItemList</span>(<span class="t">List</span>&lt;<span class="t">ShoppingItem</span>&gt; items) {
         <span class="v">llItems</span>.removeAllViews();
 
         <span class="t">LayoutInflater</span> inflater = <span class="t">LayoutInflater</span>.from(<span class="k">this</span>);
@@ -619,10 +653,8 @@
             tvArticle.setText(item.getArticle());
             tvShop.setText(item.getShop());
 
-            <span class="l">// Der Betrag wird gerechnet und nirgends gespeichert. Nur wenn</span>
-            <span class="l">// beide Werte da sind. Fehlt einer, bleibt das Feld leer. Ein</span>
-            <span class="l">// leerer Text und nicht 0.00, denn 0.00 hiesse, der Eintrag</span>
-            <span class="l">// koste nichts.</span>
+            <span class="l">// Der Betrag wird gerechnet, nicht gespeichert. Fehlt ein Wert,</span>
+            <span class="l">// bleibt das Feld leer und zeigt nicht 0.00.</span>
             <span class="k">if</span> (item.getQuantity() != <span class="k">null</span> &amp;&amp; item.getPricePerUnit() != <span class="k">null</span>) {
                 <span class="k">double</span> amount = item.getQuantity() * item.getPricePerUnit();
                 tvAmount.setText(getString(<span class="t">R</span>.string.amount_format, amount));
@@ -630,13 +662,23 @@
                 tvAmount.setText(<span class="s">""</span>);
             }
 
+            <span class="l">// Der Klick sitzt auf der ganzen Zeile, nicht auf einem der drei</span>
+            <span class="l">// TextViews. Er öffnet das Formular und gibt die id mit. Den</span>
+            <span class="l">// Schlüssel gibt die Konstante im Formular vor.</span>
+            <span class="k">int</span> id = item.getId();
+            row.setOnClickListener(v -&gt; {
+                <span class="t">Intent</span> intent = <span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">ItemEditActivity</span>.<span class="k">class</span>);
+                intent.putExtra(<span class="t">ItemEditActivity</span>.<span class="v">EXTRA_ITEM_ID</span>, id);
+                startActivity(intent);
+            });
+
             <span class="v">llItems</span>.addView(row);
         }
     }
 }</pre>
 
 <h2><code class="pfad">res/layout/item_shopping.xml</code></h2>
-<p>Diese Datei war schon im Starter-Projekt. An der Prüfung zeichnest du sie selbst, darum lohnt sich ein Blick auf den linken Block mit <code>layout_weight="1"</code>.</p>
+<p>Diese Datei kopierst du in Schritt 0 von hier. An der Prüfung baust du sie selbst, darum lohnt sich ein Blick auf den linken Block mit <code>layout_weight="1"</code>.</p>
 <pre>&lt;?xml version=<span class="s">"1.0"</span> encoding=<span class="s">"utf-8"</span>?&gt;
 <span class="c">&lt;!--
   Eine Zeile der Einkaufsliste. Diese Datei ist fertig, du baust sie nicht.
@@ -696,13 +738,427 @@
 
 &lt;/<span class="g">LinearLayout</span>&gt;</pre>
 
+<h2><code class="pfad">AndroidManifest.xml</code></h2>
+<p>Den Eintrag für das Formular legt Android Studio selbst an, wenn du die Activity über <code>New</code>, <code>Activity</code>, <code>Empty Views Activity</code> erzeugst. Nur die <code>MainActivity</code> hat den <code>intent-filter</code>. Wer ihn kopiert, bekommt zwei Symbole im App-Menü.</p>
+<pre>&lt;?xml version=<span class="s">"1.0"</span> encoding=<span class="s">"utf-8"</span>?&gt;
+&lt;<span class="g">manifest</span> xmlns:android=<span class="s">"http://schemas.android.com/apk/res/android"</span>
+    xmlns:tools=<span class="s">"http://schemas.android.com/tools"</span>&gt;
+
+    &lt;<span class="g">application</span>
+        android:allowBackup=<span class="s">"true"</span>
+        android:dataExtractionRules=<span class="s">"@xml/data_extraction_rules"</span>
+        android:fullBackupContent=<span class="s">"@xml/backup_rules"</span>
+        android:icon=<span class="s">"@mipmap/ic_launcher"</span>
+        android:label=<span class="s">"@string/app_name"</span>
+        android:roundIcon=<span class="s">"@mipmap/ic_launcher_round"</span>
+        android:supportsRtl=<span class="s">"true"</span>
+        android:theme=<span class="s">"@style/Theme.Einkaufsliste"</span>&gt;
+        &lt;<span class="g">activity</span>
+            android:name=<span class="s">".MainActivity"</span>
+            android:exported=<span class="s">"true"</span>
+            android:windowSoftInputMode=<span class="s">"adjustResize"</span>&gt;
+            &lt;<span class="g">intent-filter</span>&gt;
+                &lt;<span class="g">action</span> android:name=<span class="s">"android.intent.action.MAIN"</span> /&gt;
+
+                &lt;<span class="g">category</span> android:name=<span class="s">"android.intent.category.LAUNCHER"</span> /&gt;
+            &lt;/<span class="g">intent-filter</span>&gt;
+        &lt;/<span class="g">activity</span>&gt;
+        &lt;<span class="g">activity</span>
+            android:name=<span class="s">".ItemEditActivity"</span>
+            android:exported=<span class="s">"false"</span> /&gt;
+    &lt;/<span class="g">application</span>&gt;
+
+&lt;/<span class="g">manifest</span>&gt;</pre>
+
+<h2><code class="pfad">res/layout/activity_item_edit.xml</code></h2>
+<p>Das Root-Element mit der id <code>main</code> hat Android Studio angelegt, und es bleibt stehen. Die ScrollView liegt darin, mit <code>0dp</code> und allen vier Verbindungen. Ohne sie ist der Knopf zum Speichern im Querformat nicht erreichbar. Der <code>inputType</code> an den vier Feldern ist die Rasterzeile über die optimierten Felder.</p>
+<pre>&lt;?xml version=<span class="s">"1.0"</span> encoding=<span class="s">"utf-8"</span>?&gt;
+<span class="c">&lt;!--
+  Das Formular. Das Root-Element mit der id main hat Android Studio angelegt,
+  die ScrollView liegt darin, damit im Querformat alle Felder erreichbar sind.
+--&gt;</span>
+&lt;<span class="g">androidx.constraintlayout.widget.ConstraintLayout</span> xmlns:android=<span class="s">"http://schemas.android.com/apk/res/android"</span>
+    xmlns:app=<span class="s">"http://schemas.android.com/apk/res-auto"</span>
+    xmlns:tools=<span class="s">"http://schemas.android.com/tools"</span>
+    android:id=<span class="s">"@+id/main"</span>
+    android:layout_width=<span class="s">"match_parent"</span>
+    android:layout_height=<span class="s">"match_parent"</span>
+    tools:context=<span class="s">".ItemEditActivity"</span>&gt;
+
+    &lt;<span class="g">ScrollView</span>
+        android:id=<span class="s">"@+id/svItemEdit"</span>
+        android:layout_width=<span class="s">"0dp"</span>
+        android:layout_height=<span class="s">"0dp"</span>
+        app:layout_constraintBottom_toBottomOf=<span class="s">"parent"</span>
+        app:layout_constraintEnd_toEndOf=<span class="s">"parent"</span>
+        app:layout_constraintStart_toStartOf=<span class="s">"parent"</span>
+        app:layout_constraintTop_toTopOf=<span class="s">"parent"</span>&gt;
+
+        &lt;<span class="g">LinearLayout</span>
+            android:layout_width=<span class="s">"match_parent"</span>
+            android:layout_height=<span class="s">"wrap_content"</span>
+            android:orientation=<span class="s">"vertical"</span>
+            android:padding=<span class="s">"16dp"</span>&gt;
+
+            &lt;<span class="g">TextView</span>
+                android:id=<span class="s">"@+id/tvEditTitle"</span>
+                android:layout_width=<span class="s">"match_parent"</span>
+                android:layout_height=<span class="s">"wrap_content"</span>
+                android:text=<span class="s">"@string/title_new"</span>
+                android:textSize=<span class="s">"20sp"</span> /&gt;
+
+            &lt;<span class="g">com.google.android.material.textfield.TextInputLayout</span>
+                android:id=<span class="s">"@+id/tilArticle"</span>
+                android:layout_width=<span class="s">"match_parent"</span>
+                android:layout_height=<span class="s">"wrap_content"</span>
+                android:layout_marginTop=<span class="s">"16dp"</span>
+                android:hint=<span class="s">"@string/hint_article"</span>&gt;
+
+                &lt;<span class="g">com.google.android.material.textfield.TextInputEditText</span>
+                    android:id=<span class="s">"@+id/etArticle"</span>
+                    android:layout_width=<span class="s">"match_parent"</span>
+                    android:layout_height=<span class="s">"wrap_content"</span>
+                    android:inputType=<span class="s">"textCapSentences"</span>
+                    android:maxLines=<span class="s">"1"</span> /&gt;
+            &lt;/<span class="g">com.google.android.material.textfield.TextInputLayout</span>&gt;
+
+            &lt;<span class="g">com.google.android.material.textfield.TextInputLayout</span>
+                android:id=<span class="s">"@+id/tilShop"</span>
+                android:layout_width=<span class="s">"match_parent"</span>
+                android:layout_height=<span class="s">"wrap_content"</span>
+                android:layout_marginTop=<span class="s">"8dp"</span>
+                android:hint=<span class="s">"@string/hint_shop"</span>&gt;
+
+                &lt;<span class="g">com.google.android.material.textfield.TextInputEditText</span>
+                    android:id=<span class="s">"@+id/etShop"</span>
+                    android:layout_width=<span class="s">"match_parent"</span>
+                    android:layout_height=<span class="s">"wrap_content"</span>
+                    android:inputType=<span class="s">"textCapSentences"</span>
+                    android:maxLines=<span class="s">"1"</span> /&gt;
+            &lt;/<span class="g">com.google.android.material.textfield.TextInputLayout</span>&gt;
+
+            &lt;<span class="g">com.google.android.material.textfield.TextInputLayout</span>
+                android:id=<span class="s">"@+id/tilQuantity"</span>
+                android:layout_width=<span class="s">"match_parent"</span>
+                android:layout_height=<span class="s">"wrap_content"</span>
+                android:layout_marginTop=<span class="s">"8dp"</span>
+                android:hint=<span class="s">"@string/hint_quantity"</span>&gt;
+
+                &lt;<span class="g">com.google.android.material.textfield.TextInputEditText</span>
+                    android:id=<span class="s">"@+id/etQuantity"</span>
+                    android:layout_width=<span class="s">"match_parent"</span>
+                    android:layout_height=<span class="s">"wrap_content"</span>
+                    android:inputType=<span class="s">"number"</span>
+                    android:maxLines=<span class="s">"1"</span> /&gt;
+            &lt;/<span class="g">com.google.android.material.textfield.TextInputLayout</span>&gt;
+
+            &lt;<span class="g">com.google.android.material.textfield.TextInputLayout</span>
+                android:id=<span class="s">"@+id/tilPrice"</span>
+                android:layout_width=<span class="s">"match_parent"</span>
+                android:layout_height=<span class="s">"wrap_content"</span>
+                android:layout_marginTop=<span class="s">"8dp"</span>
+                android:hint=<span class="s">"@string/hint_price"</span>&gt;
+
+                &lt;<span class="g">com.google.android.material.textfield.TextInputEditText</span>
+                    android:id=<span class="s">"@+id/etPrice"</span>
+                    android:layout_width=<span class="s">"match_parent"</span>
+                    android:layout_height=<span class="s">"wrap_content"</span>
+                    android:inputType=<span class="s">"numberDecimal"</span>
+                    android:maxLines=<span class="s">"1"</span> /&gt;
+            &lt;/<span class="g">com.google.android.material.textfield.TextInputLayout</span>&gt;
+
+            &lt;<span class="g">Button</span>
+                android:id=<span class="s">"@+id/btnSave"</span>
+                android:layout_width=<span class="s">"match_parent"</span>
+                android:layout_height=<span class="s">"wrap_content"</span>
+                android:layout_marginTop=<span class="s">"24dp"</span>
+                android:text=<span class="s">"@string/btn_save"</span> /&gt;
+
+        &lt;/<span class="g">LinearLayout</span>&gt;
+    &lt;/<span class="g">ScrollView</span>&gt;
+
+&lt;/<span class="g">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</pre>
+
+<h2>ItemEditActivity.java</h2>
+<p>Schritt 4, 5 und 6 in einer Klasse. Die id aus dem Intent entscheidet, ob angelegt oder geändert wird. Die Prüfmethode sammelt ihr Ergebnis in <code>valid</code> und prüft auch, ob in Menge und Preis eine Zahl steht.</p>
+<pre><span class="k">package</span> ch.wiss.m335.einkauf;
+
+<span class="k">import</span> android.os.<span class="t">Bundle</span>;
+<span class="k">import</span> android.util.<span class="t">Log</span>;
+<span class="k">import</span> android.widget.<span class="t">Button</span>;
+<span class="k">import</span> android.widget.<span class="t">TextView</span>;
+
+<span class="k">import</span> androidx.activity.<span class="t">EdgeToEdge</span>;
+<span class="k">import</span> androidx.appcompat.app.<span class="t">AppCompatActivity</span>;
+<span class="k">import</span> androidx.core.graphics.<span class="t">Insets</span>;
+<span class="k">import</span> androidx.core.view.<span class="t">ViewCompat</span>;
+<span class="k">import</span> androidx.core.view.<span class="t">WindowInsetsCompat</span>;
+
+<span class="k">import</span> com.google.android.material.textfield.<span class="t">TextInputEditText</span>;
+<span class="k">import</span> com.google.android.material.textfield.<span class="t">TextInputLayout</span>;
+
+<span class="k">import</span> ch.wiss.m335.einkauf.data.<span class="t">ShoppingDatabase</span>;
+<span class="k">import</span> ch.wiss.m335.einkauf.data.<span class="t">ShoppingItem</span>;
+<span class="k">import</span> ch.wiss.m335.einkauf.data.<span class="t">ShoppingItemDao</span>;
+
+<span class="c">/**
+ * Das Formular. Ein Bildschirm für zwei Aufgaben: einen Eintrag anlegen und
+ * einen bestehenden ändern.
+ *
+ * Welche der zwei Aufgaben läuft, entscheidet die id im Intent. Fehlt sie,
+ * entsteht ein neuer Eintrag. Ist sie da, wird der Eintrag geladen, in die
+ * vier Felder geschrieben und beim Speichern geändert. Ein zweiter Bildschirm
+ * für das Ändern wäre doppelter Code für dieselben vier Felder und dieselbe
+ * Prüfung.
+ *
+ * Android Studio hat die Klasse mit New, Activity, Empty Views Activity
+ * angelegt. Der Insets-Block in onCreate stammt von dort und sucht die id main
+ * am Root-Element von activity_item_edit.xml. Darum liegt die ScrollView im
+ * Root-Element und ersetzt es nicht.
+ */</span>
+<span class="k">public</span> <span class="k">class</span> <span class="t">ItemEditActivity</span> <span class="k">extends</span> <span class="t">AppCompatActivity</span> {
+
+    <span class="c">/** Log-Tag für das ganze Modul 335. */</span>
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="v">TAG</span> = <span class="s">"Modul335"</span>;
+
+    <span class="c">/**
+     * Der Schlüssel, unter dem die id im Intent steckt.
+     *
+     * Eine Konstante und keine Zeichenfolge an zwei Stellen. Die MainActivity
+     * legt die id unter diesem Namen ab, diese Activity holt sie darunter
+     * hervor. Wer den Namen zweimal tippt, vertippt sich irgendwann, und dann
+     * ist das Formular beim Antippen einer Zeile immer leer.
+     */</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="k">final</span> <span class="t">String</span> <span class="v">EXTRA_ITEM_ID</span> = <span class="s">"itemId"</span>;
+
+    <span class="c">/**
+     * Der Wert, der bedeutet: kein bestehender Eintrag, also anlegen.
+     *
+     * Eine echte id ist immer grösser als 0, denn Room fängt bei 1 an. In 08C
+     * steht an dieser Stelle 0, das geht genauso. Wichtig ist nur, dass beim
+     * Holen und beim Speichern derselbe Wert gilt.
+     */</span>
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="k">int</span> <span class="v">NO_ID</span> = -1;
+
+    <span class="c">/** Die Mindestlänge für Artikel und Laden, aus der Aufgabenbeschreibung. */</span>
+    <span class="k">private</span> <span class="k">static</span> <span class="k">final</span> <span class="k">int</span> <span class="v">MIN_LENGTH</span> = 4;
+
+    <span class="c">/** Das Layout um den Artikel, dort steht seine Fehlermeldung. */</span>
+    <span class="k">private</span> <span class="t">TextInputLayout</span> <span class="v">tilArticle</span>;
+
+    <span class="c">/** Das Layout um den Laden, dort steht seine Fehlermeldung. */</span>
+    <span class="k">private</span> <span class="t">TextInputLayout</span> <span class="v">tilShop</span>;
+
+    <span class="c">/** Das Layout um die Menge, dort steht ihre Fehlermeldung. */</span>
+    <span class="k">private</span> <span class="t">TextInputLayout</span> <span class="v">tilQuantity</span>;
+
+    <span class="c">/** Das Layout um den Preis, dort steht seine Fehlermeldung. */</span>
+    <span class="k">private</span> <span class="t">TextInputLayout</span> <span class="v">tilPrice</span>;
+
+    <span class="c">/** Das Eingabefeld für den Artikel. */</span>
+    <span class="k">private</span> <span class="t">TextInputEditText</span> <span class="v">etArticle</span>;
+
+    <span class="c">/** Das Eingabefeld für den Laden. */</span>
+    <span class="k">private</span> <span class="t">TextInputEditText</span> <span class="v">etShop</span>;
+
+    <span class="c">/** Das Eingabefeld für die Menge, nur ganze Zahlen. */</span>
+    <span class="k">private</span> <span class="t">TextInputEditText</span> <span class="v">etQuantity</span>;
+
+    <span class="c">/** Das Eingabefeld für den Preis pro Stück, Zahl mit Punkt. */</span>
+    <span class="k">private</span> <span class="t">TextInputEditText</span> <span class="v">etPrice</span>;
+
+    <span class="c">/**
+     * Die id des bearbeiteten Eintrags, oder NO_ID beim Anlegen.
+     *
+     * Dieses eine Feld entscheidet an zwei Stellen: beim Füllen des Formulars
+     * und beim Speichern.
+     */</span>
+    <span class="k">private</span> <span class="k">int</span> <span class="v">itemId</span> = <span class="v">NO_ID</span>;
+
+    <span class="c">/**
+     * Baut das Formular auf und füllt es, wenn eine id mitkommt.
+     *
+     * @param savedInstanceState der gespeicherte Zustand, hier nicht gebraucht
+     */</span>
+    <span class="a">@Override</span>
+    <span class="k">protected</span> <span class="k">void</span> <span class="m">onCreate</span>(<span class="t">Bundle</span> savedInstanceState) {
+        <span class="k">super</span>.onCreate(savedInstanceState);
+        <span class="t">EdgeToEdge</span>.enable(<span class="k">this</span>);
+        setContentView(<span class="t">R</span>.layout.activity_item_edit);
+        <span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(<span class="t">R</span>.id.main), (v, insets) -&gt; {
+            <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.<span class="t">Type</span>.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            <span class="k">return</span> insets;
+        });
+
+        <span class="v">tilArticle</span> = findViewById(<span class="t">R</span>.id.<span class="v">tilArticle</span>);
+        <span class="v">tilShop</span> = findViewById(<span class="t">R</span>.id.<span class="v">tilShop</span>);
+        <span class="v">tilQuantity</span> = findViewById(<span class="t">R</span>.id.<span class="v">tilQuantity</span>);
+        <span class="v">tilPrice</span> = findViewById(<span class="t">R</span>.id.<span class="v">tilPrice</span>);
+        <span class="v">etArticle</span> = findViewById(<span class="t">R</span>.id.<span class="v">etArticle</span>);
+        <span class="v">etShop</span> = findViewById(<span class="t">R</span>.id.<span class="v">etShop</span>);
+        <span class="v">etQuantity</span> = findViewById(<span class="t">R</span>.id.<span class="v">etQuantity</span>);
+        <span class="v">etPrice</span> = findViewById(<span class="t">R</span>.id.<span class="v">etPrice</span>);
+
+        <span class="t">Button</span> btnSave = findViewById(<span class="t">R</span>.id.btnSave);
+        btnSave.setOnClickListener(v -&gt; <span class="m">save</span>());
+
+        <span class="v">itemId</span> = getIntent().getIntExtra(<span class="v">EXTRA_ITEM_ID</span>, <span class="v">NO_ID</span>);
+        <span class="k">if</span> (<span class="v">itemId</span> != <span class="v">NO_ID</span>) {
+            <span class="t">TextView</span> tvEditTitle = findViewById(<span class="t">R</span>.id.tvEditTitle);
+            tvEditTitle.setText(<span class="t">R</span>.string.title_edit);
+            loadItem();
+        }
+    }
+
+    <span class="c">/**
+     * Lädt den Eintrag und schreibt seine Werte in die vier Felder.
+     *
+     * Menge und Preis können null sein. String.valueOf auf ein null schreibt
+     * das Wort null ins Feld, darum wird vorher geprüft. Fehlt der Wert, bleibt
+     * das Feld leer.
+     *
+     * Findet Room den Eintrag nicht mehr, gibt es nichts zu bearbeiten, und
+     * der Bildschirm schliesst sich.
+     */</span>
+    <span class="k">private</span> <span class="k">void</span> <span class="m">loadItem</span>() {
+        <span class="t">ShoppingItem</span> item = dao().findById(<span class="v">itemId</span>);
+        <span class="k">if</span> (item == <span class="k">null</span>) {
+            finish();
+            <span class="k">return</span>;
+        }
+        <span class="v">etArticle</span>.setText(item.getArticle());
+        <span class="v">etShop</span>.setText(item.getShop());
+        <span class="k">if</span> (item.getQuantity() != <span class="k">null</span>) {
+            <span class="v">etQuantity</span>.setText(<span class="t">String</span>.valueOf(item.getQuantity()));
+        }
+        <span class="k">if</span> (item.getPricePerUnit() != <span class="k">null</span>) {
+            <span class="v">etPrice</span>.setText(<span class="t">String</span>.valueOf(item.getPricePerUnit()));
+        }
+    }
+
+    <span class="c">/**
+     * Prüft das Formular und legt den Eintrag an oder ändert ihn.
+     *
+     * Erst prüfen, dann bauen, dann schreiben. Ein leeres Feld für Menge oder
+     * Preis wird zu null und nicht zu 0. Sonst stünde in der Liste ein Betrag
+     * von 0.00, und der Eintrag sähe aus, als koste er nichts.
+     */</span>
+    <span class="k">private</span> <span class="k">void</span> <span class="m">save</span>() {
+        <span class="k">if</span> (!isValid()) {
+            <span class="k">return</span>;
+        }
+
+        <span class="t">ShoppingItem</span> item = <span class="k">new</span> <span class="t">ShoppingItem</span>();
+        item.setArticle(text(<span class="v">etArticle</span>));
+        item.setShop(text(<span class="v">etShop</span>));
+        item.setQuantity(text(<span class="v">etQuantity</span>).isEmpty() ? <span class="k">null</span> : <span class="t">Integer</span>.valueOf(text(<span class="v">etQuantity</span>)));
+        item.setPricePerUnit(text(<span class="v">etPrice</span>).isEmpty() ? <span class="k">null</span> : <span class="t">Double</span>.valueOf(text(<span class="v">etPrice</span>)));
+
+        <span class="l">// Hier entscheidet die id. Wer immer insert aufruft, bekommt beim</span>
+        <span class="l">// Ändern eine zweite Zeile statt einer Änderung. Nichts stürzt ab,</span>
+        <span class="l">// in der Liste stehen danach nur zwei fast gleiche Einträge.</span>
+        <span class="k">if</span> (<span class="v">itemId</span> == <span class="v">NO_ID</span>) {
+            <span class="k">long</span> newId = dao().insert(item);
+            <span class="t">Log</span>.d(<span class="v">TAG</span>, <span class="s">"item inserted, id="</span> + newId);
+        } <span class="k">else</span> {
+            item.setId(<span class="v">itemId</span>);
+            dao().update(item);
+            <span class="t">Log</span>.d(<span class="v">TAG</span>, <span class="s">"item updated, id="</span> + <span class="v">itemId</span>);
+        }
+        finish();
+    }
+
+    <span class="c">/**
+     * Prüft alle vier Felder und setzt die Meldungen an die Felder.
+     *
+     * Zuerst werden alle alten Meldungen entfernt. Ohne das bliebe eine
+     * Meldung stehen, auch nachdem der Benutzer das Feld korrigiert hat.
+     *
+     * Die Methode kehrt nicht beim ersten Fehler zurück. Sie prüft alle Felder
+     * und merkt sich das Ergebnis in valid. Sonst würde bei zwei falschen
+     * Feldern nur das erste markiert.
+     *
+     * Menge und Preis dürfen leer sein. Steht etwas darin, muss es eine Zahl
+     * sein. Das Feld für den Preis lässt nur Ziffern und einen Punkt zu, ein
+     * einzelner Punkt ist aber keine Zahl, und parseDouble wirft dann eine
+     * NumberFormatException. Das catch fängt sie ab und setzt die Meldung.
+     *
+     * Die Meldung gehört an das TextInputLayout und nicht in einen Toast. Nur
+     * so sieht der Benutzer, welches Feld gemeint ist.
+     *
+     * @return true, wenn gespeichert werden darf
+     */</span>
+    <span class="k">private</span> <span class="k">boolean</span> <span class="m">isValid</span>() {
+        <span class="v">tilArticle</span>.setError(<span class="k">null</span>);
+        <span class="v">tilShop</span>.setError(<span class="k">null</span>);
+        <span class="v">tilQuantity</span>.setError(<span class="k">null</span>);
+        <span class="v">tilPrice</span>.setError(<span class="k">null</span>);
+
+        <span class="k">boolean</span> valid = <span class="k">true</span>;
+
+        <span class="k">if</span> (text(<span class="v">etArticle</span>).length() &lt; <span class="v">MIN_LENGTH</span>) {
+            <span class="v">tilArticle</span>.setError(getString(<span class="t">R</span>.string.error_too_short, <span class="v">MIN_LENGTH</span>));
+            valid = <span class="k">false</span>;
+        }
+        <span class="k">if</span> (text(<span class="v">etShop</span>).length() &lt; <span class="v">MIN_LENGTH</span>) {
+            <span class="v">tilShop</span>.setError(getString(<span class="t">R</span>.string.error_too_short, <span class="v">MIN_LENGTH</span>));
+            valid = <span class="k">false</span>;
+        }
+
+        <span class="t">String</span> quantity = text(<span class="v">etQuantity</span>);
+        <span class="k">if</span> (!quantity.isEmpty()) {
+            <span class="k">try</span> {
+                <span class="t">Integer</span>.parseInt(quantity);
+            } <span class="k">catch</span> (<span class="t">NumberFormatException</span> e) {
+                <span class="v">tilQuantity</span>.setError(getString(<span class="t">R</span>.string.error_number));
+                valid = <span class="k">false</span>;
+            }
+        }
+
+        <span class="t">String</span> price = text(<span class="v">etPrice</span>);
+        <span class="k">if</span> (!price.isEmpty()) {
+            <span class="k">try</span> {
+                <span class="t">Double</span>.parseDouble(price);
+            } <span class="k">catch</span> (<span class="t">NumberFormatException</span> e) {
+                <span class="v">tilPrice</span>.setError(getString(<span class="t">R</span>.string.error_number));
+                valid = <span class="k">false</span>;
+            }
+        }
+
+        <span class="k">return</span> valid;
+    }
+
+    <span class="c">/**
+     * Liest ein Feld und schneidet Leerzeichen am Rand weg.
+     *
+     * Ohne das trim bestünde ein Feld mit vier Leerzeichen die Prüfung auf
+     * die Mindestlänge.
+     *
+     * @param field das Eingabefeld
+     * @return der Inhalt, nie null
+     */</span>
+    <span class="k">private</span> <span class="t">String</span> <span class="m">text</span>(<span class="t">TextInputEditText</span> field) {
+        <span class="k">return</span> field.getText() == <span class="k">null</span> ? <span class="s">""</span> : field.getText().toString().trim();
+    }
+
+    <span class="c">/**
+     * Kurzer Weg zum Dao.
+     *
+     * @return das Dao der einen Datenbank
+     */</span>
+    <span class="k">private</span> <span class="t">ShoppingItemDao</span> <span class="m">dao</span>() {
+        <span class="k">return</span> <span class="t">ShoppingDatabase</span>.getInstance(<span class="k">this</span>).shoppingItemDao();
+    }
+}</pre>
+
 <h2>Mögliche falsche KI-Rückmeldungen</h2>
 
 <p>Das ist eine Prüfliste und keine Anklage. Es ist nicht sicher, dass jede KI diese Fehler macht. Aber jeder davon ist im Zusammenhang mit Room und mit Listen schon vorgekommen, und jeder kostet dich Zeit unter der Uhr.</p>
 
 <table>
 <tr><th>Was eine KI vorschlagen kann</th><th>Warum es hier nicht passt</th></tr>
-<tr><td><code>kapt(...)</code> statt <code>annotationProcessor(...)</code> für den Room-Compiler</td><td>KSP und kapt gelten für Kotlin. Wir arbeiten mit Java. Im Starter-Projekt steht die richtige Zeile schon drin, ändere sie nicht</td></tr>
+<tr><td><code>kapt(...)</code> statt <code>annotationProcessor(...)</code> für den Room-Compiler</td><td>KSP und kapt gelten für Kotlin. Wir arbeiten mit Java. Die richtige Zeile steht in 07C und oben bei Schritt 0</td></tr>
 <tr><td>Das Dao gibt <code>LiveData&lt;List&lt;...&gt;&gt;</code> oder <code>Flow</code> zurück</td><td>Beides ist sauber und beides braucht einen Beobachter, den du dann auch schreiben musst. Im Kurs liefert das Dao eine einfache <code>List</code></td></tr>
 <tr><td>Die Abfrage gehört in einen eigenen Thread, mit <code>ExecutorService</code> oder Coroutines</td><td>Richtig gedacht und für eine echte App auch richtig. Im Kurs gilt <code>allowMainThreadQueries()</code>, und das ist eine bewusste Entscheidung. Sag sie an der Prüfung dazu, dann ist es kein Mangel</td></tr>
 <tr><td>Die Entity als <code>record</code> oder mit Konstruktor und ohne Setter</td><td>Room braucht entweder Getter und Setter oder einen Konstruktor, der zu allen Feldern passt. Die record-Falle hattest du schon in 03D</td></tr>
@@ -729,7 +1185,7 @@
 <!--M335:WEITER-->
 <nav class="weiter"><div class="reihe"><span>Zu 09A</span><a href="09a-einfuehrung.html">Einführung</a><a href="09a.html">Auftrag</a></div><a class="vor" href="09b-einfuehrung.html"><span>Weiter</span>09B, Einführung</a></nav>
 <!--/M335:WEITER-->
-<p class="foot">Modul 335 | Tag 5 Vormittag | Lösung 09A | Version 5 | 06.09.2026</p>
+<p class="foot">Modul 335 | Tag 5 Vormittag | Lösung 09A | Version 5 | 14.09.2026</p>
 
 </div>
 <!--M335:RAHMEN-FUSS-->
