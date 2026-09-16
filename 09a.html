@@ -32,7 +32,7 @@
 
 <p><b>Das Sicherheitsnetz.</b> Das Lösungsmaterial ist von der ersten Minute an offen. Hängst du an einem Schritt länger als zehn Minuten, machst du es auf, holst dir die Stelle und baust weiter. Notier dir dabei, an welcher Stelle du nachgeschaut hast.</p>
 
-<p><b>Die Kurzfassung.</b> Die Regeln, die die Prüfung verlangt, stehen mit kurzen Beispielen aus dieser App in <a href="blick.html">Das Modul auf einen Blick</a>. In den Tabellen <i>Was du brauchst</i> steht bei jedem Schritt, welche Karten dazu passen.</p>
+<p><b>Die Kurzfassung.</b> Die Regeln, die die Prüfung verlangt, stehen mit kurzen Beispielen aus dieser App in <a href="blick.html">Das Modul auf einen Blick</a>. In den Tabellen <i>Was du brauchst</i> steht bei jedem Schritt, welche Abschnitte dazu passen.</p>
 
 <h4>Die Auftragsbeschreibung, dieselbe wie in 07A</h4>
 
@@ -120,7 +120,7 @@
 <tr><td class="pre">@Insert @Update @Delete @Query</td><td>Die vier Annotationen am Dao. Alle vier aus 07C</td></tr>
 <tr><td class="pre">@Database(entities = {...})</td><td>An der abstrakten Datenbank-Klasse</td></tr>
 <tr><td class="pre">Room.databaseBuilder</td><td>Baut die Datenbank. Mit <code>allowMainThreadQueries()</code>, wie im ganzen Kurs</td></tr>
-<tr><td class="pre">Integer, Double</td><td>Die Hüllklassen. Sie können <code>null</code> sein, <code>int</code> und <code>double</code> nicht</td></tr>
+<tr><td class="pre">Integer, Double</td><td>Die Wrapper-Klassen. Sie können <code>null</code> sein, <code>int</code> und <code>double</code> nicht</td></tr>
 <tr><td class="pre">Log.d</td><td>Eine Zeile am Schluss von <code>getInstance</code>, die die Anzahl aus <code>count()</code> zeigt. Wie in 07C. Die Prüfung unten braucht sie</td></tr>
 <tr><td class="pre">Auf einen Blick</td><td><a href="blick.html#entity">Die Entity</a>, <a href="blick.html#dao">Das Dao</a>, <a href="blick.html#datenbank">Die Datenbank und der Startbestand</a>, <a href="blick.html#javadoc">Javadoc</a></td></tr>
 </table>
@@ -486,7 +486,7 @@
 <tr><th>Symptom</th><th>Wahrscheinliche Ursache</th><th>Was du machst</th></tr>
 <tr><td>Nach einem Klick auf <i>Start AGP Upgrade Assistant</i> baut gar nichts mehr</td><td>Der Assistent hat deine Bau-Dateien geändert</td><td>Über <code>Ctrl+Z</code> oder den lokalen Verlauf zurück, sonst das Projekt neu anlegen</td></tr>
 <tr><td><code>cannot find symbol</code> beim Namen deiner Datenbank mit dem Anhang <code>_Impl</code></td><td>Das Projekt ist nicht neu gebaut. Room erzeugt diese Klasse erst beim Bauen</td><td><code>Ctrl+F9</code>. Siehe Schritt 1</td></tr>
-<tr><td><code>Cannot figure out how to save this field into database</code></td><td>Ein Feld hat einen Typ, den Room nicht kennt</td><td>Room kann Zahlen, Text und die Hüllklassen dazu. Alles andere braucht einen Umweg. Siehe Schritt 1</td></tr>
+<tr><td><code>Cannot figure out how to save this field into database</code></td><td>Ein Feld hat einen Typ, den Room nicht kennt</td><td>Room kann Zahlen, Text und die Wrapper-Klassen dazu. Alles andere braucht einen Umweg. Siehe Schritt 1</td></tr>
 <tr><td>Alle ids bleiben 0, ab dem zweiten <code>insert</code> gibt es einen Konflikt</td><td>An der <code>id</code> fehlt <code>autoGenerate = true</code></td><td>Ergänzen und danach Clear storage. Siehe Schritt 1</td></tr>
 <tr><td>Die App stürzt beim Start ab, Room spricht vom Schema oder von einer Migration</td><td>Kein Fehler in deinem Code. Du hast die Entity geändert, nachdem die Datenbank schon einmal angelegt war</td><td>App-Info auf dem Gerät, <b>Clear storage</b>, App neu starten. Siehe Schritt 2</td></tr>
 <tr><td>Im Logcat steht <code>0</code>, obwohl dein Startbestand da ist</td><td><code>seedIfEmpty</code> wird nie aufgerufen, oder es steht nach der Log-Zeile</td><td>Reihenfolge in <code>getInstance</code> prüfen. Erst füllen, dann zählen. Siehe Schritt 2</td></tr>

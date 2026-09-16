@@ -1,6 +1,6 @@
 /* Erzeugt von web-bau/bauen.js aus den Quelldokumenten.
    Nicht von Hand aendern, sondern die Regel im Auftrag selbst.
-   105 Regeln aus 79 Dokumenten. */
+   106 Regeln aus 79 Dokumenten. */
 
 :root{--bg:#ffffff; --surface:#ffffff; --fg:#000000; --ink2:#434343; --muted:#7a7a7a;
     --line:#b5b5b5; --rule:#9a9a9a;
@@ -120,3 +120,4 @@ h4.brauchst{font-family:var(--titel);font-size:11pt;font-weight:400;letter-spaci
 .weiter .zurueck{display:block;max-width:47%}
 .weiter .vor{display:block;max-width:47%;margin-left:auto;text-align:right}
 .weiter + .foot{border-top:0;padding-top:0;margin-top:16px}
+hr.trenner{border:0;border-top:1px solid var(--leise);margin:34px 0 0}
