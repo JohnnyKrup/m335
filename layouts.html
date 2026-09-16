@@ -145,12 +145,14 @@ td.pre,th.pre{font-family:ui-monospace,Menlo,monospace;font-weight:600;color:#3a
 <p class="sub">Modul 335 Mobile Applikationen, Nachschlageblatt. Lesezeit etwa 13 Minuten. Version 5 vom 04.09.2026.</p>
 <p class="sub">Welches Layout in welchem steckt, wie du einen Anker liest, und woran du merkst, dass du das falsche gewählt hast.</p>
 
+<div class="tip"><p><b>Für die Prüfung:</b> die Kurzfassung steht in Das Modul auf einen Blick, bei <a href="blick.html#querformat">Querformat</a>, <a href="blick.html#formular">Das Formular</a>.</p></div>
+
 <div class="tip">
 <p><b>Lies das, bevor du einen Bildschirm baust, nicht mittendrin.</b> Davor gehört <a href="/apps">Wie Apps aufgebaut sind</a>. Dort steht, aus welchen Bausteinen ein Bildschirm überhaupt besteht. Hier steht, wie du sie ineinander steckst.</p>
 </div>
 
 
-<h2>01 Die Frage, um die es geht</h2>
+<h2 id="s01">01 Die Frage, um die es geht</h2>
 
 <p><b>Wenn du hier hängst, liegt das nicht an dir.</b> Ein Auftrag zeigt dir ein Bild und nennt dir drei Layout-Typen. Er sagt dir aber nirgends, welches Layout <i>in</i> welchem steckt. <b>Genau das ist die eigentliche Fähigkeit</b>, und sie wird selten hingeschrieben.</p>
 
@@ -165,7 +167,7 @@ td.pre,th.pre{font-family:ui-monospace,Menlo,monospace;font-weight:600;color:#3a
 </div>
 
 
-<h2>02 Das Bild</h2>
+<h2 id="s02">02 Das Bild</h2>
 
   <p>So sieht der Bildschirm aus, auf dem du ab Tag 2 eine Quizfrage beantwortest. Oben links die Kategorie, oben rechts der Punktestand. In der Mitte die Frage. Unten vier Antworten untereinander und ein Weiter-Knopf.</p>
   <div class="legend">
@@ -239,7 +241,7 @@ td.pre,th.pre{font-family:ui-monospace,Menlo,monospace;font-weight:600;color:#3a
 
   
 
-<h2>03 Die Teile einzeln</h2>
+<h2 id="s03">03 Die Teile einzeln</h2>
 
   <table>
     <tr><th style="width:150px">Layout</th><th>Ordnet seine Children</th><th>Nimm es für</th></tr>
@@ -266,7 +268,7 @@ td.pre,th.pre{font-family:ui-monospace,Menlo,monospace;font-weight:600;color:#3a
 
   
 
-<h2>04 Wie es zusammenspielt</h2>
+<h2 id="s04">04 Wie es zusammenspielt</h2>
 
   <p>Ein Anker ist immer nach demselben Muster gebaut. Du liest ihn wie einen Satz.</p>
 
@@ -382,7 +384,7 @@ td.pre,th.pre{font-family:ui-monospace,Menlo,monospace;font-weight:600;color:#3a
 
   
 
-<h2>05 Der Vergleich mit deinem eigenen Bildschirm</h2>
+<h2 id="s05">05 Der Vergleich mit deinem eigenen Bildschirm</h2>
 
   <p>Ab Tag 2 baust du deinen eigenen Spielbildschirm. Er ist <b>einfacher</b> als der Bauplan hier, und das hat Gründe. Vergleiche selbst, sobald du ihn hast.</p>
 
@@ -399,7 +401,7 @@ td.pre,th.pre{font-family:ui-monospace,Menlo,monospace;font-weight:600;color:#3a
 
   <p>Ein echtes FrameLayout siehst du trotzdem noch. Ein Ladebalken über dem Inhalt, ein Hinweis über einer leeren Liste, ein Text über einem Bild: das sind die Fälle, für die es da ist.</p>
 
-<h2>06 Wenn es nicht geht</h2>
+<h2 id="s06">06 Wenn es nicht geht</h2>
 
 <p>Fünf Fehlerbilder decken fast alles ab, was beim Bauen eines Bildschirms schiefgeht. Die Tabelle nennt sie, darunter steht jedes ausführlich.</p>
 
@@ -433,11 +435,11 @@ td.pre,th.pre{font-family:ui-monospace,Menlo,monospace;font-weight:600;color:#3a
 
   <h3>Falle 5: Im Querformat ist plötzlich kein Platz mehr</h3>
   <p>Dreh den Emulator mit <code>Strg</code> und <code>F11</code>. Die Höhe schrumpft auf etwa die Hälfte. Beim Quiz-Bildschirm bleiben die vier Antworten und der Weiter-Knopf gleich hoch, also frisst der Fragebereich mit seiner Höhe <code>0dp</code> den Verlust allein. Bei zu wenig Platz wird er null hoch und die Frage verschwindet.</p>
-  <p>Die saubere Lösung ist ein <code>ScrollView</code> um den Teil, der wachsen darf. Probier zuerst ohne, und bau es erst ein, wenn du das Problem wirklich siehst.</p>
+  <p>Die saubere Lösung ist ein <code>ScrollView</code> um den Teil, der wachsen darf. Bei Listen und Formularen baust du es gleich von Anfang an ein. Im Hochformat siehst du das Problem nie, und im Bewertungsraster der Prüfung ist das Querformat eine eigene Zeile.</p>
 
   
 
-<h2>07 Wenn du einen Bildschirm baust: die Reihenfolge</h2>
+<h2 id="s07">07 Wenn du einen Bildschirm baust: die Reihenfolge</h2>
 
 <p><b>Wenn du unter Zeitdruck nicht mehr weisst, was als nächstes kommt, geh diese Liste von oben durch.</b> Sie ist immer dieselbe, egal wie der Bildschirm aussieht.</p>
 
@@ -452,7 +454,7 @@ td.pre,th.pre{font-family:ui-monospace,Menlo,monospace;font-weight:600;color:#3a
 </div>
 
 
-<h2>08 Übungen ohne Vorlage</h2>
+<h2 id="s08">08 Übungen ohne Vorlage</h2>
 
 <div class="ue">
 <p class="t">Übung 1, eine fremde App zerlegen</p>
@@ -472,7 +474,7 @@ td.pre,th.pre{font-family:ui-monospace,Menlo,monospace;font-weight:600;color:#3a
 </div>
 
 
-<h2>09 Wo das im Ganzen steht</h2>
+<h2 id="s09">09 Wo das im Ganzen steht</h2>
 
 <pre><span class="c">   Woraus ein Bildschirm besteht     Wie Apps aufgebaut sind
         |                            Baustein, Behälter, Bildschirm
@@ -494,7 +496,7 @@ td.pre,th.pre{font-family:ui-monospace,Menlo,monospace;font-weight:600;color:#3a
 <p><b>Danach:</b> <a href="/constraints">Constraints verstehen</a> geht bei den Ankern in die Tiefe, <a href="/xml">XML verstehen</a> erklärt die Schreibweise im Layout.</p>
 
 
-<h2>10 Prüfe dich selbst</h2>
+<h2 id="s10">10 Prüfe dich selbst</h2>
 
   <ol>
     <li>Zeig auf dem Bauplan oben, welche fünf Children das ConstraintLayout hat. Wenn du acht zählst, hast du eine Ebene zu tief geschaut.</li>

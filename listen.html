@@ -26,11 +26,13 @@
 <p class="sub">Modul 335 Mobile Applikationen, Nachschlageblatt. Lesezeit etwa 19 Minuten. Version 2 vom 04.09.2026.</p>
 <p class="sub">Wie aus deinen Daten Zeilen auf dem Bildschirm werden. Die zwei Wege dorthin, wann du welchen nimmst, und was RecyclerView, Adapter, ViewHolder und LayoutInflater dabei tun.</p>
 
+<div class="tip"><p><b>Für die Prüfung:</b> die Kurzfassung steht in Das Modul auf einen Blick, bei <a href="blick.html#liste">Die Liste zu Fuss</a>, <a href="blick.html#wert-rechts">Der Wert rechts</a>.</p></div>
+
 <div class="tip">
 <p><b>Lies das, bevor du eine Liste baust, nicht mittendrin.</b> Davor gehört <a href="/persistenz">Daten aufbewahren</a>. Dort steht, woher die Daten kommen. Hier steht, wie sie auf den Bildschirm kommen.</p>
 </div>
 
-<h2>01 Die Frage, um die es geht</h2>
+<h2 id="s01">01 Die Frage, um die es geht</h2>
 
 <p>Für einen Knopf gibt es in Android einen fertigen Baustein. Für ein Eingabefeld auch. <b>Für deine Zeile nicht.</b></p>
 
@@ -50,7 +52,7 @@
 
 <p>Auf dem Bildschirm sehen beide gleich aus. Der Unterschied steckt im Speicher. <b>Abschnitt 05 beantwortet, wann du welchen nimmst.</b> Die Abschnitte davor zeigen, wie die zwei gebaut sind.</p>
 
-<h2>02 Das Bild</h2>
+<h2 id="s02">02 Das Bild</h2>
 
 <p>Zuerst der kurze Weg. Drei Teile, keine eigene Klasse.</p>
 
@@ -100,7 +102,7 @@
 <p><b>Das Zeilen-Layout steht in beiden Bildern.</b> Es gehört keinem der zwei Wege allein. Auch zu Fuss kannst du deine Zeile als eigene Datei beschreiben, und meistens solltest du das auch.</p>
 </div>
 
-<h2>03 Die Teile einzeln</h2>
+<h2 id="s03">03 Die Teile einzeln</h2>
 
 <h3>Der kurze Weg, drei Teile</h3>
 
@@ -187,7 +189,7 @@
 <p><b>Du kennst den Inflater schon länger, als du denkst.</b> Jedes <code>setContentView(R.layout.activity_main)</code> ruft ihn auf. Nur macht es das für dich, und darum ist er dir nie begegnet.</p>
 </div>
 
-<h2>04 Wie es zusammenspielt</h2>
+<h2 id="s04">04 Wie es zusammenspielt</h2>
 
 <h3>Der kurze Weg: du rufst, sonst niemand</h3>
 
@@ -274,7 +276,7 @@
 <p>Darum stehen deine zwei wichtigsten Methoden im Adapter und werden von dir nirgends aufgerufen. Sie sehen aus wie toter Code und sind es nicht.</p>
 </div>
 
-<h2>05 Der Vergleich</h2>
+<h2 id="s05">05 Der Vergleich</h2>
 
 <p>In 04B hast du eine Liste zu Fuss gebaut. Eine Schleife, und für jede Frage eine neue TextView. <b>Zehn Zeilen Code, und es hat funktioniert.</b> In 06C hast du für dasselbe Ergebnis eine ganze Klasse geschrieben. Hier steht, was das bringt und was es kostet.</p>
 
@@ -344,7 +346,7 @@
 <p><b>Der Aufwand ist der Punkt, nicht das Problem.</b> Wer nur den RecyclerView kennt, hält ihn für Bürokratie. Wer nur den kurzen Weg kennt, merkt nie, wo dessen Grenze liegt. <b>Du hast beide gebaut und kannst darum wählen.</b> Das ist der Unterschied zwischen abtippen und entscheiden.</p>
 </div>
 
-<h2>06 Wenn es nicht geht</h2>
+<h2 id="s06">06 Wenn es nicht geht</h2>
 
 <p><b>Der häufigste Fall ist eine leere Fläche, und die stürzt nicht ab.</b> Du siehst nichts und bekommst keine Fehlermeldung. Darum lohnt sich hier eine Tabelle mehr als anderswo.</p>
 
@@ -361,7 +363,7 @@
 <tr><td>Nach dem Scrollen fehlt in einer Zeile ein Wert</td><td>In <code>onBindViewHolder</code> wird etwas gesetzt, aber nicht zurückgesetzt</td><td>Zu jedem Verstecken gehört ein Zeigen, siehe die dritte Regel in Abschnitt 04</td></tr>
 </table>
 
-<h2>07 Die Reihenfolge, in der du es baust</h2>
+<h2 id="s07">07 Die Reihenfolge, in der du es baust</h2>
 
 <div class="chk">
 <p><b>Nach jedem Schritt einmal starten</b>, auch wenn du weisst, dass sich noch nichts ändert. Die meisten Fehler hier stürzen nicht ab. Wer alles auf einmal baut und dann eine leere Fläche sieht, weiss nicht, welcher Schritt schuld ist.</p>
@@ -389,7 +391,7 @@
 <tr><td class="num">6</td><td><b>Gerät drehen</b> und die Höhe des RecyclerView prüfen</td><td>Die Liste geht bis zum unteren Rand</td></tr>
 </table>
 
-<h2>08 Übungen ohne Vorlage</h2>
+<h2 id="s08">08 Übungen ohne Vorlage</h2>
 
 <div class="ue">
 <p class="t">Übung 1, dieselbe Liste zweimal</p>
@@ -408,7 +410,7 @@
 <p style="margin:0">Erklär einer anderen Person in zwei Sätzen, warum der kurze Weg bei fünfhundert Einträgen falsch ist. <b>Ohne die Wörter <i>langsam</i>, <i>schlecht</i> und <i>besser</i>.</b> <b>So prüfst du:</b> in deiner Antwort kommt eine Zahl vor, und zwar die Zahl der Objekte, die niemand sieht.</p>
 </div>
 
-<h2>09 Wo das im Ganzen steht</h2>
+<h2 id="s09">09 Wo das im Ganzen steht</h2>
 
 <p>Die Liste ist nur eine von drei Schichten deiner App. So hängen sie zusammen:</p>
 
@@ -433,7 +435,7 @@
 
 <p><b>Daneben:</b> <a href="/layouts">Layouts verstehen</a>. Ein Zeilen-Layout ist auch nur ein Layout, und die ScrollView um deine Liste ist ein Behälter wie jeder andere.</p>
 
-<h2>10 Prüfe dich selbst</h2>
+<h2 id="s10">10 Prüfe dich selbst</h2>
 
 <ol>
 <li>Warum gibt es für deine Zeile keinen fertigen Baustein in Android, für einen Knopf aber schon?</li>

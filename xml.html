@@ -84,12 +84,14 @@
   <h1>XML verstehen</h1>
   <p class="sub">Modul 335 Mobile Applikationen, Grundlagen. Was <code>android:</code>, <code>app:</code> und <code>tools:</code> bedeuten und was das Zeichen <code>@</code> macht. Lesezeit rund 9 Minuten. Fassung 1 vom 14.08.2026.</p>
 
+<div class="tip"><p><b>Für die Prüfung:</b> die Kurzfassung steht in Das Modul auf einen Blick, bei <a href="blick.html#formular">Das Formular</a>, <a href="blick.html#texte">Texte in strings.xml</a>.</p></div>
+
   <div class="card">
     <p style="margin:0 0 10px"><b>Wenn dir das beim ersten Mal nicht klar war, liegt das nicht an dir.</b> Die Aufträge zeigen dir XML und du tippst es ab. Warum manche Zeilen mit <code>android:</code> anfangen, andere mit <code>app:</code> und wieder andere mit <code>tools:</code>, sagt dir keiner. Diese Seite holt das nach.</p>
     <p style="margin:0">Danach liest du jedes Layout im Modul, ohne raten zu müssen. Du brauchst die Seite ab dem Moment, wo du das erste Layout im Code siehst.</p>
   </div>
 
-  <h2>1. Wie ein Layout anfängt</h2>
+  <h2 id="s01">1. Wie ein Layout anfängt</h2>
   <p>Jedes Layout beginnt mit einem Wurzelelement, und darin stehen ein paar Zeilen mit <code>xmlns</code>. Sie sehen aus wie Webadressen und man überliest sie gern.</p>
 
   <pre><span class="t">&lt;androidx.constraintlayout.widget.ConstraintLayout</span>
@@ -105,7 +107,7 @@
     <p style="margin:0"><b>Fehlt die Zeile, ist das Attribut rot.</b> Wer im Layout <code>tools:text</code> benutzt, ohne dass oben <code>xmlns:tools</code> steht, bekommt einen Fehler. Android Studio bietet dann mit <code>Alt</code> und <code>Enter</code> an, die Zeile zu ergänzen. Das ist der ganze Fehler, mehr steckt nicht dahinter.</p>
   </div>
 
-  <h2>2. Die drei Präfixe auf einen Blick</h2>
+  <h2 id="s02">2. Die drei Präfixe auf einen Blick</h2>
 
   <div class="legend">
     <span class="chip a">android:</span>
@@ -140,7 +142,7 @@
     </p>
   </div>
 
-  <h2>3. android:, was die Plattform selbst kennt</h2>
+  <h2 id="s03">3. android:, was die Plattform selbst kennt</h2>
   <p>Das ist der Normalfall. Breite, Höhe, Text, Farbe, Abstand, Sichtbarkeit. Alles, was jedes Android-Gerät seit Jahren versteht, trägt dieses Präfix.</p>
 
   <pre><span class="a">android:layout_width</span>=<span class="s">"match_parent"</span>
@@ -151,7 +153,7 @@
 
   <p>Wenn du unsicher bist, welches Präfix ein Attribut braucht, tipp die ersten Buchstaben und lass Android Studio vervollständigen. Es schlägt dir den richtigen Namensraum gleich mit vor.</p>
 
-  <h2>4. app:, was aus einer Bibliothek kommt</h2>
+  <h2 id="s04">4. app:, was aus einer Bibliothek kommt</h2>
   <p>Hier kommt die Antwort auf eine Frage, die sich alle stellen: <b>warum heissen die Anker <code>app:layout_constraintTop_toTopOf</code> und nicht <code>android:...</code>?</b></p>
 
   <p>Weil das <code>ConstraintLayout</code> <b>kein Teil von Android</b> ist. Es ist eine Bibliothek, die Google dazuliefert und die dein Projekt in <code>build.gradle.kts</code> anfordert. Erkennbar ist das schon am Namen des Elements:</p>
@@ -190,7 +192,7 @@
   </ul>
   <p>Merk dir den Satz: <b>Anker gehören dem Parent.</b> Wechselt der Parent, wechseln die Regeln.</p>
 
-  <h2>5. tools:, was nur Android Studio sieht</h2>
+  <h2 id="s05">5. tools:, was nur Android Studio sieht</h2>
   <p>Und jetzt das dritte Präfix. Es ist das einzige, das <b>nie in der fertigen App landet</b>. Beim Bauen wirft Android Studio alle <code>tools:</code>-Zeilen weg. Auf dem Gerät gibt es sie nicht.</p>
 
   <p>Wozu dann? Weil viele Elemente ihren Inhalt erst zur Laufzeit vom Code bekommen. Im XML steht dann nichts, und die Vorschau in Android Studio zeigt eine leere Fläche. Gestalten kann man so nicht.</p>
@@ -253,7 +255,7 @@ pbLoading.setVisibility(<span class="t">View</span>.GONE);</pre>
 
   <p>Es gibt noch mehr <code>tools:</code>-Attribute. Du triffst sie, wenn du sie brauchst, und dann gilt immer dieselbe Regel: <b>alles mit <code>tools:</code> ist nur für dich, nie für den Benutzer.</b></p>
 
-  <h2>6. Das Zeichen @, ein Verweis statt eines Werts</h2>
+  <h2 id="s06">6. Das Zeichen @, ein Verweis statt eines Werts</h2>
   <p>Neben den Präfixen gibt es ein zweites Zeichen, das man am Anfang überliest. Vergleich diese zwei Zeilen:</p>
 
   <pre><span class="a">android:text</span>=<span class="s">"Weiter"</span>          <span class="c">// der Wert steht direkt da</span>
@@ -303,7 +305,7 @@ pbLoading.setVisibility(<span class="t">View</span>.GONE);</pre>
     <p style="margin:0">Darum bricht dein Projekt, wenn du eine id im XML umbenennst und die Java-Zeile stehen lässt. Und darum ist <code>cannot resolve symbol</code> im Java-Code fast immer ein Tippfehler im XML oder umgekehrt.</p>
   </div>
 
-  <h2>7. Wenn etwas rot ist</h2>
+  <h2 id="s07">7. Wenn etwas rot ist</h2>
   <table>
     <tr><th>Das siehst du</th><th>Ursache</th><th>Das machst du</th></tr>
     <tr><td>Rot bei <code>tools:</code> irgendwas</td><td>Die Zeile <code>xmlns:tools</code> fehlt im Wurzelelement</td><td><code>Alt</code> und <code>Enter</code>, Android Studio ergänzt sie</td></tr>
@@ -314,7 +316,7 @@ pbLoading.setVisibility(<span class="t">View</span>.GONE);</pre>
     <tr><td>Die Vorschau zeigt Text, der Emulator nicht</td><td>Der Text steht in <code>tools:text</code></td><td>Das ist richtig so. Der echte Text kommt aus dem Code</td></tr>
   </table>
 
-  <h2>8. Prüfe dich selbst</h2>
+  <h2 id="s08">8. Prüfe dich selbst</h2>
   <ol>
     <li>Warum heisst es <code>android:layout_width</code>, aber <code>app:layout_constraintTop_toTopOf</code>? Antworte mit einem Satz über den Erfinder des Attributs.</li>
     <li>Du löschst in einem Layout die Zeile <code>tools:text="Antwort 1"</code>. Was ändert sich in der laufenden App? Und was in der Vorschau?</li>

@@ -26,11 +26,13 @@
 <p class="sub">Modul 335 Mobile Applikationen, Nachschlageblatt. Lesezeit etwa 8 Minuten. Version 1 vom 04.09.2026.</p>
 <p class="sub">Wo deine Daten bleiben, wenn die App zugeht. Welche Ablage wofür passt, wie du deine Wahl begründest, und wer im Code mit wem redet.</p>
 
+<div class="tip"><p><b>Für die Prüfung:</b> die Kurzfassung steht in Das Modul auf einen Blick, bei <a href="blick.html#persistenz">Persistenz begründen</a>, <a href="blick.html#datenmodell">Datenmodell</a>.</p></div>
+
 <div class="tip">
 <p><b>Dieses Blatt beantwortet die Frage <i>wohin</i>.</b> Wo die Dateien danach auf dem Gerät liegen und wie du hineinschaust, steht in <a href="/daten">Wo deine App ihre Daten ablegt</a>. Welche Klassen eine Datenbank braucht, steht in <a href="/room">Room verstehen</a>.</p>
 </div>
 
-<h2>01 Die Frage, um die es geht</h2>
+<h2 id="s01">01 Die Frage, um die es geht</h2>
 
 <p>Du hast einen Wert in einem Feld deiner Activity. Er ist da, du kannst ihn lesen, alles gut.</p>
 
@@ -44,7 +46,7 @@
 
 <p>Das Wort dafür ist <b>Persistenz</b>. Es heisst nichts anderes als: es bleibt, auch wenn niemand hinschaut.</p>
 
-<h2>02 Die vier Arten von Gedächtnis</h2>
+<h2 id="s02">02 Die vier Arten von Gedächtnis</h2>
 
 <p>Deine App hat sie alle vier nebeneinander, und sie halten <b>verschieden lange</b>. Das ist der Grund, warum du überhaupt wählen musst.</p>
 
@@ -62,7 +64,7 @@
 <p style="margin:0"><b>Nichts davon überlebt das Deinstallieren.</b> Wer Daten braucht, die ein neues Gerät wiederfinden soll, braucht einen Server. Das ist in diesem Modul kein Thema, aber es ist der Grund, warum es Anmeldungen und Konten gibt.</p>
 </div>
 
-<h2>03 Die drei Ablagen im Vergleich</h2>
+<h2 id="s03">03 Die drei Ablagen im Vergleich</h2>
 
 <table>
 <tr><th>Ablage</th><th>Was sie ist</th><th>Passt für</th></tr>
@@ -73,7 +75,7 @@
 
 <p><b>Die Reihenfolge in der Tabelle ist auch eine Reihenfolge im Aufwand.</b> SharedPreferences kosten eine Zeile. Eine Datenbank kostet drei Klassen. Wer die Datenbank nimmt, wo eine Zahl reicht, verliert Zeit. Wer die Zahl-Lösung nimmt, wo dreissig Datensätze einzeln geändert werden, verliert mehr.</p>
 
-<h2>04 Die drei Prüffragen</h2>
+<h2 id="s04">04 Die drei Prüffragen</h2>
 
 <p><b>Du brauchst keine Regel zum Auswendiglernen.</b> Du brauchst drei Fragen, die du an jede Datenart stellst, die deine App aufbewahren soll.</p>
 
@@ -89,7 +91,7 @@
 <p style="margin:0">Das ist keine Regel, das ist eine <b>Rechnung</b>. Sie sagt dir, was unter diesen Bedingungen passiert, nicht was du tun sollst.</p>
 </div>
 
-<h2>05 Wie du deine Wahl begründest</h2>
+<h2 id="s05">05 Wie du deine Wahl begründest</h2>
 
 <p>Eine Entscheidung ohne Begründung ist keine Entscheidung, sie ist eine Behauptung. <b>Der Aufbau ist immer derselbe, drei Teile.</b></p>
 
@@ -103,7 +105,7 @@
 
 <p><b>Ein brauchbarer Satz enthält eine Zahl oder eine Tätigkeit.</b> Also dreissig, oder ändern, oder filtern. Ein harter Test dafür: gib deine zwei Sätze jemandem, ohne zu sagen, um welche Daten es geht. <b>Errät die Person es, sind deine Sätze konkret genug.</b></p>
 
-<h2>06 Die Schichten, von der Anzeige bis zur Datei</h2>
+<h2 id="s06">06 Die Schichten, von der Anzeige bis zur Datei</h2>
 
 <p>Bis jetzt ging es darum, <b>wohin</b>. Jetzt geht es darum, <b>wer im Code mit wem redet</b>. Und das ist bei beiden Wegen dasselbe Muster, nur unterschiedlich tief.</p>
 
@@ -136,7 +138,7 @@
 
 <p>Wie die Anzeige darüber weitergeht, also von der Activity über den Adapter bis zur einzelnen Zeile, steht in <a href="/listen">Listen verstehen</a>. <b>Die zwei Bilder zusammengesetzt ergeben den ganzen Weg</b>, von der Datei bis zum Pixel.</p>
 
-<h2>07 Wenn es nicht geht</h2>
+<h2 id="s07">07 Wenn es nicht geht</h2>
 
 <table>
 <tr><th>Was du siehst</th><th>Woran es meist liegt</th><th>Was du prüfst</th></tr>
@@ -147,7 +149,7 @@
 <tr><td>Eine Änderung an einem einzelnen Eintrag ist mühsam und langsam</td><td>Das ist kein Fehler, sondern die falsche Ablage</td><td>Die drei Prüffragen aus Abschnitt 04 nochmals stellen</td></tr>
 </table>
 
-<h2>08 Wenn du entscheiden musst: die Reihenfolge</h2>
+<h2 id="s08">08 Wenn du entscheiden musst: die Reihenfolge</h2>
 
 <div class="step"><p><span class="n">1</span> <b>Schreib auf, welche Datenart es ist.</b> Nicht die ganze App auf einmal, sondern eine Art nach der anderen</p></div>
 <div class="step"><p><span class="n">2</span> <b>Stell die drei Prüffragen</b> aus Abschnitt 04 an genau diese Datenart</p></div>
@@ -158,7 +160,7 @@
 <p style="margin:0"><b>Der Prüfschritt:</b> jede Datenart hat eine Entscheidung <b>und</b> eine Begründung. Keine Begründung besteht nur aus <i>einfacher</i> oder <i>besser</i>. In jeder kommt eine Zahl oder eine Tätigkeit vor.</p>
 </div>
 
-<h2>09 Wo das im Ganzen steht</h2>
+<h2 id="s09">09 Wo das im Ganzen steht</h2>
 
 <pre><span class="d">   Was der Benutzer sieht        Listen verstehen
         ^                        Adapter, ViewHolder, die einzelne Zeile
@@ -175,7 +177,7 @@
 
 <p><b>Die Pfeile zeigen nach oben</b>, denn so laufen die Daten: von der Datei bis auf den Bildschirm.</p>
 
-<h2>10 Prüfe dich selbst</h2>
+<h2 id="s10">10 Prüfe dich selbst</h2>
 
 <ol>
 <li>Was heisst Persistenz, in einem Satz und ohne das Wort selbst zu benutzen?</li>

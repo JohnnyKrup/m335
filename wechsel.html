@@ -26,11 +26,13 @@
 <p class="sub">Modul 335 Mobile Applikationen, Nachschlageblatt. Lesezeit etwa 10 Minuten. Version 2 vom 04.09.2026.</p>
 <p class="sub">Wie du auf einen zweiten Bildschirm kommst, wie du wieder zurückkommst, und wie ein Wert den Weg mitmacht.</p>
 
+<div class="tip"><p><b>Für die Prüfung:</b> die Kurzfassung steht in Das Modul auf einen Blick, bei <a href="blick.html#bildschirm">Ein zweiter Bildschirm</a>, <a href="blick.html#onresume">onCreate und onResume</a>, <a href="blick.html#bearbeiten">Einen Eintrag ändern</a>.</p></div>
+
 <div class="tip">
 <p><b>Lies das, bevor du einen zweiten Bildschirm baust, nicht mittendrin.</b> Davor gehört <a href="/activity">Die Activity von innen</a>. Dort steht, was in <b>einer</b> Activity passiert. Hier geht es um <b>zwei</b>, und um alles, was zwischen ihnen liegt.</p>
 </div>
 
-<h2>01 Die Frage, um die es geht</h2>
+<h2 id="s01">01 Die Frage, um die es geht</h2>
 
 <p>Bis jetzt hatte deine App einen Bildschirm. Eine Activity, ein Layout, fertig. Jetzt sollen es zwei werden, und dein erster Reflex aus Java ist falsch.</p>
 
@@ -51,7 +53,7 @@
 <li><b>Einen Rückweg</b>, denn du hast das Objekt nie in der Hand gehabt und kannst es nachher auch nichts fragen</li>
 </ul>
 
-<h2>02 Das Bild</h2>
+<h2 id="s02">02 Das Bild</h2>
 
 <p>So läuft eine Bitte durch. Von oben nach unten, und ab der Mitte macht Android alles allein.</p>
 
@@ -88,15 +90,15 @@
    Zurück heisst: das oberste Blatt kommt weg.
    Zurück heisst nicht: springe zur MainActivity.</span></pre>
 
-<p>Die wartenden Bildschirme sind nicht weg. Sie leben weiter, mit allem, was in ihren Feldern steht. <b>Ihr <code>onCreate</code> läuft nicht noch einmal, wenn du zurückkommst.</b></p>
+<p>Die wartenden Bildschirme sind nicht weg. Sie leben weiter, mit allem, was in ihren Feldern steht. <b>Ihr <code>onCreate</code> läuft nicht noch einmal, wenn du zurückkommst.</b> Was sich inzwischen geändert haben kann, lädst du darum in <code>onResume</code> neu. Das läuft bei jeder Rückkehr und auch beim ersten Start.</p>
 
-<h2>03 Die fünf Teile, einzeln</h2>
+<h2 id="s03">03 Die fünf Teile, einzeln</h2>
 
 <table>
 <tr><th>Teil</th><th>Was es tut</th><th>Schreibst du es selbst</th><th>Wo es liegt</th></tr>
 <tr><td class="pre">Die Activity-Klasse</td><td>Der Code des neuen Bildschirms. Hat ihr eigenes <code>onCreate</code></td><td><b>ja</b>, ganz</td><td>eigene <code>.java</code>-Datei</td></tr>
 <tr><td class="pre">Das Layout</td><td>Was auf diesem Bildschirm steht</td><td><b>ja</b>, ganz</td><td><code>res/layout/activity_xxx.xml</code></td></tr>
-<tr><td class="pre">Der Manifest-Eintrag</td><td>Sagt Android, dass es diesen Bildschirm gibt</td><td><b>ja</b>, von Hand</td><td><code>AndroidManifest.xml</code></td></tr>
+<tr><td class="pre">Der Manifest-Eintrag</td><td>Sagt Android, dass es diesen Bildschirm gibt</td><td><b>ja</b>, von Hand, oder Android Studio schreibt ihn beim Weg über New, Activity</td><td><code>AndroidManifest.xml</code></td></tr>
 <tr><td class="pre">Der Intent</td><td>Die Bitte. Von wo aus, wohin</td><td><b>ja</b>, eine Zeile</td><td>in der Activity, die den Wechsel auslöst</td></tr>
 <tr><td class="pre">startActivity</td><td>Gibt die Bitte an Android weiter</td><td><b>ja</b>, eine Zeile</td><td>meist im Listener eines Knopfs</td></tr>
 </table>
@@ -125,7 +127,7 @@
 
 <p><code>new Intent(this, GameActivity.class)</code> ist ein Zettel mit zwei Angaben. <b>Von wo aus</b>, das ist <code>this</code>, und <b>wohin</b>, das ist die Klasse. <code>startActivity</code> gibt den Zettel an Android weiter. Danach ist dein Code fertig, und die Zeile darunter läuft sofort weiter.</p>
 
-<h2>04 Der Hinweg, Schritt für Schritt</h2>
+<h2 id="s04">04 Der Hinweg, Schritt für Schritt</h2>
 
 <p>Als Gespräch zwischen deinem Code und Android. Nur die erste Zeile gehört dir.</p>
 
@@ -143,7 +145,7 @@
 <p><b>Daraus folgen zwei Regeln.</b> Erstens: du rufst <code>onCreate</code> nie selbst auf, weder bei dir noch beim anderen Bildschirm. Zweitens: alles, was der neue Bildschirm braucht, muss <b>vorher am Intent hängen</b>. Nachher kommst du nicht mehr dran.</p>
 </div>
 
-<h2>05 Der Rückweg</h2>
+<h2 id="s05">05 Der Rückweg</h2>
 
 <p>Es gibt kein <code>startActivity</code> rückwärts. <b>Zurück heisst immer: die oberste Activity endet</b>, und darunter wird sichtbar, was schon da war.</p>
 
@@ -161,7 +163,7 @@
 <p style="margin:0"><b>Du kannst nicht wissen, welchen Weg jemand nimmt.</b> Darum darf nichts Wichtiges nur an deinem eigenen Knopf hängen. Alles, was beim Verlassen passieren muss, gehört an eine Stelle, die auf <b>jedem</b> Weg erreicht wird.</p>
 </div>
 
-<h2>06 Etwas mitgeben und etwas zurückbringen</h2>
+<h2 id="s06">06 Etwas mitgeben und etwas zurückbringen</h2>
 
 <p>Ein Intent ist nicht nur ein Fahrplan. <b>Er ist auch ein Behälter.</b> Du kannst Werte anhängen, und zwar in beide Richtungen.</p>
 
@@ -226,7 +228,7 @@ gameLauncher = registerForActivityResult(
 <p style="margin:0"><b>Der Launcher entsteht in <code>onCreate</code>, nicht im Listener.</b> Android muss ihn kennen, bevor der Bildschirm sichtbar ist. Ein Launcher, der erst beim Antippen entsteht, ist zu spät.</p>
 </div>
 
-<h2>07 Der Vergleich mit einem Methodenaufruf</h2>
+<h2 id="s07">07 Der Vergleich mit einem Methodenaufruf</h2>
 
 <p>Ein Bildschirmwechsel sieht aus wie ein Methodenaufruf und ist doch etwas anderes. <b>Der Unterschied ist der Grund für den ganzen Aufwand mit dem Launcher.</b></p>
 
@@ -245,7 +247,7 @@ gameLauncher = registerForActivityResult(
 
 <p>Dasselbe Muster kennst du schon von einem Klick-Listener. Auch dort schreibst du vorher hin, was später passieren soll, und weisst nicht, wann.</p>
 
-<h2>08 Wenn es nicht geht</h2>
+<h2 id="s08">08 Wenn es nicht geht</h2>
 
 <p>Vier von fünf Fehlern beim Bildschirmwechsel sehen gleich aus: <b>es passiert etwas, aber nicht das, was du wolltest.</b> Die Tabelle ordnet die häufigsten Bilder ihrer Ursache zu.</p>
 
@@ -273,18 +275,18 @@ gameLauncher = registerForActivityResult(
 </ol>
 </div>
 
-<h2>09 Wenn du einen neuen Bildschirm baust: die Reihenfolge</h2>
+<h2 id="s09">09 Wenn du einen neuen Bildschirm baust: die Reihenfolge</h2>
 
 <p><b>Wenn du unter Zeitdruck nicht mehr weisst, was als nächstes kommt, geh diese Liste von oben durch.</b> Sie ist immer dieselbe, egal welcher Bildschirm.</p>
 
 <div class="step"><p><span class="n">1</span> <b>Die Texte in <code>strings.xml</code>.</b> Alles, was der Benutzer lesen wird. Zuerst, damit es beim Layout schon da ist</p></div>
-<div class="step"><p><span class="n">2</span> <b>Das Layout <code>activity_xxx.xml</code>.</b> Mit einer eigenen Root-id, sonst verwechselst du es später mit dem ersten</p></div>
+<div class="step"><p><span class="n">2</span> <b>Das Layout <code>activity_xxx.xml</code>.</b> Am schnellsten mit New, Activity, Empty Views Activity. Das legt Layout, Klasse und Manifest-Eintrag zusammen an. Die id <code>main</code> am Root-Element bleibt stehen, denn der Insets-Block in der Klasse sucht sie</p></div>
 <div class="step"><p><span class="n">3</span> <b>Die Klasse <code>XxxActivity</code>.</b> <code>extends AppCompatActivity</code>, <code>onCreate</code>, darin <code>setContentView</code> auf das neue Layout</p></div>
-<div class="step"><p><span class="n">4</span> <b>Der Eintrag im Manifest.</b> <code>android:name</code> mit dem Punkt davor, dazu <code>android:exported</code></p></div>
+<div class="step"><p><span class="n">4</span> <b>Der Eintrag im Manifest.</b> <code>android:name</code> mit dem Punkt davor, dazu <code>android:exported</code>. Über New, Activity steht er schon da, dann prüfst du ihn nur</p></div>
 <div class="step"><p><span class="n">5</span> <b>Der Intent und der Listener</b> in der Activity, von der aus es losgeht</p></div>
 <div class="step"><p><span class="n">6</span> <b>Nur wenn du etwas zurückbrauchst:</b> die Schlüssel als Konstanten, <code>setResult</code> drüben, der Launcher hier</p></div>
 
-<h2>10 Wo das im Ganzen steht</h2>
+<h2 id="s10">10 Wo das im Ganzen steht</h2>
 
 <pre><span class="d">   Ein Bildschirm             Die Activity von innen
         |                     onCreate, findViewById, this
@@ -301,7 +303,7 @@ gameLauncher = registerForActivityResult(
 
 <p><b>Danach:</b> <a href="/listen">Listen verstehen</a>. Sehr oft ist es das Antippen einer Zeile in einer Liste, das den Wechsel auslöst, und dann reist eine id im Intent mit.</p>
 
-<h2>11 Prüfe dich selbst</h2>
+<h2 id="s11">11 Prüfe dich selbst</h2>
 
 <ol>
 <li>Warum kannst du eine Activity nicht mit <code>new</code> erzeugen, eine gewöhnliche Klasse aber schon?</li>

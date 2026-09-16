@@ -130,11 +130,13 @@
 <h1>Wie Apps aufgebaut sind</h1>
 <p class="sub">M335 Mobile Applikationen &middot; Grundlagen zu Block 02, Fassung 3 vom 11.08.2026 &middot; Welche Bausteine es gibt und wie erfolgreiche Apps sie einsetzen</p>
 
+<div class="tip"><p><b>Für die Prüfung:</b> die Kurzfassung steht in Das Modul auf einen Blick, bei <a href="blick.html#mockups">Mockups</a>, <a href="blick.html#querformat">Querformat</a>.</p></div>
+
 <div class="card">
 <p style="margin:0"><b>Worum es hier geht.</b> Bevor du ein Layout baust, solltest du wissen, welche Bausteine es überhaupt gibt und wie erfahrene Firmen sie anordnen. Du benutzt jeden Tag Apps, die von hunderten Leuten durchdacht wurden. Diese Apps sind dein bestes Lehrmittel. Auf dieser Seite zerlegst du vier davon in ihre Einzelteile und lernst dabei den ganzen Baukasten kennen. Wie du die Teile dann genau positionierst, steht im Dokument "Constraints verstehen".</p>
 </div>
 
-<h2><span class="num">1</span>Fast jede App hat dasselbe Grundgerüst</h2>
+<h2 id="s01"><span class="num">1</span>Fast jede App hat dasselbe Grundgerüst</h2>
 <p>Öffne irgendeine App auf deinem Handy. Sie ist mit sehr hoher Wahrscheinlichkeit in drei Zonen aufgeteilt.</p>
 
 <div class="skeleton">
@@ -151,7 +153,7 @@
   </div>
 </div>
 
-<h2><span class="num">2</span>Warum die Navigation unten ist</h2>
+<h2 id="s02"><span class="num">2</span>Warum die Navigation unten ist</h2>
 <div class="skeleton">
   <div class="thumb">
     <div class="band b-hard">schwer erreichbar<br>Umgreifen nötig</div>
@@ -166,7 +168,7 @@
   </div>
 </div>
 
-<h2><span class="num">3</span>Vier Apps, zerlegt</h2>
+<h2 id="s03"><span class="num">3</span>Vier Apps, zerlegt</h2>
 <p>Jetzt schauen wir vier Apps an, die du kennst. Die Skizzen sind absichtlich grob. Es geht nicht um Farben und Schrift, sondern um die Bausteine. Die Nummern zeigen auf die Tabelle daneben.</p>
 
 <h3>WhatsApp, Übersicht der Chats</h3>
@@ -302,7 +304,7 @@
   </div>
 </div>
 
-<h2><span class="num">4</span>Was sich überall wiederholt</h2>
+<h2 id="s04"><span class="num">4</span>Was sich überall wiederholt</h2>
 <p>Vier verschiedene Firmen, vier verschiedene Zwecke, und trotzdem dieselben Muster. Das ist die eigentliche Erkenntnis.</p>
 
 <div class="pats">
@@ -314,7 +316,7 @@
   <div class="pat"><b>Suche gehört nach oben</b><span>Suchen tut man selten, aber gezielt. Es darf oben sein, weil man dafür kurz umgreift.</span></div>
 </div>
 
-<h2><span class="num">5</span>Der Baukasten</h2>
+<h2 id="s05"><span class="num">5</span>Der Baukasten</h2>
 <p>Das ist die Liste, die dir bisher gefehlt hat. Geh sie von links nach rechts durch. Du suchst, was du willst, und findest den passenden Baustein.</p>
 
 <h3>Anzeigen</h3>
@@ -354,8 +356,8 @@
   <tr><td>Hauptnavigation unten</td><td><code>BottomNavigationView</code></td><td>Drei bis fünf Ziele.</td></tr>
   <tr><td>Reiter zum Wischen</td><td><code>TabLayout</code> mit <code>ViewPager2</code></td><td></td></tr>
   <tr><td>Menü, das von der Seite kommt</td><td><code>DrawerLayout</code> mit <code>NavigationView</code></td><td>Wenn es mehr als fünf Ziele gibt.</td></tr>
-  <tr><td>Lange oder unbekannt lange Liste</td><td><code>RecyclerView</code></td><td>Der wichtigste Baustein überhaupt. Kommt in Block 7B.</td></tr>
-  <tr><td>Inhalt, der nicht auf den Bildschirm passt</td><td><code>ScrollView</code></td><td>Nur für feste Inhalte. Für Listen niemals, dafür ist RecyclerView da.</td></tr>
+  <tr><td>Lange oder unbekannt lange Liste</td><td><code>RecyclerView</code></td><td>Der wichtigste Baustein überhaupt. Kommt in Auftrag 06C.</td></tr>
+  <tr><td>Inhalt, der nicht auf den Bildschirm passt</td><td><code>ScrollView</code></td><td>Für Inhalte, die zu lang werden können, etwa ein Formular im Querformat. Auch für eine kurze Liste zu Fuss, siehe Listen verstehen, Abschnitt 05.</td></tr>
   <tr><td>Inhalt als Kärtchen abheben</td><td><code>MaterialCardView</code></td><td></td></tr>
 </table>
 
@@ -369,7 +371,7 @@
   <tr><td>Kleiner Zähler an einem Symbol</td><td><code>BadgeDrawable</code></td><td>Die rote Zahl bei ungelesenen Nachrichten.</td></tr>
 </table>
 
-<h2><span class="num">6</span>Baustein, Behälter, Bildschirm</h2>
+<h2 id="s06"><span class="num">6</span>Baustein, Behälter, Bildschirm</h2>
 <p>Drei Begriffe, die man leicht verwechselt. Der Unterschied ist einfach.</p>
 <table>
   <tr><th style="width:24%">Begriff</th><th style="width:32%">Was es ist</th><th>Beispiele</th></tr>
@@ -384,7 +386,7 @@
 
 <p>In Android hängt alles davon am selben Stamm. Sowohl Button als auch LinearLayout erben von der Klasse <code>View</code>. Darum haben alle dieselben Grundangaben wie <code>layout_width</code>, <code>layout_height</code> und <code>id</code>. Ein Layout ist also nichts anderes als eine View, die Children haben darf.</p>
 
-<h2><span class="num">7</span>Faustregeln, an die sich alle halten</h2>
+<h2 id="s07"><span class="num">7</span>Faustregeln, an die sich alle halten</h2>
 <table>
   <tr><th style="width:40%">Regel</th><th>Warum</th></tr>
   <tr><td>Alles Antippbare mindestens <b>48dp mal 48dp</b></td><td>Das ist etwa die Fläche einer Fingerkuppe. Kleineres trifft man nicht zuverlässig. Gilt als offizielle Mindestgrösse in Android.</td></tr>
@@ -396,7 +398,7 @@
   <tr><td>Farbe nie als einzige Information</td><td>Rot allein sagt einem farbenblinden Benutzer nichts. Immer noch Text oder Symbol dazu.</td></tr>
 </table>
 
-<h2><span class="num">8</span>So zerlegst du selbst eine App</h2>
+<h2 id="s08"><span class="num">8</span>So zerlegst du selbst eine App</h2>
 <p>Das ist die Arbeitstechnik. Sie funktioniert bei jeder App und auch bei jedem Mockup, das dir jemand hinlegt.</p>
 <ol>
   <li><b>Zonen finden.</b> Zeichne drei waagrechte Striche: Kopf, Inhalt, Fuss. Was gehört wohin?</li>
@@ -406,7 +408,7 @@
 </ol>
 <p>Erst danach öffnest du Android Studio. Wer ohne diese Skizze anfängt, baut zweimal.</p>
 
-<h2><span class="num">9</span>Übungen ohne Vorlage</h2>
+<h2 id="s09"><span class="num">9</span>Übungen ohne Vorlage</h2>
 <p>Die Lösungen zu Übung 3 und Übung 4 stehen im Classroom-Material <b>02A Lösung - Die drei Unterlagen</b>. Schau erst hinein, wenn du es selbst versucht hast.</p>
 
 <div class="ex">
@@ -444,7 +446,7 @@
 </div>
 
 <!--M335:WEITER-->
-<nav class="weiter"><a class="zurueck" href="09b-loesung.html"><span>Zurück</span>09B Lösung</a><a class="vor" href="xml.html"><span>Weiter</span>XML verstehen</a></nav>
+<nav class="weiter"><a class="zurueck" href="blick.html"><span>Zurück</span>Das Modul auf einen Blick</a><a class="vor" href="xml.html"><span>Weiter</span>XML verstehen</a></nav>
 <!--/M335:WEITER-->
 <p class="foot">Modul 335 | Grundlagen | Wie Apps aufgebaut sind | Fassung 3 | 11.08.2026</p>
 

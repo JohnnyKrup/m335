@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M335 Das Modul auf einen Blick</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&amp;family=Roboto+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap">
+<!--M335:STIL-->
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="stil/rahmen.css">
+<link rel="stylesheet" href="stil/dokument.css">
+<!--/M335:STIL-->
+</head>
+<body>
+<!--M335:RAHMEN-KOPF-->
+<header class="site-header"><div class="in">
+<a href="index.html" class="brand"><svg width="20" height="20" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#2a2a2a" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#2a2a2a" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</a>
+<span class="kopf-rechts"><a href="index.html" class="back">&larr; &Uuml;bersicht</a>
+<button type="button" class="druck-knopf" onclick="window.print()" title="Der Browser erzeugt daraus ein PDF oder druckt die Seite. Rechts bleibt ein Rand fuer deine Notizen.">Drucken oder PDF</button></span>
+</div></header>
+<!--/M335:RAHMEN-KOPF-->
+<div class="wrap">
+
+<h1>Das Modul auf einen Blick</h1>
+<p class="sub">Modul 335 Mobile Applikationen, Nachschlageblatt. Lesezeit etwa 13 Minuten. Version 1 vom 16.09.2026.</p>
+<p class="sub">Alles, was die Prüfung verlangt, an einem Ort. Zu jedem Punkt die Regel, ein kurzes Beispiel aus der Einkaufsliste, die häufigste Falle und der Weg zur ausführlichen Erklärung.</p>
+
+<div class="info"><p><b>So benutzt du dieses Blatt.</b> Es ersetzt die Grundlagenblätter und das Lösungsmaterial nicht, es zeigt dir den Weg dorthin. Weisst du beim Programmieren nicht weiter, such die Karte zum Thema, lies die Regel und die Falle, und folge bei Bedarf dem Link unter <b>Mehr dazu</b>.</p></div>
+
+<table>
+<tr><th>Abschnitt</th><th>Punkte</th></tr>
+<tr><td><a href="#reihenfolge">Bedingungen und Reihenfolge</a></td><td></td></tr>
+<tr><td><a href="#user-stories">User Stories mit Akzeptanzkriterien</a></td><td>6</td></tr>
+<tr><td><a href="#mockups">Zwei GUI-Mockups</a></td><td>4</td></tr>
+<tr><td><a href="#datenmodell">Das Datenmodell</a></td><td>3</td></tr>
+<tr><td><a href="#persistenz">Die Persistenz begründen</a></td><td>2 und 1</td></tr>
+<tr><td><a href="#testplan">Testplan und Durchführung</a></td><td>4 und 2</td></tr>
+<tr><td><a href="#projekt">Das Projekt anlegen</a></td><td>1</td></tr>
+<tr><td><a href="#insets">Die Vorlage und der Insets-Block</a></td><td></td></tr>
+<tr><td><a href="#entity">Die Entity</a></td><td>4, zusammen mit Dao und Datenbank</td></tr>
+<tr><td><a href="#dao">Das Dao</a></td><td></td></tr>
+<tr><td><a href="#datenbank">Die Datenbank und der Startbestand</a></td><td></td></tr>
+<tr><td><a href="#liste">Die Liste zu Fuss</a></td><td>2</td></tr>
+<tr><td><a href="#wert-rechts">Der berechnete Wert rechts</a></td><td>1</td></tr>
+<tr><td><a href="#bildschirm">Ein zweiter Bildschirm</a></td><td></td></tr>
+<tr><td><a href="#onresume">onCreate und onResume</a></td><td></td></tr>
+<tr><td><a href="#formular">Das Formular</a></td><td>4 und 2</td></tr>
+<tr><td><a href="#validierung">Fehleingaben abfangen</a></td><td>4</td></tr>
+<tr><td><a href="#bearbeiten">Einen Eintrag ändern</a></td><td>4</td></tr>
+<tr><td><a href="#querformat">Querformat und Displaygrössen</a></td><td>2</td></tr>
+<tr><td><a href="#texte">Texte in strings.xml</a></td><td></td></tr>
+<tr><td><a href="#javadoc">Javadoc</a></td><td>2</td></tr>
+<tr><td><a href="#fehlertabelle">Wenn etwas nicht funktioniert</a></td><td></td></tr>
+</table>
+
+<h2 id="vor-dem-code">Vor dem Code, 22 Punkte ohne Compiler</h2>
+
+<p>Die Aufgaben 1 bis 5 und 7 brauchen weder Android Studio noch einen Emulator. Sie tragen fast die Hälfte der Punkte.</p>
+
+<h3 id="reihenfolge">Bedingungen und Reihenfolge</h3>
+<p>Die Prüfung ist Open Book: das Internet, deine eigenen Unterlagen und dein eigenes Projekt. Nicht erlaubt sind fertige Projekte aus fremden Quellen und Chatten mit anderen. Eine KI ist nicht verboten. Auf der letzten Seite unterschreibst du aber, dass Stellen aus fremden Quellen, auch aus einer KI, gekennzeichnet sind.</p>
+<p>Die sieben Aufgaben schlagen zusammen 221 Minuten vor, du hast 210. Darum entscheidet die Reihenfolge: <b>zuerst die Aufgaben 1 bis 3, dann 4 und 5, danach programmieren.</b> Die Durchführung der Tests, Aufgabe 7, trägst du am Schluss in den Testplan von Aufgabe 5 ein.</p>
+<table>
+<tr><th>Die sechs billigsten Punkte</th><th>P</th></tr>
+<tr><td>Die zweite Persistenzmöglichkeit nennen, Aufgabe 3</td><td>1</td></tr>
+<tr><td>Die Testdurchführung im Testplan eintragen, Aufgabe 7</td><td>2</td></tr>
+<tr><td>Javadoc über jede Klasse und jede Methode</td><td>2</td></tr>
+<tr><td>Die ScrollView um die Liste und um das Formular</td><td>2</td></tr>
+<tr><td>Der <code>inputType</code> an den Eingabefeldern</td><td>2</td></tr>
+<tr><td>Die Mindest-API im <code>build.gradle.kts</code> auf 26</td><td>1</td></tr>
+</table>
+<div class="tip"><p><b>Mehr dazu:</b> <a href="09a-einfuehrung.html">Einführung 09A</a>, <a href="09a.html">Auftrag 09A</a></p></div>
+
+<h3 id="user-stories">User Stories mit Akzeptanzkriterien <span class="time">6 Punkte</span></h3>
+<p>Eine Story hat drei Teile: <b>Als</b> wer, <b>möchte ich</b> was, <b>damit</b> wozu. Ohne das damit ist es keine Story. Sie ist so klein, dass man sie in einem Arbeitsblock bauen und danach abhaken kann.</p>
+<p>Ein Akzeptanzkriterium ist messbar, wenn eine fremde Person zum selben Urteil kommt wie du. Die Form: wenn ich X mache, steht Y auf dem Bildschirm. Ein gutes Kriterium sagt auch, was nicht passieren darf.</p>
+<pre>Als          User
+möchte ich   einen Artikel zusammen mit dem Laden erfassen,
+damit        ich im Geschäft sehe, was ich dort mitnehmen muss.
+
+Kriterium 1  Wenn ich Artikel und Laden mit je mindestens 4 Zeichen
+             eintippe und speichere, steht der Eintrag danach auf der
+             Startseite in der Liste.
+Kriterium 2  Wenn der Artikel weniger als 4 Zeichen hat, wird nicht
+             gespeichert, und direkt beim Feld erscheint eine Meldung.</pre>
+<div class="warn"><p>Urteilswörter wie korrekt, übersichtlich oder benutzerfreundlich. Ersetze jedes durch das, was man auf dem Bildschirm sieht.</p></div>
+<div class="tip"><p><b>Mehr dazu:</b> <a href="04c.html">Auftrag 04C</a>, <a href="04c-loesung.html">Lösung 04C</a>, <a href="07a-loesung.html">Lösung 07A</a></p></div>
+
+<h3 id="mockups">Zwei GUI-Mockups <span class="time">4 Punkte</span></h3>
+<p>Zwei Bildschirme genügen: die Übersicht und das Formular. Von Hand gezeichnet gibt dieselben Punkte. Aussagekräftig ist ein Mockup, wenn jemand, der die App nicht kennt, sie danach bauen kann.</p>
+<ul><li>Die zwei fremden Ränder: Statusleiste oben, Navigationsleiste unten.</li><li>Jedes Element mit seinem Text, daneben das Kürzel wie <code>tvTitle</code>, <code>etArticle</code>, <code>btnSave</code>.</li><li>Pfeile mit Ziel, hin und zurück.</li><li>Eine Zeile bewusst ohne berechneten Wert, und bei Pflichtfeldern die Mindestlänge.</li><li>Was man antippt, liegt unten in der Daumenzone.</li></ul>
+<pre>+------------------------------------------+
+| 09:41                      LTE   [====]  |  &lt;- Statusleiste, nicht deine
++------------------------------------------+
+| Meine Einkaufsliste                      |  tvTitle
+|                                          |
+|  Vollkornbrot                    7.60    |  llItems in einer ScrollView
+|  Migros                                  |  Zeile antippen -&gt; Formular
+|                                          |
+|  Zahnpasta                               |  &lt;- kein Betrag, Preis fehlt
+|  Coop                                    |
+|                                   [ + ]  |  fabNew -&gt; leeres Formular
++------------------------------------------+
+|      &lt;          O          [ ]           |  &lt;- Navigationsleiste, nicht deine
++------------------------------------------+</pre>
+<div class="warn"><p>Nur das Hochformat denken. Frag bei jedem Bildschirm, was im Querformat unten herausfällt. Die Antwort ist fast immer eine ScrollView.</p></div>
+<div class="tip"><p><b>Mehr dazu:</b> <a href="04d.html">Auftrag 04D</a>, <a href="04d-loesung.html">Lösung 04D</a>, <a href="07a-loesung.html">Lösung 07A</a></p></div>
+
+<h3 id="datenmodell">Das Datenmodell <span class="time">3 Punkte</span></h3>
+<p>Ein Kasten pro Art von Datensatz, der Name in der Einzahl und mit grossem Anfangsbuchstaben. <b>Jede Zeile hat einen Datentyp.</b> Die Feldnamen sind englisch und dieselben wie später im Code. Klassendiagramm oder ERD geben dieselben Punkte.</p>
+<p>Das Feld <code>id</code> ist der Schlüssel. Er wird gebraucht, sobald ein einzelner Eintrag geändert oder gelöscht wird. Ins Modell gehört nur, was den Neustart der App überleben muss und sich nicht ausrechnen lässt. Keine Normalisierung, die Prüfung verlangt KISS.</p>
+<pre>+----------------------------------+
+|          ShoppingItem            |
++----------------------------------+
+| PK id: int                       |
+| article: String                  |
+| shop: String                     |
+| quantity: Integer                |
+| pricePerUnit: Double             |
++----------------------------------+</pre>
+<p>Menge und Preis dürfen leer bleiben, darum <code>Integer</code> und <code>Double</code>: <code>null</code> heisst nicht eingetragen. <code>int</code> und <code>double</code> gehen auch, dann steht daneben der Satz <i>0 heisst nicht eingetragen</i>.</p>
+<div class="warn"><p>Der Betrag im Modell. Er ist Menge mal Preis und wird beim Anzeigen gerechnet. Und die Datentypen weglassen, das ist der häufigste halbe Punkt.</p></div>
+<div class="tip"><p><b>Mehr dazu:</b> <a href="06a.html">Auftrag 06A</a>, <a href="06a-loesung.html">Lösung 06A</a>, <a href="07a-loesung.html">Lösung 07A</a></p></div>
+
+<h3 id="persistenz">Die Persistenz begründen <span class="time">2 und 1 Punkt</span></h3>
+<p>Drei Teile. <b>Zwei Möglichkeiten nennen</b>, zum Beispiel SharedPreferences und eine lokale Datenbank mit Room. Dich für eine entscheiden. In zwei Sätzen begründen: der erste sagt, was für deine Wahl spricht, der zweite, was gegen die andere spricht.</p>
+<p>Die Begründung nennt eine Eigenschaft deiner Daten, am besten eine Zahl oder eine Tätigkeit wie ändern oder filtern. Die zweite Möglichkeit überhaupt zu nennen, ist ein eigener Punkt im Raster.</p>
+<pre>Ich wähle die lokale Datenbank.
+
+Ein einzelner Eintrag wird angetippt, geändert und wieder gespeichert,
+und dafür brauche ich einen Schlüssel je Eintrag und einen gezielten
+Zugriff. Mit SharedPreferences müsste ich für jede Änderung die ganze
+Liste als Text lesen und komplett zurückschreiben.</pre>
+<div class="warn"><p>Urteile über die Technik wie <i>eine Datenbank ist besser</i> oder <i>das ist der moderne Weg</i>. Sie beschreiben keine Bedingung deiner App und geben keinen Punkt.</p></div>
+<div class="tip"><p><b>Mehr dazu:</b> <a href="persistenz.html#s05">Daten aufbewahren, Abschnitt 05</a>, <a href="07a-loesung.html">Lösung 07A</a></p></div>
+
+<h3 id="testplan">Testplan und Durchführung <span class="time">4 und 2 Punkte</span></h3>
+<p>Vier Testfälle mit immer denselben Feldern.</p>
+<table>
+<tr><th>Feld</th><th>Was hineingehört</th></tr>
+<tr><td>Titel</td><td>Das geprüfte Verhalten, nicht nur der Bildschirm</td></tr>
+<tr><td>Vorbedingungen</td><td>Was gilt, bevor du anfängst. Kein Schritt, und nichts, was sich widerspricht</td></tr>
+<tr><td>Testablauf</td><td>Nummerierte Einzelhandlungen. Den geprüften Wert mehr als einmal ablesen</td></tr>
+<tr><td>Erwartetes Ergebnis</td><td>Anzahl, Ort und Wortlaut. Und was nicht passieren darf</td></tr>
+<tr><td>Tatsächliches Ergebnis</td><td>Nach der Durchführung geschrieben, nicht vom erwarteten abgeschrieben</td></tr>
+<tr><td>Befund</td><td>Bestanden oder nicht bestanden, mit einem Schluss daraus</td></tr>
+</table>
+<p>Die Durchführung, Aufgabe 7, heisst: tatsächliches Ergebnis und Befund sind bei allen vier Testfällen ausgefüllt.</p>
+<div class="warn"><p>Ein erwartetes Ergebnis wie <i>es funktioniert</i>. Und ein tatsächliches Ergebnis, das wortgleich mit dem erwarteten ist.</p></div>
+<div class="tip"><p><b>Mehr dazu:</b> <a href="08d.html">Auftrag 08D</a>, <a href="08d-loesung.html">Lösung 08D</a></p></div>
+
+<h2 id="code">Der Code, 26 Punkte</h2>
+
+<p>Die Beispiele stammen aus der Einkaufsliste aus 09A. Es sind Ausschnitte, die ganzen Dateien stehen im Lösungsmaterial von 09A.</p>
+
+<h3 id="projekt">Das Projekt anlegen <span class="time">1 Punkt</span></h3>
+<p><code>File</code>, <code>New</code>, <code>New Project</code> mit der Vorlage <b>Empty Views Activity</b>, nicht Empty Activity, die ist Compose. Sprache Java, <b>Minimum SDK API 26</b>, das ist Android 8 und der Punkt für die Kompatibilität. Warte, bis unten kein Fortschrittsbalken mehr läuft.</p>
+<p>Dann Room eintragen: die Version und zwei Bibliotheken in den Katalog, zwei Zeilen in die längere <code>build.gradle.kts</code> mit dem Block <code>dependencies</code>. Danach <code>Sync Now</code>.</p>
+<pre><span class="c"># gradle/libs.versions.toml</span>
+[versions]
+room = "2.8.4"
+[libraries]
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }</pre>
+<pre><span class="c">// app/build.gradle.kts, im Block dependencies</span>
+implementation(libs.room.runtime)
+annotationProcessor(libs.room.compiler)</pre>
+<div class="warn"><p><code>annotationProcessor</code>, nicht <code>ksp</code> oder <code>kapt</code>, die zwei sind für Kotlin. Und den Vorschlag, das Android Gradle Plugin zu aktualisieren, klickst du weg.</p></div>
+<div class="tip"><p><b>Mehr dazu:</b> <a href="07c.html">Auftrag 07C</a>, <a href="09a-loesung.html">Lösung 09A</a></p></div>
+
+<h3 id="insets">Die Vorlage und der Insets-Block</h3>
+<p>Die Vorlage schreibt in <code>onCreate</code> einen Block, der Platz für Status- und Navigationsleiste schafft. Er sucht das Root-Element über seine id, in einer neuen Activity heisst sie <code>main</code>, und setzt dort das Padding.</p>
+<pre><span class="t">EdgeToEdge</span>.enable(<span class="k">this</span>);
+setContentView(<span class="t">R</span>.layout.activity_main);
+<span class="t">ViewCompat</span>.setOnApplyWindowInsetsListener(findViewById(<span class="t">R</span>.<span class="v">id</span>.clMain), (v, insets) -&gt; {
+    <span class="t">Insets</span> systemBars = insets.getInsets(<span class="t">WindowInsetsCompat</span>.<span class="t">Type</span>.systemBars());
+    v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+    <span class="k">return</span> insets;
+});</pre>
+<div class="warn"><p>Das Root-Element stehen lassen und die ScrollView hineinlegen. Wer es ersetzt, verliert die id, und das Projekt baut nicht mehr. Ein Padding am Root-Element überschreibt der Block, den seitlichen Rand setzt du darum an die Elemente darin.</p></div>
+<div class="tip"><p><b>Mehr dazu:</b> <a href="constraints.html#s09">Constraints verstehen, Abschnitt 09</a>, <a href="09a.html">Auftrag 09A</a></p></div>
+
+<h3 id="entity">Die Entity <span class="time">4 Punkte, zusammen mit Dao und Datenbank</span></h3>
+<p>Die Klasse ist die Tabelle. <code>@Entity</code> mit dem Tabellennamen, ein Primärschlüssel, den Room selbst vergibt, und Getter und Setter für jedes Feld. Optionale Felder bekommen die Hüllklassen <code>Integer</code> und <code>Double</code>, damit sie <code>null</code> sein können.</p>
+<pre><span class="a">@Entity</span>(tableName = <span class="s">"shopping_items"</span>)
+<span class="k">public</span> <span class="k">class</span> <span class="t">ShoppingItem</span> {
+
+    <span class="a">@PrimaryKey</span>(autoGenerate = <span class="k">true</span>)
+    <span class="k">private</span> <span class="k">int</span> <span class="v">id</span>;
+
+    <span class="k">private</span> <span class="t">String</span> <span class="v">article</span>;
+    <span class="k">private</span> <span class="t">String</span> <span class="v">shop</span>;
+    <span class="k">private</span> <span class="t">Integer</span> <span class="v">quantity</span>;
+
+    <span class="a">@ColumnInfo</span>(name = <span class="s">"price_per_unit"</span>)
+    <span class="k">private</span> <span class="t">Double</span> <span class="v">pricePerUnit</span>;
+
+    <span class="l">// Getter und Setter für jedes Feld, jeder mit Javadoc</span>
+}</pre>
+<div class="warn"><p>Nach einer Änderung an der Entity stürzt die App mit einer Meldung zum Schema ab. Kein Fehler im Code: App-Info auf dem Gerät, Clear storage, neu starten.</p></div>
+<div class="tip"><p><b>Mehr dazu:</b> <a href="room.html#s03">Room verstehen, Abschnitt 03</a>, <a href="daten.html#s04">Wo deine App ihre Daten ablegt, Abschnitt 04</a>, <a href="07c.html">Auftrag 07C</a></p></div>
+
+<h3 id="dao">Das Dao</h3>
+<p>Ein Interface mit <code>@Dao</code> und sechs Methoden: anlegen, ändern, löschen, alle holen, eine holen, zählen. In <code>@Query</code> steht der Tabellenname, nicht der Klassenname. Room baut die Methoden dahinter beim Bauen der App.</p>
+<pre><span class="a">@Dao</span>
+<span class="k">public</span> <span class="k">interface</span> <span class="t">ShoppingItemDao</span> {
+    <span class="a">@Insert</span>
+    <span class="k">long</span> <span class="m">insert</span>(<span class="t">ShoppingItem</span> item);
+    <span class="a">@Update</span>
+    <span class="k">void</span> <span class="m">update</span>(<span class="t">ShoppingItem</span> item);
+    <span class="a">@Delete</span>
+    <span class="k">void</span> <span class="m">delete</span>(<span class="t">ShoppingItem</span> item);
+    <span class="a">@Query</span>(<span class="s">"SELECT * FROM shopping_items ORDER BY shop, article"</span>)
+    <span class="t">List</span>&lt;<span class="t">ShoppingItem</span>&gt; <span class="m">getAll</span>();
+    <span class="a">@Query</span>(<span class="s">"SELECT * FROM shopping_items WHERE id = :id"</span>)
+    <span class="t">ShoppingItem</span> <span class="m">findById</span>(<span class="k">int</span> <span class="v">id</span>);
+    <span class="a">@Query</span>(<span class="s">"SELECT COUNT(*) FROM shopping_items"</span>)
+    <span class="k">int</span> <span class="m">count</span>();
+}</pre>
+<div class="warn"><p><code>cannot find symbol</code> bei <code>ShoppingDatabase_Impl</code> heisst nur, dass noch nicht gebaut wurde. Room meldet sich erst beim Bauen, also <code>Ctrl+F9</code>, und die erste Meldung ganz lesen.</p></div>
+<div class="tip"><p><b>Mehr dazu:</b> <a href="room.html#s03">Room verstehen, Abschnitt 03</a>, <a href="07c.html">Auftrag 07C</a></p></div>
+
+<h3 id="datenbank">Die Datenbank und der Startbestand</h3>
+<p>Eine abstrakte Klasse mit <code>@Database</code>, genau einem Feld <code>instance</code> und der Methode <code>getInstance</code>. <code>allowMainThreadQueries</code> ist in diesem Kurs eine bewusste Entscheidung. Der Startbestand füllt die Tabelle nur, wenn sie leer ist.</p>
+<pre><span class="a">@Database</span>(entities = {<span class="t">ShoppingItem</span>.<span class="k">class</span>}, version = 1, exportSchema = <span class="k">false</span>)
+<span class="k">public</span> <span class="k">abstract</span> <span class="k">class</span> <span class="t">ShoppingDatabase</span> <span class="k">extends</span> <span class="t">RoomDatabase</span> {
+
+    <span class="k">private</span> <span class="k">static</span> <span class="t">ShoppingDatabase</span> <span class="v">instance</span>;
+
+    <span class="k">public</span> <span class="k">abstract</span> <span class="t">ShoppingItemDao</span> <span class="m">shoppingItemDao</span>();
+
+    <span class="k">public</span> <span class="k">static</span> <span class="k">synchronized</span> <span class="t">ShoppingDatabase</span> <span class="m">getInstance</span>(<span class="t">Context</span> context) {
+        <span class="k">if</span> (<span class="v">instance</span> == <span class="k">null</span>) {
+            <span class="t">Context</span> appContext = context.getApplicationContext();
+            <span class="v">instance</span> = <span class="t">Room</span>.databaseBuilder(appContext, <span class="t">ShoppingDatabase</span>.<span class="k">class</span>, <span class="v">DB_NAME</span>)
+                    .allowMainThreadQueries()
+                    .build();
+            seedIfEmpty();
+        }
+        <span class="k">return</span> <span class="v">instance</span>;
+    }
+
+    <span class="k">private</span> <span class="k">static</span> <span class="k">void</span> <span class="m">seedIfEmpty</span>() {
+        <span class="t">ShoppingItemDao</span> dao = <span class="v">instance</span>.shoppingItemDao();
+        <span class="k">int</span> existing = dao.count();
+        <span class="k">if</span> (existing &gt; 0) {
+            <span class="k">return</span>;
+        }
+        dao.insert(newItem(<span class="s">"Vollkornbrot"</span>, <span class="s">"Migros"</span>, 2, 3.80));
+        dao.insert(newItem(<span class="s">"Zahnpasta"</span>, <span class="s">"Coop"</span>, <span class="k">null</span>, <span class="k">null</span>));
+    }
+}</pre>
+<div class="warn"><p>Ohne die Prüfung mit <code>count()</code> kommen bei jedem Start neue Einträge dazu. Nach dem Ergänzen zusätzlich Clear storage, sonst bleiben die doppelten stehen.</p></div>
+<div class="tip"><p><b>Mehr dazu:</b> <a href="room.html#s04">Room verstehen, Abschnitt 04</a>, <a href="07c.html">Auftrag 07C</a>, <a href="08a.html">Auftrag 08A</a></p></div>
+
+<h3 id="liste">Die Liste zu Fuss <span class="time">2 Punkte</span></h3>
+<p>Für eine kurze Liste der Weg ohne Adapter. Im Layout eine ScrollView, darin ein leeres LinearLayout mit einer id. Im Code eine Methode, die für jeden Eintrag eine Zeile aus dem Zeilenlayout baut. Der RecyclerView mit Adapter ist der Weg für lange Listen und gibt dieselben Punkte.</p>
+<pre><span class="k">private</span> <span class="k">void</span> <span class="m">buildItemList</span>(<span class="t">List</span>&lt;<span class="t">ShoppingItem</span>&gt; items) {
+    <span class="v">llItems</span>.removeAllViews();
+    <span class="t">LayoutInflater</span> inflater = <span class="t">LayoutInflater</span>.from(<span class="k">this</span>);
+    <span class="k">for</span> (<span class="t">ShoppingItem</span> item : items) {
+        <span class="t">View</span> row = inflater.inflate(<span class="t">R</span>.layout.item_shopping, <span class="v">llItems</span>, <span class="k">false</span>);
+        <span class="t">TextView</span> tvArticle = row.findViewById(<span class="t">R</span>.<span class="v">id</span>.tvArticle);
+        tvArticle.setText(item.getArticle());
+        <span class="v">llItems</span>.addView(row);
+    }
+}</pre>
+<div class="warn"><p>Ohne <code>removeAllViews</code> wird die Liste bei jedem Laden länger. Mit <code>true</code> beim <code>inflate</code> kommt <i>The specified child already has a parent</i>. Und <code>findViewById</code> ohne <code>row.</code> davor liefert <code>null</code>.</p></div>
+<div class="tip"><p><b>Mehr dazu:</b> <a href="listen.html#s05">Listen verstehen, Abschnitt 05</a>, <a href="listen.html#s07">Listen verstehen, Abschnitt 07</a>, <a href="04b.html">Auftrag 04B</a>, <a href="06c.html">Auftrag 06C</a></p></div>
+
+<h3 id="wert-rechts">Der berechnete Wert rechts <span class="time">1 Punkt</span></h3>
+<p>Der Wert wird beim Bauen der Zeile gerechnet und nie gespeichert. Er steht nur da, wenn beide Werte da sind, sonst bleibt das Feld leer. Das Format kommt aus <code>strings.xml</code>, <code>%1$.2f</code> heisst zwei Stellen nach dem Punkt.</p>
+<pre><span class="k">if</span> (item.getQuantity() != <span class="k">null</span> &amp;&amp; item.getPricePerUnit() != <span class="k">null</span>) {
+    <span class="k">double</span> amount = item.getQuantity() * item.getPricePerUnit();
+    tvAmount.setText(getString(<span class="t">R</span>.string.amount_format, amount));
+} <span class="k">else</span> {
+    tvAmount.setText(<span class="s">""</span>);
+}</pre>
+<pre>&lt;<span class="g">string</span> name=<span class="s">"amount_format"</span>&gt;%1$.2f CHF&lt;/<span class="g">string</span>&gt;</pre>
+<div class="warn"><p><code>0.00</code> bei fehlenden Werten sieht aus, als koste der Eintrag nichts. Und ohne die <code>.2</code> im Platzhalter stehen zehn Stellen nach dem Punkt.</p></div>
+<div class="tip"><p><b>Mehr dazu:</b> <a href="07b.html">Auftrag 07B</a>, <a href="ressourcen.html#s07">Ressourcen und R, Abschnitt 07</a></p></div>
+
+<h3 id="bildschirm">Ein zweiter Bildschirm</h3>
+<p>Eine neue Activity legst du mit <code>New</code>, <code>Activity</code>, <code>Empty Views Activity</code> an. Das erzeugt Klasse, Layout und den Eintrag im Manifest zusammen. Hin geht es mit einem Intent, zurück mit <code>finish()</code>.</p>
+<pre><span class="t">FloatingActionButton</span> fabNew = findViewById(<span class="t">R</span>.<span class="v">id</span>.fabNew);
+fabNew.setOnClickListener(v -&gt; <span class="m">startActivity</span>(<span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">ItemEditActivity</span>.<span class="k">class</span>)));</pre>
+<div class="warn"><p>Den <code>intent-filter</code> mit MAIN und LAUNCHER hat nur die Startseite. Wer ihn in die zweite Activity kopiert, bekommt zwei Symbole im App-Menü.</p></div>
+<div class="tip"><p><b>Mehr dazu:</b> <a href="wechsel.html#s03">Bildschirme wechseln, Abschnitt 03</a>, <a href="wechsel.html#s09">Bildschirme wechseln, Abschnitt 09</a>, <a href="05a.html">Auftrag 05A</a></p></div>
+
+<h3 id="onresume">onCreate und onResume</h3>
+<p><code>onCreate</code> richtet ein: Layout, <code>findViewById</code>, Listener. <code>onResume</code> läuft jedes Mal, wenn der Bildschirm erscheint, beim ersten Start direkt nach <code>onCreate</code> und nach jeder Rückkehr von einem anderen Bildschirm. <b>Daten, die ein anderer Bildschirm ändern kann, lädst du darum dort und nur dort.</b></p>
+<pre><span class="a">@Override</span>
+<span class="k">protected</span> <span class="k">void</span> <span class="m">onResume</span>() {
+    <span class="k">super</span>.onResume();
+    loadItems();
+}</pre>
+<div class="warn"><p>Nur in <code>onCreate</code> geladen: ein neuer Eintrag erscheint erst nach einem Neustart. An beiden Stellen geladen: die Liste wird bei jedem Start zweimal gebaut.</p></div>
+<div class="tip"><p><b>Mehr dazu:</b> <a href="activity.html#s02">Die Activity von innen, Abschnitt 02</a>, <a href="wechsel.html#s02">Bildschirme wechseln, Abschnitt 02</a>, <a href="08a.html">Auftrag 08A</a></p></div>
+
+<h3 id="formular">Das Formular <span class="time">4 und 2 Punkte</span></h3>
+<p>Jedes Feld ist ein <code>TextInputLayout</code> mit einem <code>TextInputEditText</code> darin. Die Beschriftung steht als <code>hint</code> in <code>strings.xml</code>. <b>Der <code>inputType</code> entscheidet über die Tastatur</b> und ist eine eigene Zeile im Raster.</p>
+<table>
+<tr><th>Feld</th><th>inputType</th></tr>
+<tr><td>Text, zum Beispiel Artikel und Laden</td><td><code>textCapSentences</code> oder <code>text</code></td></tr>
+<tr><td>Ganze Zahl, zum Beispiel die Menge</td><td><code>number</code></td></tr>
+<tr><td>Kommazahl, zum Beispiel der Preis</td><td><code>numberDecimal</code></td></tr>
+</table>
+<pre>&lt;<span class="g">com.google.android.material.textfield.TextInputLayout</span>
+    android:id=<span class="s">"@+id/tilQuantity"</span>
+    android:layout_width=<span class="s">"match_parent"</span>
+    android:layout_height=<span class="s">"wrap_content"</span>
+    android:hint=<span class="s">"@string/hint_quantity"</span>&gt;
+
+    &lt;<span class="g">com.google.android.material.textfield.TextInputEditText</span>
+        android:id=<span class="s">"@+id/etQuantity"</span>
+        android:layout_width=<span class="s">"match_parent"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:inputType=<span class="s">"number"</span>
+        android:maxLines=<span class="s">"1"</span> /&gt;
+&lt;/<span class="g">com.google.android.material.textfield.TextInputLayout</span>&gt;</pre>
+<p>Beim Speichern wird ein leeres Feld zu <code>null</code>, nicht zu <code>0</code>. Danach <code>insert</code> und <code>finish()</code>.</p>
+<pre>item.setQuantity(text(<span class="v">etQuantity</span>).isEmpty() ? <span class="k">null</span> : <span class="t">Integer</span>.valueOf(text(<span class="v">etQuantity</span>)));</pre>
+<div class="warn"><p>Alle Felder mit <code>inputType</code> text. Die App läuft, und die zwei Punkte für die optimierten Felder sind trotzdem weg.</p></div>
+<div class="tip"><p><b>Mehr dazu:</b> <a href="06b.html">Auftrag 06B</a>, <a href="08b.html">Auftrag 08B</a></p></div>
+
+<h3 id="validierung">Fehleingaben abfangen <span class="time">4 Punkte</span></h3>
+<ul><li>Zuerst alle alten Meldungen mit <code>setError(null)</code> entfernen.</li><li>Alle Felder prüfen und das Ergebnis in einer Variablen sammeln, <b>nicht beim ersten Fehler zurückkehren</b>.</li><li>Die Meldung steht am <code>TextInputLayout</code>, nicht in einem Toast.</li><li>Pflichtfelder mit <code>trim</code> und <code>length</code>. Optionale Zahlenfelder mit <code>parseInt</code> oder <code>parseDouble</code> in einem <code>try</code>.</li></ul>
+<pre><span class="k">private</span> <span class="k">boolean</span> <span class="m">isValid</span>() {
+    <span class="v">tilArticle</span>.setError(<span class="k">null</span>);
+    <span class="v">tilPrice</span>.setError(<span class="k">null</span>);
+
+    <span class="k">boolean</span> valid = <span class="k">true</span>;
+
+    <span class="k">if</span> (text(<span class="v">etArticle</span>).length() &lt; <span class="v">MIN_LENGTH</span>) {
+        <span class="v">tilArticle</span>.setError(getString(<span class="t">R</span>.string.error_too_short, <span class="v">MIN_LENGTH</span>));
+        valid = <span class="k">false</span>;
+    }
+
+    <span class="t">String</span> price = text(<span class="v">etPrice</span>);
+    <span class="k">if</span> (!price.isEmpty()) {
+        <span class="k">try</span> {
+            <span class="t">Double</span>.parseDouble(price);
+        } <span class="k">catch</span> (<span class="t">NumberFormatException</span> e) {
+            <span class="v">tilPrice</span>.setError(getString(<span class="t">R</span>.string.error_number));
+            valid = <span class="k">false</span>;
+        }
+    }
+    <span class="k">return</span> valid;
+}</pre>
+<p>Der Speichern-Knopf ruft zuerst diese Methode auf und macht nichts, wenn sie <code>false</code> liefert.</p>
+<div class="warn"><p>Ein einzelner Punkt passt durch <code>numberDecimal</code>, ist aber keine Zahl. Ohne das <code>try</code> stürzt die App beim Speichern ab.</p></div>
+<div class="tip"><p><b>Mehr dazu:</b> <a href="06b.html">Auftrag 06B</a>, <a href="08b.html">Auftrag 08B</a></p></div>
+
+<h3 id="bearbeiten">Einen Eintrag ändern <span class="time">4 Punkte</span></h3>
+<p>Dieselbe Activity legt an und ändert. Die Zeile gibt beim Antippen die id mit, das Formular holt sie mit <code>-1</code> als Standardwert. Ist es eine echte id, lädt es den Eintrag und füllt die Felder. <b>Beim Speichern entscheidet die id zwischen <code>insert</code> und <code>update</code>.</b></p>
+<pre><span class="l">// MainActivity, in der Bau-Methode</span>
+row.setOnClickListener(v -&gt; {
+    <span class="t">Intent</span> intent = <span class="k">new</span> <span class="t">Intent</span>(<span class="k">this</span>, <span class="t">ItemEditActivity</span>.<span class="k">class</span>);
+    intent.putExtra(<span class="t">ItemEditActivity</span>.<span class="v">EXTRA_ITEM_ID</span>, <span class="v">id</span>);
+    startActivity(intent);
+});
+
+<span class="l">// ItemEditActivity, beim Start</span>
+<span class="v">itemId</span> = getIntent().getIntExtra(<span class="v">EXTRA_ITEM_ID</span>, <span class="v">NO_ID</span>);
+
+<span class="l">// beim Füllen der Felder</span>
+<span class="k">if</span> (item.getQuantity() != <span class="k">null</span>) {
+    <span class="v">etQuantity</span>.setText(<span class="t">String</span>.valueOf(item.getQuantity()));
+}
+
+<span class="l">// beim Speichern</span>
+<span class="k">if</span> (<span class="v">itemId</span> == <span class="v">NO_ID</span>) {
+    <span class="k">long</span> newId = dao().insert(item);
+} <span class="k">else</span> {
+    item.setId(<span class="v">itemId</span>);
+    dao().update(item);
+}</pre>
+<div class="warn"><p>Immer <code>insert</code>: beim Ändern entsteht eine zweite Zeile, und nichts stürzt ab. <code>String.valueOf</code> auf <code>null</code>: im Feld steht das Wort null. Der Schlüssel zweimal getippt statt als Konstante: das Formular bleibt beim Antippen leer.</p></div>
+<div class="tip"><p><b>Mehr dazu:</b> <a href="08c.html">Auftrag 08C</a>, <a href="wechsel.html#s06">Bildschirme wechseln, Abschnitt 06</a></p></div>
+
+<h3 id="querformat">Querformat und Displaygrössen <span class="time">2 Punkte</span></h3>
+<p>Um die Liste und um das Formular kommt eine ScrollView, <b>von Anfang an</b>. Im Hochformat sieht man den Fehler nie. In einem ConstraintLayout hat die ScrollView die Höhe <code>0dp</code> und ist oben und unten verbunden. Liegt ein FloatingActionButton darüber, braucht sie unten Platz.</p>
+<pre>&lt;<span class="g">ScrollView</span>
+    android:id=<span class="s">"@+id/svItems"</span>
+    android:layout_width=<span class="s">"0dp"</span>
+    android:layout_height=<span class="s">"0dp"</span>
+    android:clipToPadding=<span class="s">"false"</span>
+    android:paddingBottom=<span class="s">"88dp"</span>
+    app:layout_constraintBottom_toBottomOf=<span class="s">"parent"</span>
+    app:layout_constraintTop_toBottomOf=<span class="s">"@id/tvTitle"</span>&gt;</pre>
+<p>So prüfst du: Gerät drehen und ganz nach unten scrollen. Dazu einmal ein kleines Gerät aus dem Geräte-Manager.</p>
+<div class="warn"><p><code>wrap_content</code> statt <code>0dp</code>, oder die Verbindung nach unten fehlt. Im Querformat ist die Liste dann unten abgeschnitten und lässt sich nicht scrollen.</p></div>
+<div class="tip"><p><b>Mehr dazu:</b> <a href="layouts.html#s06">Layouts verstehen, Abschnitt 06</a>, <a href="constraints.html#s02">Constraints verstehen, Abschnitt 02</a>, <a href="02b.html">Auftrag 02B</a></p></div>
+
+<h3 id="texte">Texte in strings.xml</h3>
+<p>Jeder sichtbare Text steht in <code>strings.xml</code>, auch die Fehlermeldungen. Werte kommen über Platzhalter hinein: <code>%1$d</code> für eine ganze Zahl, <code>%1$.2f</code> für eine Kommazahl mit zwei Stellen.</p>
+<pre>&lt;<span class="g">string</span> name=<span class="s">"error_too_short"</span>&gt;Pflichtfeld, mindestens %1$d Zeichen&lt;/<span class="g">string</span>&gt;</pre>
+<pre><span class="v">tilArticle</span>.setError(getString(<span class="t">R</span>.string.error_too_short, <span class="v">MIN_LENGTH</span>));</pre>
+<div class="tip"><p><b>Mehr dazu:</b> <a href="ressourcen.html#s06">Ressourcen und R, Abschnitt 06</a>, <a href="ressourcen.html#s07">Ressourcen und R, Abschnitt 07</a></p></div>
+
+<h3 id="javadoc">Javadoc <span class="time">2 Punkte</span></h3>
+<p>Jede Klasse, jedes Feld und jede Methode bekommt einen Kommentar mit <code>/** */</code>, auch Getter und Setter. In eigenen Worten, nicht der Methodenname als Satz. Parameter mit <code>@param</code>, Rückgabewerte mit <code>@return</code>. <b>Schreib es beim Schreiben</b>, am Schluss fehlt die Zeit.</p>
+<pre><span class="c">/**
+ * Liefert einen einzelnen Eintrag.
+ *
+ * Wird beim Bearbeiten gebraucht, um das Formular zu füllen.
+ *
+ * @param id die Nummer des Eintrags
+ * @return der Eintrag, oder null wenn es ihn nicht gibt
+ */</span>
+<span class="a">@Query</span>(<span class="s">"SELECT * FROM shopping_items WHERE id = :id"</span>)
+<span class="t">ShoppingItem</span> <span class="m">findById</span>(<span class="k">int</span> <span class="v">id</span>);</pre>
+<div class="warn"><p><code>Alt+Insert</code> erzeugt Getter und Setter ohne Javadoc. Bei fünf Feldern sind das zehn Methoden auf einen Schlag.</p></div>
+<div class="tip"><p><b>Mehr dazu:</b> <a href="09a.html">Auftrag 09A</a></p></div>
+
+<h2 id="fehler">Wenn etwas nicht funktioniert</h2>
+
+<p>Das Symptom links, die häufigste Ursache in der Mitte, rechts die Karte mit der Lösung.</p>
+
+<h3 id="fehlertabelle">Symptom, Ursache, Karte</h3>
+<table>
+<tr><th>Symptom</th><th>Wahrscheinliche Ursache</th><th>Siehe</th></tr>
+<tr><td><code>cannot find symbol</code> bei <code>ShoppingDatabase_Impl</code></td><td>Noch nicht gebaut</td><td><a href="#dao">Das Dao</a></td></tr>
+<tr><td>Die App stürzt beim Start ab, Room spricht vom Schema</td><td>Die Entity wurde nach dem ersten Start geändert</td><td><a href="#entity">Die Entity</a></td></tr>
+<tr><td>Nach dem zweiten Start stehen doppelt so viele Einträge da</td><td>Die Prüfung mit <code>count()</code> fehlt</td><td><a href="#datenbank">Die Datenbank</a></td></tr>
+<tr><td>Die Liste wird bei jedem Laden länger</td><td><code>removeAllViews</code> fehlt</td><td><a href="#liste">Die Liste</a></td></tr>
+<tr><td><i>The specified child already has a parent</i></td><td><code>inflate</code> mit <code>true</code></td><td><a href="#liste">Die Liste</a></td></tr>
+<tr><td><code>NullPointerException</code> beim <code>setText</code></td><td><code>findViewById</code> statt <code>row.findViewById</code>, oder eine falsche id</td><td><a href="#liste">Die Liste</a></td></tr>
+<tr><td>Bei fehlenden Werten steht <code>0.00</code></td><td>Die Prüfung auf <code>null</code> fehlt, oder die Felder sind <code>int</code> und <code>double</code></td><td><a href="#wert-rechts">Der Wert rechts</a></td></tr>
+<tr><td>Zehn Stellen nach dem Punkt</td><td>Der Platzhalter hat keine <code>.2</code></td><td><a href="#wert-rechts">Der Wert rechts</a></td></tr>
+<tr><td>Ein neuer Eintrag erscheint erst nach einem Neustart</td><td>Die Liste wird nicht in <code>onResume</code> geladen</td><td><a href="#onresume">onResume</a></td></tr>
+<tr><td><code>NumberFormatException</code> beim Speichern</td><td>Ein leeres Feld wird umgewandelt, oder im Feld steht keine Zahl</td><td><a href="#formular">Das Formular</a>, <a href="#validierung">Fehleingaben</a></td></tr>
+<tr><td>Eine Meldung bleibt stehen, obwohl das Feld jetzt stimmt</td><td><code>setError(null)</code> fehlt am Anfang</td><td><a href="#validierung">Fehleingaben</a></td></tr>
+<tr><td>Nur das erste falsche Feld wird markiert</td><td>Die Prüfmethode kehrt beim ersten Fehler zurück</td><td><a href="#validierung">Fehleingaben</a></td></tr>
+<tr><td>Beim Ändern entsteht eine zweite Zeile</td><td>Es läuft immer <code>insert</code></td><td><a href="#bearbeiten">Ändern</a></td></tr>
+<tr><td>Beim Antippen einer Zeile ist das Formular leer</td><td>Der Schlüssel bei <code>putExtra</code> und <code>getIntExtra</code> ist nicht derselbe</td><td><a href="#bearbeiten">Ändern</a></td></tr>
+<tr><td>Im Feld steht das Wort null</td><td><code>String.valueOf</code> auf einen leeren Wert</td><td><a href="#bearbeiten">Ändern</a></td></tr>
+<tr><td><code>cannot find symbol</code> bei <code>R.id.main</code></td><td>Die ScrollView hat das Root-Element ersetzt</td><td><a href="#insets">Der Insets-Block</a></td></tr>
+<tr><td>Im Querformat ist unten etwas abgeschnitten</td><td>ScrollView fehlt, <code>wrap_content</code> statt <code>0dp</code>, oder die Verbindung nach unten fehlt</td><td><a href="#querformat">Querformat</a></td></tr>
+<tr><td>Nach dem AGP Upgrade Assistant baut nichts mehr</td><td>Der Assistent hat die Bau-Dateien geändert</td><td><code>Ctrl+Z</code> oder das Projekt neu anlegen</td></tr>
+<tr><td>Der Emulator bleibt schwarz oder startet nicht</td><td>Kein Fehler in deinem Code</td><td><a href="emulator.html#s02">Emulator streikt, Abschnitt 02</a></td></tr>
+</table>
+<div class="tip"><p><b>Mehr dazu:</b> <a href="09a.html">Auftrag 09A</a></p></div>
+
+<!--M335:WEITER-->
+<nav class="weiter"><a class="zurueck" href="09a-loesung.html"><span>Zurück</span>09A Lösung</a><a class="vor" href="apps.html"><span>Weiter</span>Wie Apps aufgebaut sind</a></nav>
+<!--/M335:WEITER-->
+<p class="foot">Modul 335 | Nachschlagen | Das Modul auf einen Blick | Version 1 | 16.09.2026</p>
+
+</div>
+<!--M335:RAHMEN-FUSS-->
+<footer class="site-footer"><div class="in">
+<span class="brand"><svg width="15" height="15" viewBox="0 0 512 512" aria-hidden="true"><rect x="10" y="10" width="492" height="492" fill="none" stroke="#898781" stroke-width="34"/><line x1="342" y1="10" x2="342" y2="502" stroke="#898781" stroke-width="20"/><line x1="180" y1="118" x2="180" y2="305" stroke="#898781" stroke-width="20" stroke-linecap="square"/><line x1="44" y1="392" x2="190" y2="392" stroke="#898781" stroke-width="20" stroke-linecap="square"/></svg>Modul 335 Mobile Applikationen</span>
+</div></footer>
+<script>
+/* ------------------------------------------------------------------
+   M335: die Leseposition merken.
+
+   Warum: wer von der Startseite ein Blatt oeffnet und danach den
+   Zurueck-Knopf drueckt, landet sonst wieder ganz oben. Auf Vercel
+   liegt zwischen Klick und Seite eine Weiterleitung, und dabei geht
+   die Position des Browsers verloren.
+
+   Gemerkt wird nur in sessionStorage, also nur fuer dieses Fenster.
+   Nichts wird gesendet, nichts bleibt liegen.
+   ------------------------------------------------------------------ */
+(function () {
+  var schluessel = 'm335-pos:' + location.pathname;
+
+  function merken() {
+    try { sessionStorage.setItem(schluessel, String(window.scrollY)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', merken);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    merken();
+    // Der Weg zurueck zur Startseite ist fuer den Browser ein ganz
+    // normaler Klick nach vorn, er stellt dort nichts wieder her.
+    // Darum setzen wir eine Fahne, die die naechste Seite abholt.
+    if (a.classList.contains('back') || a.classList.contains('brand')) {
+      try { sessionStorage.setItem('m335-zurueck', '1'); } catch (e2) {}
+    }
+  }, true);
+
+  // Wiederhergestellt wird bei Zurueck und Vorwaerts, und wenn die
+  // Fahne von der Uebersicht-Schaltflaeche gesetzt ist. Ein frisch
+  // geoeffnetes Blatt faengt oben an, so wie es soll.
+  try {
+    var art   = (performance.getEntriesByType('navigation')[0] || {}).type;
+    var fahne = sessionStorage.getItem('m335-zurueck') === '1';
+    sessionStorage.removeItem('m335-zurueck');
+    if (art !== 'back_forward' && !fahne) return;
+    var wert = parseInt(sessionStorage.getItem(schluessel) || '0', 10);
+    if (!wert) return;
+    window.addEventListener('load', function () {
+      if (window.scrollY < 10) window.scrollTo(0, wert);
+    });
+  } catch (e) {}
+})();
+
+/* ------------------------------------------------------------------
+   M335: schwebendes Inhaltsverzeichnis und Auftragskarte.
+
+   Warum hier und nicht als eigene Datei: dieser Baustein geht ueber
+   web-bau/rahmen/fuss.html in jede Seite. Inline heisst, dass bauen.js
+   nichts Zusaetzliches kopieren muss.
+
+   Zwei Faelle:
+     Startseite   nimmt die sechs Links aus .schnellnav und baut daraus
+                  dasselbe schwebende Verzeichnis. Keine Auftragskarte.
+     Auftragsseite markiert Teil A bis C, vergibt jeder Ueberschrift eine
+                  id, baut oben die Auftragskarte und daneben das Verzeichnis.
+
+   Das Aussehen steht in web-bau/stil/rahmen.css unter m335-nav.
+   ------------------------------------------------------------------ */
+(function () {
+  var wrap = document.querySelector('.wrap');
+  if (!wrap) return;
+
+  var text = function (el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); };
+  var esc  = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+
+  // Die Startseite ist daran zu erkennen, dass ihr der Rueckweg im Kopf fehlt.
+  var istStart = !document.querySelector('.site-header .back');
+  var eintraege = [];
+
+  if (istStart) {
+    // ------------------------------------------------------------ Startseite
+    var schnell = wrap.querySelector('.schnellnav');
+    if (!schnell) return;
+    [].slice.call(schnell.querySelectorAll('a')).forEach(function (a) {
+      var ziel = document.getElementById(a.getAttribute('href').slice(1));
+      if (ziel) eintraege.push({ el: ziel, text: text(a), stufe: 'n2' });
+    });
+    if (eintraege.length < 2) return;
+
+  } else {
+    // --------------------------------------------------------- Auftragsseite
+    var heads = [].slice.call(wrap.querySelectorAll('h2, h3'));
+
+    // 1 und 2: Teil A bis C markieren, jeder Ueberschrift eine id geben.
+    // Die Quellen haben keine.
+    var vergeben = {};
+    heads.forEach(function (h, i) {
+      if (h.tagName === 'H3' && /^Teil [A-Z]\b/.test(text(h))) h.classList.add('teil');
+      if (h.id) { vergeben[h.id] = true; return; }
+      var roh = text(h).toLowerCase()
+        .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+        .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+      var id = roh || ('abschnitt-' + i);
+      if (vergeben[id]) id = id + '-' + i;
+      vergeben[id] = true;
+      h.id = id;
+    });
+
+    // 3: Die Auftragskarte. Sie sagt in einem Bildschirm, wie lange der
+    // Auftrag dauert und aus welchen Teilen er besteht. Alles daran steht
+    // schon auf der Seite, die Karte stellt es nur neu zusammen.
+    var subs = [].slice.call(wrap.querySelectorAll('.sub'));
+    var bloecke = heads.filter(function (h) { return h.querySelector('.time'); });
+    var budget = '', zusatz = '';
+
+    subs.forEach(function (p) {
+      if (budget) return;
+      var m = p.innerHTML.match(/Zeitbudget\s+([^.<]+)\./);
+      if (!m) return;
+      var stuecke = m[1].split(/,\s*dazu\s*/);
+      budget = stuecke[0].trim();
+      if (stuecke[1]) zusatz = 'dazu ' + stuecke[1].trim();
+      p.innerHTML = p.innerHTML.replace(m[0], '').replace(/\s{2,}/g, ' ').trim();
+    });
+
+    if (budget || bloecke.length) {
+      var karte = document.createElement('div');
+      karte.className = 'karte';
+      var inhalt = '';
+      if (budget) {
+        inhalt += '<p class="zeit"><span class="pill">' + esc(budget) + '</span>';
+        if (zusatz) inhalt += '<span class="pill neben">' + esc(zusatz) + '</span>';
+        inhalt += '</p>';
+      }
+      if (bloecke.length) {
+        inhalt += '<p class="t">DAS MACHST DU</p><ol>';
+        bloecke.forEach(function (b) {
+          var uhr = b.querySelector('.time');
+          var min = uhr ? text(uhr) : '';
+          var t = text(b).replace(min, '').replace(/\s+/g, ' ').replace(/\s+,/g, ',').trim();
+          t = t.replace(/[,;]\s*$/, '');
+          var teil = t.match(/^([^,]+),\s*(.*)$/);
+          var wo = teil ? teil[1] : t;
+          var rest = teil ? teil[2] : '';
+          inhalt += '<li><a href="#' + b.id + '"><span class="wo">' + esc(wo) + '</span>'
+                  + (rest ? ' ' + esc(rest) : '') + '</a>'
+                  + '<span class="min">' + esc(min) + '</span></li>';
+        });
+        inhalt += '</ol>';
+      }
+      karte.innerHTML = inhalt;
+      // Steht oben ein Zielbild, gehoert die Karte darunter. Erst sehen, was
+      // entsteht, dann lesen, wie lange es dauert.
+      var anker = wrap.querySelector('figure.zielbild')
+                || (subs.length ? subs[subs.length - 1] : wrap.firstElementChild);
+      anker.parentNode.insertBefore(karte, anker.nextSibling);
+    }
+
+    // Unter vier Ueberschriften lohnt sich kein Verzeichnis.
+    if (heads.length < 4) return;
+    heads.forEach(function (h) {
+      eintraege.push({
+        el: h,
+        // Nur die Zeitmarke wegnehmen, nicht jede Zahl am Zeilenende.
+        // Sonst wird aus "Der Plan fuer die 45 Minuten" ein "Der Plan fuer die".
+        text: (function () {
+          var k = h.cloneNode(true);
+          Array.prototype.forEach.call(k.querySelectorAll('.time'), function (z) {
+            z.parentNode.removeChild(z);
+          });
+          return text(k);
+        })(),
+        stufe: h.tagName === 'H2' ? 'n2' : (h.classList.contains('teil') ? 'n3 teil' : 'n3')
+      });
+    });
+  }
+
+  // ---------------------------------------------------------------- 4
+  var nav = document.createElement('nav');
+  nav.className = 'm335-nav';
+  nav.setAttribute('aria-label', 'Inhalt dieser Seite');
+
+  var html = '<p class="kopfzeile">AUF DIESER SEITE</p>'
+           + '<button type="button" class="schliessen" aria-label="Verzeichnis schliessen">Schliessen</button><ol>';
+  eintraege.forEach(function (e) {
+    html += '<li class="' + e.stufe + '"><a href="#' + e.el.id + '">' + esc(e.text) + '</a></li>';
+  });
+  nav.innerHTML = html + '</ol>';
+
+  var knopf = document.createElement('button');
+  knopf.type = 'button';
+  knopf.className = 'm335-nav-knopf';
+  knopf.textContent = 'Inhalt';
+
+  document.body.appendChild(nav);
+  document.body.appendChild(knopf);
+
+  var links = [].slice.call(nav.querySelectorAll('a'));
+
+  // Breit: die Leiste steht fest am Rand. Schmal: sie liegt hinter dem Knopf.
+  var breit = window.matchMedia('(min-width: 1380px)');
+  function umschalten() {
+    if (breit.matches) {
+      nav.className = 'm335-nav seitlich';
+      nav.hidden = false;
+      knopf.style.display = 'none';
+    } else {
+      nav.className = 'm335-nav klappe';
+      nav.hidden = true;
+      knopf.style.display = '';
+    }
+  }
+  umschalten();
+  if (breit.addEventListener) breit.addEventListener('change', umschalten);
+  else if (breit.addListener) breit.addListener(umschalten);
+
+  knopf.addEventListener('click', function () { nav.hidden = !nav.hidden; });
+  nav.querySelector('.schliessen').addEventListener('click', function () { nav.hidden = true; });
+  nav.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && !breit.matches) nav.hidden = true;
+  });
+
+  // Welcher Abschnitt ist gerade dran. Gesucht ist der letzte Eintrag, der
+  // oberhalb der Lesekante liegt. Die Kante liegt knapp unter dem klebenden
+  // Kopfbereich.
+  var laeuft = false;
+  function markieren() {
+    laeuft = false;
+    var kante = 96, treffer = 0;
+    for (var i = 0; i < eintraege.length; i++) {
+      if (eintraege[i].el.getBoundingClientRect().top <= kante) treffer = i;
+      else break;
+    }
+    for (var j = 0; j < links.length; j++) links[j].classList.toggle('hier', j === treffer);
+    var a = links[treffer];
+    if (a && breit.matches) {
+      var r = a.getBoundingClientRect(), n = nav.getBoundingClientRect();
+      if (r.top < n.top + 8 || r.bottom > n.bottom - 8) a.scrollIntoView({ block: 'nearest' });
+    }
+  }
+  function anstossen() {
+    if (laeuft) return;
+    laeuft = true;
+    window.requestAnimationFrame(markieren);
+  }
+  window.addEventListener('scroll', anstossen, { passive: true });
+  window.addEventListener('resize', anstossen);
+  markieren();
+})();
+</script>
+<!--/M335:RAHMEN-FUSS-->
+</body>
+</html>

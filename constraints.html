@@ -116,11 +116,13 @@
 <h1>Constraints verstehen</h1>
 <p class="sub">M335 Mobile Applikationen &middot; Grundlagen zu Block 02 &middot; Alles, was du über Anker im ConstraintLayout wissen musst &middot; Fassung 3 vom 11.08.2026</p>
 
+<div class="tip"><p><b>Für die Prüfung:</b> die Kurzfassung steht in Das Modul auf einen Blick, bei <a href="blick.html#insets">Der Insets-Block</a>, <a href="blick.html#querformat">Querformat</a>.</p></div>
+
 <div class="card">
 <p style="margin:0"><b>Warum es eigene Unterlagen dafür braucht.</b> Beim ConstraintLayout ordnet das Layout deine Elemente nicht von selbst an. Jedes Element muss selbst sagen, woran es hängt. Das ist der Unterschied zu allen anderen Layouts und der Grund, warum am Anfang alles in der linken oberen Ecke landet. Wenn du diese Seite durch hast, weisst du, welche Angaben Pflicht sind, in welcher Reihenfolge du vorgehst und welche fünf Fragen du dir bei jedem Anker stellst.</p>
 </div>
 
-<h2><span class="num">1</span>Was ist bei welchem Element Pflicht</h2>
+<h2 id="s01"><span class="num">1</span>Was ist bei welchem Element Pflicht</h2>
 <p>Fehlt eine Pflichtangabe, passiert eines von zwei Dingen. Entweder das Projekt lässt sich nicht bauen, oder es baut sich und sieht dann falsch aus. Der zweite Fall ist der gemeinere.</p>
 
 <table>
@@ -161,7 +163,7 @@
 <p style="margin:0"><b>Der Editor lügt dich an.</b> Im Design-Tab bleibt ein Element dort liegen, wo du es hinschiebst, auch ohne Anker. Das ist reine Bequemlichkeit beim Bearbeiten. Startest du die App, wird das Element ohne Anker an Position 0,0 gezeichnet, also oben links. Wenn dein Layout im Editor gut aussieht und auf dem Gerät nicht, ist fast immer ein fehlender Anker die Ursache.</p>
 </div>
 
-<h2><span class="num">2</span>width und height, die drei Werte</h2>
+<h2 id="s02"><span class="num">2</span>width und height, die drei Werte</h2>
 <p>Beide Attribute nehmen dieselben Werte an. Du gibst sie für jede Achse getrennt an.</p>
 
 <div class="sizes">
@@ -188,7 +190,7 @@
 
 <p>Merksatz für den Alltag: <b>0dp ohne zwei Anker auf dieser Achse ergibt Breite null.</b> Das Element ist dann unsichtbar. Wenn etwas verschwindet, prüfe zuerst, ob du 0dp gesetzt, aber nur einen Anker vergeben hast.</p>
 
-<h2><span class="num">3</span>Die Kanten, an die du hängen kannst</h2>
+<h2 id="s03"><span class="num">3</span>Die Kanten, an die du hängen kannst</h2>
 
 <div class="edges">
   <span class="e top">Top</span>
@@ -210,7 +212,7 @@
 
 <p>Es gibt auch <code>Left</code> und <code>Right</code>. Benutze sie nicht. <code>Start</code> und <code>End</code> drehen sich in Sprachen mit anderer Leserichtung automatisch mit, <code>Left</code> und <code>Right</code> nicht. Android Studio warnt dich sogar, wenn du Left benutzt.</p>
 
-<h2><span class="num">4</span>Wie ein Anker aufgebaut ist</h2>
+<h2 id="s04"><span class="num">4</span>Wie ein Anker aufgebaut ist</h2>
 <p>Jeder Anker folgt demselben Muster. Lies ihn als Satz von links nach rechts.</p>
 
 <pre><code><span class="a">app:layout_constraint<span class="hl">Bottom</span>_to<span class="hl">Top</span>Of</span>=<span class="s">"@id/llButtons"</span>
@@ -231,7 +233,7 @@
 <span class="a">app:layout_constraintStart_toStartOf</span>=<span class="s">"parent"</span>
 <span class="a">app:layout_constraintEnd_toEndOf</span>=<span class="s">"parent"</span></code></pre>
 
-<h2><span class="num">5</span>Die Ankerkette, von aussen nach innen</h2>
+<h2 id="s05"><span class="num">5</span>Die Ankerkette, von aussen nach innen</h2>
 <p>Das ist die Regel, die im Unterricht am meisten Zeit spart.</p>
 
 <div class="note">
@@ -279,7 +281,7 @@
 
 <p>Wenn du im Code arbeitest, merkst du das kaum. Im Design-Editor merkst du es sofort, weil dir das Ziel gar nicht erst zum Anklicken angeboten wird.</p>
 
-<h2><span class="num">6</span>Die fünf Fragen bei jedem Anker</h2>
+<h2 id="s06"><span class="num">6</span>Die fünf Fragen bei jedem Anker</h2>
 <p>Stell dir diese Fragen in dieser Reihenfolge. Nach ein paar Malen läuft das automatisch.</p>
 
 <ol class="checks">
@@ -290,7 +292,7 @@
   <li><b>Welche Grösse ergibt sich daraus?</b><span>Soll das Element zwischen zwei Anker gespannt werden, gehört auf diese Achse <code>0dp</code>. Soll es nur so gross wie sein Inhalt sein, <code>wrap_content</code>.</span></li>
 </ol>
 
-<h2><span class="num">7</span>Zentrieren und verschieben</h2>
+<h2 id="s07"><span class="num">7</span>Zentrieren und verschieben</h2>
 <p>Zentrieren ist kein eigenes Attribut. Du setzt einfach <b>zwei gegenüberliegende Anker</b>, und das Element stellt sich in die Mitte dazwischen.</p>
 
 <pre><code><span class="c">Waagrecht mittig im Parent</span>
@@ -302,7 +304,7 @@
 
 <p>Der Wert von <code>bias</code> geht von 0.0 bis 1.0. Ohne Angabe ist er 0.5, also genau mittig. Es gibt ihn auch senkrecht als <code>layout_constraintVertical_bias</code>. Wichtig: bias wirkt nur, wenn beide gegenüberliegenden Anker gesetzt sind und das Element kleiner ist als der Platz dazwischen.</p>
 
-<h2><span class="num">8</span>Abstand halten</h2>
+<h2 id="s08"><span class="num">8</span>Abstand halten</h2>
 <table>
   <tr><th style="width:38%">Was du willst</th><th>Attribut</th></tr>
   <tr><td>Abstand nach aussen, zum Nachbarn hin</td><td><code>android:layout_marginTop</code> und so weiter</td></tr>
@@ -311,7 +313,7 @@
 </table>
 <p>Eselsbrücke: <b>padding ist innen, margin ist aussen.</b> Ein Button mit padding wird selbst grösser. Ein Button mit margin bleibt gleich gross und rückt von den anderen ab.</p>
 
-<h2><span class="num">9</span>Wenn es nicht klappt</h2>
+<h2 id="s09"><span class="num">9</span>Wenn es nicht klappt</h2>
 <table>
   <tr><th style="width:38%">Symptom</th><th>Wahrscheinliche Ursache</th></tr>
   <tr><td>Element sitzt oben links, obwohl es im Editor richtig aussah</td><td>Es fehlt ein Anker auf einer der beiden Achsen.</td></tr>
@@ -324,14 +326,14 @@
   <tr><td>Alles rutscht bei gedrehtem Gerät durcheinander</td><td>Zu viel fix in dp gesetzt. Setze Grössen so oft wie möglich auf <code>0dp</code> oder <code>wrap_content</code>.</td></tr>
 </table>
 
-<h2><span class="num">10</span>Design-Editor oder Code</h2>
+<h2 id="s10"><span class="num">10</span>Design-Editor oder Code</h2>
 <p>Der Design-Editor ist zum Ankersetzen fummelig. Du musst winzige Kreise treffen und ziehen. Das ist keine Schwäche von dir.</p>
 <div class="tip">
 <p style="margin:0"><b>Arbeite im Split-Modus.</b> Oben rechts im Editor gibt es drei Knöpfe: Code, Split, Design. Wähle <b>Split</b>. Dann tippst du links im XML und siehst rechts sofort das Ergebnis. Du behältst die Kontrolle über den Code und hast trotzdem die Vorschau. Den Design-Editor benutzt du zum Kontrollieren, nicht zum Bauen.</p>
 </div>
 <p>Nützlich im Design-Editor bleibt der <b>Component Tree</b> links unten. Dort siehst du die Verschachtelung als Baum, und ein Element ohne Anker bekommt ein rotes Warnzeichen.</p>
 
-<h2><span class="num">11</span>Übungen ohne Vorlage</h2>
+<h2 id="s11"><span class="num">11</span>Übungen ohne Vorlage</h2>
 <p>Diese Übungen machst du <b>nach</b> dem Auftrag 02B, am Ende von Block 4. Dein Projekt <code>M335 Formular</code> ist die Ausgangslage. Alle fünf verändern nur Anker und Grössen an etwas, das schon läuft.</p>
 <p>Bau sie <b>ohne</b> abzuschreiben. Abtippen fühlt sich nach Verstehen an, aber erst das eigene Bauen bleibt hängen. Die Lösungen stehen im Classroom-Material <b>02A Lösung - Die drei Unterlagen</b>. Schau erst hinein, wenn du es selbst versucht hast.</p>
 

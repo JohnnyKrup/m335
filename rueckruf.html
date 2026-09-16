@@ -26,11 +26,13 @@
 <p class="sub">Modul 335 Mobile Applikationen, Nachschlageblatt. Lesezeit etwa 17 Minuten. Version 1 vom 05.09.2026.</p>
 <p class="sub">Warum du Android eine Funktion gibst, statt ein Ergebnis abzuholen. Das eine Muster hinter <code>setOnClickListener</code>, dem <code>ActivityResultLauncher</code> und dem Klick auf eine Zeile.</p>
 
+<div class="tip"><p><b>Für die Prüfung:</b> die Kurzfassung steht in Das Modul auf einen Blick, bei <a href="blick.html#bildschirm">Ein zweiter Bildschirm</a>, <a href="blick.html#bearbeiten">Einen Eintrag ändern</a>.</p></div>
+
 <div class="tip">
 <p><b>Lies das, sobald dich der erste Knopf verwirrt hat.</b> Davor gehört <a href="/activity">Die Activity von innen</a>. Dort steht, wer deine Methoden aufruft. Hier steht, wie du selbst etwas hinterlegst, das später aufgerufen wird.</p>
 </div>
 
-<h2>01 Die Frage, um die es geht</h2>
+<h2 id="s01">01 Die Frage, um die es geht</h2>
 
 <p>Du hast einen Knopf im Layout. Du willst wissen, wann jemand darauf tippt. Das Naheliegende wäre, ihn zu fragen.</p>
 
@@ -60,7 +62,7 @@
 
 <p>Die dritte Stelle ist die wichtigste für dein Verständnis. <b>Dort baust du den Rückruf selbst</b>, statt einen fertigen zu benutzen. Abschnitt 03 zeigt alle drei nebeneinander.</p>
 
-<h2>02 Das Bild</h2>
+<h2 id="s02">02 Das Bild</h2>
 
 <p>Zuerst der kurze Fall, der Knopf. Zwei Zeitpunkte, und zwischen ihnen liegt das Warten.</p>
 
@@ -115,7 +117,7 @@
 <p><b>Die GameActivity kennt deinen Rückruf nicht.</b> Sie bekommt ihn nicht übergeben, sie sieht ihn nie, sie weiss nicht einmal, wer sie gestartet hat. Sie sagt nur <i>mein Ergebnis ist das hier</i> und endet. Android stellt die Verbindung her. <b>Das ist der grosse Unterschied zum Knopf</b>, und Abschnitt 05 sagt, warum es so gebaut ist.</p>
 </div>
 
-<h2>03 Die Teile einzeln</h2>
+<h2 id="s03">03 Die Teile einzeln</h2>
 
 <p>Jeder Rückruf besteht aus vier Teilen. Sie heissen überall anders und tun überall dasselbe.</p>
 
@@ -208,7 +210,7 @@ btnPlay.setOnClickListener(v -&gt; gameLauncher.launch(<span class="k">new</span
 <p><b>Diesen Fall siehst du nur beim RecyclerView.</b> Baust du die Liste zu Fuss, hängst du den <code>setOnClickListener</code> direkt in der Schleife an die Zeile, und der Eintrag steht als Variable schon da. Der Vergleich der zwei Wege steht in <a href="/listen">Listen verstehen</a>.</p>
 </div>
 
-<h2>04 Wie es zusammenspielt</h2>
+<h2 id="s04">04 Wie es zusammenspielt</h2>
 
 <p>Alle Fehler mit Rückrufen kommen aus einer einzigen Verwechslung: <b>Anmeldung und Rückruf laufen zu völlig verschiedenen Zeiten.</b> Im Code stehen sie nebeneinander. In der Zeit liegen Minuten dazwischen.</p>
 
@@ -240,7 +242,7 @@ btnPlay.setOnClickListener(v -&gt; gameLauncher.launch(<span class="k">new</span
 <p><b>Meldest du erst im Klick an</b>, bricht es sofort ab. Die Meldung spricht vom Lebenszyklus und sagt sinngemäss, dass zu spät angemeldet wurde. Sie meint genau diesen Fall.</p>
 </div>
 
-<h2>05 Der Vergleich</h2>
+<h2 id="s05">05 Der Vergleich</h2>
 
 <h3>Gegen den normalen Methodenaufruf</h3>
 
@@ -290,7 +292,7 @@ props.onFinish(42);</pre>
 <p><b>Daraus folgt eine Regel, die dir an der LB Zeit spart:</b> was du zwischen zwei Bildschirmen austauschen willst, muss ein einfacher Wert sein. Eine Zahl, ein Text, eine id. <b>Gib eine id mit und lies das Objekt drüben neu aus der Datenbank</b>, statt zu versuchen, das Objekt selbst zu schicken.</p>
 </div>
 
-<h2>06 Wenn es nicht geht</h2>
+<h2 id="s06">06 Wenn es nicht geht</h2>
 
 <table>
 <tr><th>Was du siehst</th><th>Woran es liegt</th><th>Was du prüfst</th></tr>
@@ -305,7 +307,7 @@ props.onFinish(42);</pre>
 <tr><td>Es kompiliert nicht, die Meldung nennt <code>final</code> oder <i>effectively final</i></td><td>Der Rückruf benutzt eine lokale Variable, die danach nochmals zugewiesen wird</td><td>Die Variable einmal setzen und nie mehr ändern. Oder den Wert in ein Feld der Klasse legen</td></tr>
 </table>
 
-<h2>07 Die Reihenfolge, in der du es baust</h2>
+<h2 id="s07">07 Die Reihenfolge, in der du es baust</h2>
 
 <div class="step"><p><span class="n">1</span> <b>Sag zuerst, was passieren soll.</b> Schreib die Methode, die reagiert, und lass sie vorerst nur eine Log-Zeile ausgeben. Ein Rückruf ohne Ziel ist schwer zu prüfen</p></div>
 
@@ -323,7 +325,7 @@ props.onFinish(42);</pre>
 <p><b>Schritt 5 ist der, den alle überspringen.</b> Er trennt zwei Fehler, die gleich aussehen: der Rückruf läuft gar nicht, oder er läuft und dein Code darin ist falsch. Ohne diese Trennung suchst du an der falschen Stelle.</p>
 </div>
 
-<h2>08 Übungen ohne Vorlage</h2>
+<h2 id="s08">08 Übungen ohne Vorlage</h2>
 
 <div class="ue">
 <p class="t">Übung 1, die vier Teile finden</p>
@@ -348,7 +350,7 @@ props.onFinish(42);</pre>
 <p style="margin:0">Erklär einer anderen Person in zwei Sätzen, warum es keine Methode <code>button.wasClicked()</code> gibt. <b>Ohne die Wörter <i>Callback</i>, <i>Listener</i> und <i>Event</i>.</b> <b>So prüfst du:</b> in deiner Antwort kommt vor, was der Bildschirm in der Zwischenzeit täte.</p>
 </div>
 
-<h2>09 Wo das im Ganzen steht</h2>
+<h2 id="s09">09 Wo das im Ganzen steht</h2>
 
 <p>Der Rückruf ist kein Sonderfall in deiner App. <b>Er ist die Bauweise.</b> Alles, was deine App je tut, läuft in einem Rückruf, den jemand anders auslöst.</p>
 
@@ -381,7 +383,7 @@ props.onFinish(42);</pre>
 
 <p><b>Daneben:</b> <a href="/listen">Listen verstehen</a>. Dort steht, wie eine Zeile entsteht, an der dein Rückruf dann hängt.</p>
 
-<h2>10 Prüfe dich selbst</h2>
+<h2 id="s10">10 Prüfe dich selbst</h2>
 
 <ol>
 <li>Warum gibt es keine Methode, mit der du einen Knopf fragen kannst, ob er gedrückt wurde?</li>

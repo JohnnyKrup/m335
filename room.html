@@ -27,12 +27,14 @@
 <p class="sub">Modul 335 Mobile Applikationen, Nachschlageblatt. Lesezeit etwa 18 Minuten. Version 2 vom 04.09.2026.</p>
 <p class="sub">Welche drei Klassen Room braucht und warum, was der Vergleich mit Spring Boot erklärt, und wie du eine neue Tabelle anlegst.</p>
 
+<div class="tip"><p><b>Für die Prüfung:</b> die Kurzfassung steht in Das Modul auf einen Blick, bei <a href="blick.html#entity">Die Entity</a>, <a href="blick.html#dao">Das Dao</a>, <a href="blick.html#datenbank">Die Datenbank und der Startbestand</a>.</p></div>
+
 <div class="tip">
 <p><b>Lies das, bevor du eine Datenbank baust, nicht mittendrin.</b> Davor gehört <a href="/persistenz">Daten aufbewahren</a>. Dort steht, <b>warum</b> du eine Datenbank nimmst und nicht etwas Einfacheres. Hier steht, <b>wie</b> sie gebaut wird.</p>
 </div>
 
 
-<h2>01 Die Frage, um die es geht</h2>
+<h2 id="s01">01 Die Frage, um die es geht</h2>
 
 <p>Du legst für eine einzige Tabelle mehrere Klassen an, und nach der dritten weisst du nicht mehr, welche wofür da ist. Wer Spring Boot kennt, zählt sogar <b>vier</b> und wundert sich, denn dort genügt eine.</p>
 
@@ -45,7 +47,7 @@
 <p>Alles Weitere folgt daraus. Auch der Vergleich mit Spring Boot in Abschnitt 05, denn dort sind dieselben drei Fragen nur anders verteilt.</p>
 
 
-<h2>02 Das Bild</h2>
+<h2 id="s02">02 Das Bild</h2>
 
 <p>So hängen die Bausteine zusammen. Von oben nach unten, und jede Stufe kennt nur die darunter.</p>
 
@@ -67,7 +69,7 @@
 </div>
 
 
-<h2>03 Die Teile einzeln</h2>
+<h2 id="s03">03 Die Teile einzeln</h2>
 
 <p>Room braucht <b>drei</b> Bausteine, und jeder beantwortet genau eine Frage. In 07C hast du alle drei selbst gebaut.</p>
 
@@ -118,7 +120,7 @@ data/QuestionEntity.java    seit 07C, mit Room</span></pre>
 <p><b>Der Doppelpunkt in einer Abfrage.</b> <code>WHERE id = :id</code> setzt den Wert des Parameters ein, der genauso heisst. <b>Nie den Wert selbst in den Text hängen</b>, also nie <code>"... WHERE id = " + id</code>. Das ist die Tür, durch die SQL-Injection kommt.</p>
 </div>
 
-<h2>04 Wie es zusammenspielt</h2>
+<h2 id="s04">04 Wie es zusammenspielt</h2>
 
 <p>Das hier ist die Form, die du in jedem Room-Projekt wiederfindest.</p>
 
@@ -175,7 +177,7 @@ data/QuestionEntity.java    seit 07C, mit Room</span></pre>
 <p><b>Und sie sind der beste Ort, um einen Fehler zu verstehen.</b> Wenn eine Abfrage etwas anderes liefert als du erwartest, steht dort, welches SQL wirklich ausgeführt wird.</p>
 </div>
 
-<h2>05 Der Vergleich mit Spring Boot</h2>
+<h2 id="s05">05 Der Vergleich mit Spring Boot</h2>
 
 <p>Du kennst das Muster schon, nur unter anderen Namen. Fast alles hat eine Entsprechung.</p>
 
@@ -262,7 +264,7 @@ data/QuestionEntity.java    seit 07C, mit Room</span></pre>
 <p><b>Und wenn du beides kannst, kannst du das eine mit dem anderen erklären.</b> Das ist mehr wert als jedes von beiden allein.</p>
 </div>
 
-<h2>06 Wenn es nicht geht</h2>
+<h2 id="s06">06 Wenn es nicht geht</h2>
 
 <p>Room meldet fast alles beim Bauen und nicht erst beim Laufen. Das ist die gute Nachricht. Die weniger gute ist, dass die Meldungen einander ähnlich sehen.</p>
 
@@ -300,7 +302,7 @@ data/QuestionEntity.java    seit 07C, mit Room</span></pre>
 <p><b>In diesem Modul brauchst du das nicht.</b> Unsere Tabelle bleibt, wie sie ist, und <code>version</code> bleibt auf 1. Wer trotzdem etwas ändert, deinstalliert die App. Der Link zur Migration steht am Schluss, falls du es wissen willst.</p>
 </div>
 
-<h2>07 Wenn du eine neue Tabelle brauchst: die Reihenfolge</h2>
+<h2 id="s07">07 Wenn du eine neue Tabelle brauchst: die Reihenfolge</h2>
 
 <p>Die Reihenfolge, die immer funktioniert. Fünf Schritte.</p>
 
@@ -334,7 +336,7 @@ data/QuestionEntity.java    seit 07C, mit Room</span></pre>
 <p>Das gilt auch für die Getter und Setter, die <b>Alt+Insert</b> erzeugt. Die bringen keinen Kommentar mit. Schreib sie gleich dazu, nachträglich dauert es dreimal so lang.</p>
 </div>
 
-<h2>08 Übungen ohne Vorlage</h2>
+<h2 id="s08">08 Übungen ohne Vorlage</h2>
 
 <div class="ue">
 <p class="t">Übung 1, eine fremde Tabelle entwerfen</p>
@@ -354,7 +356,7 @@ data/QuestionEntity.java    seit 07C, mit Room</span></pre>
 </div>
 
 
-<h2>09 Wo das im Ganzen steht</h2>
+<h2 id="s09">09 Wo das im Ganzen steht</h2>
 
 <pre><span class="d">   Was der Benutzer sieht       Listen verstehen
         ^                       Adapter, ViewHolder, die einzelne Zeile
@@ -395,7 +397,7 @@ data/QuestionEntity.java    seit 07C, mit Room</span></pre>
 <p><b>Eine KI übersetzt dir das zuverlässig.</b> Frag sie ausdrücklich nach Java, sonst bekommst du Kotlin zurück.</p>
 </div>
 
-<h2>10 Prüfe dich selbst</h2>
+<h2 id="s10">10 Prüfe dich selbst</h2>
 
 <ol>
 <li>Welche drei Fragen beantworten die drei Bausteine, je eine pro Baustein?</li>

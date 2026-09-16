@@ -26,11 +26,13 @@
 <p class="sub">Modul 335 Mobile Applikationen, Nachschlageblatt. Lesezeit etwa 9 Minuten. Version 1 vom 04.09.2026.</p>
 <p class="sub">Warum dein Text nicht im Code steht, was der Ordner res enthält, und was die Klasse R eigentlich ist.</p>
 
+<div class="tip"><p><b>Für die Prüfung:</b> die Kurzfassung steht in Das Modul auf einen Blick, bei <a href="blick.html#texte">Texte in strings.xml</a>, <a href="blick.html#wert-rechts">Der Wert rechts</a>.</p></div>
+
 <div class="tip">
 <p><b>Dieses Blatt ist die Ergänzung zu <a href="/xml">XML verstehen</a>.</b> Dort steht, was das Zeichen <code>@</code> im Layout bedeutet. Hier steht, <b>warum es das überhaupt gibt</b> und was dahinter liegt.</p>
 </div>
 
-<h2>01 Die Frage, um die es geht</h2>
+<h2 id="s01">01 Die Frage, um die es geht</h2>
 
 <p>Du willst eine Überschrift setzen. Der naheliegende Weg wäre dieser.</p>
 
@@ -47,7 +49,7 @@ tvTitle.setText(<span class="s">"Meine Einkaufsliste"</span>);</pre>
 
 <p>Alles Weitere auf diesem Blatt folgt daraus. Der Ordner <code>res</code> ist die Sammlung dieser Werte, und <code>R</code> ist das Verzeichnis dazu.</p>
 
-<h2>02 Der Ordner res, von aussen</h2>
+<h2 id="s02">02 Der Ordner res, von aussen</h2>
 
 <p>So sieht er in deinem Projekt wirklich aus. Links der Ordner, rechts was darin liegt.</p>
 
@@ -71,7 +73,7 @@ tvTitle.setText(<span class="s">"Meine Einkaufsliste"</span>);</pre>
 <p style="margin:0"><b>Alles unter <code>res</code> gehört zur App, aber nichts davon ist Code.</b> Es wird nicht übersetzt, es wird mitgeliefert. Darum kannst du einen Text ändern, ohne eine einzige Zeile Java anzufassen.</p>
 </div>
 
-<h2>03 Der Zusatz hinter dem Ordnernamen</h2>
+<h2 id="s03">03 Der Zusatz hinter dem Ordnernamen</h2>
 
 <p>Dir ist sicher aufgefallen, dass manche Ordner einen Anhang tragen. <code>values</code> und <code>values-night</code>. <code>mipmap-hdpi</code> und <code>mipmap-xhdpi</code>. <b>Das ist der eigentliche Trick, und er ist einfacher, als er aussieht.</b></p>
 
@@ -92,7 +94,7 @@ tvTitle.setText(<span class="s">"Meine Einkaufsliste"</span>);</pre>
 
 <p>Und daraus folgt eine Regel für den Rückfallwert. <b>Der Ordner ohne Anhang muss vollständig sein.</b> Wenn ein Name nur in <code>values-night</code> steht, findet Android ihn am Tag nicht.</p>
 
-<h2>04 Was R ist und wer es baut</h2>
+<h2 id="s04">04 Was R ist und wer es baut</h2>
 
 <p><code>R</code> ist eine Java-Klasse. Sie steht in keinem Ordner, den du siehst, und <b>du hast sie nie geschrieben</b>. Sie entsteht bei jedem Bau neu.</p>
 
@@ -123,7 +125,7 @@ tvTitle.setText(<span class="s">"Meine Einkaufsliste"</span>);</pre>
 
 <p>Deshalb hilft bei einem hartnäckig roten Namen oft schlicht ein neuer Bau mit <code>Ctrl+F9</code>.</p>
 
-<h2>05 Die zwei Schreibweisen, in einem Satz</h2>
+<h2 id="s05">05 Die zwei Schreibweisen, in einem Satz</h2>
 
 <p>Dieselbe Ressource heisst im XML anders als im Java.</p>
 
@@ -136,7 +138,7 @@ tvTitle.setText(<span class="s">"Meine Einkaufsliste"</span>);</pre>
 
 <p>Aus dem <code>@</code> wird ein <code>R.</code>, aus dem Schrägstrich ein Punkt. <b>Mehr ist es nicht.</b> Warum im Layout einmal <code>@+id</code> und einmal <code>@id</code> steht, erklärt <a href="/xml">XML verstehen</a> im Abschnitt über das Zeichen @.</p>
 
-<h2>06 Was in strings.xml gehört und was nicht</h2>
+<h2 id="s06">06 Was in strings.xml gehört und was nicht</h2>
 
 <p>Nicht jeder Text auf dem Bildschirm ist eine Ressource. <b>Die Trennlinie ist nicht die Länge und nicht der Ort, sondern die Frage: wer ändert diesen Text?</b></p>
 
@@ -160,7 +162,7 @@ tvTitle.setText(<span class="s">"Meine Einkaufsliste"</span>);</pre>
 <p style="margin:0"><b>Der Name ist ein Java-Bezeichner, der Wert nicht.</b> Aus dem Namen wird eine Konstante in <code>R</code>, darum sind darin nur Kleinbuchstaben, Ziffern und Unterstriche erlaubt. <b>Kein Bindestrich, kein Umlaut, kein Leerzeichen.</b> Im Wert daneben darfst du alles schreiben, Umlaute und Satzzeichen inklusive.</p>
 </div>
 
-<h2>07 Texte mit einer Lücke</h2>
+<h2 id="s07">07 Texte mit einer Lücke</h2>
 
 <p>Sehr oft soll ein Text eine Zahl enthalten, die erst zur Laufzeit feststeht. <b>Dann zerlegst du ihn nicht, sondern lässt eine Lücke.</b></p>
 
@@ -185,7 +187,7 @@ tvProgress.setText(getString(<span class="t">R</span>.string.progress_format, ak
 
 <p>In einem Adapter hast du kein <code>getString</code> zur Hand, denn eine Adapter-Klasse ist keine Activity. Dort läuft es über den Context, also <code>context.getString(...)</code>. Warum das so ist, steht in <a href="/activity">Die Activity von innen</a>.</p>
 
-<h2>08 Wenn es nicht geht</h2>
+<h2 id="s08">08 Wenn es nicht geht</h2>
 
 <table>
 <tr><th>Was du siehst</th><th>Woran es meist liegt</th><th>Was du prüfst</th></tr>
@@ -198,7 +200,7 @@ tvProgress.setText(getString(<span class="t">R</span>.string.progress_format, ak
 
 <p>Zwei weitere Fehlerbilder stehen in <a href="/xml">XML verstehen</a>, nämlich der rote Verweis <code>@string/...</code> im Layout und ein rotes <code>R</code> im ganzen Java-File.</p>
 
-<h2>09 Wenn du einen neuen Text brauchst: die Reihenfolge</h2>
+<h2 id="s09">09 Wenn du einen neuen Text brauchst: die Reihenfolge</h2>
 
 <div class="step"><p><span class="n">1</span> <b>Entscheide, ob es überhaupt eine Beschriftung ist.</b> Wer ändert diesen Text? Sind es Daten, hör hier auf</p></div>
 <div class="step"><p><span class="n">2</span> <b>Trag ihn in <code>strings.xml</code> ein</b>, unter einem Namen nach dem Schema <code>was_wofuer</code></p></div>
@@ -209,7 +211,7 @@ tvProgress.setText(getString(<span class="t">R</span>.string.progress_format, ak
 <p><b>Der Prüfschritt am Schluss:</b> such im ganzen Projekt nach dem sichtbaren Text. <b>Er darf genau einmal vorkommen, nämlich in <code>strings.xml</code>.</b> Findest du ihn ein zweites Mal, steht er irgendwo noch fest eingebaut.</p>
 </div>
 
-<h2>10 Wo das im Ganzen steht</h2>
+<h2 id="s10">10 Wo das im Ganzen steht</h2>
 
 <pre><span class="d">   Was steht im Layout          XML verstehen
         |                       android:, app:, tools:, das Zeichen @
@@ -224,7 +226,7 @@ tvProgress.setText(getString(<span class="t">R</span>.string.progress_format, ak
 
 <p><b>Davor:</b> <a href="/xml">XML verstehen</a>. Dort lernst du die Schreibweise, hier den Mechanismus dahinter.</p>
 
-<h2>11 Prüfe dich selbst</h2>
+<h2 id="s11">11 Prüfe dich selbst</h2>
 
 <ol>
 <li>Nenne zwei Situationen, in denen Android für denselben Namen einen anderen Wert holt</li>

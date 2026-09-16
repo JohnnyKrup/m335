@@ -32,6 +32,8 @@
 
 <p><b>Das Sicherheitsnetz.</b> Das Lösungsmaterial ist von der ersten Minute an offen. Hängst du an einem Schritt länger als zehn Minuten, machst du es auf, holst dir die Stelle und baust weiter. Notier dir dabei, an welcher Stelle du nachgeschaut hast.</p>
 
+<p><b>Die Kurzfassung.</b> Die Regeln, die die Prüfung verlangt, stehen mit kurzen Beispielen aus dieser App in <a href="blick.html">Das Modul auf einen Blick</a>. In den Tabellen <i>Was du brauchst</i> steht bei jedem Schritt, welche Karten dazu passen.</p>
+
 <h4>Die Auftragsbeschreibung, dieselbe wie in 07A</h4>
 
 <p>Du programmierst eine App für die Verwaltung einer Einkaufsliste nach folgenden Vorgaben:</p>
@@ -62,6 +64,7 @@
 <tr><td class="pre">build.gradle.kts (Module :app)</td><td>Die längere der zwei. In ihr steht ein Block <code>dependencies</code></td></tr>
 <tr><td class="pre">libs.versions.toml</td><td>Der Katalog. Dort steht die Room-Version, wie in 07C</td></tr>
 <tr><td class="pre">item_shopping.xml</td><td>Das Zeilenlayout. Es steht fertig im Lösungsmaterial</td></tr>
+<tr><td class="pre">Auf einen Blick</td><td><a href="blick.html#projekt">Das Projekt anlegen</a>, <a href="blick.html#insets">Der Insets-Block</a></td></tr>
 </table>
 
 <div class="step">
@@ -119,6 +122,7 @@
 <tr><td class="pre">Room.databaseBuilder</td><td>Baut die Datenbank. Mit <code>allowMainThreadQueries()</code>, wie im ganzen Kurs</td></tr>
 <tr><td class="pre">Integer, Double</td><td>Die Hüllklassen. Sie können <code>null</code> sein, <code>int</code> und <code>double</code> nicht</td></tr>
 <tr><td class="pre">Log.d</td><td>Eine Zeile am Schluss von <code>getInstance</code>, die die Anzahl aus <code>count()</code> zeigt. Wie in 07C. Die Prüfung unten braucht sie</td></tr>
+<tr><td class="pre">Auf einen Blick</td><td><a href="blick.html#entity">Die Entity</a>, <a href="blick.html#dao">Das Dao</a>, <a href="blick.html#datenbank">Die Datenbank und der Startbestand</a>, <a href="blick.html#javadoc">Javadoc</a></td></tr>
 </table>
 
 <div class="step">
@@ -163,6 +167,7 @@
 <tr><td class="pre">insert(...)</td><td>Legt eine Zeile an. Fünfmal aufgerufen</td></tr>
 <tr><td class="pre">seedIfEmpty</td><td>Deine neue private Methode in der Datenbank-Klasse. Genau wie in 08A</td></tr>
 <tr><td class="pre">Log.d</td><td>Damit du siehst, ob gefüllt oder übersprungen wurde</td></tr>
+<tr><td class="pre">Auf einen Blick</td><td><a href="blick.html#datenbank">Die Datenbank und der Startbestand</a></td></tr>
 </table>
 
 <div class="step">
@@ -205,6 +210,7 @@
 <tr><td class="pre">getString(R.string.xxx, wert)</td><td>Setzt einen Wert in einen Text mit Platzhalter ein. Kennst du aus 08A</td></tr>
 <tr><td class="pre">%1$.2f</td><td>Der Platzhalter für eine Kommazahl mit zwei Stellen</td></tr>
 <tr><td class="pre">tvArticle, tvShop, tvAmount</td><td>Die drei ids im fertigen Zeilenlayout</td></tr>
+<tr><td class="pre">Auf einen Blick</td><td><a href="blick.html#liste">Die Liste zu Fuss</a>, <a href="blick.html#wert-rechts">Der Wert rechts</a>, <a href="blick.html#querformat">Querformat</a>, <a href="blick.html#texte">Texte in strings.xml</a></td></tr>
 </table>
 
 <div class="step">
@@ -270,6 +276,7 @@
 <tr><td class="pre">finish()</td><td>Schliesst den Bildschirm und bringt dich zur Liste zurück</td></tr>
 <tr><td class="pre">onResume</td><td>Lädt die Liste bei jedem Erscheinen, auch nach dem Formular. Der Aufruf zieht von <code>onCreate</code> hierher um. Aus 08A</td></tr>
 <tr><td class="pre">paddingBottom, clipToPadding</td><td>Platz unter der Liste, damit der Knopf im Querformat keine Zeile verdeckt</td></tr>
+<tr><td class="pre">Auf einen Blick</td><td><a href="blick.html#bildschirm">Ein zweiter Bildschirm</a>, <a href="blick.html#onresume">onCreate und onResume</a>, <a href="blick.html#formular">Das Formular</a></td></tr>
 </table>
 
 <div class="step">
@@ -317,6 +324,7 @@
 <tr><td class="pre">eine eigene boolesche Methode</td><td>Prüft alle Felder und liefert, ob gespeichert werden darf</td></tr>
 <tr><td class="pre">Integer.parseInt, Double.parseDouble</td><td>Machen aus dem Text eine Zahl. Ist der Text keine Zahl, werfen sie eine <code>NumberFormatException</code></td></tr>
 <tr><td class="pre">try und catch</td><td>Fängt die Exception ab. Im <code>catch</code> setzt du die Meldung an das Feld, statt dass die App abstürzt</td></tr>
+<tr><td class="pre">Auf einen Blick</td><td><a href="blick.html#validierung">Fehleingaben abfangen</a></td></tr>
 </table>
 
 <div class="step">
@@ -359,6 +367,7 @@
 <tr><td class="pre">String.valueOf(...)</td><td>Macht aus einer Zahl einen Text für das Feld. Nur aufrufen, wenn der Wert nicht <code>null</code> ist</td></tr>
 <tr><td class="pre">findById(id)</td><td>Deine Dao-Methode aus Schritt 1. Jetzt wird sie gebraucht</td></tr>
 <tr><td class="pre">update(...)</td><td>Ändert die bestehende Zeile. Nicht insert</td></tr>
+<tr><td class="pre">Auf einen Blick</td><td><a href="blick.html#bearbeiten">Einen Eintrag ändern</a></td></tr>
 </table>
 
 <div class="step">
@@ -471,6 +480,8 @@
 
 <h3 class="teil">Wenn etwas nicht funktioniert</h3>
 
+<p>Kurz und nach Symptom geordnet steht dasselbe auch in <a href="blick.html#fehlertabelle">Das Modul auf einen Blick</a>.</p>
+
 <table>
 <tr><th>Symptom</th><th>Wahrscheinliche Ursache</th><th>Was du machst</th></tr>
 <tr><td>Nach einem Klick auf <i>Start AGP Upgrade Assistant</i> baut gar nichts mehr</td><td>Der Assistent hat deine Bau-Dateien geändert</td><td>Über <code>Ctrl+Z</code> oder den lokalen Verlauf zurück, sonst das Projekt neu anlegen</td></tr>
@@ -503,7 +514,7 @@
 </table>
 
 <!--M335:WEITER-->
-<nav class="weiter"><div class="reihe"><span>Zu 09A</span><a href="09a-einfuehrung.html">Einführung</a><a href="09a-loesung.html">Lösung</a></div><a class="vor" href="09b-einfuehrung.html"><span>Weiter</span>09B, Einführung</a></nav>
+<nav class="weiter"><div class="reihe"><span>Zu 09A</span><a href="09a-einfuehrung.html">Einführung</a><a href="09a-loesung.html">Lösung</a></div><a class="vor" href="blick.html"><span>Weiter</span>Das Modul auf einen Blick</a></nav>
 <!--/M335:WEITER-->
 <p class="foot">Modul 335 | Tag 5 Vormittag | Auftrag 09A | Version 5 | 15.09.2026</p>
 

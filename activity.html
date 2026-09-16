@@ -81,12 +81,14 @@
   <h1>Die Activity von innen</h1>
   <p class="sub">Modul 335 Mobile Applikationen, Grundlagen. Wer deine Activity startet, was <code>onCreate</code> ist, wann etwas ein Feld sein muss, und was <code>this</code> bedeutet. Lesezeit rund 10 Minuten. Fassung 1 vom 15.08.2026.</p>
 
+<div class="tip"><p><b>Für die Prüfung:</b> die Kurzfassung steht in Das Modul auf einen Blick, bei <a href="blick.html#onresume">onCreate und onResume</a>, <a href="blick.html#insets">Der Insets-Block</a>.</p></div>
+
   <div class="card">
     <p style="margin:0 0 10px"><b>Jeder Auftrag lässt dich in <code>onCreate</code> schreiben, und keiner sagt dir, was das eigentlich ist.</b> Du legst Felder an, holst Views, hängst Klicks an und rufst am Schluss eine Methode auf. Das funktioniert, aber es fühlt sich nach Rezept an.</p>
     <p style="margin:0">Diese Seite erklärt das Rezept. Danach weisst du, warum die Zeilen in dieser Reihenfolge stehen und was passiert, wenn du eine davon vergisst.</p>
   </div>
 
-  <h2>1. Wer deine Activity startet</h2>
+  <h2 id="s01">1. Wer deine Activity startet</h2>
 
   <p>Du erzeugst deine Activity nie selbst. Es gibt nirgends ein <code>new MainActivity()</code> in deinem Projekt. Such ruhig danach.</p>
 
@@ -106,7 +108,7 @@
     <p style="margin:0"><b>Das ist der Grund für das <code>@Override</code> über <code>onCreate</code>.</b> Du erfindest die Methode nicht, du <b>ersetzt</b> eine, die es schon gibt. Android kennt <code>onCreate</code> und ruft sie auf. Deine Fassung hängt sich in diesen Aufruf ein. Das <code>super.onCreate(savedInstanceState)</code> in der ersten Zeile gibt der ursprünglichen Fassung die Gelegenheit, ihre Arbeit trotzdem zu machen. Lösch es nie.</p>
   </div>
 
-  <h2>2. <code>onCreate</code>, die eine Methode, die du kennst</h2>
+  <h2 id="s02">2. <code>onCreate</code>, die eine Methode, die du kennst</h2>
 
   <p><code>onCreate</code> läuft <b>einmal</b>, wenn der Bildschirm aufgebaut wird. Nicht bei jedem Klick, nicht bei jeder Frage, einmal.</p>
 
@@ -148,10 +150,10 @@
   <p>Wenn du eine Zeile in <code>onCreate</code> stehen hast und nicht sagen kannst, in welche der obigen Gruppen sie gehört, ist sie dort meistens falsch.</p>
 
   <div class="card">
-    <p style="margin:0"><b>Es gibt noch weitere solche Methoden</b>, etwa <code>onStart</code>, <code>onPause</code> und <code>onDestroy</code>. Android ruft sie auf, wenn dein Bildschirm sichtbar wird, in den Hintergrund gerät oder verschwindet. Du brauchst sie im Moment nicht. <b>Und Android kann eine Activity unter bestimmten Umständen ganz neu aufbauen.</b> Wann das passiert und was es für deine Daten bedeutet, ist ein eigenes Thema am Tag 3.</p>
+    <p style="margin:0"><b>Es gibt noch weitere solche Methoden</b>, etwa <code>onStart</code>, <code>onPause</code> und <code>onDestroy</code>. Android ruft sie auf, wenn dein Bildschirm sichtbar wird, in den Hintergrund gerät oder verschwindet. Du brauchst sie im Moment nicht, mit einer Ausnahme ab Tag 4: <code>onResume</code> läuft jedes Mal, wenn der Bildschirm wieder erscheint, auch beim ersten Start direkt nach <code>onCreate</code>. Daten, die ein anderer Bildschirm ändern kann, lädst du darum dort und nur dort. <b>Und Android kann eine Activity unter bestimmten Umständen ganz neu aufbauen.</b> Wann das passiert und was es für deine Daten bedeutet, ist ein eigenes Thema am Tag 3.</p>
   </div>
 
-  <h2>3. Feld oder lokale Variable</h2>
+  <h2 id="s03">3. Feld oder lokale Variable</h2>
 
   <p>Diese Entscheidung triffst du in jedem Auftrag, meistens ohne darüber nachzudenken.</p>
 
@@ -191,7 +193,7 @@
     <p style="margin:0"><b>Die Prüffrage:</b> braucht das noch jemand ausser dieser einen Methode? Wenn nein, ist es eine lokale Variable. Android Studio hilft dir dabei und meldet gelb <code>Field can be converted to a local variable</code>, wenn ein Feld nur an einer Stelle gebraucht wird. Das ist keine Fehlermeldung, sondern ein Hinweis, den du prüfen sollst.</p>
   </div>
 
-  <h2>4. <code>findViewById</code>, und warum ein Feld leer bleibt</h2>
+  <h2 id="s04">4. <code>findViewById</code>, und warum ein Feld leer bleibt</h2>
 
   <p>Ein Feld anzulegen erzeugt nichts. Es macht nur einen Platz für etwas, das später kommt.</p>
 
@@ -220,7 +222,7 @@
     <p style="margin:0"><b>Nein.</b> Java läuft von oben nach unten und wartet auf jede Zeile, bis sie fertig ist. Es gibt kein zu früh und kein zu langsam. Wenn etwas <code>null</code> ist, wurde es <b>nie</b> gefüllt. Such nicht nach einer Verzögerung, such nach der fehlenden Zeile.</p>
   </div>
 
-  <h2>5. <code>this</code> und der Context</h2>
+  <h2 id="s05">5. <code>this</code> und der Context</h2>
 
   <p>Sobald du eine View im Code erzeugst statt im XML, willst du plötzlich ein <code>this</code> mitgeben:</p>
 
@@ -275,7 +277,7 @@
     <p style="margin:0"><b>Nimm nicht <code>getApplicationContext()</code>.</b> Es übersetzt und läuft, aber der Application-Context hat <b>kein Theme</b>. Deine erzeugten Views sähen dann anders aus als der Rest der App. Für alles Sichtbare nimmst du die Activity, also <code>this</code>.</p>
   </div>
 
-  <h2>6. Listener, und was sie mit <code>this</code> machen</h2>
+  <h2 id="s06">6. Listener, und was sie mit <code>this</code> machen</h2>
 
   <p>Ein Listener ist eine Anweisung für später. Du sagst nicht "tu das jetzt", sondern "tu das, wenn jemand tippt".</p>
 
@@ -288,7 +290,7 @@
     <p style="margin:0">Schreibst du stattdessen eine anonyme innere Klasse, also <code>new View.OnClickListener() { ... }</code>, dann ist <code>this</code> dort <b>der Listener</b> und nicht mehr die Activity. Du bräuchtest dann <code>MainActivity.this</code>. Wenn dir eine KI so einen Block vorschlägt und danach etwas nicht mehr geht, ist das oft der Grund.</p>
   </div>
 
-  <h2>7. Von oben nach unten, immer</h2>
+  <h2 id="s07">7. Von oben nach unten, immer</h2>
 
   <p>Java arbeitet eine Methode Zeile für Zeile ab und wartet bei jeder, bis sie fertig ist. Es gibt keine Zeile, die nebenher läuft, und keine, die überholt.</p>
 
@@ -299,13 +301,13 @@
     <div><span class="hell">2.</span> findViewById           <span class="hell">geht nur, wenn 1 gelaufen ist</span></div>
     <div><span class="hell">3.</span> Anfangszustand sichern <span class="hell">geht nur, wenn 2 gelaufen ist</span></div>
     <div><span class="hell">4.</span> Listener anhängen      <span class="hell">geht nur, wenn 2 gelaufen ist</span></div>
-    <div><span class="hell">5.</span> Daten laden</div>
+    <div><span class="hell">5.</span> Daten laden            <span class="hell">oder in onResume, siehe oben</span></div>
     <div><span class="hell">6.</span> anzeigen               <span class="hell">geht nur, wenn alles davor gelaufen ist</span></div>
   </div>
 
   <p>Jede Stufe braucht die davor. Darum stürzt es ab, wenn du <code>findViewById</code> vor <code>setContentView</code> schreibst, und darum steht die anzeigende Methode ganz am Schluss.</p>
 
-  <h2>8. Wenn etwas <code>null</code> ist, die Suchreihenfolge</h2>
+  <h2 id="s08">8. Wenn etwas <code>null</code> ist, die Suchreihenfolge</h2>
 
   <p>Der häufigste Absturz der ganzen Woche. Geh diese vier Fragen der Reihe nach durch, dann findest du ihn in unter einer Minute.</p>
 
@@ -321,7 +323,7 @@
     <p style="margin:0"><b>Was du in dieser Liste nicht findest:</b> irgendetwas mit Warten, Verzögern oder Timing. Wenn dir jemand vorschlägt, den Aufruf "später" oder "in einem Handler" zu machen, damit die View fertig ist, dann ist das die falsche Spur. Die View ist fertig. Dein Feld ist leer.</p>
   </div>
 
-  <h2>9. Prüfe dich selbst</h2>
+  <h2 id="s09">9. Prüfe dich selbst</h2>
   <ol>
     <li>Such in deinem Projekt nach <code>new MainActivity()</code>. Warum findest du nichts, und wer erzeugt die Activity stattdessen?</li>
     <li>Du hast ein Feld <code>tvScore</code> angelegt, aber das <code>findViewById</code> vergessen. Beschreib in einem Satz, was beim Start passiert und warum.</li>

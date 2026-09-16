@@ -83,12 +83,14 @@
   <h1>Wo deine App ihre Daten ablegt</h1>
   <p class="sub">Modul 335 Mobile Applikationen, Grundlagen. Der Ordner deiner App auf dem Gerät, die Datei der SharedPreferences, und drei Wege, sie dir anzuschauen. Lesezeit rund 8 Minuten. Version 1 vom 16.08.2026.</p>
 
+<div class="tip"><p><b>Für die Prüfung:</b> die Kurzfassung steht in Das Modul auf einen Blick, bei <a href="blick.html#entity">Die Entity</a>, <a href="blick.html#datenbank">Die Datenbank und der Startbestand</a>.</p></div>
+
   <div class="card">
     <p style="margin:0 0 10px"><b>Ab jetzt speichert deine App etwas.</b> Ein Wert verschwindet nicht mehr, wenn du die App beendest. Das ist neu, und du kannst es prüfen, ohne dem Bildschirm zu glauben.</p>
     <p style="margin:0">Diese Seite zeigt dir, wo dieser Wert wirklich liegt, wie du die Datei öffnest, und warum du sie auf deinem Laptop nicht findest.</p>
   </div>
 
-  <h2>1. Der Ordner deiner App</h2>
+  <h2 id="s01">1. Der Ordner deiner App</h2>
 
   <p>Jede installierte App bekommt auf dem Gerät genau einen eigenen Ordner. Er heisst wie der Paketname der App. Unserer heisst so:</p>
 
@@ -125,7 +127,7 @@
     <p><b>Der Ordner <code>shared_prefs</code> entsteht erst beim ersten Schreiben.</b> Vorher gibt es ihn nicht. Wenn du ihn suchst und nicht findest, ist das kein Fehler, sondern die Antwort: es wurde noch nichts gespeichert.</p>
   </div>
 
-  <h2>2. Weg 1, der Device Explorer</h2>
+  <h2 id="s02">2. Weg 1, der Device Explorer</h2>
 
   <p>Der kurze Weg. Er steckt in Android Studio und braucht keine Konsole.</p>
 
@@ -145,7 +147,7 @@
     <p><b>Der Device Explorer zeigt eine Kopie.</b> Änderst du die geöffnete Datei im Editor, ändert sich auf dem Gerät nichts. Zum Prüfen ist das genau richtig. Zum Ändern nimmst du deine App.</p>
   </div>
 
-  <h2>3. Weg 2, die Kommandozeile</h2>
+  <h2 id="s03">3. Weg 2, die Kommandozeile</h2>
 
   <p>Schneller, wenn du nur kurz nachsehen willst. Öffne das <b>Terminal</b> in Android Studio, es startet mit PowerShell.</p>
 
@@ -193,7 +195,7 @@ Add-Content $PROFILE <span class="s">'$adb = "$env:LOCALAPPDATA\Android\Sdk\plat
     <p style="margin:10px 0 0">Danach ein neues Terminal öffnen. Für den Unterricht ist das freiwillig, die eine Zeile pro Fenster genügt.</p>
   </div>
 
-  <h2>4. Weg 3, alles löschen zum Testen</h2>
+  <h2 id="s04">4. Weg 3, alles löschen zum Testen</h2>
 
   <p>Wer prüfen will, ob wirklich gespeichert wird, muss auch wieder auf null kommen können. Drei Wege, vom feinsten zum gröbsten:</p>
 
@@ -213,7 +215,7 @@ Add-Content $PROFILE <span class="s">'$adb = "$env:LOCALAPPDATA\Android\Sdk\plat
 
   <p>Die App zu deinstallieren wirkt genauso. Beim Deinstallieren verschwindet der ganze Ordner aus Abschnitt 1.</p>
 
-  <h2>5. Warum du die Datei auf deinem Laptop nicht findest</h2>
+  <h2 id="s05">5. Warum du die Datei auf deinem Laptop nicht findest</h2>
 
   <p>Der Emulator läuft zwar auf deinem Rechner, hat aber seine eigene Festplatte. Sie ist eine einzige grosse Datei:</p>
 
@@ -228,7 +230,7 @@ Add-Content $PROFILE <span class="s">'$adb = "$env:LOCALAPPDATA\Android\Sdk\plat
     <p style="margin:10px 0 0; font-size:15px">Derselbe Gedanke begegnet dir später beim Netz. <code>localhost</code> im Emulator meint den Emulator selbst und nicht deinen PC. Dein Rechner ist von dort unter <code>10.0.2.2</code> erreichbar.</p>
   </div>
 
-  <h2>6. Und auf einem echten Handy?</h2>
+  <h2 id="s06">6. Und auf einem echten Handy?</h2>
 
   <p>Genau derselbe Ort, <code>/data/data/&lt;paketname&gt;/</code>. Das ist der interne, app-private Speicher.</p>
 
@@ -236,7 +238,7 @@ Add-Content $PROFILE <span class="s">'$adb = "$env:LOCALAPPDATA\Android\Sdk\plat
 
   <p>Mit Entwicklerwerkzeugen kommst du auch dort heran. USB-Debugging einschalten, dann derselbe <code>run-as</code>-Befehl. Aber nur bei einer Debug-Version, die du selbst installiert hast. Bei einer App aus dem Play Store verweigert <code>run-as</code> den Dienst.</p>
 
-  <h2>7. Intern gegen extern</h2>
+  <h2 id="s07">7. Intern gegen extern</h2>
 
   <table>
     <tr><th>Bereich</th><th>Beispielpfad</th><th class="mitte">Am PC per USB sichtbar</th><th>Wofür</th></tr>
@@ -247,7 +249,7 @@ Add-Content $PROFILE <span class="s">'$adb = "$env:LOCALAPPDATA\Android\Sdk\plat
 
   <p>Die Daten der Quiz-App liegen im ersten Bereich. Ein Punktestand ist nichts, was jemand von aussen bearbeiten können soll. Und beim Deinstallieren verschwindet er mit der App, das ist genau das erwartete Verhalten.</p>
 
-  <h2>8. Wenn du nichts findest</h2>
+  <h2 id="s08">8. Wenn du nichts findest</h2>
 
   <table>
     <tr><th>Das siehst du</th><th>Wahrscheinlich</th><th>Das machst du</th></tr>
@@ -259,7 +261,7 @@ Add-Content $PROFILE <span class="s">'$adb = "$env:LOCALAPPDATA\Android\Sdk\plat
     <tr><td><code>run-as</code> verweigert den Dienst</td><td>Die App ist keine Debug-Version</td><td>Aus Android Studio heraus installieren</td></tr>
   </table>
 
-  <h2>9. Prüfe dich selbst</h2>
+  <h2 id="s09">9. Prüfe dich selbst</h2>
 
   <ol>
     <li>Wo liegt die XML-Datei deiner SharedPreferences, mit vollem Pfad?</li>
