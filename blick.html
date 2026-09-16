@@ -24,18 +24,19 @@
 <div class="wrap">
 
 <h1>Das Modul auf einen Blick</h1>
-<p class="sub">Modul 335 Mobile Applikationen, Nachschlageblatt. Lesezeit etwa 13 Minuten. Version 1 vom 16.09.2026.</p>
+<p class="sub">Modul 335 Mobile Applikationen, Nachschlageblatt. Lesezeit etwa 14 Minuten. Version 1 vom 16.09.2026.</p>
 <p class="sub">Alles, was die Prüfung verlangt, an einem Ort. Zu jedem Punkt die Regel, ein kurzes Beispiel aus der Einkaufsliste, die häufigste Falle und der Weg zur ausführlichen Erklärung.</p>
 
-<h2 id="vor-dem-code">Vor dem Code, 22 Punkte ohne Compiler</h2>
+<h2 id="vor-dem-code">Vor dem Code, 22 Punkte auf Papier</h2>
 
-<p>Die Aufgaben 1 bis 5 und 7 brauchen weder Android Studio noch einen Emulator. Sie tragen fast die Hälfte der Punkte.</p>
+<p>Die Aufgaben 1 bis 5 schreibst du von Hand ins Prüfungsblatt, ohne Android Studio. Auch Aufgabe 7 trägst du dort ein, die Tests dazu laufen aber im Emulator. Zusammen tragen sie fast die Hälfte der Punkte.</p>
 
 <h3 id="reihenfolge">Bedingungen und Reihenfolge</h3>
 <p>Die Prüfung ist Open Book: das Internet, deine eigenen Unterlagen und dein eigenes Projekt. Nicht erlaubt sind fertige Projekte aus fremden Quellen und Chatten mit anderen. Eine KI ist nicht verboten. Auf der letzten Seite unterschreibst du aber, dass Stellen aus fremden Quellen, auch aus einer KI, gekennzeichnet sind.</p>
+<p>Der Papierteil entsteht von Hand an den vorgesehenen Stellen im Prüfungsblatt. Was nicht lesbar ist, gibt keine Punkte.</p>
 <p>Die sieben Aufgaben schlagen zusammen 221 Minuten vor, du hast 210. Darum entscheidet die Reihenfolge: <b>zuerst die Aufgaben 1 bis 3, dann 4 und 5, danach programmieren.</b> Die Durchführung der Tests, Aufgabe 7, trägst du am Schluss in den Testplan von Aufgabe 5 ein.</p>
 <table>
-<tr><th>Die sechs billigsten Punkte</th><th>P</th></tr>
+<tr><th>Sechs Zeilen im Raster mit wenig Aufwand</th><th>P</th></tr>
 <tr><td>Die zweite Persistenzmöglichkeit nennen, Aufgabe 3</td><td>1</td></tr>
 <tr><td>Die Testdurchführung im Testplan eintragen, Aufgabe 7</td><td>2</td></tr>
 <tr><td>Javadoc über jede Klasse und jede Methode</td><td>2</td></tr>
@@ -48,8 +49,8 @@
 <hr class="trenner">
 
 <h3 id="user-stories">User Stories mit Akzeptanzkriterien <span class="time">6 Punkte</span></h3>
-<p>Eine Story hat drei Teile: <b>Als</b> wer, <b>möchte ich</b> was, <b>damit</b> wozu. Ohne das damit ist es keine Story. Sie ist so klein, dass man sie in einem Arbeitsblock bauen und danach abhaken kann.</p>
-<p>Ein Akzeptanzkriterium ist messbar, wenn eine fremde Person zum selben Urteil kommt wie du. Die Form: wenn ich X mache, steht Y auf dem Bildschirm. Ein gutes Kriterium sagt auch, was nicht passieren darf.</p>
+<p>Die Prüfung verlangt <b>drei Stories</b> mit Akzeptanzkriterien. Eine Story hat drei Teile: <b>Als</b> wer, <b>möchte ich</b> was, <b>damit</b> wozu. Ohne das damit ist es keine Story. Sie ist so klein, dass man sie in einem Arbeitsblock bauen und danach abhaken kann.</p>
+<p>Ein Akzeptanzkriterium ist messbar, wenn eine fremde Person zum selben Urteil kommt wie du. Die Form: wenn ich X mache, steht Y auf dem Bildschirm. Ein gutes Kriterium sagt auch, was nicht passieren darf. Schreib pro Story zwei Kriterien, so wie in 07A.</p>
 <pre>Als          User
 möchte ich   einen Artikel zusammen mit dem Laden erfassen,
 damit        ich im Geschäft sehe, was ich dort mitnehmen muss.
@@ -65,7 +66,7 @@ Kriterium 2  Wenn der Artikel weniger als 4 Zeichen hat, wird nicht
 <hr class="trenner">
 
 <h3 id="mockups">Zwei GUI-Mockups <span class="time">4 Punkte</span></h3>
-<p>Zwei Bildschirme genügen: die Übersicht und das Formular. Von Hand gezeichnet gibt dieselben Punkte. Aussagekräftig ist ein Mockup, wenn jemand, der die App nicht kennt, sie danach bauen kann.</p>
+<p>Zwei Bildschirme genügen: die Übersicht und das Formular. Du zeichnest sie von Hand ins Prüfungsblatt, Freihand genügt. Aussagekräftig ist ein Mockup, wenn jemand, der die App nicht kennt, sie danach bauen kann.</p>
 <ul><li>Die zwei fremden Ränder: Statusleiste oben, Navigationsleiste unten.</li><li>Jedes Element mit seinem Text, daneben das Kürzel wie <code>tvTitle</code>, <code>etArticle</code>, <code>btnSave</code>.</li><li>Pfeile mit Ziel, hin und zurück.</li><li>Eine Zeile bewusst ohne berechneten Wert, und bei Pflichtfeldern die Mindestlänge.</li><li>Was man antippt, liegt unten in der Daumenzone.</li></ul>
 <pre>+------------------------------------------+
 | 09:41                      LTE   [====]  |  &lt;- Statusleiste, nicht deine
@@ -128,9 +129,10 @@ Liste als Text lesen und komplett zurückschreiben.</pre>
 <hr class="trenner">
 
 <h3 id="testplan">Testplan und Durchführung <span class="time">4 und 2 Punkte</span></h3>
-<p>Vier Testfälle mit immer denselben Feldern.</p>
+<p>Vier Testfälle mit immer denselben Feldern. Das Thema gibt die Prüfung vor: <b>einen neuen Eintrag erfassen und einen bestehenden ändern.</b> Deine vier Testfälle decken beide Fälle ab, zum Beispiel einen gültigen neuen Eintrag, ein zu kurzes Pflichtfeld, einen neuen Eintrag ohne Preis und die Änderung an einem bestehenden.</p>
 <table>
 <tr><th>Feld</th><th>Was hineingehört</th></tr>
+<tr><td>Testfall-Nr</td><td>Eine Nummer, sonst nichts</td></tr>
 <tr><td>Titel</td><td>Das geprüfte Verhalten, nicht nur der Bildschirm</td></tr>
 <tr><td>Vorbedingungen</td><td>Was gilt, bevor du anfängst. Kein Schritt, und nichts, was sich widerspricht</td></tr>
 <tr><td>Testablauf</td><td>Nummerierte Einzelhandlungen. Den geprüften Wert mehr als einmal ablesen</td></tr>
